@@ -62,30 +62,3 @@ type GetEntity struct {
 	// Limit totals values returned for entity's referencing records. Defaults to 100.
 	ReferencedByLimit *int `json:"-"`
 }
-
-type EntityDetails struct {
-	Id                EntityId           `json:"id"`
-	Label             string             `json:"label"`
-	Degree            int                `json:"degree"`
-	Closed            bool               `json:"closed"`
-	EntityUrl         string             `json:"entity_url"`
-	Pep               bool               `json:"pep"`
-	PsaCount          int                `json:"psa_count"`
-	Sanctioned        bool               `json:"sanctioned"`
-	RegistrationDate  string             `json:"registration_date"`
-	LatestStatus      *Status            `json:"latest_status,omitempty"`
-	Type              EntityType         `json:"type,omitempty"`
-	Identifiers       []*Identifier      `json:"identifiers,omitempty"`
-	Addresses         []string           `json:"addresses,omitempty"`
-	Countries         []string           `json:"countries,omitempty"`
-	RelationshipCount *RelationshipCount `json:"relationship_count,omitempty"`
-	SourceCount       SourceCount        `json:"source_count,omitempty"`
-	Risk              Risk               `json:"risk,omitempty"`
-	Attributes        *Attributes        `json:"attributes,omitempty"`
-	Relationships     *Relationships     `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs    `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy      `json:"referenced_by,omitempty"`
-}
-
-// The unique identifier for an entity in the database
-type EntityId = string

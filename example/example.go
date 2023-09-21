@@ -75,5 +75,5 @@ func main() {
 	}
 	// uncomment to view data
 	//spew.Dump(entitySummary)
-	log.Printf("Is referenced by %v sources: ", len(entityDetails.ReferencedBy.Data))
+	log.Printf("Is referenced by %v sources.", len(entityDetails.ReferencedBy.Data))
 }

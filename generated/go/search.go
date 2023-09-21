@@ -26,11 +26,11 @@ type SearchEntity struct {
 }
 
 type EntitySearchResults struct {
-	Offset int                        `json:"offset"`
-	Limit  int                        `json:"limit"`
-	Size   *SizeInfo                  `json:"size,omitempty"`
-	Next   bool                       `json:"next"`
-	Data   []*EntitySearchResultsData `json:"data,omitempty"`
+	Offset int              `json:"offset"`
+	Limit  int              `json:"limit"`
+	Size   *SizeInfo        `json:"size,omitempty"`
+	Next   bool             `json:"next"`
+	Data   []*EntityDetails `json:"data,omitempty"`
 }
 
 type FilterKey string

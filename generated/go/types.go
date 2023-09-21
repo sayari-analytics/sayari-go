@@ -27,74 +27,23 @@ type Attributes struct {
 	Status          *AttributeDetails `json:"status,omitempty"`
 }
 
-type PossiblySameAs struct {
-	Limit int                  `json:"limit"`
-	Size  *SizeInfo            `json:"size,omitempty"`
-	Data  []PossiblySameAsData `json:"data,omitempty"`
+type Coordinate struct {
+	Lat     float64 `json:"lat"`
+	Lng     float64 `json:"lng"`
+	Address string  `json:"address"`
 }
 
-type PossiblySameAsData = interface{}
-
-type Properties struct {
-	Value         string   `json:"value"`
-	HouseNumber   *string  `json:"house_number,omitempty"`
-	Road          *string  `json:"road,omitempty"`
-	City          *string  `json:"city,omitempty"`
-	State         *string  `json:"state,omitempty"`
-	Postcode      *string  `json:"postcode,omitempty"`
-	X             *float64 `json:"x,omitempty"`
-	Y             *float64 `json:"y,omitempty"`
-	PrecisionCode *string  `json:"precision_code,omitempty"`
-	Context       *string  `json:"context,omitempty"`
-}
-
-type Record struct {
-	Id              string `json:"id"`
-	Label           string `json:"label"`
-	Source          string `json:"source"`
-	PublicationDate string `json:"publication_date"`
-	AcquisitionDate string `json:"acquisition_date"`
-	ReferencesCount int    `json:"references_count"`
-	RecordUrl       string `json:"record_url"`
-	SourceUrl       string `json:"source_url"`
-}
-
-type ReferencedBy struct {
-	Limit int                 `json:"limit"`
-	Size  *SizeInfo           `json:"size,omitempty"`
-	Data  []*ReferencedByData `json:"data,omitempty"`
-}
-
-type ReferencedByData struct {
-	Record *Record `json:"record,omitempty"`
-	Type   string  `json:"type"`
-}
-
-type RelationshipData struct {
-	Target        *TargetData       `json:"target,omitempty"`
-	Types         RelationshipTypes `json:"types,omitempty"`
-	Dates         []string          `json:"dates,omitempty"`
-	FirstObserved string            `json:"first_observed"`
-	LastObserved  string            `json:"last_observed"`
-	StartDate     string            `json:"start_date"`
-}
-
-type Relationships struct {
-	Limit int                 `json:"limit"`
-	Size  *SizeInfo           `json:"size,omitempty"`
-	Data  []*RelationshipData `json:"data,omitempty"`
-}
-
-type TargetData struct {
-	Id                string             `json:"id"`
+type EntityDetails struct {
+	Id                EntityId           `json:"id"`
 	Label             string             `json:"label"`
 	Degree            int                `json:"degree"`
+	Closed            bool               `json:"closed"`
 	EntityUrl         string             `json:"entity_url"`
 	Pep               bool               `json:"pep"`
 	PsaCount          int                `json:"psa_count"`
 	Sanctioned        bool               `json:"sanctioned"`
-	Closed            bool               `json:"closed"`
-	CompanyType       string             `json:"company_type"`
+	RegistrationDate  string             `json:"registration_date"`
+	LatestStatus      *Status            `json:"latest_status,omitempty"`
 	Type              EntityType         `json:"type,omitempty"`
 	Identifiers       []*Identifier      `json:"identifiers,omitempty"`
 	Addresses         []string           `json:"addresses,omitempty"`
@@ -102,39 +51,14 @@ type TargetData struct {
 	RelationshipCount *RelationshipCount `json:"relationship_count,omitempty"`
 	SourceCount       SourceCount        `json:"source_count,omitempty"`
 	Risk              Risk               `json:"risk,omitempty"`
-	Types             EntityType         `json:"types,omitempty"`
-	Dates             []string           `json:"dates,omitempty"`
-	FirstObserved     string             `json:"first_observed"`
-	LastObserved      string             `json:"last_observed"`
+	Attributes        *Attributes        `json:"attributes,omitempty"`
+	Relationships     *Relationships     `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs    `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy      `json:"referenced_by,omitempty"`
 }
 
-type EntitySearchResultsData struct {
-	Id                string              `json:"id"`
-	Label             string              `json:"label"`
-	Degree            int                 `json:"degree"`
-	EntityUrl         string              `json:"entity_url"`
-	Pep               bool                `json:"pep"`
-	PsaCount          int                 `json:"psa_count"`
-	Sanctioned        bool                `json:"sanctioned"`
-	Closed            bool                `json:"closed"`
-	RegistrationDate  string              `json:"registration_date"`
-	LatestStatus      *Status             `json:"latest_status,omitempty"`
-	Type              EntityType          `json:"type,omitempty"`
-	Identifiers       []*Identifier       `json:"identifiers,omitempty"`
-	Addresses         []string            `json:"addresses,omitempty"`
-	Countries         []string            `json:"countries,omitempty"`
-	RelationshipCount *RelationshipCount  `json:"relationship_count,omitempty"`
-	SourceCount       SourceCount         `json:"source_count,omitempty"`
-	Risk              Risk                `json:"risk,omitempty"`
-	Coordinates       []*Coordinate       `json:"coordinates,omitempty"`
-	Matches           map[string][]string `json:"matches,omitempty"`
-}
-
-type Coordinate struct {
-	Lat     float64 `json:"lat"`
-	Lng     float64 `json:"lng"`
-	Address string  `json:"address"`
-}
+// The unique identifier for an entity in the database
+type EntityId = string
 
 type EntityType string
 
@@ -194,6 +118,49 @@ type Identifier struct {
 	Label string `json:"label"`
 }
 
+type PossiblySameAs struct {
+	Limit int                  `json:"limit"`
+	Size  *SizeInfo            `json:"size,omitempty"`
+	Data  []PossiblySameAsData `json:"data,omitempty"`
+}
+
+type PossiblySameAsData = interface{}
+
+type Properties struct {
+	Value         string   `json:"value"`
+	HouseNumber   *string  `json:"house_number,omitempty"`
+	Road          *string  `json:"road,omitempty"`
+	City          *string  `json:"city,omitempty"`
+	State         *string  `json:"state,omitempty"`
+	Postcode      *string  `json:"postcode,omitempty"`
+	X             *float64 `json:"x,omitempty"`
+	Y             *float64 `json:"y,omitempty"`
+	PrecisionCode *string  `json:"precision_code,omitempty"`
+	Context       *string  `json:"context,omitempty"`
+}
+
+type Record struct {
+	Id              string `json:"id"`
+	Label           string `json:"label"`
+	Source          string `json:"source"`
+	PublicationDate string `json:"publication_date"`
+	AcquisitionDate string `json:"acquisition_date"`
+	ReferencesCount int    `json:"references_count"`
+	RecordUrl       string `json:"record_url"`
+	SourceUrl       string `json:"source_url"`
+}
+
+type ReferencedBy struct {
+	Limit int                 `json:"limit"`
+	Size  *SizeInfo           `json:"size,omitempty"`
+	Data  []*ReferencedByData `json:"data,omitempty"`
+}
+
+type ReferencedByData struct {
+	Record *Record `json:"record,omitempty"`
+	Type   string  `json:"type"`
+}
+
 type RelationshipAttributeValue struct {
 	Value string `json:"value"`
 }
@@ -229,6 +196,15 @@ type RelationshipCount struct {
 	SupervisorOf          *int `json:"supervisor_of,omitempty"`
 }
 
+type RelationshipData struct {
+	Target        *TargetData       `json:"target,omitempty"`
+	Types         RelationshipTypes `json:"types,omitempty"`
+	Dates         []string          `json:"dates,omitempty"`
+	FirstObserved string            `json:"first_observed"`
+	LastObserved  string            `json:"last_observed"`
+	StartDate     string            `json:"start_date"`
+}
+
 type RelationshipInfo struct {
 	Record          string                                   `json:"record"`
 	Attributes      map[string][]*RelationshipAttributeValue `json:"attributes,omitempty"`
@@ -237,6 +213,12 @@ type RelationshipInfo struct {
 }
 
 type RelationshipTypes = map[string][]*RelationshipInfo
+
+type Relationships struct {
+	Limit int                 `json:"limit"`
+	Size  *SizeInfo           `json:"size,omitempty"`
+	Data  []*RelationshipData `json:"data,omitempty"`
+}
 
 type Risk = map[string]*RiskInfo
 
@@ -261,4 +243,27 @@ type SourceCountInfo struct {
 type Status struct {
 	Status string `json:"status"`
 	Date   string `json:"date"`
+}
+
+type TargetData struct {
+	Id                string             `json:"id"`
+	Label             string             `json:"label"`
+	Degree            int                `json:"degree"`
+	EntityUrl         string             `json:"entity_url"`
+	Pep               bool               `json:"pep"`
+	PsaCount          int                `json:"psa_count"`
+	Sanctioned        bool               `json:"sanctioned"`
+	Closed            bool               `json:"closed"`
+	CompanyType       string             `json:"company_type"`
+	Type              EntityType         `json:"type,omitempty"`
+	Identifiers       []*Identifier      `json:"identifiers,omitempty"`
+	Addresses         []string           `json:"addresses,omitempty"`
+	Countries         []string           `json:"countries,omitempty"`
+	RelationshipCount *RelationshipCount `json:"relationship_count,omitempty"`
+	SourceCount       SourceCount        `json:"source_count,omitempty"`
+	Risk              Risk               `json:"risk,omitempty"`
+	Types             EntityType         `json:"types,omitempty"`
+	Dates             []string           `json:"dates,omitempty"`
+	FirstObserved     string             `json:"first_observed"`
+	LastObserved      string             `json:"last_observed"`
 }
