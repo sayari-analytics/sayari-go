@@ -4,7 +4,6 @@ package api
 
 import (
 	fmt "fmt"
-	time "time"
 )
 
 type AttributeData struct {
@@ -20,9 +19,12 @@ type AttributeDetails struct {
 }
 
 type Attributes struct {
-	Address *AttributeDetails `json:"address,omitempty"`
-	Country *AttributeDetails `json:"country,omitempty"`
-	Name    *AttributeDetails `json:"name,omitempty"`
+	Address         *AttributeDetails `json:"address,omitempty"`
+	BusinessPurpose *AttributeDetails `json:"business_purpose,omitempty"`
+	Country         *AttributeDetails `json:"country,omitempty"`
+	Identifier      *AttributeDetails `json:"identifier,omitempty"`
+	Name            *AttributeDetails `json:"name,omitempty"`
+	Status          *AttributeDetails `json:"status,omitempty"`
 }
 
 type PossiblySameAs struct {
@@ -47,14 +49,14 @@ type Properties struct {
 }
 
 type Record struct {
-	Id              string    `json:"id"`
-	Label           string    `json:"label"`
-	Source          string    `json:"source"`
-	PublicationDate time.Time `json:"publication_date"`
-	AcquisitionDate time.Time `json:"acquisition_date"`
-	ReferencesCount int       `json:"references_count"`
-	RecordUrl       string    `json:"record_url"`
-	SourceUrl       string    `json:"source_url"`
+	Id              string `json:"id"`
+	Label           string `json:"label"`
+	Source          string `json:"source"`
+	PublicationDate string `json:"publication_date"`
+	AcquisitionDate string `json:"acquisition_date"`
+	ReferencesCount int    `json:"references_count"`
+	RecordUrl       string `json:"record_url"`
+	SourceUrl       string `json:"source_url"`
 }
 
 type ReferencedBy struct {
@@ -71,9 +73,10 @@ type ReferencedByData struct {
 type RelationshipData struct {
 	Target        *TargetData       `json:"target,omitempty"`
 	Types         RelationshipTypes `json:"types,omitempty"`
-	Dates         []time.Time       `json:"dates,omitempty"`
-	FirstObserved time.Time         `json:"first_observed"`
-	LastObserved  time.Time         `json:"last_observed"`
+	Dates         []string          `json:"dates,omitempty"`
+	FirstObserved string            `json:"first_observed"`
+	LastObserved  string            `json:"last_observed"`
+	StartDate     string            `json:"start_date"`
 }
 
 type Relationships struct {
@@ -100,9 +103,9 @@ type TargetData struct {
 	SourceCount       SourceCount        `json:"source_count,omitempty"`
 	Risk              Risk               `json:"risk,omitempty"`
 	Types             EntityType         `json:"types,omitempty"`
-	Dates             []time.Time        `json:"dates,omitempty"`
-	FirstObserved     time.Time          `json:"first_observed"`
-	LastObserved      time.Time          `json:"last_observed"`
+	Dates             []string           `json:"dates,omitempty"`
+	FirstObserved     string             `json:"first_observed"`
+	LastObserved      string             `json:"last_observed"`
 }
 
 type EntitySearchResultsData struct {
@@ -114,6 +117,8 @@ type EntitySearchResultsData struct {
 	PsaCount          int                 `json:"psa_count"`
 	Sanctioned        bool                `json:"sanctioned"`
 	Closed            bool                `json:"closed"`
+	RegistrationDate  string              `json:"registration_date"`
+	LatestStatus      *Status             `json:"latest_status,omitempty"`
 	Type              EntityType          `json:"type,omitempty"`
 	Identifiers       []*Identifier       `json:"identifiers,omitempty"`
 	Addresses         []string            `json:"addresses,omitempty"`
@@ -184,9 +189,13 @@ func (e EntityType) Ptr() *EntityType {
 }
 
 type Identifier struct {
-	Value int    `json:"value"`
+	Value string `json:"value"`
 	Type  string `json:"type"`
 	Label string `json:"label"`
+}
+
+type RelationshipAttributeValue struct {
+	Value string `json:"value"`
 }
 
 type RelationshipCount struct {
@@ -221,112 +230,13 @@ type RelationshipCount struct {
 }
 
 type RelationshipInfo struct {
-	Record          string      `json:"record"`
-	Attributes      interface{} `json:"attributes,omitempty"`
-	AcquisitionDate time.Time   `json:"acquisition_date"`
+	Record          string                                   `json:"record"`
+	Attributes      map[string][]*RelationshipAttributeValue `json:"attributes,omitempty"`
+	FromDate        string                                   `json:"from_date"`
+	AcquisitionDate string                                   `json:"acquisition_date"`
 }
 
-type RelationshipType string
-
-const (
-	RelationshipTypeAuditorOf             RelationshipType = "auditor_of"
-	RelationshipTypeBeneficialOwnerOf     RelationshipType = "beneficial_owner_of"
-	RelationshipTypeBranchOf              RelationshipType = "branch_of"
-	RelationshipTypeDirectorOf            RelationshipType = "director_of"
-	RelationshipTypeEmployeeOf            RelationshipType = "employee_of"
-	RelationshipTypeFamilyOf              RelationshipType = "family_of"
-	RelationshipTypeFounderOf             RelationshipType = "founder_of"
-	RelationshipTypeIssuerOf              RelationshipType = "issuer_of"
-	RelationshipTypeLawyerIn              RelationshipType = "lawyer_in"
-	RelationshipTypeLawyerOf              RelationshipType = "lawyer_of"
-	RelationshipTypeLegalPredecessorOf    RelationshipType = "legal_predecessor_of"
-	RelationshipTypeLegalRepresentativeOf RelationshipType = "legal_representative_of"
-	RelationshipTypeLegalSuccessorOf      RelationshipType = "legal_successor_of"
-	RelationshipTypeLinkedTo              RelationshipType = "linked_to"
-	RelationshipTypeLiquidatorOf          RelationshipType = "liquidator_of"
-	RelationshipTypeManagerOf             RelationshipType = "manager_of"
-	RelationshipTypeMemberOfTheBoardOf    RelationshipType = "member_of_the_board_of"
-	RelationshipTypeOfficerOf             RelationshipType = "officer_of"
-	RelationshipTypeOwnerOf               RelationshipType = "owner_of"
-	RelationshipTypePartnerOf             RelationshipType = "partner_of"
-	RelationshipTypePartyTo               RelationshipType = "party_to"
-	RelationshipTypeReceiverOf            RelationshipType = "receiver_of"
-	RelationshipTypeRegisteredAgentOf     RelationshipType = "registered_agent_of"
-	RelationshipTypeShareholderOf         RelationshipType = "shareholder_of"
-	RelationshipTypeShipperOf             RelationshipType = "shipper_of"
-	RelationshipTypeShipsTo               RelationshipType = "ships_to"
-	RelationshipTypeSubsidiaryOf          RelationshipType = "subsidiary_of"
-	RelationshipTypeSupervisorOf          RelationshipType = "supervisor_of"
-)
-
-func NewRelationshipTypeFromString(s string) (RelationshipType, error) {
-	switch s {
-	case "auditor_of":
-		return RelationshipTypeAuditorOf, nil
-	case "beneficial_owner_of":
-		return RelationshipTypeBeneficialOwnerOf, nil
-	case "branch_of":
-		return RelationshipTypeBranchOf, nil
-	case "director_of":
-		return RelationshipTypeDirectorOf, nil
-	case "employee_of":
-		return RelationshipTypeEmployeeOf, nil
-	case "family_of":
-		return RelationshipTypeFamilyOf, nil
-	case "founder_of":
-		return RelationshipTypeFounderOf, nil
-	case "issuer_of":
-		return RelationshipTypeIssuerOf, nil
-	case "lawyer_in":
-		return RelationshipTypeLawyerIn, nil
-	case "lawyer_of":
-		return RelationshipTypeLawyerOf, nil
-	case "legal_predecessor_of":
-		return RelationshipTypeLegalPredecessorOf, nil
-	case "legal_representative_of":
-		return RelationshipTypeLegalRepresentativeOf, nil
-	case "legal_successor_of":
-		return RelationshipTypeLegalSuccessorOf, nil
-	case "linked_to":
-		return RelationshipTypeLinkedTo, nil
-	case "liquidator_of":
-		return RelationshipTypeLiquidatorOf, nil
-	case "manager_of":
-		return RelationshipTypeManagerOf, nil
-	case "member_of_the_board_of":
-		return RelationshipTypeMemberOfTheBoardOf, nil
-	case "officer_of":
-		return RelationshipTypeOfficerOf, nil
-	case "owner_of":
-		return RelationshipTypeOwnerOf, nil
-	case "partner_of":
-		return RelationshipTypePartnerOf, nil
-	case "party_to":
-		return RelationshipTypePartyTo, nil
-	case "receiver_of":
-		return RelationshipTypeReceiverOf, nil
-	case "registered_agent_of":
-		return RelationshipTypeRegisteredAgentOf, nil
-	case "shareholder_of":
-		return RelationshipTypeShareholderOf, nil
-	case "shipper_of":
-		return RelationshipTypeShipperOf, nil
-	case "ships_to":
-		return RelationshipTypeShipsTo, nil
-	case "subsidiary_of":
-		return RelationshipTypeSubsidiaryOf, nil
-	case "supervisor_of":
-		return RelationshipTypeSupervisorOf, nil
-	}
-	var t RelationshipType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (r RelationshipType) Ptr() *RelationshipType {
-	return &r
-}
-
-type RelationshipTypes = map[RelationshipType]*RelationshipInfo
+type RelationshipTypes = map[string][]*RelationshipInfo
 
 type Risk = map[string]*RiskInfo
 
@@ -346,4 +256,9 @@ type SourceCount = map[string]*SourceCountInfo
 type SourceCountInfo struct {
 	Count int    `json:"count"`
 	Label string `json:"label"`
+}
+
+type Status struct {
+	Status string `json:"status"`
+	Date   string `json:"date"`
 }

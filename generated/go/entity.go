@@ -72,8 +72,10 @@ type EntityDetails struct {
 	Pep               bool               `json:"pep"`
 	PsaCount          int                `json:"psa_count"`
 	Sanctioned        bool               `json:"sanctioned"`
+	RegistrationDate  string             `json:"registration_date"`
+	LatestStatus      *Status            `json:"latest_status,omitempty"`
 	Type              EntityType         `json:"type,omitempty"`
-	Identifiers       interface{}        `json:"identifiers,omitempty"`
+	Identifiers       []*Identifier      `json:"identifiers,omitempty"`
 	Addresses         []string           `json:"addresses,omitempty"`
 	Countries         []string           `json:"countries,omitempty"`
 	RelationshipCount *RelationshipCount `json:"relationship_count,omitempty"`

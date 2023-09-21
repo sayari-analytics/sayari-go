@@ -10,18 +10,18 @@ type ListSources struct {
 }
 
 type Source struct {
-	Id          *string `json:"id,omitempty"`
-	Label       *string `json:"label,omitempty"`
-	Description *string `json:"description,omitempty"`
-	Country     *string `json:"country,omitempty"`
-	Region      *string `json:"region,omitempty"`
-	DateAdded   *string `json:"date_added,omitempty"`
-	SourceType  *string `json:"source_type,omitempty"`
-	RecordType  *string `json:"record_type,omitempty"`
-	Structure   *string `json:"structure,omitempty"`
-	SourceUrl   *string `json:"source_url,omitempty"`
-	Pep         *bool   `json:"pep,omitempty"`
-	Watchlist   *bool   `json:"watchlist,omitempty"`
+	Id          string `json:"id"`
+	Label       string `json:"label"`
+	Description string `json:"description"`
+	Country     string `json:"country"`
+	Region      string `json:"region"`
+	DateAdded   string `json:"date_added"`
+	SourceType  string `json:"source_type"`
+	RecordType  string `json:"record_type"`
+	Structure   string `json:"structure"`
+	SourceUrl   string `json:"source_url"`
+	Pep         bool   `json:"pep"`
+	Watchlist   bool   `json:"watchlist"`
 }
 
 type SourceId = string
