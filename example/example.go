@@ -94,4 +94,13 @@ func main() {
 	// uncomment to view data
 	//spew.Dump(traversal)
 	log.Printf("Did traversal of entity %v. Found %v related things.", searchResults.Data[0].Id, len(traversal.Data))
+
+	// Do UBO traversal
+	ubo, err := client.Traversal.Ubo(context.Background(), searchResults.Data[0].Id)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	// uncomment to view data
+	//spew.Dump(ubo)
+	log.Printf("Found %v beneficial owners.", len(ubo.Data))
 }

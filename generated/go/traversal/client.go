@@ -139,3 +139,28 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 	}
 	return response, nil
 }
+
+// The UBO endpoint returns paths from a single target entity to up to 50 beneficial owners. The endpoint is a shorthand for the equivalent traversal query
+func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId) (*generatedgo.TraversalResponse, error) {
+	baseURL := "https://api.sayari.com"
+	if c.baseURL != "" {
+		baseURL = c.baseURL
+	}
+	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/ubo/%v", id)
+
+	var response *generatedgo.TraversalResponse
+	if err := core.DoRequest(
+		ctx,
+		c.httpClient,
+		endpointURL,
+		http.MethodGet,
+		nil,
+		&response,
+		false,
+		c.header,
+		nil,
+	); err != nil {
+		return response, err
+	}
+	return response, nil
+}
