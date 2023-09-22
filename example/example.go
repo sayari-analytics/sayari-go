@@ -66,7 +66,7 @@ func main() {
 	}
 	// uncomment to view data
 	//spew.Dump(entitySummary)
-	log.Printf("Has address %v: ", entitySummary.Addresses[0])
+	log.Printf("Has address '%v'", entitySummary.Addresses[0])
 
 	// Get the full entity
 	entityDetails, err := client.Entity.GetEntity(context.Background(), searchResults.Data[0].Id, &sayari.GetEntity{})
@@ -85,4 +85,13 @@ func main() {
 	// uncomment to view data
 	//spew.Dump(recordSearch)
 	log.Printf("Found %v records.", len(recordSearch.Data))
+
+	// Do traversal
+	traversal, err := client.Traversal.Traversal(context.Background(), searchResults.Data[0].Id, &sayari.Traversal{})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	// uncomment to view data
+	//spew.Dump(traversal)
+	log.Printf("Did traversal of entity %v. Found %v related things.", searchResults.Data[0].Id, len(traversal.Data))
 }

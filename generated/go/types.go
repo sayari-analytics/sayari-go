@@ -276,3 +276,15 @@ type TargetData struct {
 	FirstObserved     string             `json:"first_observed"`
 	LastObserved      string             `json:"last_observed"`
 }
+
+type TraversalData struct {
+	Source string           `json:"source"`
+	Target *EntityDetails   `json:"target,omitempty"`
+	Path   []*TraversalPath `json:"path,omitempty"`
+}
+
+type TraversalPath struct {
+	Field         string                       `json:"field"`
+	Entity        *EntityDetails               `json:"entity,omitempty"`
+	Relationships map[string]*RelationshipData `json:"relationships,omitempty"`
+}
