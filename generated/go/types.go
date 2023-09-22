@@ -34,27 +34,35 @@ type Coordinate struct {
 }
 
 type EntityDetails struct {
-	Id                EntityId           `json:"id"`
-	Label             string             `json:"label"`
-	Degree            int                `json:"degree"`
-	Closed            bool               `json:"closed"`
-	EntityUrl         string             `json:"entity_url"`
-	Pep               bool               `json:"pep"`
-	PsaCount          int                `json:"psa_count"`
-	Sanctioned        bool               `json:"sanctioned"`
-	RegistrationDate  string             `json:"registration_date"`
-	LatestStatus      *Status            `json:"latest_status,omitempty"`
-	Type              EntityType         `json:"type,omitempty"`
-	Identifiers       []*Identifier      `json:"identifiers,omitempty"`
-	Addresses         []string           `json:"addresses,omitempty"`
-	Countries         []string           `json:"countries,omitempty"`
-	RelationshipCount *RelationshipCount `json:"relationship_count,omitempty"`
-	SourceCount       SourceCount        `json:"source_count,omitempty"`
-	Risk              Risk               `json:"risk,omitempty"`
-	Attributes        *Attributes        `json:"attributes,omitempty"`
-	Relationships     *Relationships     `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs    `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy      `json:"referenced_by,omitempty"`
+	Id                EntityId            `json:"id"`
+	Label             string              `json:"label"`
+	Degree            int                 `json:"degree"`
+	Closed            bool                `json:"closed"`
+	EntityUrl         string              `json:"entity_url"`
+	Pep               bool                `json:"pep"`
+	PsaCount          int                 `json:"psa_count"`
+	Sanctioned        bool                `json:"sanctioned"`
+	RegistrationDate  string              `json:"registration_date"`
+	TranslatedLabel   *string             `json:"translated_label,omitempty"`
+	PsaSanctioned     *string             `json:"psa_sanctioned,omitempty"`
+	DateOfBirth       *string             `json:"date_of_birth,omitempty"`
+	HsCode            *string             `json:"hs_code,omitempty"`
+	ShipmentArrival   *string             `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *string             `json:"shipment_departure,omitempty"`
+	CompanyType       *string             `json:"company_type,omitempty"`
+	LatestStatus      *Status             `json:"latest_status,omitempty"`
+	Type              EntityType          `json:"type,omitempty"`
+	Identifiers       []*Identifier       `json:"identifiers,omitempty"`
+	Addresses         []string            `json:"addresses,omitempty"`
+	Countries         []string            `json:"countries,omitempty"`
+	RelationshipCount *RelationshipCount  `json:"relationship_count,omitempty"`
+	SourceCount       SourceCount         `json:"source_count,omitempty"`
+	Risk              Risk                `json:"risk,omitempty"`
+	Attributes        *Attributes         `json:"attributes,omitempty"`
+	Relationships     *Relationships      `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs     `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy       `json:"referenced_by,omitempty"`
+	Matches           map[string][]string `json:"matches,omitempty"`
 }
 
 // The unique identifier for an entity in the database
@@ -139,15 +147,16 @@ type Properties struct {
 	Context       *string  `json:"context,omitempty"`
 }
 
-type Record struct {
-	Id              string `json:"id"`
-	Label           string `json:"label"`
-	Source          string `json:"source"`
-	PublicationDate string `json:"publication_date"`
-	AcquisitionDate string `json:"acquisition_date"`
-	ReferencesCount int    `json:"references_count"`
-	RecordUrl       string `json:"record_url"`
-	SourceUrl       string `json:"source_url"`
+type RecordDetails struct {
+	Id              string              `json:"id"`
+	Label           string              `json:"label"`
+	Source          string              `json:"source"`
+	PublicationDate string              `json:"publication_date"`
+	AcquisitionDate string              `json:"acquisition_date"`
+	ReferencesCount int                 `json:"references_count"`
+	RecordUrl       string              `json:"record_url"`
+	SourceUrl       string              `json:"source_url"`
+	Matches         map[string][]string `json:"matches,omitempty"`
 }
 
 type ReferencedBy struct {
@@ -157,8 +166,8 @@ type ReferencedBy struct {
 }
 
 type ReferencedByData struct {
-	Record *Record `json:"record,omitempty"`
-	Type   string  `json:"type"`
+	Record *RecordDetails `json:"record,omitempty"`
+	Type   string         `json:"type"`
 }
 
 type RelationshipAttributeValue struct {
@@ -223,9 +232,9 @@ type Relationships struct {
 type Risk = map[string]*RiskInfo
 
 type RiskInfo struct {
-	Value    float64             `json:"value"`
-	Metadata map[string][]string `json:"metadata,omitempty"`
-	Level    string              `json:"level"`
+	Value    interface{}            `json:"value,omitempty"`
+	Metadata map[string]interface{} `json:"metadata,omitempty"`
+	Level    string                 `json:"level"`
 }
 
 type SizeInfo struct {

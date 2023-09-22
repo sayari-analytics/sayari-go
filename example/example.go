@@ -50,7 +50,7 @@ func main() {
 	log.Printf("First source is: %v", firstSource.Label)
 
 	// Search for an entity
-	searchTerm := "DAKLabb"
+	searchTerm := "Slickdeals"
 	searchResults, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
@@ -76,4 +76,13 @@ func main() {
 	// uncomment to view data
 	//spew.Dump(entitySummary)
 	log.Printf("Is referenced by %v sources.", len(entityDetails.ReferencedBy.Data))
+
+	// Search for record
+	recordSearch, err := client.Search.SearchRecord(context.Background(), &sayari.SearchRecord{Q: searchTerm})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	// uncomment to view data
+	//spew.Dump(recordSearch)
+	log.Printf("Found %v records.", len(recordSearch.Data))
 }

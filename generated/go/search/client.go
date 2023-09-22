@@ -27,7 +27,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 	}
 }
 
-// Search for an entity. (note,
+// Search for an entity
 func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEntity) (*generatedgo.EntitySearchResults, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
@@ -36,6 +36,31 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 	endpointURL := baseURL + "/" + "v1/search/entity"
 
 	var response *generatedgo.EntitySearchResults
+	if err := core.DoRequest(
+		ctx,
+		c.httpClient,
+		endpointURL,
+		http.MethodPost,
+		request,
+		&response,
+		false,
+		c.header,
+		nil,
+	); err != nil {
+		return response, err
+	}
+	return response, nil
+}
+
+// Search for a record
+func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRecord) (*generatedgo.RecordSearchResults, error) {
+	baseURL := "https://api.sayari.com"
+	if c.baseURL != "" {
+		baseURL = c.baseURL
+	}
+	endpointURL := baseURL + "/" + "v1/search/record"
+
+	var response *generatedgo.RecordSearchResults
 	if err := core.DoRequest(
 		ctx,
 		c.httpClient,
