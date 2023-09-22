@@ -103,4 +103,13 @@ func main() {
 	// uncomment to view data
 	//spew.Dump(ubo)
 	log.Printf("Found %v beneficial owners.", len(ubo.Data))
+
+	// Ownership
+	downstream, err := client.Traversal.Ownership(context.Background(), ubo.Data[0].Target.Id)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	// uncomment to view data
+	//spew.Dump(downstream)
+	log.Printf("Found %v downstream things owned by the first UBO of %v.", len(downstream.Data), searchTerm)
 }
