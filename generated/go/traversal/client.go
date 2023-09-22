@@ -189,3 +189,28 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId) (*gener
 	}
 	return response, nil
 }
+
+// The Watchlist endpoint returns paths from a single target entity to up to 50 other entities that appear on a watchlist or are peps. The endpoint is a shorthand for the equivalent traversal query.
+func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId) (*generatedgo.TraversalResponse, error) {
+	baseURL := "https://api.sayari.com"
+	if c.baseURL != "" {
+		baseURL = c.baseURL
+	}
+	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/watchlist/%v", id)
+
+	var response *generatedgo.TraversalResponse
+	if err := core.DoRequest(
+		ctx,
+		c.httpClient,
+		endpointURL,
+		http.MethodGet,
+		nil,
+		&response,
+		false,
+		c.header,
+		nil,
+	); err != nil {
+		return response, err
+	}
+	return response, nil
+}

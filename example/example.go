@@ -112,4 +112,21 @@ func main() {
 	// uncomment to view data
 	//spew.Dump(downstream)
 	log.Printf("Found %v downstream things owned by the first UBO of %v.", len(downstream.Data), searchTerm)
+
+	// Fetch an entity likely to be associated with watch lists
+	searchTerm = "putin"
+	searchResults, err = client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	// Check watchlist
+	watchlist, err := client.Traversal.Watchlist(context.Background(), searchResults.Data[0].Id)
+	log.Println(recordSearch.Data[0].Id)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	// uncomment to view data
+	//spew.Dump(watchlist)
+	log.Printf("Found %v watchlist resulsts for entity %v.", len(watchlist.Data), searchResults.Data[0].Id)
+
 }
