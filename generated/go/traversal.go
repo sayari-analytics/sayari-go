@@ -16,13 +16,13 @@ type Traversal struct {
 	// Set maximum depth for traversal. Defaults to 6.
 	MaxDepth *int `json:"-"`
 	// Set relationship type(s) to follow when traversing related entities. Defaults to following all relationship types.
-	Relationships *string `json:"-"`
+	Relationships []*string `json:"-"`
 	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
 	Psa *bool `json:"-"`
 	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any country.
-	Countries *string `json:"-"`
+	Countries []*string `json:"-"`
 	// Filter paths to only those that end at an entity of the specified type(s). Defaults to returning paths that end at any type.
-	Types *string `json:"-"`
+	Types []*string `json:"-"`
 	// Filter paths to only those that end at an entity appearing on a watchlist. Defaults to not filtering paths by sanctioned status.
 	Sanctioned *bool `json:"-"`
 	// Filter paths to only those that end at an entity appearing on a pep list. Defaults to not filtering paths by pep status.

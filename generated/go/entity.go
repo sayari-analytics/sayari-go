@@ -42,11 +42,11 @@ type GetEntity struct {
 	// Filters relationships to greater than or equal to a Shareholder percentage
 	RelationshipsMinShares *int `json:"-"`
 	// Filters relationships to a list of countries
-	RelationshipsCountry *string `json:"-"`
+	RelationshipsCountry []*string `json:"-"`
 	// Filters shipment relationships to a list of arrival countries
-	RelationshipsArrivalCountry *string `json:"-"`
+	RelationshipsArrivalCountry []*string `json:"-"`
 	// Filters shipment relationships to a list of departure countries
-	RelationshipsDepartureCountry *string `json:"-"`
+	RelationshipsDepartureCountry []*string `json:"-"`
 	// Filters shipment relationships to an HS code
 	RelationshipsHsCode *string `json:"-"`
 	// The pagination token for the next page of possibly same entities.

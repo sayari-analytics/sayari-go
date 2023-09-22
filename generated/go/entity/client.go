@@ -93,14 +93,14 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 	if request.RelationshipsMinShares != nil {
 		queryParams.Add("relationships.minShares", fmt.Sprintf("%v", *request.RelationshipsMinShares))
 	}
-	if request.RelationshipsCountry != nil {
-		queryParams.Add("relationships.country", fmt.Sprintf("%v", *request.RelationshipsCountry))
+	for _, value := range request.RelationshipsCountry {
+		queryParams.Add("relationships.country", fmt.Sprintf("%v", *value))
 	}
-	if request.RelationshipsArrivalCountry != nil {
-		queryParams.Add("relationships.arrivalCountry", fmt.Sprintf("%v", *request.RelationshipsArrivalCountry))
+	for _, value := range request.RelationshipsArrivalCountry {
+		queryParams.Add("relationships.arrivalCountry", fmt.Sprintf("%v", *value))
 	}
-	if request.RelationshipsDepartureCountry != nil {
-		queryParams.Add("relationships.departureCountry", fmt.Sprintf("%v", *request.RelationshipsDepartureCountry))
+	for _, value := range request.RelationshipsDepartureCountry {
+		queryParams.Add("relationships.departureCountry", fmt.Sprintf("%v", *value))
 	}
 	if request.RelationshipsHsCode != nil {
 		queryParams.Add("relationships.hsCode", fmt.Sprintf("%v", *request.RelationshipsHsCode))
