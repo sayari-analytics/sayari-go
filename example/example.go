@@ -51,16 +51,18 @@ func main() {
 
 	// Search for an entity
 	searchTerm := "Slickdeals"
-	searchResults, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm})
+	entitySearchResults, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
 	// uncomment to view data
 	//spew.Dump(searchResults)
-	log.Printf("Found %v entity results for %v", len(searchResults.Data), searchTerm)
+	log.Printf("Found %v entity results for %v", len(entitySearchResults.Data), searchTerm)
+
+	firstEntityResult := entitySearchResults.Data[0].Id
 
 	// Get the entity summary
-	entitySummary, err := client.Entity.EntitySummary(context.Background(), searchResults.Data[0].Id)
+	entitySummary, err := client.Entity.EntitySummary(context.Background(), firstEntityResult)
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
@@ -69,7 +71,7 @@ func main() {
 	log.Printf("Has address '%v'", entitySummary.Addresses[0])
 
 	// Get the full entity
-	entityDetails, err := client.Entity.GetEntity(context.Background(), searchResults.Data[0].Id, &sayari.GetEntity{})
+	entityDetails, err := client.Entity.GetEntity(context.Background(), firstEntityResult, &sayari.GetEntity{})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
@@ -87,16 +89,16 @@ func main() {
 	log.Printf("Found %v records.", len(recordSearch.Data))
 
 	// Do traversal
-	traversal, err := client.Traversal.Traversal(context.Background(), searchResults.Data[0].Id, &sayari.Traversal{})
+	traversal, err := client.Traversal.Traversal(context.Background(), firstEntityResult, &sayari.Traversal{})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
 	// uncomment to view data
 	//spew.Dump(traversal)
-	log.Printf("Did traversal of entity %v. Found %v related things.", searchResults.Data[0].Id, len(traversal.Data))
+	log.Printf("Did traversal of entity %v. Found %v related things.", firstEntityResult, len(traversal.Data))
 
 	// Do UBO traversal
-	ubo, err := client.Traversal.Ubo(context.Background(), searchResults.Data[0].Id)
+	ubo, err := client.Traversal.Ubo(context.Background(), firstEntityResult)
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
@@ -114,19 +116,25 @@ func main() {
 	log.Printf("Found %v downstream things owned by the first UBO of %v.", len(downstream.Data), searchTerm)
 
 	// Fetch an entity likely to be associated with watch lists
-	searchTerm = "putin"
-	searchResults, err = client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm})
+	putinResult, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: "putin"})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
 	// Check watchlist
-	watchlist, err := client.Traversal.Watchlist(context.Background(), searchResults.Data[0].Id)
-	log.Println(recordSearch.Data[0].Id)
+	watchlist, err := client.Traversal.Watchlist(context.Background(), putinResult.Data[0].Id)
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
 	// uncomment to view data
 	//spew.Dump(watchlist)
-	log.Printf("Found %v watchlist resulsts for entity %v.", len(watchlist.Data), searchResults.Data[0].Id)
+	log.Printf("Found %v watchlist resulsts for entity %v.", len(watchlist.Data), putinResult.Data[0].Id)
 
+	// Shortest Path
+	shortestPath, err := client.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{firstEntityResult, ubo.Data[0].Target.Id}})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	// uncomment to view data
+	//spew.Dump(shortestPath)
+	log.Printf("Found path with %v hops", len(shortestPath.Data[0].Path))
 }

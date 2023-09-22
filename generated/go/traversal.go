@@ -2,6 +2,10 @@
 
 package api
 
+type ShortestPath struct {
+	Entities []string `json:"-"`
+}
+
 type Traversal struct {
 	// Limit total values for traversal. Defaults to 20.
 	Limit *int `json:"-"`
@@ -57,6 +61,11 @@ type Traversal struct {
 	LawEnforcementAction *bool `json:"-"`
 	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
 	XinjiangGeospatial *bool `json:"-"`
+}
+
+type ShortestPathResponse struct {
+	Entities []string            `json:"entities,omitempty"`
+	Data     []*ShortestPathData `json:"data,omitempty"`
 }
 
 type TraversalResponse struct {

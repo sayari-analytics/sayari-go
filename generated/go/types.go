@@ -277,6 +277,11 @@ type TargetData struct {
 	LastObserved      string             `json:"last_observed"`
 }
 
+type ShortestPathData struct {
+	Target *EntityDetails   `json:"target,omitempty"`
+	Path   []*TraversalPath `json:"path,omitempty"`
+}
+
 type TraversalData struct {
 	Source string           `json:"source"`
 	Target *EntityDetails   `json:"target,omitempty"`

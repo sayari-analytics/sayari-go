@@ -214,3 +214,36 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId) (*gener
 	}
 	return response, nil
 }
+
+// The Shortest Path endpoint returns a response identifying the shortest traversal path connecting each pair of entities.
+func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.ShortestPath) (*generatedgo.ShortestPathResponse, error) {
+	baseURL := "https://api.sayari.com"
+	if c.baseURL != "" {
+		baseURL = c.baseURL
+	}
+	endpointURL := baseURL + "/" + "v1/shortest_path"
+
+	queryParams := make(url.Values)
+	for _, value := range request.Entities {
+		queryParams.Add("entities", fmt.Sprintf("%v", value))
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+
+	var response *generatedgo.ShortestPathResponse
+	if err := core.DoRequest(
+		ctx,
+		c.httpClient,
+		endpointURL,
+		http.MethodGet,
+		request,
+		&response,
+		false,
+		c.header,
+		nil,
+	); err != nil {
+		return response, err
+	}
+	return response, nil
+}
