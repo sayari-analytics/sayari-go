@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"net/url"
 	"os"
 
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
@@ -87,6 +88,15 @@ func main() {
 	// uncomment to view data
 	//spew.Dump(recordSearch)
 	log.Printf("Found %v records.", len(recordSearch.Data))
+
+	// Get record
+	record, err := client.Record.GetRecord(context.Background(), url.QueryEscape(recordSearch.Data[0].Id), &sayari.GetRecord{})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	// uncomment to view data
+	//spew.Dump(record)
+	log.Printf("Found record: %v.", record.Label)
 
 	// Do traversal
 	traversal, err := client.Traversal.Traversal(context.Background(), firstEntityResult, &sayari.Traversal{})

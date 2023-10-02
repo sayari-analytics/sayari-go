@@ -6,6 +6,7 @@ import (
 	auth "github.com/sayari-analytics/sayari-go/generated/go/auth"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	entity "github.com/sayari-analytics/sayari-go/generated/go/entity"
+	record "github.com/sayari-analytics/sayari-go/generated/go/record"
 	search "github.com/sayari-analytics/sayari-go/generated/go/search"
 	source "github.com/sayari-analytics/sayari-go/generated/go/source"
 	traversal "github.com/sayari-analytics/sayari-go/generated/go/traversal"
@@ -19,6 +20,7 @@ type Client struct {
 
 	Auth      *auth.Client
 	Entity    *entity.Client
+	Record    *record.Client
 	Search    *search.Client
 	Source    *source.Client
 	Traversal *traversal.Client
@@ -35,6 +37,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 		header:     options.ToHeader(),
 		Auth:       auth.NewClient(opts...),
 		Entity:     entity.NewClient(opts...),
+		Record:     record.NewClient(opts...),
 		Search:     search.NewClient(opts...),
 		Source:     source.NewClient(opts...),
 		Traversal:  traversal.NewClient(opts...),
