@@ -6,6 +6,36 @@ import (
 	fmt "fmt"
 )
 
+type MatchExplanation struct {
+	Matched  string `json:"matched"`
+	Uploaded string `json:"uploaded"`
+}
+
+type ResolutionResponseFields struct {
+	Name        []string `json:"name,omitempty"`
+	Identifier  []string `json:"identifier,omitempty"`
+	Country     []string `json:"country,omitempty"`
+	Address     []string `json:"address,omitempty"`
+	DateOfBirth []string `json:"date_of_birth,omitempty"`
+	Contact     []string `json:"contact,omitempty"`
+	Type        []string `json:"type,omitempty"`
+}
+
+type ResolutionResult struct {
+	Score          float64                        `json:"score"`
+	EntityId       string                         `json:"entity_id"`
+	Label          string                         `json:"label"`
+	Type           EntityType                     `json:"type,omitempty"`
+	Identifiers    []*Identifier                  `json:"identifiers,omitempty"`
+	PsaId          int                            `json:"psa_id"`
+	Addresses      []string                       `json:"addresses,omitempty"`
+	Countries      []string                       `json:"countries,omitempty"`
+	Sources        []string                       `json:"sources,omitempty"`
+	MatchedQueries []string                       `json:"matched_queries,omitempty"`
+	Highlight      map[string][]string            `json:"highlight,omitempty"`
+	Explanation    map[string][]*MatchExplanation `json:"explanation,omitempty"`
+}
+
 type AttributeData struct {
 	Properties  *Properties `json:"properties,omitempty"`
 	Record      []string    `json:"record,omitempty"`

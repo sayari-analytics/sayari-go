@@ -9,5 +9,5 @@ type GetRecord struct {
 	ReferencesOffset *int `json:"-"`
 }
 
-// The unique identifier for a record in the database
+// The unique identifier for a record in the database (must be URL encoded)
 type RecordId = string

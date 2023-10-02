@@ -80,6 +80,15 @@ func main() {
 	//spew.Dump(entitySummary)
 	log.Printf("Is referenced by %v sources.", len(entityDetails.ReferencedBy.Data))
 
+	// Resolve
+	resolution, err := client.Resolution.Resolution(context.Background(), &sayari.Resolution{Name: []*string{&searchTerm}})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	// uncomment to view data
+	//spew.Dump(resolution)
+	log.Printf("Resolved to %v entities.", len(resolution.Data))
+
 	// Search for record
 	recordSearch, err := client.Search.SearchRecord(context.Background(), &sayari.SearchRecord{Q: searchTerm})
 	if err != nil {
