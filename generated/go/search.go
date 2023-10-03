@@ -45,9 +45,9 @@ type SearchRecord struct {
 }
 
 type EntitySearchResults struct {
-	Offset int              `json:"offset"`
 	Limit  int              `json:"limit"`
 	Size   *SizeInfo        `json:"size,omitempty"`
+	Offset int              `json:"offset"`
 	Next   bool             `json:"next"`
 	Data   []*EntityDetails `json:"data,omitempty"`
 }
@@ -90,9 +90,9 @@ func (f FilterKey) Ptr() *FilterKey {
 }
 
 type RecordSearchResults struct {
-	Offset int              `json:"offset"`
 	Limit  int              `json:"limit"`
 	Size   *SizeInfo        `json:"size,omitempty"`
+	Offset int              `json:"offset"`
 	Next   bool             `json:"next"`
 	Data   []*RecordDetails `json:"data,omitempty"`
 }

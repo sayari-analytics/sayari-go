@@ -27,7 +27,7 @@ type ResolutionResult struct {
 	Label          string                         `json:"label"`
 	Type           EntityType                     `json:"type,omitempty"`
 	Identifiers    []*Identifier                  `json:"identifiers,omitempty"`
-	PsaId          int                            `json:"psa_id"`
+	PsaId          *int                           `json:"psa_id,omitempty"`
 	Addresses      []string                       `json:"addresses,omitempty"`
 	Countries      []string                       `json:"countries,omitempty"`
 	Sources        []string                       `json:"sources,omitempty"`
@@ -175,6 +175,11 @@ type Identifier struct {
 	Label string `json:"label"`
 }
 
+type PaginatedResponse struct {
+	Limit int       `json:"limit"`
+	Size  *SizeInfo `json:"size,omitempty"`
+}
+
 type PossiblySameAs struct {
 	Limit int                  `json:"limit"`
 	Size  *SizeInfo            `json:"size,omitempty"`
@@ -200,7 +205,7 @@ type RecordDetails struct {
 	Id              string              `json:"id"`
 	Label           string              `json:"label"`
 	Source          string              `json:"source"`
-	PublicationDate string              `json:"publication_date"`
+	PublicationDate *string             `json:"publication_date,omitempty"`
 	AcquisitionDate string              `json:"acquisition_date"`
 	ReferencesCount int                 `json:"references_count"`
 	RecordUrl       string              `json:"record_url"`
@@ -268,7 +273,7 @@ type RelationshipInfo struct {
 	Attributes      map[string][]*RelationshipAttributeValue `json:"attributes,omitempty"`
 	FromDate        *string                                  `json:"from_date,omitempty"`
 	AcquisitionDate string                                   `json:"acquisition_date"`
-	PublicationDate string                                   `json:"publication_date"`
+	PublicationDate *string                                  `json:"publication_date,omitempty"`
 }
 
 type RelationshipTypes = map[string][]*RelationshipInfo
@@ -287,11 +292,6 @@ type RiskInfo struct {
 	Level    string                 `json:"level"`
 }
 
-type SizeInfo struct {
-	Count     int    `json:"count"`
-	Qualifier string `json:"qualifier"`
-}
-
 type SourceCount = map[string]*SourceCountInfo
 
 type SourceCountInfo struct {
@@ -302,6 +302,11 @@ type SourceCountInfo struct {
 type Status struct {
 	Status string  `json:"status"`
 	Date   *string `json:"date,omitempty"`
+}
+
+type SizeInfo struct {
+	Count     int    `json:"count"`
+	Qualifier string `json:"qualifier"`
 }
 
 type ShortestPathData struct {
@@ -316,7 +321,12 @@ type TraversalData struct {
 }
 
 type TraversalPath struct {
-	Field         string                       `json:"field"`
-	Entity        *EntityDetails               `json:"entity,omitempty"`
-	Relationships map[string]*RelationshipData `json:"relationships,omitempty"`
+	Field         string                                `json:"field"`
+	Entity        *EntityDetails                        `json:"entity,omitempty"`
+	Relationships map[string]*TraversalRelationshipData `json:"relationships,omitempty"`
+}
+
+type TraversalRelationshipData struct {
+	Values       []*RelationshipInfo `json:"values,omitempty"`
+	LastObserved *string             `json:"last_observed,omitempty"`
 }

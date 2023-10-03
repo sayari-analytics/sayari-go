@@ -27,9 +27,9 @@ type Source struct {
 type SourceId = string
 
 type SourceList struct {
-	Offset int       `json:"offset"`
 	Limit  int       `json:"limit"`
 	Size   *SizeInfo `json:"size,omitempty"`
+	Offset int       `json:"offset"`
 	Next   bool      `json:"next"`
 	Data   []*Source `json:"data,omitempty"`
 }
