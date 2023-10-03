@@ -276,7 +276,182 @@ type RelationshipInfo struct {
 	PublicationDate *string                                  `json:"publication_date,omitempty"`
 }
 
-type RelationshipTypes = map[string][]*RelationshipInfo
+type RelationshipType string
+
+const (
+	RelationshipTypeAuditorOf              RelationshipType = "auditor_of"
+	RelationshipTypeBeneficialOwnerOf      RelationshipType = "beneficial_owner_of"
+	RelationshipTypeBranchOf               RelationshipType = "branch_of"
+	RelationshipTypeDirectorOf             RelationshipType = "director_of"
+	RelationshipTypeEmployeeOf             RelationshipType = "employee_of"
+	RelationshipTypeFamilyOf               RelationshipType = "family_of"
+	RelationshipTypeFounderOf              RelationshipType = "founder_of"
+	RelationshipTypeIssuerOf               RelationshipType = "issuer_of"
+	RelationshipTypeLawyerIn               RelationshipType = "lawyer_in"
+	RelationshipTypeLawyerOf               RelationshipType = "lawyer_of"
+	RelationshipTypeLegalPredecessorOf     RelationshipType = "legal_predecessor_of"
+	RelationshipTypeLegalRepresentativeOf  RelationshipType = "legal_representative_of"
+	RelationshipTypeLegalSuccessorOf       RelationshipType = "legal_successor_of"
+	RelationshipTypeLinkedTo               RelationshipType = "linked_to"
+	RelationshipTypeLiquidatorOf           RelationshipType = "liquidator_of"
+	RelationshipTypeManagerOf              RelationshipType = "manager_of"
+	RelationshipTypeMemberOfTheBoardOf     RelationshipType = "member_of_the_board_of"
+	RelationshipTypeOfficerOf              RelationshipType = "officer_of"
+	RelationshipTypeOwnerOf                RelationshipType = "owner_of"
+	RelationshipTypePartnerOf              RelationshipType = "partner_of"
+	RelationshipTypePartyTo                RelationshipType = "party_to"
+	RelationshipTypeReceiverOf             RelationshipType = "receiver_of"
+	RelationshipTypeRegisteredAgentOf      RelationshipType = "registered_agent_of"
+	RelationshipTypeShareholderOf          RelationshipType = "shareholder_of"
+	RelationshipTypeShipperOf              RelationshipType = "shipper_of"
+	RelationshipTypeShipsTo                RelationshipType = "ships_to"
+	RelationshipTypeSubsidiaryOf           RelationshipType = "subsidiary_of"
+	RelationshipTypeSupervisorOf           RelationshipType = "supervisor_of"
+	RelationshipTypeHasAuditor             RelationshipType = "has_auditor"
+	RelationshipTypeHasBeneficialOwner     RelationshipType = "has_beneficial_owner"
+	RelationshipTypeHasBranch              RelationshipType = "has_branch"
+	RelationshipTypeHasDirector            RelationshipType = "has_director"
+	RelationshipTypeHasEmployee            RelationshipType = "has_employee"
+	RelationshipTypeHasFounder             RelationshipType = "has_founder"
+	RelationshipTypeHasIssuer              RelationshipType = "has_issuer"
+	RelationshipTypeHasLawyer              RelationshipType = "has_lawyer"
+	RelationshipTypeHasLegalPredecessor    RelationshipType = "has_legal_predecessor"
+	RelationshipTypeHasLegalRepresentative RelationshipType = "has_legal_representative"
+	RelationshipTypeHasLegalSuccessor      RelationshipType = "has_legal_successor"
+	RelationshipTypeHasLiquidator          RelationshipType = "has_liquidator"
+	RelationshipTypeHasManager             RelationshipType = "has_manager"
+	RelationshipTypeHasMemberOfTheBoard    RelationshipType = "has_member_of_the_board"
+	RelationshipTypeHasOfficer             RelationshipType = "has_officer"
+	RelationshipTypeHasOwner               RelationshipType = "has_owner"
+	RelationshipTypeHasPartner             RelationshipType = "has_partner"
+	RelationshipTypeHasParty               RelationshipType = "has_party"
+	RelationshipTypeReceivedBy             RelationshipType = "received_by"
+	RelationshipTypeHasRegisteredAgent     RelationshipType = "has_registered_agent"
+	RelationshipTypeHasShareholder         RelationshipType = "has_shareholder"
+	RelationshipTypeShippedBy              RelationshipType = "shipped_by"
+	RelationshipTypeReceivesFrom           RelationshipType = "receives_from"
+	RelationshipTypeHasSubsidiary          RelationshipType = "has_subsidiary"
+	RelationshipTypeHasSupervisor          RelationshipType = "has_supervisor"
+)
+
+func NewRelationshipTypeFromString(s string) (RelationshipType, error) {
+	switch s {
+	case "auditor_of":
+		return RelationshipTypeAuditorOf, nil
+	case "beneficial_owner_of":
+		return RelationshipTypeBeneficialOwnerOf, nil
+	case "branch_of":
+		return RelationshipTypeBranchOf, nil
+	case "director_of":
+		return RelationshipTypeDirectorOf, nil
+	case "employee_of":
+		return RelationshipTypeEmployeeOf, nil
+	case "family_of":
+		return RelationshipTypeFamilyOf, nil
+	case "founder_of":
+		return RelationshipTypeFounderOf, nil
+	case "issuer_of":
+		return RelationshipTypeIssuerOf, nil
+	case "lawyer_in":
+		return RelationshipTypeLawyerIn, nil
+	case "lawyer_of":
+		return RelationshipTypeLawyerOf, nil
+	case "legal_predecessor_of":
+		return RelationshipTypeLegalPredecessorOf, nil
+	case "legal_representative_of":
+		return RelationshipTypeLegalRepresentativeOf, nil
+	case "legal_successor_of":
+		return RelationshipTypeLegalSuccessorOf, nil
+	case "linked_to":
+		return RelationshipTypeLinkedTo, nil
+	case "liquidator_of":
+		return RelationshipTypeLiquidatorOf, nil
+	case "manager_of":
+		return RelationshipTypeManagerOf, nil
+	case "member_of_the_board_of":
+		return RelationshipTypeMemberOfTheBoardOf, nil
+	case "officer_of":
+		return RelationshipTypeOfficerOf, nil
+	case "owner_of":
+		return RelationshipTypeOwnerOf, nil
+	case "partner_of":
+		return RelationshipTypePartnerOf, nil
+	case "party_to":
+		return RelationshipTypePartyTo, nil
+	case "receiver_of":
+		return RelationshipTypeReceiverOf, nil
+	case "registered_agent_of":
+		return RelationshipTypeRegisteredAgentOf, nil
+	case "shareholder_of":
+		return RelationshipTypeShareholderOf, nil
+	case "shipper_of":
+		return RelationshipTypeShipperOf, nil
+	case "ships_to":
+		return RelationshipTypeShipsTo, nil
+	case "subsidiary_of":
+		return RelationshipTypeSubsidiaryOf, nil
+	case "supervisor_of":
+		return RelationshipTypeSupervisorOf, nil
+	case "has_auditor":
+		return RelationshipTypeHasAuditor, nil
+	case "has_beneficial_owner":
+		return RelationshipTypeHasBeneficialOwner, nil
+	case "has_branch":
+		return RelationshipTypeHasBranch, nil
+	case "has_director":
+		return RelationshipTypeHasDirector, nil
+	case "has_employee":
+		return RelationshipTypeHasEmployee, nil
+	case "has_founder":
+		return RelationshipTypeHasFounder, nil
+	case "has_issuer":
+		return RelationshipTypeHasIssuer, nil
+	case "has_lawyer":
+		return RelationshipTypeHasLawyer, nil
+	case "has_legal_predecessor":
+		return RelationshipTypeHasLegalPredecessor, nil
+	case "has_legal_representative":
+		return RelationshipTypeHasLegalRepresentative, nil
+	case "has_legal_successor":
+		return RelationshipTypeHasLegalSuccessor, nil
+	case "has_liquidator":
+		return RelationshipTypeHasLiquidator, nil
+	case "has_manager":
+		return RelationshipTypeHasManager, nil
+	case "has_member_of_the_board":
+		return RelationshipTypeHasMemberOfTheBoard, nil
+	case "has_officer":
+		return RelationshipTypeHasOfficer, nil
+	case "has_owner":
+		return RelationshipTypeHasOwner, nil
+	case "has_partner":
+		return RelationshipTypeHasPartner, nil
+	case "has_party":
+		return RelationshipTypeHasParty, nil
+	case "received_by":
+		return RelationshipTypeReceivedBy, nil
+	case "has_registered_agent":
+		return RelationshipTypeHasRegisteredAgent, nil
+	case "has_shareholder":
+		return RelationshipTypeHasShareholder, nil
+	case "shipped_by":
+		return RelationshipTypeShippedBy, nil
+	case "receives_from":
+		return RelationshipTypeReceivesFrom, nil
+	case "has_subsidiary":
+		return RelationshipTypeHasSubsidiary, nil
+	case "has_supervisor":
+		return RelationshipTypeHasSupervisor, nil
+	}
+	var t RelationshipType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r RelationshipType) Ptr() *RelationshipType {
+	return &r
+}
+
+type RelationshipTypes = map[RelationshipType][]*RelationshipInfo
 
 type Relationships struct {
 	Limit int                 `json:"limit"`
