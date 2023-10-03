@@ -63,6 +63,25 @@ type Coordinate struct {
 	Address string  `json:"address"`
 }
 
+type EmbeddedEntity struct {
+	Id                EntityId           `json:"id"`
+	Label             string             `json:"label"`
+	Degree            int                `json:"degree"`
+	Closed            bool               `json:"closed"`
+	EntityUrl         string             `json:"entity_url"`
+	Pep               bool               `json:"pep"`
+	PsaCount          int                `json:"psa_count"`
+	Sanctioned        bool               `json:"sanctioned"`
+	Type              EntityType         `json:"type,omitempty"`
+	Identifiers       []*Identifier      `json:"identifiers,omitempty"`
+	Countries         []string           `json:"countries,omitempty"`
+	PsaSanctioned     *string            `json:"psa_sanctioned,omitempty"`
+	SourceCount       SourceCount        `json:"source_count,omitempty"`
+	Addresses         []string           `json:"addresses,omitempty"`
+	DateOfBirth       *string            `json:"date_of_birth,omitempty"`
+	RelationshipCount *RelationshipCount `json:"relationship_count,omitempty"`
+}
+
 type EntityDetails struct {
 	Id                EntityId            `json:"id"`
 	Label             string              `json:"label"`
@@ -72,21 +91,21 @@ type EntityDetails struct {
 	Pep               bool                `json:"pep"`
 	PsaCount          int                 `json:"psa_count"`
 	Sanctioned        bool                `json:"sanctioned"`
-	RegistrationDate  string              `json:"registration_date"`
-	TranslatedLabel   *string             `json:"translated_label,omitempty"`
+	Type              EntityType          `json:"type,omitempty"`
+	Identifiers       []*Identifier       `json:"identifiers,omitempty"`
+	Countries         []string            `json:"countries,omitempty"`
 	PsaSanctioned     *string             `json:"psa_sanctioned,omitempty"`
+	SourceCount       SourceCount         `json:"source_count,omitempty"`
+	Addresses         []string            `json:"addresses,omitempty"`
 	DateOfBirth       *string             `json:"date_of_birth,omitempty"`
+	RelationshipCount *RelationshipCount  `json:"relationship_count,omitempty"`
+	RegistrationDate  *string             `json:"registration_date,omitempty"`
+	TranslatedLabel   *string             `json:"translated_label,omitempty"`
 	HsCode            *string             `json:"hs_code,omitempty"`
 	ShipmentArrival   *string             `json:"shipment_arrival,omitempty"`
 	ShipmentDeparture *string             `json:"shipment_departure,omitempty"`
 	CompanyType       *string             `json:"company_type,omitempty"`
 	LatestStatus      *Status             `json:"latest_status,omitempty"`
-	Type              EntityType          `json:"type,omitempty"`
-	Identifiers       []*Identifier       `json:"identifiers,omitempty"`
-	Addresses         []string            `json:"addresses,omitempty"`
-	Countries         []string            `json:"countries,omitempty"`
-	RelationshipCount *RelationshipCount  `json:"relationship_count,omitempty"`
-	SourceCount       SourceCount         `json:"source_count,omitempty"`
 	Risk              Risk                `json:"risk,omitempty"`
 	Attributes        *Attributes         `json:"attributes,omitempty"`
 	Relationships     *Relationships      `json:"relationships,omitempty"`
@@ -101,45 +120,45 @@ type EntityId = string
 type EntityType string
 
 const (
-	EntityTypeAircraft             EntityType = "Aircraft"
-	EntityTypeCompany              EntityType = "Company"
-	EntityTypeGeneric              EntityType = "Generic"
-	EntityTypeIntellectualProperty EntityType = "Intellectual Property"
-	EntityTypeLegalMatter          EntityType = "Legal Matter"
-	EntityTypePerson               EntityType = "Person"
-	EntityTypeProperty             EntityType = "Property"
-	EntityTypeSecurity             EntityType = "Security"
-	EntityTypeShipment             EntityType = "Shipment"
-	EntityTypeTradename            EntityType = "Tradename"
-	EntityTypeUnknown              EntityType = "Unknown"
-	EntityTypeVessel               EntityType = "Vessel"
+	EntityTypeAircraft             EntityType = "aircraft"
+	EntityTypeCompany              EntityType = "company"
+	EntityTypeGeneric              EntityType = "generic"
+	EntityTypeIntellectualProperty EntityType = "intellectual_property"
+	EntityTypeLegalMatter          EntityType = "legal_matter"
+	EntityTypePerson               EntityType = "person"
+	EntityTypeProperty             EntityType = "property"
+	EntityTypeSecurity             EntityType = "security"
+	EntityTypeShipment             EntityType = "shipment"
+	EntityTypeTradename            EntityType = "tradename"
+	EntityTypeUnknown              EntityType = "unknown"
+	EntityTypeVessel               EntityType = "vessel"
 )
 
 func NewEntityTypeFromString(s string) (EntityType, error) {
 	switch s {
-	case "Aircraft":
+	case "aircraft":
 		return EntityTypeAircraft, nil
-	case "Company":
+	case "company":
 		return EntityTypeCompany, nil
-	case "Generic":
+	case "generic":
 		return EntityTypeGeneric, nil
-	case "Intellectual Property":
+	case "intellectual_property":
 		return EntityTypeIntellectualProperty, nil
-	case "Legal Matter":
+	case "legal_matter":
 		return EntityTypeLegalMatter, nil
-	case "Person":
+	case "person":
 		return EntityTypePerson, nil
-	case "Property":
+	case "property":
 		return EntityTypeProperty, nil
-	case "Security":
+	case "security":
 		return EntityTypeSecurity, nil
-	case "Shipment":
+	case "shipment":
 		return EntityTypeShipment, nil
-	case "Tradename":
+	case "tradename":
 		return EntityTypeTradename, nil
-	case "Unknown":
+	case "unknown":
 		return EntityTypeUnknown, nil
-	case "Vessel":
+	case "vessel":
 		return EntityTypeVessel, nil
 	}
 	var t EntityType
@@ -236,19 +255,20 @@ type RelationshipCount struct {
 }
 
 type RelationshipData struct {
-	Target        *TargetData       `json:"target,omitempty"`
+	Target        *EmbeddedEntity   `json:"target,omitempty"`
 	Types         RelationshipTypes `json:"types,omitempty"`
 	Dates         []string          `json:"dates,omitempty"`
 	FirstObserved string            `json:"first_observed"`
 	LastObserved  string            `json:"last_observed"`
-	StartDate     string            `json:"start_date"`
+	StartDate     *string           `json:"start_date,omitempty"`
 }
 
 type RelationshipInfo struct {
 	Record          string                                   `json:"record"`
 	Attributes      map[string][]*RelationshipAttributeValue `json:"attributes,omitempty"`
-	FromDate        string                                   `json:"from_date"`
+	FromDate        *string                                  `json:"from_date,omitempty"`
 	AcquisitionDate string                                   `json:"acquisition_date"`
+	PublicationDate string                                   `json:"publication_date"`
 }
 
 type RelationshipTypes = map[string][]*RelationshipInfo
@@ -280,31 +300,8 @@ type SourceCountInfo struct {
 }
 
 type Status struct {
-	Status string `json:"status"`
-	Date   string `json:"date"`
-}
-
-type TargetData struct {
-	Id                string             `json:"id"`
-	Label             string             `json:"label"`
-	Degree            int                `json:"degree"`
-	EntityUrl         string             `json:"entity_url"`
-	Pep               bool               `json:"pep"`
-	PsaCount          int                `json:"psa_count"`
-	Sanctioned        bool               `json:"sanctioned"`
-	Closed            bool               `json:"closed"`
-	CompanyType       string             `json:"company_type"`
-	Type              EntityType         `json:"type,omitempty"`
-	Identifiers       []*Identifier      `json:"identifiers,omitempty"`
-	Addresses         []string           `json:"addresses,omitempty"`
-	Countries         []string           `json:"countries,omitempty"`
-	RelationshipCount *RelationshipCount `json:"relationship_count,omitempty"`
-	SourceCount       SourceCount        `json:"source_count,omitempty"`
-	Risk              Risk               `json:"risk,omitempty"`
-	Types             EntityType         `json:"types,omitempty"`
-	Dates             []string           `json:"dates,omitempty"`
-	FirstObserved     string             `json:"first_observed"`
-	LastObserved      string             `json:"last_observed"`
+	Status string  `json:"status"`
+	Date   *string `json:"date,omitempty"`
 }
 
 type ShortestPathData struct {
