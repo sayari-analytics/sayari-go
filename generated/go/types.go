@@ -36,6 +36,79 @@ type ResolutionResult struct {
 	Explanation    map[string][]*MatchExplanation `json:"explanation,omitempty"`
 }
 
+type Attribute string
+
+const (
+	AttributeAdditionalInformation Attribute = "additional_information"
+	AttributeAddress               Attribute = "address"
+	AttributeBusinessPurpose       Attribute = "business_purpose"
+	AttributeCompanyType           Attribute = "company_type"
+	AttributeContact               Attribute = "contact"
+	AttributeCountry               Attribute = "country"
+	AttributeDateOfBirth           Attribute = "date_of_birth"
+	AttributeFinancials            Attribute = "financials"
+	AttributeGender                Attribute = "gender"
+	AttributeIdentifier            Attribute = "identifier"
+	AttributeMeasurement           Attribute = "measurement"
+	AttributeMonetaryValue         Attribute = "monetary_value"
+	AttributeName                  Attribute = "name"
+	AttributePosition              Attribute = "position"
+	AttributeRiskIntelligence      Attribute = "risk_intelligence"
+	AttributeShares                Attribute = "shares"
+	AttributeStatus                Attribute = "status"
+	AttributeTranslatedName        Attribute = "translated_name"
+	AttributeWeakIdentifier        Attribute = "weak_identifier"
+)
+
+func NewAttributeFromString(s string) (Attribute, error) {
+	switch s {
+	case "additional_information":
+		return AttributeAdditionalInformation, nil
+	case "address":
+		return AttributeAddress, nil
+	case "business_purpose":
+		return AttributeBusinessPurpose, nil
+	case "company_type":
+		return AttributeCompanyType, nil
+	case "contact":
+		return AttributeContact, nil
+	case "country":
+		return AttributeCountry, nil
+	case "date_of_birth":
+		return AttributeDateOfBirth, nil
+	case "financials":
+		return AttributeFinancials, nil
+	case "gender":
+		return AttributeGender, nil
+	case "identifier":
+		return AttributeIdentifier, nil
+	case "measurement":
+		return AttributeMeasurement, nil
+	case "monetary_value":
+		return AttributeMonetaryValue, nil
+	case "name":
+		return AttributeName, nil
+	case "position":
+		return AttributePosition, nil
+	case "risk_intelligence":
+		return AttributeRiskIntelligence, nil
+	case "shares":
+		return AttributeShares, nil
+	case "status":
+		return AttributeStatus, nil
+	case "translated_name":
+		return AttributeTranslatedName, nil
+	case "weak_identifier":
+		return AttributeWeakIdentifier, nil
+	}
+	var t Attribute
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (a Attribute) Ptr() *Attribute {
+	return &a
+}
+
 type AttributeData struct {
 	Properties  *Properties `json:"properties,omitempty"`
 	Record      []string    `json:"record,omitempty"`
@@ -46,15 +119,6 @@ type AttributeDetails struct {
 	Limit int              `json:"limit"`
 	Size  *SizeInfo        `json:"size,omitempty"`
 	Data  []*AttributeData `json:"data,omitempty"`
-}
-
-type Attributes struct {
-	Address         *AttributeDetails `json:"address,omitempty"`
-	BusinessPurpose *AttributeDetails `json:"business_purpose,omitempty"`
-	Country         *AttributeDetails `json:"country,omitempty"`
-	Identifier      *AttributeDetails `json:"identifier,omitempty"`
-	Name            *AttributeDetails `json:"name,omitempty"`
-	Status          *AttributeDetails `json:"status,omitempty"`
 }
 
 type Coordinate struct {
@@ -83,35 +147,35 @@ type EmbeddedEntity struct {
 }
 
 type EntityDetails struct {
-	Id                EntityId            `json:"id"`
-	Label             string              `json:"label"`
-	Degree            int                 `json:"degree"`
-	Closed            bool                `json:"closed"`
-	EntityUrl         string              `json:"entity_url"`
-	Pep               bool                `json:"pep"`
-	PsaCount          int                 `json:"psa_count"`
-	Sanctioned        bool                `json:"sanctioned"`
-	Type              EntityType          `json:"type,omitempty"`
-	Identifiers       []*Identifier       `json:"identifiers,omitempty"`
-	Countries         []string            `json:"countries,omitempty"`
-	PsaSanctioned     *string             `json:"psa_sanctioned,omitempty"`
-	SourceCount       SourceCount         `json:"source_count,omitempty"`
-	Addresses         []string            `json:"addresses,omitempty"`
-	DateOfBirth       *string             `json:"date_of_birth,omitempty"`
-	RelationshipCount *RelationshipCount  `json:"relationship_count,omitempty"`
-	RegistrationDate  *string             `json:"registration_date,omitempty"`
-	TranslatedLabel   *string             `json:"translated_label,omitempty"`
-	HsCode            *string             `json:"hs_code,omitempty"`
-	ShipmentArrival   *string             `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *string             `json:"shipment_departure,omitempty"`
-	CompanyType       *string             `json:"company_type,omitempty"`
-	LatestStatus      *Status             `json:"latest_status,omitempty"`
-	Risk              Risk                `json:"risk,omitempty"`
-	Attributes        *Attributes         `json:"attributes,omitempty"`
-	Relationships     *Relationships      `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs     `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy       `json:"referenced_by,omitempty"`
-	Matches           map[string][]string `json:"matches,omitempty"`
+	Id                EntityId                        `json:"id"`
+	Label             string                          `json:"label"`
+	Degree            int                             `json:"degree"`
+	Closed            bool                            `json:"closed"`
+	EntityUrl         string                          `json:"entity_url"`
+	Pep               bool                            `json:"pep"`
+	PsaCount          int                             `json:"psa_count"`
+	Sanctioned        bool                            `json:"sanctioned"`
+	Type              EntityType                      `json:"type,omitempty"`
+	Identifiers       []*Identifier                   `json:"identifiers,omitempty"`
+	Countries         []string                        `json:"countries,omitempty"`
+	PsaSanctioned     *string                         `json:"psa_sanctioned,omitempty"`
+	SourceCount       SourceCount                     `json:"source_count,omitempty"`
+	Addresses         []string                        `json:"addresses,omitempty"`
+	DateOfBirth       *string                         `json:"date_of_birth,omitempty"`
+	RelationshipCount *RelationshipCount              `json:"relationship_count,omitempty"`
+	RegistrationDate  *string                         `json:"registration_date,omitempty"`
+	TranslatedLabel   *string                         `json:"translated_label,omitempty"`
+	HsCode            *string                         `json:"hs_code,omitempty"`
+	ShipmentArrival   *string                         `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *string                         `json:"shipment_departure,omitempty"`
+	CompanyType       *string                         `json:"company_type,omitempty"`
+	LatestStatus      *Status                         `json:"latest_status,omitempty"`
+	Risk              Risk                            `json:"risk,omitempty"`
+	Attributes        map[Attribute]*AttributeDetails `json:"attributes,omitempty"`
+	Relationships     *Relationships                  `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs                 `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy                   `json:"referenced_by,omitempty"`
+	Matches           map[string][]string             `json:"matches,omitempty"`
 }
 
 // The unique identifier for an entity in the database
@@ -189,7 +253,7 @@ type PossiblySameAs struct {
 type PossiblySameAsData = interface{}
 
 type Properties struct {
-	Value         string   `json:"value"`
+	Value         *string  `json:"value,omitempty"`
 	HouseNumber   *string  `json:"house_number,omitempty"`
 	Road          *string  `json:"road,omitempty"`
 	City          *string  `json:"city,omitempty"`
@@ -209,7 +273,7 @@ type RecordDetails struct {
 	AcquisitionDate string              `json:"acquisition_date"`
 	ReferencesCount int                 `json:"references_count"`
 	RecordUrl       string              `json:"record_url"`
-	SourceUrl       string              `json:"source_url"`
+	SourceUrl       *string             `json:"source_url,omitempty"`
 	Matches         map[string][]string `json:"matches,omitempty"`
 }
 
@@ -225,7 +289,8 @@ type ReferencedByData struct {
 }
 
 type RelationshipAttributeValue struct {
-	Value string `json:"value"`
+	Value     *string `json:"value,omitempty"`
+	NumShares *int    `json:"num_shares,omitempty"`
 }
 
 type RelationshipCount struct {
@@ -269,11 +334,11 @@ type RelationshipData struct {
 }
 
 type RelationshipInfo struct {
-	Record          string                                   `json:"record"`
-	Attributes      map[string][]*RelationshipAttributeValue `json:"attributes,omitempty"`
-	FromDate        *string                                  `json:"from_date,omitempty"`
-	AcquisitionDate string                                   `json:"acquisition_date"`
-	PublicationDate *string                                  `json:"publication_date,omitempty"`
+	Record          string                                      `json:"record"`
+	Attributes      map[Attribute][]*RelationshipAttributeValue `json:"attributes,omitempty"`
+	FromDate        *string                                     `json:"from_date,omitempty"`
+	AcquisitionDate string                                      `json:"acquisition_date"`
+	PublicationDate *string                                     `json:"publication_date,omitempty"`
 }
 
 type RelationshipType string
