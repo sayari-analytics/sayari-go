@@ -92,7 +92,7 @@ func (c *Client) Resolution(ctx context.Context, request *generatedgo.Resolution
 		c.httpClient,
 		endpointURL,
 		http.MethodGet,
-		request,
+		nil,
 		&response,
 		false,
 		c.header,

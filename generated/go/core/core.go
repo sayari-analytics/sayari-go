@@ -85,13 +85,9 @@ func DoRequest(
 			if err != nil {
 				return err
 			}
-			// Without this if check, an empty JSON body is sent which causes issues in the API
-			if string(requestBytes) != "{}" {
-				requestBody = bytes.NewReader(requestBytes)
-			}
+			requestBody = bytes.NewReader(requestBytes)
 		}
 	}
-
 	req, err := newRequest(ctx, url, method, endpointHeaders, requestBody)
 	if err != nil {
 		return err

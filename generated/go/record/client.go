@@ -77,7 +77,7 @@ func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request
 		c.httpClient,
 		endpointURL,
 		http.MethodGet,
-		request,
+		nil,
 		&response,
 		false,
 		c.header,

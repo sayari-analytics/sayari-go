@@ -54,7 +54,7 @@ func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSourc
 		c.httpClient,
 		endpointURL,
 		http.MethodGet,
-		request,
+		nil,
 		&response,
 		false,
 		c.header,

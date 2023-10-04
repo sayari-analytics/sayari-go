@@ -152,7 +152,7 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 		c.httpClient,
 		endpointURL,
 		http.MethodGet,
-		request,
+		nil,
 		&response,
 		false,
 		c.header,
