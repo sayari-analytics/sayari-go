@@ -128,22 +128,22 @@ type Coordinate struct {
 }
 
 type EmbeddedEntity struct {
-	Id                EntityId           `json:"id"`
-	Label             string             `json:"label"`
-	Degree            int                `json:"degree"`
-	Closed            bool               `json:"closed"`
-	EntityUrl         string             `json:"entity_url"`
-	Pep               bool               `json:"pep"`
-	PsaCount          int                `json:"psa_count"`
-	Sanctioned        bool               `json:"sanctioned"`
-	Type              EntityType         `json:"type,omitempty"`
-	Identifiers       []*Identifier      `json:"identifiers,omitempty"`
-	Countries         []string           `json:"countries,omitempty"`
-	PsaSanctioned     *string            `json:"psa_sanctioned,omitempty"`
-	SourceCount       SourceCount        `json:"source_count,omitempty"`
-	Addresses         []string           `json:"addresses,omitempty"`
-	DateOfBirth       *string            `json:"date_of_birth,omitempty"`
-	RelationshipCount *RelationshipCount `json:"relationship_count,omitempty"`
+	Id                EntityId                 `json:"id"`
+	Label             string                   `json:"label"`
+	Degree            int                      `json:"degree"`
+	Closed            bool                     `json:"closed"`
+	EntityUrl         string                   `json:"entity_url"`
+	Pep               bool                     `json:"pep"`
+	PsaCount          int                      `json:"psa_count"`
+	Sanctioned        bool                     `json:"sanctioned"`
+	Type              EntityType               `json:"type,omitempty"`
+	Identifiers       []*Identifier            `json:"identifiers,omitempty"`
+	Countries         []string                 `json:"countries,omitempty"`
+	PsaSanctioned     *string                  `json:"psa_sanctioned,omitempty"`
+	SourceCount       SourceCount              `json:"source_count,omitempty"`
+	Addresses         []string                 `json:"addresses,omitempty"`
+	DateOfBirth       *string                  `json:"date_of_birth,omitempty"`
+	RelationshipCount map[RelationshipType]int `json:"relationship_count,omitempty"`
 }
 
 type EntityDetails struct {
@@ -162,7 +162,7 @@ type EntityDetails struct {
 	SourceCount       SourceCount                     `json:"source_count,omitempty"`
 	Addresses         []string                        `json:"addresses,omitempty"`
 	DateOfBirth       *string                         `json:"date_of_birth,omitempty"`
-	RelationshipCount *RelationshipCount              `json:"relationship_count,omitempty"`
+	RelationshipCount map[RelationshipType]int        `json:"relationship_count,omitempty"`
 	RegistrationDate  *string                         `json:"registration_date,omitempty"`
 	TranslatedLabel   *string                         `json:"translated_label,omitempty"`
 	HsCode            *string                         `json:"hs_code,omitempty"`
@@ -291,37 +291,6 @@ type ReferencedByData struct {
 type RelationshipAttributeValue struct {
 	Value     *string `json:"value,omitempty"`
 	NumShares *int    `json:"num_shares,omitempty"`
-}
-
-type RelationshipCount struct {
-	AuditorOf             *int `json:"auditor_of,omitempty"`
-	BeneficialOwnerOf     *int `json:"beneficial_owner_of,omitempty"`
-	BranchOf              *int `json:"branch_of,omitempty"`
-	DirectorOf            *int `json:"director_of,omitempty"`
-	EmployeeOf            *int `json:"employee_of,omitempty"`
-	FamilyOf              *int `json:"family_of,omitempty"`
-	FounderOf             *int `json:"founder_of,omitempty"`
-	IssuerOf              *int `json:"issuer_of,omitempty"`
-	LawyerIn              *int `json:"lawyer_in,omitempty"`
-	LawyerOf              *int `json:"lawyer_of,omitempty"`
-	LegalPredecessorOf    *int `json:"legal_predecessor_of,omitempty"`
-	LegalRepresentativeOf *int `json:"legal_representative_of,omitempty"`
-	LegalSuccessorOf      *int `json:"legal_successor_of,omitempty"`
-	LinkedTo              *int `json:"linked_to,omitempty"`
-	LiquidatorOf          *int `json:"liquidator_of,omitempty"`
-	ManagerOf             *int `json:"manager_of,omitempty"`
-	MemberOfTheBoardOf    *int `json:"member_of_the_board_of,omitempty"`
-	OfficerOf             *int `json:"officer_of,omitempty"`
-	OwnerOf               *int `json:"owner_of,omitempty"`
-	PartnerOf             *int `json:"partner_of,omitempty"`
-	PartyTo               *int `json:"party_to,omitempty"`
-	ReceiverOf            *int `json:"receiver_of,omitempty"`
-	RegisteredAgentOf     *int `json:"registered_agent_of,omitempty"`
-	ShareholderOf         *int `json:"shareholder_of,omitempty"`
-	ShipperOf             *int `json:"shipper_of,omitempty"`
-	ShipsTo               *int `json:"ships_to,omitempty"`
-	SubsidiaryOf          *int `json:"subsidiary_of,omitempty"`
-	SupervisorOf          *int `json:"supervisor_of,omitempty"`
 }
 
 type RelationshipData struct {
