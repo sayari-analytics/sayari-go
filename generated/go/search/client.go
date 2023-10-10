@@ -4,9 +4,11 @@ package search
 
 import (
 	context "context"
+	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	http "net/http"
+	url "net/url"
 )
 
 type Client struct {
@@ -35,6 +37,17 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 	}
 	endpointURL := baseURL + "/" + "v1/search/entity"
 
+	queryParams := make(url.Values)
+	if request.Limit != nil {
+		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
+	}
+	if request.Offset != nil {
+		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+
 	var response *generatedgo.EntitySearchResults
 	if err := core.DoRequest(
 		ctx,
@@ -59,6 +72,17 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 		baseURL = c.baseURL
 	}
 	endpointURL := baseURL + "/" + "v1/search/record"
+
+	queryParams := make(url.Values)
+	if request.Limit != nil {
+		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
+	}
+	if request.Offset != nil {
+		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
 
 	var response *generatedgo.RecordSearchResults
 	if err := core.DoRequest(

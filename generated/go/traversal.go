@@ -7,7 +7,7 @@ type ShortestPath struct {
 }
 
 type Traversal struct {
-	// Limit total values for traversal. Defaults to 20.
+	// Limit total values for traversal. Defaults to 20. Max of 50.
 	Limit *int `json:"-"`
 	// Offset values for traversal. Defaults to 0.
 	Offset *int `json:"-"`

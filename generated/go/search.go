@@ -7,6 +7,10 @@ import (
 )
 
 type SearchEntity struct {
+	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
+	Limit *int `json:"-"`
+	// Number of results to skip before returning response. Defaults to 0.
+	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
 	// Filters to be applied to search query to limit the result-set.
@@ -19,13 +23,13 @@ type SearchEntity struct {
 	GeoFacets *bool `json:"geo_facets,omitempty"`
 	// Set to true to enable full elasticsearch query string syntax which allows for fielded search and more complex operators. Note that the syntax is more strict and can result in empty result-sets. Defaults to false.
 	Advanced *bool `json:"advanced,omitempty"`
-	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
-	Limit *int `json:"limit,omitempty"`
-	// Number of results to skip before returning response. Defaults to 0.
-	Offset *int `json:"offset,omitempty"`
 }
 
 type SearchRecord struct {
+	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
+	Limit *int `json:"-"`
+	// Number of results to skip before returning response. Defaults to 0.
+	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
 	// Filters to be applied to search query to limit the result-set.
@@ -38,10 +42,6 @@ type SearchRecord struct {
 	GeoFacets *bool `json:"geo_facets,omitempty"`
 	// Set to true to enable full elasticsearch query string syntax which allows for fielded search and more complex operators. Note that the syntax is more strict and can result in empty result-sets. Defaults to false.
 	Advanced *bool `json:"advanced,omitempty"`
-	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
-	Limit *int `json:"limit,omitempty"`
-	// Number of results to skip before returning response. Defaults to 0.
-	Offset *int `json:"offset,omitempty"`
 }
 
 type EntitySearchResults struct {
