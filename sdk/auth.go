@@ -2,6 +2,7 @@ package sdk
 
 import (
 	"context"
+
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	"github.com/sayari-analytics/sayari-go/generated/go/auth"
 	"github.com/sayari-analytics/sayari-go/generated/go/client"
