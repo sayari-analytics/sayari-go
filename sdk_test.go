@@ -2,15 +2,16 @@ package sayari_go
 
 import (
 	"context"
-	sayari "github.com/sayari-analytics/sayari-go/generated/go"
-	"github.com/sayari-analytics/sayari-go/generated/go/client"
-	"github.com/sayari-analytics/sayari-go/sdk"
 	"log"
 	"math/rand"
 	"net/url"
 	"os"
 	"testing"
 	"time"
+
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
+	"github.com/sayari-analytics/sayari-go/generated/go/client"
+	"github.com/sayari-analytics/sayari-go/sdk"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
@@ -225,48 +226,47 @@ func TestOwnershipTraversal(t *testing.T) {
 	// TODO: figure out good test for watchlist traversal
 }
 
-/*
+func TestEntityPagination(t *testing.T) {
+	searchTerm := "David Konigsberg"
+	info, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
+	assert.Nil(t, err)
 
-@pytest.mark.repeat(repeats)
-def test_entity_pagination(setup_connection):
-    # get connection
-    client = setup_connection
+	// Do paginated query
+	allEntities, err := sdk.GetAllEntitySearchResults(context.Background(), api, &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(5)})
+	assert.Nil(t, err)
+	assert.Equal(t, len(allEntities), info.Size.Count)
 
-    # handle pagination of a small number of results ~15
-    search_term = "David Konigsberg"
-    query_info = client.search.search_entity(q=search_term, limit=1)
-    all_entities = get_all_data(client.search.search_entity, q=search_term, limit=5)
-    assert len(all_entities) == query_info.size.count
+	// Do paginated query for larger data set
+	searchTerm = "David John Smith"
+	info, err = api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
+	assert.Nil(t, err)
+	allEntities, err = sdk.GetAllEntitySearchResults(context.Background(), api, &sayari.SearchEntity{Q: searchTerm})
+	assert.Nil(t, err)
+	assert.Equal(t, len(allEntities), info.Size.Count)
+}
 
-    # handle pagination of a larger number of results ~1k
-    search_term = "David John Smith"
-    query_info = client.search.search_entity(q=search_term, limit=1)
-    all_entities = get_all_data(client.search.search_entity, q=search_term)
-    assert len(all_entities) == query_info.size.count
+func TestRecordPagination(t *testing.T) {
+	searchTerm := "David Konigsberg"
+	info, err := api.Search.SearchRecord(context.Background(), &sayari.SearchRecord{Q: searchTerm, Limit: sayari.Int(1)})
+	assert.Nil(t, err)
 
+	// Do paginated query
+	allEntities, err := sdk.GetAllRecordSearchResults(context.Background(), api, &sayari.SearchRecord{Q: searchTerm})
+	assert.Nil(t, err)
+	assert.Equal(t, len(allEntities), info.Size.Count)
+}
 
-@pytest.mark.repeat(repeats)
-def test_record_pagination(setup_connection):
-    # get connection
-    client = setup_connection
+func TestTraversalPagination(t *testing.T) {
+	searchTerm := "David Konigsberg"
+	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
+	assert.Nil(t, err)
+	entity := entitySearchResults.Data[0]
 
-    # handle pagination of a small number of results ~300
-    search_term = "David Konigsberg"
-    query_info = client.search.search_record(q=search_term, limit=1)
-    all_entities = get_all_data(client.search.search_record, q=search_term)
-    assert len(all_entities) == query_info.size.count
-
-
-@pytest.mark.repeat(repeats)
-def test_traversal_pagination(setup_connection):
-    # get connection
-    client = setup_connection
-
-    entity = client.search.search_entity(q="David Konigsberg", limit=1)
-    all_traversals = get_all_data(client.traversal.traversal, entity.data[0].id, limit=1)
-    assert len(all_traversals) > 1
-
-*/
+	// Do paginated query
+	allTraversals, err := sdk.GetAllTraversalResults(context.Background(), api, entity.Id, &sayari.Traversal{Limit: sdk.Int(1)})
+	assert.Nil(t, err)
+	assert.Greater(t, len(allTraversals), 1)
+}
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
