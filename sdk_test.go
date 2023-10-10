@@ -7,6 +7,7 @@ import (
 	"github.com/sayari-analytics/sayari-go/sdk"
 	"log"
 	"math/rand"
+	"net/url"
 	"os"
 	"testing"
 	"time"
@@ -55,6 +56,7 @@ func TestEntities(t *testing.T) {
 	// try until we get results
 	if len(entitySearchResults.Data) == 0 {
 		TestEntities(t)
+		return
 	}
 	assert.Greater(t, len(entitySearchResults.Data), 0)
 
@@ -83,154 +85,147 @@ func TestEntities(t *testing.T) {
 	assert.Equal(t, firstEntitySummary.Countries, firstEntity.Countries)
 	assert.Equal(t, firstEntitySummary.RelationshipCount, firstEntity.RelationshipCount)
 
+	// get entity details
+	firstEntityDetails, err := api.Entity.GetEntity(context.Background(), firstEntity.Id, &sayari.GetEntity{})
+	assert.Nil(t, err)
+	// check all the same stuff we checked with summary
+	assert.Equal(t, firstEntityDetails.Id, firstEntity.Id)
+	assert.Equal(t, firstEntityDetails.Label, firstEntity.Label)
+	assert.Equal(t, firstEntityDetails.Degree, firstEntity.Degree)
+	assert.Equal(t, firstEntityDetails.Pep, firstEntity.Pep)
+	assert.Equal(t, firstEntityDetails.PsaCount, firstEntity.PsaCount)
+	assert.Equal(t, firstEntityDetails.Type, firstEntity.Type)
+	assert.Equal(t, firstEntityDetails.EntityUrl, firstEntity.EntityUrl)
+	assert.Equal(t, firstEntityDetails.Sanctioned, firstEntity.Sanctioned)
+	assert.Equal(t, firstEntityDetails.Identifiers, firstEntity.Identifiers)
+	assert.Equal(t, firstEntityDetails.Addresses, firstEntity.Addresses)
+	assert.Equal(t, firstEntityDetails.Countries, firstEntity.Countries)
+	assert.Equal(t, firstEntityDetails.RelationshipCount, firstEntity.RelationshipCount)
+
+	// check additional fields
+	assert.Equal(t, firstEntityDetails.CompanyType, firstEntity.CompanyType)
+	assert.Equal(t, firstEntityDetails.Relationships.Size.Count, firstEntity.Degree)
+	if firstEntity.Degree < 200 {
+		assert.Len(t, firstEntityDetails.Relationships.Data, firstEntity.Degree)
+	} else {
+		assert.Len(t, firstEntityDetails.Relationships.Data, 200)
+	}
+}
+
+func TestResolution(t *testing.T) {
+	// resolve entity with random string
+	randomString := generateRandomString(3)
+
+	// query until we get results
+	resolution, err := api.Resolution.Resolution(context.Background(), &sayari.Resolution{Name: []*string{&randomString}})
+	assert.Nil(t, err)
+	if len(resolution.Data) == 0 {
+		TestResolution(t)
+		return
+	}
+	assert.Greater(t, len(resolution.Data), 0)
+
+	// do basic check on results
+	assert.Len(t, resolution.Fields.Name, 1)
+	assert.Equal(t, resolution.Fields.Name[0], randomString)
+
+}
+
+func TestRecords(t *testing.T) {
+	// resolve entity with random string
+	randomString := generateRandomString(3)
+
+	// query until we get results
+	recordSearchResults, err := api.Search.SearchRecord(context.Background(), &sayari.SearchRecord{Q: randomString})
+	assert.Nil(t, err)
+	if len(recordSearchResults.Data) == 0 {
+		TestRecords(t)
+		return
+	}
+	assert.Greater(t, len(recordSearchResults.Data), 0)
+
+	// do checks with the first results
+	firstRecord := recordSearchResults.Data[0]
+	log.Println(firstRecord.Id)
+	log.Println(firstRecord.Label)
+
+	// get record and compare with search result
+	record, err := api.Record.GetRecord(context.Background(), url.QueryEscape(firstRecord.Id), &sayari.GetRecord{})
+	assert.Nil(t, err)
+	assert.Equal(t, record.Label, firstRecord.Label)
+	assert.Equal(t, record.Source, firstRecord.Source)
+	assert.Equal(t, record.PublicationDate, firstRecord.PublicationDate)
+	assert.Equal(t, record.AcquisitionDate, firstRecord.AcquisitionDate)
+	assert.Equal(t, record.RecordUrl, firstRecord.RecordUrl)
+	assert.Equal(t, record.ReferencesCount, firstRecord.ReferencesCount)
+	assert.Equal(t, record.SourceUrl, firstRecord.SourceUrl)
+}
+
+func TestOwnershipTraversal(t *testing.T) {
+	// resolve entity with random string
+	randomString := generateRandomString(3)
+
+	// query until we get results
+	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString})
+	assert.Nil(t, err)
+	if len(entitySearchResults.Data) == 0 {
+		TestOwnershipTraversal(t)
+		return
+	}
+	assert.Greater(t, len(entitySearchResults.Data), 0)
+
+	// use first entity
+	entity := entitySearchResults.Data[0]
+
+	// do traversal
+	traversal, err := api.Traversal.Ownership(context.Background(), entity.Id)
+	assert.Nil(t, err)
+	if len(traversal.Data) == 0 {
+		TestOwnershipTraversal(t)
+		return
+	}
+	assert.Greater(t, len(traversal.Data), 0)
+	assert.Equal(t, traversal.Data[0].Source, entity.Id)
+
+	// do UBO traversal
+	ubo, err := api.Traversal.Ubo(context.Background(), entity.Id)
+	assert.Nil(t, err)
+	if len(ubo.Data) == 0 {
+		TestOwnershipTraversal(t)
+		return
+	}
+	assert.Greater(t, len(ubo.Data), 0)
+	uboID := ubo.Data[0].Target.Id
+
+	// do ownership traversal from ubo
+	downstream, err := api.Traversal.Ownership(context.Background(), uboID)
+	assert.Nil(t, err)
+	assert.Greater(t, len(downstream.Data), 0)
+
+	/*
+		The test below doesn't work, but I don't know why.
+		entity 'YdHkr_vnixCoWoQdOX5V7A' has a UBO of 'Sb77z7bNzNs_YtDFAwjuTw'
+		ownership of 'Sb77z7bNzNs_YtDFAwjuTw' doesn't include 'YdHkr_vnixCoWoQdOX5V7A'
+		perhaps this makes sense...
+
+		the downstream path should contain the initial entity
+		found = False
+		for path in downstream.data:
+			for step in path.path:
+			if step.entity.id == entity.id:
+				found = True
+		assert found
+	*/
+
+	// shortest path
+	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
+	assert.Nil(t, err)
+	assert.Greater(t, len(shortestPath.Data[0].Path), 0)
+
+	// TODO: figure out good test for watchlist traversal
 }
 
 /*
-@pytest.mark.repeat(repeats)
-def test_entities(setup_connection):
-
-    # get entity details
-    first_entity_details = client.entity.get_entity(first_entity.id)
-
-    # check all the same stuff we checked with summary
-    assert first_entity_details.id == first_entity.id
-    assert first_entity_details.label == first_entity.label
-    assert first_entity_details.degree == first_entity.degree
-    assert first_entity_details.pep == first_entity.pep
-    assert first_entity_details.psa_count == first_entity.psa_count
-    assert first_entity_details.type == first_entity.type
-    assert first_entity_details.entity_url == first_entity.entity_url
-    assert first_entity_details.sanctioned == first_entity.sanctioned
-    assert first_entity_details.identifiers == first_entity.identifiers
-    assert first_entity_details.addresses == first_entity.addresses
-    assert first_entity_details.countries == first_entity.countries
-    assert first_entity_details.relationship_count == first_entity.relationship_count
-
-    # check some additional fields
-    assert first_entity_details.company_type == first_entity.company_type
-    assert first_entity_details.relationships.size.count == first_entity.degree
-    if first_entity.degree < 200:
-        assert len(first_entity_details.relationships.data) == first_entity.degree
-    else:
-        assert len(first_entity_details.relationships.data) == 200
-
-
-@pytest.mark.repeat(repeats)
-def test_resolution(setup_connection):
-    # get connection
-    client = setup_connection
-
-    # resolve an entity with a random string
-    random_string = ''.join(random.choices(string.ascii_letters, k=3))
-    resolution = client.resolution.resolution(name=random_string)
-    if len(resolution.data) == 0:
-        return test_resolution(setup_connection)
-
-    # assert that we have results
-    assert len(resolution.data) > 0
-
-    # do some checks on the first result
-    print(resolution.fields)
-    print(resolution.fields.name)
-
-    assert len(resolution.fields.name) == 1
-    assert resolution.fields.name[0] == random_string
-
-
-@pytest.mark.repeat(repeats)
-def test_records(setup_connection):
-    # get connection
-    client = setup_connection
-
-    # search for a record with a random string
-    random_string = ''.join(random.choices(string.ascii_letters, k=3))
-
-    # query until we get results
-    record_search_results = client.search.search_record(q=random_string)
-    if len(record_search_results.data) == 0:
-        return test_records(setup_connection)
-
-    # assert that we have results
-    assert len(record_search_results.data) > 0
-
-    # do some checks on the first result
-    first_record = record_search_results.data[0]
-    # capture record id/label for debugging
-    print(first_record.id)
-    print(first_record.label)
-
-    # get this record and compair fields
-    record = client.record.get_record(urllib.parse.quote(first_record.id, safe=''))
-
-    # record should match search results
-    assert record.label == first_record.label
-    assert record.source == first_record.source
-    assert record.publication_date == first_record.publication_date
-    assert record.acquisition_date == first_record.acquisition_date
-    assert record.record_url == first_record.record_url
-    assert record.references_count == first_record.references_count
-    assert record.source_url == first_record.source_url
-
-
-@pytest.mark.repeat(repeats)
-def test_ownership_traversal(setup_connection):
-    # get connection
-    client = setup_connection
-
-    # search for an entity with a random string
-    random_string = ''.join(random.choices(string.ascii_letters, k=3))
-
-    # query until we get results
-    entity_search_results = client.search.search_entity(q=random_string)
-    if len(entity_search_results.data) == 0 and len(entity_search_results.data[0].degree) > 0:
-        return test_ownership_traversal(setup_connection)
-
-    # use first entity
-    entity = entity_search_results.data[0]
-    # capture entity id/label for debugging
-    print(entity.id)
-    print(entity.label)
-
-    # do traversal
-    traversal = client.traversal.traversal(entity.id)
-    # We may need to recurse here if it is possible to have no results...
-    assert len(traversal.data) > 0
-    assert traversal.data[0].source == entity.id
-
-    # do UBO traversal
-    ubo = client.traversal.ubo(entity.id)
-    # try again if this entity doesn't have a UBO
-    if len(ubo.data) == 0:
-        return test_ownership_traversal(setup_connection)
-
-    assert len(ubo.data) > 0
-    ubo_id = ubo.data[0].target.id
-
-    # do ownership traversal from ubo
-    downstream = client.traversal.ownership(ubo_id)
-
-    assert len(downstream.data) > 0
-
-    # The test below doesn't work, but I don't know why.
-    # entity 'YdHkr_vnixCoWoQdOX5V7A' has a UBO of 'Sb77z7bNzNs_YtDFAwjuTw'
-    # ownership of 'Sb77z7bNzNs_YtDFAwjuTw' doesn't include 'YdHkr_vnixCoWoQdOX5V7A'
-    # perhaps this makes sense...
-    """
-    # the downstream path should contain the initial entity
-    found = False
-    for path in downstream.data:
-        for step in path.path:
-            if step.entity.id == entity.id:
-                found = True
-    assert found
-    """
-
-    # shortest path
-    shortest_path = client.traversal.shortest_path(entities=[entity.id, ubo_id])
-    assert len(shortest_path.data[0].path) > 0
-
-# TODO: figure out good test for watchlist traversal
-
 
 @pytest.mark.repeat(repeats)
 def test_entity_pagination(setup_connection):
