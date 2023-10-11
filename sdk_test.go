@@ -10,7 +10,6 @@ import (
 	"time"
 
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
-	"github.com/sayari-analytics/sayari-go/generated/go/client"
 	"github.com/sayari-analytics/sayari-go/sdk"
 
 	"github.com/joho/godotenv"
@@ -23,7 +22,7 @@ func TestMain(m *testing.M) {
 	os.Exit(exitVal)
 }
 
-var api *client.Client
+var api *sdk.Connection
 
 func setup() {
 	// load ENV file if ENV vars are not set
@@ -232,7 +231,7 @@ func TestEntityPagination(t *testing.T) {
 	assert.Nil(t, err)
 
 	// Do paginated query
-	allEntities, err := sdk.GetAllEntitySearchResults(context.Background(), api, &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(5)})
+	allEntities, err := api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(5)})
 	assert.Nil(t, err)
 	assert.Equal(t, len(allEntities), info.Size.Count)
 
@@ -240,7 +239,7 @@ func TestEntityPagination(t *testing.T) {
 	searchTerm = "David John Smith"
 	info, err = api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
 	assert.Nil(t, err)
-	allEntities, err = sdk.GetAllEntitySearchResults(context.Background(), api, &sayari.SearchEntity{Q: searchTerm})
+	allEntities, err = api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm})
 	assert.Nil(t, err)
 	assert.Equal(t, len(allEntities), info.Size.Count)
 }
@@ -251,7 +250,7 @@ func TestRecordPagination(t *testing.T) {
 	assert.Nil(t, err)
 
 	// Do paginated query
-	allEntities, err := sdk.GetAllRecordSearchResults(context.Background(), api, &sayari.SearchRecord{Q: searchTerm})
+	allEntities, err := api.GetAllRecordSearchResults(context.Background(), &sayari.SearchRecord{Q: searchTerm})
 	assert.Nil(t, err)
 	assert.Equal(t, len(allEntities), info.Size.Count)
 }
@@ -263,7 +262,7 @@ func TestTraversalPagination(t *testing.T) {
 	entity := entitySearchResults.Data[0]
 
 	// Do paginated query
-	allTraversals, err := sdk.GetAllTraversalResults(context.Background(), api, entity.Id, &sayari.Traversal{Limit: sdk.Int(1)})
+	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: sdk.Int(1)})
 	assert.Nil(t, err)
 	assert.Greater(t, len(allTraversals), 1)
 }
