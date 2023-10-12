@@ -2,15 +2,12 @@ package sayari_go
 
 import (
 	"context"
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
+	"github.com/sayari-analytics/sayari-go/sdk"
 	"log"
-	"math/rand"
 	"net/url"
 	"os"
 	"testing"
-	"time"
-
-	sayari "github.com/sayari-analytics/sayari-go/generated/go"
-	"github.com/sayari-analytics/sayari-go/sdk"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
@@ -48,7 +45,7 @@ func TestSources(t *testing.T) {
 
 func TestEntities(t *testing.T) {
 	// search for an entity with a random string
-	randomString := generateRandomString(3)
+	randomString := sdk.GenerateRandomString(3)
 
 	// query until we get results
 	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString})
@@ -114,7 +111,7 @@ func TestEntities(t *testing.T) {
 
 func TestResolution(t *testing.T) {
 	// resolve entity with random string
-	randomString := generateRandomString(3)
+	randomString := sdk.GenerateRandomString(3)
 
 	// query until we get results
 	resolution, err := api.Resolution.Resolution(context.Background(), &sayari.Resolution{Name: []*string{&randomString}})
@@ -133,7 +130,7 @@ func TestResolution(t *testing.T) {
 
 func TestRecords(t *testing.T) {
 	// resolve entity with random string
-	randomString := generateRandomString(3)
+	randomString := sdk.GenerateRandomString(3)
 
 	// query until we get results
 	recordSearchResults, err := api.Search.SearchRecord(context.Background(), &sayari.SearchRecord{Q: randomString})
@@ -163,7 +160,7 @@ func TestRecords(t *testing.T) {
 
 func TestOwnershipTraversal(t *testing.T) {
 	// resolve entity with random string
-	randomString := generateRandomString(3)
+	randomString := sdk.GenerateRandomString(3)
 
 	// query until we get results
 	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString})
@@ -265,16 +262,4 @@ func TestTraversalPagination(t *testing.T) {
 	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: sdk.Int(1)})
 	assert.Nil(t, err)
 	assert.Greater(t, len(allTraversals), 1)
-}
-
-const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
-var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
-
-func generateRandomString(length int) string {
-	b := make([]byte, length)
-	for i := range b {
-		b[i] = charset[seededRand.Intn(len(charset))]
-	}
-	return string(b)
 }
