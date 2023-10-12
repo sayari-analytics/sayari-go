@@ -4638,9 +4638,9 @@ type EntityDetails struct {
 type EntityId = string
 
 type Identifier struct {
-	Value string         `json:"value"`
-	Type  IdentifierType `json:"type,omitempty"`
-	Label string         `json:"label"`
+	Value string `json:"value"`
+	Type  string `json:"type"`
+	Label string `json:"label"`
 }
 
 type PaginatedResponse struct {
@@ -4900,7 +4900,7 @@ type Relationships struct {
 	Data  []*RelationshipData `json:"data,omitempty"`
 }
 
-type Risk = map[Tag]*RiskInfo
+type Risk = map[string]*RiskInfo
 
 type RiskInfo struct {
 	Value    interface{}            `json:"value,omitempty"`
