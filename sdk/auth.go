@@ -6,6 +6,7 @@ import (
 	"github.com/sayari-analytics/sayari-go/generated/go/auth"
 	"github.com/sayari-analytics/sayari-go/generated/go/client"
 	"log"
+	"net/http"
 	"time"
 )
 
@@ -15,6 +16,8 @@ type Connection struct {
 	secret string
 }
 
+var sdkHeader = http.Header{"client": {"sayari-go"}}
+
 func Connect(id, secret string) (*Connection, error) {
 	// Connect to auth endpoint and get a token
 	results, err := getToken(id, secret)
@@ -23,7 +26,7 @@ func Connect(id, secret string) (*Connection, error) {
 	}
 
 	connection := &Connection{
-		client.NewClient(client.WithAuthToken(results.AccessToken)),
+		client.NewClient(client.WithAuthToken(results.AccessToken), client.WithHTTPHeader(sdkHeader)),
 		id,
 		secret,
 	}
@@ -57,7 +60,7 @@ func (c *Connection) maintainToken(expiresIn int) {
 }
 
 func getToken(id, secret string) (*generatedgo.AccessToken, error) {
-	authClient := auth.NewClient()
+	authClient := auth.NewClient(client.WithHTTPHeader(sdkHeader))
 	return authClient.GetToken(context.Background(), &generatedgo.GetToken{
 		ClientId:     id,
 		ClientSecret: secret,
