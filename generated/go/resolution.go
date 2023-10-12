@@ -2,10 +2,6 @@
 
 package api
 
-import (
-	fmt "fmt"
-)
-
 type Resolution struct {
 	// Entity name
 	Name []*string `json:"-"`
@@ -21,58 +17,6 @@ type Resolution struct {
 	Contact []*string `json:"-"`
 	// Entity type. If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
 	Type []*Entities `json:"-"`
-}
-
-type Entities string
-
-const (
-	EntitiesVessel               Entities = "vessel"
-	EntitiesTradename            Entities = "tradename"
-	EntitiesIntellectualProperty Entities = "intellectual_property"
-	EntitiesPerson               Entities = "person"
-	EntitiesShipment             Entities = "shipment"
-	EntitiesGeneric              Entities = "generic"
-	EntitiesProperty             Entities = "property"
-	EntitiesCompany              Entities = "company"
-	EntitiesAircraft             Entities = "aircraft"
-	EntitiesLegalMatter          Entities = "legal_matter"
-	EntitiesSecurity             Entities = "security"
-	EntitiesUnknown              Entities = "unknown"
-)
-
-func NewEntitiesFromString(s string) (Entities, error) {
-	switch s {
-	case "vessel":
-		return EntitiesVessel, nil
-	case "tradename":
-		return EntitiesTradename, nil
-	case "intellectual_property":
-		return EntitiesIntellectualProperty, nil
-	case "person":
-		return EntitiesPerson, nil
-	case "shipment":
-		return EntitiesShipment, nil
-	case "generic":
-		return EntitiesGeneric, nil
-	case "property":
-		return EntitiesProperty, nil
-	case "company":
-		return EntitiesCompany, nil
-	case "aircraft":
-		return EntitiesAircraft, nil
-	case "legal_matter":
-		return EntitiesLegalMatter, nil
-	case "security":
-		return EntitiesSecurity, nil
-	case "unknown":
-		return EntitiesUnknown, nil
-	}
-	var t Entities
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (e Entities) Ptr() *Entities {
-	return &e
 }
 
 type ResolutionResponse struct {
