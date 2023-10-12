@@ -58,7 +58,7 @@ func (c *Connection) maintainToken(expiresIn int) {
 	c.maintainToken(results.ExpiresIn)
 }
 
-func getToken(id, secret string) (*generatedgo.AccessToken, error) {
+func getToken(id, secret string) (*generatedgo.AuthResponse, error) {
 	authClient := auth.NewClient(client.WithHeaderClient(clientHeader))
 	return authClient.GetToken(context.Background(), &generatedgo.GetToken{
 		ClientId:     id,

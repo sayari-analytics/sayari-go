@@ -9,6 +9,9 @@ type ListSources struct {
 	Offset *int `json:"-"`
 }
 
+// The unique identifier for a source in the database
+type SourceId = string
+
 type Source struct {
 	Id          string  `json:"id"`
 	Label       string  `json:"label"`
@@ -23,8 +26,6 @@ type Source struct {
 	Pep         bool    `json:"pep"`
 	Watchlist   bool    `json:"watchlist"`
 }
-
-type SourceId = string
 
 type SourceList struct {
 	Limit  int       `json:"limit"`

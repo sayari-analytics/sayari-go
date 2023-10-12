@@ -14,9 +14,9 @@ type SearchEntity struct {
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter map[FilterKey][]string `json:"filter,omitempty"`
+	Filter *FilterMap `json:"filter,omitempty"`
 	// Record or entity fields to search against.
-	Fields []string `json:"fields,omitempty"`
+	Fields []SearchField `json:"fields,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
 	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
@@ -33,9 +33,9 @@ type SearchRecord struct {
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter map[FilterKey][]string `json:"filter,omitempty"`
+	Filter *FilterMap `json:"filter,omitempty"`
 	// Record or entity fields to search against.
-	Fields []string `json:"fields,omitempty"`
+	Fields []SearchField `json:"fields,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
 	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
@@ -52,41 +52,14 @@ type EntitySearchResults struct {
 	Data   []*EntityDetails `json:"data,omitempty"`
 }
 
-type FilterKey string
-
-const (
-	FilterKeySource     FilterKey = "source"
-	FilterKeyCountry    FilterKey = "country"
-	FilterKeyState      FilterKey = "state"
-	FilterKeyCity       FilterKey = "city"
-	FilterKeyEntityType FilterKey = "entity_type"
-	FilterKeyBounds     FilterKey = "bounds"
-	FilterKeyRisk       FilterKey = "risk"
-)
-
-func NewFilterKeyFromString(s string) (FilterKey, error) {
-	switch s {
-	case "source":
-		return FilterKeySource, nil
-	case "country":
-		return FilterKeyCountry, nil
-	case "state":
-		return FilterKeyState, nil
-	case "city":
-		return FilterKeyCity, nil
-	case "entity_type":
-		return FilterKeyEntityType, nil
-	case "bounds":
-		return FilterKeyBounds, nil
-	case "risk":
-		return FilterKeyRisk, nil
-	}
-	var t FilterKey
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (f FilterKey) Ptr() *FilterKey {
-	return &f
+type FilterMap struct {
+	Source     []SourceId `json:"source,omitempty"`
+	Country    []Country  `json:"country,omitempty"`
+	State      []string   `json:"state,omitempty"`
+	City       []string   `json:"city,omitempty"`
+	EntityType []Entities `json:"entity_type,omitempty"`
+	Bounds     []string   `json:"bounds,omitempty"`
+	Risk       []Tag      `json:"risk,omitempty"`
 }
 
 type RecordSearchResults struct {
@@ -95,4 +68,38 @@ type RecordSearchResults struct {
 	Offset int              `json:"offset"`
 	Next   bool             `json:"next"`
 	Data   []*RecordDetails `json:"data,omitempty"`
+}
+
+type SearchField string
+
+const (
+	SearchFieldName            SearchField = "name"
+	SearchFieldIdentifier      SearchField = "identifier"
+	SearchFieldAddress         SearchField = "address"
+	SearchFieldBusinessPurpose SearchField = "business_purpose"
+	SearchFieldDateOfBirth     SearchField = "date_of_birth"
+	SearchFieldContact         SearchField = "contact"
+)
+
+func NewSearchFieldFromString(s string) (SearchField, error) {
+	switch s {
+	case "name":
+		return SearchFieldName, nil
+	case "identifier":
+		return SearchFieldIdentifier, nil
+	case "address":
+		return SearchFieldAddress, nil
+	case "business_purpose":
+		return SearchFieldBusinessPurpose, nil
+	case "date_of_birth":
+		return SearchFieldDateOfBirth, nil
+	case "contact":
+		return SearchFieldContact, nil
+	}
+	var t SearchField
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SearchField) Ptr() *SearchField {
+	return &s
 }

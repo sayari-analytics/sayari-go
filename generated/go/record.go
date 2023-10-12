@@ -8,6 +8,3 @@ type GetRecord struct {
 	// Number of references to skip before returning response. Defaults to 0.
 	ReferencesOffset *int `json:"-"`
 }
-
-// The unique identifier for a record in the database (must be URL encoded)
-type RecordId = string

@@ -32,7 +32,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 }
 
 // Hit the auth endpoint to get a bearer token
-func (c *Client) GetToken(ctx context.Context, request *generatedgo.GetToken) (*generatedgo.AccessToken, error) {
+func (c *Client) GetToken(ctx context.Context, request *generatedgo.GetToken) (*generatedgo.AuthResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -58,7 +58,7 @@ func (c *Client) GetToken(ctx context.Context, request *generatedgo.GetToken) (*
 		return apiError
 	}
 
-	var response *generatedgo.AccessToken
+	var response *generatedgo.AuthResponse
 	if err := core.DoRequest(
 		ctx,
 		c.httpClient,

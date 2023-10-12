@@ -6,6 +6,15 @@ import (
 	fmt "fmt"
 )
 
+// The bearer token you will pass in to subsequent API calls to authenticate.
+type AccessToken = string
+
+// Tells you how long (in seconds) until your bearer token expires.
+type ExpiresIn = int
+
+// Will always be "Bearer"
+type TokenType = string
+
 type AddressType string
 
 const (
@@ -1692,58 +1701,6 @@ func NewCurrencyFromString(s string) (Currency, error) {
 
 func (c Currency) Ptr() *Currency {
 	return &c
-}
-
-type Entities string
-
-const (
-	EntitiesVessel               Entities = "vessel"
-	EntitiesTradename            Entities = "tradename"
-	EntitiesIntellectualProperty Entities = "intellectual_property"
-	EntitiesPerson               Entities = "person"
-	EntitiesShipment             Entities = "shipment"
-	EntitiesGeneric              Entities = "generic"
-	EntitiesProperty             Entities = "property"
-	EntitiesCompany              Entities = "company"
-	EntitiesAircraft             Entities = "aircraft"
-	EntitiesLegalMatter          Entities = "legal_matter"
-	EntitiesSecurity             Entities = "security"
-	EntitiesUnknown              Entities = "unknown"
-)
-
-func NewEntitiesFromString(s string) (Entities, error) {
-	switch s {
-	case "vessel":
-		return EntitiesVessel, nil
-	case "tradename":
-		return EntitiesTradename, nil
-	case "intellectual_property":
-		return EntitiesIntellectualProperty, nil
-	case "person":
-		return EntitiesPerson, nil
-	case "shipment":
-		return EntitiesShipment, nil
-	case "generic":
-		return EntitiesGeneric, nil
-	case "property":
-		return EntitiesProperty, nil
-	case "company":
-		return EntitiesCompany, nil
-	case "aircraft":
-		return EntitiesAircraft, nil
-	case "legal_matter":
-		return EntitiesLegalMatter, nil
-	case "security":
-		return EntitiesSecurity, nil
-	case "unknown":
-		return EntitiesUnknown, nil
-	}
-	var t Entities
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (e Entities) Ptr() *Entities {
-	return &e
 }
 
 type FinanceType string
@@ -4723,6 +4680,9 @@ type RecordDetails struct {
 	SourceUrl       *string             `json:"source_url,omitempty"`
 	Matches         map[string][]string `json:"matches,omitempty"`
 }
+
+// The unique identifier for a record in the database (must be URL encoded)
+type RecordId = string
 
 type ReferencedBy struct {
 	Limit int                 `json:"limit"`

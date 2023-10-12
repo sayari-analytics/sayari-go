@@ -3,14 +3,26 @@
 package api
 
 type GetToken struct {
-	ClientId     string `json:"client_id"`
-	ClientSecret string `json:"client_secret"`
-	Audience     string `json:"audience"`
-	GrantType    string `json:"grant_type"`
+	ClientId     ClientId     `json:"client_id"`
+	ClientSecret ClientSecret `json:"client_secret"`
+	Audience     Audience     `json:"audience"`
+	GrantType    GrantType    `json:"grant_type"`
 }
 
-type AccessToken struct {
-	AccessToken string `json:"access_token"`
-	ExpiresIn   int    `json:"expires_in"`
-	TokenType   string `json:"token_type"`
+type AuthResponse struct {
+	AccessToken AccessToken `json:"access_token"`
+	ExpiresIn   ExpiresIn   `json:"expires_in"`
+	TokenType   TokenType   `json:"token_type"`
 }
+
+// Will always be "sayari.com"
+type Audience = string
+
+// The client ID you use to authenticate against the Sayari API.
+type ClientId = string
+
+// The client Secret you use to authenticate against the Sayari API.
+type ClientSecret = string
+
+// Will always be "client_credentials"
+type GrantType = string
