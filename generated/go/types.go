@@ -4597,6 +4597,12 @@ type ResolutionResult struct {
 	Explanation    map[string][]*MatchExplanation `json:"explanation,omitempty"`
 }
 
+type ErrorBody struct {
+	Status  int      `json:"status"`
+	Message []string `json:"message,omitempty"`
+	Success bool     `json:"success"`
+}
+
 type AttributeData struct {
 	Properties  *Properties `json:"properties,omitempty"`
 	Record      []string    `json:"record,omitempty"`

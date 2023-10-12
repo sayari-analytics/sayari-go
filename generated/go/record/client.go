@@ -61,7 +61,14 @@ func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
 		case 404:
-			value := new(generatedgo.NotFoundError)
+			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RatLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

@@ -3,10 +3,14 @@
 package traversal
 
 import (
+	bytes "bytes"
 	context "context"
+	json "encoding/json"
+	errors "errors"
 	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	io "io"
 	http "net/http"
 	url "net/url"
 )
@@ -123,6 +127,32 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 		endpointURL += "?" + queryParams.Encode()
 	}
 
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 404:
+			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RatLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
 	var response *generatedgo.TraversalResponse
 	if err := core.DoRequest(
 		ctx,
@@ -133,7 +163,7 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 		&response,
 		false,
 		c.header,
-		nil,
+		errorDecoder,
 	); err != nil {
 		return response, err
 	}
@@ -148,6 +178,32 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId) (*generatedgo
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/ubo/%v", id)
 
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 404:
+			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RatLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
 	var response *generatedgo.TraversalResponse
 	if err := core.DoRequest(
 		ctx,
@@ -158,7 +214,7 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId) (*generatedgo
 		&response,
 		false,
 		c.header,
-		nil,
+		errorDecoder,
 	); err != nil {
 		return response, err
 	}
@@ -173,6 +229,32 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId) (*gener
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/downstream/%v", id)
 
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 404:
+			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RatLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
 	var response *generatedgo.TraversalResponse
 	if err := core.DoRequest(
 		ctx,
@@ -183,7 +265,7 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId) (*gener
 		&response,
 		false,
 		c.header,
-		nil,
+		errorDecoder,
 	); err != nil {
 		return response, err
 	}
@@ -198,6 +280,32 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId) (*gener
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/watchlist/%v", id)
 
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 404:
+			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RatLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
 	var response *generatedgo.TraversalResponse
 	if err := core.DoRequest(
 		ctx,
@@ -208,7 +316,7 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId) (*gener
 		&response,
 		false,
 		c.header,
-		nil,
+		errorDecoder,
 	); err != nil {
 		return response, err
 	}
@@ -231,6 +339,32 @@ func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.Shortest
 		endpointURL += "?" + queryParams.Encode()
 	}
 
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 404:
+			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RatLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
 	var response *generatedgo.ShortestPathResponse
 	if err := core.DoRequest(
 		ctx,
@@ -241,7 +375,7 @@ func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.Shortest
 		&response,
 		false,
 		c.header,
-		nil,
+		errorDecoder,
 	); err != nil {
 		return response, err
 	}

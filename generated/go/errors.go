@@ -3,6 +3,7 @@
 package api
 
 import (
+	json "encoding/json"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
@@ -19,15 +20,50 @@ func (u *Unauthorized) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-type NotFoundError struct {
+// Not Found
+type NotFound struct {
 	*core.APIError
+	Body *ErrorBody
 }
 
-func (n *NotFoundError) UnmarshalJSON(data []byte) error {
+func (n *NotFound) UnmarshalJSON(data []byte) error {
+	var body *ErrorBody
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
 	n.StatusCode = 404
+	n.Body = body
 	return nil
 }
 
-func (n *NotFoundError) MarshalJSON() ([]byte, error) {
-	return nil, nil
+func (n *NotFound) MarshalJSON() ([]byte, error) {
+	return json.Marshal(n.Body)
+}
+
+func (n *NotFound) Unwrap() error {
+	return n.APIError
+}
+
+// Rate limit exceeded
+type RatLimitExceeded struct {
+	*core.APIError
+	Body *ErrorBody
+}
+
+func (r *RatLimitExceeded) UnmarshalJSON(data []byte) error {
+	var body *ErrorBody
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	r.StatusCode = 429
+	r.Body = body
+	return nil
+}
+
+func (r *RatLimitExceeded) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.Body)
+}
+
+func (r *RatLimitExceeded) Unwrap() error {
+	return r.APIError
 }

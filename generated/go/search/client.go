@@ -3,10 +3,14 @@
 package search
 
 import (
+	bytes "bytes"
 	context "context"
+	json "encoding/json"
+	errors "errors"
 	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	io "io"
 	http "net/http"
 	url "net/url"
 )
@@ -48,6 +52,32 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 		endpointURL += "?" + queryParams.Encode()
 	}
 
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 404:
+			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RatLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
 	var response *generatedgo.EntitySearchResults
 	if err := core.DoRequest(
 		ctx,
@@ -58,7 +88,7 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 		&response,
 		false,
 		c.header,
-		nil,
+		errorDecoder,
 	); err != nil {
 		return response, err
 	}
@@ -84,6 +114,32 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 		endpointURL += "?" + queryParams.Encode()
 	}
 
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 404:
+			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RatLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
 	var response *generatedgo.RecordSearchResults
 	if err := core.DoRequest(
 		ctx,
@@ -94,7 +150,7 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 		&response,
 		false,
 		c.header,
-		nil,
+		errorDecoder,
 	); err != nil {
 		return response, err
 	}
