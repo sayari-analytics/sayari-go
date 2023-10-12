@@ -74,6 +74,13 @@ func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSourc
 				return apiError
 			}
 			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		}
 		return apiError
 	}
@@ -120,6 +127,13 @@ func (c *Client) GetSource(ctx context.Context, id generatedgo.SourceId) (*gener
 			return value
 		case 429:
 			value := new(generatedgo.RatLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

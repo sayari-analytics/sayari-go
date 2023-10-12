@@ -74,6 +74,13 @@ func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request
 				return apiError
 			}
 			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		}
 		return apiError
 	}

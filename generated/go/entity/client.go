@@ -149,6 +149,13 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 				return apiError
 			}
 			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		}
 		return apiError
 	}
@@ -195,6 +202,13 @@ func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*g
 			return value
 		case 429:
 			value := new(generatedgo.RatLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

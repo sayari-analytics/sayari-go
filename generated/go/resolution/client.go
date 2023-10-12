@@ -89,6 +89,13 @@ func (c *Client) Resolution(ctx context.Context, request *generatedgo.Resolution
 				return apiError
 			}
 			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		}
 		return apiError
 	}

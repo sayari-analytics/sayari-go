@@ -4603,6 +4603,11 @@ type ErrorBody struct {
 	Success bool     `json:"success"`
 }
 
+type UnauthorizedError struct {
+	Error            string `json:"error"`
+	ErrorDescription string `json:"error_description"`
+}
+
 type AttributeData struct {
 	Properties  *Properties `json:"properties,omitempty"`
 	Record      []string    `json:"record,omitempty"`
