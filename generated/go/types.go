@@ -4530,13 +4530,13 @@ type MatchExplanation struct {
 }
 
 type ResolutionResponseFields struct {
-	Name        []string `json:"name,omitempty"`
-	Identifier  []string `json:"identifier,omitempty"`
-	Country     []string `json:"country,omitempty"`
-	Address     []string `json:"address,omitempty"`
-	DateOfBirth []string `json:"date_of_birth,omitempty"`
-	Contact     []string `json:"contact,omitempty"`
-	Type        []string `json:"type,omitempty"`
+	Name        []string   `json:"name,omitempty"`
+	Identifier  []string   `json:"identifier,omitempty"`
+	Country     []Country  `json:"country,omitempty"`
+	Address     []string   `json:"address,omitempty"`
+	DateOfBirth []string   `json:"date_of_birth,omitempty"`
+	Contact     []string   `json:"contact,omitempty"`
+	Type        []Entities `json:"type,omitempty"`
 }
 
 type ResolutionResult struct {
@@ -4547,7 +4547,7 @@ type ResolutionResult struct {
 	Identifiers    []*Identifier                  `json:"identifiers,omitempty"`
 	PsaId          *int                           `json:"psa_id,omitempty"`
 	Addresses      []string                       `json:"addresses,omitempty"`
-	Countries      []string                       `json:"countries,omitempty"`
+	Countries      []Country                      `json:"countries,omitempty"`
 	Sources        []string                       `json:"sources,omitempty"`
 	MatchedQueries []string                       `json:"matched_queries,omitempty"`
 	Highlight      map[string][]string            `json:"highlight,omitempty"`
@@ -4638,9 +4638,9 @@ type EntityDetails struct {
 type EntityId = string
 
 type Identifier struct {
-	Value string `json:"value"`
-	Type  string `json:"type"`
-	Label string `json:"label"`
+	Value string         `json:"value"`
+	Type  IdentifierType `json:"type,omitempty"`
+	Label string         `json:"label"`
 }
 
 type PaginatedResponse struct {
@@ -4670,9 +4670,9 @@ type Properties struct {
 }
 
 type RecordDetails struct {
-	Id              string              `json:"id"`
+	Id              RecordId            `json:"id"`
 	Label           string              `json:"label"`
-	Source          string              `json:"source"`
+	Source          SourceId            `json:"source"`
 	PublicationDate *string             `json:"publication_date,omitempty"`
 	AcquisitionDate string              `json:"acquisition_date"`
 	ReferencesCount int                 `json:"references_count"`
@@ -4681,7 +4681,7 @@ type RecordDetails struct {
 	Matches         map[string][]string `json:"matches,omitempty"`
 }
 
-// The unique identifier for a record in the database (must be URL encoded)
+// The unique identifier for a record in the database
 type RecordId = string
 
 type ReferencedBy struct {
@@ -4900,12 +4900,40 @@ type Relationships struct {
 	Data  []*RelationshipData `json:"data,omitempty"`
 }
 
-type Risk = map[string]*RiskInfo
+type Risk = map[Tag]*RiskInfo
 
 type RiskInfo struct {
 	Value    interface{}            `json:"value,omitempty"`
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
-	Level    string                 `json:"level"`
+	Level    RiskLevel              `json:"level,omitempty"`
+}
+
+type RiskLevel string
+
+const (
+	RiskLevelCritical RiskLevel = "critical"
+	RiskLevelHigh     RiskLevel = "high"
+	RiskLevelElevated RiskLevel = "elevated"
+	RiskLevelRelevant RiskLevel = "relevant"
+)
+
+func NewRiskLevelFromString(s string) (RiskLevel, error) {
+	switch s {
+	case "critical":
+		return RiskLevelCritical, nil
+	case "high":
+		return RiskLevelHigh, nil
+	case "elevated":
+		return RiskLevelElevated, nil
+	case "relevant":
+		return RiskLevelRelevant, nil
+	}
+	var t RiskLevel
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r RiskLevel) Ptr() *RiskLevel {
+	return &r
 }
 
 type SourceCount = map[string]*SourceCountInfo

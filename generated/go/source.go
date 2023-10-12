@@ -16,7 +16,7 @@ type Source struct {
 	Id          string  `json:"id"`
 	Label       string  `json:"label"`
 	Description string  `json:"description"`
-	Country     string  `json:"country"`
+	Country     Country `json:"country,omitempty"`
 	Region      string  `json:"region"`
 	DateAdded   string  `json:"date_added"`
 	SourceType  string  `json:"source_type"`
