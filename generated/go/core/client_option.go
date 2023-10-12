@@ -3,6 +3,7 @@
 package core
 
 import (
+	fmt "fmt"
 	http "net/http"
 )
 
@@ -17,6 +18,7 @@ type ClientOptions struct {
 	HTTPClient HTTPClient
 	HTTPHeader http.Header
 	Token      string
+	Client     string
 }
 
 // NewClientOptions returns a new *ClientOptions value.
@@ -36,6 +38,7 @@ func (c *ClientOptions) ToHeader() http.Header {
 	if c.Token != "" {
 		header.Set("Authorization", "Bearer "+c.Token)
 	}
+	header.Set("client", fmt.Sprintf("%v", c.Client))
 	return header
 }
 

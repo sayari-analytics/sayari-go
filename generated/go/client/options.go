@@ -37,3 +37,10 @@ func WithAuthToken(token string) core.ClientOption {
 		opts.Token = token
 	}
 }
+
+// WithHeaderClient sets the client header on every request.
+func WithHeaderClient(client string) core.ClientOption {
+	return func(opts *core.ClientOptions) {
+		opts.Client = client
+	}
+}
