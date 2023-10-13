@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
+	"math"
 	"net/http"
 	"strconv"
 	"time"
@@ -114,17 +114,32 @@ func DoRequest(
 		return err
 	}
 
-	// Handle rate limiting
+	// If we get a 429 (Too many requests) response code, lets wait and try again
 	if resp.StatusCode == 429 {
+		// Ideally we will have a "Retry-After" header to tell us how long to wait
 		sleepTimeStr := resp.Header.Get("Retry-After")
-		log.Printf("Hit rate limit. Retrying in %v seconds", sleepTimeStr)
-		sleepTime, err := strconv.Atoi(sleepTimeStr)
-		if err == nil {
-			time.Sleep(time.Duration(sleepTime) * time.Second)
-			return DoRequest(ctx, client, url, method, request, response, responseIsOptional, endpointHeaders, errorDecoder)
+		var sleepTime int
+		if sleepTimeStr != "" {
+			sleepTime, err = strconv.Atoi(sleepTimeStr)
+			if err != nil {
+				return fmt.Errorf("found a 'Retry-After' header and atttempted to parse it to an integer but failed. err: %v", err)
+			}
+		} else {
+			// Without a header we will just do an exponential backoff
+			attemptCount := ctx.Value("attempts").(int)
+			// Give up after 5 attempts
+			if attemptCount > 5 {
+				goto handleResponse
+			}
+			attemptCount++
+			sleepTime = int(math.Pow(2, float64(attemptCount)))
+			ctx = context.WithValue(ctx, "attempts", attemptCount)
 		}
+		time.Sleep(time.Duration(sleepTime) * time.Second)
+		return DoRequest(ctx, client, url, method, request, response, responseIsOptional, endpointHeaders, errorDecoder)
 	}
 
+handleResponse:
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		if errorDecoder != nil {
 			// This endpoint has custom errors, so we'll
