@@ -50,10 +50,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: test examples (not rate limiting)
-        #FIXME: add screen once csv is checked in
         run: |
           go run examples/smoke-test/smoke-test.go
-      
+          go run examples/screening/screening.go  
+  
 
   #FIXME: add integration test to confirm it is working with the most up to date bindings
 
