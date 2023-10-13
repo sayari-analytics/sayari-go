@@ -7,7 +7,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 const (
@@ -109,6 +112,17 @@ func DoRequest(
 	// associated with the call and/or unmarshal the response data.
 	if err := ctx.Err(); err != nil {
 		return err
+	}
+
+	// Handle rate limiting
+	if resp.StatusCode == 429 {
+		sleepTimeStr := resp.Header.Get("Retry-After")
+		log.Printf("Hit rate limit. Retrying in %v seconds", sleepTimeStr)
+		sleepTime, err := strconv.Atoi(sleepTimeStr)
+		if err == nil {
+			time.Sleep(time.Duration(sleepTime) * time.Second)
+			return DoRequest(ctx, client, url, method, request, response, responseIsOptional, endpointHeaders, errorDecoder)
+		}
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {

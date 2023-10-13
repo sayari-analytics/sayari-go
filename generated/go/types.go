@@ -4606,13 +4606,13 @@ type ResolutionResult struct {
 	Explanation    map[string][]*MatchExplanation `json:"explanation,omitempty"`
 }
 
-type ErrorBody struct {
+type ErrorResponse struct {
 	Status  int      `json:"status"`
 	Message []string `json:"message,omitempty"`
 	Success bool     `json:"success"`
 }
 
-type UnauthorizedError struct {
+type UnauthorizedResponse struct {
 	Error            string `json:"error"`
 	ErrorDescription string `json:"error_description"`
 }

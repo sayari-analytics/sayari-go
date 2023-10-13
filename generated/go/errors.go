@@ -10,11 +10,11 @@ import (
 // Not Found
 type NotFound struct {
 	*core.APIError
-	Body *ErrorBody
+	Body *ErrorResponse
 }
 
 func (n *NotFound) UnmarshalJSON(data []byte) error {
-	var body *ErrorBody
+	var body *ErrorResponse
 	if err := json.Unmarshal(data, &body); err != nil {
 		return err
 	}
@@ -34,35 +34,25 @@ func (n *NotFound) Unwrap() error {
 // Rate limit exceeded
 type RatLimitExceeded struct {
 	*core.APIError
-	Body *ErrorBody
 }
 
 func (r *RatLimitExceeded) UnmarshalJSON(data []byte) error {
-	var body *ErrorBody
-	if err := json.Unmarshal(data, &body); err != nil {
-		return err
-	}
 	r.StatusCode = 429
-	r.Body = body
 	return nil
 }
 
 func (r *RatLimitExceeded) MarshalJSON() ([]byte, error) {
-	return json.Marshal(r.Body)
-}
-
-func (r *RatLimitExceeded) Unwrap() error {
-	return r.APIError
+	return nil, nil
 }
 
 // Unauthorized
 type Unauthorized struct {
 	*core.APIError
-	Body *UnauthorizedError
+	Body *UnauthorizedResponse
 }
 
 func (u *Unauthorized) UnmarshalJSON(data []byte) error {
-	var body *UnauthorizedError
+	var body *UnauthorizedResponse
 	if err := json.Unmarshal(data, &body); err != nil {
 		return err
 	}
