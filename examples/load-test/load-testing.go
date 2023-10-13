@@ -16,25 +16,22 @@ import (
 )
 
 func main() {
-	// This example is intended to provide a basic use case for the sayari go SDK
-
-	// Load ENV file
-	godotenv.Load()
-
-	// To connect you most provide your client ID and client secret. To avoid accidentally checking these into git,
-	// it is recommended to use ENV variables
-	clientID := os.Getenv("CLIENT_ID")
-	clientSecret := os.Getenv("CLIENT_SECRET")
-	if len(clientID) == 0 || len(clientSecret) == 0 {
-		log.Fatalln("Both client ID and client secret must be set")
+	// load ENV file if ENV vars are not set
+	if os.Getenv("CLIENT_ID") == "" || os.Getenv("CLIENT_SECRET") == "" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatalf("Failed to load .env file. Err: %v", err)
+		}
 	}
 
+	// NOTE: To connect you most provide your client ID and client secret. To avoid accidentally checking these into git,
+	// it is recommended to use ENV variables
+
 	// Create a client to auth against the API
-	client, err := sdk.Connect(clientID, clientSecret)
+	client, err := sdk.Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
-	log.Println("Connection successful")
 
 	numWorkers := 100
 	numRequests := 1000
