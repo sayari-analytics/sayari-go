@@ -26,7 +26,8 @@ var api *Connection
 func setup() {
 	// load ENV file if ENV vars are not set
 	if os.Getenv("CLIENT_ID") == "" || os.Getenv("CLIENT_SECRET") == "" {
-		godotenv.Load("../.env")
+		err := godotenv.Load("../.env")
+		log.Fatalf("Failed to load .env file. Err: %v", err)
 	}
 
 	// Create a client that is authed against the API
@@ -127,7 +128,6 @@ func TestResolution(t *testing.T) {
 	// do basic check on results
 	assert.Len(t, resolution.Fields.Name, 1)
 	assert.Equal(t, resolution.Fields.Name[0], randomString)
-
 }
 
 func TestRecords(t *testing.T) {
@@ -268,7 +268,7 @@ func TestTraversalPagination(t *testing.T) {
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+var seededRand = rand.New(rand.NewSource(time.Now().UnixNano())) //nolint: gosec
 
 func generateRandomString(length int) string {
 	b := make([]byte, length)
