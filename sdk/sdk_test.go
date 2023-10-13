@@ -27,7 +27,9 @@ func setup() {
 	// load ENV file if ENV vars are not set
 	if os.Getenv("CLIENT_ID") == "" || os.Getenv("CLIENT_SECRET") == "" {
 		err := godotenv.Load("../.env")
-		log.Fatalf("Failed to load .env file. Err: %v", err)
+		if err != nil {
+			log.Fatalf("Failed to load .env file. Err: %v", err)
+		}
 	}
 
 	// Create a client that is authed against the API
