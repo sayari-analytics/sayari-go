@@ -41,3 +41,7 @@ jobs:
       - name: test code
         run: |
           go test -v ./...
+
+  #FIXME: add integration test to confirm it is working with the most up to date bindings
+
+  #FIXME: add job to release on tag

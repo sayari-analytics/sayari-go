@@ -29,7 +29,7 @@ func setup() {
 		err := godotenv.Load("../.env")
 		log.Fatalf("Failed to load .env file. Err: %v", err)
 	}
-	
+
 	// Create a client that is authed against the API
 	var err error
 	api, err = Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
