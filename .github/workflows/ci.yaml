@@ -17,9 +17,6 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
       - uses: actions/checkout@v4
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
@@ -33,9 +30,6 @@ jobs:
       CLIENT_ID: ${{ secrets.CLIENT_ID }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
     steps:
-      - uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
       - uses: actions/checkout@v4
       - name: test code
         run: |
@@ -54,7 +48,7 @@ jobs:
           echo "Running smoke test"
           go run examples/smoke-test/smoke-test.go
           
-          echo "\nRunning screening test"
+          echo "Running screening test"
           go run examples/screening/screening.go  
   
 
