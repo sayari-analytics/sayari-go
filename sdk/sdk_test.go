@@ -30,6 +30,8 @@ func setup() {
 		log.Fatalf("Failed to load .env file. Err: %v", err)
 	}
 
+	log.Printf("Using client ID: %v", os.Getenv("CLIENT_ID"))
+
 	// Create a client that is authed against the API
 	var err error
 	api, err = Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
