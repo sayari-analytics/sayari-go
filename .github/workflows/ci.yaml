@@ -41,6 +41,20 @@ jobs:
         run: |
           go test -v ./...
 
+  run-examples:
+    name: Run examples (to look for regressions)
+    runs-on: ubuntu-latest
+    env:
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: test examples (not rate limiting)
+        #FIXME: add screen once csv is checked in
+        run: |
+          go run examples/smoke-test/smoke-test.go
+      
+
   #FIXME: add integration test to confirm it is working with the most up to date bindings
 
   #FIXME: add job to release on tag
