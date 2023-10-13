@@ -1,0 +1,40 @@
+name: Go SDK
+
+on:
+  pull_request:
+    branches:
+      - '**'
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      - uses: actions/checkout@v4
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          working-directory: sdk
+          args: -v --timeout 10m -E gofmt -E whitespace -E revive -E gosec
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      - uses: actions/checkout@v4
+      - name: test code
+        run: |
+          go test -v ./...
