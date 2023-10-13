@@ -50,7 +50,7 @@ func main() {
 	}(triggers)
 
 	// monitor and limit rate
-	fires := make(chan bool, 2)
+	fires := make(chan bool, 2*numWorkers)
 	go func(fires chan bool) {
 		ticker := time.NewTicker(time.Second)
 		var count int
