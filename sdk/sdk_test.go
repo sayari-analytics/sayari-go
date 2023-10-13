@@ -1,15 +1,15 @@
-package sayari_go
+package sdk
 
 import (
 	"context"
-	sayari "github.com/sayari-analytics/sayari-go/generated/go"
-	"github.com/sayari-analytics/sayari-go/sdk"
 	"log"
 	"math/rand"
 	"net/url"
 	"os"
 	"testing"
 	"time"
+
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
@@ -21,17 +21,17 @@ func TestMain(m *testing.M) {
 	os.Exit(exitVal)
 }
 
-var api *sdk.Connection
+var api *Connection
 
 func setup() {
 	// load ENV file if ENV vars are not set
 	if os.Getenv("CLIENT_ID") == "" || os.Getenv("CLIENT_SECRET") == "" {
-		godotenv.Load()
+		godotenv.Load("../.env")
 	}
 
 	// Create a client that is authed against the API
 	var err error
-	api, err = sdk.Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
+	api, err = Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
 	if err != nil {
 		log.Fatalf("Failed to connect. Err: %v", err)
 	}
@@ -261,7 +261,7 @@ func TestTraversalPagination(t *testing.T) {
 	entity := entitySearchResults.Data[0]
 
 	// Do paginated query
-	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: sdk.Int(1)})
+	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: Int(1)})
 	assert.Nil(t, err)
 	assert.Greater(t, len(allTraversals), 1)
 }

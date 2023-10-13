@@ -27,7 +27,7 @@ jobs:
           working-directory: sdk
           args: -v --timeout 10m -E gofmt -E whitespace -E revive -E gosec
 
-  test:
+  go-test:
     name: Test
     runs-on: ubuntu-latest
     env:
