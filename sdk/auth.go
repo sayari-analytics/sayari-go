@@ -2,11 +2,12 @@ package sdk
 
 import (
 	"context"
-	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
-	"github.com/sayari-analytics/sayari-go/generated/go/auth"
-	"github.com/sayari-analytics/sayari-go/generated/go/client"
 	"log"
 	"time"
+
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
+	"github.com/sayari-analytics/sayari-go/generated/go/auth"
+	"github.com/sayari-analytics/sayari-go/generated/go/client"
 )
 
 type Connection struct {
@@ -58,9 +59,9 @@ func (c *Connection) maintainToken(expiresIn int) {
 	c.maintainToken(results.ExpiresIn)
 }
 
-func getToken(id, secret string) (*generatedgo.AuthResponse, error) {
+func getToken(id, secret string) (*sayari.AuthResponse, error) {
 	authClient := auth.NewClient(client.WithHeaderClient(clientHeader))
-	return authClient.GetToken(context.Background(), &generatedgo.GetToken{
+	return authClient.GetToken(context.Background(), &sayari.GetToken{
 		ClientId:     id,
 		ClientSecret: secret,
 		Audience:     "sayari.com",

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 	"log"
+	"math/rand"
 	"os"
 	"sync"
 	"time"
@@ -86,9 +87,21 @@ func doWork(c *sdk.Connection, triggers chan bool, fires chan bool, wg *sync.Wai
 }
 
 func doRandomSearch(c *sdk.Connection) {
-	randomString := sdk.GenerateRandomString(3)
+	randomString := generateRandomString(3)
 	_, err := c.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString})
 	if err != nil {
 		log.Fatalf("Failed to search for string '%v'. Err: %v", randomString, err)
 	}
+}
+
+const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+func generateRandomString(length int) string {
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
 }
