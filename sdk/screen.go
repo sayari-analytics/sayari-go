@@ -37,7 +37,6 @@ var attributeFieldsMap = map[string]string{
 
 func screenCSV(ctx context.Context, c *Connection, attributeColMap map[string][]int, csvDataChan chan []string,
 	summaryChan chan sayari.EntityDetails, unresolvedChan chan []string, wg *sync.WaitGroup, errChan chan error) {
-
 	for row := range csvDataChan {
 		// Attempt to resolve each entity
 		entityID, err := resolveEntity(ctx, c, attributeColMap, row)
@@ -60,7 +59,6 @@ func screenCSV(ctx context.Context, c *Connection, attributeColMap map[string][]
 		summaryChan <- *entitySummary
 	}
 	wg.Done()
-	return
 }
 
 func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*sayari.EntityDetails, []*sayari.EntityDetails, [][]string, error) {
