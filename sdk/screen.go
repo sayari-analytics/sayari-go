@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sync"
 
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 )
@@ -34,6 +35,34 @@ var attributeFieldsMap = map[string]string{
 	Type:        "Must be from the enum set",
 }
 
+func screenCSV(ctx context.Context, c *Connection, attributeColMap map[string][]int, csvDataChan chan []string,
+	summaryChan chan sayari.EntityDetails, unresolvedChan chan []string, wg *sync.WaitGroup, errChan chan error) {
+
+	for row := range csvDataChan {
+		// Attempt to resolve each entity
+		entityID, err := resolveEntity(ctx, c, attributeColMap, row)
+		if err != nil {
+			// return if we have an error more serious than being unable to resolve
+			if err != ErrNoMatchFound {
+				errChan <- err
+				return
+			}
+			// track unresolved rows
+			unresolvedChan <- row
+			continue
+		}
+		// Get risks
+		entitySummary, err := c.Entity.EntitySummary(ctx, entityID)
+		if err != nil {
+			errChan <- err
+			return
+		}
+		summaryChan <- *entitySummary
+	}
+	wg.Done()
+	return
+}
+
 func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*sayari.EntityDetails, []*sayari.EntityDetails, [][]string, error) {
 	var riskyEntities []*sayari.EntityDetails
 	var nonRiskyEntities []*sayari.EntityDetails
@@ -48,44 +77,67 @@ func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*
 	// create a map of the columns to be able to look up which contains which attribute
 	attributeColMap := make(map[string][]int)
 
-	// Read through the rows of data
-	for i, row := range rows {
-		// Use the first row to map the columns
-		if i == 0 {
-			err = mapCSV(row, attributeColMap)
-			if err != nil {
-				return nil, nil, nil, err
+	// Set the number of workers. Do we want this to be adjustable? TODO: How do we want to handle rate limiting?
+	numWorkers := 10
+
+	// create channels to handle this work concurrently
+	csvDataChan := make(chan []string, numWorkers)
+	summaryChan := make(chan sayari.EntityDetails, numWorkers)
+	unresolvedChan := make(chan []string, numWorkers)
+	errChan := make(chan error)
+	var wg = sync.WaitGroup{}
+
+	// start workers
+	for i := 0; i < numWorkers; i++ {
+		wg.Add(1)
+		go screenCSV(ctx, c, attributeColMap, csvDataChan, summaryChan, unresolvedChan, &wg, errChan)
+	}
+
+	// send data to workers
+	go func() {
+		for i, row := range rows {
+			// Use the first row to map the columns
+			if i == 0 {
+				err = mapCSV(row, attributeColMap)
+				if err != nil {
+					errChan <- err
+				}
+				continue
 			}
-			continue
+
+			// Send row to workers
+			csvDataChan <- row
 		}
+		close(csvDataChan)
+	}()
 
-		//TODO: Introduce concurrency
+	// close all the channels once we are done
+	var done bool
+	go func() {
+		wg.Wait()
+		close(summaryChan)
+		close(unresolvedChan)
+		close(errChan)
+		done = true
+	}()
 
-		// Attempt to resolve each entity
-		entityID, err := resolveEntity(ctx, c, attributeColMap, row)
-		if err != nil {
-			// return if we have an error more serious than being unable to resolve
-			if err != ErrNoMatchFound {
-				return nil, nil, nil, err
+	// read results off the channels
+	for !done {
+		select {
+		case summary := <-summaryChan:
+			if len(summary.Risk) > 0 {
+				riskyEntities = append(riskyEntities, &summary)
+			} else {
+				nonRiskyEntities = append(nonRiskyEntities, &summary)
 			}
-			// track unresolved rows
-			unresolved = append(unresolved, row)
-			continue
-		}
-
-		// Get risks
-		entitySummary, err := c.Entity.EntitySummary(ctx, entityID)
-		if err != nil {
+		case unresolvedRow := <-unresolvedChan:
+			unresolved = append(unresolved, unresolvedRow)
+		case err = <-errChan:
 			return nil, nil, nil, err
 		}
-
-		if len(entitySummary.Risk) > 0 {
-			riskyEntities = append(riskyEntities, entitySummary)
-		} else {
-			nonRiskyEntities = append(nonRiskyEntities, entitySummary)
-		}
 	}
-	return riskyEntities, nonRiskyEntities, unresolved, err
+
+	return riskyEntities, nonRiskyEntities, unresolved, nil
 }
 
 func loadCSV(csvPath string) ([][]string, error) {
