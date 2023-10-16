@@ -33,7 +33,7 @@ func main() {
 		log.Fatalf("Error: %v", err)
 	}
 
-	numWorkers := 100
+	numWorkers := 30
 	numRequests := 1000
 	perSecondLimit := 100
 
