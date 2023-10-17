@@ -15,6 +15,7 @@ type Connection struct {
 	*client.Client
 	id     string
 	secret string
+	*core.RateLimiter
 }
 
 const clientHeader = "sayari-go"
@@ -35,6 +36,7 @@ func Connect(id, secret string) (*Connection, error) {
 		),
 		id,
 		secret,
+		rateLimter,
 	}
 
 	// Maintain the token
@@ -59,7 +61,13 @@ func (c *Connection) maintainToken(expiresIn int) {
 	}
 
 	// update client
-	c.Client = client.NewClient(client.WithAuthToken(results.AccessToken))
+	c.RateLimiter.Block()
+	c.Client = client.NewClient(
+		client.WithAuthToken(results.AccessToken),
+		client.WithHeaderClient(clientHeader),
+		client.WithRateLimiter(c.RateLimiter),
+	)
+	c.RateLimiter.UnBlock()
 
 	// recurse
 	c.maintainToken(results.ExpiresIn)
