@@ -7,11 +7,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
-	"math"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 const (
@@ -19,6 +16,17 @@ const (
 	contentType       = "application/json"
 	contentTypeHeader = "Content-Type"
 )
+
+var ErrRateLimited = errors.New("rate limit exceeded")
+
+type RateLimitErr struct {
+	Err        error
+	RetryAfter int
+}
+
+func (r *RateLimitErr) Error() string {
+	return fmt.Sprintf("please wait %d seconds: err %v", r.RetryAfter, r.Err)
+}
 
 // HTTPClient is an interface for a subset of the *http.Client.
 type HTTPClient interface {
@@ -115,39 +123,21 @@ func DoRequest(
 		return err
 	}
 
-	// If we get a 429 (Too many requests) response code, lets wait and try again
-	attemptLimit := 3
-	for resp.StatusCode == 429 {
-		// close the previous response body, the defer will catch whatever we are left with after looping
-		resp.Body.Close()
-
-		// Ideally we will have a "Retry-After" header to tell us how long to wait
-		sleepTimeStr := resp.Header.Get("Retry-After")
-		var sleepTime int
-		if sleepTimeStr != "" {
-			sleepTime, err = strconv.Atoi(sleepTimeStr)
-			if err != nil {
-				return fmt.Errorf("found a 'Retry-After' header and atttempted to parse it to an integer but failed. err: %v", err)
-			}
-		} else {
-			// Without a header we will just do an exponential backoff
-			attemptCount := ctx.Value("attempts").(int)
-			// Give up after 5 attempts
-			if attemptCount > attemptLimit {
-				break
-			}
-			attemptCount++
-			sleepTime = int(math.Pow(2, float64(attemptCount)))
-			ctx = context.WithValue(ctx, "attempts", attemptCount)
+	// Handle Sayari rate limiting
+	if resp.StatusCode == 429 {
+		err = ErrRateLimited
+		// default to 5 second delay if no response is provided
+		retryDelay := 5
+		retryDelayStr := resp.Header.Get("Retry-After")
+		if retryDelayStr != "" {
+			// get the num of sec to wait
+			retryDelay, err = strconv.Atoi(retryDelayStr)
+			// if this returns an error, that will replace the 'ErrRateLimited' and returned
 		}
-		log.Println("Waiting for rate limit to recover...")
-		time.Sleep(time.Duration(sleepTime) * time.Second)
-
-		// re-make the request
-		resp, err = client.Do(req)
-		if err != nil {
-			return err
-		}
+		return NewAPIError(resp.StatusCode, &RateLimitErr{
+			Err:        err,
+			RetryAfter: retryDelay,
+		})
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
