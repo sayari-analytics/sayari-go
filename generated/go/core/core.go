@@ -35,7 +35,7 @@ type APIError struct {
 }
 
 type RateLimiter struct {
-	mutext sync.Mutex
+	mutex sync.Mutex
 	// TODO: replace this with a wait until...
 	wait bool
 }
@@ -50,8 +50,8 @@ func (r *RateLimiter) Block() {
 		return
 	}
 
-	r.mutext.Lock()
-	defer r.mutext.Unlock()
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
 	r.wait = true
 }
 
@@ -61,21 +61,21 @@ func (r *RateLimiter) UnBlock() {
 		return
 	}
 
-	r.mutext.Lock()
-	defer r.mutext.Unlock()
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
 	r.wait = false
 }
 
 func (r *RateLimiter) Wait() {
 	if r != nil {
 		for {
-			r.mutext.Lock()
+			r.mutex.Lock()
 			if r.wait {
-				r.mutext.Unlock()
+				r.mutex.Unlock()
 				log.Println("Waiting for rate limit to reset")
 				time.Sleep(time.Second)
 			} else {
-				r.mutext.Unlock()
+				r.mutex.Unlock()
 				return
 			}
 		}
