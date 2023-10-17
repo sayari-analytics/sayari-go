@@ -26,6 +26,7 @@ type TestCase struct {
 	giveHeader             http.Header
 	giveErrorDecoder       ErrorDecoder
 	giveRequest            *Request
+	giveRateLimiter        *RateLimiter
 
 	// Client-side assertions.
 	wantResponse *Response
@@ -124,6 +125,7 @@ func TestDoRequest(t *testing.T) {
 				test.giveResponseIsOptional,
 				test.giveHeader,
 				test.giveErrorDecoder,
+				test.giveRateLimiter,
 			)
 			if test.wantError != nil {
 				assert.EqualError(t, err, test.wantError.Error())
