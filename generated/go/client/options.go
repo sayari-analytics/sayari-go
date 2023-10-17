@@ -44,3 +44,10 @@ func WithHeaderClient(client string) core.ClientOption {
 		opts.Client = client
 	}
 }
+
+// WithRateLimiter will provide a rate limiter for the client.
+func WithRateLimiter(rateLimiter *core.RateLimiter) core.ClientOption {
+	return func(opts *core.ClientOptions) {
+		opts.RateLimiter = rateLimiter
+	}
+}

@@ -7,8 +7,12 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
+	"math"
 	"net/http"
 	"strconv"
+	"sync"
+	"time"
 )
 
 const (
@@ -16,17 +20,6 @@ const (
 	contentType       = "application/json"
 	contentTypeHeader = "Content-Type"
 )
-
-var ErrRateLimited = errors.New("rate limit exceeded")
-
-type RateLimitErr struct {
-	Err        error
-	RetryAfter int
-}
-
-func (r *RateLimitErr) Error() string {
-	return fmt.Sprintf("please wait %d seconds: err %v", r.RetryAfter, r.Err)
-}
 
 // HTTPClient is an interface for a subset of the *http.Client.
 type HTTPClient interface {
@@ -39,6 +32,54 @@ type APIError struct {
 	err error
 
 	StatusCode int `json:"-"`
+}
+
+type RateLimiter struct {
+	mutext sync.Mutex
+	// TODO: replace this with a wait until...
+	wait bool
+}
+
+func NewRateLimiter() *RateLimiter {
+	return &RateLimiter{}
+}
+
+func (r *RateLimiter) Block() {
+	// return early if already blocked
+	if r == nil || r.wait {
+		return
+	}
+
+	r.mutext.Lock()
+	defer r.mutext.Unlock()
+	r.wait = true
+}
+
+func (r *RateLimiter) UnBlock() {
+	// return early if already unblocked
+	if r == nil || !r.wait {
+		return
+	}
+
+	r.mutext.Lock()
+	defer r.mutext.Unlock()
+	r.wait = false
+}
+
+func (r *RateLimiter) Wait() {
+	if r != nil {
+		for {
+			r.mutext.Lock()
+			if r.wait {
+				r.mutext.Unlock()
+				log.Println("Waiting for rate limit to reset")
+				time.Sleep(time.Second)
+			} else {
+				r.mutext.Unlock()
+				return
+			}
+		}
+	}
 }
 
 // NewAPIError constructs a new API error.
@@ -87,6 +128,7 @@ func DoRequest(
 	responseIsOptional bool,
 	endpointHeaders http.Header,
 	errorDecoder ErrorDecoder,
+	rateLimiter *RateLimiter,
 ) error {
 	var requestBody io.Reader
 	if request != nil {
@@ -100,6 +142,7 @@ func DoRequest(
 			requestBody = bytes.NewReader(requestBytes)
 		}
 	}
+
 	req, err := newRequest(ctx, url, method, endpointHeaders, requestBody)
 	if err != nil {
 		return err
@@ -109,6 +152,10 @@ func DoRequest(
 	if err := ctx.Err(); err != nil {
 		return err
 	}
+
+	// Wait for rate limiter if needed
+	rateLimiter.Wait()
+
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
@@ -123,22 +170,43 @@ func DoRequest(
 		return err
 	}
 
-	// Handle Sayari rate limiting
-	if resp.StatusCode == 429 {
-		err = ErrRateLimited
-		// default to 5 second delay if no response is provided
-		retryDelay := 5
-		retryDelayStr := resp.Header.Get("Retry-After")
-		if retryDelayStr != "" {
-			// get the num of sec to wait
-			retryDelay, err = strconv.Atoi(retryDelayStr)
-			// if this returns an error, that will replace the 'ErrRateLimited' and returned
+	// If we get a 429 (Too many requests) response code, lets wait and try again
+	attemptLimit := 3
+	var attemptCount int
+	for resp.StatusCode == 429 {
+		rateLimiter.Block()
+		// close the previous response body, the defer will catch whatever we are left with after looping
+		resp.Body.Close()
+
+		// Ideally we will have a "Retry-After" header to tell us how long to wait
+		sleepTimeStr := resp.Header.Get("Retry-After")
+		var sleepTime int
+		if sleepTimeStr != "" {
+			sleepTime, err = strconv.Atoi(sleepTimeStr)
+			if err != nil {
+				return fmt.Errorf("found a 'Retry-After' header and atttempted to parse it to an integer but failed. err: %v", err)
+			}
+		} else {
+			// Without a header we will just do an exponential backoff
+			if attemptCount > attemptLimit {
+				// Give up after we hit the attempt limit
+				break
+			}
+			attemptCount++
+			sleepTime = int(math.Pow(2, float64(attemptCount)))
 		}
-		return NewAPIError(resp.StatusCode, &RateLimitErr{
-			Err:        err,
-			RetryAfter: retryDelay,
-		})
+		log.Printf("Waiting %vs for rate limit to recover...", sleepTime)
+		time.Sleep(time.Duration(sleepTime) * time.Second)
+
+		// re-make the request
+		resp, err = client.Do(req)
+		if err != nil {
+			return err
+		}
 	}
+
+	// unblock the rate limiter
+	rateLimiter.UnBlock()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		if errorDecoder != nil {

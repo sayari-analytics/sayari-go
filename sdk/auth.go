@@ -2,6 +2,7 @@ package sdk
 
 import (
 	"context"
+	"github.com/sayari-analytics/sayari-go/generated/go/core"
 	"log"
 	"time"
 
@@ -25,8 +26,13 @@ func Connect(id, secret string) (*Connection, error) {
 		return nil, err
 	}
 
+	rateLimter := core.NewRateLimiter()
+
 	connection := &Connection{
-		client.NewClient(client.WithAuthToken(results.AccessToken), client.WithHeaderClient(clientHeader)),
+		client.NewClient(client.WithAuthToken(results.AccessToken),
+			client.WithHeaderClient(clientHeader),
+			client.WithRateLimiter(rateLimter),
+		),
 		id,
 		secret,
 	}

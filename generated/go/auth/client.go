@@ -14,9 +14,10 @@ import (
 )
 
 type Client struct {
-	baseURL    string
-	httpClient core.HTTPClient
-	header     http.Header
+	baseURL     string
+	httpClient  core.HTTPClient
+	header      http.Header
+	rateLimiter *core.RateLimiter
 }
 
 func NewClient(opts ...core.ClientOption) *Client {
@@ -25,9 +26,10 @@ func NewClient(opts ...core.ClientOption) *Client {
 		opt(options)
 	}
 	return &Client{
-		baseURL:    options.BaseURL,
-		httpClient: options.HTTPClient,
-		header:     options.ToHeader(),
+		baseURL:     options.BaseURL,
+		httpClient:  options.HTTPClient,
+		header:      options.ToHeader(),
+		rateLimiter: options.RateLimiter,
 	}
 }
 
@@ -69,6 +71,7 @@ func (c *Client) GetToken(ctx context.Context, request *generatedgo.GetToken) (*
 		false,
 		c.header,
 		errorDecoder,
+		c.rateLimiter,
 	); err != nil {
 		return response, err
 	}

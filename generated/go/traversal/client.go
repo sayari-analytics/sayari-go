@@ -16,9 +16,10 @@ import (
 )
 
 type Client struct {
-	baseURL    string
-	httpClient core.HTTPClient
-	header     http.Header
+	baseURL     string
+	httpClient  core.HTTPClient
+	header      http.Header
+	rateLimiter *core.RateLimiter
 }
 
 func NewClient(opts ...core.ClientOption) *Client {
@@ -26,10 +27,12 @@ func NewClient(opts ...core.ClientOption) *Client {
 	for _, opt := range opts {
 		opt(options)
 	}
+
 	return &Client{
-		baseURL:    options.BaseURL,
-		httpClient: options.HTTPClient,
-		header:     options.ToHeader(),
+		baseURL:     options.BaseURL,
+		httpClient:  options.HTTPClient,
+		header:      options.ToHeader(),
+		rateLimiter: options.RateLimiter,
 	}
 }
 
@@ -171,6 +174,7 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 		false,
 		c.header,
 		errorDecoder,
+		c.rateLimiter,
 	); err != nil {
 		return response, err
 	}
@@ -229,6 +233,7 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId) (*generatedgo
 		false,
 		c.header,
 		errorDecoder,
+		c.rateLimiter,
 	); err != nil {
 		return response, err
 	}
@@ -287,6 +292,7 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId) (*gener
 		false,
 		c.header,
 		errorDecoder,
+		c.rateLimiter,
 	); err != nil {
 		return response, err
 	}
@@ -345,6 +351,7 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId) (*gener
 		false,
 		c.header,
 		errorDecoder,
+		c.rateLimiter,
 	); err != nil {
 		return response, err
 	}
@@ -411,6 +418,7 @@ func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.Shortest
 		false,
 		c.header,
 		errorDecoder,
+		c.rateLimiter,
 	); err != nil {
 		return response, err
 	}

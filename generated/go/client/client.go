@@ -33,6 +33,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 	for _, opt := range opts {
 		opt(options)
 	}
+
 	return &Client{
 		baseURL:    options.BaseURL,
 		httpClient: options.HTTPClient,
