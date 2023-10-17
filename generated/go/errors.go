@@ -7,14 +7,13 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
-// Not Found
 type NotFound struct {
 	*core.APIError
-	Body *ErrorResponse
+	Body *NotFoundResponse
 }
 
 func (n *NotFound) UnmarshalJSON(data []byte) error {
-	var body *ErrorResponse
+	var body *NotFoundResponse
 	if err := json.Unmarshal(data, &body); err != nil {
 		return err
 	}
@@ -31,21 +30,19 @@ func (n *NotFound) Unwrap() error {
 	return n.APIError
 }
 
-// Rate limit exceeded
-type RatLimitExceeded struct {
+type RateLimitExceeded struct {
 	*core.APIError
 }
 
-func (r *RatLimitExceeded) UnmarshalJSON(data []byte) error {
+func (r *RateLimitExceeded) UnmarshalJSON(data []byte) error {
 	r.StatusCode = 429
 	return nil
 }
 
-func (r *RatLimitExceeded) MarshalJSON() ([]byte, error) {
+func (r *RateLimitExceeded) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-// Unauthorized
 type Unauthorized struct {
 	*core.APIError
 	Body *UnauthorizedResponse

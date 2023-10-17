@@ -68,7 +68,7 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -137,7 +137,7 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

@@ -7,7 +7,7 @@ type Resolution struct {
 	Name []*string `json:"-"`
 	// Entity identifier
 	Identifier []*string `json:"-"`
-	// Entity country
+	// Entity country - must be ISO (3166) Trigram i.e., `USA`
 	Country []*Country `json:"-"`
 	// Entity address
 	Address []*string `json:"-"`

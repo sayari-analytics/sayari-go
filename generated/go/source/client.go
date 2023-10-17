@@ -68,7 +68,7 @@ func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSourc
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -126,7 +126,7 @@ func (c *Client) GetSource(ctx context.Context, id generatedgo.SourceId) (*gener
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

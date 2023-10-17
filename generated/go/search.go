@@ -14,7 +14,7 @@ type SearchEntity struct {
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *FilterMap `json:"filter,omitempty"`
+	Filter *FilterList `json:"filter,omitempty"`
 	// Record or entity fields to search against.
 	Fields []SearchField `json:"fields,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
@@ -33,7 +33,7 @@ type SearchRecord struct {
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *FilterMap `json:"filter,omitempty"`
+	Filter *FilterList `json:"filter,omitempty"`
 	// Record or entity fields to search against.
 	Fields []SearchField `json:"fields,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
@@ -52,7 +52,8 @@ type EntitySearchResults struct {
 	Data   []*EntityDetails `json:"data,omitempty"`
 }
 
-type FilterMap struct {
+// Filter your search on the following attributes.
+type FilterList struct {
 	Source     []SourceId `json:"source,omitempty"`
 	Country    []Country  `json:"country,omitempty"`
 	State      []string   `json:"state,omitempty"`

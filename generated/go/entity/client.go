@@ -143,7 +143,7 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -201,7 +201,7 @@ func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*g
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

@@ -143,7 +143,7 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -201,7 +201,7 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId) (*generatedgo
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -259,7 +259,7 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId) (*gener
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -317,7 +317,7 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId) (*gener
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -383,7 +383,7 @@ func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.Shortest
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

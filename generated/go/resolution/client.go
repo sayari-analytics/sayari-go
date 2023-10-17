@@ -83,7 +83,7 @@ func (c *Client) Resolution(ctx context.Context, request *generatedgo.Resolution
 			}
 			return value
 		case 429:
-			value := new(generatedgo.RatLimitExceeded)
+			value := new(generatedgo.RateLimitExceeded)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
