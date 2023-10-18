@@ -89,6 +89,7 @@ func TestEntities(t *testing.T) {
 
 	// get entity details
 	firstEntityDetails, err := api.Entity.GetEntity(context.Background(), firstEntity.Id, &sayari.GetEntity{})
+	log.Println("GetEntity Err: ", err)
 	assert.Nil(t, err)
 	// check all the same stuff we checked with summary
 	assert.Equal(t, firstEntityDetails.Id, firstEntity.Id)
