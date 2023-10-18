@@ -53,8 +53,18 @@ jobs:
           
           echo "Running screening test"
           go run examples/screening/screening.go  
-  
+
 
   #FIXME: add integration test to confirm it is working with the most up to date bindings
 
+  publish-test-sdk-readme:
+    name: Test publishing SDK readme
+    needs: run-examples
+    uses: readmeio/rdme@v8
+    with:
+      rdme: docs docs/intro.md --key=${{ secrets.README_API_KEY }}
+
+
   #FIXME: add job to release on tag
+
+  #FIXME: add job to publish production SDK readme on tag
