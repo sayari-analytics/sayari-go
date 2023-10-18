@@ -65,7 +65,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: readmeio/rdme@v8
         with:
-          rdme: docs docs/intro.md --key=${{ secrets.README_API_KEY }}
+          rdme: docs docs/go_sdk.md --key=${{ secrets.README_API_KEY }}
 
 
   #FIXME: add job to release on tag
