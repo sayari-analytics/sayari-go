@@ -170,43 +170,45 @@ func DoRequest(
 		return err
 	}
 
-	// If we get a 429 (Too many requests) response code, lets wait and try again
-	attemptLimit := 3
-	var attemptCount int
-	for resp.StatusCode == 429 {
+	// If we get a 429 (Too many requests) response code and have a rate limiter setup, block other request and retry
+	if rateLimiter != nil && resp.StatusCode == 429 {
+		// block other requests until we can finish processing this one
 		rateLimiter.Block()
-		// close the previous response body, the defer will catch whatever we are left with after looping
-		resp.Body.Close()
+		defer rateLimiter.UnBlock()
 
-		// Ideally we will have a "Retry-After" header to tell us how long to wait
-		sleepTimeStr := resp.Header.Get("Retry-After")
-		var sleepTime int
-		if sleepTimeStr != "" {
-			sleepTime, err = strconv.Atoi(sleepTimeStr)
+		attemptLimit := 3
+		var attemptCount int
+		for resp.StatusCode == 429 {
+			// close the previous response body, the defer will catch whatever we are left with after looping
+			resp.Body.Close()
+
+			// Ideally we will have a "Retry-After" header to tell us how long to wait
+			sleepTimeStr := resp.Header.Get("Retry-After")
+			var sleepTime int
+			if sleepTimeStr != "" {
+				sleepTime, err = strconv.Atoi(sleepTimeStr)
+				if err != nil {
+					return fmt.Errorf("found a 'Retry-After' header and atttempted to parse it to an integer but failed. err: %v", err)
+				}
+			} else {
+				// Without a header we will just do an exponential backoff
+				if attemptCount > attemptLimit {
+					// Give up after we hit the attempt limit
+					break
+				}
+				attemptCount++
+				sleepTime = int(math.Pow(2, float64(attemptCount)))
+			}
+			log.Printf("Waiting %vs for rate limit to recover...", sleepTime)
+			time.Sleep(time.Duration(sleepTime) * time.Second)
+
+			// re-make the request
+			resp, err = client.Do(req)
 			if err != nil {
-				return fmt.Errorf("found a 'Retry-After' header and atttempted to parse it to an integer but failed. err: %v", err)
+				return err
 			}
-		} else {
-			// Without a header we will just do an exponential backoff
-			if attemptCount > attemptLimit {
-				// Give up after we hit the attempt limit
-				break
-			}
-			attemptCount++
-			sleepTime = int(math.Pow(2, float64(attemptCount)))
-		}
-		log.Printf("Waiting %vs for rate limit to recover...", sleepTime)
-		time.Sleep(time.Duration(sleepTime) * time.Second)
-
-		// re-make the request
-		resp, err = client.Do(req)
-		if err != nil {
-			return err
 		}
 	}
-
-	// unblock the rate limiter
-	rateLimiter.UnBlock()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		if errorDecoder != nil {
