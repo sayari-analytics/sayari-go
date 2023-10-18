@@ -8,4 +8,4 @@ Look in the 'example' directory to see how to use the SDK.
     CLIENT_SECRET=YOUR_CLIENT_SECRET_HERE
     ```
 - Run the example **from the same directory as the .env file**
-  `go run example.py`
+  `go run examples/smoke-test/smoke-test.go`
