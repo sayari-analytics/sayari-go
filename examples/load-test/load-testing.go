@@ -3,13 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 	"log"
 	"math/rand"
 	"os"
 	"sync"
 	"time"
 
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 	"github.com/sayari-analytics/sayari-go/sdk"
 
 	"github.com/joho/godotenv"
@@ -72,7 +72,6 @@ func main() {
 		go doWork(client, triggers, fires, &wg)
 	}
 	wg.Wait()
-
 }
 
 func doWork(c *sdk.Connection, triggers chan bool, fires chan bool, wg *sync.WaitGroup) {
@@ -93,7 +92,7 @@ func doRandomSearch(c *sdk.Connection) {
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano())) //nolint gosec
 
 func generateRandomString(length int) string {
 	b := make([]byte, length)

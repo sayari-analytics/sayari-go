@@ -76,7 +76,7 @@ func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*
 	attributeColMap := make(map[string][]int)
 
 	// Set the number of workers. Do we want this to be adjustable? TODO: How do we want to handle rate limiting?
-	numWorkers := 4
+	numWorkers := 3
 
 	// create channels to handle this work concurrently
 	csvDataChan := make(chan []string, numWorkers)
