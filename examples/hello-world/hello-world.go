@@ -30,8 +30,10 @@ func main() {
 	}
 
 	// Create the request body
+	//personType := sayari.EntitiesPerson
 	resolutionRequest := sayari.Resolution{
 		Name: []*string{sdk.String("Victoria Beckham")},
+		//Type: []*sayari.Entities{&personType},
 	}
 
 	// Make the request and handle the error
