@@ -22,7 +22,7 @@ const clientHeader = "sayari-go"
 
 func Connect(id, secret string) (*Connection, error) {
 	// Connect to auth endpoint and get a token
-	results, err := getToken(id, secret)
+	tokenResponse, err := getToken(id, secret)
 	if err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func Connect(id, secret string) (*Connection, error) {
 	rateLimter := core.NewRateLimiter()
 
 	connection := &Connection{
-		client.NewClient(client.WithAuthToken(results.AccessToken),
+		client.NewClient(client.WithAuthToken(tokenResponse.AccessToken),
 			client.WithHeaderClient(clientHeader),
 			client.WithRateLimiter(rateLimter),
 		),
@@ -40,7 +40,7 @@ func Connect(id, secret string) (*Connection, error) {
 	}
 
 	// Maintain the token
-	go connection.maintainToken(results.ExpiresIn)
+	go connection.maintainToken(tokenResponse.ExpiresIn)
 
 	// Create clients
 	return connection, nil
@@ -55,7 +55,7 @@ func (c *Connection) maintainToken(expiresIn int) {
 	time.Sleep(time.Duration(expiresIn) * time.Second)
 
 	// get updated token
-	results, err := getToken(c.id, c.secret)
+	tokenResponse, err := getToken(c.id, c.secret)
 	if err != nil {
 		log.Fatalf("Error maintining token. Err: %v", err)
 	}
@@ -63,14 +63,14 @@ func (c *Connection) maintainToken(expiresIn int) {
 	// update client
 	c.RateLimiter.Block()
 	c.Client = client.NewClient(
-		client.WithAuthToken(results.AccessToken),
+		client.WithAuthToken(tokenResponse.AccessToken),
 		client.WithHeaderClient(clientHeader),
 		client.WithRateLimiter(c.RateLimiter),
 	)
 	c.RateLimiter.UnBlock()
 
 	// recurse
-	c.maintainToken(results.ExpiresIn)
+	c.maintainToken(tokenResponse.ExpiresIn)
 }
 
 func getToken(id, secret string) (*sayari.AuthResponse, error) {

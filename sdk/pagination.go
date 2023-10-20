@@ -6,9 +6,9 @@ import (
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 )
 
-func (c *Connection) GetAllEntitySearchResults(ctx context.Context, input *sayari.SearchEntity) (data []*sayari.EntityDetails, err error) {
+func (c *Connection) GetAllEntitySearchResults(ctx context.Context, params *sayari.SearchEntity) (data []*sayari.EntityDetails, err error) {
 	for {
-		result, err := c.Search.SearchEntity(ctx, input)
+		result, err := c.Search.SearchEntity(ctx, params)
 		if err != nil {
 			return nil, err
 		}
@@ -16,14 +16,14 @@ func (c *Connection) GetAllEntitySearchResults(ctx context.Context, input *sayar
 		if !result.Next {
 			break
 		}
-		input.Offset = Int(result.Offset + result.Limit)
+		params.Offset = Int(result.Offset + result.Limit)
 	}
 	return data, nil
 }
 
-func (c *Connection) GetAllRecordSearchResults(ctx context.Context, input *sayari.SearchRecord) (data []*sayari.RecordDetails, err error) {
+func (c *Connection) GetAllRecordSearchResults(ctx context.Context, params *sayari.SearchRecord) (data []*sayari.RecordDetails, err error) {
 	for {
-		result, err := c.Search.SearchRecord(ctx, input)
+		result, err := c.Search.SearchRecord(ctx, params)
 		if err != nil {
 			return nil, err
 		}
@@ -31,14 +31,14 @@ func (c *Connection) GetAllRecordSearchResults(ctx context.Context, input *sayar
 		if !result.Next {
 			break
 		}
-		input.Offset = Int(result.Offset + result.Limit)
+		params.Offset = Int(result.Offset + result.Limit)
 	}
 	return data, nil
 }
 
-func (c *Connection) GetAllTraversalResults(ctx context.Context, entityID sayari.EntityId, input *sayari.Traversal) (data []*sayari.TraversalData, err error) {
+func (c *Connection) GetAllTraversalResults(ctx context.Context, entityID sayari.EntityId, params *sayari.Traversal) (data []*sayari.TraversalData, err error) {
 	for {
-		result, err := c.Traversal.Traversal(ctx, entityID, input)
+		result, err := c.Traversal.Traversal(ctx, entityID, params)
 		if err != nil {
 			return nil, err
 		}
@@ -46,7 +46,7 @@ func (c *Connection) GetAllTraversalResults(ctx context.Context, entityID sayari
 		if !result.Next {
 			break
 		}
-		input.Offset = Int(result.Offset + result.Limit)
+		params.Offset = Int(result.Offset + result.Limit)
 	}
 	return data, nil
 }
