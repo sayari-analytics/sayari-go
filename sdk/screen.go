@@ -107,18 +107,15 @@ func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*
 		close(csvDataChan)
 	}()
 
-	// close all the channels once we are done
-	var done bool
+	// signal when all the workers are done
+	done := make(chan bool)
 	go func() {
 		wg.Wait()
-		close(summaryChan)
-		close(unresolvedChan)
-		close(errChan)
-		done = true
+		done <- true
 	}()
 
-	// read results off the channels
-	for !done {
+	// read results off the channels and return when done
+	for {
 		select {
 		case summary := <-summaryChan:
 			if len(summary.Risk) > 0 {
@@ -130,10 +127,10 @@ func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*
 			unresolved = append(unresolved, unresolvedRow)
 		case err = <-errChan:
 			return nil, nil, nil, err
+		case <-done:
+			return riskyEntities, nonRiskyEntities, unresolved, nil
 		}
 	}
-
-	return riskyEntities, nonRiskyEntities, unresolved, nil
 }
 
 func loadCSV(csvPath string) ([][]string, error) {
