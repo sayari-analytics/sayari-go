@@ -75,10 +75,8 @@ func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*
 	// create a map of the columns to be able to look up which contains which attribute
 	attributeColMap := make(map[string][]int)
 
-	// Set the number of workers. Do we want this to be adjustable? TODO: How do we want to handle rate limiting?
-	numWorkers := 3
-
 	// create channels to handle this work concurrently
+	numWorkers := 3
 	csvDataChan := make(chan []string, numWorkers)
 	summaryChan := make(chan sayari.EntityDetails, numWorkers)
 	unresolvedChan := make(chan []string, numWorkers)
@@ -159,14 +157,13 @@ func mapCSV(row []string, attributeColMap map[string][]int) error {
 	for colNum, colName := range row {
 		// If the column is valid, note its position(s)
 		colName = strings.ToLower(colName)
-		if _, ok := attributeFieldsMap[colName]; ok {
-			if existingColNums, ok := attributeColMap[colName]; ok {
-				attributeColMap[colName] = append(existingColNums, colNum)
-			} else {
-				attributeColMap[colName] = []int{colNum}
-			}
-		} else {
+		if _, ok := attributeFieldsMap[colName]; !ok {
 			return fmt.Errorf("column '%v' does not match to resolution field", colName)
+		}
+		if existingColNums, ok := attributeColMap[colName]; ok {
+			attributeColMap[colName] = append(existingColNums, colNum)
+		} else {
+			attributeColMap[colName] = []int{colNum}
 		}
 	}
 	return nil
