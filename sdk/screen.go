@@ -15,24 +15,24 @@ import (
 var ErrNoMatchFound = errors.New("no match found for this entity")
 
 const (
-	Name        = "name"
-	Identifier  = "identifier" //TODO: support column headers that match identifier types, TBD
-	Country     = "country"
-	Address     = "address"
-	DateOfBirth = "dateofbirth"
-	Contact     = "contact"
-	Type        = "type"
+	name        = "name"
+	identifier  = "identifier" //TODO: support column headers that match identifier types, TBD
+	country     = "country"
+	address     = "address"
+	dateOfBirth = "dateofbirth"
+	contact     = "contact"
+	entityType  = "type"
 )
 
 // TODO: add better explanations for these columns
 var attributeFieldsMap = map[string]string{
-	Name:        "The name of the entity",
-	Identifier:  "...",
-	Country:     "Must be from the enum set",
-	Address:     "...",
-	DateOfBirth: "...",
-	Contact:     "...",
-	Type:        "Must be from the enum set",
+	name:        "The name of the entity",
+	identifier:  "...",
+	country:     "Must be from the enum set",
+	address:     "...",
+	dateOfBirth: "...",
+	contact:     "...",
+	entityType:  "Must be from the enum set",
 }
 
 func screenCSV(ctx context.Context, c *Connection, attributeColMap map[string][]int, csvDataChan chan []string,
@@ -172,19 +172,19 @@ func mapCSV(row []string, attributeColMap map[string][]int) error {
 func resolveEntity(ctx context.Context, c *Connection, attributeColMap map[string][]int, row []string) (string, error) {
 	var entityInfo sayari.Resolution
 
-	if colNums, ok := attributeColMap[Name]; ok {
+	if colNums, ok := attributeColMap[name]; ok {
 		for _, colNum := range colNums {
 			entityInfo.Name = append(entityInfo.Name, &row[colNum])
 		}
 	}
 
-	if colNums, ok := attributeColMap[Identifier]; ok {
+	if colNums, ok := attributeColMap[identifier]; ok {
 		for _, colNum := range colNums {
 			entityInfo.Identifier = append(entityInfo.Identifier, &row[colNum])
 		}
 	}
 
-	if colNums, ok := attributeColMap[Country]; ok {
+	if colNums, ok := attributeColMap[country]; ok {
 		for _, colNum := range colNums {
 			country, err := sayari.NewCountryFromString(row[colNum])
 			if err != nil {
@@ -194,25 +194,25 @@ func resolveEntity(ctx context.Context, c *Connection, attributeColMap map[strin
 		}
 	}
 
-	if colNums, ok := attributeColMap[Address]; ok {
+	if colNums, ok := attributeColMap[address]; ok {
 		for _, colNum := range colNums {
 			entityInfo.Address = append(entityInfo.Address, &row[colNum])
 		}
 	}
 
-	if colNums, ok := attributeColMap[DateOfBirth]; ok {
+	if colNums, ok := attributeColMap[dateOfBirth]; ok {
 		for _, colNum := range colNums {
 			entityInfo.DateOfBirth = append(entityInfo.DateOfBirth, &row[colNum])
 		}
 	}
 
-	if colNums, ok := attributeColMap[Contact]; ok {
+	if colNums, ok := attributeColMap[contact]; ok {
 		for _, colNum := range colNums {
 			entityInfo.Contact = append(entityInfo.Contact, &row[colNum])
 		}
 	}
 
-	if colNums, ok := attributeColMap[Type]; ok {
+	if colNums, ok := attributeColMap[entityType]; ok {
 		for _, colNum := range colNums {
 			entityType, err := sayari.NewEntitiesFromString(row[colNum])
 			if err != nil {
