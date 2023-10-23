@@ -132,15 +132,21 @@ You can then use the 'offset' parameter in your subsequent request to get the ne
 
 While the above process works well, there may be times you simply want to request all the data without thinking about
 it. The SDK provides convenience methods to help with this. The methods below take in the same inputs as the standard
-ones but automatically handle pagination and return all of the associated data.
+ones but automatically handle pagination and return all the associated data.
 - GetAllEntitySearchResults
 - GetAllRecordSearchResults
 - GetAllTraversalResults
 
 ## Rate limiting
-- How rate limiting works in Sayari Graph and what the responses look like
-- How the SDK handles this
-- Consideration (shared client, etc)
+Some Sayari Graph endpoints are more compute intensive than others. To adequately allocate resources across customers
+and prevent service degradation, individual users are rate limited. It is very unlikely that you would ever encounter
+these limits when making requests manually or even in a single-threaded application. Typically, rate limiting will only
+come into play when making multiple API requests at the same time.
+
+When a request is rate limited, the API will respond back with a 429 status code as well as a 'Retry-After' response
+header that tells you how long to wait before making a subsequent request (i.e. 5s).
+
+To make things simpler, the SDK handles this for you and will automatically wait and retry requests if a 429 is received.
 
 # Tutorials
 You should now have all the tools you need to start using the Sayari Graph Go SDK yourself. If you would like additional
@@ -152,9 +158,47 @@ inspiration, please consider the following use-case-specific tutorials.
 
 ## Trade Analysis
 
-# Endpoints
-Again, refer people to the API docs
+# Examples
+Please see the API documentation for detailed explanations of all the request and response bodies. Our documentation
+site (along with valid client ID and secret) can be used to make requests against our API to get a sense for how the
+API behaves.
 
-Add a subsection of invocation examples for each SDK function
+In addition to the API documentation, the SDK code itself is a great resource for understanding the structure of Sayari
+Graph API requests and responses. Objects in the code should have helpful names and comments detailing their significance.
 
-Note: this was published from the CI...
+What follows is a list of invocation examples for each of the SDK functions. Again, this is not an exhaustive demonstration
+if its capabilities, but rather a minimal example to help you get started.
+
+## Top Level SDK functions
+### Connect
+### Pagination
+#### GetAllEntitySearchResults
+#### GetAllRecordSearchResults
+#### GetAllTraversalResults
+### ScreenCSVEntities
+### Pointers
+
+## Entity
+### Get Entity
+### Entity Summary
+
+## Record
+### Get Record
+
+## Resolution
+### Resolution
+
+## Search
+### Search Entity
+### Search Record
+
+## Source
+### List Sources
+### Get Source
+
+## Traversal
+### Traversal
+### UBO
+### Ownership
+### Watchlist
+### Shortest Path
