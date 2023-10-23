@@ -1,0 +1,73 @@
+name: Go SDK
+
+on:
+  pull_request:
+    branches:
+      - '**'
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          args: -v --timeout 10m -E gofmt -E whitespace -E revive -E gosec -E goimports --skip-dirs='generated' --skip-dirs-use-default=false
+
+  go-test:
+    name: Test
+    runs-on: ubuntu-latest
+    env:
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: test code
+        run: |
+          go test -v ./...
+
+  run-examples:
+    name: Run examples (to look for regressions)
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+      - go-test
+    env:
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: test examples (not rate limiting)
+        run: |
+          echo "Running smoke test"
+          go run examples/smoke-test/smoke-test.go
+          
+          echo "Running screening test"
+          go run examples/screening/screening.go  
+
+
+  #FIXME: add integration test to confirm it is working with the most up to date bindings
+
+  publish-test-sdk-readme:
+    name: Test publishing SDK readme
+    runs-on: ubuntu-latest
+    needs: run-examples
+    steps:
+      - uses: actions/checkout@v4
+      - uses: readmeio/rdme@v8
+        with:
+          rdme: docs docs/go_sdk.md --key=${{ secrets.README_API_KEY }}
+
+
+  #FIXME: add job to release on tag
+
+  #FIXME: add job to publish production SDK readme on tag
