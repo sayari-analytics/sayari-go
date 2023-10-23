@@ -48,9 +48,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: test examples (not rate limiting)
         run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Running hello world"
+          go run examples/hello-world/hello-world.go
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "Running smoke test"
           go run examples/smoke-test/smoke-test.go
-          
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "Running screening test"
           go run examples/screening/screening.go  
 

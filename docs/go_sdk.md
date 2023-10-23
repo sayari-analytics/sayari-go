@@ -50,8 +50,8 @@ if err != nil {
 ```
 
 ## Getting entity information
-The resoltuion results themselves do contain some information about the entities found, but to get all of the details
-for that entity we need to call the entity endpoint.
+The resolution results themselves do contain some information about the entities found, but to get all the details
+for that entity we need to call the "get entity" endpoint.
 
 A request to view the first resolved entity (best match) from the previous request would look like this:
 ```go
@@ -63,18 +63,18 @@ if err != nil {
 ```
 
 ## Complete example
-After the steps above you should be left with code looks like this. We can add one final line to print all of the fields
+After the steps above you should be left with code looks like this. We can add one final line to print all the fields
 of the resolved entity to see what it looks like.
 ```go
 package main
 
 import (
 	"context"
-	"github.com/joho/godotenv"
-	sayari "github.com/sayari-analytics/sayari-go/generated/go"
-	"github.com/sayari-analytics/sayari-go/sdk"
 	"log"
 	"os"
+
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
+	"github.com/sayari-analytics/sayari-go/sdk"
 )
 
 func main() {
@@ -106,20 +106,36 @@ func main() {
 
 	log.Printf("%+v", entityDetails)
 }
-
 ```
 
 # Advanced
 When interacting with the API directly, there are a few concepts that you need to handle manually. The SDK takes care of
-these things for you when used properly, but it is important to understand them if you want to use the SDK properly.
+these things for you, but it is important to understand them if you want to use the SDK properly.
 
 ## Authentication and token management
-- Connecting
-- Token rotation
+As you can see from the API documentation, there is an endpoint provided for authenticating to Sayari Graph which will
+return a bearer token. This token is then passed on all subsequent API calls to authenticate them. The SDK handles this
+process for you by first requesting the token and then adding it to all subsequent requests.
+
+In addition to simplifying the connection process, the SDK is also designed to work in long-running application and keep
+the token up to date by rotating it before it expires. This is all handled behind the scenes by the client object itself
+and should require no additional action by the user.
 
 ## Pagination
-- How to use pagination
-- The helper functions the SDK exposes
+Sayari Graph contains a wealth of information. While we always try to prioritize the information you are looking for and
+return that first, there are times that you may need more data than can be returned in a single page of results.
+
+As described in our API documentation, when this happens we will return pagination information in our response. This
+information can be used to determine if there are more results than what was returned ('next token' will be true) and how
+many more results there are ('count' gives the total number of results including what was returned by the initial request).
+You can then use the 'offset' parameter in your subsequent request to get the next page of data.
+
+While the above process works well, there may be times you simply want to request all the data without thinking about
+it. The SDK provides convenience methods to help with this. The methods below take in the same inputs as the standard
+ones but automatically handle pagination and return all of the associated data.
+- GetAllEntitySearchResults
+- GetAllRecordSearchResults
+- GetAllTraversalResults
 
 ## Rate limiting
 - How rate limiting works in Sayari Graph and what the responses look like
