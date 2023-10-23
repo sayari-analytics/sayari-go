@@ -4577,8 +4577,8 @@ func (w WeakIdentifierType) Ptr() *WeakIdentifierType {
 }
 
 type MatchExplanation struct {
-	Matched  string `json:"matched"`
-	Uploaded string `json:"uploaded"`
+	Matched  *string `json:"matched,omitempty"`
+	Uploaded *string `json:"uploaded,omitempty"`
 }
 
 type ResolutionResponseFields struct {
