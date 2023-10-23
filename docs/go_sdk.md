@@ -11,7 +11,7 @@ Graph into your application.
 
 # Setup
 ## Prerequisites
-The only thing you need to start using this SDK are your Client_ID and Client_Secret provided to you by Sayari.
+The only thing you need to start using this SDK are your Client_ID and Client_Secret provided to you by Sayari. (@Aleks to add info about getting these creds)
 
 ## Installation
 To install this SDK, simply run `go get "github.com/sayari-analytics/sayari-go/..."`
