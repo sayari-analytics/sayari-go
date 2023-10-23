@@ -4677,22 +4677,22 @@ type Coordinate struct {
 }
 
 type EmbeddedEntity struct {
-	Id                EntityId                 `json:"id"`
-	Label             string                   `json:"label"`
-	Degree            int                      `json:"degree"`
-	Closed            bool                     `json:"closed"`
-	EntityUrl         string                   `json:"entity_url"`
-	Pep               bool                     `json:"pep"`
-	PsaCount          int                      `json:"psa_count"`
-	Sanctioned        bool                     `json:"sanctioned"`
-	Type              Entities                 `json:"type,omitempty"`
-	Identifiers       []*Identifier            `json:"identifiers,omitempty"`
-	Countries         []string                 `json:"countries,omitempty"`
-	PsaSanctioned     *string                  `json:"psa_sanctioned,omitempty"`
-	SourceCount       SourceCount              `json:"source_count,omitempty"`
-	Addresses         []string                 `json:"addresses,omitempty"`
-	DateOfBirth       *string                  `json:"date_of_birth,omitempty"`
-	RelationshipCount map[RelationshipType]int `json:"relationship_count,omitempty"`
+	Id                EntityId              `json:"id"`
+	Label             string                `json:"label"`
+	Degree            int                   `json:"degree"`
+	Closed            bool                  `json:"closed"`
+	EntityUrl         string                `json:"entity_url"`
+	Pep               bool                  `json:"pep"`
+	PsaCount          int                   `json:"psa_count"`
+	Sanctioned        bool                  `json:"sanctioned"`
+	Type              Entities              `json:"type,omitempty"`
+	Identifiers       []*Identifier         `json:"identifiers,omitempty"`
+	Countries         []string              `json:"countries,omitempty"`
+	PsaSanctioned     *string               `json:"psa_sanctioned,omitempty"`
+	SourceCount       SourceCount           `json:"source_count,omitempty"`
+	Addresses         []string              `json:"addresses,omitempty"`
+	DateOfBirth       *string               `json:"date_of_birth,omitempty"`
+	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
 }
 
 type EntityDetails struct {
@@ -4711,7 +4711,7 @@ type EntityDetails struct {
 	SourceCount       SourceCount                      `json:"source_count,omitempty"`
 	Addresses         []string                         `json:"addresses,omitempty"`
 	DateOfBirth       *string                          `json:"date_of_birth,omitempty"`
-	RelationshipCount map[RelationshipType]int         `json:"relationship_count,omitempty"`
+	RelationshipCount map[Relationships]int            `json:"relationship_count,omitempty"`
 	RegistrationDate  *string                          `json:"registration_date,omitempty"`
 	TranslatedLabel   *string                          `json:"translated_label,omitempty"`
 	HsCode            *string                          `json:"hs_code,omitempty"`
@@ -4721,7 +4721,7 @@ type EntityDetails struct {
 	LatestStatus      *Status                          `json:"latest_status,omitempty"`
 	Risk              Risk                             `json:"risk,omitempty"`
 	Attributes        map[Attributes]*AttributeDetails `json:"attributes,omitempty"`
-	Relationships     *Relationships                   `json:"relationships,omitempty"`
+	Relationships     *EntityRelationships             `json:"relationships,omitempty"`
 	PossiblySameAs    *PossiblySameAs                  `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy                    `json:"referenced_by,omitempty"`
 	Matches           map[string][]string              `json:"matches,omitempty"`
@@ -4729,6 +4729,12 @@ type EntityDetails struct {
 
 // The unique identifier for an entity in the database
 type EntityId = string
+
+type EntityRelationships struct {
+	Limit int                 `json:"limit"`
+	Size  *SizeInfo           `json:"size,omitempty"`
+	Data  []*RelationshipData `json:"data,omitempty"`
+}
 
 type Identifier struct {
 	Value string `json:"value"`
@@ -4810,13 +4816,7 @@ type RelationshipInfo struct {
 	PublicationDate *string                                      `json:"publication_date,omitempty"`
 }
 
-type RelationshipTypes = map[RelationshipType][]*RelationshipInfo
-
-type Relationships struct {
-	Limit int                 `json:"limit"`
-	Size  *SizeInfo           `json:"size,omitempty"`
-	Data  []*RelationshipData `json:"data,omitempty"`
-}
+type RelationshipTypes = map[Relationships][]*RelationshipInfo
 
 type Risk = map[string]*RiskInfo
 
