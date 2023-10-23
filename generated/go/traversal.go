@@ -124,6 +124,7 @@ const (
 	RelationshipTypeHasSubsidiary          RelationshipType = "has_subsidiary"
 	RelationshipTypeHasSupervisor          RelationshipType = "has_supervisor"
 	RelationshipTypeNotifyPartyOf          RelationshipType = "notify_party_of"
+	RelationshipTypeHasNotifyParty         RelationshipType = "has_notify_party"
 )
 
 func NewRelationshipTypeFromString(s string) (RelationshipType, error) {
@@ -236,6 +237,8 @@ func NewRelationshipTypeFromString(s string) (RelationshipType, error) {
 		return RelationshipTypeHasSupervisor, nil
 	case "notify_party_of":
 		return RelationshipTypeNotifyPartyOf, nil
+	case "has_notify_party":
+		return RelationshipTypeHasNotifyParty, nil
 	}
 	var t RelationshipType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

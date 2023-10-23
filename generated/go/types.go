@@ -23,6 +23,7 @@ const (
 	AddressTypeMailing    AddressType = "mailing"
 	AddressTypePhysical   AddressType = "physical"
 	AddressTypeRegistered AddressType = "registered"
+	AddressTypeBusiness   AddressType = "business"
 )
 
 func NewAddressTypeFromString(s string) (AddressType, error) {
@@ -37,6 +38,8 @@ func NewAddressTypeFromString(s string) (AddressType, error) {
 		return AddressTypePhysical, nil
 	case "registered":
 		return AddressTypeRegistered, nil
+	case "business":
+		return AddressTypeBusiness, nil
 	}
 	var t AddressType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -49,76 +52,76 @@ func (a AddressType) Ptr() *AddressType {
 type Attributes string
 
 const (
-	AttributesCountry               Attributes = "country"
-	AttributesCompanyType           Attributes = "company_type"
-	AttributesStatus                Attributes = "status"
-	AttributesPersonStatus          Attributes = "person_status"
-	AttributesName                  Attributes = "name"
-	AttributesDateOfBirth           Attributes = "date_of_birth"
-	AttributesAdditionalInformation Attributes = "additional_information"
-	AttributesBusinessPurpose       Attributes = "business_purpose"
-	AttributesPosition              Attributes = "position"
-	AttributesContact               Attributes = "contact"
-	AttributesMeasurement           Attributes = "measurement"
-	AttributesFinancials            Attributes = "financials"
-	AttributesFinances              Attributes = "finances"
-	AttributesGeneric               Attributes = "generic"
 	AttributesRiskIntelligence      Attributes = "risk_intelligence"
-	AttributesAddress               Attributes = "address"
-	AttributesShares                Attributes = "shares"
-	AttributesGender                Attributes = "gender"
+	AttributesCountry               Attributes = "country"
 	AttributesWeakIdentifier        Attributes = "weak_identifier"
-	AttributesTranslatedName        Attributes = "translated_name"
-	AttributesIdentifier            Attributes = "identifier"
+	AttributesGeneric               Attributes = "generic"
+	AttributesStatus                Attributes = "status"
+	AttributesShares                Attributes = "shares"
+	AttributesName                  Attributes = "name"
+	AttributesContact               Attributes = "contact"
+	AttributesPersonStatus          Attributes = "person_status"
+	AttributesFinancials            Attributes = "financials"
+	AttributesAdditionalInformation Attributes = "additional_information"
+	AttributesFinances              Attributes = "finances"
+	AttributesAddress               Attributes = "address"
 	AttributesMonetaryValue         Attributes = "monetary_value"
+	AttributesCompanyType           Attributes = "company_type"
+	AttributesGender                Attributes = "gender"
+	AttributesTranslatedName        Attributes = "translated_name"
+	AttributesDateOfBirth           Attributes = "date_of_birth"
+	AttributesMeasurement           Attributes = "measurement"
+	AttributesIdentifier            Attributes = "identifier"
+	AttributesPosition              Attributes = "position"
+	AttributesBusinessPurpose       Attributes = "business_purpose"
 )
 
 func NewAttributesFromString(s string) (Attributes, error) {
 	switch s {
-	case "country":
-		return AttributesCountry, nil
-	case "company_type":
-		return AttributesCompanyType, nil
-	case "status":
-		return AttributesStatus, nil
-	case "person_status":
-		return AttributesPersonStatus, nil
-	case "name":
-		return AttributesName, nil
-	case "date_of_birth":
-		return AttributesDateOfBirth, nil
-	case "additional_information":
-		return AttributesAdditionalInformation, nil
-	case "business_purpose":
-		return AttributesBusinessPurpose, nil
-	case "position":
-		return AttributesPosition, nil
-	case "contact":
-		return AttributesContact, nil
-	case "measurement":
-		return AttributesMeasurement, nil
-	case "financials":
-		return AttributesFinancials, nil
-	case "finances":
-		return AttributesFinances, nil
-	case "generic":
-		return AttributesGeneric, nil
 	case "risk_intelligence":
 		return AttributesRiskIntelligence, nil
-	case "address":
-		return AttributesAddress, nil
-	case "shares":
-		return AttributesShares, nil
-	case "gender":
-		return AttributesGender, nil
+	case "country":
+		return AttributesCountry, nil
 	case "weak_identifier":
 		return AttributesWeakIdentifier, nil
-	case "translated_name":
-		return AttributesTranslatedName, nil
-	case "identifier":
-		return AttributesIdentifier, nil
+	case "generic":
+		return AttributesGeneric, nil
+	case "status":
+		return AttributesStatus, nil
+	case "shares":
+		return AttributesShares, nil
+	case "name":
+		return AttributesName, nil
+	case "contact":
+		return AttributesContact, nil
+	case "person_status":
+		return AttributesPersonStatus, nil
+	case "financials":
+		return AttributesFinancials, nil
+	case "additional_information":
+		return AttributesAdditionalInformation, nil
+	case "finances":
+		return AttributesFinances, nil
+	case "address":
+		return AttributesAddress, nil
 	case "monetary_value":
 		return AttributesMonetaryValue, nil
+	case "company_type":
+		return AttributesCompanyType, nil
+	case "gender":
+		return AttributesGender, nil
+	case "translated_name":
+		return AttributesTranslatedName, nil
+	case "date_of_birth":
+		return AttributesDateOfBirth, nil
+	case "measurement":
+		return AttributesMeasurement, nil
+	case "identifier":
+		return AttributesIdentifier, nil
+	case "position":
+		return AttributesPosition, nil
+	case "business_purpose":
+		return AttributesBusinessPurpose, nil
 	}
 	var t Attributes
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -1706,46 +1709,46 @@ func (c Currency) Ptr() *Currency {
 type Entities string
 
 const (
-	EntitiesVessel               Entities = "vessel"
-	EntitiesTradename            Entities = "tradename"
-	EntitiesIntellectualProperty Entities = "intellectual_property"
-	EntitiesPerson               Entities = "person"
+	EntitiesLegalMatter          Entities = "legal_matter"
+	EntitiesCompany              Entities = "company"
 	EntitiesShipment             Entities = "shipment"
 	EntitiesGeneric              Entities = "generic"
+	EntitiesVessel               Entities = "vessel"
 	EntitiesProperty             Entities = "property"
-	EntitiesCompany              Entities = "company"
-	EntitiesAircraft             Entities = "aircraft"
-	EntitiesLegalMatter          Entities = "legal_matter"
+	EntitiesIntellectualProperty Entities = "intellectual_property"
+	EntitiesPerson               Entities = "person"
 	EntitiesSecurity             Entities = "security"
+	EntitiesTradename            Entities = "tradename"
 	EntitiesUnknown              Entities = "unknown"
+	EntitiesAircraft             Entities = "aircraft"
 )
 
 func NewEntitiesFromString(s string) (Entities, error) {
 	switch s {
-	case "vessel":
-		return EntitiesVessel, nil
-	case "tradename":
-		return EntitiesTradename, nil
-	case "intellectual_property":
-		return EntitiesIntellectualProperty, nil
-	case "person":
-		return EntitiesPerson, nil
+	case "legal_matter":
+		return EntitiesLegalMatter, nil
+	case "company":
+		return EntitiesCompany, nil
 	case "shipment":
 		return EntitiesShipment, nil
 	case "generic":
 		return EntitiesGeneric, nil
+	case "vessel":
+		return EntitiesVessel, nil
 	case "property":
 		return EntitiesProperty, nil
-	case "company":
-		return EntitiesCompany, nil
-	case "aircraft":
-		return EntitiesAircraft, nil
-	case "legal_matter":
-		return EntitiesLegalMatter, nil
+	case "intellectual_property":
+		return EntitiesIntellectualProperty, nil
+	case "person":
+		return EntitiesPerson, nil
 	case "security":
 		return EntitiesSecurity, nil
+	case "tradename":
+		return EntitiesTradename, nil
 	case "unknown":
 		return EntitiesUnknown, nil
+	case "aircraft":
+		return EntitiesAircraft, nil
 	}
 	var t Entities
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -1834,6 +1837,7 @@ const (
 	IdentifierTypeMaltaNationalId                           IdentifierType = "malta_national_id"
 	IdentifierTypeMaltaAccountancyRegistrationId            IdentifierType = "malta_accountancy_registration_id"
 	IdentifierTypeUkCompanyNumber                           IdentifierType = "uk_company_number"
+	IdentifierTypeUkFirmReferenceNumber                     IdentifierType = "uk_firm_reference_number"
 	IdentifierTypeUkPersonNumber                            IdentifierType = "uk_person_number"
 	IdentifierTypeMxRfcPerson                               IdentifierType = "mx_rfc_person"
 	IdentifierTypeMxCurp                                    IdentifierType = "mx_curp"
@@ -2032,6 +2036,8 @@ const (
 	IdentifierTypeUsaSocialSecurityNumber                   IdentifierType = "usa_social_security_number"
 	IdentifierTypeUsaWyPartyId                              IdentifierType = "usa_wy_party_id"
 	IdentifierTypeUsaWyFilingId                             IdentifierType = "usa_wy_filing_id"
+	IdentifierTypeUsaWyInternalFilingId                     IdentifierType = "usa_wy_internal_filing_id"
+	IdentifierTypeUsaWyFilingNum                            IdentifierType = "usa_wy_filing_num"
 	IdentifierTypeUsaOrRegno                                IdentifierType = "usa_or_regno"
 	IdentifierTypeUsaNvCorpno                               IdentifierType = "usa_nv_corpno"
 	IdentifierTypeUsaNvBizid                                IdentifierType = "usa_nv_bizid"
@@ -2040,6 +2046,7 @@ const (
 	IdentifierTypeUzbTinNumber                              IdentifierType = "uzb_tin_number"
 	IdentifierTypeCaCorporateIdNum                          IdentifierType = "ca_corporate_id_num"
 	IdentifierTypeGbrHmTreasurySanctionGroupId              IdentifierType = "gbr_hm_treasury_sanction_group_id"
+	IdentifierTypeGbrIpoTrademarkRegNo                      IdentifierType = "gbr_ipo_trademark_reg_no"
 	IdentifierTypeUsaGaControlNo                            IdentifierType = "usa_ga_control_no"
 	IdentifierTypeHndCocCompanyRegistrationNumber           IdentifierType = "hnd_coc_company_registration_number"
 	IdentifierTypeMnePropertyUid                            IdentifierType = "mne_property_uid"
@@ -2354,6 +2361,12 @@ const (
 	IdentifierTypeEthereumAddress                           IdentifierType = "ethereum_address"
 	IdentifierTypeDashAddress                               IdentifierType = "dash_address"
 	IdentifierTypeZcashAddress                              IdentifierType = "zcash_address"
+	IdentifierTypeUsaUsptoSerialNumber                      IdentifierType = "usa_uspto_serial_number"
+	IdentifierTypeUsaUsptoRegNo                             IdentifierType = "usa_uspto_reg_no"
+	IdentifierTypeUsaUsptoForeignApplicationNo              IdentifierType = "usa_uspto_foreign_application_no"
+	IdentifierTypeUsaUsptoForeignRegNo                      IdentifierType = "usa_uspto_foreign_reg_no"
+	IdentifierTypeWipoIntlRegNo                             IdentifierType = "wipo_intl_reg_no"
+	IdentifierTypeWipoIntlRefNo                             IdentifierType = "wipo_intl_ref_no"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -2392,6 +2405,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeMaltaAccountancyRegistrationId, nil
 	case "uk_company_number":
 		return IdentifierTypeUkCompanyNumber, nil
+	case "uk_firm_reference_number":
+		return IdentifierTypeUkFirmReferenceNumber, nil
 	case "uk_person_number":
 		return IdentifierTypeUkPersonNumber, nil
 	case "mx_rfc_person":
@@ -2788,6 +2803,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeUsaWyPartyId, nil
 	case "usa_wy_filing_id":
 		return IdentifierTypeUsaWyFilingId, nil
+	case "usa_wy_internal_filing_id":
+		return IdentifierTypeUsaWyInternalFilingId, nil
+	case "usa_wy_filing_num":
+		return IdentifierTypeUsaWyFilingNum, nil
 	case "usa_or_regno":
 		return IdentifierTypeUsaOrRegno, nil
 	case "usa_nv_corpno":
@@ -2804,6 +2823,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCaCorporateIdNum, nil
 	case "gbr_hm_treasury_sanction_group_id":
 		return IdentifierTypeGbrHmTreasurySanctionGroupId, nil
+	case "gbr_ipo_trademark_reg_no":
+		return IdentifierTypeGbrIpoTrademarkRegNo, nil
 	case "usa_ga_control_no":
 		return IdentifierTypeUsaGaControlNo, nil
 	case "hnd_coc_company_registration_number":
@@ -3432,6 +3453,18 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeDashAddress, nil
 	case "zcash_address":
 		return IdentifierTypeZcashAddress, nil
+	case "usa_uspto_serial_number":
+		return IdentifierTypeUsaUsptoSerialNumber, nil
+	case "usa_uspto_reg_no":
+		return IdentifierTypeUsaUsptoRegNo, nil
+	case "usa_uspto_foreign_application_no":
+		return IdentifierTypeUsaUsptoForeignApplicationNo, nil
+	case "usa_uspto_foreign_reg_no":
+		return IdentifierTypeUsaUsptoForeignRegNo, nil
+	case "wipo_intl_reg_no":
+		return IdentifierTypeWipoIntlRegNo, nil
+	case "wipo_intl_ref_no":
+		return IdentifierTypeWipoIntlRefNo, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -4365,10 +4398,12 @@ const (
 	WeakIdentifierTypeUsaFormerFein                 WeakIdentifierType = "usa_former_fein"
 	WeakIdentifierTypeUsaCbpWroId                   WeakIdentifierType = "usa_cbp_wro_id"
 	WeakIdentifierTypeCcsShipClassNumber            WeakIdentifierType = "ccs_ship_class_number"
+	WeakIdentifierTypeTurPartialMersisNumber        WeakIdentifierType = "tur_partial_mersis_number"
 	WeakIdentifierTypeTurOfficeRegistrationNumber   WeakIdentifierType = "tur_office_registration_number"
 	WeakIdentifierTypePartialVenCedula              WeakIdentifierType = "partial_ven_cedula"
 	WeakIdentifierTypeRusCbrId                      WeakIdentifierType = "rus_cbr_id"
 	WeakIdentifierTypeGeoStateRegistrationNumber    WeakIdentifierType = "geo_state_registration_number"
+	WeakIdentifierTypeBihMbsNumber                  WeakIdentifierType = "bih_mbs_number"
 )
 
 func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
@@ -4559,6 +4594,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeUsaCbpWroId, nil
 	case "ccs_ship_class_number":
 		return WeakIdentifierTypeCcsShipClassNumber, nil
+	case "tur_partial_mersis_number":
+		return WeakIdentifierTypeTurPartialMersisNumber, nil
 	case "tur_office_registration_number":
 		return WeakIdentifierTypeTurOfficeRegistrationNumber, nil
 	case "partial_ven_cedula":
@@ -4567,6 +4604,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeRusCbrId, nil
 	case "geo_state_registration_number":
 		return WeakIdentifierTypeGeoStateRegistrationNumber, nil
+	case "bih_mbs_number":
+		return WeakIdentifierTypeBihMbsNumber, nil
 	}
 	var t WeakIdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
