@@ -3,6 +3,7 @@
 package api
 
 import (
+	json "encoding/json"
 	fmt "fmt"
 )
 
@@ -4688,7 +4689,7 @@ type AddressInfo struct {
 }
 
 type AddressProperties struct {
-	Value          string       `json:"value"`
+	Value          *string      `json:"value,omitempty"`
 	Translated     *string      `json:"translated,omitempty"`
 	Transliterated *string      `json:"transliterated,omitempty"`
 	Type           *AddressType `json:"type,omitempty"`
@@ -4750,6 +4751,63 @@ type AttributeDetails struct {
 	BusinessPurpose       *BusinessPurposeInfo       `json:"business_purpose,omitempty"`
 }
 
+type BothIdentifierTypes struct {
+	typeName           string
+	IdentifierType     IdentifierType
+	WeakIdentifierType WeakIdentifierType
+}
+
+func NewBothIdentifierTypesFromIdentifierType(value IdentifierType) *BothIdentifierTypes {
+	return &BothIdentifierTypes{typeName: "identifierType", IdentifierType: value}
+}
+
+func NewBothIdentifierTypesFromWeakIdentifierType(value WeakIdentifierType) *BothIdentifierTypes {
+	return &BothIdentifierTypes{typeName: "weakIdentifierType", WeakIdentifierType: value}
+}
+
+func (b *BothIdentifierTypes) UnmarshalJSON(data []byte) error {
+	var valueIdentifierType IdentifierType
+	if err := json.Unmarshal(data, &valueIdentifierType); err == nil {
+		b.typeName = "identifierType"
+		b.IdentifierType = valueIdentifierType
+		return nil
+	}
+	var valueWeakIdentifierType WeakIdentifierType
+	if err := json.Unmarshal(data, &valueWeakIdentifierType); err == nil {
+		b.typeName = "weakIdentifierType"
+		b.WeakIdentifierType = valueWeakIdentifierType
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, b)
+}
+
+func (b BothIdentifierTypes) MarshalJSON() ([]byte, error) {
+	switch b.typeName {
+	default:
+		return nil, fmt.Errorf("invalid type %s in %T", b.typeName, b)
+	case "identifierType":
+		return json.Marshal(b.IdentifierType)
+	case "weakIdentifierType":
+		return json.Marshal(b.WeakIdentifierType)
+	}
+}
+
+type BothIdentifierTypesVisitor interface {
+	VisitIdentifierType(IdentifierType) error
+	VisitWeakIdentifierType(WeakIdentifierType) error
+}
+
+func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
+	switch b.typeName {
+	default:
+		return fmt.Errorf("invalid type %s in %T", b.typeName, b)
+	case "identifierType":
+		return visitor.VisitIdentifierType(b.IdentifierType)
+	case "weakIdentifierType":
+		return visitor.VisitWeakIdentifierType(b.WeakIdentifierType)
+	}
+}
+
 type BusinessPurposeData struct {
 	Record      []string                   `json:"record,omitempty"`
 	RecordCount int                        `json:"record_count"`
@@ -4781,7 +4839,7 @@ type CompanyTypeInfo struct {
 }
 
 type CompanyTypeProperties struct {
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
 }
 
 type ContactData struct {
@@ -4995,8 +5053,8 @@ type IdentifierInfo struct {
 }
 
 type IdentifierProperties struct {
-	Value string         `json:"value"`
-	Type  IdentifierType `json:"type,omitempty"`
+	Value string               `json:"value"`
+	Type  *BothIdentifierTypes `json:"type,omitempty"`
 }
 
 type MeasurementData struct {
@@ -5048,11 +5106,11 @@ type NameInfo struct {
 }
 
 type NameProperties struct {
-	Value          string       `json:"value"`
-	Language       *Language    `json:"language,omitempty"`
-	Context        *NameContext `json:"context,omitempty"`
-	Translated     *string      `json:"translated,omitempty"`
-	Transliterated *string      `json:"transliterated,omitempty"`
+	Value          string    `json:"value"`
+	Language       *Language `json:"language,omitempty"`
+	Context        *string   `json:"context,omitempty"`
+	Translated     *string   `json:"translated,omitempty"`
+	Transliterated *string   `json:"transliterated,omitempty"`
 }
 
 type PaginatedResponse struct {
