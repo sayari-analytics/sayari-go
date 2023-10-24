@@ -16,6 +16,78 @@ type ExpiresIn = int
 // Will always be "Bearer"
 type TokenType = string
 
+type PaginatedResponse struct {
+	Limit int       `json:"limit"`
+	Size  *SizeInfo `json:"size,omitempty"`
+}
+
+type SizeInfo struct {
+	Count     int    `json:"count"`
+	Qualifier string `json:"qualifier"`
+}
+
+type AdditionalInformationData struct {
+	Record      []string                         `json:"record,omitempty"`
+	RecordCount int                              `json:"record_count"`
+	Properties  *AdditionalInformationProperties `json:"properties,omitempty"`
+}
+
+type AdditionalInformationInfo struct {
+	Limit int                          `json:"limit"`
+	Size  *SizeInfo                    `json:"size,omitempty"`
+	Data  []*AdditionalInformationData `json:"data,omitempty"`
+}
+
+type AdditionalInformationProperties struct {
+	Type  *string `json:"type,omitempty"`
+	Value *string `json:"value,omitempty"`
+}
+
+type AddressData struct {
+	Record      []string           `json:"record,omitempty"`
+	RecordCount int                `json:"record_count"`
+	Properties  *AddressProperties `json:"properties,omitempty"`
+}
+
+type AddressInfo struct {
+	Limit int            `json:"limit"`
+	Size  *SizeInfo      `json:"size,omitempty"`
+	Data  []*AddressData `json:"data,omitempty"`
+}
+
+type AddressProperties struct {
+	Building       *string      `json:"building,omitempty"`
+	Category       *string      `json:"category,omitempty"`
+	City           *string      `json:"city,omitempty"`
+	CityDistrict   *string      `json:"city_district,omitempty"`
+	Country        *string      `json:"country,omitempty"`
+	CountryRegion  *string      `json:"country_region,omitempty"`
+	Entrance       *string      `json:"entrance,omitempty"`
+	House          *string      `json:"house,omitempty"`
+	HouseNumber    *string      `json:"house_number,omitempty"`
+	Island         *string      `json:"island,omitempty"`
+	Language       *Language    `json:"language,omitempty"`
+	Level          *string      `json:"level,omitempty"`
+	MetroStation   *string      `json:"metro_station,omitempty"`
+	Near           *string      `json:"near,omitempty"`
+	PoBox          *string      `json:"po_box,omitempty"`
+	Postcode       *string      `json:"postcode,omitempty"`
+	PrecisionCode  *string      `json:"precision_code,omitempty"`
+	Road           *string      `json:"road,omitempty"`
+	Staircase      *string      `json:"staircase,omitempty"`
+	State          *string      `json:"state,omitempty"`
+	StateDistrict  *string      `json:"state_district,omitempty"`
+	Suburb         *string      `json:"suburb,omitempty"`
+	Translated     *string      `json:"translated,omitempty"`
+	Transliterated *string      `json:"transliterated,omitempty"`
+	Type           *AddressType `json:"type,omitempty"`
+	Unit           *string      `json:"unit,omitempty"`
+	Value          *string      `json:"value,omitempty"`
+	WorldRegion    *string      `json:"world_region,omitempty"`
+	X              *float64     `json:"x,omitempty"`
+	Y              *float64     `json:"y,omitempty"`
+}
+
 type AddressType string
 
 const (
@@ -48,6 +120,36 @@ func NewAddressTypeFromString(s string) (AddressType, error) {
 
 func (a AddressType) Ptr() *AddressType {
 	return &a
+}
+
+type AttributeData struct {
+	Record      []string `json:"record,omitempty"`
+	RecordCount int      `json:"record_count"`
+}
+
+type AttributeDetails struct {
+	AdditionalInformation *AdditionalInformationInfo `json:"additional_information,omitempty"`
+	Address               *AddressInfo               `json:"address,omitempty"`
+	BusinessPurpose       *BusinessPurposeInfo       `json:"business_purpose,omitempty"`
+	CompanyType           *CompanyTypeInfo           `json:"company_type,omitempty"`
+	Contact               *ContactInfo               `json:"contact,omitempty"`
+	Country               *CountryInfo               `json:"country,omitempty"`
+	DateOfBirth           *DateOfBirthInfo           `json:"date_of_birth,omitempty"`
+	Finances              *FinancesInfo              `json:"finances,omitempty"`
+	Financials            *FinancialsInfo            `json:"financials,omitempty"`
+	Gender                *GenderInfo                `json:"gender,omitempty"`
+	Generic               *GenericInfo               `json:"generic,omitempty"`
+	Identifier            *IdentifierInfo            `json:"identifier,omitempty"`
+	Measurement           *MeasurementInfo           `json:"measurement,omitempty"`
+	MonetaryValue         *MonetaryValueInfo         `json:"monetary_value,omitempty"`
+	Name                  *NameInfo                  `json:"name,omitempty"`
+	PersonStatus          *PersonStatusInfo          `json:"person_status,omitempty"`
+	Position              *PositionInfo              `json:"position,omitempty"`
+	RiskIntelligence      *RiskIntelligenceInfo      `json:"risk_intelligence,omitempty"`
+	Shares                *SharesInfo                `json:"shares,omitempty"`
+	Status                *StatusInfo                `json:"status,omitempty"`
+	TranslatedName        *TranslatedNameInfo        `json:"translated_name,omitempty"`
+	WeakIdentifier        *WeakIdentifierInfo        `json:"weak_identifier,omitempty"`
 }
 
 type Attributes string
@@ -130,6 +232,81 @@ func NewAttributesFromString(s string) (Attributes, error) {
 
 func (a Attributes) Ptr() *Attributes {
 	return &a
+}
+
+type BothIdentifierTypes struct {
+	typeName           string
+	IdentifierType     IdentifierType
+	WeakIdentifierType WeakIdentifierType
+}
+
+func NewBothIdentifierTypesFromIdentifierType(value IdentifierType) *BothIdentifierTypes {
+	return &BothIdentifierTypes{typeName: "identifierType", IdentifierType: value}
+}
+
+func NewBothIdentifierTypesFromWeakIdentifierType(value WeakIdentifierType) *BothIdentifierTypes {
+	return &BothIdentifierTypes{typeName: "weakIdentifierType", WeakIdentifierType: value}
+}
+
+func (b *BothIdentifierTypes) UnmarshalJSON(data []byte) error {
+	var valueIdentifierType IdentifierType
+	if err := json.Unmarshal(data, &valueIdentifierType); err == nil {
+		b.typeName = "identifierType"
+		b.IdentifierType = valueIdentifierType
+		return nil
+	}
+	var valueWeakIdentifierType WeakIdentifierType
+	if err := json.Unmarshal(data, &valueWeakIdentifierType); err == nil {
+		b.typeName = "weakIdentifierType"
+		b.WeakIdentifierType = valueWeakIdentifierType
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, b)
+}
+
+func (b BothIdentifierTypes) MarshalJSON() ([]byte, error) {
+	switch b.typeName {
+	default:
+		return nil, fmt.Errorf("invalid type %s in %T", b.typeName, b)
+	case "identifierType":
+		return json.Marshal(b.IdentifierType)
+	case "weakIdentifierType":
+		return json.Marshal(b.WeakIdentifierType)
+	}
+}
+
+type BothIdentifierTypesVisitor interface {
+	VisitIdentifierType(IdentifierType) error
+	VisitWeakIdentifierType(WeakIdentifierType) error
+}
+
+func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
+	switch b.typeName {
+	default:
+		return fmt.Errorf("invalid type %s in %T", b.typeName, b)
+	case "identifierType":
+		return visitor.VisitIdentifierType(b.IdentifierType)
+	case "weakIdentifierType":
+		return visitor.VisitWeakIdentifierType(b.WeakIdentifierType)
+	}
+}
+
+type BusinessPurposeData struct {
+	Record      []string                   `json:"record,omitempty"`
+	RecordCount int                        `json:"record_count"`
+	Properties  *BusinessPurposeProperties `json:"properties,omitempty"`
+}
+
+type BusinessPurposeInfo struct {
+	Limit int                    `json:"limit"`
+	Size  *SizeInfo              `json:"size,omitempty"`
+	Data  []*BusinessPurposeData `json:"data,omitempty"`
+}
+
+type BusinessPurposeProperties struct {
+	Code     *string                  `json:"code,omitempty"`
+	Standard *BusinessPurposeStandard `json:"standard,omitempty"`
+	Value    *string                  `json:"value,omitempty"`
 }
 
 type BusinessPurposeStandard string
@@ -279,6 +456,39 @@ func NewCompanyStatusFromString(s string) (CompanyStatus, error) {
 
 func (c CompanyStatus) Ptr() *CompanyStatus {
 	return &c
+}
+
+type CompanyTypeData struct {
+	Record      []string               `json:"record,omitempty"`
+	RecordCount int                    `json:"record_count"`
+	Properties  *CompanyTypeProperties `json:"properties,omitempty"`
+}
+
+type CompanyTypeInfo struct {
+	Limit int                `json:"limit"`
+	Size  *SizeInfo          `json:"size,omitempty"`
+	Data  []*CompanyTypeData `json:"data,omitempty"`
+}
+
+type CompanyTypeProperties struct {
+	Value *string `json:"value,omitempty"`
+}
+
+type ContactData struct {
+	Record      []string           `json:"record,omitempty"`
+	RecordCount int                `json:"record_count"`
+	Properties  *ContactProperties `json:"properties,omitempty"`
+}
+
+type ContactInfo struct {
+	Limit int            `json:"limit"`
+	Size  *SizeInfo      `json:"size,omitempty"`
+	Data  []*ContactData `json:"data,omitempty"`
+}
+
+type ContactProperties struct {
+	Type  *ContactType `json:"type,omitempty"`
+	Value string       `json:"value"`
 }
 
 type ContactType string
@@ -1133,6 +1343,24 @@ func (c CountryContext) Ptr() *CountryContext {
 	return &c
 }
 
+type CountryData struct {
+	Record      []string           `json:"record,omitempty"`
+	RecordCount int                `json:"record_count"`
+	Properties  *CountryProperties `json:"properties,omitempty"`
+}
+
+type CountryInfo struct {
+	Limit int            `json:"limit"`
+	Size  *SizeInfo      `json:"size,omitempty"`
+	Data  []*CountryData `json:"data,omitempty"`
+}
+
+type CountryProperties struct {
+	Context *CountryContext `json:"context,omitempty"`
+	State   *string         `json:"state,omitempty"`
+	Value   Country         `json:"value,omitempty"`
+}
+
 type Currency string
 
 const (
@@ -1707,6 +1935,22 @@ func (c Currency) Ptr() *Currency {
 	return &c
 }
 
+type DateOfBirthData struct {
+	Record      []string               `json:"record,omitempty"`
+	RecordCount int                    `json:"record_count"`
+	Properties  *DateOfBirthProperties `json:"properties,omitempty"`
+}
+
+type DateOfBirthInfo struct {
+	Limit int                `json:"limit"`
+	Size  *SizeInfo          `json:"size,omitempty"`
+	Data  []*DateOfBirthData `json:"data,omitempty"`
+}
+
+type DateOfBirthProperties struct {
+	Value string `json:"value"`
+}
+
 type Entities string
 
 const (
@@ -1793,6 +2037,48 @@ func (f FinanceType) Ptr() *FinanceType {
 	return &f
 }
 
+type FinancesData struct {
+	Record      []string            `json:"record,omitempty"`
+	RecordCount int                 `json:"record_count"`
+	Properties  *FinancesProperties `json:"properties,omitempty"`
+}
+
+type FinancesInfo struct {
+	Limit int             `json:"limit"`
+	Size  *SizeInfo       `json:"size,omitempty"`
+	Data  []*FinancesData `json:"data,omitempty"`
+}
+
+type FinancesProperties struct {
+	Context  *FinanceType `json:"context,omitempty"`
+	Currency *Currency    `json:"currency,omitempty"`
+	Type     *string      `json:"type,omitempty"`
+	Value    float64      `json:"value"`
+}
+
+type FinancialsData struct {
+	Record      []string              `json:"record,omitempty"`
+	RecordCount int                   `json:"record_count"`
+	Properties  *FinancialsProperties `json:"properties,omitempty"`
+}
+
+type FinancialsInfo struct {
+	Limit int               `json:"limit"`
+	Size  *SizeInfo         `json:"size,omitempty"`
+	Data  []*FinancialsData `json:"data,omitempty"`
+}
+
+type FinancialsProperties struct {
+	Assets            *float64  `json:"assets,omitempty"`
+	Currency          *Currency `json:"currency,omitempty"`
+	Employees         *int      `json:"employees,omitempty"`
+	Liabilities       *float64  `json:"liabilities,omitempty"`
+	NetIncome         *float64  `json:"net_income,omitempty"`
+	PaidUpCapital     *float64  `json:"paid_up_capital,omitempty"`
+	RegisteredCapital *float64  `json:"registered_capital,omitempty"`
+	Revenue           *float64  `json:"revenue,omitempty"`
+}
+
 type Gender string
 
 const (
@@ -1816,6 +2102,56 @@ func NewGenderFromString(s string) (Gender, error) {
 
 func (g Gender) Ptr() *Gender {
 	return &g
+}
+
+type GenderData struct {
+	Record      []string          `json:"record,omitempty"`
+	RecordCount int               `json:"record_count"`
+	Properties  *GenderProperties `json:"properties,omitempty"`
+}
+
+type GenderInfo struct {
+	Limit int           `json:"limit"`
+	Size  *SizeInfo     `json:"size,omitempty"`
+	Data  []*GenderData `json:"data,omitempty"`
+}
+
+type GenderProperties struct {
+	Value Gender `json:"value,omitempty"`
+}
+
+type GenericData struct {
+	Record      []string           `json:"record,omitempty"`
+	RecordCount int                `json:"record_count"`
+	Properties  *GenericProperties `json:"properties,omitempty"`
+}
+
+type GenericInfo struct {
+	Limit int            `json:"limit"`
+	Size  *SizeInfo      `json:"size,omitempty"`
+	Data  []*GenericData `json:"data,omitempty"`
+}
+
+type GenericProperties struct {
+	Type  *string `json:"type,omitempty"`
+	Value *string `json:"value,omitempty"`
+}
+
+type IdentifierData struct {
+	Record      []string              `json:"record,omitempty"`
+	RecordCount int                   `json:"record_count"`
+	Properties  *IdentifierProperties `json:"properties,omitempty"`
+}
+
+type IdentifierInfo struct {
+	Limit int               `json:"limit"`
+	Size  *SizeInfo         `json:"size,omitempty"`
+	Data  []*IdentifierData `json:"data,omitempty"`
+}
+
+type IdentifierProperties struct {
+	Type  *BothIdentifierTypes `json:"type,omitempty"`
+	Value string               `json:"value"`
 }
 
 type IdentifierType string
@@ -4043,6 +4379,24 @@ func (l Language) Ptr() *Language {
 	return &l
 }
 
+type MeasurementData struct {
+	Record      []string               `json:"record,omitempty"`
+	RecordCount int                    `json:"record_count"`
+	Properties  *MeasurementProperties `json:"properties,omitempty"`
+}
+
+type MeasurementInfo struct {
+	Limit int                `json:"limit"`
+	Size  *SizeInfo          `json:"size,omitempty"`
+	Data  []*MeasurementData `json:"data,omitempty"`
+}
+
+type MeasurementProperties struct {
+	Type  MeasurementType `json:"type,omitempty"`
+	Unit  Unit            `json:"unit,omitempty"`
+	Value float64         `json:"value"`
+}
+
 type MeasurementType string
 
 const (
@@ -4090,6 +4444,24 @@ func (m MonetaryValueContext) Ptr() *MonetaryValueContext {
 	return &m
 }
 
+type MonetaryValueData struct {
+	Record      []string                 `json:"record,omitempty"`
+	RecordCount int                      `json:"record_count"`
+	Properties  *MonetaryValueProperties `json:"properties,omitempty"`
+}
+
+type MonetaryValueInfo struct {
+	Limit int                  `json:"limit"`
+	Size  *SizeInfo            `json:"size,omitempty"`
+	Data  []*MonetaryValueData `json:"data,omitempty"`
+}
+
+type MonetaryValueProperties struct {
+	Context  *string   `json:"context,omitempty"`
+	Currency *Currency `json:"currency,omitempty"`
+	Value    float64   `json:"value"`
+}
+
 type NameContext string
 
 const (
@@ -4124,6 +4496,26 @@ func (n NameContext) Ptr() *NameContext {
 	return &n
 }
 
+type NameData struct {
+	Record      []string        `json:"record,omitempty"`
+	RecordCount int             `json:"record_count"`
+	Properties  *NameProperties `json:"properties,omitempty"`
+}
+
+type NameInfo struct {
+	Limit int         `json:"limit"`
+	Size  *SizeInfo   `json:"size,omitempty"`
+	Data  []*NameData `json:"data,omitempty"`
+}
+
+type NameProperties struct {
+	Context        *string   `json:"context,omitempty"`
+	Language       *Language `json:"language,omitempty"`
+	Translated     *string   `json:"translated,omitempty"`
+	Transliterated *string   `json:"transliterated,omitempty"`
+	Value          string    `json:"value"`
+}
+
 type PersonStatus string
 
 const (
@@ -4147,6 +4539,78 @@ func NewPersonStatusFromString(s string) (PersonStatus, error) {
 
 func (p PersonStatus) Ptr() *PersonStatus {
 	return &p
+}
+
+type PersonStatusData struct {
+	Record      []string                `json:"record,omitempty"`
+	RecordCount int                     `json:"record_count"`
+	Properties  *PersonStatusProperties `json:"properties,omitempty"`
+}
+
+type PersonStatusInfo struct {
+	Limit int                 `json:"limit"`
+	Size  *SizeInfo           `json:"size,omitempty"`
+	Data  []*PersonStatusData `json:"data,omitempty"`
+}
+
+type PersonStatusProperties struct {
+	Value PersonStatus `json:"value,omitempty"`
+}
+
+type PositionData struct {
+	Record      []string            `json:"record,omitempty"`
+	RecordCount int                 `json:"record_count"`
+	Properties  *PositionProperties `json:"properties,omitempty"`
+}
+
+type PositionInfo struct {
+	Limit int             `json:"limit"`
+	Size  *SizeInfo       `json:"size,omitempty"`
+	Data  []*PositionData `json:"data,omitempty"`
+}
+
+type PositionProperties struct {
+	Value string `json:"value"`
+}
+
+type RiskIntelligenceData struct {
+	Record      []string                    `json:"record,omitempty"`
+	RecordCount int                         `json:"record_count"`
+	Properties  *RiskIntelligenceProperties `json:"properties,omitempty"`
+}
+
+type RiskIntelligenceInfo struct {
+	Limit int                     `json:"limit"`
+	Size  *SizeInfo               `json:"size,omitempty"`
+	Data  []*RiskIntelligenceData `json:"data,omitempty"`
+}
+
+type RiskIntelligenceProperties struct {
+	Authority *string `json:"authority,omitempty"`
+	List      *string `json:"list,omitempty"`
+	Program   *string `json:"program,omitempty"`
+	Reason    *string `json:"reason,omitempty"`
+	Type      Tag     `json:"type,omitempty"`
+}
+
+type SharesData struct {
+	Record      []string          `json:"record,omitempty"`
+	RecordCount int               `json:"record_count"`
+	Properties  *SharesProperties `json:"properties,omitempty"`
+}
+
+type SharesInfo struct {
+	Limit int           `json:"limit"`
+	Size  *SizeInfo     `json:"size,omitempty"`
+	Data  []*SharesData `json:"data,omitempty"`
+}
+
+type SharesProperties struct {
+	Currency      *Currency `json:"currency,omitempty"`
+	MonetaryValue *float64  `json:"monetary_value,omitempty"`
+	NumShares     *float64  `json:"num_shares,omitempty"`
+	Percentage    *float64  `json:"percentage,omitempty"`
+	Type          *string   `json:"type,omitempty"`
 }
 
 type StatusContext string
@@ -4178,6 +4642,24 @@ func NewStatusContextFromString(s string) (StatusContext, error) {
 
 func (s StatusContext) Ptr() *StatusContext {
 	return &s
+}
+
+type StatusData struct {
+	Record      []string          `json:"record,omitempty"`
+	RecordCount int               `json:"record_count"`
+	Properties  *StatusProperties `json:"properties,omitempty"`
+}
+
+type StatusInfo struct {
+	Limit int           `json:"limit"`
+	Size  *SizeInfo     `json:"size,omitempty"`
+	Data  []*StatusData `json:"data,omitempty"`
+}
+
+type StatusProperties struct {
+	Context *StatusContext `json:"context,omitempty"`
+	Text    *string        `json:"text,omitempty"`
+	Value   *CompanyStatus `json:"value,omitempty"`
 }
 
 type Tag string
@@ -4253,6 +4735,24 @@ func (t Tag) Ptr() *Tag {
 	return &t
 }
 
+type TranslatedNameData struct {
+	Record      []string                  `json:"record,omitempty"`
+	RecordCount int                       `json:"record_count"`
+	Properties  *TranslatedNameProperties `json:"properties,omitempty"`
+}
+
+type TranslatedNameInfo struct {
+	Limit int                   `json:"limit"`
+	Size  *SizeInfo             `json:"size,omitempty"`
+	Data  []*TranslatedNameData `json:"data,omitempty"`
+}
+
+type TranslatedNameProperties struct {
+	Context  *TranslationContext `json:"context,omitempty"`
+	Original *string             `json:"original,omitempty"`
+	Value    string              `json:"value"`
+}
+
 type TranslationContext string
 
 const (
@@ -4301,6 +4801,23 @@ func NewUnitFromString(s string) (Unit, error) {
 
 func (u Unit) Ptr() *Unit {
 	return &u
+}
+
+type WeakIdentifierData struct {
+	Record      []string                  `json:"record,omitempty"`
+	RecordCount int                       `json:"record_count"`
+	Properties  *WeakIdentifierProperties `json:"properties,omitempty"`
+}
+
+type WeakIdentifierInfo struct {
+	Limit int                   `json:"limit"`
+	Size  *SizeInfo             `json:"size,omitempty"`
+	Data  []*WeakIdentifierData `json:"data,omitempty"`
+}
+
+type WeakIdentifierProperties struct {
+	Type  WeakIdentifierType `json:"type,omitempty"`
+	Value string             `json:"value"`
 }
 
 type WeakIdentifierType string
@@ -4659,244 +5176,10 @@ type UnauthorizedResponse struct {
 	ErrorDescription string `json:"error_description"`
 }
 
-type AdditionalInformationData struct {
-	Record      []string                         `json:"record,omitempty"`
-	RecordCount int                              `json:"record_count"`
-	Properties  *AdditionalInformationProperties `json:"properties,omitempty"`
-}
-
-type AdditionalInformationInfo struct {
-	Limit int                          `json:"limit"`
-	Size  *SizeInfo                    `json:"size,omitempty"`
-	Data  []*AdditionalInformationData `json:"data,omitempty"`
-}
-
-type AdditionalInformationProperties struct {
-	Value *string `json:"value,omitempty"`
-	Type  *string `json:"type,omitempty"`
-}
-
-type AddressData struct {
-	Record      []string           `json:"record,omitempty"`
-	RecordCount int                `json:"record_count"`
-	Properties  *AddressProperties `json:"properties,omitempty"`
-}
-
-type AddressInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*AddressData `json:"data,omitempty"`
-}
-
-type AddressProperties struct {
-	Value          *string      `json:"value,omitempty"`
-	Translated     *string      `json:"translated,omitempty"`
-	Transliterated *string      `json:"transliterated,omitempty"`
-	Type           *AddressType `json:"type,omitempty"`
-	Language       *Language    `json:"language,omitempty"`
-	House          *string      `json:"house,omitempty"`
-	HouseNumber    *string      `json:"house_number,omitempty"`
-	PoBox          *string      `json:"po_box,omitempty"`
-	Building       *string      `json:"building,omitempty"`
-	Entrance       *string      `json:"entrance,omitempty"`
-	Staircase      *string      `json:"staircase,omitempty"`
-	Level          *string      `json:"level,omitempty"`
-	Unit           *string      `json:"unit,omitempty"`
-	Road           *string      `json:"road,omitempty"`
-	MetroStation   *string      `json:"metro_station,omitempty"`
-	Suburb         *string      `json:"suburb,omitempty"`
-	CityDistrict   *string      `json:"city_district,omitempty"`
-	City           *string      `json:"city,omitempty"`
-	StateDistrict  *string      `json:"state_district,omitempty"`
-	Island         *string      `json:"island,omitempty"`
-	State          *string      `json:"state,omitempty"`
-	Postcode       *string      `json:"postcode,omitempty"`
-	CountryRegion  *string      `json:"country_region,omitempty"`
-	Country        *string      `json:"country,omitempty"`
-	WorldRegion    *string      `json:"world_region,omitempty"`
-	Category       *string      `json:"category,omitempty"`
-	Near           *string      `json:"near,omitempty"`
-	X              *float64     `json:"x,omitempty"`
-	Y              *float64     `json:"y,omitempty"`
-	PrecisionCode  *string      `json:"precision_code,omitempty"`
-}
-
-type AttributeData struct {
-	Record      []string `json:"record,omitempty"`
-	RecordCount int      `json:"record_count"`
-}
-
-type AttributeDetails struct {
-	RiskIntelligence      *RiskIntelligenceInfo      `json:"risk_intelligence,omitempty"`
-	Country               *CountryInfo               `json:"country,omitempty"`
-	WeakIdentifier        *WeakIdentifierInfo        `json:"weak_identifier,omitempty"`
-	Generic               *GenericInfo               `json:"generic,omitempty"`
-	Status                *StatusInfo                `json:"status,omitempty"`
-	Shares                *SharesInfo                `json:"shares,omitempty"`
-	Name                  *NameInfo                  `json:"name,omitempty"`
-	Contact               *ContactInfo               `json:"contact,omitempty"`
-	PersonStatus          *PersonStatusInfo          `json:"person_status,omitempty"`
-	Financials            *FinancialsInfo            `json:"financials,omitempty"`
-	AdditionalInformation *AdditionalInformationInfo `json:"additional_information,omitempty"`
-	Finances              *FinancesInfo              `json:"finances,omitempty"`
-	Address               *AddressInfo               `json:"address,omitempty"`
-	MonetaryValue         *MonetaryValueInfo         `json:"monetary_value,omitempty"`
-	CompanyType           *CompanyTypeInfo           `json:"company_type,omitempty"`
-	Gender                *GenderInfo                `json:"gender,omitempty"`
-	TranslatedName        *TranslatedNameInfo        `json:"translated_name,omitempty"`
-	DateOfBirth           *DateOfBirthInfo           `json:"date_of_birth,omitempty"`
-	Measurement           *MeasurementInfo           `json:"measurement,omitempty"`
-	Identifier            *IdentifierInfo            `json:"identifier,omitempty"`
-	Position              *PositionInfo              `json:"position,omitempty"`
-	BusinessPurpose       *BusinessPurposeInfo       `json:"business_purpose,omitempty"`
-}
-
-type BothIdentifierTypes struct {
-	typeName           string
-	IdentifierType     IdentifierType
-	WeakIdentifierType WeakIdentifierType
-}
-
-func NewBothIdentifierTypesFromIdentifierType(value IdentifierType) *BothIdentifierTypes {
-	return &BothIdentifierTypes{typeName: "identifierType", IdentifierType: value}
-}
-
-func NewBothIdentifierTypesFromWeakIdentifierType(value WeakIdentifierType) *BothIdentifierTypes {
-	return &BothIdentifierTypes{typeName: "weakIdentifierType", WeakIdentifierType: value}
-}
-
-func (b *BothIdentifierTypes) UnmarshalJSON(data []byte) error {
-	var valueIdentifierType IdentifierType
-	if err := json.Unmarshal(data, &valueIdentifierType); err == nil {
-		b.typeName = "identifierType"
-		b.IdentifierType = valueIdentifierType
-		return nil
-	}
-	var valueWeakIdentifierType WeakIdentifierType
-	if err := json.Unmarshal(data, &valueWeakIdentifierType); err == nil {
-		b.typeName = "weakIdentifierType"
-		b.WeakIdentifierType = valueWeakIdentifierType
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, b)
-}
-
-func (b BothIdentifierTypes) MarshalJSON() ([]byte, error) {
-	switch b.typeName {
-	default:
-		return nil, fmt.Errorf("invalid type %s in %T", b.typeName, b)
-	case "identifierType":
-		return json.Marshal(b.IdentifierType)
-	case "weakIdentifierType":
-		return json.Marshal(b.WeakIdentifierType)
-	}
-}
-
-type BothIdentifierTypesVisitor interface {
-	VisitIdentifierType(IdentifierType) error
-	VisitWeakIdentifierType(WeakIdentifierType) error
-}
-
-func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
-	switch b.typeName {
-	default:
-		return fmt.Errorf("invalid type %s in %T", b.typeName, b)
-	case "identifierType":
-		return visitor.VisitIdentifierType(b.IdentifierType)
-	case "weakIdentifierType":
-		return visitor.VisitWeakIdentifierType(b.WeakIdentifierType)
-	}
-}
-
-type BusinessPurposeData struct {
-	Record      []string                   `json:"record,omitempty"`
-	RecordCount int                        `json:"record_count"`
-	Properties  *BusinessPurposeProperties `json:"properties,omitempty"`
-}
-
-type BusinessPurposeInfo struct {
-	Limit int                    `json:"limit"`
-	Size  *SizeInfo              `json:"size,omitempty"`
-	Data  []*BusinessPurposeData `json:"data,omitempty"`
-}
-
-type BusinessPurposeProperties struct {
-	Value    *string                  `json:"value,omitempty"`
-	Code     *string                  `json:"code,omitempty"`
-	Standard *BusinessPurposeStandard `json:"standard,omitempty"`
-}
-
-type CompanyTypeData struct {
-	Record      []string               `json:"record,omitempty"`
-	RecordCount int                    `json:"record_count"`
-	Properties  *CompanyTypeProperties `json:"properties,omitempty"`
-}
-
-type CompanyTypeInfo struct {
-	Limit int                `json:"limit"`
-	Size  *SizeInfo          `json:"size,omitempty"`
-	Data  []*CompanyTypeData `json:"data,omitempty"`
-}
-
-type CompanyTypeProperties struct {
-	Value *string `json:"value,omitempty"`
-}
-
-type ContactData struct {
-	Record      []string           `json:"record,omitempty"`
-	RecordCount int                `json:"record_count"`
-	Properties  *ContactProperties `json:"properties,omitempty"`
-}
-
-type ContactInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*ContactData `json:"data,omitempty"`
-}
-
-type ContactProperties struct {
-	Value string       `json:"value"`
-	Type  *ContactType `json:"type,omitempty"`
-}
-
 type Coordinate struct {
 	Lat     float64 `json:"lat"`
 	Lng     float64 `json:"lng"`
 	Address string  `json:"address"`
-}
-
-type CountryData struct {
-	Record      []string           `json:"record,omitempty"`
-	RecordCount int                `json:"record_count"`
-	Properties  *CountryProperties `json:"properties,omitempty"`
-}
-
-type CountryInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*CountryData `json:"data,omitempty"`
-}
-
-type CountryProperties struct {
-	Value   Country         `json:"value,omitempty"`
-	Context *CountryContext `json:"context,omitempty"`
-	State   *string         `json:"state,omitempty"`
-}
-
-type DateOfBirthData struct {
-	Record      []string               `json:"record,omitempty"`
-	RecordCount int                    `json:"record_count"`
-	Properties  *DateOfBirthProperties `json:"properties,omitempty"`
-}
-
-type DateOfBirthInfo struct {
-	Limit int                `json:"limit"`
-	Size  *SizeInfo          `json:"size,omitempty"`
-	Data  []*DateOfBirthData `json:"data,omitempty"`
-}
-
-type DateOfBirthProperties struct {
-	Value string `json:"value"`
 }
 
 type EmbeddedEntity struct {
@@ -4959,195 +5242,10 @@ type EntityRelationships struct {
 	Data  []*RelationshipData `json:"data,omitempty"`
 }
 
-type FinancesData struct {
-	Record      []string            `json:"record,omitempty"`
-	RecordCount int                 `json:"record_count"`
-	Properties  *FinancesProperties `json:"properties,omitempty"`
-}
-
-type FinancesInfo struct {
-	Limit int             `json:"limit"`
-	Size  *SizeInfo       `json:"size,omitempty"`
-	Data  []*FinancesData `json:"data,omitempty"`
-}
-
-type FinancesProperties struct {
-	Value    float64      `json:"value"`
-	Context  *FinanceType `json:"context,omitempty"`
-	Type     *string      `json:"type,omitempty"`
-	Currency *Currency    `json:"currency,omitempty"`
-}
-
-type FinancialsData struct {
-	Record      []string              `json:"record,omitempty"`
-	RecordCount int                   `json:"record_count"`
-	Properties  *FinancialsProperties `json:"properties,omitempty"`
-}
-
-type FinancialsInfo struct {
-	Limit int               `json:"limit"`
-	Size  *SizeInfo         `json:"size,omitempty"`
-	Data  []*FinancialsData `json:"data,omitempty"`
-}
-
-type FinancialsProperties struct {
-	Revenue           *float64  `json:"revenue,omitempty"`
-	NetIncome         *float64  `json:"net_income,omitempty"`
-	Assets            *float64  `json:"assets,omitempty"`
-	Liabilities       *float64  `json:"liabilities,omitempty"`
-	RegisteredCapital *float64  `json:"registered_capital,omitempty"`
-	PaidUpCapital     *float64  `json:"paid_up_capital,omitempty"`
-	Employees         *float64  `json:"employees,omitempty"`
-	Currency          *Currency `json:"currency,omitempty"`
-}
-
-type GenderData struct {
-	Record      []string          `json:"record,omitempty"`
-	RecordCount int               `json:"record_count"`
-	Properties  *GenderProperties `json:"properties,omitempty"`
-}
-
-type GenderInfo struct {
-	Limit int           `json:"limit"`
-	Size  *SizeInfo     `json:"size,omitempty"`
-	Data  []*GenderData `json:"data,omitempty"`
-}
-
-type GenderProperties struct {
-	Value Gender `json:"value,omitempty"`
-}
-
-type GenericData struct {
-	Record      []string           `json:"record,omitempty"`
-	RecordCount int                `json:"record_count"`
-	Properties  *GenericProperties `json:"properties,omitempty"`
-}
-
-type GenericInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*GenericData `json:"data,omitempty"`
-}
-
-type GenericProperties struct {
-	Name *string `json:"name,omitempty"`
-	Type *string `json:"type,omitempty"`
-}
-
 type Identifier struct {
 	Value string `json:"value"`
 	Type  string `json:"type"`
 	Label string `json:"label"`
-}
-
-type IdentifierData struct {
-	Record      []string              `json:"record,omitempty"`
-	RecordCount int                   `json:"record_count"`
-	Properties  *IdentifierProperties `json:"properties,omitempty"`
-}
-
-type IdentifierInfo struct {
-	Limit int               `json:"limit"`
-	Size  *SizeInfo         `json:"size,omitempty"`
-	Data  []*IdentifierData `json:"data,omitempty"`
-}
-
-type IdentifierProperties struct {
-	Value string               `json:"value"`
-	Type  *BothIdentifierTypes `json:"type,omitempty"`
-}
-
-type MeasurementData struct {
-	Record      []string               `json:"record,omitempty"`
-	RecordCount int                    `json:"record_count"`
-	Properties  *MeasurementProperties `json:"properties,omitempty"`
-}
-
-type MeasurementInfo struct {
-	Limit int                `json:"limit"`
-	Size  *SizeInfo          `json:"size,omitempty"`
-	Data  []*MeasurementData `json:"data,omitempty"`
-}
-
-type MeasurementProperties struct {
-	Value float64         `json:"value"`
-	Type  MeasurementType `json:"type,omitempty"`
-	Unit  Unit            `json:"unit,omitempty"`
-}
-
-type MonetaryValueData struct {
-	Record      []string                 `json:"record,omitempty"`
-	RecordCount int                      `json:"record_count"`
-	Properties  *MonetaryValueProperties `json:"properties,omitempty"`
-}
-
-type MonetaryValueInfo struct {
-	Limit int                  `json:"limit"`
-	Size  *SizeInfo            `json:"size,omitempty"`
-	Data  []*MonetaryValueData `json:"data,omitempty"`
-}
-
-type MonetaryValueProperties struct {
-	Value    float64   `json:"value"`
-	Currency *Currency `json:"currency,omitempty"`
-	Context  *string   `json:"context,omitempty"`
-}
-
-type NameData struct {
-	Record      []string        `json:"record,omitempty"`
-	RecordCount int             `json:"record_count"`
-	Properties  *NameProperties `json:"properties,omitempty"`
-}
-
-type NameInfo struct {
-	Limit int         `json:"limit"`
-	Size  *SizeInfo   `json:"size,omitempty"`
-	Data  []*NameData `json:"data,omitempty"`
-}
-
-type NameProperties struct {
-	Value          string    `json:"value"`
-	Language       *Language `json:"language,omitempty"`
-	Context        *string   `json:"context,omitempty"`
-	Translated     *string   `json:"translated,omitempty"`
-	Transliterated *string   `json:"transliterated,omitempty"`
-}
-
-type PaginatedResponse struct {
-	Limit int       `json:"limit"`
-	Size  *SizeInfo `json:"size,omitempty"`
-}
-
-type PersonStatusData struct {
-	Record      []string                `json:"record,omitempty"`
-	RecordCount int                     `json:"record_count"`
-	Properties  *PersonStatusProperties `json:"properties,omitempty"`
-}
-
-type PersonStatusInfo struct {
-	Limit int                 `json:"limit"`
-	Size  *SizeInfo           `json:"size,omitempty"`
-	Data  []*PersonStatusData `json:"data,omitempty"`
-}
-
-type PersonStatusProperties struct {
-	Value PersonStatus `json:"value,omitempty"`
-}
-
-type PositionData struct {
-	Record      []string            `json:"record,omitempty"`
-	RecordCount int                 `json:"record_count"`
-	Properties  *PositionProperties `json:"properties,omitempty"`
-}
-
-type PositionInfo struct {
-	Limit int             `json:"limit"`
-	Size  *SizeInfo       `json:"size,omitempty"`
-	Data  []*PositionData `json:"data,omitempty"`
-}
-
-type PositionProperties struct {
-	Value string `json:"value"`
 }
 
 type PossiblySameAs struct {
@@ -5216,26 +5314,6 @@ type RiskInfo struct {
 	Level    RiskLevel              `json:"level,omitempty"`
 }
 
-type RiskIntelligenceData struct {
-	Record      []string                    `json:"record,omitempty"`
-	RecordCount int                         `json:"record_count"`
-	Properties  *RiskIntelligenceProperties `json:"properties,omitempty"`
-}
-
-type RiskIntelligenceInfo struct {
-	Limit int                     `json:"limit"`
-	Size  *SizeInfo               `json:"size,omitempty"`
-	Data  []*RiskIntelligenceData `json:"data,omitempty"`
-}
-
-type RiskIntelligenceProperties struct {
-	Type      Tag     `json:"type,omitempty"`
-	Authority *string `json:"authority,omitempty"`
-	Program   *string `json:"program,omitempty"`
-	List      *string `json:"list,omitempty"`
-	Reason    *string `json:"reason,omitempty"`
-}
-
 type RiskLevel string
 
 const (
@@ -5264,26 +5342,6 @@ func (r RiskLevel) Ptr() *RiskLevel {
 	return &r
 }
 
-type SharesData struct {
-	Record      []string          `json:"record,omitempty"`
-	RecordCount int               `json:"record_count"`
-	Properties  *SharesProperties `json:"properties,omitempty"`
-}
-
-type SharesInfo struct {
-	Limit int           `json:"limit"`
-	Size  *SizeInfo     `json:"size,omitempty"`
-	Data  []*SharesData `json:"data,omitempty"`
-}
-
-type SharesProperties struct {
-	NumShares     *float64  `json:"num_shares,omitempty"`
-	MonetaryValue *float64  `json:"monetary_value,omitempty"`
-	Currency      *Currency `json:"currency,omitempty"`
-	Percentage    *float64  `json:"percentage,omitempty"`
-	Type          *string   `json:"type,omitempty"`
-}
-
 type SourceCount = map[string]*SourceCountInfo
 
 type SourceCountInfo struct {
@@ -5294,64 +5352,6 @@ type SourceCountInfo struct {
 type Status struct {
 	Status string  `json:"status"`
 	Date   *string `json:"date,omitempty"`
-}
-
-type StatusData struct {
-	Record      []string          `json:"record,omitempty"`
-	RecordCount int               `json:"record_count"`
-	Properties  *StatusProperties `json:"properties,omitempty"`
-}
-
-type StatusInfo struct {
-	Limit int           `json:"limit"`
-	Size  *SizeInfo     `json:"size,omitempty"`
-	Data  []*StatusData `json:"data,omitempty"`
-}
-
-type StatusProperties struct {
-	Name    *CompanyStatus `json:"name,omitempty"`
-	Text    *string        `json:"text,omitempty"`
-	Context *StatusContext `json:"context,omitempty"`
-}
-
-type TranslatedNameData struct {
-	Record      []string                  `json:"record,omitempty"`
-	RecordCount int                       `json:"record_count"`
-	Properties  *TranslatedNameProperties `json:"properties,omitempty"`
-}
-
-type TranslatedNameInfo struct {
-	Limit int                   `json:"limit"`
-	Size  *SizeInfo             `json:"size,omitempty"`
-	Data  []*TranslatedNameData `json:"data,omitempty"`
-}
-
-type TranslatedNameProperties struct {
-	Value   string              `json:"value"`
-	Origin  *string             `json:"origin,omitempty"`
-	Context *TranslationContext `json:"context,omitempty"`
-}
-
-type WeakIdentifierData struct {
-	Record      []string                  `json:"record,omitempty"`
-	RecordCount int                       `json:"record_count"`
-	Properties  *WeakIdentifierProperties `json:"properties,omitempty"`
-}
-
-type WeakIdentifierInfo struct {
-	Limit int                   `json:"limit"`
-	Size  *SizeInfo             `json:"size,omitempty"`
-	Data  []*WeakIdentifierData `json:"data,omitempty"`
-}
-
-type WeakIdentifierProperties struct {
-	Value string             `json:"value"`
-	Type  WeakIdentifierType `json:"type,omitempty"`
-}
-
-type SizeInfo struct {
-	Count     int    `json:"count"`
-	Qualifier string `json:"qualifier"`
 }
 
 type ShortestPathData struct {
