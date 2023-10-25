@@ -180,6 +180,27 @@ if err != nil {
 ```
 
 ### ScreenCSVEntities
+One of the most common use cases for the Sayari Graph API is screening entities for potential risks. Because of this, the SDK includes tooling to simplify this process.
+
+The 'ScreenCSVEntities' function takes in the path for a CSV containing entities to screen, and returns those entities and their associated risks. For this to work properly, the CSV must only contain columns that map to entity attributes. Valid names for those columns are as follows: (column names are case and spacing insensitive)
+- Name
+- Identifier
+- Country
+- Address
+- Date Of Birth
+- Contact
+- Entity Type
+
+Once your CSV is property formatted, using the screen function is as simple as providing the path to the CSV.
+```go
+riskyEntities, nonRiskyEntities, unresolved, err := client.ScreenCSVEntities(context.Background(), "entities_to_screen.csv")
+	if err != nil {
+		log.Fatalf("Failed to screen entities. Err: %v", err)
+	}
+```
+
+As you can see from this example, the first object returned is a slice of entities that do have risks, the next is a slice of entities without risks, and the third is a slice of rows from the CSV that were unable to be resolved.
+
 ### Pointers
 
 ## Entity
