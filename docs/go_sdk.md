@@ -134,7 +134,7 @@ You should now have all the tools you need to start using the Sayari Graph Go SD
 ## Trade Analysis
 
 # Examples
-Please see the API documentation for detailed explanations of all the request and response bodies. Our documentation site (along with valid client ID and secret) can be used to make requests against our API to get a sense for how the API behaves.
+**Please see the API documentation for detailed explanations of all the request and response bodies**. Our documentation site (along with valid client ID and secret) can be used to make requests against our API to get a sense for how the API behaves.
 
 In addition to the API documentation, the SDK code itself is a great resource for understanding the structure of Sayari Graph API requests and responses. Objects in the code should have helpful names and comments detailing their significance.
 
@@ -173,7 +173,7 @@ if err != nil {
 ```
 #### GetAllTraversalResults
 ```go
-allTraversals, err := client.GetAllTraversalResults(context.Background(), "my entity ID", &sayari.Traversal{})
+allTraversals, err := client.GetAllTraversalResults(context.Background(), myEntityID, &sayari.Traversal{})
 if err != nil {
     log.Fatalf("Error: %v", err)
 }
@@ -233,25 +233,105 @@ func main() {
 
 ## Entity
 ### Get Entity
+```go
+entityDetails, err := client.Entity.GetEntity(context.Background(), myEntityID, &sayari.GetEntity{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
 ### Entity Summary
+```go
+entitySummary, err := client.Entity.EntitySummary(context.Background(), myEntityID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 
 ## Record
 ### Get Record
+Note: record ID's must be URL escaped
+```go
+record, err := client.Record.GetRecord(context.Background(), url.QueryEscape(myRecordID), &sayari.GetRecord{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 
 ## Resolution
 ### Resolution
+```go
+resolution, err := client.Resolution.Resolution(context.Background(), &sayari.Resolution{Name: []*string{sayari.String("search term")}})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 
 ## Search
 ### Search Entity
+```go
+entitySearchResults, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 ### Search Record
+```go
+recordSearch, err := client.Search.SearchRecord(context.Background(), &sayari.SearchRecord{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 
 ## Source
 ### List Sources
+```go
+sources, err := client.Source.ListSources(context.Background(), &sayari.ListSources{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 ### Get Source
+```go
+source, err := client.Source.GetSource(context.Background(), mySourceID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 
 ## Traversal
 ### Traversal
+```go
+traversal, err := client.Traversal.Traversal(context.Background(), myEntityID, &sayari.Traversal{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 ### UBO
+```go
+ubo, err := client.Traversal.Ubo(context.Background(), myEntityID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 ### Ownership
+```go
+ownership, err := client.Traversal.Ownership(context.Background(), myEntityID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 ### Watchlist
+```go
+watchlist, err := client.Traversal.Watchlist(context.Background(), myEntityID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 ### Shortest Path
+```go
+shortestPath, err := client.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{myFirstEntityID, mySecondEntityID}})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
