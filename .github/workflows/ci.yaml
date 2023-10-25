@@ -58,7 +58,7 @@ jobs:
           echo "Running pagination example"
           go run examples/pagination/pagination.go
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "Running screening test"
+          echo "Running screening example"
           go run examples/screening/screening.go  
 
 

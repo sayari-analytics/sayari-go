@@ -202,6 +202,34 @@ riskyEntities, nonRiskyEntities, unresolved, err := client.ScreenCSVEntities(con
 As you can see from this example, the first object returned is a slice of entities that do have risks, the next is a slice of entities without risks, and the third is a slice of rows from the CSV that were unable to be resolved.
 
 ### Pointers
+To differentiate between not providing values and providing empty values, we follow the common go patter of using pointers. For, to allow us to differentiate between an integer value of 0 and no value at all we can pass a pointer either to a integer with a value of 0 or no pointer at all.
+
+Because of this, we often need to specify pointers in our param structs. To make this easier/faster there are convenience functions. The snippet below shows and example of this. As you can see, we are limiting our entity search to just the first result by providing a pointer to an integer with a value of 1.
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"os"
+
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
+	"github.com/sayari-analytics/sayari-go/sdk"
+)
+
+func main() {
+	// Create a client to auth against the API
+	client, err := sdk.Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+
+	// Traversal
+	entity, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: "Joe Smith", Limit: sayari.Int(1)})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+```
 
 ## Entity
 ### Get Entity
