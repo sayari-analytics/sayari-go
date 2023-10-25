@@ -141,11 +141,44 @@ In addition to the API documentation, the SDK code itself is a great resource fo
 What follows is a list of invocation examples for each of the SDK functions. Again, this is not an exhaustive demonstration if its capabilities, but rather a minimal example to help you get started.
 
 ## Top Level SDK functions
+As mentioned above, this SDK provides some convenience functions beyond those available purely via the Sayari Graph API.
+
 ### Connect
+The connect function can be used to create an authenticated API client which supplies the methods for the rest of the SDK's functionality. In addition to handling the authentication, this client object will also handle re-authentication in cases where the client is longer-lived then the duration of the initial authentication request.
+
+To call the 'Connect' function, simply provide the client ID and secret
+```go
+client, err := sdk.Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
 ### Pagination
+Some of our endpoints return paginated results. If you know that you are going to want all pages of this data, you can use the following 'GetAll' convenience functions to request all pages of data.
+
 #### GetAllEntitySearchResults
+```go
+allEntities, err := client.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: "Victoria Beckham"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 #### GetAllRecordSearchResults
+```go
+allRecords, err := client.GetAllRecordSearchResults(context.Background(), &sayari.SearchRecord{Q: "Victoria Beckham"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
 #### GetAllTraversalResults
+```go
+allTraversals, err := client.GetAllTraversalResults(context.Background(), "my entity ID", &sayari.Traversal{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
 ### ScreenCSVEntities
 ### Pointers
 
