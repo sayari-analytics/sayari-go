@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
-	sayari "github.com/sayari-analytics/sayari-go/generated/go"
-	"github.com/sayari-analytics/sayari-go/sdk"
 	"log"
 	"os"
+
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
+	"github.com/sayari-analytics/sayari-go/sdk"
 
 	"github.com/joho/godotenv"
 )
