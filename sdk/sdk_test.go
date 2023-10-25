@@ -264,7 +264,7 @@ func TestTraversalPagination(t *testing.T) {
 	entity := entitySearchResults.Data[0]
 
 	// Do paginated query
-	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: Int(1)})
+	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: sayari.Int(1)})
 	assert.Nil(t, err)
 	assert.Greater(t, len(allTraversals), 1)
 }

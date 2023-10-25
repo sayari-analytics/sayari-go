@@ -16,7 +16,7 @@ func (c *Connection) GetAllEntitySearchResults(ctx context.Context, params *saya
 		if !result.Next {
 			break
 		}
-		params.Offset = Int(result.Offset + result.Limit)
+		params.Offset = sayari.Int(result.Offset + result.Limit)
 	}
 	return data, nil
 }
@@ -31,7 +31,7 @@ func (c *Connection) GetAllRecordSearchResults(ctx context.Context, params *saya
 		if !result.Next {
 			break
 		}
-		params.Offset = Int(result.Offset + result.Limit)
+		params.Offset = sayari.Int(result.Offset + result.Limit)
 	}
 	return data, nil
 }
@@ -46,7 +46,7 @@ func (c *Connection) GetAllTraversalResults(ctx context.Context, entityID sayari
 		if !result.Next {
 			break
 		}
-		params.Offset = Int(result.Offset + result.Limit)
+		params.Offset = sayari.Int(result.Offset + result.Limit)
 	}
 	return data, nil
 }

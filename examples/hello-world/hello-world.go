@@ -21,7 +21,7 @@ func main() {
 
 	// Create the request body
 	resolutionRequest := sayari.Resolution{
-		Name: []*string{sdk.String("Victoria Beckham")},
+		Name: []*string{sayari.String("Victoria Beckham")},
 	}
 
 	// Make the request and handle the error
