@@ -5398,7 +5398,8 @@ type Bucket struct {
 }
 
 type BusinessPurpose struct {
-	Value string `json:"value"`
+	Value *string `json:"value,omitempty"`
+	Code  *string `json:"code,omitempty"`
 }
 
 type LatestShipmentDate struct {
