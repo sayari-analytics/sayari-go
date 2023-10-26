@@ -5342,6 +5342,40 @@ func (r RiskLevel) Ptr() *RiskLevel {
 	return &r
 }
 
+type SearchField string
+
+const (
+	SearchFieldName            SearchField = "name"
+	SearchFieldIdentifier      SearchField = "identifier"
+	SearchFieldAddress         SearchField = "address"
+	SearchFieldBusinessPurpose SearchField = "business_purpose"
+	SearchFieldDateOfBirth     SearchField = "date_of_birth"
+	SearchFieldContact         SearchField = "contact"
+)
+
+func NewSearchFieldFromString(s string) (SearchField, error) {
+	switch s {
+	case "name":
+		return SearchFieldName, nil
+	case "identifier":
+		return SearchFieldIdentifier, nil
+	case "address":
+		return SearchFieldAddress, nil
+	case "business_purpose":
+		return SearchFieldBusinessPurpose, nil
+	case "date_of_birth":
+		return SearchFieldDateOfBirth, nil
+	case "contact":
+		return SearchFieldContact, nil
+	}
+	var t SearchField
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SearchField) Ptr() *SearchField {
+	return &s
+}
+
 type SourceCount = map[string]*SourceCountInfo
 
 type SourceCountInfo struct {
@@ -5352,6 +5386,47 @@ type SourceCountInfo struct {
 type Status struct {
 	Status string  `json:"status"`
 	Date   *string `json:"date,omitempty"`
+}
+
+type BuyerSearchResults struct {
+	Limit  int         `json:"limit"`
+	Size   *SizeInfo   `json:"size,omitempty"`
+	Offset int         `json:"offset"`
+	Next   bool        `json:"next"`
+	Data   interface{} `json:"data,omitempty"`
+}
+
+type SupplierSearchResults struct {
+	Limit  int         `json:"limit"`
+	Size   *SizeInfo   `json:"size,omitempty"`
+	Offset int         `json:"offset"`
+	Next   bool        `json:"next"`
+	Data   interface{} `json:"data,omitempty"`
+}
+
+// Filter your search on the following attributes.
+type TradeFilterList struct {
+	BuyerId          *string `json:"buyer_id,omitempty"`
+	SupplierId       *string `json:"supplier_id,omitempty"`
+	BuyerName        *string `json:"buyer_name,omitempty"`
+	SupplierName     *string `json:"supplier_name,omitempty"`
+	BuyerRisk        *string `json:"buyer_risk,omitempty"`
+	SupplierRisk     *string `json:"supplier_risk,omitempty"`
+	BuyerCountry     *string `json:"buyer_country,omitempty"`
+	SupplierCountry  *string `json:"supplier_country,omitempty"`
+	DepartureCountry *string `json:"departure_country,omitempty"`
+	DepartureState   *string `json:"departure_state,omitempty"`
+	DepartureCity    *string `json:"departure_city,omitempty"`
+	ArrivalCountry   *string `json:"arrival_country,omitempty"`
+	ArrivalState     *string `json:"arrival_state,omitempty"`
+	ArrivalCity      *string `json:"arrival_city,omitempty"`
+	HsCode           *string `json:"hs_code,omitempty"`
+	HsDescription    *string `json:"hs_description,omitempty"`
+	SupplierPurpose  *string `json:"supplier_purpose,omitempty"`
+	BuyerPurpose     *string `json:"buyer_purpose,omitempty"`
+	ArrivalDate      *string `json:"arrival_date,omitempty"`
+	Weight           *string `json:"weight,omitempty"`
+	Sources          *string `json:"sources,omitempty"`
 }
 
 type ShortestPathData struct {
