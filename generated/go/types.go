@@ -5388,16 +5388,23 @@ type Status struct {
 	Date   *string `json:"date,omitempty"`
 }
 
+type Aggregations struct {
+	ByVolume []*VolumeAggregates `json:"byVolume,omitempty"`
+}
+
+type Bucket struct {
+	Key      string `json:"key"`
+	DocCount int    `json:"doc_count"`
+}
+
 type BusinessPurpose struct {
 	Value string `json:"value"`
 }
 
-type BuyerSearchResults struct {
-	Limit  int         `json:"limit"`
-	Size   *SizeInfo   `json:"size,omitempty"`
-	Offset int         `json:"offset"`
-	Next   bool        `json:"next"`
-	Data   interface{} `json:"data,omitempty"`
+type LatestShipmentDate struct {
+	DocCountErrorUpperBound int       `json:"doc_count_error_upper_bound"`
+	SumOtherDocCount        int       `json:"sum_other_doc_count"`
+	Buckets                 []*Bucket `json:"buckets,omitempty"`
 }
 
 type Shipment struct {
@@ -5477,13 +5484,20 @@ type Supplier struct {
 	Metadata          *SupplierMetadata     `json:"metadata,omitempty"`
 }
 
-type SupplierHits struct {
-	Hits []*Supplier `json:"hits,omitempty"`
+type SupplierMetadata struct {
+	LatestShipmentDate *string `json:"latestShipmentDate,omitempty"`
+	Shipments          int     `json:"shipments"`
 }
 
-type SupplierMetadata struct {
-	LatestShipmentDate string `json:"latestShipmentDate"`
-	Shipment           int    `json:"shipment"`
+type SupplierOrBuyerHits struct {
+	Hits         []*Supplier   `json:"hits,omitempty"`
+	Aggregations *Aggregations `json:"aggregations,omitempty"`
+}
+
+type VolumeAggregates struct {
+	Key                string              `json:"key"`
+	DocCount           int                 `json:"doc_count"`
+	LatestShipmentDate *LatestShipmentDate `json:"latest_shipment_date,omitempty"`
 }
 
 type ShortestPathData struct {
