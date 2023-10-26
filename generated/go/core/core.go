@@ -178,14 +178,14 @@ func DoRequest(
 
 		attemptLimit := 3
 		var attemptCount int
-		for resp.StatusCode == 429 {
+		for resp.StatusCode == 429 || resp.StatusCode == 502 {
 			// close the previous response body, the defer will catch whatever we are left with after looping
 			resp.Body.Close()
-
-			// Ideally we will have a "Retry-After" header to tell us how long to wait
-			sleepTimeStr := resp.Header.Get("Retry-After")
 			var sleepTime int
-			if sleepTimeStr != "" {
+			if resp.StatusCode == 502 {
+				sleepTime = 30
+			} else if sleepTimeStr := resp.Header.Get("Retry-After"); sleepTimeStr != "" {
+				// Ideally we will have a "Retry-After" header to tell us how long to wait if it is a 429
 				sleepTime, err = strconv.Atoi(sleepTimeStr)
 				if err != nil {
 					return fmt.Errorf("found a 'Retry-After' header and atttempted to parse it to an integer but failed. err: %v", err)
@@ -201,19 +201,6 @@ func DoRequest(
 			}
 			log.Printf("Waiting %vs for rate limit to recover...", sleepTime)
 			time.Sleep(time.Duration(sleepTime) * time.Second)
-
-			// re-make the request
-			resp, err = client.Do(req)
-			if err != nil {
-				return err
-			}
-		}
-		for resp.StatusCode == 502 {
-			// close the previous response body, the defer will catch whatever we are left with after looping
-			resp.Body.Close()
-
-			log.Println("Waiting 30s for the bad gateway to recover...")
-			time.Sleep(30 * time.Second)
 
 			// re-make the request
 			resp, err = client.Do(req)
