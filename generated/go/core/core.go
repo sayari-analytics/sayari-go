@@ -171,7 +171,7 @@ func DoRequest(
 	}
 
 	// If we get a 429 (Too many requests) response code and have a rate limiter setup, block other request and retry
-	if rateLimiter != nil && resp.StatusCode == 429 {
+	if rateLimiter != nil && (resp.StatusCode == 429 || resp.StatusCode == 502) {
 		// block other requests until we can finish processing this one
 		rateLimiter.Block()
 		defer rateLimiter.UnBlock()
@@ -201,6 +201,19 @@ func DoRequest(
 			}
 			log.Printf("Waiting %vs for rate limit to recover...", sleepTime)
 			time.Sleep(time.Duration(sleepTime) * time.Second)
+
+			// re-make the request
+			resp, err = client.Do(req)
+			if err != nil {
+				return err
+			}
+		}
+		for resp.StatusCode == 502 {
+			// close the previous response body, the defer will catch whatever we are left with after looping
+			resp.Body.Close()
+
+			log.Println("Waiting 30s for the bad gateway to recover...")
+			time.Sleep(30 * time.Second)
 
 			// re-make the request
 			resp, err = client.Do(req)
