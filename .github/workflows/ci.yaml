@@ -60,7 +60,10 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "Running screening example"
           go run examples/screening/screening.go  
-
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Running trade search example"
+          go run examples/trade-search/trade-search.go  
+          
 
   #FIXME: add integration test to confirm it is working with the most up to date bindings
 
