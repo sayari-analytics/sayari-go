@@ -9,6 +9,8 @@ type SearchShipments struct {
 	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"-"`
+	// Filters to be applied to search query to limit the result-set.
+	Filter *string `json:"-"`
 	// Record or entity fields to search against.
 	Fields []*SearchField `json:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
@@ -20,9 +22,9 @@ type SearchShipments struct {
 }
 
 type ShipmentSearchResults struct {
-	Limit  int         `json:"limit"`
-	Size   *SizeInfo   `json:"size,omitempty"`
-	Offset int         `json:"offset"`
-	Next   bool        `json:"next"`
-	Data   interface{} `json:"data,omitempty"`
+	Limit  int           `json:"limit"`
+	Size   *SizeInfo     `json:"size,omitempty"`
+	Offset int           `json:"offset"`
+	Next   bool          `json:"next"`
+	Data   *ShipmentHits `json:"data,omitempty"`
 }

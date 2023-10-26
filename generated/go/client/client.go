@@ -10,6 +10,7 @@ import (
 	resolution "github.com/sayari-analytics/sayari-go/generated/go/resolution"
 	search "github.com/sayari-analytics/sayari-go/generated/go/search"
 	source "github.com/sayari-analytics/sayari-go/generated/go/source"
+	trade "github.com/sayari-analytics/sayari-go/generated/go/trade"
 	traversal "github.com/sayari-analytics/sayari-go/generated/go/traversal"
 	http "net/http"
 )
@@ -25,6 +26,7 @@ type Client struct {
 	Resolution *resolution.Client
 	Search     *search.Client
 	Source     *source.Client
+	Trade      *trade.Client
 	Traversal  *traversal.Client
 }
 
@@ -33,7 +35,6 @@ func NewClient(opts ...core.ClientOption) *Client {
 	for _, opt := range opts {
 		opt(options)
 	}
-
 	return &Client{
 		baseURL:    options.BaseURL,
 		httpClient: options.HTTPClient,
@@ -44,6 +45,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 		Resolution: resolution.NewClient(opts...),
 		Search:     search.NewClient(opts...),
 		Source:     source.NewClient(opts...),
+		Trade:      trade.NewClient(opts...),
 		Traversal:  traversal.NewClient(opts...),
 	}
 }

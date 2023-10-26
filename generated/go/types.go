@@ -5388,6 +5388,10 @@ type Status struct {
 	Date   *string `json:"date,omitempty"`
 }
 
+type BusinessPurpose struct {
+	Value string `json:"value"`
+}
+
 type BuyerSearchResults struct {
 	Limit  int         `json:"limit"`
 	Size   *SizeInfo   `json:"size,omitempty"`
@@ -5396,37 +5400,56 @@ type BuyerSearchResults struct {
 	Data   interface{} `json:"data,omitempty"`
 }
 
+type Shipment struct {
+	MonetaryValue   []interface{}                `json:"monetary_value,omitempty"`
+	Dst             []*SourceOrDestinationEntity `json:"dst,omitempty"`
+	Weight          []interface{}                `json:"weight,omitempty"`
+	BusinessPurpose []*BusinessPurpose           `json:"business_purpose,omitempty"`
+	Identifier      []*ShipmentIdentifier        `json:"identifier,omitempty"`
+	Country         []*ShipmentCountry           `json:"country,omitempty"`
+	Src             []*SourceOrDestinationEntity `json:"src,omitempty"`
+	Metadata        *ShipmentMetadata            `json:"metadata,omitempty"`
+}
+
+type ShipmentCountry struct {
+	Value Country `json:"value,omitempty"`
+}
+
+type ShipmentHits struct {
+	Hits []*Shipment `json:"hits,omitempty"`
+}
+
+type ShipmentIdentifier struct {
+	Value string               `json:"value"`
+	Type  *BothIdentifierTypes `json:"type,omitempty"`
+}
+
+type ShipmentMetadata struct {
+	ArrivalCountry   []Country          `json:"arrival_country,omitempty"`
+	Jurisdiction     []Country          `json:"jurisdiction,omitempty"`
+	ReferenceId      string             `json:"reference_id"`
+	EntityId         EntityId           `json:"entity_id"`
+	DepartureAddress *AddressProperties `json:"departure_address,omitempty"`
+	Type             string             `json:"type"`
+	Sources          []string           `json:"sources,omitempty"`
+	DepartureCountry []Country          `json:"departure_country,omitempty"`
+}
+
+type SourceOrDestinationEntity struct {
+	RiskFactors     map[string]interface{} `json:"risk_factors,omitempty"`
+	Name            []string               `json:"name,omitempty"`
+	BusinessPurpose []*BusinessPurpose     `json:"business_purpose,omitempty"`
+	Country         []Country              `json:"country,omitempty"`
+	EntityId        EntityId               `json:"entity_id"`
+	Type            Relationships          `json:"type,omitempty"`
+}
+
 type SupplierSearchResults struct {
 	Limit  int         `json:"limit"`
 	Size   *SizeInfo   `json:"size,omitempty"`
 	Offset int         `json:"offset"`
 	Next   bool        `json:"next"`
 	Data   interface{} `json:"data,omitempty"`
-}
-
-// Filter your search on the following attributes.
-type TradeFilterList struct {
-	BuyerId          *string `json:"buyer_id,omitempty"`
-	SupplierId       *string `json:"supplier_id,omitempty"`
-	BuyerName        *string `json:"buyer_name,omitempty"`
-	SupplierName     *string `json:"supplier_name,omitempty"`
-	BuyerRisk        *string `json:"buyer_risk,omitempty"`
-	SupplierRisk     *string `json:"supplier_risk,omitempty"`
-	BuyerCountry     *string `json:"buyer_country,omitempty"`
-	SupplierCountry  *string `json:"supplier_country,omitempty"`
-	DepartureCountry *string `json:"departure_country,omitempty"`
-	DepartureState   *string `json:"departure_state,omitempty"`
-	DepartureCity    *string `json:"departure_city,omitempty"`
-	ArrivalCountry   *string `json:"arrival_country,omitempty"`
-	ArrivalState     *string `json:"arrival_state,omitempty"`
-	ArrivalCity      *string `json:"arrival_city,omitempty"`
-	HsCode           *string `json:"hs_code,omitempty"`
-	HsDescription    *string `json:"hs_description,omitempty"`
-	SupplierPurpose  *string `json:"supplier_purpose,omitempty"`
-	BuyerPurpose     *string `json:"buyer_purpose,omitempty"`
-	ArrivalDate      *string `json:"arrival_date,omitempty"`
-	Weight           *string `json:"weight,omitempty"`
-	Sources          *string `json:"sources,omitempty"`
 }
 
 type ShortestPathData struct {
