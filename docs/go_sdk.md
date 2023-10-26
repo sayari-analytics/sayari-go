@@ -335,3 +335,26 @@ if err != nil {
     log.Fatalf("Error: %v", err)
 }
 ```
+
+## Trade
+### Shipment Search
+```go
+shipments, err := client.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### Supplier Search
+```go
+suppliers, err := client.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### Buyer Search
+```go
+buyers, err := client.Trade.SearchBuyers(context.Background(), &sayari.SearchBuyers{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
