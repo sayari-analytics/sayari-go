@@ -35,4 +35,11 @@ func main() {
 		log.Fatalf("Error: %v", err)
 	}
 	log.Printf("Found %v shipments", len(shipments.Data.Hits))
+
+	// Do supplier search
+	suppliers, err := client.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: "microcenter"})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	log.Printf("Found %v suppliers", len(suppliers.Data.Hits))
 }

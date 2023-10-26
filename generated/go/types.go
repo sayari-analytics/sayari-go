@@ -5444,12 +5444,46 @@ type SourceOrDestinationEntity struct {
 	Type            Relationships          `json:"type,omitempty"`
 }
 
-type SupplierSearchResults struct {
-	Limit  int         `json:"limit"`
-	Size   *SizeInfo   `json:"size,omitempty"`
-	Offset int         `json:"offset"`
-	Next   bool        `json:"next"`
-	Data   interface{} `json:"data,omitempty"`
+type Supplier struct {
+	Id                EntityId              `json:"id"`
+	Label             string                `json:"label"`
+	Degree            int                   `json:"degree"`
+	Closed            bool                  `json:"closed"`
+	EntityUrl         string                `json:"entity_url"`
+	Pep               bool                  `json:"pep"`
+	PsaCount          int                   `json:"psa_count"`
+	Sanctioned        bool                  `json:"sanctioned"`
+	Type              Entities              `json:"type,omitempty"`
+	Identifiers       []*Identifier         `json:"identifiers,omitempty"`
+	Countries         []string              `json:"countries,omitempty"`
+	PsaSanctioned     *string               `json:"psa_sanctioned,omitempty"`
+	SourceCount       SourceCount           `json:"source_count,omitempty"`
+	Addresses         []string              `json:"addresses,omitempty"`
+	DateOfBirth       *string               `json:"date_of_birth,omitempty"`
+	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
+	RegistrationDate  *string               `json:"registration_date,omitempty"`
+	TranslatedLabel   *string               `json:"translated_label,omitempty"`
+	HsCode            *string               `json:"hs_code,omitempty"`
+	ShipmentArrival   *string               `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *string               `json:"shipment_departure,omitempty"`
+	CompanyType       *string               `json:"company_type,omitempty"`
+	LatestStatus      *Status               `json:"latest_status,omitempty"`
+	Risk              Risk                  `json:"risk,omitempty"`
+	Attributes        *AttributeDetails     `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships  `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs       `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy         `json:"referenced_by,omitempty"`
+	Matches           map[string][]string   `json:"matches,omitempty"`
+	Metadata          *SupplierMetadata     `json:"metadata,omitempty"`
+}
+
+type SupplierHits struct {
+	Hits []*Supplier `json:"hits,omitempty"`
+}
+
+type SupplierMetadata struct {
+	LatestShipmentDate string `json:"latestShipmentDate"`
+	Shipment           int    `json:"shipment"`
 }
 
 type ShortestPathData struct {
