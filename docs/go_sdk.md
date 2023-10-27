@@ -157,6 +157,8 @@ if err != nil {
 ### Pagination
 Some of our endpoints return paginated results. If you know that you are going to want all pages of this data, you can use the following 'GetAll' convenience functions to request all pages of data.
 
+To prevent issues with memory utilization or overlong requests, these pagination functions will not return all results if there are more than 10k records included in the response.
+
 #### GetAllEntitySearchResults
 ```go
 allEntities, err := client.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: "Victoria Beckham"})

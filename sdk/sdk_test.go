@@ -237,13 +237,19 @@ func TestEntityPagination(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, len(allEntities), info.Size.Count)
 
+	// Test requesting too many pages
+	searchTerm = "amazon"
+	resp, err := api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm})
+	assert.Equal(t, ErrTooMuchDataRequested, err, "This request returns too many response to paginate and should error")
+	assert.Nil(t, resp)
+
 	// Do paginated query for larger data set
 	searchTerm = "David John Smith"
 	info, err = api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
 	assert.Nil(t, err)
 	allEntities, err = api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm})
 	assert.Nil(t, err)
-	assert.Equal(t, len(allEntities), info.Size.Count)
+	assert.Equal(t, info.Size.Count, len(allEntities))
 }
 
 func TestRecordPagination(t *testing.T) {
