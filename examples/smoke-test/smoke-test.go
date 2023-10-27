@@ -78,7 +78,7 @@ func main() {
 	log.Printf("Is referenced by %v sources.", len(entityDetails.ReferencedBy.Data))
 
 	// Resolve
-	resolution, err := client.Resolution.Resolution(context.Background(), &sayari.Resolution{Name: []*string{&searchTerm}})
+	resolution, err := client.Resolution.Resolution(context.Background(), &sayari.Resolution{Name: []*string{sayari.String(searchTerm)}})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}

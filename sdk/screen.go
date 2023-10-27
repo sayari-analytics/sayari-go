@@ -152,8 +152,9 @@ func loadCSV(csvPath string) ([][]string, error) {
 // determine which fields are in which columns
 func mapCSV(row []string, attributeColMap map[string][]int) error {
 	for colNum, colName := range row {
+		// Remove all spaces from the column name and convert to lowercase
+		colName = strings.ToLower(strings.ReplaceAll(colName, " ", ""))
 		// If the column is valid, note its position(s)
-		colName = strings.ToLower(colName)
 		if _, ok := attributeFieldsMap[colName]; !ok {
 			return fmt.Errorf("column '%v' does not match to resolution field", colName)
 		}

@@ -2,10 +2,6 @@
 
 package api
 
-import (
-	fmt "fmt"
-)
-
 type SearchEntity struct {
 	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
 	Limit *int `json:"-"`
@@ -69,38 +65,4 @@ type RecordSearchResults struct {
 	Offset int              `json:"offset"`
 	Next   bool             `json:"next"`
 	Data   []*RecordDetails `json:"data,omitempty"`
-}
-
-type SearchField string
-
-const (
-	SearchFieldName            SearchField = "name"
-	SearchFieldIdentifier      SearchField = "identifier"
-	SearchFieldAddress         SearchField = "address"
-	SearchFieldBusinessPurpose SearchField = "business_purpose"
-	SearchFieldDateOfBirth     SearchField = "date_of_birth"
-	SearchFieldContact         SearchField = "contact"
-)
-
-func NewSearchFieldFromString(s string) (SearchField, error) {
-	switch s {
-	case "name":
-		return SearchFieldName, nil
-	case "identifier":
-		return SearchFieldIdentifier, nil
-	case "address":
-		return SearchFieldAddress, nil
-	case "business_purpose":
-		return SearchFieldBusinessPurpose, nil
-	case "date_of_birth":
-		return SearchFieldDateOfBirth, nil
-	case "contact":
-		return SearchFieldContact, nil
-	}
-	var t SearchField
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SearchField) Ptr() *SearchField {
-	return &s
 }

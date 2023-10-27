@@ -237,13 +237,19 @@ func TestEntityPagination(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, len(allEntities), info.Size.Count)
 
+	// Test requesting too many pages
+	searchTerm = "amazon"
+	resp, err := api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm})
+	assert.Equal(t, ErrTooMuchDataRequested, err, "This request returns too many response to paginate and should error")
+	assert.Nil(t, resp)
+
 	// Do paginated query for larger data set
 	searchTerm = "David John Smith"
 	info, err = api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
 	assert.Nil(t, err)
 	allEntities, err = api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm})
 	assert.Nil(t, err)
-	assert.Equal(t, len(allEntities), info.Size.Count)
+	assert.Equal(t, info.Size.Count, len(allEntities))
 }
 
 func TestRecordPagination(t *testing.T) {
@@ -264,9 +270,54 @@ func TestTraversalPagination(t *testing.T) {
 	entity := entitySearchResults.Data[0]
 
 	// Do paginated query
-	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: Int(1)})
+	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: sayari.Int(1)})
 	assert.Nil(t, err)
 	assert.Greater(t, len(allTraversals), 1)
+}
+
+func TestShipmentSearch(t *testing.T) {
+	// search for shipments with a random string
+	randomString := generateRandomString(3)
+
+	shipments, err := api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{Q: randomString})
+	assert.Nil(t, err)
+	// try until we get results
+	if len(shipments.Data.Hits) == 0 {
+		TestShipmentSearch(t)
+		return
+	}
+
+	assert.Greater(t, len(shipments.Data.Hits), 0)
+}
+
+func TestSupplierSearch(t *testing.T) {
+	// search for suppliers with a random string
+	randomString := generateRandomString(3)
+
+	suppliers, err := api.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: randomString})
+	assert.Nil(t, err)
+	// try until we get results
+	if len(suppliers.Data.Hits) == 0 {
+		TestSupplierSearch(t)
+		return
+	}
+
+	assert.Greater(t, len(suppliers.Data.Hits), 0)
+}
+
+func TestBuyerSearch(t *testing.T) {
+	// search for suppliers with a random string
+	randomString := generateRandomString(3)
+
+	buyers, err := api.Trade.SearchBuyers(context.Background(), &sayari.SearchBuyers{Q: randomString})
+	assert.Nil(t, err)
+	// try until we get results
+	if len(buyers.Data.Hits) == 0 {
+		TestBuyerSearch(t)
+		return
+	}
+
+	assert.Greater(t, len(buyers.Data.Hits), 0)
 }
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

@@ -4,27 +4,21 @@ category: 653044fd9479c1000c221860
 ---
 # Introduction
 
-Welcome to the Sayari Graph SDK for Go. The goal of this project is to get you up and running as quickly as possible
-so you can start benefiting from the power of Sayari Graph. In the new few sections you will learn how to setup and
-use the Sayari Graph SDK. We also document some example use cases to show how easy it is to build the power of Sayari
-Graph into your application.
+Welcome to the Sayari Graph SDK for Go. The goal of this project is to get you up and running as quickly as possible so you can start benefiting from the power of Sayari Graph. In the new few sections you will learn how to setup and use the Sayari Graph SDK. We also document some example use cases to show how easy it is to build the power of Sayari  Graph into your application.
 
 # Setup
 ## Prerequisites
-The only thing you need to start using this SDK are your Client_ID and Client_Secret provided to you by Sayari.
+The only thing you need to start using this SDK are your Client_ID and Client_Secret provided to you by Sayari. (@Aleks to add info about getting these creds)
 
 ## Installation
 To install this SDK, simply run `go get "github.com/sayari-analytics/sayari-go/..."`
 Then simply import "github.com/sayari-analytics/sayari-go/sdk" into your go code to use the SDK.
 
 # Quickstart
-This section will walk you through a basic example of connecting to Sayari Graph, resolving and entity, and getting that
-entity's detailed information.
+This section will walk you through a basic example of connecting to Sayari Graph, resolving and entity, and getting that entity's detailed information.
 
 ## Connecting
-To connect to Sayari Graph, simply create a client object by calling the SDK's 'Connect' method and passing in your
-client ID and secret. **Note**: For security purposes, it is highly recommended that you don't hardcode your client
-ID and secret in your code. Instead, simply export them as environment variables and use those.
+To connect to Sayari Graph, simply create a client object by calling the SDK's 'Connect' method and passing in your client ID and secret. **Note**: For security purposes, it is highly recommended that you don't hardcode your client ID and secret in your code. Instead, simply export them as environment variables and use those.
 
 ```go
 client, err := sdk.Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
@@ -34,8 +28,7 @@ if err != nil {
 ```
 
 ## Resolving an entity
-Now that we have a client, we can use the Resolution method to find an entity. To do this we create a resolution request
-with the entity information we are using to search. Full documentation of this endpoint can be seen in the API docs.
+Now that we have a client, we can use the Resolution method to find an entity. To do this we create a resolution request with the entity information we are using to search. Full documentation of this endpoint can be seen in the API docs.
 
 A request to resolve an entity with the name "Victoria Beckham" is shown below:
 ```go
@@ -50,8 +43,7 @@ if err != nil {
 ```
 
 ## Getting entity information
-The resoltuion results themselves do contain some information about the entities found, but to get all of the details
-for that entity we need to call the entity endpoint.
+The resolution results themselves do contain some information about the entities found, but to get all the details for that entity we need to call the "get entity" endpoint.
 
 A request to view the first resolved entity (best match) from the previous request would look like this:
 ```go
@@ -63,29 +55,20 @@ if err != nil {
 ```
 
 ## Complete example
-After the steps above you should be left with code looks like this. We can add one final line to print all of the fields
-of the resolved entity to see what it looks like.
+After the steps above you should be left with code looks like this. We can add one final line to print all the fields of the resolved entity to see what it looks like.
 ```go
 package main
 
 import (
 	"context"
-	"github.com/joho/godotenv"
-	sayari "github.com/sayari-analytics/sayari-go/generated/go"
-	"github.com/sayari-analytics/sayari-go/sdk"
 	"log"
 	"os"
+
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
+	"github.com/sayari-analytics/sayari-go/sdk"
 )
 
 func main() {
-	// load ENV file if ENV vars are not set
-	if os.Getenv("CLIENT_ID") == "" || os.Getenv("CLIENT_SECRET") == "" {
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatalf("Failed to load .env file. Err: %v", err)
-		}
-	}
-
 	// NOTE: To connect you most provide your client ID and client secret. To avoid accidentally checking these into git,
 	// it is recommended to use ENV variables
 
@@ -114,29 +97,35 @@ func main() {
 
 	log.Printf("%+v", entityDetails)
 }
-
 ```
 
 # Advanced
-When interacting with the API directly, there are a few concepts that you need to handle manually. The SDK takes care of
-these things for you when used properly, but it is important to understand them if you want to use the SDK properly.
+When interacting with the API directly, there are a few concepts that you need to handle manually. The SDK takes care of these things for you, but it is important to understand them if you want to use the SDK properly.
 
 ## Authentication and token management
-- Connecting
-- Token rotation
+As you can see from the API documentation, there is an endpoint provided for authenticating to Sayari Graph which will return a bearer token. This token is then passed on all subsequent API calls to authenticate them. The SDK handles this process for you by first requesting the token and then adding it to all subsequent requests.
+
+In addition to simplifying the connection process, the SDK is also designed to work in long-running application and keep the token up to date by rotating it before it expires. This is all handled behind the scenes by the client object itself and should require no additional action by the user.
 
 ## Pagination
-- How to use pagination
-- The helper functions the SDK exposes
+Sayari Graph contains a wealth of information. While we always try to prioritize the information you are looking for and return that first, there are times that you may need more data than can be returned in a single page of results.
+
+As described in our API documentation, when this happens we will return pagination information in our response. This information can be used to determine if there are more results than what was returned ('next token' will be true) and how many more results there are ('count' gives the total number of results including what was returned by the initial request). You can then use the 'offset' parameter in your subsequent request to get the next page of data.
+
+While the above process works well, there may be times you simply want to request all the data without thinking about it. The SDK provides convenience methods to help with this. The methods below take in the same inputs as the standard ones but automatically handle pagination and return all the associated data.
+- GetAllEntitySearchResults
+- GetAllRecordSearchResults
+- GetAllTraversalResults
 
 ## Rate limiting
-- How rate limiting works in Sayari Graph and what the responses look like
-- How the SDK handles this
-- Consideration (shared client, etc)
+Some Sayari Graph endpoints are more compute intensive than others. To adequately allocate resources across customers and prevent service degradation, individual users are rate limited. It is very unlikely that you would ever encounter these limits when making requests manually or even in a single-threaded application. Typically, rate limiting will only come into play when making multiple API requests at the same time.
+
+When a request is rate limited, the API will respond back with a 429 status code as well as a 'Retry-After' response header that tells you how long to wait before making a subsequent request (i.e. 5s).
+
+To make things simpler, the SDK handles this for you and will automatically wait and retry requests if a 429 is received.
 
 # Tutorials
-You should now have all the tools you need to start using the Sayari Graph Go SDK yourself. If you would like additional
-inspiration, please consider the following use-case-specific tutorials.
+You should now have all the tools you need to start using the Sayari Graph Go SDK yourself. If you would like additional inspiration, please consider the following use-case-specific tutorials.
 
 ## Screening
 
@@ -144,9 +133,230 @@ inspiration, please consider the following use-case-specific tutorials.
 
 ## Trade Analysis
 
-# Endpoints
-Again, refer people to the API docs
+# Examples
+**Please see the API documentation for detailed explanations of all the request and response bodies**. Our documentation site (along with valid client ID and secret) can be used to make requests against our API to get a sense for how the API behaves.
 
-Add a subsection of invocation examples for each SDK function
+In addition to the API documentation, the SDK code itself is a great resource for understanding the structure of Sayari Graph API requests and responses. Objects in the code should have helpful names and comments detailing their significance.
 
-Note: this was published from the CI...
+What follows is a list of invocation examples for each of the SDK functions. Again, this is not an exhaustive demonstration if its capabilities, but rather a minimal example to help you get started.
+
+## Top Level SDK functions
+As mentioned above, this SDK provides some convenience functions beyond those available purely via the Sayari Graph API.
+
+### Connect
+The connect function can be used to create an authenticated API client which supplies the methods for the rest of the SDK's functionality. In addition to handling the authentication, this client object will also handle re-authentication in cases where the client is longer-lived then the duration of the initial authentication request.
+
+To call the 'Connect' function, simply provide the client ID and secret
+```go
+client, err := sdk.Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
+### Pagination
+Some of our endpoints return paginated results. If you know that you are going to want all pages of this data, you can use the following 'GetAll' convenience functions to request all pages of data.
+
+To prevent issues with memory utilization or overlong requests, these pagination functions will not return all results if there are more than 10k records included in the response.
+
+#### GetAllEntitySearchResults
+```go
+allEntities, err := client.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: "Victoria Beckham"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+#### GetAllRecordSearchResults
+```go
+allRecords, err := client.GetAllRecordSearchResults(context.Background(), &sayari.SearchRecord{Q: "Victoria Beckham"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+#### GetAllTraversalResults
+```go
+allTraversals, err := client.GetAllTraversalResults(context.Background(), myEntityID, &sayari.Traversal{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
+### ScreenCSVEntities
+One of the most common use cases for the Sayari Graph API is screening entities for potential risks. Because of this, the SDK includes tooling to simplify this process.
+
+The 'ScreenCSVEntities' function takes in the path for a CSV containing entities to screen, and returns those entities and their associated risks. For this to work properly, the CSV must only contain columns that map to entity attributes. Valid names for those columns are as follows: (column names are case and spacing insensitive)
+- Name
+- Identifier
+- Country
+- Address
+- Date Of Birth
+- Contact
+- Entity Type
+
+Once your CSV is property formatted, using the screen function is as simple as providing the path to the CSV.
+```go
+riskyEntities, nonRiskyEntities, unresolved, err := client.ScreenCSVEntities(context.Background(), "entities_to_screen.csv")
+	if err != nil {
+		log.Fatalf("Failed to screen entities. Err: %v", err)
+	}
+```
+
+As you can see from this example, the first object returned is a slice of entities that do have risks, the next is a slice of entities without risks, and the third is a slice of rows from the CSV that were unable to be resolved.
+
+### Pointers
+To differentiate between not providing values and providing empty values, we follow the common go patter of using pointers. For, to allow us to differentiate between an integer value of 0 and no value at all we can pass a pointer either to a integer with a value of 0 or no pointer at all.
+
+Because of this, we often need to specify pointers in our param structs. To make this easier/faster there are convenience functions. The snippet below shows and example of this. As you can see, we are limiting our entity search to just the first result by providing a pointer to an integer with a value of 1.
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"os"
+
+	sayari "github.com/sayari-analytics/sayari-go/generated/go"
+	"github.com/sayari-analytics/sayari-go/sdk"
+)
+
+func main() {
+	// Create a client to auth against the API
+	client, err := sdk.Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+
+	// Traversal
+	entity, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: "Joe Smith", Limit: sayari.Int(1)})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+```
+
+## Entity
+### Get Entity
+```go
+entityDetails, err := client.Entity.GetEntity(context.Background(), myEntityID, &sayari.GetEntity{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
+### Entity Summary
+```go
+entitySummary, err := client.Entity.EntitySummary(context.Background(), myEntityID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
+## Record
+### Get Record
+Note: record ID's must be URL escaped
+```go
+record, err := client.Record.GetRecord(context.Background(), url.QueryEscape(myRecordID), &sayari.GetRecord{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
+## Resolution
+### Resolution
+```go
+resolution, err := client.Resolution.Resolution(context.Background(), &sayari.Resolution{Name: []*string{sayari.String("search term")}})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
+## Search
+### Search Entity
+```go
+entitySearchResults, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### Search Record
+```go
+recordSearch, err := client.Search.SearchRecord(context.Background(), &sayari.SearchRecord{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
+## Source
+### List Sources
+```go
+sources, err := client.Source.ListSources(context.Background(), &sayari.ListSources{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### Get Source
+```go
+source, err := client.Source.GetSource(context.Background(), mySourceID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
+## Traversal
+### Traversal
+```go
+traversal, err := client.Traversal.Traversal(context.Background(), myEntityID, &sayari.Traversal{})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### UBO
+```go
+ubo, err := client.Traversal.Ubo(context.Background(), myEntityID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### Ownership
+```go
+ownership, err := client.Traversal.Ownership(context.Background(), myEntityID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### Watchlist
+```go
+watchlist, err := client.Traversal.Watchlist(context.Background(), myEntityID)
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### Shortest Path
+```go
+shortestPath, err := client.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{myFirstEntityID, mySecondEntityID}})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+
+## Trade
+### Shipment Search
+```go
+shipments, err := client.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### Supplier Search
+```go
+suppliers, err := client.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```
+### Buyer Search
+```go
+buyers, err := client.Trade.SearchBuyers(context.Background(), &sayari.SearchBuyers{Q: "search term"})
+if err != nil {
+    log.Fatalf("Error: %v", err)
+}
+```

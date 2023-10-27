@@ -48,12 +48,22 @@ jobs:
       - uses: actions/checkout@v4
       - name: test examples (not rate limiting)
         run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Running hello world"
+          go run examples/hello-world/hello-world.go
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "Running smoke test"
           go run examples/smoke-test/smoke-test.go
-          
-          echo "Running screening test"
+           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Running pagination example"
+          go run examples/pagination/pagination.go
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Running screening example"
           go run examples/screening/screening.go  
-
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Running trade search example"
+          go run examples/trade-search/trade-search.go  
+          
 
   #FIXME: add integration test to confirm it is working with the most up to date bindings
 
