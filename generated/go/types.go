@@ -90,6 +90,7 @@ type AddressProperties struct {
 	Y              *float64     `json:"y,omitempty"`
 }
 
+// indicates what location an address is referring to
 type AddressType string
 
 const (
@@ -318,6 +319,7 @@ type BusinessPurposeProperties struct {
 	Value    *string                  `json:"value,omitempty"`
 }
 
+// Business purpose standard enums describe the type of code listed in a business purpose attribute, which may or may not allow for Pyisic conversions/lookups.
 type BusinessPurposeStandard string
 
 const (
@@ -430,6 +432,7 @@ func (b BusinessPurposeStandard) Ptr() *BusinessPurposeStandard {
 	return &b
 }
 
+// Company status enums describe a normalized set of statuses to which we map specific terms describing a company's status in a source document.
 type CompanyStatus string
 
 const (
@@ -536,6 +539,7 @@ type ContactProperties struct {
 	Value string       `json:"value"`
 }
 
+// Contact type enums describe different methods of contact reported in a record about a given entity.
 type ContactType string
 
 const (
@@ -565,6 +569,7 @@ func (c ContactType) Ptr() *ContactType {
 	return &c
 }
 
+// Country enums are normalized representations of country names. Taken from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#ECU
 type Country string
 
 const (
@@ -1589,6 +1594,7 @@ func (c Country) Ptr() *Country {
 	return &c
 }
 
+// Country context enums describe different ways an entity can be connected to a country.
 type CountryContext string
 
 const (
@@ -1672,6 +1678,7 @@ type CountryProperties struct {
 	Value   Country         `json:"value,omitempty"`
 }
 
+// Currency enums are normalized representations of currencies
 type Currency string
 
 const (
@@ -2513,6 +2520,7 @@ func (e Entities) Ptr() *Entities {
 	return &e
 }
 
+// Finance type enums describe financial information about an entity; typically used to describe the cumulative monetary value of share capital issued by a company or held by an individual shareholder
 type FinanceType string
 
 const (
@@ -2597,6 +2605,7 @@ type FinancialsProperties struct {
 	Revenue           *float64  `json:"revenue,omitempty"`
 }
 
+// Gender enums are normalized ways to refer to different genders
 type Gender string
 
 const (
@@ -2675,6 +2684,7 @@ type IdentifierProperties struct {
 	Value string               `json:"value"`
 }
 
+// All strong (unique) identifiers in Sayari's database
 type IdentifierType string
 
 const (
@@ -4841,6 +4851,7 @@ func (i IdentifierType) Ptr() *IdentifierType {
 	return &i
 }
 
+// Language enums are normalized representations of languages. Taken from https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 type Language string
 
 const (
@@ -5612,6 +5623,7 @@ type MeasurementProperties struct {
 	Value float64         `json:"value"`
 }
 
+// The type of measurement, e.g. net weight
 type MeasurementType string
 
 const (
@@ -5640,6 +5652,7 @@ func (m MeasurementType) Ptr() *MeasurementType {
 	return &m
 }
 
+// Monetary value context enums describe the types of financial values an asset can have
 type MonetaryValueContext string
 
 const (
@@ -5681,6 +5694,7 @@ type MonetaryValueProperties struct {
 	Value    float64   `json:"value"`
 }
 
+// Name context enums describe different ways in which a name can belong to an entity
 type NameContext string
 
 const (
@@ -5742,6 +5756,7 @@ type NameProperties struct {
 	Value          string    `json:"value"`
 }
 
+// Person status enums describe different life events
 type PersonStatus string
 
 const (
@@ -5843,6 +5858,7 @@ type SharesProperties struct {
 	Type          *string   `json:"type,omitempty"`
 }
 
+// Status context enums describe the different types of statuses that can be represented in a status attribute.
 type StatusContext string
 
 const (
@@ -5898,6 +5914,7 @@ type StatusProperties struct {
 	Value   *CompanyStatus `json:"value,omitempty"`
 }
 
+// Risk tags
 type Tag string
 
 const (
@@ -5990,6 +6007,7 @@ type TranslatedNameProperties struct {
 	Value    string              `json:"value"`
 }
 
+// Translation context enums describe different types of translations
 type TranslationContext string
 
 const (
@@ -6018,6 +6036,7 @@ func (t TranslationContext) Ptr() *TranslationContext {
 	return &t
 }
 
+// Unit of measurement (i.e. SI base units)
 type Unit string
 
 const (
@@ -6061,6 +6080,7 @@ type WeakIdentifierProperties struct {
 	Value string             `json:"value"`
 }
 
+// All weak (non-unique) identifiers in Sayari's database
 type WeakIdentifierType string
 
 const (
