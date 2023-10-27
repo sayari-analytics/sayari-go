@@ -5352,6 +5352,7 @@ const (
 	RiskOwnedByWroEntity                                          Risk = "owned_by_wro_entity"
 	RiskOwnerOfRegulatoryActionEntity                             Risk = "owner_of_regulatory_action_entity"
 	RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity  Risk = "owner_of_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskOwnerOfExportControlsEntity                               Risk = "owner_of_export_controls_entity"
 	RiskOwnerOfForcedLaborXinjiangUflpa                           Risk = "owner_of_forced_labor_xinjiang_uflpa"
 	RiskOwnerOfSanctionedEntity                                   Risk = "owner_of_sanctioned_entity"
 	RiskOwnerOfSoe                                                Risk = "owner_of_soe"
@@ -5474,6 +5475,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnerOfRegulatoryActionEntity, nil
 	case "owner_of_sheffield_hallam_university_reports_forced_labor_entity":
 		return RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity, nil
+	case "owner_of_export_controls_entity":
+		return RiskOwnerOfExportControlsEntity, nil
 	case "owner_of_forced_labor_xinjiang_uflpa":
 		return RiskOwnerOfForcedLaborXinjiangUflpa, nil
 	case "owner_of_sanctioned_entity":
