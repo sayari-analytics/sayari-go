@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"net/url"
 	"os"
 
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
@@ -96,7 +95,7 @@ func main() {
 	log.Printf("Found %v records.", len(recordSearch.Data))
 
 	// Get record
-	record, err := client.Record.GetRecord(context.Background(), url.QueryEscape(recordSearch.Data[0].Id), &sayari.GetRecord{})
+	record, err := client.Record.GetRecord(context.Background(), sdk.EncodeRecordID(recordSearch.Data[0].Id), &sayari.GetRecord{})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
