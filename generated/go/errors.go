@@ -7,6 +7,144 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
+type BadGateway struct {
+	*core.APIError
+	Body BadGatewayResponse
+}
+
+func (b *BadGateway) UnmarshalJSON(data []byte) error {
+	var body BadGatewayResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	b.StatusCode = 502
+	b.Body = body
+	return nil
+}
+
+func (b *BadGateway) MarshalJSON() ([]byte, error) {
+	return json.Marshal(b.Body)
+}
+
+func (b *BadGateway) Unwrap() error {
+	return b.APIError
+}
+
+type BadRequest struct {
+	*core.APIError
+	Body BadRequestResponse
+}
+
+func (b *BadRequest) UnmarshalJSON(data []byte) error {
+	var body BadRequestResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	b.StatusCode = 400
+	b.Body = body
+	return nil
+}
+
+func (b *BadRequest) MarshalJSON() ([]byte, error) {
+	return json.Marshal(b.Body)
+}
+
+func (b *BadRequest) Unwrap() error {
+	return b.APIError
+}
+
+type ConnectionError struct {
+	*core.APIError
+	Body ConnectionErrorResponse
+}
+
+func (c *ConnectionError) UnmarshalJSON(data []byte) error {
+	var body ConnectionErrorResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	c.StatusCode = 520
+	c.Body = body
+	return nil
+}
+
+func (c *ConnectionError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(c.Body)
+}
+
+func (c *ConnectionError) Unwrap() error {
+	return c.APIError
+}
+
+type InternalServerError struct {
+	*core.APIError
+	Body InternalServerErrorResponse
+}
+
+func (i *InternalServerError) UnmarshalJSON(data []byte) error {
+	var body InternalServerErrorResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	i.StatusCode = 500
+	i.Body = body
+	return nil
+}
+
+func (i *InternalServerError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(i.Body)
+}
+
+func (i *InternalServerError) Unwrap() error {
+	return i.APIError
+}
+
+type MethodNotAllowed struct {
+	*core.APIError
+	Body *MethodNotAllowedResponse
+}
+
+func (m *MethodNotAllowed) UnmarshalJSON(data []byte) error {
+	var body *MethodNotAllowedResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	m.StatusCode = 405
+	m.Body = body
+	return nil
+}
+
+func (m *MethodNotAllowed) MarshalJSON() ([]byte, error) {
+	return json.Marshal(m.Body)
+}
+
+func (m *MethodNotAllowed) Unwrap() error {
+	return m.APIError
+}
+
+type NotAcceptable struct {
+	*core.APIError
+	Body *NotAcceptableResponse
+}
+
+func (n *NotAcceptable) UnmarshalJSON(data []byte) error {
+	var body *NotAcceptableResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	n.StatusCode = 406
+	n.Body = body
+	return nil
+}
+
+func (n *NotAcceptable) MarshalJSON() ([]byte, error) {
+	return json.Marshal(n.Body)
+}
+
+func (n *NotAcceptable) Unwrap() error {
+	return n.APIError
+}
+
 type NotFound struct {
 	*core.APIError
 	Body *NotFoundResponse
@@ -32,24 +170,34 @@ func (n *NotFound) Unwrap() error {
 
 type RateLimitExceeded struct {
 	*core.APIError
+	Body RateLimitResponse
 }
 
 func (r *RateLimitExceeded) UnmarshalJSON(data []byte) error {
+	var body RateLimitResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
 	r.StatusCode = 429
+	r.Body = body
 	return nil
 }
 
 func (r *RateLimitExceeded) MarshalJSON() ([]byte, error) {
-	return nil, nil
+	return json.Marshal(r.Body)
+}
+
+func (r *RateLimitExceeded) Unwrap() error {
+	return r.APIError
 }
 
 type Unauthorized struct {
 	*core.APIError
-	Body *UnauthorizedResponse
+	Body UnauthorizedResponse
 }
 
 func (u *Unauthorized) UnmarshalJSON(data []byte) error {
-	var body *UnauthorizedResponse
+	var body UnauthorizedResponse
 	if err := json.Unmarshal(data, &body); err != nil {
 		return err
 	}
