@@ -6513,18 +6513,44 @@ type ResolutionResult struct {
 	Explanation    map[string][]*MatchExplanation `json:"explanation,omitempty"`
 }
 
-// Not Found Response
+// Bad gateway
+type BadGatewayResponse = interface{}
+
+// Incorrectly formatted request
+type BadRequestResponse = interface{}
+
+// Connection error
+type ConnectionErrorResponse = interface{}
+
+// Internal server error occurred.
+type InternalServerErrorResponse = interface{}
+
+// Resource not found or does not exist.
+type MethodNotAllowedResponse struct {
+	Status  int      `json:"status"`
+	Message []string `json:"message,omitempty"`
+	Success bool     `json:"success"`
+}
+
+// Request made in an unacceptable state. This is most commonly due to parameter validation errors.
+type NotAcceptableResponse struct {
+	Status  int      `json:"status"`
+	Message []string `json:"message,omitempty"`
+	Success bool     `json:"success"`
+}
+
+// Request made with an unsupported HTTP method.
 type NotFoundResponse struct {
 	Status  int      `json:"status"`
 	Message []string `json:"message,omitempty"`
 	Success bool     `json:"success"`
 }
 
-// Unauthorized Response
-type UnauthorizedResponse struct {
-	Error            string `json:"error"`
-	ErrorDescription string `json:"error_description"`
-}
+// Too many requests within too short of a period. The reply will contain a retry-after header that indicates when the client can safely retry.
+type RateLimitResponse = interface{}
+
+// Request made without valid token.
+type UnauthorizedResponse = interface{}
 
 type Coordinate struct {
 	Lat     float64 `json:"lat"`
@@ -7000,10 +7026,16 @@ type LatestShipmentDate struct {
 	Buckets                 []*Bucket `json:"buckets,omitempty"`
 }
 
+type MonetaryValue struct {
+	Value    float64   `json:"value"`
+	Currency *Currency `json:"currency,omitempty"`
+	Context  *string   `json:"context,omitempty"`
+}
+
 type Shipment struct {
-	MonetaryValue   []interface{}                `json:"monetary_value,omitempty"`
+	MonetaryValue   []*MonetaryValue             `json:"monetary_value,omitempty"`
 	Dst             []*SourceOrDestinationEntity `json:"dst,omitempty"`
-	Weight          []interface{}                `json:"weight,omitempty"`
+	Weight          []*Weight                    `json:"weight,omitempty"`
 	BusinessPurpose []*BusinessPurpose           `json:"business_purpose,omitempty"`
 	Identifier      []*ShipmentIdentifier        `json:"identifier,omitempty"`
 	Country         []*ShipmentCountry           `json:"country,omitempty"`
@@ -7091,6 +7123,12 @@ type VolumeAggregates struct {
 	Key                string              `json:"key"`
 	DocCount           int                 `json:"doc_count"`
 	LatestShipmentDate *LatestShipmentDate `json:"latest_shipment_date,omitempty"`
+}
+
+type Weight struct {
+	Value float64 `json:"value"`
+	Unit  string  `json:"unit"`
+	Type  string  `json:"type"`
 }
 
 type ShortestPathData struct {
