@@ -332,6 +332,12 @@ func TestUsage(t *testing.T) {
 	assert.NotZero(t, usage.Usage.Traversal, "all endpoints should show usage")
 }
 
+func TestHistory(t *testing.T) {
+	history, err := api.Info.GetHistory(context.Background(), &sayari.GetHistory{Size: sayari.Int(10)})
+	assert.Nil(t, err)
+	assert.Equal(t, history.Size, len(history.Events))
+}
+
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 var seededRand = rand.New(rand.NewSource(time.Now().UnixNano())) //nolint: gosec

@@ -6484,16 +6484,16 @@ func (w WeakIdentifierType) Ptr() *WeakIdentifierType {
 }
 
 type EventInfo struct {
-	Advanced     bool                   `json:"advanced"`
+	Advanced     *bool                  `json:"advanced,omitempty"`
 	Aq           []interface{}          `json:"aq,omitempty"`
 	FacetFilters map[string]interface{} `json:"facetFilters,omitempty"`
-	Facets       bool                   `json:"facets"`
+	Facets       *bool                  `json:"facets,omitempty"`
 	Fields       []interface{}          `json:"fields,omitempty"`
 	Filters      map[string]interface{} `json:"filters,omitempty"`
-	GeoFacets    bool                   `json:"geo_facets"`
+	GeoFacets    *bool                  `json:"geo_facets,omitempty"`
 	Level        string                 `json:"level"`
 	Message      string                 `json:"message"`
-	SearchType   string                 `json:"search_type"`
+	SearchType   *string                `json:"search_type,omitempty"`
 	Sort         []interface{}          `json:"sort,omitempty"`
 	Tags         []string               `json:"tags,omitempty"`
 	Timestamp    string                 `json:"timestamp"`
