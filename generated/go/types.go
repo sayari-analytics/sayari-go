@@ -6483,6 +6483,42 @@ func (w WeakIdentifierType) Ptr() *WeakIdentifierType {
 	return &w
 }
 
+type EventInfo struct {
+	Advanced     bool                   `json:"advanced"`
+	Aq           []interface{}          `json:"aq,omitempty"`
+	FacetFilters map[string]interface{} `json:"facetFilters,omitempty"`
+	Facets       bool                   `json:"facets"`
+	Fields       []interface{}          `json:"fields,omitempty"`
+	Filters      map[string]interface{} `json:"filters,omitempty"`
+	GeoFacets    bool                   `json:"geo_facets"`
+	Level        string                 `json:"level"`
+	Message      string                 `json:"message"`
+	SearchType   string                 `json:"search_type"`
+	Sort         []interface{}          `json:"sort,omitempty"`
+	Tags         []string               `json:"tags,omitempty"`
+	Timestamp    string                 `json:"timestamp"`
+	User         string                 `json:"user"`
+}
+
+type HistoryInfo struct {
+	User        string     `json:"user"`
+	Environment string     `json:"environment"`
+	Event       string     `json:"event"`
+	Data        *EventInfo `json:"data,omitempty"`
+	Timestamp   string     `json:"timestamp"`
+}
+
+type UsageInfo struct {
+	Entity         *int `json:"entity,omitempty"`
+	EntitySummary  *int `json:"entity_summary,omitempty"`
+	Record         *int `json:"record,omitempty"`
+	Resolve        *int `json:"resolve,omitempty"`
+	SearchEntities *int `json:"search_entities,omitempty"`
+	SearchRecords  *int `json:"search_records,omitempty"`
+	SearchTrade    *int `json:"search_trade,omitempty"`
+	Traversal      *int `json:"traversal,omitempty"`
+}
+
 type MatchExplanation struct {
 	Matched  *string `json:"matched,omitempty"`
 	Uploaded *string `json:"uploaded,omitempty"`
