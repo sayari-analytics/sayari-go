@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"os"
+	"time"
 
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 	"github.com/sayari-analytics/sayari-go/sdk"
@@ -152,4 +153,24 @@ func main() {
 	// uncomment to view data
 	//spew.Dump(shortestPath)
 	log.Printf("Found path with %v hops", len(shortestPath.Data[0].Path))
+
+	// Check usage
+	usage, err := client.Info.GetUsage(context.Background(), &sayari.GetUsage{})
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	log.Printf("Entity summary usage: %v", *usage.Usage.EntitySummary)
+
+	// Check history
+	historyParams := sayari.GetHistory{
+		Size: sayari.Int(10000),
+		From: sayari.Time(time.Now().AddDate(0, 0, -2)),
+		To:   sayari.Time(time.Now().AddDate(0, 0, -1)),
+	}
+
+	history, err := client.Info.GetHistory(context.Background(), &historyParams)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	log.Printf("Found %v events from %v to %v", len(history.Events), historyParams.From.Format("2006-01-02"), historyParams.To.Format("2006-01-02"))
 }

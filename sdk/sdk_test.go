@@ -319,6 +319,25 @@ func TestBuyerSearch(t *testing.T) {
 	assert.Greater(t, len(buyers.Data.Hits), 0)
 }
 
+func TestUsage(t *testing.T) {
+	usage, err := api.Info.GetUsage(context.Background(), &sayari.GetUsage{})
+	assert.Nil(t, err)
+	assert.NotZero(t, usage.Usage.Entity, "all endpoints should show usage")
+	assert.NotZero(t, usage.Usage.EntitySummary, "all endpoints should show usage")
+	assert.NotZero(t, usage.Usage.Record, "all endpoints should show usage")
+	assert.NotZero(t, usage.Usage.Resolve, "all endpoints should show usage")
+	assert.NotZero(t, usage.Usage.SearchEntities, "all endpoints should show usage")
+	assert.NotZero(t, usage.Usage.SearchRecords, "all endpoints should show usage")
+	assert.NotZero(t, usage.Usage.SearchTrade, "all endpoints should show usage")
+	assert.NotZero(t, usage.Usage.Traversal, "all endpoints should show usage")
+}
+
+func TestHistory(t *testing.T) {
+	history, err := api.Info.GetHistory(context.Background(), &sayari.GetHistory{Size: sayari.Int(10)})
+	assert.Nil(t, err)
+	assert.Equal(t, history.Size, len(history.Events))
+}
+
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 var seededRand = rand.New(rand.NewSource(time.Now().UnixNano())) //nolint: gosec
