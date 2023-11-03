@@ -6483,29 +6483,15 @@ func (w WeakIdentifierType) Ptr() *WeakIdentifierType {
 	return &w
 }
 
-type EventInfo struct {
-	Advanced     *bool                  `json:"advanced,omitempty"`
-	Aq           []interface{}          `json:"aq,omitempty"`
-	FacetFilters map[string]interface{} `json:"facetFilters,omitempty"`
-	Facets       *bool                  `json:"facets,omitempty"`
-	Fields       []interface{}          `json:"fields,omitempty"`
-	Filters      map[string]interface{} `json:"filters,omitempty"`
-	GeoFacets    *bool                  `json:"geo_facets,omitempty"`
-	Level        string                 `json:"level"`
-	Message      string                 `json:"message"`
-	SearchType   *string                `json:"search_type,omitempty"`
-	Sort         []interface{}          `json:"sort,omitempty"`
-	Tags         []string               `json:"tags,omitempty"`
-	Timestamp    string                 `json:"timestamp"`
-	User         string                 `json:"user"`
-}
+// A map of fields appearing in the audit logs for this event
+type EventInfo = map[string]interface{}
 
 type HistoryInfo struct {
-	User        string     `json:"user"`
-	Environment string     `json:"environment"`
-	Event       string     `json:"event"`
-	Data        *EventInfo `json:"data,omitempty"`
-	Timestamp   string     `json:"timestamp"`
+	User        string    `json:"user"`
+	Environment string    `json:"environment"`
+	Event       string    `json:"event"`
+	Data        EventInfo `json:"data,omitempty"`
+	Timestamp   string    `json:"timestamp"`
 }
 
 type UsageInfo struct {
