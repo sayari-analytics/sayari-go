@@ -16,6 +16,7 @@ type ExpiresIn = int
 // Will always be "Bearer"
 type TokenType = string
 
+// Response fields that represent unbounded collections, such as a search result or an entity's attributes or relationships, or a record's references, can all be paginated in cases where the collection is larger than can be efficiently returned in a single request.
 type PaginatedResponse struct {
 	Limit int       `json:"limit"`
 	Size  *SizeInfo `json:"size,omitempty"`
@@ -2456,6 +2457,7 @@ type DateOfBirthProperties struct {
 	Value string `json:"value"`
 }
 
+// This represents which type of entity is being returned.
 type Entities string
 
 const (
@@ -6591,8 +6593,7 @@ type EmbeddedEntity struct {
 	Sanctioned        bool                  `json:"sanctioned"`
 	Type              Entities              `json:"type,omitempty"`
 	Identifiers       []*Identifier         `json:"identifiers,omitempty"`
-	Countries         []string              `json:"countries,omitempty"`
-	PsaSanctioned     *string               `json:"psa_sanctioned,omitempty"`
+	Countries         []Country             `json:"countries,omitempty"`
 	SourceCount       SourceCount           `json:"source_count,omitempty"`
 	Addresses         []string              `json:"addresses,omitempty"`
 	DateOfBirth       *string               `json:"date_of_birth,omitempty"`
@@ -6610,8 +6611,7 @@ type EntityDetails struct {
 	Sanctioned        bool                  `json:"sanctioned"`
 	Type              Entities              `json:"type,omitempty"`
 	Identifiers       []*Identifier         `json:"identifiers,omitempty"`
-	Countries         []string              `json:"countries,omitempty"`
-	PsaSanctioned     *string               `json:"psa_sanctioned,omitempty"`
+	Countries         []Country             `json:"countries,omitempty"`
 	SourceCount       SourceCount           `json:"source_count,omitempty"`
 	Addresses         []string              `json:"addresses,omitempty"`
 	DateOfBirth       *string               `json:"date_of_birth,omitempty"`
@@ -6689,8 +6689,8 @@ type RelationshipData struct {
 	Target        *EmbeddedEntity   `json:"target,omitempty"`
 	Types         RelationshipTypes `json:"types,omitempty"`
 	Dates         []string          `json:"dates,omitempty"`
-	FirstObserved string            `json:"first_observed"`
-	LastObserved  string            `json:"last_observed"`
+	FirstObserved *string           `json:"first_observed,omitempty"`
+	LastObserved  *string           `json:"last_observed,omitempty"`
 	StartDate     *string           `json:"start_date,omitempty"`
 }
 
@@ -7109,8 +7109,7 @@ type Supplier struct {
 	Sanctioned        bool                  `json:"sanctioned"`
 	Type              Entities              `json:"type,omitempty"`
 	Identifiers       []*Identifier         `json:"identifiers,omitempty"`
-	Countries         []string              `json:"countries,omitempty"`
-	PsaSanctioned     *string               `json:"psa_sanctioned,omitempty"`
+	Countries         []Country             `json:"countries,omitempty"`
 	SourceCount       SourceCount           `json:"source_count,omitempty"`
 	Addresses         []string              `json:"addresses,omitempty"`
 	DateOfBirth       *string               `json:"date_of_birth,omitempty"`
