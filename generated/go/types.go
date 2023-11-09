@@ -16,6 +16,7 @@ type ExpiresIn = int
 // Will always be "Bearer"
 type TokenType = string
 
+// Response fields that represent unbounded collections, such as a search result or an entity's attributes or relationships, or a record's references, can all be paginated in cases where the collection is larger than can be efficiently returned in a single request.
 type PaginatedResponse struct {
 	Limit int       `json:"limit"`
 	Size  *SizeInfo `json:"size,omitempty"`
@@ -2456,6 +2457,7 @@ type DateOfBirthProperties struct {
 	Value string `json:"value"`
 }
 
+// This represents which type of entity is being returned.
 type Entities string
 
 const (
@@ -6574,6 +6576,9 @@ type RateLimitResponse = interface{}
 // Request made without valid token.
 type UnauthorizedResponse = interface{}
 
+// A type of legal entity in a given jurisdiction (e.g. 'LLC,' 'Sociedad Anonima,' 'Private Company Limited by Shares')
+type CompanyType = *string
+
 type Coordinate struct {
 	Lat     float64 `json:"lat"`
 	Lng     float64 `json:"lng"`
@@ -6581,78 +6586,150 @@ type Coordinate struct {
 }
 
 type EmbeddedEntity struct {
-	Id                EntityId              `json:"id"`
-	Label             string                `json:"label"`
-	Degree            int                   `json:"degree"`
-	Closed            bool                  `json:"closed"`
-	EntityUrl         string                `json:"entity_url"`
-	Pep               bool                  `json:"pep"`
-	PsaCount          int                   `json:"psa_count"`
-	Sanctioned        bool                  `json:"sanctioned"`
-	Type              Entities              `json:"type,omitempty"`
-	Identifiers       []*Identifier         `json:"identifiers,omitempty"`
-	Countries         []string              `json:"countries,omitempty"`
-	PsaSanctioned     *string               `json:"psa_sanctioned,omitempty"`
-	SourceCount       SourceCount           `json:"source_count,omitempty"`
-	Addresses         []string              `json:"addresses,omitempty"`
-	DateOfBirth       *string               `json:"date_of_birth,omitempty"`
-	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
+	Id                EntityId                `json:"id"`
+	Label             EntityLabel             `json:"label"`
+	Degree            EntityDegree            `json:"degree"`
+	Closed            EntityClosed            `json:"closed"`
+	EntityUrl         EntityUrl               `json:"entity_url"`
+	Pep               EntityPep               `json:"pep"`
+	PsaCount          EntityPsaCount          `json:"psa_count"`
+	Sanctioned        EntitySanctioned        `json:"sanctioned"`
+	Type              Entities                `json:"type,omitempty"`
+	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
+	Countries         []Country               `json:"countries,omitempty"`
+	SourceCount       SourceCount             `json:"source_count,omitempty"`
+	Addresses         EntityAddresses         `json:"addresses,omitempty"`
+	DateOfBirth       EntityDob               `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
 }
+
+// List of physical addresses associated with the entity. See https://docs.sayari.com/attributes/#address
+type EntityAddresses = []string
+
+// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+type EntityClosed = bool
+
+// Birth date of a person. See https://docs.sayari.com/attributes/#date-of-birth
+type EntityDob = *string
+
+// Number of outgoing relationships
+type EntityDegree = int
 
 type EntityDetails struct {
-	Id                EntityId              `json:"id"`
-	Label             string                `json:"label"`
-	Degree            int                   `json:"degree"`
-	Closed            bool                  `json:"closed"`
-	EntityUrl         string                `json:"entity_url"`
-	Pep               bool                  `json:"pep"`
-	PsaCount          int                   `json:"psa_count"`
-	Sanctioned        bool                  `json:"sanctioned"`
-	Type              Entities              `json:"type,omitempty"`
-	Identifiers       []*Identifier         `json:"identifiers,omitempty"`
-	Countries         []string              `json:"countries,omitempty"`
-	PsaSanctioned     *string               `json:"psa_sanctioned,omitempty"`
-	SourceCount       SourceCount           `json:"source_count,omitempty"`
-	Addresses         []string              `json:"addresses,omitempty"`
-	DateOfBirth       *string               `json:"date_of_birth,omitempty"`
-	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	RegistrationDate  *string               `json:"registration_date,omitempty"`
-	TranslatedLabel   *string               `json:"translated_label,omitempty"`
-	HsCode            *string               `json:"hs_code,omitempty"`
-	ShipmentArrival   *string               `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *string               `json:"shipment_departure,omitempty"`
-	CompanyType       *string               `json:"company_type,omitempty"`
-	LatestStatus      *Status               `json:"latest_status,omitempty"`
-	Risk              map[Risk]*RiskData    `json:"risk,omitempty"`
-	Attributes        *AttributeDetails     `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships  `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs       `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy         `json:"referenced_by,omitempty"`
-	Matches           map[string][]string   `json:"matches,omitempty"`
+	Id                EntityId                `json:"id"`
+	Label             EntityLabel             `json:"label"`
+	Degree            EntityDegree            `json:"degree"`
+	Closed            EntityClosed            `json:"closed"`
+	EntityUrl         EntityUrl               `json:"entity_url"`
+	Pep               EntityPep               `json:"pep"`
+	PsaCount          EntityPsaCount          `json:"psa_count"`
+	Sanctioned        EntitySanctioned        `json:"sanctioned"`
+	Type              Entities                `json:"type,omitempty"`
+	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
+	Countries         []Country               `json:"countries,omitempty"`
+	SourceCount       SourceCount             `json:"source_count,omitempty"`
+	Addresses         EntityAddresses         `json:"addresses,omitempty"`
+	DateOfBirth       EntityDob               `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
+	RegistrationDate  EntityRegistrationDate  `json:"registration_date,omitempty"`
+	TranslatedLabel   EntityTranslatedLabel   `json:"translated_label,omitempty"`
+	HsCode            EntityHsCode            `json:"hs_code,omitempty"`
+	ShipmentArrival   ShipmentArrival         `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture ShipmentDepartue        `json:"shipment_departure,omitempty"`
+	CompanyType       *string                 `json:"company_type,omitempty"`
+	LatestStatus      *Status                 `json:"latest_status,omitempty"`
+	Risk              EntityRisk              `json:"risk,omitempty"`
+	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
+	Matches           map[string][]string     `json:"matches,omitempty"`
 }
 
-// The unique identifier for an entity in the database
+// Harmonized Tariff Schedule Code associated with the entity/shipment
+type EntityHsCode = *string
+
+// Unique identifier of the entity
 type EntityId = string
 
+// Display name of the entity
+type EntityLabel = string
+
+// Number of entities that are Possibly the Same As (PSA) the entity.
+type EntityPsaCount = int
+
+// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+type EntityPep = bool
+
+// Type (registered/incorporated/active) and date of the earliest significant activity associated with the entity. Will appear as 'Registered YYYY-MM-DD'
+type EntityRegistrationDate = *string
+
+// Count of related entities by relationship type.
+type EntityRelationshipCount = map[Relationships]int
+
+// All relationships the entity is a part of.
 type EntityRelationships struct {
 	Limit int                 `json:"limit"`
 	Size  *SizeInfo           `json:"size,omitempty"`
 	Data  []*RelationshipData `json:"data,omitempty"`
 }
 
+// Risk factors associated with the entity.
+type EntityRisk = map[Risk]*RiskData
+
+// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
+type EntitySanctioned = bool
+
+// Label in English if available. Translation performed by Sayari.
+type EntityTranslatedLabel = *string
+
+// Convenience URL to the entity in the API.
+type EntityUrl = string
+
+// Identifiers associated with the entity. See https://docs.sayari.com/attributes/#identifier
 type Identifier struct {
 	Value string `json:"value"`
 	Type  string `json:"type"`
 	Label string `json:"label"`
 }
 
-type PossiblySameAs struct {
-	Limit int                  `json:"limit"`
-	Size  *SizeInfo            `json:"size,omitempty"`
-	Data  []PossiblySameAsData `json:"data,omitempty"`
+// The entity that is possibly the same as the target entity.
+type PsaEntity struct {
+	Id                EntityId                `json:"id"`
+	Label             EntityLabel             `json:"label"`
+	Degree            EntityDegree            `json:"degree"`
+	Closed            EntityClosed            `json:"closed"`
+	EntityUrl         EntityUrl               `json:"entity_url"`
+	Pep               EntityPep               `json:"pep"`
+	PsaCount          EntityPsaCount          `json:"psa_count"`
+	Sanctioned        EntitySanctioned        `json:"sanctioned"`
+	Type              Entities                `json:"type,omitempty"`
+	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
+	Countries         []Country               `json:"countries,omitempty"`
+	SourceCount       SourceCount             `json:"source_count,omitempty"`
+	Addresses         EntityAddresses         `json:"addresses,omitempty"`
+	DateOfBirth       EntityDob               `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
+	Risk              EntityRisk              `json:"risk,omitempty"`
 }
 
-type PossiblySameAsData = interface{}
+// List of entities that are Possibly the Same As (PSA) the entity.
+type PossiblySameAs struct {
+	Limit int                   `json:"limit"`
+	Size  *SizeInfo             `json:"size,omitempty"`
+	Data  []*PossiblySameAsData `json:"data,omitempty"`
+}
+
+type PossiblySameAsData struct {
+	Editable *bool                             `json:"editable,omitempty"`
+	Entity   *PsaEntity                        `json:"entity,omitempty"`
+	Matches  map[string][]*PossiblySameAsMatch `json:"matches,omitempty"`
+}
+
+type PossiblySameAsMatch struct {
+	Source string `json:"source"`
+	Target string `json:"target"`
+}
 
 type RecordDetails struct {
 	Id              RecordId            `json:"id"`
@@ -6669,6 +6746,7 @@ type RecordDetails struct {
 // The unique identifier for a record in the database
 type RecordId = string
 
+// List of records that reference the entity.
 type ReferencedBy struct {
 	Limit int                 `json:"limit"`
 	Size  *SizeInfo           `json:"size,omitempty"`
@@ -6676,8 +6754,30 @@ type ReferencedBy struct {
 }
 
 type ReferencedByData struct {
-	Record *RecordDetails `json:"record,omitempty"`
-	Type   string         `json:"type"`
+	Record *RecordDetails       `json:"record,omitempty"`
+	Type   ReferencedByDataType `json:"type,omitempty"`
+}
+
+type ReferencedByDataType string
+
+const (
+	ReferencedByDataTypeAbout    ReferencedByDataType = "about"
+	ReferencedByDataTypeMentions ReferencedByDataType = "mentions"
+)
+
+func NewReferencedByDataTypeFromString(s string) (ReferencedByDataType, error) {
+	switch s {
+	case "about":
+		return ReferencedByDataTypeAbout, nil
+	case "mentions":
+		return ReferencedByDataTypeMentions, nil
+	}
+	var t ReferencedByDataType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r ReferencedByDataType) Ptr() *ReferencedByDataType {
+	return &r
 }
 
 type RelationshipAttributeValue struct {
@@ -6689,8 +6789,8 @@ type RelationshipData struct {
 	Target        *EmbeddedEntity   `json:"target,omitempty"`
 	Types         RelationshipTypes `json:"types,omitempty"`
 	Dates         []string          `json:"dates,omitempty"`
-	FirstObserved string            `json:"first_observed"`
-	LastObserved  string            `json:"last_observed"`
+	FirstObserved *string           `json:"first_observed,omitempty"`
+	LastObserved  *string           `json:"last_observed,omitempty"`
 	StartDate     *string           `json:"start_date,omitempty"`
 }
 
@@ -7016,13 +7116,22 @@ func (s SearchField) Ptr() *SearchField {
 	return &s
 }
 
+// Arrival date of a shipment.
+type ShipmentArrival = *string
+
+// Departure date of a shipment.
+type ShipmentDepartue = *string
+
+// Number of records associated with the entity, grouped by source.
 type SourceCount = map[string]*SourceCountInfo
 
+// The number of time the entity is referenced by a source.
 type SourceCountInfo struct {
 	Count int    `json:"count"`
 	Label string `json:"label"`
 }
 
+// The most recent satus of an entity and when that status was observed.
 type Status struct {
 	Status string  `json:"status"`
 	Date   *string `json:"date,omitempty"`
@@ -7099,36 +7208,35 @@ type SourceOrDestinationEntity struct {
 }
 
 type Supplier struct {
-	Id                EntityId              `json:"id"`
-	Label             string                `json:"label"`
-	Degree            int                   `json:"degree"`
-	Closed            bool                  `json:"closed"`
-	EntityUrl         string                `json:"entity_url"`
-	Pep               bool                  `json:"pep"`
-	PsaCount          int                   `json:"psa_count"`
-	Sanctioned        bool                  `json:"sanctioned"`
-	Type              Entities              `json:"type,omitempty"`
-	Identifiers       []*Identifier         `json:"identifiers,omitempty"`
-	Countries         []string              `json:"countries,omitempty"`
-	PsaSanctioned     *string               `json:"psa_sanctioned,omitempty"`
-	SourceCount       SourceCount           `json:"source_count,omitempty"`
-	Addresses         []string              `json:"addresses,omitempty"`
-	DateOfBirth       *string               `json:"date_of_birth,omitempty"`
-	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	RegistrationDate  *string               `json:"registration_date,omitempty"`
-	TranslatedLabel   *string               `json:"translated_label,omitempty"`
-	HsCode            *string               `json:"hs_code,omitempty"`
-	ShipmentArrival   *string               `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *string               `json:"shipment_departure,omitempty"`
-	CompanyType       *string               `json:"company_type,omitempty"`
-	LatestStatus      *Status               `json:"latest_status,omitempty"`
-	Risk              map[Risk]*RiskData    `json:"risk,omitempty"`
-	Attributes        *AttributeDetails     `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships  `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs       `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy         `json:"referenced_by,omitempty"`
-	Matches           map[string][]string   `json:"matches,omitempty"`
-	Metadata          *SupplierMetadata     `json:"metadata,omitempty"`
+	Id                EntityId                `json:"id"`
+	Label             EntityLabel             `json:"label"`
+	Degree            EntityDegree            `json:"degree"`
+	Closed            EntityClosed            `json:"closed"`
+	EntityUrl         EntityUrl               `json:"entity_url"`
+	Pep               EntityPep               `json:"pep"`
+	PsaCount          EntityPsaCount          `json:"psa_count"`
+	Sanctioned        EntitySanctioned        `json:"sanctioned"`
+	Type              Entities                `json:"type,omitempty"`
+	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
+	Countries         []Country               `json:"countries,omitempty"`
+	SourceCount       SourceCount             `json:"source_count,omitempty"`
+	Addresses         EntityAddresses         `json:"addresses,omitempty"`
+	DateOfBirth       EntityDob               `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
+	RegistrationDate  EntityRegistrationDate  `json:"registration_date,omitempty"`
+	TranslatedLabel   EntityTranslatedLabel   `json:"translated_label,omitempty"`
+	HsCode            EntityHsCode            `json:"hs_code,omitempty"`
+	ShipmentArrival   ShipmentArrival         `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture ShipmentDepartue        `json:"shipment_departure,omitempty"`
+	CompanyType       *string                 `json:"company_type,omitempty"`
+	LatestStatus      *Status                 `json:"latest_status,omitempty"`
+	Risk              EntityRisk              `json:"risk,omitempty"`
+	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
+	Matches           map[string][]string     `json:"matches,omitempty"`
+	Metadata          *SupplierMetadata       `json:"metadata,omitempty"`
 }
 
 type SupplierMetadata struct {
