@@ -165,76 +165,76 @@ type AttributeDetails struct {
 type Attributes string
 
 const (
+	AttributesBusinessPurpose       Attributes = "business_purpose"
+	AttributesGeneric               Attributes = "generic"
+	AttributesMonetaryValue         Attributes = "monetary_value"
+	AttributesAddress               Attributes = "address"
+	AttributesShares                Attributes = "shares"
+	AttributesDateOfBirth           Attributes = "date_of_birth"
+	AttributesWeakIdentifier        Attributes = "weak_identifier"
+	AttributesContact               Attributes = "contact"
+	AttributesMeasurement           Attributes = "measurement"
+	AttributesCompanyType           Attributes = "company_type"
+	AttributesTranslatedName        Attributes = "translated_name"
+	AttributesFinances              Attributes = "finances"
+	AttributesPosition              Attributes = "position"
+	AttributesGender                Attributes = "gender"
 	AttributesRiskIntelligence      Attributes = "risk_intelligence"
 	AttributesCountry               Attributes = "country"
-	AttributesWeakIdentifier        Attributes = "weak_identifier"
-	AttributesGeneric               Attributes = "generic"
-	AttributesStatus                Attributes = "status"
-	AttributesShares                Attributes = "shares"
-	AttributesName                  Attributes = "name"
-	AttributesContact               Attributes = "contact"
 	AttributesPersonStatus          Attributes = "person_status"
 	AttributesFinancials            Attributes = "financials"
 	AttributesAdditionalInformation Attributes = "additional_information"
-	AttributesFinances              Attributes = "finances"
-	AttributesAddress               Attributes = "address"
-	AttributesMonetaryValue         Attributes = "monetary_value"
-	AttributesCompanyType           Attributes = "company_type"
-	AttributesGender                Attributes = "gender"
-	AttributesTranslatedName        Attributes = "translated_name"
-	AttributesDateOfBirth           Attributes = "date_of_birth"
-	AttributesMeasurement           Attributes = "measurement"
 	AttributesIdentifier            Attributes = "identifier"
-	AttributesPosition              Attributes = "position"
-	AttributesBusinessPurpose       Attributes = "business_purpose"
+	AttributesName                  Attributes = "name"
+	AttributesStatus                Attributes = "status"
 )
 
 func NewAttributesFromString(s string) (Attributes, error) {
 	switch s {
+	case "business_purpose":
+		return AttributesBusinessPurpose, nil
+	case "generic":
+		return AttributesGeneric, nil
+	case "monetary_value":
+		return AttributesMonetaryValue, nil
+	case "address":
+		return AttributesAddress, nil
+	case "shares":
+		return AttributesShares, nil
+	case "date_of_birth":
+		return AttributesDateOfBirth, nil
+	case "weak_identifier":
+		return AttributesWeakIdentifier, nil
+	case "contact":
+		return AttributesContact, nil
+	case "measurement":
+		return AttributesMeasurement, nil
+	case "company_type":
+		return AttributesCompanyType, nil
+	case "translated_name":
+		return AttributesTranslatedName, nil
+	case "finances":
+		return AttributesFinances, nil
+	case "position":
+		return AttributesPosition, nil
+	case "gender":
+		return AttributesGender, nil
 	case "risk_intelligence":
 		return AttributesRiskIntelligence, nil
 	case "country":
 		return AttributesCountry, nil
-	case "weak_identifier":
-		return AttributesWeakIdentifier, nil
-	case "generic":
-		return AttributesGeneric, nil
-	case "status":
-		return AttributesStatus, nil
-	case "shares":
-		return AttributesShares, nil
-	case "name":
-		return AttributesName, nil
-	case "contact":
-		return AttributesContact, nil
 	case "person_status":
 		return AttributesPersonStatus, nil
 	case "financials":
 		return AttributesFinancials, nil
 	case "additional_information":
 		return AttributesAdditionalInformation, nil
-	case "finances":
-		return AttributesFinances, nil
-	case "address":
-		return AttributesAddress, nil
-	case "monetary_value":
-		return AttributesMonetaryValue, nil
-	case "company_type":
-		return AttributesCompanyType, nil
-	case "gender":
-		return AttributesGender, nil
-	case "translated_name":
-		return AttributesTranslatedName, nil
-	case "date_of_birth":
-		return AttributesDateOfBirth, nil
-	case "measurement":
-		return AttributesMeasurement, nil
 	case "identifier":
 		return AttributesIdentifier, nil
-	case "position":
-		return AttributesPosition, nil
-	case "business_purpose":
-		return AttributesBusinessPurpose, nil
+	case "name":
+		return AttributesName, nil
+	case "status":
+		return AttributesStatus, nil
 	}
 	var t Attributes
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -2461,56 +2461,56 @@ type DateOfBirthProperties struct {
 type Entities string
 
 const (
-	// A civil or criminal legal case or similar type of proceeding
-	EntitiesLegalMatter Entities = "legal_matter"
-	// A legal entity or organization
-	EntitiesCompany Entities = "company"
-	// A shipment between two entities
-	EntitiesShipment Entities = "shipment"
 	// A generic placeholder entity. Rarely used.
 	EntitiesGeneric Entities = "generic"
-	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
-	EntitiesVessel Entities = "vessel"
-	// Land, real estate, real property, or personal property not categorized under another entity type
-	EntitiesProperty Entities = "property"
-	// A trademark, patent, copyright, or similar type of intangible property
-	EntitiesIntellectualProperty Entities = "intellectual_property"
-	// A natural person (human being)
-	EntitiesPerson Entities = "person"
-	// A tradable financial asset
-	EntitiesSecurity Entities = "security"
-	// A discretely registered name used by a person or company not operating under its legal name. This includes doing-business-as names, fictitious names, etc. in jurisdictions that treat them as registered objects distinct from the person/company using them.
-	EntitiesTradename Entities = "tradename"
 	// An unknown placeholder entity. Rarely used.
 	EntitiesUnknown Entities = "unknown"
+	// A trademark, patent, copyright, or similar type of intangible property
+	EntitiesIntellectualProperty Entities = "intellectual_property"
+	// A shipment between two entities
+	EntitiesShipment Entities = "shipment"
+	// A tradable financial asset
+	EntitiesSecurity Entities = "security"
+	// Land, real estate, real property, or personal property not categorized under another entity type
+	EntitiesProperty Entities = "property"
+	// A natural person (human being)
+	EntitiesPerson Entities = "person"
+	// A discretely registered name used by a person or company not operating under its legal name. This includes doing-business-as names, fictitious names, etc. in jurisdictions that treat them as registered objects distinct from the person/company using them.
+	EntitiesTradename Entities = "tradename"
+	// A legal entity or organization
+	EntitiesCompany Entities = "company"
+	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
+	EntitiesVessel Entities = "vessel"
+	// A civil or criminal legal case or similar type of proceeding
+	EntitiesLegalMatter Entities = "legal_matter"
 	// An airplane, helicopter, etc.
 	EntitiesAircraft Entities = "aircraft"
 )
 
 func NewEntitiesFromString(s string) (Entities, error) {
 	switch s {
-	case "legal_matter":
-		return EntitiesLegalMatter, nil
-	case "company":
-		return EntitiesCompany, nil
-	case "shipment":
-		return EntitiesShipment, nil
 	case "generic":
 		return EntitiesGeneric, nil
-	case "vessel":
-		return EntitiesVessel, nil
-	case "property":
-		return EntitiesProperty, nil
-	case "intellectual_property":
-		return EntitiesIntellectualProperty, nil
-	case "person":
-		return EntitiesPerson, nil
-	case "security":
-		return EntitiesSecurity, nil
-	case "tradename":
-		return EntitiesTradename, nil
 	case "unknown":
 		return EntitiesUnknown, nil
+	case "intellectual_property":
+		return EntitiesIntellectualProperty, nil
+	case "shipment":
+		return EntitiesShipment, nil
+	case "security":
+		return EntitiesSecurity, nil
+	case "property":
+		return EntitiesProperty, nil
+	case "person":
+		return EntitiesPerson, nil
+	case "tradename":
+		return EntitiesTradename, nil
+	case "company":
+		return EntitiesCompany, nil
+	case "vessel":
+		return EntitiesVessel, nil
+	case "legal_matter":
+		return EntitiesLegalMatter, nil
 	case "aircraft":
 		return EntitiesAircraft, nil
 	}
@@ -2724,7 +2724,7 @@ const (
 	IdentifierTypeMaltaAccountancyRegistrationId IdentifierType = "malta_accountancy_registration_id"
 	// The pattern was sourced from the snapshot file documentation provided to us. When the first two characters are not digits, they have a special meaning
 	IdentifierTypeUkCompanyNumber IdentifierType = "uk_company_number"
-	// A six or a seven-digit Firm Reference Number used to uniquely identify firms by the Prudential Regulation Authority (PRA) and Financial Conduct Authority (FCA).
+	// Unique UK ID number. Assigned to every firm in the FCA financial services registry.
 	IdentifierTypeUkFirmReferenceNumber IdentifierType = "uk_firm_reference_number"
 	// Seems to be internal use, and is not perfectly applied
 	IdentifierTypeUkPersonNumber IdentifierType = "uk_person_number"
@@ -2847,7 +2847,7 @@ const (
 	IdentifierTypeEcuRucNumber IdentifierType = "ecu_ruc_number"
 	// Greek VAT number
 	IdentifierTypeGrcVatNumber IdentifierType = "grc_vat_number"
-	// Canada corporation number; See "Business Number" https://www.ic.gc.ca/app/scr/cc/CorporationsCanada/popMsg.html
+	// Unique Canada ID number. Assigned to federal legal entities registered with Corporations Canada.
 	IdentifierTypeCanCorporationNumber IdentifierType = "can_corporation_number"
 	// Canadian Revenue Agency program account number; See https://www.thebalancesmb.com/what-is-the-canada-revenue-agency-cra-business-number-2947322
 	IdentifierTypeCanCraProgramAccountNumber IdentifierType = "can_cra_program_account_number"
@@ -3099,7 +3099,7 @@ const (
 	IdentifierTypeUsaWyFilingId IdentifierType = "usa_wy_filing_id"
 	// WY internal filing ID (primary key)
 	IdentifierTypeUsaWyInternalFilingId IdentifierType = "usa_wy_internal_filing_id"
-	// Wyoming Secretary of State Filing Number
+	// Unique USA state ID number. Assigned to every legal entity registered with Wyoming Secretary of State.
 	IdentifierTypeUsaWyFilingNum IdentifierType = "usa_wy_filing_num"
 	// Oregon corporate registry registration number
 	IdentifierTypeUsaOrRegno IdentifierType = "usa_or_regno"
@@ -3353,7 +3353,7 @@ const (
 	IdentifierTypeEcuCedulaNumber IdentifierType = "ecu_cedula_number"
 	// Hong Kong Stock Exchange Code
 	IdentifierTypeHkgStockCode IdentifierType = "hkg_stock_code"
-	// British Columbia Company Registration ID
+	// Unique Canada province ID number. Assigned to every legal entity in the British Columbia Corporate Registry.
 	IdentifierTypeCanBcCompanyRegistrationId IdentifierType = "can_bc_company_registration_id"
 	// British Columbia Extraprovincial Company Registration ID
 	IdentifierTypeCanBcExtraprovincialRegistrationId IdentifierType = "can_bc_extraprovincial_registration_id"
@@ -3515,7 +3515,7 @@ const (
 	IdentifierTypeUsaCtInternalId IdentifierType = "usa_ct_internal_id"
 	// https://en.wikipedia.org/wiki/ISO_8000
 	IdentifierTypeAlei IdentifierType = "alei"
-	// Company number for Canada NS Corporate Registry
+	// Unique Canada province ID number. Assigned to every entity in the Nova Scotia Corporate Registry.
 	IdentifierTypeCanNsCorporateRegistry IdentifierType = "can_ns_corporate_registry"
 	// Somalian UBI Number
 	IdentifierTypeSomUbi IdentifierType = "som_ubi"
@@ -3712,15 +3712,15 @@ const (
 	IdentifierTypeUsaOtiId IdentifierType = "usa_oti_id"
 	// Stock Market Ticker
 	IdentifierTypeStockTicker IdentifierType = "stock_ticker"
-	// Canada Manitoba Registry Number
+	// Unique Canada province ID number. Assigned to every legal entity registered with the Manitoba Companies Office.
 	IdentifierTypeCanMbRegistry IdentifierType = "can_mb_registry"
-	// Quebec Enterprise Number
+	// Unique Canada province ID number. Assigned to every legal entity in the Quebec Enterprise Register.
 	IdentifierTypeQuebecEnterpriseNumber IdentifierType = "quebec_enterprise_number"
-	// Ontario Corporation Number
+	// Unique Canada province ID number. Assigned to every legal entity in the Ontario Business Registry.
 	IdentifierTypeOntarioCorporationNumber IdentifierType = "ontario_corporation_number"
-	// Saskatchewan Registry Number
+	// Unique Canada province ID number. Assigned to every legal entity in the Saskatchewan Corporate Registry.
 	IdentifierTypeSaskatchewanRegistryNumber IdentifierType = "saskatchewan_registry_number"
-	// Alberta Corporation Number
+	// Unique Canada province ID number. Assigned to every legal entity in the Alberta Corporate Registry.
 	IdentifierTypeAlbertaCorporationNumber IdentifierType = "alberta_corporation_number"
 	// Brazil Shipment Number
 	IdentifierTypeBraShipmentNumber IdentifierType = "bra_shipment_number"
@@ -3734,17 +3734,17 @@ const (
 	IdentifierTypeDashAddress IdentifierType = "dash_address"
 	// Zcash address
 	IdentifierTypeZcashAddress IdentifierType = "zcash_address"
-	// Serial Number assigned to a Trademark application by USPTO
+	// Unique USA ID number. Assigned to every trademark application.
 	IdentifierTypeUsaUsptoSerialNumber IdentifierType = "usa_uspto_serial_number"
-	// USPTO Registration Number
+	// Unique USA ID number. Assigned to every registered trademark.
 	IdentifierTypeUsaUsptoRegNo IdentifierType = "usa_uspto_reg_no"
-	// USPTO Foreign Application Number
+	// Unique USA ID number. Assigned to every foreign trademark application.
 	IdentifierTypeUsaUsptoForeignApplicationNo IdentifierType = "usa_uspto_foreign_application_no"
-	// USPTO Foreign Registration Number
+	// Unique USA ID number. Assigned to every registered foreign trademark.
 	IdentifierTypeUsaUsptoForeignRegNo IdentifierType = "usa_uspto_foreign_reg_no"
-	// International registration number assigned by the International Bureau of WIPO.
+	// Unique USA ID number. Assigned to every registered foreign trademark.
 	IdentifierTypeWipoIntlRegNo IdentifierType = "wipo_intl_reg_no"
-	// International reference number assigned by the International Bureau of WIPO.
+	// Unique USA ID number. Assigned to every foreign trademark application.
 	IdentifierTypeWipoIntlRefNo IdentifierType = "wipo_intl_ref_no"
 )
 
@@ -6274,6 +6274,8 @@ const (
 	WeakIdentifierTypeGeoStateRegistrationNumber WeakIdentifierType = "geo_state_registration_number"
 	// Bosnia and Herzegovenia business register registration number
 	WeakIdentifierTypeBihMbsNumber WeakIdentifierType = "bih_mbs_number"
+	// A temporary malformed type
+	WeakIdentifierTypeMalformedMmrPriorRegNo WeakIdentifierType = "malformed mmr_prior_reg_no"
 )
 
 func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
@@ -6476,6 +6478,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeGeoStateRegistrationNumber, nil
 	case "bih_mbs_number":
 		return WeakIdentifierTypeBihMbsNumber, nil
+	case "malformed mmr_prior_reg_no":
+		return WeakIdentifierTypeMalformedMmrPriorRegNo, nil
 	}
 	var t WeakIdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -6577,7 +6581,7 @@ type RateLimitResponse = interface{}
 type UnauthorizedResponse = interface{}
 
 // A type of legal entity in a given jurisdiction (e.g. 'LLC,' 'Sociedad Anonima,' 'Private Company Limited by Shares')
-type CompanyType = *string
+type CompanyType = string
 
 type Coordinate struct {
 	Lat     float64 `json:"lat"`
@@ -6585,6 +6589,7 @@ type Coordinate struct {
 	Address string  `json:"address"`
 }
 
+// The attributes fields common to most entities.
 type EmbeddedEntity struct {
 	Id                EntityId                `json:"id"`
 	Label             EntityLabel             `json:"label"`
@@ -6598,23 +6603,24 @@ type EmbeddedEntity struct {
 	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
 	Countries         []Country               `json:"countries,omitempty"`
 	SourceCount       SourceCount             `json:"source_count,omitempty"`
-	Addresses         EntityAddresses         `json:"addresses,omitempty"`
-	DateOfBirth       EntityDob               `json:"date_of_birth,omitempty"`
+	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
 	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
 }
 
 // List of physical addresses associated with the entity. See https://docs.sayari.com/attributes/#address
-type EntityAddresses = []string
+type EntityAddresses = string
 
 // True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
 type EntityClosed = bool
 
 // Birth date of a person. See https://docs.sayari.com/attributes/#date-of-birth
-type EntityDob = *string
+type EntityDob = string
 
 // Number of outgoing relationships
 type EntityDegree = int
 
+// Additional fields providing more details about an enetity
 type EntityDetails struct {
 	Id                EntityId                `json:"id"`
 	Label             EntityLabel             `json:"label"`
@@ -6628,32 +6634,35 @@ type EntityDetails struct {
 	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
 	Countries         []Country               `json:"countries,omitempty"`
 	SourceCount       SourceCount             `json:"source_count,omitempty"`
-	Addresses         EntityAddresses         `json:"addresses,omitempty"`
-	DateOfBirth       EntityDob               `json:"date_of_birth,omitempty"`
+	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
 	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
-	RegistrationDate  EntityRegistrationDate  `json:"registration_date,omitempty"`
-	TranslatedLabel   EntityTranslatedLabel   `json:"translated_label,omitempty"`
-	HsCode            EntityHsCode            `json:"hs_code,omitempty"`
-	ShipmentArrival   ShipmentArrival         `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture ShipmentDepartue        `json:"shipment_departure,omitempty"`
-	CompanyType       *string                 `json:"company_type,omitempty"`
+	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType       *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus      *Status                 `json:"latest_status,omitempty"`
 	Risk              EntityRisk              `json:"risk,omitempty"`
 	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
 	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
 	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Matches           map[string][]string     `json:"matches,omitempty"`
+	Matches           *EntityMatches          `json:"matches,omitempty"`
 }
 
 // Harmonized Tariff Schedule Code associated with the entity/shipment
-type EntityHsCode = *string
+type EntityHsCode = string
 
 // Unique identifier of the entity
 type EntityId = string
 
 // Display name of the entity
 type EntityLabel = string
+
+// An explanation of why this entity was returned as the result of a query.
+type EntityMatches = map[string][]string
 
 // Number of entities that are Possibly the Same As (PSA) the entity.
 type EntityPsaCount = int
@@ -6662,7 +6671,7 @@ type EntityPsaCount = int
 type EntityPep = bool
 
 // Type (registered/incorporated/active) and date of the earliest significant activity associated with the entity. Will appear as 'Registered YYYY-MM-DD'
-type EntityRegistrationDate = *string
+type EntityRegistrationDate = string
 
 // Count of related entities by relationship type.
 type EntityRelationshipCount = map[Relationships]int
@@ -6681,7 +6690,7 @@ type EntityRisk = map[Risk]*RiskData
 type EntitySanctioned = bool
 
 // Label in English if available. Translation performed by Sayari.
-type EntityTranslatedLabel = *string
+type EntityTranslatedLabel = string
 
 // Convenience URL to the entity in the API.
 type EntityUrl = string
@@ -6707,8 +6716,8 @@ type PsaEntity struct {
 	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
 	Countries         []Country               `json:"countries,omitempty"`
 	SourceCount       SourceCount             `json:"source_count,omitempty"`
-	Addresses         EntityAddresses         `json:"addresses,omitempty"`
-	DateOfBirth       EntityDob               `json:"date_of_birth,omitempty"`
+	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
 	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
 	Risk              EntityRisk              `json:"risk,omitempty"`
 }
@@ -7117,10 +7126,10 @@ func (s SearchField) Ptr() *SearchField {
 }
 
 // Arrival date of a shipment.
-type ShipmentArrival = *string
+type ShipmentArrival = string
 
 // Departure date of a shipment.
-type ShipmentDepartue = *string
+type ShipmentDepartue = string
 
 // Number of records associated with the entity, grouped by source.
 type SourceCount = map[string]*SourceCountInfo
@@ -7220,22 +7229,22 @@ type Supplier struct {
 	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
 	Countries         []Country               `json:"countries,omitempty"`
 	SourceCount       SourceCount             `json:"source_count,omitempty"`
-	Addresses         EntityAddresses         `json:"addresses,omitempty"`
-	DateOfBirth       EntityDob               `json:"date_of_birth,omitempty"`
+	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
 	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
-	RegistrationDate  EntityRegistrationDate  `json:"registration_date,omitempty"`
-	TranslatedLabel   EntityTranslatedLabel   `json:"translated_label,omitempty"`
-	HsCode            EntityHsCode            `json:"hs_code,omitempty"`
-	ShipmentArrival   ShipmentArrival         `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture ShipmentDepartue        `json:"shipment_departure,omitempty"`
-	CompanyType       *string                 `json:"company_type,omitempty"`
+	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType       *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus      *Status                 `json:"latest_status,omitempty"`
 	Risk              EntityRisk              `json:"risk,omitempty"`
 	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
 	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
 	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Matches           map[string][]string     `json:"matches,omitempty"`
+	Matches           *EntityMatches          `json:"matches,omitempty"`
 	Metadata          *SupplierMetadata       `json:"metadata,omitempty"`
 }
 

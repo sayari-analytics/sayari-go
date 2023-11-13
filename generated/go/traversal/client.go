@@ -27,7 +27,6 @@ func NewClient(opts ...core.ClientOption) *Client {
 	for _, opt := range opts {
 		opt(options)
 	}
-
 	return &Client{
 		baseURL:     options.BaseURL,
 		httpClient:  options.HTTPClient,
@@ -138,8 +137,29 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		case 404:
 			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -152,8 +172,22 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 502:
+			value := new(generatedgo.BadGateway)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 520:
+			value := new(generatedgo.ConnectionError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -197,8 +231,29 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId) (*generatedgo
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		case 404:
 			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -211,8 +266,22 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId) (*generatedgo
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 502:
+			value := new(generatedgo.BadGateway)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 520:
+			value := new(generatedgo.ConnectionError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -256,8 +325,29 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId) (*gener
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		case 404:
 			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -270,8 +360,22 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId) (*gener
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 502:
+			value := new(generatedgo.BadGateway)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 520:
+			value := new(generatedgo.ConnectionError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -315,8 +419,29 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId) (*gener
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		case 404:
 			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -329,8 +454,22 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId) (*gener
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 502:
+			value := new(generatedgo.BadGateway)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 520:
+			value := new(generatedgo.ConnectionError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -382,8 +521,29 @@ func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.Shortest
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		case 404:
 			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -396,8 +556,22 @@ func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.Shortest
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 502:
+			value := new(generatedgo.BadGateway)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 520:
+			value := new(generatedgo.ConnectionError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

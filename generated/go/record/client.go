@@ -62,8 +62,29 @@ func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		case 404:
 			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -76,8 +97,8 @@ func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

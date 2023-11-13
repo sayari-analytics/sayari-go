@@ -101,8 +101,26 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 	for _, value := range request.RelationshipsArrivalCountry {
 		queryParams.Add("relationships.arrivalCountry", fmt.Sprintf("%v", *value))
 	}
+	if request.RelationshipsArrivalState != nil {
+		queryParams.Add("relationships.arrivalState", fmt.Sprintf("%v", *request.RelationshipsArrivalState))
+	}
+	if request.RelationshipsArrivalCity != nil {
+		queryParams.Add("relationships.arrivalCity", fmt.Sprintf("%v", *request.RelationshipsArrivalCity))
+	}
 	for _, value := range request.RelationshipsDepartureCountry {
 		queryParams.Add("relationships.departureCountry", fmt.Sprintf("%v", *value))
+	}
+	if request.RelationshipsDepartureState != nil {
+		queryParams.Add("relationships.departureState", fmt.Sprintf("%v", *request.RelationshipsDepartureState))
+	}
+	if request.RelationshipsDepartureCity != nil {
+		queryParams.Add("relationships.departureCity", fmt.Sprintf("%v", *request.RelationshipsDepartureCity))
+	}
+	if request.RelationshipsPartnerName != nil {
+		queryParams.Add("relationships.partnerName", fmt.Sprintf("%v", *request.RelationshipsPartnerName))
+	}
+	for _, value := range request.RelationshipsPartnerRisk {
+		queryParams.Add("relationships.partnerRisk", fmt.Sprintf("%v", *value))
 	}
 	if request.RelationshipsHsCode != nil {
 		queryParams.Add("relationships.hsCode", fmt.Sprintf("%v", *request.RelationshipsHsCode))
@@ -137,8 +155,29 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		case 404:
 			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -151,8 +190,8 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -196,8 +235,29 @@ func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*g
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
 		case 404:
 			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -210,8 +270,8 @@ func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*g
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

@@ -62,8 +62,29 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
-		case 404:
-			value := new(generatedgo.NotFound)
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 406:
+			value := new(generatedgo.NotAcceptable)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -76,8 +97,8 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -132,8 +153,29 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
 		decoder := json.NewDecoder(bytes.NewReader(raw))
 		switch statusCode {
-		case 404:
-			value := new(generatedgo.NotFound)
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 406:
+			value := new(generatedgo.NotAcceptable)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError
@@ -146,8 +188,8 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 				return apiError
 			}
 			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
+		case 500:
+			value := new(generatedgo.InternalServerError)
 			value.APIError = apiError
 			if err := decoder.Decode(value); err != nil {
 				return apiError

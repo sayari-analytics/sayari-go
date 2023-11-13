@@ -45,8 +45,20 @@ type GetEntity struct {
 	RelationshipsCountry []*Country `json:"-"`
 	// Filters shipment relationships to a list of arrival countries
 	RelationshipsArrivalCountry []*Country `json:"-"`
+	// Filters shipment relationships to an arrival state
+	RelationshipsArrivalState *string `json:"-"`
+	// Filters shipment relationships to an arrival city
+	RelationshipsArrivalCity *string `json:"-"`
 	// Filters shipment relationships to a list of departure countries
 	RelationshipsDepartureCountry []*Country `json:"-"`
+	// Filters shipment relationships to a departure state
+	RelationshipsDepartureState *string `json:"-"`
+	// Filters shipment relationships to a departure city
+	RelationshipsDepartureCity *string `json:"-"`
+	// Filters shipment relationships to a trade partner name
+	RelationshipsPartnerName *string `json:"-"`
+	// Filters shipment relationships to a trade partner risk
+	RelationshipsPartnerRisk []*Tag `json:"-"`
 	// Filters shipment relationships to an HS code
 	RelationshipsHsCode *string `json:"-"`
 	// The pagination token for the next page of possibly same entities.
