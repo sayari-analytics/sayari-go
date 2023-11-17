@@ -13,10 +13,10 @@ type SearchBuyers struct {
 	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
-	// Filters to be applied to search query to limit the result-set.
-	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Shipment fields to search against.
 	Fields []ShipmentField `json:"fields,omitempty"`
+	// Filters to be applied to search query to limit the result-set.
+	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
 	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
@@ -32,10 +32,10 @@ type SearchShipments struct {
 	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
-	// Filters to be applied to search query to limit the result-set.
-	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Shipment fields to search against.
 	Fields []ShipmentField `json:"fields,omitempty"`
+	// Filters to be applied to search query to limit the result-set.
+	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
 	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
@@ -51,10 +51,10 @@ type SearchSuppliers struct {
 	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
-	// Filters to be applied to search query to limit the result-set.
-	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Shipment fields to search against.
 	Fields []ShipmentField `json:"fields,omitempty"`
+	// Filters to be applied to search query to limit the result-set.
+	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
 	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
@@ -159,25 +159,25 @@ type SupplierSearchResults struct {
 
 // Filter your search on the following attributes.
 type TradeFilterList struct {
-	BuyerId          *string `json:"buyer_id,omitempty"`
-	SupplierId       *string `json:"supplier_id,omitempty"`
-	BuyerName        *string `json:"buyer_name,omitempty"`
-	SupplierName     *string `json:"supplier_name,omitempty"`
-	BuyerRisk        *string `json:"buyer_risk,omitempty"`
-	SupplierRisk     *string `json:"supplier_risk,omitempty"`
-	BuyerCountry     *string `json:"buyer_country,omitempty"`
-	SupplierCountry  *string `json:"supplier_country,omitempty"`
-	DepartureCountry *string `json:"departure_country,omitempty"`
-	DepartureState   *string `json:"departure_state,omitempty"`
-	DepartureCity    *string `json:"departure_city,omitempty"`
-	ArrivalCountry   *string `json:"arrival_country,omitempty"`
-	ArrivalState     *string `json:"arrival_state,omitempty"`
-	ArrivalCity      *string `json:"arrival_city,omitempty"`
-	HsCode           *string `json:"hs_code,omitempty"`
-	HsDescription    *string `json:"hs_description,omitempty"`
-	SupplierPurpose  *string `json:"supplier_purpose,omitempty"`
-	BuyerPurpose     *string `json:"buyer_purpose,omitempty"`
-	ArrivalDate      *string `json:"arrival_date,omitempty"`
-	Weight           *string `json:"weight,omitempty"`
-	Sources          *string `json:"sources,omitempty"`
+	BuyerId          []string  `json:"buyer_id,omitempty"`
+	SupplierId       []string  `json:"supplier_id,omitempty"`
+	BuyerName        []string  `json:"buyer_name,omitempty"`
+	SupplierName     []string  `json:"supplier_name,omitempty"`
+	BuyerRisk        []string  `json:"buyer_risk,omitempty"`
+	SupplierRisk     []string  `json:"supplier_risk,omitempty"`
+	BuyerCountry     []Country `json:"buyer_country,omitempty"`
+	SupplierCountry  []Country `json:"supplier_country,omitempty"`
+	DepartureCountry []Country `json:"departure_country,omitempty"`
+	DepartureState   []string  `json:"departure_state,omitempty"`
+	DepartureCity    []string  `json:"departure_city,omitempty"`
+	ArrivalCountry   []Country `json:"arrival_country,omitempty"`
+	ArrivalState     []string  `json:"arrival_state,omitempty"`
+	ArrivalCity      []string  `json:"arrival_city,omitempty"`
+	HsCode           []string  `json:"hs_code,omitempty"`
+	HsDescription    []string  `json:"hs_description,omitempty"`
+	SupplierPurpose  []string  `json:"supplier_purpose,omitempty"`
+	BuyerPurpose     []string  `json:"buyer_purpose,omitempty"`
+	ArrivalDate      []string  `json:"arrival_date,omitempty"`
+	Weight           []string  `json:"weight,omitempty"`
+	Sources          []string  `json:"sources,omitempty"`
 }
