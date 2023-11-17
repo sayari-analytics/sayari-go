@@ -349,7 +349,7 @@ func TestShipmentSearch(t *testing.T) {
 		}
 		assert.True(t, hsFound)
 
-		// verify shipment match supplier country
+		// verify shipment match supplier country and risk
 		assert.NotZero(t, len(shipment.Src))
 		var supplierCountryFound bool
 		var supplierRiskFound bool
