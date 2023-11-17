@@ -234,7 +234,7 @@ func TestEntityPagination(t *testing.T) {
 	// Do paginated query
 	allEntities, err := api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(5)})
 	assert.Nil(t, err)
-	assert.Equal(t, len(allEntities), info.Size.Count)
+	assert.Equal(t, allEntities.Limit, info.Size.Count)
 
 	// Test requesting too many pages
 	searchTerm = "amazon"
@@ -248,7 +248,7 @@ func TestEntityPagination(t *testing.T) {
 	assert.Nil(t, err)
 	allEntities, err = api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm})
 	assert.Nil(t, err)
-	assert.Equal(t, info.Size.Count, len(allEntities))
+	assert.Equal(t, info.Size.Count, allEntities.Limit)
 }
 
 func TestRecordPagination(t *testing.T) {
@@ -259,7 +259,7 @@ func TestRecordPagination(t *testing.T) {
 	// Do paginated query
 	allEntities, err := api.GetAllRecordSearchResults(context.Background(), &sayari.SearchRecord{Q: searchTerm})
 	assert.Nil(t, err)
-	assert.Equal(t, len(allEntities), info.Size.Count)
+	assert.Equal(t, allEntities.Limit, info.Size.Count)
 }
 
 func TestTraversalPagination(t *testing.T) {
@@ -271,7 +271,7 @@ func TestTraversalPagination(t *testing.T) {
 	// Do paginated query
 	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: sayari.Int(1)})
 	assert.Nil(t, err)
-	assert.Greater(t, len(allTraversals), 1)
+	assert.Greater(t, allTraversals.Limit, 1)
 }
 
 func TestShipmentSearch(t *testing.T) {
