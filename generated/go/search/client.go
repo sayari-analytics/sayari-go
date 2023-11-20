@@ -16,10 +16,9 @@ import (
 )
 
 type Client struct {
-	baseURL     string
-	httpClient  core.HTTPClient
-	header      http.Header
-	rateLimiter *core.RateLimiter
+	baseURL string
+	caller  *core.Caller
+	header  http.Header
 }
 
 func NewClient(opts ...core.ClientOption) *Client {
@@ -28,10 +27,9 @@ func NewClient(opts ...core.ClientOption) *Client {
 		opt(options)
 	}
 	return &Client{
-		baseURL:     options.BaseURL,
-		httpClient:  options.HTTPClient,
-		header:      options.ToHeader(),
-		rateLimiter: options.RateLimiter,
+		baseURL: options.BaseURL,
+		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
+		header:  options.ToHeader(),
 	}
 }
 
@@ -109,19 +107,18 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 	}
 
 	var response *generatedgo.EntitySearchResults
-	if err := core.DoRequest(
+	if err := c.caller.Call(
 		ctx,
-		c.httpClient,
-		endpointURL,
-		http.MethodPost,
-		request,
-		&response,
-		false,
-		c.header,
-		errorDecoder,
-		c.rateLimiter,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodPost,
+			Headers:      c.header,
+			Request:      request,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
 	); err != nil {
-		return response, err
+		return nil, err
 	}
 	return response, nil
 }
@@ -200,19 +197,18 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 	}
 
 	var response *generatedgo.RecordSearchResults
-	if err := core.DoRequest(
+	if err := c.caller.Call(
 		ctx,
-		c.httpClient,
-		endpointURL,
-		http.MethodPost,
-		request,
-		&response,
-		false,
-		c.header,
-		errorDecoder,
-		c.rateLimiter,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodPost,
+			Headers:      c.header,
+			Request:      request,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
 	); err != nil {
-		return response, err
+		return nil, err
 	}
 	return response, nil
 }

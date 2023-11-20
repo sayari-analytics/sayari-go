@@ -2,6 +2,12 @@
 
 package api
 
+import (
+	json "encoding/json"
+	fmt "fmt"
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+)
+
 type Resolution struct {
 	// Entity name
 	Name []*string `json:"-"`
@@ -22,4 +28,29 @@ type Resolution struct {
 type ResolutionResponse struct {
 	Fields *ResolutionResponseFields `json:"fields,omitempty"`
 	Data   []*ResolutionResult       `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *ResolutionResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionResponse(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionResponse) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }

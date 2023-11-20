@@ -3,7 +3,9 @@
 package api
 
 import (
+	json "encoding/json"
 	fmt "fmt"
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
 type ShortestPath struct {
@@ -299,6 +301,31 @@ func (r Relationships) Ptr() *Relationships {
 type ShortestPathResponse struct {
 	Entities []string            `json:"entities,omitempty"`
 	Data     []*ShortestPathData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *ShortestPathResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShortestPathResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShortestPathResponse(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShortestPathResponse) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type TraversalResponse struct {
@@ -313,4 +340,29 @@ type TraversalResponse struct {
 	Next          bool             `json:"next"`
 	Data          []*TraversalData `json:"data,omitempty"`
 	ExploredCount int              `json:"explored_count"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TraversalResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler TraversalResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TraversalResponse(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TraversalResponse) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }

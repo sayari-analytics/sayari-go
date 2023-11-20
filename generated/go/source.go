@@ -2,6 +2,12 @@
 
 package api
 
+import (
+	json "encoding/json"
+	fmt "fmt"
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+)
+
 type ListSources struct {
 	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
 	Limit *int `json:"-"`
@@ -25,6 +31,31 @@ type Source struct {
 	SourceUrl   *string `json:"source_url,omitempty"`
 	Pep         bool    `json:"pep"`
 	Watchlist   bool    `json:"watchlist"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *Source) UnmarshalJSON(data []byte) error {
+	type unmarshaler Source
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Source(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Source) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type SourceList struct {
@@ -33,4 +64,29 @@ type SourceList struct {
 	Offset int       `json:"offset"`
 	Next   bool      `json:"next"`
 	Data   []*Source `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SourceList) UnmarshalJSON(data []byte) error {
+	type unmarshaler SourceList
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SourceList(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SourceList) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }

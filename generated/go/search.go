@@ -2,6 +2,12 @@
 
 package api
 
+import (
+	json "encoding/json"
+	fmt "fmt"
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+)
+
 type SearchEntity struct {
 	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
 	Limit *int `json:"-"`
@@ -46,6 +52,31 @@ type EntitySearchResults struct {
 	Offset int              `json:"offset"`
 	Next   bool             `json:"next"`
 	Data   []*EntityDetails `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (e *EntitySearchResults) UnmarshalJSON(data []byte) error {
+	type unmarshaler EntitySearchResults
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*e = EntitySearchResults(value)
+	e._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (e *EntitySearchResults) String() string {
+	if len(e._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(e); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", e)
 }
 
 // Filter your search on the following attributes.
@@ -57,6 +88,31 @@ type FilterList struct {
 	EntityType []Entities `json:"entity_type,omitempty"`
 	Bounds     []string   `json:"bounds,omitempty"`
 	Risk       []Tag      `json:"risk,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (f *FilterList) UnmarshalJSON(data []byte) error {
+	type unmarshaler FilterList
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*f = FilterList(value)
+	f._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (f *FilterList) String() string {
+	if len(f._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(f._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(f); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", f)
 }
 
 type RecordSearchResults struct {
@@ -65,4 +121,29 @@ type RecordSearchResults struct {
 	Offset int              `json:"offset"`
 	Next   bool             `json:"next"`
 	Data   []*RecordDetails `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RecordSearchResults) UnmarshalJSON(data []byte) error {
+	type unmarshaler RecordSearchResults
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RecordSearchResults(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RecordSearchResults) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }

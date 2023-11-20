@@ -2,6 +2,12 @@
 
 package api
 
+import (
+	json "encoding/json"
+	fmt "fmt"
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+)
+
 type GetToken struct {
 	ClientId     ClientId     `json:"client_id"`
 	ClientSecret ClientSecret `json:"client_secret"`
@@ -13,6 +19,31 @@ type AuthResponse struct {
 	AccessToken AccessToken `json:"access_token"`
 	ExpiresIn   ExpiresIn   `json:"expires_in"`
 	TokenType   TokenType   `json:"token_type"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AuthResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler AuthResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AuthResponse(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AuthResponse) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 // Will always be "sayari.com"

@@ -31,15 +31,15 @@ func WithHTTPHeader(httpHeader http.Header) core.ClientOption {
 	}
 }
 
-// WithAuthToken sets the 'Authorization: Bearer <token>' header on every request.
-func WithAuthToken(token string) core.ClientOption {
+// WithToken sets the 'Authorization: Bearer <token>' header on every request.
+func WithToken(token string) core.ClientOption {
 	return func(opts *core.ClientOptions) {
 		opts.Token = token
 	}
 }
 
-// WithHeaderClient sets the client header on every request.
-func WithHeaderClient(client string) core.ClientOption {
+// WithClient sets the client header on every request.
+func WithClient(client string) core.ClientOption {
 	return func(opts *core.ClientOptions) {
 		opts.Client = client
 	}
