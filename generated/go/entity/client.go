@@ -94,10 +94,10 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 		queryParams.Add("relationships.minShares", fmt.Sprintf("%v", *request.RelationshipsMinShares))
 	}
 	for _, value := range request.RelationshipsCountry {
-		queryParams.Add("relationships.country", fmt.Sprintf("%v", value))
+		queryParams.Add("relationships.country", fmt.Sprintf("%v", *value))
 	}
 	for _, value := range request.RelationshipsArrivalCountry {
-		queryParams.Add("relationships.arrivalCountry", fmt.Sprintf("%v", value))
+		queryParams.Add("relationships.arrivalCountry", fmt.Sprintf("%v", *value))
 	}
 	if request.RelationshipsArrivalState != nil {
 		queryParams.Add("relationships.arrivalState", fmt.Sprintf("%v", *request.RelationshipsArrivalState))
@@ -106,7 +106,7 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 		queryParams.Add("relationships.arrivalCity", fmt.Sprintf("%v", *request.RelationshipsArrivalCity))
 	}
 	for _, value := range request.RelationshipsDepartureCountry {
-		queryParams.Add("relationships.departureCountry", fmt.Sprintf("%v", value))
+		queryParams.Add("relationships.departureCountry", fmt.Sprintf("%v", *value))
 	}
 	if request.RelationshipsDepartureState != nil {
 		queryParams.Add("relationships.departureState", fmt.Sprintf("%v", *request.RelationshipsDepartureState))
@@ -118,7 +118,7 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 		queryParams.Add("relationships.partnerName", fmt.Sprintf("%v", *request.RelationshipsPartnerName))
 	}
 	for _, value := range request.RelationshipsPartnerRisk {
-		queryParams.Add("relationships.partnerRisk", fmt.Sprintf("%v", value))
+		queryParams.Add("relationships.partnerRisk", fmt.Sprintf("%v", *value))
 	}
 	if request.RelationshipsHsCode != nil {
 		queryParams.Add("relationships.hsCode", fmt.Sprintf("%v", *request.RelationshipsHsCode))

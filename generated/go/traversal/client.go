@@ -55,16 +55,16 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 		queryParams.Add("max_depth", fmt.Sprintf("%v", *request.MaxDepth))
 	}
 	for _, value := range request.Relationships {
-		queryParams.Add("relationships", fmt.Sprintf("%v", value))
+		queryParams.Add("relationships", fmt.Sprintf("%v", *value))
 	}
 	if request.Psa != nil {
 		queryParams.Add("psa", fmt.Sprintf("%v", *request.Psa))
 	}
 	for _, value := range request.Countries {
-		queryParams.Add("countries", fmt.Sprintf("%v", value))
+		queryParams.Add("countries", fmt.Sprintf("%v", *value))
 	}
 	for _, value := range request.Types {
-		queryParams.Add("types", fmt.Sprintf("%v", value))
+		queryParams.Add("types", fmt.Sprintf("%v", *value))
 	}
 	if request.Sanctioned != nil {
 		queryParams.Add("sanctioned", fmt.Sprintf("%v", *request.Sanctioned))

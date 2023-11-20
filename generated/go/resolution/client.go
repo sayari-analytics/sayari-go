@@ -61,7 +61,7 @@ func (c *Client) Resolution(ctx context.Context, request *generatedgo.Resolution
 		queryParams.Add("contact", fmt.Sprintf("%v", *value))
 	}
 	for _, value := range request.Type {
-		queryParams.Add("type", fmt.Sprintf("%v", value))
+		queryParams.Add("type", fmt.Sprintf("%v", *value))
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()

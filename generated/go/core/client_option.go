@@ -18,7 +18,7 @@ type ClientOptions struct {
 	HTTPClient  HTTPClient
 	HTTPHeader  http.Header
 	Token       string
-	Client      string
+	ClientName  string
 	RateLimiter *RateLimiter
 }
 
@@ -39,7 +39,7 @@ func (c *ClientOptions) ToHeader() http.Header {
 	if c.Token != "" {
 		header.Set("Authorization", "Bearer "+c.Token)
 	}
-	header.Set("client", fmt.Sprintf("%v", c.Client))
+	header.Set("client-name", fmt.Sprintf("%v", c.ClientName))
 	return header
 }
 

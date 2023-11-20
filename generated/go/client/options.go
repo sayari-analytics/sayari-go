@@ -38,10 +38,10 @@ func WithToken(token string) core.ClientOption {
 	}
 }
 
-// WithClient sets the client header on every request.
-func WithClient(client string) core.ClientOption {
+// WithClientName sets the clientName header on every request.
+func WithClientName(clientName string) core.ClientOption {
 	return func(opts *core.ClientOptions) {
-		opts.Client = client
+		opts.ClientName = clientName
 	}
 }
 
