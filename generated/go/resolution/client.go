@@ -49,7 +49,7 @@ func (c *Client) Resolution(ctx context.Context, request *generatedgo.Resolution
 		queryParams.Add("identifier", fmt.Sprintf("%v", *value))
 	}
 	for _, value := range request.Country {
-		queryParams.Add("country", fmt.Sprintf("%v", value))
+		queryParams.Add("country", fmt.Sprintf("%v", *value))
 	}
 	for _, value := range request.Address {
 		queryParams.Add("address", fmt.Sprintf("%v", *value))
