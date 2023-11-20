@@ -18,7 +18,7 @@ type Connection struct {
 	*core.RateLimiter
 }
 
-const clientHeader = "sayari-go"
+//const clientHeader = "sayari-go"
 
 func Connect(id, secret string) (*Connection, error) {
 	// Connect to auth endpoint and get a token
