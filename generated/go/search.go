@@ -9,10 +9,10 @@ type SearchEntity struct {
 	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
-	// Filters to be applied to search query to limit the result-set.
-	Filter *FilterList `json:"filter,omitempty"`
 	// Record or entity fields to search against.
 	Fields []SearchField `json:"fields,omitempty"`
+	// Filters to be applied to search query to limit the result-set.
+	Filter *FilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
 	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
@@ -28,10 +28,10 @@ type SearchRecord struct {
 	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
-	// Filters to be applied to search query to limit the result-set.
-	Filter *FilterList `json:"filter,omitempty"`
 	// Record or entity fields to search against.
 	Fields []SearchField `json:"fields,omitempty"`
+	// Filters to be applied to search query to limit the result-set.
+	Filter *FilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
 	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
