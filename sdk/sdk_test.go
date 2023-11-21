@@ -226,6 +226,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	// TODO: figure out good test for watchlist traversal
 }
 
+/* FIXME: on hold until we can align on how we want to handle pagination
 func TestEntityPagination(t *testing.T) {
 	searchTerm := "David Konigsberg"
 	info, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
@@ -273,6 +274,8 @@ func TestTraversalPagination(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Greater(t, allTraversals.Limit, 1)
 }
+
+*/
 
 func TestShipmentSearch(t *testing.T) {
 	// search for shipments with a random string

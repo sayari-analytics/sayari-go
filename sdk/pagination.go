@@ -1,5 +1,7 @@
 package sdk
 
+/* FIXME: on hold until we can align on how we want to handle pagination
+
 import (
 	"context"
 	"fmt"
@@ -76,3 +78,5 @@ func (c *Connection) GetAllTraversalResults(ctx context.Context, entityID sayari
 	resp.Data = data
 	return
 }
+
+*/
