@@ -30,34 +30,37 @@ func main() {
 	}
 
 	// Traversal
-	entity, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: "David Konigsberg", Limit: sayari.Int(1)})
+	_, err = client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: "David Konigsberg", Limit: sayari.Int(1)})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
+	/* FIXME: on hold until we can align on how we want to handle pagination
 
 	allTraversals, err := client.GetAllTraversalResults(context.Background(), entity.Data[0].Id, &sayari.Traversal{Limit: sayari.Int(1)})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
-	log.Printf("Got %v results", len(allTraversals))
+	log.Printf("Got %v results", allTraversals.Limit)
 
 	// Entities
 	allEntities, err := client.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: "David Konigsberg", Limit: sayari.Int(5)})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
-	log.Printf("Got %v results", len(allEntities))
+	log.Printf("Got %v results", allEntities.Limit)
 
 	allEntities, err = client.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: "David John Smith", Limit: sayari.Int(5)})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
-	log.Printf("Got %v results", len(allEntities))
+	log.Printf("Got %v results", allEntities.Limit)
 
 	// Records
 	allRecords, err := client.GetAllRecordSearchResults(context.Background(), &sayari.SearchRecord{Q: "David Konigsberg"})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
-	log.Printf("Got %v results", len(allRecords))
+	log.Printf("Got %v results", allRecords.Limit)
+
+	*/
 }
