@@ -33,7 +33,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 	}
 }
 
-// Search for an entity
+// Search for an entity. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEntity) (*generatedgo.EntitySearchResults, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
@@ -123,7 +123,7 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 	return response, nil
 }
 
-// Search for a record
+// Search for a record. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRecord) (*generatedgo.RecordSearchResults, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {

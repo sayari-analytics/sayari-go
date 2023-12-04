@@ -33,7 +33,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 	}
 }
 
-// Search for a shipment
+// Search for a shipment. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.SearchShipments) (*generatedgo.ShipmentSearchResults, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
@@ -116,7 +116,7 @@ func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.Searc
 	return response, nil
 }
 
-// Search for a supplier
+// Search for a supplier. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.SearchSuppliers) (*generatedgo.SupplierSearchResults, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
@@ -199,7 +199,7 @@ func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.Searc
 	return response, nil
 }
 
-// Search for a buyer
+// Search for a buyer. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBuyers) (*generatedgo.BuyerSearchResults, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
