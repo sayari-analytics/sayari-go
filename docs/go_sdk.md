@@ -107,16 +107,6 @@ As you can see from the API documentation, there is an endpoint provided for aut
 
 In addition to simplifying the connection process, the SDK is also designed to work in long-running application and keep the token up to date by rotating it before it expires. This is all handled behind the scenes by the client object itself and should require no additional action by the user.
 
-## Pagination
-Sayari Graph contains a wealth of information. While we always try to prioritize the information you are looking for and return that first, there are times that you may need more data than can be returned in a single page of results.
-
-As described in our API documentation, when this happens we will return pagination information in our response. This information can be used to determine if there are more results than what was returned ('next token' will be true) and how many more results there are ('count' gives the total number of results including what was returned by the initial request). You can then use the 'offset' parameter in your subsequent request to get the next page of data.
-
-While the above process works well, there may be times you simply want to request all the data without thinking about it. The SDK provides convenience methods to help with this. The methods below take in the same inputs as the standard ones but automatically handle pagination and return all the associated data.
-- GetAllEntitySearchResults
-- GetAllRecordSearchResults
-- GetAllTraversalResults
-
 ## Rate limiting
 Some Sayari Graph endpoints are more compute intensive than others. To adequately allocate resources across customers and prevent service degradation, individual users are rate limited. It is very unlikely that you would ever encounter these limits when making requests manually or even in a single-threaded application. Typically, rate limiting will only come into play when making multiple API requests at the same time.
 
@@ -149,33 +139,6 @@ The connect function can be used to create an authenticated API client which sup
 To call the 'Connect' function, simply provide the client ID and secret
 ```go
 client, err := sdk.Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
-if err != nil {
-    log.Fatalf("Error: %v", err)
-}
-```
-
-### Pagination
-Some of our endpoints return paginated results. If you know that you are going to want all pages of this data, you can use the following 'GetAll' convenience functions to request all pages of data.
-
-To prevent issues with memory utilization or overlong requests, these pagination functions will not return all results if there are more than 10k records included in the response.
-
-#### GetAllEntitySearchResults
-```go
-allEntities, err := client.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: "Victoria Beckham"})
-if err != nil {
-    log.Fatalf("Error: %v", err)
-}
-```
-#### GetAllRecordSearchResults
-```go
-allRecords, err := client.GetAllRecordSearchResults(context.Background(), &sayari.SearchRecord{Q: "Victoria Beckham"})
-if err != nil {
-    log.Fatalf("Error: %v", err)
-}
-```
-#### GetAllTraversalResults
-```go
-allTraversals, err := client.GetAllTraversalResults(context.Background(), myEntityID, &sayari.Traversal{})
 if err != nil {
     log.Fatalf("Error: %v", err)
 }
