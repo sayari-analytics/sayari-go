@@ -17,9 +17,9 @@ import (
 )
 
 type Client struct {
-	baseURL    string
-	httpClient core.HTTPClient
-	header     http.Header
+	baseURL string
+	caller  *core.Caller
+	header  http.Header
 
 	Auth       *auth.Client
 	Entity     *entity.Client
@@ -39,7 +39,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 	}
 	return &Client{
 		baseURL:    options.BaseURL,
-		httpClient: options.HTTPClient,
+		caller:     core.NewCaller(options.HTTPClient, options.RateLimiter),
 		header:     options.ToHeader(),
 		Auth:       auth.NewClient(opts...),
 		Entity:     entity.NewClient(opts...),

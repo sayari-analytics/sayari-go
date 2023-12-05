@@ -5,6 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
 // The bearer token you will pass in to subsequent API calls to authenticate.
@@ -20,17 +21,92 @@ type TokenType = string
 type PaginatedResponse struct {
 	Limit int       `json:"limit"`
 	Size  *SizeInfo `json:"size,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PaginatedResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler PaginatedResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PaginatedResponse(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PaginatedResponse) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 type SizeInfo struct {
 	Count     int    `json:"count"`
 	Qualifier string `json:"qualifier"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SizeInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler SizeInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SizeInfo(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SizeInfo) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type AdditionalInformationData struct {
 	Record      []string                         `json:"record,omitempty"`
 	RecordCount int                              `json:"record_count"`
 	Properties  *AdditionalInformationProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AdditionalInformationData) UnmarshalJSON(data []byte) error {
+	type unmarshaler AdditionalInformationData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AdditionalInformationData(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AdditionalInformationData) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 // A generic attribute used to hold miscellaneous information not covered by any other attribute. Includes 'value' (for the attribute itself), 'type' (a name, e.g. 'Real property description,') and 'extra' (a miscellaneous field to hold any other details) fields.
@@ -38,17 +114,92 @@ type AdditionalInformationInfo struct {
 	Limit int                          `json:"limit"`
 	Size  *SizeInfo                    `json:"size,omitempty"`
 	Data  []*AdditionalInformationData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AdditionalInformationInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler AdditionalInformationInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AdditionalInformationInfo(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AdditionalInformationInfo) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 type AdditionalInformationProperties struct {
 	Type  *string `json:"type,omitempty"`
 	Value *string `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AdditionalInformationProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler AdditionalInformationProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AdditionalInformationProperties(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AdditionalInformationProperties) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 type AddressData struct {
 	Record      []string           `json:"record,omitempty"`
 	RecordCount int                `json:"record_count"`
 	Properties  *AddressProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AddressData) UnmarshalJSON(data []byte) error {
+	type unmarshaler AddressData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AddressData(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AddressData) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 // A physical location description. Addresses may exist as a simple string ('123 South Main St., South Bend, IN 46556'), or may be in smaller chunks with separate fields ('Number: 123,' 'Street name: South Main...'). Where possible, these fields will be parsed using the Libpostal ontology (https://github.com/openvenues/libpostal#parser-labels), which facilitates more robust address analysis and comparison.
@@ -56,6 +207,31 @@ type AddressInfo struct {
 	Limit int            `json:"limit"`
 	Size  *SizeInfo      `json:"size,omitempty"`
 	Data  []*AddressData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AddressInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler AddressInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AddressInfo(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AddressInfo) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 type AddressProperties struct {
@@ -89,6 +265,31 @@ type AddressProperties struct {
 	WorldRegion    *string      `json:"world_region,omitempty"`
 	X              *float64     `json:"x,omitempty"`
 	Y              *float64     `json:"y,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AddressProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler AddressProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AddressProperties(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AddressProperties) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 // indicates what location an address is referring to
@@ -135,6 +336,31 @@ func (a AddressType) Ptr() *AddressType {
 type AttributeData struct {
 	Record      []string `json:"record,omitempty"`
 	RecordCount int      `json:"record_count"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AttributeData) UnmarshalJSON(data []byte) error {
+	type unmarshaler AttributeData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AttributeData(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AttributeData) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 type AttributeDetails struct {
@@ -160,6 +386,31 @@ type AttributeDetails struct {
 	Status                *StatusInfo                `json:"status,omitempty"`
 	TranslatedName        *TranslatedNameInfo        `json:"translated_name,omitempty"`
 	WeakIdentifier        *WeakIdentifierInfo        `json:"weak_identifier,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AttributeDetails) UnmarshalJSON(data []byte) error {
+	type unmarshaler AttributeDetails
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AttributeDetails(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AttributeDetails) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 type Attributes string
@@ -305,6 +556,31 @@ type BusinessPurposeData struct {
 	Record      []string                   `json:"record,omitempty"`
 	RecordCount int                        `json:"record_count"`
 	Properties  *BusinessPurposeProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (b *BusinessPurposeData) UnmarshalJSON(data []byte) error {
+	type unmarshaler BusinessPurposeData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*b = BusinessPurposeData(value)
+	b._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (b *BusinessPurposeData) String() string {
+	if len(b._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(b); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", b)
 }
 
 // Text and/or a code (NAICS, NACE, ISIC, etc.) that describes what a company is legally allowed to do or produce
@@ -312,12 +588,62 @@ type BusinessPurposeInfo struct {
 	Limit int                    `json:"limit"`
 	Size  *SizeInfo              `json:"size,omitempty"`
 	Data  []*BusinessPurposeData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (b *BusinessPurposeInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler BusinessPurposeInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*b = BusinessPurposeInfo(value)
+	b._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (b *BusinessPurposeInfo) String() string {
+	if len(b._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(b); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", b)
 }
 
 type BusinessPurposeProperties struct {
 	Code     *string                  `json:"code,omitempty"`
 	Standard *BusinessPurposeStandard `json:"standard,omitempty"`
 	Value    *string                  `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (b *BusinessPurposeProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler BusinessPurposeProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*b = BusinessPurposeProperties(value)
+	b._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (b *BusinessPurposeProperties) String() string {
+	if len(b._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(b); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", b)
 }
 
 // Business purpose standard enums describe the type of code listed in a business purpose attribute, which may or may not allow for Pyisic conversions/lookups.
@@ -509,6 +835,31 @@ type CompanyTypeData struct {
 	Record      []string               `json:"record,omitempty"`
 	RecordCount int                    `json:"record_count"`
 	Properties  *CompanyTypeProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *CompanyTypeData) UnmarshalJSON(data []byte) error {
+	type unmarshaler CompanyTypeData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CompanyTypeData(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CompanyTypeData) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 // A type of legal entity in a given jurisdiction (e.g. 'LLC,' 'Sociedad Anonima,' 'Private Company Limited by Shares')
@@ -516,16 +867,91 @@ type CompanyTypeInfo struct {
 	Limit int                `json:"limit"`
 	Size  *SizeInfo          `json:"size,omitempty"`
 	Data  []*CompanyTypeData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *CompanyTypeInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler CompanyTypeInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CompanyTypeInfo(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CompanyTypeInfo) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 type CompanyTypeProperties struct {
 	Value *string `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *CompanyTypeProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler CompanyTypeProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CompanyTypeProperties(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CompanyTypeProperties) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 type ContactData struct {
 	Record      []string           `json:"record,omitempty"`
 	RecordCount int                `json:"record_count"`
 	Properties  *ContactProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *ContactData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ContactData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = ContactData(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *ContactData) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 // Contact information for an entity
@@ -533,11 +959,61 @@ type ContactInfo struct {
 	Limit int            `json:"limit"`
 	Size  *SizeInfo      `json:"size,omitempty"`
 	Data  []*ContactData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *ContactInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler ContactInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = ContactInfo(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *ContactInfo) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 type ContactProperties struct {
 	Type  *ContactType `json:"type,omitempty"`
 	Value string       `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *ContactProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler ContactProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = ContactProperties(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *ContactProperties) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 // Contact type enums describe different methods of contact reported in a record about a given entity.
@@ -1664,6 +2140,31 @@ type CountryData struct {
 	Record      []string           `json:"record,omitempty"`
 	RecordCount int                `json:"record_count"`
 	Properties  *CountryProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *CountryData) UnmarshalJSON(data []byte) error {
+	type unmarshaler CountryData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CountryData(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CountryData) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 // An affiliation of an entity with a given country through residence, nationality, etc.
@@ -1671,12 +2172,62 @@ type CountryInfo struct {
 	Limit int            `json:"limit"`
 	Size  *SizeInfo      `json:"size,omitempty"`
 	Data  []*CountryData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *CountryInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler CountryInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CountryInfo(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CountryInfo) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 type CountryProperties struct {
 	Context *CountryContext `json:"context,omitempty"`
 	State   *string         `json:"state,omitempty"`
 	Value   Country         `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *CountryProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler CountryProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CountryProperties(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CountryProperties) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 // Currency enums are normalized representations of currencies
@@ -2444,6 +2995,31 @@ type DateOfBirthData struct {
 	Record      []string               `json:"record,omitempty"`
 	RecordCount int                    `json:"record_count"`
 	Properties  *DateOfBirthProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (d *DateOfBirthData) UnmarshalJSON(data []byte) error {
+	type unmarshaler DateOfBirthData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DateOfBirthData(value)
+	d._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DateOfBirthData) String() string {
+	if len(d._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
 }
 
 // Birth date of a person
@@ -2451,10 +3027,60 @@ type DateOfBirthInfo struct {
 	Limit int                `json:"limit"`
 	Size  *SizeInfo          `json:"size,omitempty"`
 	Data  []*DateOfBirthData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (d *DateOfBirthInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler DateOfBirthInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DateOfBirthInfo(value)
+	d._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DateOfBirthInfo) String() string {
+	if len(d._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
 }
 
 type DateOfBirthProperties struct {
 	Value string `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (d *DateOfBirthProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler DateOfBirthProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DateOfBirthProperties(value)
+	d._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DateOfBirthProperties) String() string {
+	if len(d._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
 }
 
 // This represents which type of entity is being returned.
@@ -2567,6 +3193,31 @@ type FinancesData struct {
 	Record      []string            `json:"record,omitempty"`
 	RecordCount int                 `json:"record_count"`
 	Properties  *FinancesProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (f *FinancesData) UnmarshalJSON(data []byte) error {
+	type unmarshaler FinancesData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*f = FinancesData(value)
+	f._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (f *FinancesData) String() string {
+	if len(f._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(f._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(f); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", f)
 }
 
 // A financial figure, typically share capital
@@ -2574,6 +3225,31 @@ type FinancesInfo struct {
 	Limit int             `json:"limit"`
 	Size  *SizeInfo       `json:"size,omitempty"`
 	Data  []*FinancesData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (f *FinancesInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler FinancesInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*f = FinancesInfo(value)
+	f._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (f *FinancesInfo) String() string {
+	if len(f._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(f._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(f); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", f)
 }
 
 type FinancesProperties struct {
@@ -2581,12 +3257,62 @@ type FinancesProperties struct {
 	Currency *Currency    `json:"currency,omitempty"`
 	Type     *string      `json:"type,omitempty"`
 	Value    float64      `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (f *FinancesProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler FinancesProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*f = FinancesProperties(value)
+	f._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (f *FinancesProperties) String() string {
+	if len(f._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(f._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(f); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", f)
 }
 
 type FinancialsData struct {
 	Record      []string              `json:"record,omitempty"`
 	RecordCount int                   `json:"record_count"`
 	Properties  *FinancialsProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (f *FinancialsData) UnmarshalJSON(data []byte) error {
+	type unmarshaler FinancialsData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*f = FinancialsData(value)
+	f._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (f *FinancialsData) String() string {
+	if len(f._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(f._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(f); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", f)
 }
 
 // A summary of financial information at one point in time
@@ -2594,6 +3320,31 @@ type FinancialsInfo struct {
 	Limit int               `json:"limit"`
 	Size  *SizeInfo         `json:"size,omitempty"`
 	Data  []*FinancialsData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (f *FinancialsInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler FinancialsInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*f = FinancialsInfo(value)
+	f._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (f *FinancialsInfo) String() string {
+	if len(f._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(f._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(f); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", f)
 }
 
 type FinancialsProperties struct {
@@ -2605,6 +3356,31 @@ type FinancialsProperties struct {
 	PaidUpCapital     *float64  `json:"paid_up_capital,omitempty"`
 	RegisteredCapital *float64  `json:"registered_capital,omitempty"`
 	Revenue           *float64  `json:"revenue,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (f *FinancialsProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler FinancialsProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*f = FinancialsProperties(value)
+	f._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (f *FinancialsProperties) String() string {
+	if len(f._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(f._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(f); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", f)
 }
 
 // Gender enums are normalized ways to refer to different genders
@@ -2637,6 +3413,31 @@ type GenderData struct {
 	Record      []string          `json:"record,omitempty"`
 	RecordCount int               `json:"record_count"`
 	Properties  *GenderProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (g *GenderData) UnmarshalJSON(data []byte) error {
+	type unmarshaler GenderData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GenderData(value)
+	g._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GenderData) String() string {
+	if len(g._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }
 
 // A person's gender
@@ -2644,16 +3445,91 @@ type GenderInfo struct {
 	Limit int           `json:"limit"`
 	Size  *SizeInfo     `json:"size,omitempty"`
 	Data  []*GenderData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (g *GenderInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler GenderInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GenderInfo(value)
+	g._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GenderInfo) String() string {
+	if len(g._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }
 
 type GenderProperties struct {
 	Value Gender `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (g *GenderProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler GenderProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GenderProperties(value)
+	g._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GenderProperties) String() string {
+	if len(g._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }
 
 type GenericData struct {
 	Record      []string           `json:"record,omitempty"`
 	RecordCount int                `json:"record_count"`
 	Properties  *GenericProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (g *GenericData) UnmarshalJSON(data []byte) error {
+	type unmarshaler GenericData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GenericData(value)
+	g._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GenericData) String() string {
+	if len(g._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }
 
 // A placeholder attribute. Rarely used.
@@ -2661,17 +3537,92 @@ type GenericInfo struct {
 	Limit int            `json:"limit"`
 	Size  *SizeInfo      `json:"size,omitempty"`
 	Data  []*GenericData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (g *GenericInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler GenericInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GenericInfo(value)
+	g._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GenericInfo) String() string {
+	if len(g._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }
 
 type GenericProperties struct {
 	Type  *string `json:"type,omitempty"`
 	Value *string `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (g *GenericProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler GenericProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GenericProperties(value)
+	g._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GenericProperties) String() string {
+	if len(g._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }
 
 type IdentifierData struct {
 	Record      []string              `json:"record,omitempty"`
 	RecordCount int                   `json:"record_count"`
 	Properties  *IdentifierProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (i *IdentifierData) UnmarshalJSON(data []byte) error {
+	type unmarshaler IdentifierData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*i = IdentifierData(value)
+	i._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (i *IdentifierData) String() string {
+	if len(i._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(i._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(i); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", i)
 }
 
 // An ID number that uniquely identifies one entity when value and type are taken into account.
@@ -2679,11 +3630,61 @@ type IdentifierInfo struct {
 	Limit int               `json:"limit"`
 	Size  *SizeInfo         `json:"size,omitempty"`
 	Data  []*IdentifierData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (i *IdentifierInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler IdentifierInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*i = IdentifierInfo(value)
+	i._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (i *IdentifierInfo) String() string {
+	if len(i._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(i._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(i); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", i)
 }
 
 type IdentifierProperties struct {
 	Type  *BothIdentifierTypes `json:"type,omitempty"`
 	Value string               `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (i *IdentifierProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler IdentifierProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*i = IdentifierProperties(value)
+	i._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (i *IdentifierProperties) String() string {
+	if len(i._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(i._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(i); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", i)
 }
 
 // All strong (unique) identifiers in Sayari's database
@@ -5610,6 +6611,31 @@ type MeasurementData struct {
 	Record      []string               `json:"record,omitempty"`
 	RecordCount int                    `json:"record_count"`
 	Properties  *MeasurementProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MeasurementData) UnmarshalJSON(data []byte) error {
+	type unmarshaler MeasurementData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MeasurementData(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MeasurementData) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 // A numerical representation in a standard unit of some dimension of an entity, for example, weight
@@ -5617,12 +6643,62 @@ type MeasurementInfo struct {
 	Limit int                `json:"limit"`
 	Size  *SizeInfo          `json:"size,omitempty"`
 	Data  []*MeasurementData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MeasurementInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler MeasurementInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MeasurementInfo(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MeasurementInfo) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 type MeasurementProperties struct {
 	Type  MeasurementType `json:"type,omitempty"`
 	Unit  Unit            `json:"unit,omitempty"`
 	Value float64         `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MeasurementProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler MeasurementProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MeasurementProperties(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MeasurementProperties) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 // The type of measurement, e.g. net weight
@@ -5681,6 +6757,31 @@ type MonetaryValueData struct {
 	Record      []string                 `json:"record,omitempty"`
 	RecordCount int                      `json:"record_count"`
 	Properties  *MonetaryValueProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MonetaryValueData) UnmarshalJSON(data []byte) error {
+	type unmarshaler MonetaryValueData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MonetaryValueData(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MonetaryValueData) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 // The financial value of an asset (e.g. FOB, CIF)
@@ -5688,12 +6789,62 @@ type MonetaryValueInfo struct {
 	Limit int                  `json:"limit"`
 	Size  *SizeInfo            `json:"size,omitempty"`
 	Data  []*MonetaryValueData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MonetaryValueInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler MonetaryValueInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MonetaryValueInfo(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MonetaryValueInfo) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 type MonetaryValueProperties struct {
 	Context  *string   `json:"context,omitempty"`
 	Currency *Currency `json:"currency,omitempty"`
 	Value    float64   `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MonetaryValueProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler MonetaryValueProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MonetaryValueProperties(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MonetaryValueProperties) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 // Name context enums describe different ways in which a name can belong to an entity
@@ -5741,6 +6892,31 @@ type NameData struct {
 	Record      []string        `json:"record,omitempty"`
 	RecordCount int             `json:"record_count"`
 	Properties  *NameProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (n *NameData) UnmarshalJSON(data []byte) error {
+	type unmarshaler NameData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = NameData(value)
+	n._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *NameData) String() string {
+	if len(n._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
 }
 
 // An entity's name. The value may be straightforward (e.g. 'Acme LLC,' 'John Doe') or context-specific (e.g. 'Jones v. Smith' as a legal matter name).
@@ -5748,6 +6924,31 @@ type NameInfo struct {
 	Limit int         `json:"limit"`
 	Size  *SizeInfo   `json:"size,omitempty"`
 	Data  []*NameData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (n *NameInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler NameInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = NameInfo(value)
+	n._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *NameInfo) String() string {
+	if len(n._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
 }
 
 type NameProperties struct {
@@ -5756,6 +6957,31 @@ type NameProperties struct {
 	Translated     *string   `json:"translated,omitempty"`
 	Transliterated *string   `json:"transliterated,omitempty"`
 	Value          string    `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (n *NameProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler NameProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = NameProperties(value)
+	n._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *NameProperties) String() string {
+	if len(n._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
 }
 
 // Person status enums describe different life events
@@ -5788,6 +7014,31 @@ type PersonStatusData struct {
 	Record      []string                `json:"record,omitempty"`
 	RecordCount int                     `json:"record_count"`
 	Properties  *PersonStatusProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PersonStatusData) UnmarshalJSON(data []byte) error {
+	type unmarshaler PersonStatusData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PersonStatusData(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PersonStatusData) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 // A key event in a person's life, usually temporal
@@ -5795,16 +7046,91 @@ type PersonStatusInfo struct {
 	Limit int                 `json:"limit"`
 	Size  *SizeInfo           `json:"size,omitempty"`
 	Data  []*PersonStatusData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PersonStatusInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler PersonStatusInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PersonStatusInfo(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PersonStatusInfo) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 type PersonStatusProperties struct {
 	Value PersonStatus `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PersonStatusProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler PersonStatusProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PersonStatusProperties(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PersonStatusProperties) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 type PositionData struct {
 	Record      []string            `json:"record,omitempty"`
 	RecordCount int                 `json:"record_count"`
 	Properties  *PositionProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PositionData) UnmarshalJSON(data []byte) error {
+	type unmarshaler PositionData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PositionData(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PositionData) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 // An attribute used for many different relationship types that allows for the inclusion of a title or designation (e.g. member_of_the_board_of, Position: 'Secretary of the Board,' or shareholder_of, Position: 'Minority shareholder')
@@ -5812,16 +7138,91 @@ type PositionInfo struct {
 	Limit int             `json:"limit"`
 	Size  *SizeInfo       `json:"size,omitempty"`
 	Data  []*PositionData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PositionInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler PositionInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PositionInfo(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PositionInfo) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 type PositionProperties struct {
 	Value string `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PositionProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler PositionProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PositionProperties(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PositionProperties) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 type RiskIntelligenceData struct {
 	Record      []string                    `json:"record,omitempty"`
 	RecordCount int                         `json:"record_count"`
 	Properties  *RiskIntelligenceProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RiskIntelligenceData) UnmarshalJSON(data []byte) error {
+	type unmarshaler RiskIntelligenceData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RiskIntelligenceData(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RiskIntelligenceData) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 // Risk intelligence metadata
@@ -5829,6 +7230,31 @@ type RiskIntelligenceInfo struct {
 	Limit int                     `json:"limit"`
 	Size  *SizeInfo               `json:"size,omitempty"`
 	Data  []*RiskIntelligenceData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RiskIntelligenceInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler RiskIntelligenceInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RiskIntelligenceInfo(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RiskIntelligenceInfo) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type RiskIntelligenceProperties struct {
@@ -5837,12 +7263,62 @@ type RiskIntelligenceProperties struct {
 	Program   *string `json:"program,omitempty"`
 	Reason    *string `json:"reason,omitempty"`
 	Type      Tag     `json:"type,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RiskIntelligenceProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler RiskIntelligenceProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RiskIntelligenceProperties(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RiskIntelligenceProperties) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type SharesData struct {
 	Record      []string          `json:"record,omitempty"`
 	RecordCount int               `json:"record_count"`
 	Properties  *SharesProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SharesData) UnmarshalJSON(data []byte) error {
+	type unmarshaler SharesData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SharesData(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SharesData) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 // Shares associated with an entity (e.g. its number of issued shares, or the number of shares held by a shareholder)
@@ -5850,6 +7326,31 @@ type SharesInfo struct {
 	Limit int           `json:"limit"`
 	Size  *SizeInfo     `json:"size,omitempty"`
 	Data  []*SharesData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SharesInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler SharesInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SharesInfo(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SharesInfo) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type SharesProperties struct {
@@ -5858,6 +7359,31 @@ type SharesProperties struct {
 	NumShares     *float64  `json:"num_shares,omitempty"`
 	Percentage    *float64  `json:"percentage,omitempty"`
 	Type          *string   `json:"type,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SharesProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler SharesProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SharesProperties(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SharesProperties) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 // Status context enums describe the different types of statuses that can be represented in a status attribute.
@@ -5901,6 +7427,31 @@ type StatusData struct {
 	Record      []string          `json:"record,omitempty"`
 	RecordCount int               `json:"record_count"`
 	Properties  *StatusProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *StatusData) UnmarshalJSON(data []byte) error {
+	type unmarshaler StatusData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = StatusData(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *StatusData) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 // The status of an entity.
@@ -5908,12 +7459,62 @@ type StatusInfo struct {
 	Limit int           `json:"limit"`
 	Size  *SizeInfo     `json:"size,omitempty"`
 	Data  []*StatusData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *StatusInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler StatusInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = StatusInfo(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *StatusInfo) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type StatusProperties struct {
 	Context *StatusContext `json:"context,omitempty"`
 	Text    *string        `json:"text,omitempty"`
 	Value   *CompanyStatus `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *StatusProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler StatusProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = StatusProperties(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *StatusProperties) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 // Risk tags
@@ -5994,6 +7595,31 @@ type TranslatedNameData struct {
 	Record      []string                  `json:"record,omitempty"`
 	RecordCount int                       `json:"record_count"`
 	Properties  *TranslatedNameProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TranslatedNameData) UnmarshalJSON(data []byte) error {
+	type unmarshaler TranslatedNameData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TranslatedNameData(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TranslatedNameData) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
 
 // A name that has been translated to English
@@ -6001,12 +7627,62 @@ type TranslatedNameInfo struct {
 	Limit int                   `json:"limit"`
 	Size  *SizeInfo             `json:"size,omitempty"`
 	Data  []*TranslatedNameData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TranslatedNameInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler TranslatedNameInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TranslatedNameInfo(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TranslatedNameInfo) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
 
 type TranslatedNameProperties struct {
 	Context  *TranslationContext `json:"context,omitempty"`
 	Original *string             `json:"original,omitempty"`
 	Value    string              `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TranslatedNameProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler TranslatedNameProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TranslatedNameProperties(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TranslatedNameProperties) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
 
 // Translation context enums describe different types of translations
@@ -6068,6 +7744,31 @@ type WeakIdentifierData struct {
 	Record      []string                  `json:"record,omitempty"`
 	RecordCount int                       `json:"record_count"`
 	Properties  *WeakIdentifierProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (w *WeakIdentifierData) UnmarshalJSON(data []byte) error {
+	type unmarshaler WeakIdentifierData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*w = WeakIdentifierData(value)
+	w._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (w *WeakIdentifierData) String() string {
+	if len(w._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(w._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(w); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", w)
 }
 
 // A non-unique ID number, like a partially redacted tax ID or a registry identifier whose value and type may be shared by multiple entities
@@ -6075,11 +7776,61 @@ type WeakIdentifierInfo struct {
 	Limit int                   `json:"limit"`
 	Size  *SizeInfo             `json:"size,omitempty"`
 	Data  []*WeakIdentifierData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (w *WeakIdentifierInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler WeakIdentifierInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*w = WeakIdentifierInfo(value)
+	w._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (w *WeakIdentifierInfo) String() string {
+	if len(w._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(w._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(w); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", w)
 }
 
 type WeakIdentifierProperties struct {
 	Type  WeakIdentifierType `json:"type,omitempty"`
 	Value string             `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (w *WeakIdentifierProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler WeakIdentifierProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*w = WeakIdentifierProperties(value)
+	w._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (w *WeakIdentifierProperties) String() string {
+	if len(w._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(w._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(w); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", w)
 }
 
 // All weak (non-unique) identifiers in Sayari's database
@@ -6498,6 +8249,31 @@ type HistoryInfo struct {
 	Event       string    `json:"event"`
 	Data        EventInfo `json:"data,omitempty"`
 	Timestamp   string    `json:"timestamp"`
+
+	_rawJSON json.RawMessage
+}
+
+func (h *HistoryInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler HistoryInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HistoryInfo(value)
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HistoryInfo) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
 }
 
 type UsageInfo struct {
@@ -6509,11 +8285,61 @@ type UsageInfo struct {
 	SearchRecords  *int `json:"search_records,omitempty"`
 	SearchTrade    *int `json:"search_trade,omitempty"`
 	Traversal      *int `json:"traversal,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (u *UsageInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler UsageInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UsageInfo(value)
+	u._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UsageInfo) String() string {
+	if len(u._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(u._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
 }
 
 type MatchExplanation struct {
 	Matched  *string `json:"matched,omitempty"`
 	Uploaded *string `json:"uploaded,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MatchExplanation) UnmarshalJSON(data []byte) error {
+	type unmarshaler MatchExplanation
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MatchExplanation(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MatchExplanation) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 type ResolutionResponseFields struct {
@@ -6524,6 +8350,31 @@ type ResolutionResponseFields struct {
 	DateOfBirth []string   `json:"date_of_birth,omitempty"`
 	Contact     []string   `json:"contact,omitempty"`
 	Type        []Entities `json:"type,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *ResolutionResponseFields) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionResponseFields
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionResponseFields(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionResponseFields) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type ResolutionResult struct {
@@ -6539,6 +8390,31 @@ type ResolutionResult struct {
 	MatchedQueries []string                       `json:"matched_queries,omitempty"`
 	Highlight      map[string][]string            `json:"highlight,omitempty"`
 	Explanation    map[string][]*MatchExplanation `json:"explanation,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *ResolutionResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionResult(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionResult) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 // Bad gateway
@@ -6558,6 +8434,31 @@ type MethodNotAllowedResponse struct {
 	Status  int      `json:"status"`
 	Message []string `json:"message,omitempty"`
 	Success bool     `json:"success"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MethodNotAllowedResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler MethodNotAllowedResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MethodNotAllowedResponse(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MethodNotAllowedResponse) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 // Request made in an unacceptable state. This is most commonly due to parameter validation errors.
@@ -6565,6 +8466,31 @@ type NotAcceptableResponse struct {
 	Status  int      `json:"status"`
 	Message []string `json:"message,omitempty"`
 	Success bool     `json:"success"`
+
+	_rawJSON json.RawMessage
+}
+
+func (n *NotAcceptableResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler NotAcceptableResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = NotAcceptableResponse(value)
+	n._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *NotAcceptableResponse) String() string {
+	if len(n._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
 }
 
 // Request made with an unsupported HTTP method.
@@ -6572,6 +8498,31 @@ type NotFoundResponse struct {
 	Status  int      `json:"status"`
 	Message []string `json:"message,omitempty"`
 	Success bool     `json:"success"`
+
+	_rawJSON json.RawMessage
+}
+
+func (n *NotFoundResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler NotFoundResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = NotFoundResponse(value)
+	n._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *NotFoundResponse) String() string {
+	if len(n._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
 }
 
 // Too many requests within too short of a period. The reply will contain a retry-after header that indicates when the client can safely retry.
@@ -6587,6 +8538,31 @@ type Coordinate struct {
 	Lat     float64 `json:"lat"`
 	Lng     float64 `json:"lng"`
 	Address string  `json:"address"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *Coordinate) UnmarshalJSON(data []byte) error {
+	type unmarshaler Coordinate
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = Coordinate(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *Coordinate) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 // The attributes fields common to most entities.
@@ -6606,6 +8582,31 @@ type EmbeddedEntity struct {
 	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
 	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
 	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (e *EmbeddedEntity) UnmarshalJSON(data []byte) error {
+	type unmarshaler EmbeddedEntity
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*e = EmbeddedEntity(value)
+	e._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (e *EmbeddedEntity) String() string {
+	if len(e._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(e); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", e)
 }
 
 // List of physical addresses associated with the entity. See https://docs.sayari.com/attributes/#address
@@ -6650,6 +8651,31 @@ type EntityDetails struct {
 	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
 	Matches           *EntityMatches          `json:"matches,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (e *EntityDetails) UnmarshalJSON(data []byte) error {
+	type unmarshaler EntityDetails
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*e = EntityDetails(value)
+	e._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (e *EntityDetails) String() string {
+	if len(e._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(e); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", e)
 }
 
 // Harmonized Tariff Schedule Code associated with the entity/shipment
@@ -6681,6 +8707,31 @@ type EntityRelationships struct {
 	Limit int                 `json:"limit"`
 	Size  *SizeInfo           `json:"size,omitempty"`
 	Data  []*RelationshipData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (e *EntityRelationships) UnmarshalJSON(data []byte) error {
+	type unmarshaler EntityRelationships
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*e = EntityRelationships(value)
+	e._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (e *EntityRelationships) String() string {
+	if len(e._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(e); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", e)
 }
 
 // Risk factors associated with the entity.
@@ -6700,6 +8751,31 @@ type Identifier struct {
 	Value string `json:"value"`
 	Type  string `json:"type"`
 	Label string `json:"label"`
+
+	_rawJSON json.RawMessage
+}
+
+func (i *Identifier) UnmarshalJSON(data []byte) error {
+	type unmarshaler Identifier
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*i = Identifier(value)
+	i._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (i *Identifier) String() string {
+	if len(i._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(i._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(i); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", i)
 }
 
 // The entity that is possibly the same as the target entity.
@@ -6720,6 +8796,31 @@ type PsaEntity struct {
 	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
 	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
 	Risk              EntityRisk              `json:"risk,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PsaEntity) UnmarshalJSON(data []byte) error {
+	type unmarshaler PsaEntity
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PsaEntity(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PsaEntity) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 // List of entities that are Possibly the Same As (PSA) the entity.
@@ -6727,17 +8828,92 @@ type PossiblySameAs struct {
 	Limit int                   `json:"limit"`
 	Size  *SizeInfo             `json:"size,omitempty"`
 	Data  []*PossiblySameAsData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PossiblySameAs) UnmarshalJSON(data []byte) error {
+	type unmarshaler PossiblySameAs
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PossiblySameAs(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PossiblySameAs) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 type PossiblySameAsData struct {
 	Editable *bool                             `json:"editable,omitempty"`
 	Entity   *PsaEntity                        `json:"entity,omitempty"`
 	Matches  map[string][]*PossiblySameAsMatch `json:"matches,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PossiblySameAsData) UnmarshalJSON(data []byte) error {
+	type unmarshaler PossiblySameAsData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PossiblySameAsData(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PossiblySameAsData) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 type PossiblySameAsMatch struct {
 	Source string `json:"source"`
 	Target string `json:"target"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PossiblySameAsMatch) UnmarshalJSON(data []byte) error {
+	type unmarshaler PossiblySameAsMatch
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PossiblySameAsMatch(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PossiblySameAsMatch) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 type RecordDetails struct {
@@ -6750,6 +8926,31 @@ type RecordDetails struct {
 	RecordUrl       string              `json:"record_url"`
 	SourceUrl       *string             `json:"source_url,omitempty"`
 	Matches         map[string][]string `json:"matches,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RecordDetails) UnmarshalJSON(data []byte) error {
+	type unmarshaler RecordDetails
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RecordDetails(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RecordDetails) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 // The unique identifier for a record in the database
@@ -6760,11 +8961,61 @@ type ReferencedBy struct {
 	Limit int                 `json:"limit"`
 	Size  *SizeInfo           `json:"size,omitempty"`
 	Data  []*ReferencedByData `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *ReferencedBy) UnmarshalJSON(data []byte) error {
+	type unmarshaler ReferencedBy
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ReferencedBy(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ReferencedBy) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type ReferencedByData struct {
 	Record *RecordDetails       `json:"record,omitempty"`
 	Type   ReferencedByDataType `json:"type,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *ReferencedByData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ReferencedByData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ReferencedByData(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ReferencedByData) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type ReferencedByDataType string
@@ -6792,6 +9043,31 @@ func (r ReferencedByDataType) Ptr() *ReferencedByDataType {
 type RelationshipAttributeValue struct {
 	Value     *string `json:"value,omitempty"`
 	NumShares *int    `json:"num_shares,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RelationshipAttributeValue) UnmarshalJSON(data []byte) error {
+	type unmarshaler RelationshipAttributeValue
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RelationshipAttributeValue(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RelationshipAttributeValue) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type RelationshipData struct {
@@ -6801,6 +9077,31 @@ type RelationshipData struct {
 	FirstObserved *string           `json:"first_observed,omitempty"`
 	LastObserved  *string           `json:"last_observed,omitempty"`
 	StartDate     *string           `json:"start_date,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RelationshipData) UnmarshalJSON(data []byte) error {
+	type unmarshaler RelationshipData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RelationshipData(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RelationshipData) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type RelationshipInfo struct {
@@ -6809,6 +9110,31 @@ type RelationshipInfo struct {
 	FromDate        *string                                      `json:"from_date,omitempty"`
 	AcquisitionDate string                                       `json:"acquisition_date"`
 	PublicationDate *string                                      `json:"publication_date,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RelationshipInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler RelationshipInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RelationshipInfo(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RelationshipInfo) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type RelationshipTypes = map[Relationships][]*RelationshipInfo
@@ -7061,6 +9387,31 @@ type RiskData struct {
 	Value    interface{}            `json:"value,omitempty"`
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
 	Level    RiskLevel              `json:"level,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RiskData) UnmarshalJSON(data []byte) error {
+	type unmarshaler RiskData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RiskData(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RiskData) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type RiskLevel string
@@ -7138,38 +9489,213 @@ type SourceCount = map[string]*SourceCountInfo
 type SourceCountInfo struct {
 	Count int    `json:"count"`
 	Label string `json:"label"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SourceCountInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler SourceCountInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SourceCountInfo(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SourceCountInfo) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 // The most recent satus of an entity and when that status was observed.
 type Status struct {
 	Status string  `json:"status"`
 	Date   *string `json:"date,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *Status) UnmarshalJSON(data []byte) error {
+	type unmarshaler Status
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Status(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Status) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type Aggregations struct {
 	ByVolume []*VolumeAggregates `json:"byVolume,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *Aggregations) UnmarshalJSON(data []byte) error {
+	type unmarshaler Aggregations
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = Aggregations(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *Aggregations) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
 }
 
 type Bucket struct {
 	Key      string `json:"key"`
 	DocCount int    `json:"doc_count"`
+
+	_rawJSON json.RawMessage
+}
+
+func (b *Bucket) UnmarshalJSON(data []byte) error {
+	type unmarshaler Bucket
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*b = Bucket(value)
+	b._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (b *Bucket) String() string {
+	if len(b._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(b); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", b)
 }
 
 type BusinessPurpose struct {
 	Value *string `json:"value,omitempty"`
 	Code  *string `json:"code,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (b *BusinessPurpose) UnmarshalJSON(data []byte) error {
+	type unmarshaler BusinessPurpose
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*b = BusinessPurpose(value)
+	b._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (b *BusinessPurpose) String() string {
+	if len(b._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(b); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", b)
 }
 
 type LatestShipmentDate struct {
 	DocCountErrorUpperBound int       `json:"doc_count_error_upper_bound"`
 	SumOtherDocCount        int       `json:"sum_other_doc_count"`
 	Buckets                 []*Bucket `json:"buckets,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (l *LatestShipmentDate) UnmarshalJSON(data []byte) error {
+	type unmarshaler LatestShipmentDate
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = LatestShipmentDate(value)
+	l._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *LatestShipmentDate) String() string {
+	if len(l._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(l._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
 }
 
 type MonetaryValue struct {
 	Value    float64   `json:"value"`
 	Currency *Currency `json:"currency,omitempty"`
 	Context  *string   `json:"context,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MonetaryValue) UnmarshalJSON(data []byte) error {
+	type unmarshaler MonetaryValue
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MonetaryValue(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MonetaryValue) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 type Shipment struct {
@@ -7181,19 +9707,119 @@ type Shipment struct {
 	Country         []*ShipmentCountry           `json:"country,omitempty"`
 	Src             []*SourceOrDestinationEntity `json:"src,omitempty"`
 	Metadata        *ShipmentMetadata            `json:"metadata,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *Shipment) UnmarshalJSON(data []byte) error {
+	type unmarshaler Shipment
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Shipment(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Shipment) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type ShipmentCountry struct {
 	Value Country `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *ShipmentCountry) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentCountry
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentCountry(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentCountry) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type ShipmentHits struct {
 	Hits []*Shipment `json:"hits,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *ShipmentHits) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentHits
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentHits(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentHits) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type ShipmentIdentifier struct {
 	Value string               `json:"value"`
 	Type  *BothIdentifierTypes `json:"type,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *ShipmentIdentifier) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentIdentifier
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentIdentifier(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentIdentifier) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type ShipmentMetadata struct {
@@ -7205,6 +9831,31 @@ type ShipmentMetadata struct {
 	Type             string             `json:"type"`
 	Sources          []string           `json:"sources,omitempty"`
 	DepartureCountry []Country          `json:"departure_country,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *ShipmentMetadata) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentMetadata
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentMetadata(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentMetadata) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type SourceOrDestinationEntity struct {
@@ -7214,6 +9865,31 @@ type SourceOrDestinationEntity struct {
 	Country         []Country            `json:"country,omitempty"`
 	EntityId        EntityId             `json:"entity_id"`
 	Type            Relationships        `json:"type,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SourceOrDestinationEntity) UnmarshalJSON(data []byte) error {
+	type unmarshaler SourceOrDestinationEntity
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SourceOrDestinationEntity(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SourceOrDestinationEntity) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type Supplier struct {
@@ -7246,48 +9922,273 @@ type Supplier struct {
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
 	Matches           *EntityMatches          `json:"matches,omitempty"`
 	Metadata          *SupplierMetadata       `json:"metadata,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *Supplier) UnmarshalJSON(data []byte) error {
+	type unmarshaler Supplier
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Supplier(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Supplier) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type SupplierMetadata struct {
 	LatestShipmentDate *string `json:"latestShipmentDate,omitempty"`
 	Shipments          int     `json:"shipments"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SupplierMetadata) UnmarshalJSON(data []byte) error {
+	type unmarshaler SupplierMetadata
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SupplierMetadata(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SupplierMetadata) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type SupplierOrBuyerHits struct {
 	Hits         []*Supplier   `json:"hits,omitempty"`
 	Aggregations *Aggregations `json:"aggregations,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SupplierOrBuyerHits) UnmarshalJSON(data []byte) error {
+	type unmarshaler SupplierOrBuyerHits
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SupplierOrBuyerHits(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SupplierOrBuyerHits) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type VolumeAggregates struct {
 	Key                string              `json:"key"`
 	DocCount           int                 `json:"doc_count"`
 	LatestShipmentDate *LatestShipmentDate `json:"latest_shipment_date,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (v *VolumeAggregates) UnmarshalJSON(data []byte) error {
+	type unmarshaler VolumeAggregates
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*v = VolumeAggregates(value)
+	v._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (v *VolumeAggregates) String() string {
+	if len(v._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(v._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(v); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", v)
 }
 
 type Weight struct {
 	Value float64 `json:"value"`
 	Unit  string  `json:"unit"`
 	Type  string  `json:"type"`
+
+	_rawJSON json.RawMessage
+}
+
+func (w *Weight) UnmarshalJSON(data []byte) error {
+	type unmarshaler Weight
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*w = Weight(value)
+	w._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (w *Weight) String() string {
+	if len(w._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(w._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(w); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", w)
 }
 
 type ShortestPathData struct {
 	Target *EntityDetails   `json:"target,omitempty"`
 	Path   []*TraversalPath `json:"path,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *ShortestPathData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShortestPathData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShortestPathData(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShortestPathData) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type TraversalData struct {
 	Source string           `json:"source"`
 	Target *EntityDetails   `json:"target,omitempty"`
 	Path   []*TraversalPath `json:"path,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TraversalData) UnmarshalJSON(data []byte) error {
+	type unmarshaler TraversalData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TraversalData(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TraversalData) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
 
 type TraversalPath struct {
 	Field         string                                `json:"field"`
 	Entity        *EntityDetails                        `json:"entity,omitempty"`
 	Relationships map[string]*TraversalRelationshipData `json:"relationships,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TraversalPath) UnmarshalJSON(data []byte) error {
+	type unmarshaler TraversalPath
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TraversalPath(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TraversalPath) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
 
 type TraversalRelationshipData struct {
 	Values       []*RelationshipInfo `json:"values,omitempty"`
 	LastObserved *string             `json:"last_observed,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TraversalRelationshipData) UnmarshalJSON(data []byte) error {
+	type unmarshaler TraversalRelationshipData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TraversalRelationshipData(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TraversalRelationshipData) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }

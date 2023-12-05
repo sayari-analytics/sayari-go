@@ -29,7 +29,7 @@ type GetEntity struct {
 	RelationshipsNext *string `json:"-"`
 	// The pagination token for the previous page of relationship results
 	RelationshipsPrev *string `json:"-"`
-	// Limit total relationship values. Defaults to 100.
+	// Limit total relationship values. Defaults to 50.
 	RelationshipsLimit *int `json:"-"`
 	// Filter relationships to relationship type, e.g. director_of or has_shareholder
 	RelationshipsType *string `json:"-"`

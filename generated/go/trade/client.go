@@ -16,10 +16,9 @@ import (
 )
 
 type Client struct {
-	baseURL     string
-	httpClient  core.HTTPClient
-	header      http.Header
-	rateLimiter *core.RateLimiter
+	baseURL string
+	caller  *core.Caller
+	header  http.Header
 }
 
 func NewClient(opts ...core.ClientOption) *Client {
@@ -28,13 +27,13 @@ func NewClient(opts ...core.ClientOption) *Client {
 		opt(options)
 	}
 	return &Client{
-		baseURL:    options.BaseURL,
-		httpClient: options.HTTPClient,
-		header:     options.ToHeader(),
+		baseURL: options.BaseURL,
+		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
+		header:  options.ToHeader(),
 	}
 }
 
-// Search for a shipment
+// Search for a shipment. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.SearchShipments) (*generatedgo.ShipmentSearchResults, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
@@ -101,24 +100,23 @@ func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.Searc
 	}
 
 	var response *generatedgo.ShipmentSearchResults
-	if err := core.DoRequest(
+	if err := c.caller.Call(
 		ctx,
-		c.httpClient,
-		endpointURL,
-		http.MethodPost,
-		request,
-		&response,
-		false,
-		c.header,
-		errorDecoder,
-		c.rateLimiter,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodPost,
+			Headers:      c.header,
+			Request:      request,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
 	); err != nil {
-		return response, err
+		return nil, err
 	}
 	return response, nil
 }
 
-// Search for a supplier
+// Search for a supplier. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.SearchSuppliers) (*generatedgo.SupplierSearchResults, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
@@ -185,24 +183,23 @@ func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.Searc
 	}
 
 	var response *generatedgo.SupplierSearchResults
-	if err := core.DoRequest(
+	if err := c.caller.Call(
 		ctx,
-		c.httpClient,
-		endpointURL,
-		http.MethodPost,
-		request,
-		&response,
-		false,
-		c.header,
-		errorDecoder,
-		c.rateLimiter,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodPost,
+			Headers:      c.header,
+			Request:      request,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
 	); err != nil {
-		return response, err
+		return nil, err
 	}
 	return response, nil
 }
 
-// Search for a buyer
+// Search for a buyer. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBuyers) (*generatedgo.BuyerSearchResults, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
@@ -269,19 +266,18 @@ func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBu
 	}
 
 	var response *generatedgo.BuyerSearchResults
-	if err := core.DoRequest(
+	if err := c.caller.Call(
 		ctx,
-		c.httpClient,
-		endpointURL,
-		http.MethodPost,
-		request,
-		&response,
-		false,
-		c.header,
-		errorDecoder,
-		c.rateLimiter,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodPost,
+			Headers:      c.header,
+			Request:      request,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
 	); err != nil {
-		return response, err
+		return nil, err
 	}
 	return response, nil
 }

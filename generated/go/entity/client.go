@@ -16,10 +16,9 @@ import (
 )
 
 type Client struct {
-	baseURL     string
-	httpClient  core.HTTPClient
-	header      http.Header
-	rateLimiter *core.RateLimiter
+	baseURL string
+	caller  *core.Caller
+	header  http.Header
 }
 
 func NewClient(opts ...core.ClientOption) *Client {
@@ -28,10 +27,9 @@ func NewClient(opts ...core.ClientOption) *Client {
 		opt(options)
 	}
 	return &Client{
-		baseURL:     options.BaseURL,
-		httpClient:  options.HTTPClient,
-		header:      options.ToHeader(),
-		rateLimiter: options.RateLimiter,
+		baseURL: options.BaseURL,
+		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
+		header:  options.ToHeader(),
 	}
 }
 
@@ -202,19 +200,17 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 	}
 
 	var response *generatedgo.EntityDetails
-	if err := core.DoRequest(
+	if err := c.caller.Call(
 		ctx,
-		c.httpClient,
-		endpointURL,
-		http.MethodGet,
-		nil,
-		&response,
-		false,
-		c.header,
-		errorDecoder,
-		c.rateLimiter,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodGet,
+			Headers:      c.header,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
 	); err != nil {
-		return response, err
+		return nil, err
 	}
 	return response, nil
 }
@@ -282,19 +278,17 @@ func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*g
 	}
 
 	var response *generatedgo.EntityDetails
-	if err := core.DoRequest(
+	if err := c.caller.Call(
 		ctx,
-		c.httpClient,
-		endpointURL,
-		http.MethodGet,
-		nil,
-		&response,
-		false,
-		c.header,
-		errorDecoder,
-		c.rateLimiter,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodGet,
+			Headers:      c.header,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
 	); err != nil {
-		return response, err
+		return nil, err
 	}
 	return response, nil
 }

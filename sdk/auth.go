@@ -18,7 +18,7 @@ type Connection struct {
 	*core.RateLimiter
 }
 
-const clientHeader = "sayari-go"
+const clientName = "sayari-go"
 
 func Connect(id, secret string) (*Connection, error) {
 	// Connect to auth endpoint and get a token
@@ -30,8 +30,8 @@ func Connect(id, secret string) (*Connection, error) {
 	rateLimter := core.NewRateLimiter()
 
 	connection := &Connection{
-		client.NewClient(client.WithAuthToken(tokenResponse.AccessToken),
-			client.WithHeaderClient(clientHeader),
+		client.NewClient(client.WithToken(tokenResponse.AccessToken),
+			client.WithClientName(clientName),
 			client.WithRateLimiter(rateLimter),
 		),
 		id,
@@ -63,8 +63,8 @@ func (c *Connection) maintainToken(expiresIn int) {
 	// update client
 	c.RateLimiter.Block()
 	c.Client = client.NewClient(
-		client.WithAuthToken(tokenResponse.AccessToken),
-		client.WithHeaderClient(clientHeader),
+		client.WithToken(tokenResponse.AccessToken),
+		client.WithClientName(clientName),
 		client.WithRateLimiter(c.RateLimiter),
 	)
 	c.RateLimiter.UnBlock()
@@ -74,7 +74,7 @@ func (c *Connection) maintainToken(expiresIn int) {
 }
 
 func getToken(id, secret string) (*sayari.AuthResponse, error) {
-	authClient := auth.NewClient(client.WithHeaderClient(clientHeader))
+	authClient := auth.NewClient(client.WithClientName(clientName))
 	return authClient.GetToken(context.Background(), &sayari.GetToken{
 		ClientId:     id,
 		ClientSecret: secret,

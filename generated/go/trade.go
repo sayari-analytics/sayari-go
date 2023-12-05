@@ -3,7 +3,9 @@
 package api
 
 import (
+	json "encoding/json"
 	fmt "fmt"
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
 type SearchBuyers struct {
@@ -139,6 +141,31 @@ type BuyerSearchResults struct {
 	Offset int                  `json:"offset"`
 	Next   bool                 `json:"next"`
 	Data   *SupplierOrBuyerHits `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (b *BuyerSearchResults) UnmarshalJSON(data []byte) error {
+	type unmarshaler BuyerSearchResults
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*b = BuyerSearchResults(value)
+	b._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (b *BuyerSearchResults) String() string {
+	if len(b._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(b); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", b)
 }
 
 type ShipmentSearchResults struct {
@@ -147,6 +174,31 @@ type ShipmentSearchResults struct {
 	Offset int           `json:"offset"`
 	Next   bool          `json:"next"`
 	Data   *ShipmentHits `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *ShipmentSearchResults) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentSearchResults
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentSearchResults(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentSearchResults) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 type SupplierSearchResults struct {
@@ -155,6 +207,31 @@ type SupplierSearchResults struct {
 	Offset int                  `json:"offset"`
 	Next   bool                 `json:"next"`
 	Data   *SupplierOrBuyerHits `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SupplierSearchResults) UnmarshalJSON(data []byte) error {
+	type unmarshaler SupplierSearchResults
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SupplierSearchResults(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SupplierSearchResults) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 // Filter your search on the following attributes.
@@ -180,4 +257,29 @@ type TradeFilterList struct {
 	ArrivalDate      []string  `json:"arrival_date,omitempty"`
 	Weight           []string  `json:"weight,omitempty"`
 	Sources          []string  `json:"sources,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TradeFilterList) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeFilterList
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeFilterList(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeFilterList) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
