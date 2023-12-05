@@ -40,8 +40,6 @@ type SearchRecord struct {
 	Filter *FilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
-	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
-	GeoFacets *bool `json:"geo_facets,omitempty"`
 	// Set to true to enable full elasticsearch query string syntax which allows for fielded search and more complex operators. Note that the syntax is more strict and can result in empty result-sets. Defaults to false.
 	Advanced *bool `json:"advanced,omitempty"`
 }

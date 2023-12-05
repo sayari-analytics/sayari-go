@@ -21,8 +21,6 @@ type SearchBuyers struct {
 	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
-	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
-	GeoFacets *bool `json:"geo_facets,omitempty"`
 	// Set to true to enable full elasticsearch query string syntax which allows for fielded search and more complex operators. Note that the syntax is more strict and can result in empty result-sets. Defaults to false.
 	Advanced *bool `json:"advanced,omitempty"`
 }
@@ -40,8 +38,6 @@ type SearchShipments struct {
 	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
-	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
-	GeoFacets *bool `json:"geo_facets,omitempty"`
 	// Set to true to enable full elasticsearch query string syntax which allows for fielded search and more complex operators. Note that the syntax is more strict and can result in empty result-sets. Defaults to false.
 	Advanced *bool `json:"advanced,omitempty"`
 }
@@ -59,8 +55,6 @@ type SearchSuppliers struct {
 	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"facets,omitempty"`
-	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
-	GeoFacets *bool `json:"geo_facets,omitempty"`
 	// Set to true to enable full elasticsearch query string syntax which allows for fielded search and more complex operators. Note that the syntax is more strict and can result in empty result-sets. Defaults to false.
 	Advanced *bool `json:"advanced,omitempty"`
 }
@@ -236,27 +230,48 @@ func (s *SupplierSearchResults) String() string {
 
 // Filter your search on the following attributes.
 type TradeFilterList struct {
-	BuyerId          []string  `json:"buyer_id,omitempty"`
-	SupplierId       []string  `json:"supplier_id,omitempty"`
-	BuyerName        []string  `json:"buyer_name,omitempty"`
-	SupplierName     []string  `json:"supplier_name,omitempty"`
-	BuyerRisk        []string  `json:"buyer_risk,omitempty"`
-	SupplierRisk     []string  `json:"supplier_risk,omitempty"`
-	BuyerCountry     []Country `json:"buyer_country,omitempty"`
-	SupplierCountry  []Country `json:"supplier_country,omitempty"`
+	// Exact match against the entity_id of the buyer. The buyer is the receiver_of shipments.
+	BuyerId []string `json:"buyer_id,omitempty"`
+	// Exact match against the entity_id of the supplier. The supplier is the shipper_of shipments.
+	SupplierId []string `json:"supplier_id,omitempty"`
+	// Buyers whose name contains the provided string.
+	BuyerName []string `json:"buyer_name,omitempty"`
+	// Shipper whose name contains the provided string.
+	SupplierName []string `json:"supplier_name,omitempty"`
+	// Buyer with an exact match for the provided risk factor.
+	BuyerRisk []string `json:"buyer_risk,omitempty"`
+	// Shipper with an exact match for the provided risk factor.
+	SupplierRisk []string `json:"supplier_risk,omitempty"`
+	// Buyer with an exact match for the provided country code.
+	BuyerCountry []Country `json:"buyer_country,omitempty"`
+	// Supplier with an exact match for the provided country code.
+	SupplierCountry []Country `json:"supplier_country,omitempty"`
+	// Shipment departs from a country with an exact match for the provided country code.
 	DepartureCountry []Country `json:"departure_country,omitempty"`
-	DepartureState   []string  `json:"departure_state,omitempty"`
-	DepartureCity    []string  `json:"departure_city,omitempty"`
-	ArrivalCountry   []Country `json:"arrival_country,omitempty"`
-	ArrivalState     []string  `json:"arrival_state,omitempty"`
-	ArrivalCity      []string  `json:"arrival_city,omitempty"`
-	HsCode           []string  `json:"hs_code,omitempty"`
-	HsDescription    []string  `json:"hs_description,omitempty"`
-	SupplierPurpose  []string  `json:"supplier_purpose,omitempty"`
-	BuyerPurpose     []string  `json:"buyer_purpose,omitempty"`
-	ArrivalDate      []string  `json:"arrival_date,omitempty"`
-	Weight           []string  `json:"weight,omitempty"`
-	Sources          []string  `json:"sources,omitempty"`
+	// Shipment departs from a state that contains the provided state name.
+	DepartureState []string `json:"departure_state,omitempty"`
+	// Shipment departs from a city that contains the provided city name.
+	DepartureCity []string `json:"departure_city,omitempty"`
+	// Shipment arrives at a country with an exact match for the provided country code.
+	ArrivalCountry []Country `json:"arrival_country,omitempty"`
+	// Shipment arrives at a state that contains the provided state name.
+	ArrivalState []string `json:"arrival_state,omitempty"`
+	// Shipment arrives at a city that contains the provided city name.
+	ArrivalCity []string `json:"arrival_city,omitempty"`
+	// The shipment HS code starts with the provided HS code.
+	HsCode []string `json:"hs_code,omitempty"`
+	// The HS description contains the provided string.
+	HsDescription []string `json:"hs_description,omitempty"`
+	// The supplier purpose contains the provided string.
+	SupplierPurpose []string `json:"supplier_purpose,omitempty"`
+	// The buyer purpose contains the provided string.
+	BuyerPurpose []string `json:"buyer_purpose,omitempty"`
+	// The arrival date is within the provided range.
+	ArrivalDate []string `json:"arrival_date,omitempty"`
+	// The shipment weight is within the provided range.
+	Weight []string `json:"weight,omitempty"`
+	// An exact match for the provided sources.
+	Sources []string `json:"sources,omitempty"`
 
 	_rawJSON json.RawMessage
 }
