@@ -180,6 +180,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	entity := entitySearchResults.Data[0]
 
 	// do traversal
+	log.Println("Attempting Ownership traversal w/ entity: ", entity.Id)
 	traversal, err := api.Traversal.Ownership(context.Background(), entity.Id)
 	assert.Nil(t, err)
 	if len(traversal.Data) == 0 {
@@ -190,6 +191,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	assert.Equal(t, traversal.Data[0].Source, entity.Id)
 
 	// do UBO traversal
+	log.Println("Attempting UBO traversal w/ entity: ", entity.Id)
 	ubo, err := api.Traversal.Ubo(context.Background(), entity.Id)
 	assert.Nil(t, err)
 	if len(ubo.Data) == 0 {
@@ -200,6 +202,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	uboID := ubo.Data[0].Target.Id
 
 	// do ownership traversal from ubo
+	log.Println("Attempting Ownership traversal w/ UBO entity: ", uboID)
 	downstream, err := api.Traversal.Ownership(context.Background(), uboID)
 	assert.Nil(t, err)
 	assert.Greater(t, len(downstream.Data), 0)
