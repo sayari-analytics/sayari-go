@@ -9111,7 +9111,7 @@ func (r *RelationshipData) String() string {
 }
 
 type RelationshipInfo struct {
-	Editable        bool                                         `json:"editable"`
+	Editable        *bool                                        `json:"editable,omitempty"`
 	Record          string                                       `json:"record"`
 	Attributes      map[Attributes][]*RelationshipAttributeValue `json:"attributes,omitempty"`
 	FromDate        *string                                      `json:"from_date,omitempty"`
