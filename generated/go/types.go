@@ -416,76 +416,76 @@ func (a *AttributeDetails) String() string {
 type Attributes string
 
 const (
-	AttributesBusinessPurpose       Attributes = "business_purpose"
-	AttributesGeneric               Attributes = "generic"
-	AttributesMonetaryValue         Attributes = "monetary_value"
-	AttributesAddress               Attributes = "address"
-	AttributesShares                Attributes = "shares"
-	AttributesDateOfBirth           Attributes = "date_of_birth"
-	AttributesWeakIdentifier        Attributes = "weak_identifier"
-	AttributesContact               Attributes = "contact"
-	AttributesMeasurement           Attributes = "measurement"
-	AttributesCompanyType           Attributes = "company_type"
-	AttributesTranslatedName        Attributes = "translated_name"
-	AttributesFinances              Attributes = "finances"
-	AttributesPosition              Attributes = "position"
-	AttributesGender                Attributes = "gender"
-	AttributesRiskIntelligence      Attributes = "risk_intelligence"
-	AttributesCountry               Attributes = "country"
-	AttributesPersonStatus          Attributes = "person_status"
-	AttributesFinancials            Attributes = "financials"
-	AttributesAdditionalInformation Attributes = "additional_information"
 	AttributesIdentifier            Attributes = "identifier"
+	AttributesAdditionalInformation Attributes = "additional_information"
+	AttributesAddress               Attributes = "address"
 	AttributesName                  Attributes = "name"
+	AttributesGeneric               Attributes = "generic"
 	AttributesStatus                Attributes = "status"
+	AttributesBusinessPurpose       Attributes = "business_purpose"
+	AttributesShares                Attributes = "shares"
+	AttributesPosition              Attributes = "position"
+	AttributesMonetaryValue         Attributes = "monetary_value"
+	AttributesFinances              Attributes = "finances"
+	AttributesCompanyType           Attributes = "company_type"
+	AttributesContact               Attributes = "contact"
+	AttributesWeakIdentifier        Attributes = "weak_identifier"
+	AttributesPersonStatus          Attributes = "person_status"
+	AttributesRiskIntelligence      Attributes = "risk_intelligence"
+	AttributesMeasurement           Attributes = "measurement"
+	AttributesFinancials            Attributes = "financials"
+	AttributesDateOfBirth           Attributes = "date_of_birth"
+	AttributesCountry               Attributes = "country"
+	AttributesGender                Attributes = "gender"
+	AttributesTranslatedName        Attributes = "translated_name"
 )
 
 func NewAttributesFromString(s string) (Attributes, error) {
 	switch s {
-	case "business_purpose":
-		return AttributesBusinessPurpose, nil
-	case "generic":
-		return AttributesGeneric, nil
-	case "monetary_value":
-		return AttributesMonetaryValue, nil
-	case "address":
-		return AttributesAddress, nil
-	case "shares":
-		return AttributesShares, nil
-	case "date_of_birth":
-		return AttributesDateOfBirth, nil
-	case "weak_identifier":
-		return AttributesWeakIdentifier, nil
-	case "contact":
-		return AttributesContact, nil
-	case "measurement":
-		return AttributesMeasurement, nil
-	case "company_type":
-		return AttributesCompanyType, nil
-	case "translated_name":
-		return AttributesTranslatedName, nil
-	case "finances":
-		return AttributesFinances, nil
-	case "position":
-		return AttributesPosition, nil
-	case "gender":
-		return AttributesGender, nil
-	case "risk_intelligence":
-		return AttributesRiskIntelligence, nil
-	case "country":
-		return AttributesCountry, nil
-	case "person_status":
-		return AttributesPersonStatus, nil
-	case "financials":
-		return AttributesFinancials, nil
-	case "additional_information":
-		return AttributesAdditionalInformation, nil
 	case "identifier":
 		return AttributesIdentifier, nil
+	case "additional_information":
+		return AttributesAdditionalInformation, nil
+	case "address":
+		return AttributesAddress, nil
 	case "name":
 		return AttributesName, nil
+	case "generic":
+		return AttributesGeneric, nil
 	case "status":
 		return AttributesStatus, nil
+	case "business_purpose":
+		return AttributesBusinessPurpose, nil
+	case "shares":
+		return AttributesShares, nil
+	case "position":
+		return AttributesPosition, nil
+	case "monetary_value":
+		return AttributesMonetaryValue, nil
+	case "finances":
+		return AttributesFinances, nil
+	case "company_type":
+		return AttributesCompanyType, nil
+	case "contact":
+		return AttributesContact, nil
+	case "weak_identifier":
+		return AttributesWeakIdentifier, nil
+	case "person_status":
+		return AttributesPersonStatus, nil
+	case "risk_intelligence":
+		return AttributesRiskIntelligence, nil
+	case "measurement":
+		return AttributesMeasurement, nil
+	case "financials":
+		return AttributesFinancials, nil
+	case "date_of_birth":
+		return AttributesDateOfBirth, nil
+	case "country":
+		return AttributesCountry, nil
+	case "gender":
+		return AttributesGender, nil
+	case "translated_name":
+		return AttributesTranslatedName, nil
 	}
 	var t Attributes
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -3087,58 +3087,58 @@ func (d *DateOfBirthProperties) String() string {
 type Entities string
 
 const (
+	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
+	EntitiesVessel Entities = "vessel"
 	// A generic placeholder entity. Rarely used.
 	EntitiesGeneric Entities = "generic"
-	// An unknown placeholder entity. Rarely used.
-	EntitiesUnknown Entities = "unknown"
-	// A trademark, patent, copyright, or similar type of intangible property
-	EntitiesIntellectualProperty Entities = "intellectual_property"
-	// A shipment between two entities
-	EntitiesShipment Entities = "shipment"
-	// A tradable financial asset
-	EntitiesSecurity Entities = "security"
-	// Land, real estate, real property, or personal property not categorized under another entity type
-	EntitiesProperty Entities = "property"
-	// A natural person (human being)
-	EntitiesPerson Entities = "person"
 	// A discretely registered name used by a person or company not operating under its legal name. This includes doing-business-as names, fictitious names, etc. in jurisdictions that treat them as registered objects distinct from the person/company using them.
 	EntitiesTradename Entities = "tradename"
 	// A legal entity or organization
 	EntitiesCompany Entities = "company"
-	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
-	EntitiesVessel Entities = "vessel"
+	// A tradable financial asset
+	EntitiesSecurity Entities = "security"
+	// An unknown placeholder entity. Rarely used.
+	EntitiesUnknown Entities = "unknown"
+	// A shipment between two entities
+	EntitiesShipment Entities = "shipment"
+	// A trademark, patent, copyright, or similar type of intangible property
+	EntitiesIntellectualProperty Entities = "intellectual_property"
+	// Land, real estate, real property, or personal property not categorized under another entity type
+	EntitiesProperty Entities = "property"
 	// A civil or criminal legal case or similar type of proceeding
 	EntitiesLegalMatter Entities = "legal_matter"
 	// An airplane, helicopter, etc.
 	EntitiesAircraft Entities = "aircraft"
+	// A natural person (human being)
+	EntitiesPerson Entities = "person"
 )
 
 func NewEntitiesFromString(s string) (Entities, error) {
 	switch s {
+	case "vessel":
+		return EntitiesVessel, nil
 	case "generic":
 		return EntitiesGeneric, nil
-	case "unknown":
-		return EntitiesUnknown, nil
-	case "intellectual_property":
-		return EntitiesIntellectualProperty, nil
-	case "shipment":
-		return EntitiesShipment, nil
-	case "security":
-		return EntitiesSecurity, nil
-	case "property":
-		return EntitiesProperty, nil
-	case "person":
-		return EntitiesPerson, nil
 	case "tradename":
 		return EntitiesTradename, nil
 	case "company":
 		return EntitiesCompany, nil
-	case "vessel":
-		return EntitiesVessel, nil
+	case "security":
+		return EntitiesSecurity, nil
+	case "unknown":
+		return EntitiesUnknown, nil
+	case "shipment":
+		return EntitiesShipment, nil
+	case "intellectual_property":
+		return EntitiesIntellectualProperty, nil
+	case "property":
+		return EntitiesProperty, nil
 	case "legal_matter":
 		return EntitiesLegalMatter, nil
 	case "aircraft":
 		return EntitiesAircraft, nil
+	case "person":
+		return EntitiesPerson, nil
 	}
 	var t Entities
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -8573,6 +8573,7 @@ type EmbeddedEntity struct {
 	Closed            EntityClosed            `json:"closed"`
 	EntityUrl         EntityUrl               `json:"entity_url"`
 	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
 	PsaCount          EntityPsaCount          `json:"psa_count"`
 	Sanctioned        EntitySanctioned        `json:"sanctioned"`
 	Type              Entities                `json:"type,omitempty"`
@@ -8629,6 +8630,7 @@ type EntityDetails struct {
 	Closed            EntityClosed            `json:"closed"`
 	EntityUrl         EntityUrl               `json:"entity_url"`
 	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
 	PsaCount          EntityPsaCount          `json:"psa_count"`
 	Sanctioned        EntitySanctioned        `json:"sanctioned"`
 	Type              Entities                `json:"type,omitempty"`
@@ -8786,6 +8788,7 @@ type PsaEntity struct {
 	Closed            EntityClosed            `json:"closed"`
 	EntityUrl         EntityUrl               `json:"entity_url"`
 	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
 	PsaCount          EntityPsaCount          `json:"psa_count"`
 	Sanctioned        EntitySanctioned        `json:"sanctioned"`
 	Type              Entities                `json:"type,omitempty"`
@@ -8796,6 +8799,9 @@ type PsaEntity struct {
 	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
 	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
 	Risk              EntityRisk              `json:"risk,omitempty"`
+	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
+	CompanyType       *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus      *Status                 `json:"latest_status,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9071,7 +9077,7 @@ func (r *RelationshipAttributeValue) String() string {
 }
 
 type RelationshipData struct {
-	Target        *EmbeddedEntity   `json:"target,omitempty"`
+	Target        *EntityDetails    `json:"target,omitempty"`
 	Types         RelationshipTypes `json:"types,omitempty"`
 	Dates         []string          `json:"dates,omitempty"`
 	FirstObserved *string           `json:"first_observed,omitempty"`
@@ -9105,6 +9111,7 @@ func (r *RelationshipData) String() string {
 }
 
 type RelationshipInfo struct {
+	Editable        bool                                         `json:"editable"`
 	Record          string                                       `json:"record"`
 	Attributes      map[Attributes][]*RelationshipAttributeValue `json:"attributes,omitempty"`
 	FromDate        *string                                      `json:"from_date,omitempty"`
@@ -9899,6 +9906,7 @@ type Supplier struct {
 	Closed            EntityClosed            `json:"closed"`
 	EntityUrl         EntityUrl               `json:"entity_url"`
 	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
 	PsaCount          EntityPsaCount          `json:"psa_count"`
 	Sanctioned        EntitySanctioned        `json:"sanctioned"`
 	Type              Entities                `json:"type,omitempty"`
