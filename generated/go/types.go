@@ -111,9 +111,11 @@ func (a *AdditionalInformationData) String() string {
 
 // A generic attribute used to hold miscellaneous information not covered by any other attribute. Includes 'value' (for the attribute itself), 'type' (a name, e.g. 'Real property description,') and 'extra' (a miscellaneous field to hold any other details) fields.
 type AdditionalInformationInfo struct {
-	Limit int                          `json:"limit"`
-	Size  *SizeInfo                    `json:"size,omitempty"`
-	Data  []*AdditionalInformationData `json:"data,omitempty"`
+	Limit  int                          `json:"limit"`
+	Size   *SizeInfo                    `json:"size,omitempty"`
+	Data   []*AdditionalInformationData `json:"data,omitempty"`
+	Next   interface{}                  `json:"next,omitempty"`
+	Offset *int                         `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -204,9 +206,11 @@ func (a *AddressData) String() string {
 
 // A physical location description. Addresses may exist as a simple string ('123 South Main St., South Bend, IN 46556'), or may be in smaller chunks with separate fields ('Number: 123,' 'Street name: South Main...'). Where possible, these fields will be parsed using the Libpostal ontology (https://github.com/openvenues/libpostal#parser-labels), which facilitates more robust address analysis and comparison.
 type AddressInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*AddressData `json:"data,omitempty"`
+	Limit  int            `json:"limit"`
+	Size   *SizeInfo      `json:"size,omitempty"`
+	Data   []*AddressData `json:"data,omitempty"`
+	Next   interface{}    `json:"next,omitempty"`
+	Offset *int           `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -585,9 +589,11 @@ func (b *BusinessPurposeData) String() string {
 
 // Text and/or a code (NAICS, NACE, ISIC, etc.) that describes what a company is legally allowed to do or produce
 type BusinessPurposeInfo struct {
-	Limit int                    `json:"limit"`
-	Size  *SizeInfo              `json:"size,omitempty"`
-	Data  []*BusinessPurposeData `json:"data,omitempty"`
+	Limit  int                    `json:"limit"`
+	Size   *SizeInfo              `json:"size,omitempty"`
+	Data   []*BusinessPurposeData `json:"data,omitempty"`
+	Next   interface{}            `json:"next,omitempty"`
+	Offset *int                   `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -864,9 +870,11 @@ func (c *CompanyTypeData) String() string {
 
 // A type of legal entity in a given jurisdiction (e.g. 'LLC,' 'Sociedad Anonima,' 'Private Company Limited by Shares')
 type CompanyTypeInfo struct {
-	Limit int                `json:"limit"`
-	Size  *SizeInfo          `json:"size,omitempty"`
-	Data  []*CompanyTypeData `json:"data,omitempty"`
+	Limit  int                `json:"limit"`
+	Size   *SizeInfo          `json:"size,omitempty"`
+	Data   []*CompanyTypeData `json:"data,omitempty"`
+	Next   interface{}        `json:"next,omitempty"`
+	Offset *int               `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -956,9 +964,11 @@ func (c *ContactData) String() string {
 
 // Contact information for an entity
 type ContactInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*ContactData `json:"data,omitempty"`
+	Limit  int            `json:"limit"`
+	Size   *SizeInfo      `json:"size,omitempty"`
+	Data   []*ContactData `json:"data,omitempty"`
+	Next   interface{}    `json:"next,omitempty"`
+	Offset *int           `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -2169,9 +2179,11 @@ func (c *CountryData) String() string {
 
 // An affiliation of an entity with a given country through residence, nationality, etc.
 type CountryInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*CountryData `json:"data,omitempty"`
+	Limit  int            `json:"limit"`
+	Size   *SizeInfo      `json:"size,omitempty"`
+	Data   []*CountryData `json:"data,omitempty"`
+	Next   interface{}    `json:"next,omitempty"`
+	Offset *int           `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3024,9 +3036,11 @@ func (d *DateOfBirthData) String() string {
 
 // Birth date of a person
 type DateOfBirthInfo struct {
-	Limit int                `json:"limit"`
-	Size  *SizeInfo          `json:"size,omitempty"`
-	Data  []*DateOfBirthData `json:"data,omitempty"`
+	Limit  int                `json:"limit"`
+	Size   *SizeInfo          `json:"size,omitempty"`
+	Data   []*DateOfBirthData `json:"data,omitempty"`
+	Next   interface{}        `json:"next,omitempty"`
+	Offset *int               `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3222,9 +3236,11 @@ func (f *FinancesData) String() string {
 
 // A financial figure, typically share capital
 type FinancesInfo struct {
-	Limit int             `json:"limit"`
-	Size  *SizeInfo       `json:"size,omitempty"`
-	Data  []*FinancesData `json:"data,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *SizeInfo       `json:"size,omitempty"`
+	Data   []*FinancesData `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3317,9 +3333,11 @@ func (f *FinancialsData) String() string {
 
 // A summary of financial information at one point in time
 type FinancialsInfo struct {
-	Limit int               `json:"limit"`
-	Size  *SizeInfo         `json:"size,omitempty"`
-	Data  []*FinancialsData `json:"data,omitempty"`
+	Limit  int               `json:"limit"`
+	Size   *SizeInfo         `json:"size,omitempty"`
+	Data   []*FinancialsData `json:"data,omitempty"`
+	Next   interface{}       `json:"next,omitempty"`
+	Offset *int              `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3442,9 +3460,11 @@ func (g *GenderData) String() string {
 
 // A person's gender
 type GenderInfo struct {
-	Limit int           `json:"limit"`
-	Size  *SizeInfo     `json:"size,omitempty"`
-	Data  []*GenderData `json:"data,omitempty"`
+	Limit  int           `json:"limit"`
+	Size   *SizeInfo     `json:"size,omitempty"`
+	Data   []*GenderData `json:"data,omitempty"`
+	Next   interface{}   `json:"next,omitempty"`
+	Offset *int          `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3534,9 +3554,11 @@ func (g *GenericData) String() string {
 
 // A placeholder attribute. Rarely used.
 type GenericInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*GenericData `json:"data,omitempty"`
+	Limit  int            `json:"limit"`
+	Size   *SizeInfo      `json:"size,omitempty"`
+	Data   []*GenericData `json:"data,omitempty"`
+	Next   interface{}    `json:"next,omitempty"`
+	Offset *int           `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3627,9 +3649,11 @@ func (i *IdentifierData) String() string {
 
 // An ID number that uniquely identifies one entity when value and type are taken into account.
 type IdentifierInfo struct {
-	Limit int               `json:"limit"`
-	Size  *SizeInfo         `json:"size,omitempty"`
-	Data  []*IdentifierData `json:"data,omitempty"`
+	Limit  int               `json:"limit"`
+	Size   *SizeInfo         `json:"size,omitempty"`
+	Data   []*IdentifierData `json:"data,omitempty"`
+	Next   interface{}       `json:"next,omitempty"`
+	Offset *int              `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -6640,9 +6664,11 @@ func (m *MeasurementData) String() string {
 
 // A numerical representation in a standard unit of some dimension of an entity, for example, weight
 type MeasurementInfo struct {
-	Limit int                `json:"limit"`
-	Size  *SizeInfo          `json:"size,omitempty"`
-	Data  []*MeasurementData `json:"data,omitempty"`
+	Limit  int                `json:"limit"`
+	Size   *SizeInfo          `json:"size,omitempty"`
+	Data   []*MeasurementData `json:"data,omitempty"`
+	Next   interface{}        `json:"next,omitempty"`
+	Offset *int               `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -6786,9 +6812,11 @@ func (m *MonetaryValueData) String() string {
 
 // The financial value of an asset (e.g. FOB, CIF)
 type MonetaryValueInfo struct {
-	Limit int                  `json:"limit"`
-	Size  *SizeInfo            `json:"size,omitempty"`
-	Data  []*MonetaryValueData `json:"data,omitempty"`
+	Limit  int                  `json:"limit"`
+	Size   *SizeInfo            `json:"size,omitempty"`
+	Data   []*MonetaryValueData `json:"data,omitempty"`
+	Next   interface{}          `json:"next,omitempty"`
+	Offset *int                 `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -6921,9 +6949,11 @@ func (n *NameData) String() string {
 
 // An entity's name. The value may be straightforward (e.g. 'Acme LLC,' 'John Doe') or context-specific (e.g. 'Jones v. Smith' as a legal matter name).
 type NameInfo struct {
-	Limit int         `json:"limit"`
-	Size  *SizeInfo   `json:"size,omitempty"`
-	Data  []*NameData `json:"data,omitempty"`
+	Limit  int         `json:"limit"`
+	Size   *SizeInfo   `json:"size,omitempty"`
+	Data   []*NameData `json:"data,omitempty"`
+	Next   interface{} `json:"next,omitempty"`
+	Offset *int        `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7043,9 +7073,11 @@ func (p *PersonStatusData) String() string {
 
 // A key event in a person's life, usually temporal
 type PersonStatusInfo struct {
-	Limit int                 `json:"limit"`
-	Size  *SizeInfo           `json:"size,omitempty"`
-	Data  []*PersonStatusData `json:"data,omitempty"`
+	Limit  int                 `json:"limit"`
+	Size   *SizeInfo           `json:"size,omitempty"`
+	Data   []*PersonStatusData `json:"data,omitempty"`
+	Next   interface{}         `json:"next,omitempty"`
+	Offset *int                `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7135,9 +7167,11 @@ func (p *PositionData) String() string {
 
 // An attribute used for many different relationship types that allows for the inclusion of a title or designation (e.g. member_of_the_board_of, Position: 'Secretary of the Board,' or shareholder_of, Position: 'Minority shareholder')
 type PositionInfo struct {
-	Limit int             `json:"limit"`
-	Size  *SizeInfo       `json:"size,omitempty"`
-	Data  []*PositionData `json:"data,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *SizeInfo       `json:"size,omitempty"`
+	Data   []*PositionData `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7227,9 +7261,11 @@ func (r *RiskIntelligenceData) String() string {
 
 // Risk intelligence metadata
 type RiskIntelligenceInfo struct {
-	Limit int                     `json:"limit"`
-	Size  *SizeInfo               `json:"size,omitempty"`
-	Data  []*RiskIntelligenceData `json:"data,omitempty"`
+	Limit  int                     `json:"limit"`
+	Size   *SizeInfo               `json:"size,omitempty"`
+	Data   []*RiskIntelligenceData `json:"data,omitempty"`
+	Next   interface{}             `json:"next,omitempty"`
+	Offset *int                    `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7323,9 +7359,11 @@ func (s *SharesData) String() string {
 
 // Shares associated with an entity (e.g. its number of issued shares, or the number of shares held by a shareholder)
 type SharesInfo struct {
-	Limit int           `json:"limit"`
-	Size  *SizeInfo     `json:"size,omitempty"`
-	Data  []*SharesData `json:"data,omitempty"`
+	Limit  int           `json:"limit"`
+	Size   *SizeInfo     `json:"size,omitempty"`
+	Data   []*SharesData `json:"data,omitempty"`
+	Next   interface{}   `json:"next,omitempty"`
+	Offset *int          `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7456,9 +7494,11 @@ func (s *StatusData) String() string {
 
 // The status of an entity.
 type StatusInfo struct {
-	Limit int           `json:"limit"`
-	Size  *SizeInfo     `json:"size,omitempty"`
-	Data  []*StatusData `json:"data,omitempty"`
+	Limit  int           `json:"limit"`
+	Size   *SizeInfo     `json:"size,omitempty"`
+	Data   []*StatusData `json:"data,omitempty"`
+	Next   interface{}   `json:"next,omitempty"`
+	Offset *int          `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7624,9 +7664,11 @@ func (t *TranslatedNameData) String() string {
 
 // A name that has been translated to English
 type TranslatedNameInfo struct {
-	Limit int                   `json:"limit"`
-	Size  *SizeInfo             `json:"size,omitempty"`
-	Data  []*TranslatedNameData `json:"data,omitempty"`
+	Limit  int                   `json:"limit"`
+	Size   *SizeInfo             `json:"size,omitempty"`
+	Data   []*TranslatedNameData `json:"data,omitempty"`
+	Next   interface{}           `json:"next,omitempty"`
+	Offset *int                  `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7773,9 +7815,11 @@ func (w *WeakIdentifierData) String() string {
 
 // A non-unique ID number, like a partially redacted tax ID or a registry identifier whose value and type may be shared by multiple entities
 type WeakIdentifierInfo struct {
-	Limit int                   `json:"limit"`
-	Size  *SizeInfo             `json:"size,omitempty"`
-	Data  []*WeakIdentifierData `json:"data,omitempty"`
+	Limit  int                   `json:"limit"`
+	Size   *SizeInfo             `json:"size,omitempty"`
+	Data   []*WeakIdentifierData `json:"data,omitempty"`
+	Next   interface{}           `json:"next,omitempty"`
+	Offset *int                  `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8864,9 +8908,11 @@ func (p *PsaEntity) String() string {
 
 // List of entities that are Possibly the Same As (PSA) the entity.
 type PossiblySameAs struct {
-	Limit int                   `json:"limit"`
-	Size  *SizeInfo             `json:"size,omitempty"`
-	Data  []*PossiblySameAsData `json:"data,omitempty"`
+	Limit  int                   `json:"limit"`
+	Size   *SizeInfo             `json:"size,omitempty"`
+	Offset *int                  `json:"offset,omitempty"`
+	Next   *bool                 `json:"next,omitempty"`
+	Data   []*PossiblySameAsData `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8998,9 +9044,11 @@ type RecordId = string
 
 // List of records that reference the entity.
 type ReferencedBy struct {
-	Limit int                 `json:"limit"`
-	Size  *SizeInfo           `json:"size,omitempty"`
-	Data  []*ReferencedByData `json:"data,omitempty"`
+	Limit  int                 `json:"limit"`
+	Size   *SizeInfo           `json:"size,omitempty"`
+	Offset *int                `json:"offset,omitempty"`
+	Next   *bool               `json:"next,omitempty"`
+	Data   []*ReferencedByData `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
