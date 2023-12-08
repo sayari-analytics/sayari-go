@@ -8312,6 +8312,39 @@ func (u *UsageInfo) String() string {
 	return fmt.Sprintf("%#v", u)
 }
 
+type RecordReferences struct {
+	Limit  int         `json:"limit"`
+	Size   *SizeInfo   `json:"size,omitempty"`
+	Next   bool        `json:"next"`
+	Offset int         `json:"offset"`
+	Data   interface{} `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RecordReferences) UnmarshalJSON(data []byte) error {
+	type unmarshaler RecordReferences
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RecordReferences(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RecordReferences) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
 type MatchExplanation struct {
 	Matched  *string `json:"matched,omitempty"`
 	Uploaded *string `json:"uploaded,omitempty"`
@@ -8931,6 +8964,7 @@ type RecordDetails struct {
 	ReferencesCount int                 `json:"references_count"`
 	RecordUrl       string              `json:"record_url"`
 	SourceUrl       *string             `json:"source_url,omitempty"`
+	DocumentUrls    []string            `json:"document_urls,omitempty"`
 	Matches         map[string][]string `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage

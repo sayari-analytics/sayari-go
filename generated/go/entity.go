@@ -3,6 +3,9 @@
 package api
 
 import (
+	json "encoding/json"
+	fmt "fmt"
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	time "time"
 )
 
@@ -73,4 +76,120 @@ type GetEntity struct {
 	ReferencedByPrev *string `json:"-"`
 	// Limit totals values returned for entity's referencing records. Defaults to 100.
 	ReferencedByLimit *int `json:"-"`
+}
+
+// OK
+type EntitySummaryResponse struct {
+	Id                EntityId                `json:"id"`
+	Label             EntityLabel             `json:"label"`
+	Degree            EntityDegree            `json:"degree"`
+	Closed            EntityClosed            `json:"closed"`
+	EntityUrl         EntityUrl               `json:"entity_url"`
+	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
+	PsaCount          EntityPsaCount          `json:"psa_count"`
+	Sanctioned        EntitySanctioned        `json:"sanctioned"`
+	Type              Entities                `json:"type,omitempty"`
+	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
+	Countries         []Country               `json:"countries,omitempty"`
+	SourceCount       SourceCount             `json:"source_count,omitempty"`
+	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
+	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType       *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus      *Status                 `json:"latest_status,omitempty"`
+	Risk              EntityRisk              `json:"risk,omitempty"`
+	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
+	Matches           *EntityMatches          `json:"matches,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (e *EntitySummaryResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler EntitySummaryResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*e = EntitySummaryResponse(value)
+	e._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (e *EntitySummaryResponse) String() string {
+	if len(e._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(e); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", e)
+}
+
+// OK
+type GetEntityResponse struct {
+	Id                EntityId                `json:"id"`
+	Label             EntityLabel             `json:"label"`
+	Degree            EntityDegree            `json:"degree"`
+	Closed            EntityClosed            `json:"closed"`
+	EntityUrl         EntityUrl               `json:"entity_url"`
+	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
+	PsaCount          EntityPsaCount          `json:"psa_count"`
+	Sanctioned        EntitySanctioned        `json:"sanctioned"`
+	Type              Entities                `json:"type,omitempty"`
+	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
+	Countries         []Country               `json:"countries,omitempty"`
+	SourceCount       SourceCount             `json:"source_count,omitempty"`
+	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
+	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType       *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus      *Status                 `json:"latest_status,omitempty"`
+	Risk              EntityRisk              `json:"risk,omitempty"`
+	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
+	Matches           *EntityMatches          `json:"matches,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (g *GetEntityResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler GetEntityResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GetEntityResponse(value)
+	g._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GetEntityResponse) String() string {
+	if len(g._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }

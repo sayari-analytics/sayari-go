@@ -36,7 +36,7 @@ var attributeFieldsMap = map[string]string{
 }
 
 func screenCSV(ctx context.Context, c *Connection, attributeColMap map[string][]int, csvDataChan chan []string,
-	summaryChan chan sayari.EntityDetails, unresolvedChan chan []string, wg *sync.WaitGroup, errChan chan error) {
+	summaryChan chan sayari.EntitySummaryResponse, unresolvedChan chan []string, wg *sync.WaitGroup, errChan chan error) {
 	for row := range csvDataChan {
 		// Attempt to resolve each entity
 		entityID, err := resolveEntity(ctx, c, attributeColMap, row)
@@ -61,9 +61,9 @@ func screenCSV(ctx context.Context, c *Connection, attributeColMap map[string][]
 	wg.Done()
 }
 
-func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*sayari.EntityDetails, []*sayari.EntityDetails, [][]string, error) {
-	var riskyEntities []*sayari.EntityDetails
-	var nonRiskyEntities []*sayari.EntityDetails
+func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*sayari.EntitySummaryResponse, []*sayari.EntitySummaryResponse, [][]string, error) {
+	var riskyEntities []*sayari.EntitySummaryResponse
+	var nonRiskyEntities []*sayari.EntitySummaryResponse
 	var unresolved [][]string
 
 	// Load in CSV
@@ -78,7 +78,7 @@ func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*
 	// create channels to handle this work concurrently
 	numWorkers := 3
 	csvDataChan := make(chan []string, numWorkers)
-	summaryChan := make(chan sayari.EntityDetails, numWorkers)
+	summaryChan := make(chan sayari.EntitySummaryResponse, numWorkers)
 	unresolvedChan := make(chan []string, numWorkers)
 	errChan := make(chan error)
 	var wg = sync.WaitGroup{}

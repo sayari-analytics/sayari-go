@@ -34,7 +34,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 }
 
 // Retrieve an entity from the database based on the ID
-func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request *generatedgo.GetEntity) (*generatedgo.EntityDetails, error) {
+func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request *generatedgo.GetEntity) (*generatedgo.GetEntityResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -199,7 +199,7 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 		return apiError
 	}
 
-	var response *generatedgo.EntityDetails
+	var response *generatedgo.GetEntityResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -216,7 +216,7 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 }
 
 // The Entity Summary endpoint returns a smaller entity payload
-func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*generatedgo.EntityDetails, error) {
+func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*generatedgo.EntitySummaryResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -277,7 +277,7 @@ func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*g
 		return apiError
 	}
 
-	var response *generatedgo.EntityDetails
+	var response *generatedgo.EntitySummaryResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

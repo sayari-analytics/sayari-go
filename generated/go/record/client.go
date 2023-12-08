@@ -34,7 +34,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 }
 
 // Retrieve a record from the database based on the ID
-func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request *generatedgo.GetRecord) (*generatedgo.RecordDetails, error) {
+func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request *generatedgo.GetRecord) (*generatedgo.GetRecordResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -106,7 +106,7 @@ func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request
 		return apiError
 	}
 
-	var response *generatedgo.RecordDetails
+	var response *generatedgo.GetRecordResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

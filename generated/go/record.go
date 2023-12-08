@@ -2,9 +2,55 @@
 
 package api
 
+import (
+	json "encoding/json"
+	fmt "fmt"
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+)
+
 type GetRecord struct {
 	// A limit on the number of references to be returned. Defaults to 100.
 	ReferencesLimit *int `json:"-"`
 	// Number of references to skip before returning response. Defaults to 0.
 	ReferencesOffset *int `json:"-"`
+}
+
+// OK
+type GetRecordResponse struct {
+	Id              RecordId            `json:"id"`
+	Label           string              `json:"label"`
+	Source          SourceId            `json:"source"`
+	PublicationDate *string             `json:"publication_date,omitempty"`
+	AcquisitionDate string              `json:"acquisition_date"`
+	ReferencesCount int                 `json:"references_count"`
+	RecordUrl       string              `json:"record_url"`
+	SourceUrl       *string             `json:"source_url,omitempty"`
+	DocumentUrls    []string            `json:"document_urls,omitempty"`
+	Matches         map[string][]string `json:"matches,omitempty"`
+	References      *RecordReferences   `json:"references,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (g *GetRecordResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler GetRecordResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GetRecordResponse(value)
+	g._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GetRecordResponse) String() string {
+	if len(g._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }
