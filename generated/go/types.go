@@ -9047,7 +9047,7 @@ type ReferencedBy struct {
 	Limit  int                 `json:"limit"`
 	Size   *SizeInfo           `json:"size,omitempty"`
 	Offset *int                `json:"offset,omitempty"`
-	Next   *bool               `json:"next,omitempty"`
+	Next   interface{}         `json:"next,omitempty"`
 	Data   []*ReferencedByData `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
