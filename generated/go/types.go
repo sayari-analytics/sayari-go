@@ -8462,7 +8462,7 @@ type ResolutionResult struct {
 	Label               string                         `json:"label"`
 	Type                Entities                       `json:"type,omitempty"`
 	Identifiers         []*Identifier                  `json:"identifiers,omitempty"`
-	PsaId               *int                           `json:"psa_id,omitempty"`
+	PsaId               *float64                       `json:"psa_id,omitempty"`
 	Addresses           []string                       `json:"addresses,omitempty"`
 	Countries           []Country                      `json:"countries,omitempty"`
 	Sources             []string                       `json:"sources,omitempty"`
