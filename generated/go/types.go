@@ -8390,8 +8390,10 @@ func (r *RecordReferences) String() string {
 }
 
 type MatchExplanation struct {
-	Matched  *string `json:"matched,omitempty"`
-	Uploaded *string `json:"uploaded,omitempty"`
+	Matched              *string `json:"matched,omitempty"`
+	Uploaded             *string `json:"uploaded,omitempty"`
+	NameCustomTfIdfScore *int    `json:"nameCustomTfIdfScore,omitempty"`
+	HighQualityMatchName *bool   `json:"highQualityMatchName,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8455,18 +8457,19 @@ func (r *ResolutionResponseFields) String() string {
 }
 
 type ResolutionResult struct {
-	Score          float64                        `json:"score"`
-	EntityId       string                         `json:"entity_id"`
-	Label          string                         `json:"label"`
-	Type           Entities                       `json:"type,omitempty"`
-	Identifiers    []*Identifier                  `json:"identifiers,omitempty"`
-	PsaId          *int                           `json:"psa_id,omitempty"`
-	Addresses      []string                       `json:"addresses,omitempty"`
-	Countries      []Country                      `json:"countries,omitempty"`
-	Sources        []string                       `json:"sources,omitempty"`
-	MatchedQueries []string                       `json:"matched_queries,omitempty"`
-	Highlight      map[string][]string            `json:"highlight,omitempty"`
-	Explanation    map[string][]*MatchExplanation `json:"explanation,omitempty"`
+	Score               float64                        `json:"score"`
+	EntityId            string                         `json:"entity_id"`
+	Label               string                         `json:"label"`
+	Type                Entities                       `json:"type,omitempty"`
+	Identifiers         []*Identifier                  `json:"identifiers,omitempty"`
+	PsaId               *int                           `json:"psa_id,omitempty"`
+	Addresses           []string                       `json:"addresses,omitempty"`
+	Countries           []Country                      `json:"countries,omitempty"`
+	Sources             []string                       `json:"sources,omitempty"`
+	TypedMatchedQueries []string                       `json:"typed_matched_queries,omitempty"`
+	MatchedQueries      []string                       `json:"matched_queries,omitempty"`
+	Highlight           map[string][]string            `json:"highlight,omitempty"`
+	Explanation         map[string][]*MatchExplanation `json:"explanation,omitempty"`
 
 	_rawJSON json.RawMessage
 }
