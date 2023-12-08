@@ -8390,10 +8390,10 @@ func (r *RecordReferences) String() string {
 }
 
 type MatchExplanation struct {
-	Matched              *string `json:"matched,omitempty"`
-	Uploaded             *string `json:"uploaded,omitempty"`
-	NameCustomTfIdfScore *int    `json:"nameCustomTfIdfScore,omitempty"`
-	HighQualityMatchName *bool   `json:"highQualityMatchName,omitempty"`
+	Matched              *string  `json:"matched,omitempty"`
+	Uploaded             *string  `json:"uploaded,omitempty"`
+	NameCustomTfIdfScore *float64 `json:"nameCustomTfIdfScore,omitempty"`
+	HighQualityMatchName *bool    `json:"highQualityMatchName,omitempty"`
 
 	_rawJSON json.RawMessage
 }
