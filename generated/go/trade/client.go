@@ -200,7 +200,7 @@ func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.Searc
 }
 
 // Search for a buyer. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBuyers) (*generatedgo.BuyerSearchResults, error) {
+func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBuyers) (*generatedgo.BuyerSearchResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -265,7 +265,7 @@ func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBu
 		return apiError
 	}
 
-	var response *generatedgo.BuyerSearchResults
+	var response *generatedgo.BuyerSearchResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

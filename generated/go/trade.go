@@ -129,7 +129,8 @@ func (s ShipmentField) Ptr() *ShipmentField {
 	return &s
 }
 
-type BuyerSearchResults struct {
+// OK
+type BuyerSearchResponse struct {
 	Limit  int                  `json:"limit"`
 	Size   *SizeInfo            `json:"size,omitempty"`
 	Offset int                  `json:"offset"`
@@ -139,18 +140,18 @@ type BuyerSearchResults struct {
 	_rawJSON json.RawMessage
 }
 
-func (b *BuyerSearchResults) UnmarshalJSON(data []byte) error {
-	type unmarshaler BuyerSearchResults
+func (b *BuyerSearchResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler BuyerSearchResponse
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*b = BuyerSearchResults(value)
+	*b = BuyerSearchResponse(value)
 	b._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (b *BuyerSearchResults) String() string {
+func (b *BuyerSearchResponse) String() string {
 	if len(b._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
 			return value
