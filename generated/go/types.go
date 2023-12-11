@@ -10043,6 +10043,7 @@ type SourceOrDestinationEntity struct {
 	Name            []string             `json:"name,omitempty"`
 	BusinessPurpose []*BusinessPurpose   `json:"business_purpose,omitempty"`
 	Country         []Country            `json:"country,omitempty"`
+	Date            string               `json:"date"`
 	EntityId        EntityId             `json:"entity_id"`
 	Type            Relationships        `json:"type,omitempty"`
 

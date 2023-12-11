@@ -34,7 +34,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 }
 
 // Search for a shipment. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.SearchShipments) (*generatedgo.ShipmentSearchResults, error) {
+func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.SearchShipments) (*generatedgo.ShipmentSearchResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -99,7 +99,7 @@ func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.Searc
 		return apiError
 	}
 
-	var response *generatedgo.ShipmentSearchResults
+	var response *generatedgo.ShipmentSearchResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
