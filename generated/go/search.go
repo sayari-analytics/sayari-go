@@ -114,7 +114,8 @@ func (f *FilterList) String() string {
 	return fmt.Sprintf("%#v", f)
 }
 
-type RecordSearchResults struct {
+// OK
+type RecordSearchResponse struct {
 	Limit  int              `json:"limit"`
 	Size   *SizeInfo        `json:"size,omitempty"`
 	Offset int              `json:"offset"`
@@ -124,18 +125,18 @@ type RecordSearchResults struct {
 	_rawJSON json.RawMessage
 }
 
-func (r *RecordSearchResults) UnmarshalJSON(data []byte) error {
-	type unmarshaler RecordSearchResults
+func (r *RecordSearchResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler RecordSearchResponse
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*r = RecordSearchResults(value)
+	*r = RecordSearchResponse(value)
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (r *RecordSearchResults) String() string {
+func (r *RecordSearchResponse) String() string {
 	if len(r._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
 			return value

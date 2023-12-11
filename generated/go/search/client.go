@@ -124,7 +124,7 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 }
 
 // Search for a record. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRecord) (*generatedgo.RecordSearchResults, error) {
+func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRecord) (*generatedgo.RecordSearchResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -196,7 +196,7 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 		return apiError
 	}
 
-	var response *generatedgo.RecordSearchResults
+	var response *generatedgo.RecordSearchResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
