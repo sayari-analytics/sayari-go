@@ -9287,8 +9287,10 @@ type RelationshipInfo struct {
 	Editable        *bool                                        `json:"editable,omitempty"`
 	Record          string                                       `json:"record"`
 	Attributes      map[Attributes][]*RelationshipAttributeValue `json:"attributes,omitempty"`
+	Date            *string                                      `json:"date,omitempty"`
 	FromDate        *string                                      `json:"from_date,omitempty"`
 	AcquisitionDate string                                       `json:"acquisition_date"`
+	Former          *bool                                        `json:"former,omitempty"`
 	PublicationDate *string                                      `json:"publication_date,omitempty"`
 
 	_rawJSON json.RawMessage
@@ -10254,6 +10256,7 @@ func (w *Weight) String() string {
 }
 
 type ShortestPathData struct {
+	Source string           `json:"source"`
 	Target *EntityDetails   `json:"target,omitempty"`
 	Path   []*TraversalPath `json:"path,omitempty"`
 
@@ -10347,6 +10350,8 @@ func (t *TraversalPath) String() string {
 
 type TraversalRelationshipData struct {
 	Values       []*RelationshipInfo `json:"values,omitempty"`
+	Former       *bool               `json:"former,omitempty"`
+	StartDate    *string             `json:"start_date,omitempty"`
 	LastObserved *string             `json:"last_observed,omitempty"`
 
 	_rawJSON json.RawMessage

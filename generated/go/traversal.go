@@ -298,6 +298,7 @@ func (r Relationships) Ptr() *Relationships {
 	return &r
 }
 
+// OK
 type ShortestPathResponse struct {
 	Entities []string            `json:"entities,omitempty"`
 	Data     []*ShortestPathData `json:"data,omitempty"`
@@ -328,17 +329,22 @@ func (s *ShortestPathResponse) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
+// OK
 type TraversalResponse struct {
 	MinDepth      int              `json:"min_depth"`
 	MaxDepth      int              `json:"max_depth"`
 	Relationships []Relationships  `json:"relationships,omitempty"`
 	Countries     []Country        `json:"countries,omitempty"`
 	Types         []string         `json:"types,omitempty"`
+	Name          string           `json:"name"`
+	Watchlist     bool             `json:"watchlist"`
 	Psa           bool             `json:"psa"`
 	Offset        int              `json:"offset"`
 	Limit         int              `json:"limit"`
 	Next          bool             `json:"next"`
 	Data          []*TraversalData `json:"data,omitempty"`
+	Sanctioned    *bool            `json:"sanctioned,omitempty"`
+	Pep           *bool            `json:"pep,omitempty"`
 	ExploredCount int              `json:"explored_count"`
 
 	_rawJSON json.RawMessage
