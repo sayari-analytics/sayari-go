@@ -117,7 +117,7 @@ func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.Searc
 }
 
 // Search for a supplier. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.SearchSuppliers) (*generatedgo.SupplierSearchResults, error) {
+func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.SearchSuppliers) (*generatedgo.SupplierSearchResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -182,7 +182,7 @@ func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.Searc
 		return apiError
 	}
 
-	var response *generatedgo.SupplierSearchResults
+	var response *generatedgo.SupplierSearchResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

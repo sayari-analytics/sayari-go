@@ -9728,7 +9728,8 @@ func (s *Status) String() string {
 }
 
 type Aggregations struct {
-	ByVolume []*VolumeAggregates `json:"byVolume,omitempty"`
+	ByVolume    []*VolumeAggregates `json:"byVolume,omitempty"`
+	EntityCount []interface{}       `json:"entityCount,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10043,7 +10044,7 @@ type SourceOrDestinationEntity struct {
 	Name            []string             `json:"name,omitempty"`
 	BusinessPurpose []*BusinessPurpose   `json:"business_purpose,omitempty"`
 	Country         []Country            `json:"country,omitempty"`
-	Date            string               `json:"date"`
+	Date            *string              `json:"date,omitempty"`
 	EntityId        EntityId             `json:"entity_id"`
 	Type            Relationships        `json:"type,omitempty"`
 

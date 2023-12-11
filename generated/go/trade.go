@@ -196,7 +196,8 @@ func (s *ShipmentSearchResponse) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-type SupplierSearchResults struct {
+// OK
+type SupplierSearchResponse struct {
 	Limit  int                  `json:"limit"`
 	Size   *SizeInfo            `json:"size,omitempty"`
 	Offset int                  `json:"offset"`
@@ -206,18 +207,18 @@ type SupplierSearchResults struct {
 	_rawJSON json.RawMessage
 }
 
-func (s *SupplierSearchResults) UnmarshalJSON(data []byte) error {
-	type unmarshaler SupplierSearchResults
+func (s *SupplierSearchResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler SupplierSearchResponse
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SupplierSearchResults(value)
+	*s = SupplierSearchResponse(value)
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (s *SupplierSearchResults) String() string {
+func (s *SupplierSearchResponse) String() string {
 	if len(s._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
 			return value
