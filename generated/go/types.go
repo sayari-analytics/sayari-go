@@ -8497,6 +8497,95 @@ func (r *ResolutionResult) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
+type Coordinates struct {
+	Lat     float64 `json:"lat"`
+	Lng     float64 `json:"lng"`
+	Address string  `json:"address"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *Coordinates) UnmarshalJSON(data []byte) error {
+	type unmarshaler Coordinates
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = Coordinates(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *Coordinates) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+type SearchResults struct {
+	Id                EntityId                `json:"id"`
+	Label             EntityLabel             `json:"label"`
+	Degree            EntityDegree            `json:"degree"`
+	Closed            EntityClosed            `json:"closed"`
+	EntityUrl         EntityUrl               `json:"entity_url"`
+	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
+	PsaCount          EntityPsaCount          `json:"psa_count"`
+	Sanctioned        EntitySanctioned        `json:"sanctioned"`
+	Type              Entities                `json:"type,omitempty"`
+	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
+	Countries         []Country               `json:"countries,omitempty"`
+	SourceCount       SourceCount             `json:"source_count,omitempty"`
+	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
+	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType       *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus      *Status                 `json:"latest_status,omitempty"`
+	Risk              EntityRisk              `json:"risk,omitempty"`
+	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
+	Coordinates       []*Coordinates          `json:"coordinates,omitempty"`
+	Matches           EntityMatches           `json:"matches,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SearchResults) UnmarshalJSON(data []byte) error {
+	type unmarshaler SearchResults
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SearchResults(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SearchResults) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
 // Bad gateway
 type BadGatewayResponse = interface{}
 
@@ -8732,7 +8821,6 @@ type EntityDetails struct {
 	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
 	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Matches           *EntityMatches          `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10013,7 +10101,6 @@ type Supplier struct {
 	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
 	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Matches           *EntityMatches          `json:"matches,omitempty"`
 	Metadata          *SupplierMetadata       `json:"metadata,omitempty"`
 
 	_rawJSON json.RawMessage

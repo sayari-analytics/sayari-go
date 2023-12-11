@@ -44,28 +44,29 @@ type SearchRecord struct {
 	Advanced *bool `json:"advanced,omitempty"`
 }
 
-type EntitySearchResults struct {
+// OK
+type EntitySearchResponse struct {
 	Limit  int              `json:"limit"`
 	Size   *SizeInfo        `json:"size,omitempty"`
 	Offset int              `json:"offset"`
 	Next   bool             `json:"next"`
-	Data   []*EntityDetails `json:"data,omitempty"`
+	Data   []*SearchResults `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
 
-func (e *EntitySearchResults) UnmarshalJSON(data []byte) error {
-	type unmarshaler EntitySearchResults
+func (e *EntitySearchResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler EntitySearchResponse
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*e = EntitySearchResults(value)
+	*e = EntitySearchResponse(value)
 	e._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (e *EntitySearchResults) String() string {
+func (e *EntitySearchResponse) String() string {
 	if len(e._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
 			return value

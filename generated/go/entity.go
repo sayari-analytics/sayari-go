@@ -108,7 +108,6 @@ type EntitySummaryResponse struct {
 	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
 	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Matches           *EntityMatches          `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -166,7 +165,6 @@ type GetEntityResponse struct {
 	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
 	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Matches           *EntityMatches          `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
 }
