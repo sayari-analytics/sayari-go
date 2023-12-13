@@ -8,6 +8,61 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
+type Ownership struct {
+	// Limit total values for traversal. Defaults to 20. Max of 50.
+	Limit *int `json:"-"`
+	// Offset values for traversal. Defaults to 0.
+	Offset *int `json:"-"`
+	// Set minimum depth for traversal. Defaults to 1.
+	MinDepth *int `json:"-"`
+	// Set maximum depth for traversal. Defaults to 6.
+	MaxDepth *int `json:"-"`
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	Psa *bool `json:"-"`
+	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any country.
+	Countries []*Country `json:"-"`
+	// Filter paths to only those that end at an entity of the specified type(s). Defaults to returning paths that end at any type.
+	Types []*Entities `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a watchlist. Defaults to not filtering paths by sanctioned status.
+	Sanctioned *bool `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a pep list. Defaults to not filtering paths by pep status.
+	Pep *bool `json:"-"`
+	// Set minimum percentage of share ownership for traversal. Defaults to 0.
+	MinShares *int `json:"-"`
+	// Also traverse relationships when share percentages are unknown. Only useful when min_shares is set greater than 0. Defaults to true.
+	IncludeUnknownShares *bool `json:"-"`
+	// Include relationships that were valid in the past but not at the present time. Defaults to false.
+	ExcludeFormerRelationships *bool `json:"-"`
+	// Include entities that existed in the past but not at the present time. Defaults to false.
+	ExcludeClosedEntities *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	EuHighRiskThird *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskModernSlavery *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	StateOwned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	FormerlySanctioned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskTerrorism *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOrganizedCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskFinancialCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskBriberyAndCorruption *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOther *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskCybercrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	RegulatoryAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	LawEnforcementAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	XinjiangGeospatial *bool `json:"-"`
+}
+
 type ShortestPath struct {
 	Entities []string `json:"-"`
 }
@@ -371,4 +426,116 @@ func (t *TraversalResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
+}
+
+type Ubo struct {
+	// Limit total values for traversal. Defaults to 20. Max of 50.
+	Limit *int `json:"-"`
+	// Offset values for traversal. Defaults to 0.
+	Offset *int `json:"-"`
+	// Set minimum depth for traversal. Defaults to 1.
+	MinDepth *int `json:"-"`
+	// Set maximum depth for traversal. Defaults to 6.
+	MaxDepth *int `json:"-"`
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	Psa *bool `json:"-"`
+	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any country.
+	Countries []*Country `json:"-"`
+	// Filter paths to only those that end at an entity of the specified type(s). Defaults to returning paths that end at any type.
+	Types []*Entities `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a watchlist. Defaults to not filtering paths by sanctioned status.
+	Sanctioned *bool `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a pep list. Defaults to not filtering paths by pep status.
+	Pep *bool `json:"-"`
+	// Set minimum percentage of share ownership for traversal. Defaults to 0.
+	MinShares *int `json:"-"`
+	// Also traverse relationships when share percentages are unknown. Only useful when min_shares is set greater than 0. Defaults to true.
+	IncludeUnknownShares *bool `json:"-"`
+	// Include relationships that were valid in the past but not at the present time. Defaults to false.
+	ExcludeFormerRelationships *bool `json:"-"`
+	// Include entities that existed in the past but not at the present time. Defaults to false.
+	ExcludeClosedEntities *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	EuHighRiskThird *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskModernSlavery *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	StateOwned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	FormerlySanctioned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskTerrorism *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOrganizedCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskFinancialCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskBriberyAndCorruption *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOther *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskCybercrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	RegulatoryAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	LawEnforcementAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	XinjiangGeospatial *bool `json:"-"`
+}
+
+type Watchlist struct {
+	// Limit total values for traversal. Defaults to 20. Max of 50.
+	Limit *int `json:"-"`
+	// Offset values for traversal. Defaults to 0.
+	Offset *int `json:"-"`
+	// Set minimum depth for traversal. Defaults to 1.
+	MinDepth *int `json:"-"`
+	// Set maximum depth for traversal. Defaults to 6.
+	MaxDepth *int `json:"-"`
+	// Set relationship type(s) to follow when traversing related entities. Defaults to following all relationship types.
+	Relationships []*Relationships `json:"-"`
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	Psa *bool `json:"-"`
+	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any country.
+	Countries []*Country `json:"-"`
+	// Filter paths to only those that end at an entity of the specified type(s). Defaults to returning paths that end at any type.
+	Types []*Entities `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a watchlist. Defaults to not filtering paths by sanctioned status.
+	Sanctioned *bool `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a pep list. Defaults to not filtering paths by pep status.
+	Pep *bool `json:"-"`
+	// Set minimum percentage of share ownership for traversal. Defaults to 0.
+	MinShares *int `json:"-"`
+	// Also traverse relationships when share percentages are unknown. Only useful when min_shares is set greater than 0. Defaults to true.
+	IncludeUnknownShares *bool `json:"-"`
+	// Include relationships that were valid in the past but not at the present time. Defaults to false.
+	ExcludeFormerRelationships *bool `json:"-"`
+	// Include entities that existed in the past but not at the present time. Defaults to false.
+	ExcludeClosedEntities *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	EuHighRiskThird *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskModernSlavery *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	StateOwned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	FormerlySanctioned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskTerrorism *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOrganizedCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskFinancialCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskBriberyAndCorruption *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOther *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskCybercrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	RegulatoryAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	LawEnforcementAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	XinjiangGeospatial *bool `json:"-"`
 }
