@@ -10396,6 +10396,7 @@ type TraversalRelationshipData struct {
 	Former       *bool               `json:"former,omitempty"`
 	StartDate    *string             `json:"start_date,omitempty"`
 	LastObserved *string             `json:"last_observed,omitempty"`
+	EndDate      *string             `json:"end_date,omitempty"`
 
 	_rawJSON json.RawMessage
 }
