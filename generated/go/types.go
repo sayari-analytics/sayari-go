@@ -9729,6 +9729,46 @@ func (s *Status) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
+type Source struct {
+	Id          string  `json:"id"`
+	Label       string  `json:"label"`
+	Description string  `json:"description"`
+	Country     Country `json:"country,omitempty"`
+	Region      string  `json:"region"`
+	DateAdded   string  `json:"date_added"`
+	SourceType  string  `json:"source_type"`
+	RecordType  string  `json:"record_type"`
+	Structure   string  `json:"structure"`
+	SourceUrl   *string `json:"source_url,omitempty"`
+	Pep         bool    `json:"pep"`
+	Watchlist   bool    `json:"watchlist"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *Source) UnmarshalJSON(data []byte) error {
+	type unmarshaler Source
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Source(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Source) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
 type Aggregations struct {
 	ByVolume    []*VolumeAggregates `json:"byVolume,omitempty"`
 	EntityCount []interface{}       `json:"entityCount,omitempty"`
