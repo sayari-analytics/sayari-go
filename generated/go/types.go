@@ -9254,8 +9254,10 @@ type RelationshipData struct {
 	Types         RelationshipTypes `json:"types,omitempty"`
 	Dates         []string          `json:"dates,omitempty"`
 	FirstObserved *string           `json:"first_observed,omitempty"`
+	Former        *bool             `json:"former,omitempty"`
 	LastObserved  *string           `json:"last_observed,omitempty"`
 	StartDate     *string           `json:"start_date,omitempty"`
+	EndDate       *string           `json:"end_date,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9289,6 +9291,7 @@ type RelationshipInfo struct {
 	Attributes      map[Attributes][]*RelationshipAttributeValue `json:"attributes,omitempty"`
 	Date            *string                                      `json:"date,omitempty"`
 	FromDate        *string                                      `json:"from_date,omitempty"`
+	ToDate          *string                                      `json:"to_date,omitempty"`
 	AcquisitionDate string                                       `json:"acquisition_date"`
 	Former          *bool                                        `json:"former,omitempty"`
 	PublicationDate *string                                      `json:"publication_date,omitempty"`
