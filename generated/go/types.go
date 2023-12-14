@@ -111,9 +111,11 @@ func (a *AdditionalInformationData) String() string {
 
 // A generic attribute used to hold miscellaneous information not covered by any other attribute. Includes 'value' (for the attribute itself), 'type' (a name, e.g. 'Real property description,') and 'extra' (a miscellaneous field to hold any other details) fields.
 type AdditionalInformationInfo struct {
-	Limit int                          `json:"limit"`
-	Size  *SizeInfo                    `json:"size,omitempty"`
-	Data  []*AdditionalInformationData `json:"data,omitempty"`
+	Limit  int                          `json:"limit"`
+	Size   *SizeInfo                    `json:"size,omitempty"`
+	Data   []*AdditionalInformationData `json:"data,omitempty"`
+	Next   interface{}                  `json:"next,omitempty"`
+	Offset *int                         `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -204,9 +206,11 @@ func (a *AddressData) String() string {
 
 // A physical location description. Addresses may exist as a simple string ('123 South Main St., South Bend, IN 46556'), or may be in smaller chunks with separate fields ('Number: 123,' 'Street name: South Main...'). Where possible, these fields will be parsed using the Libpostal ontology (https://github.com/openvenues/libpostal#parser-labels), which facilitates more robust address analysis and comparison.
 type AddressInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*AddressData `json:"data,omitempty"`
+	Limit  int            `json:"limit"`
+	Size   *SizeInfo      `json:"size,omitempty"`
+	Data   []*AddressData `json:"data,omitempty"`
+	Next   interface{}    `json:"next,omitempty"`
+	Offset *int           `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -416,76 +420,76 @@ func (a *AttributeDetails) String() string {
 type Attributes string
 
 const (
-	AttributesBusinessPurpose       Attributes = "business_purpose"
-	AttributesGeneric               Attributes = "generic"
-	AttributesMonetaryValue         Attributes = "monetary_value"
-	AttributesAddress               Attributes = "address"
-	AttributesShares                Attributes = "shares"
-	AttributesDateOfBirth           Attributes = "date_of_birth"
-	AttributesWeakIdentifier        Attributes = "weak_identifier"
-	AttributesContact               Attributes = "contact"
-	AttributesMeasurement           Attributes = "measurement"
-	AttributesCompanyType           Attributes = "company_type"
-	AttributesTranslatedName        Attributes = "translated_name"
-	AttributesFinances              Attributes = "finances"
-	AttributesPosition              Attributes = "position"
-	AttributesGender                Attributes = "gender"
-	AttributesRiskIntelligence      Attributes = "risk_intelligence"
-	AttributesCountry               Attributes = "country"
-	AttributesPersonStatus          Attributes = "person_status"
-	AttributesFinancials            Attributes = "financials"
-	AttributesAdditionalInformation Attributes = "additional_information"
 	AttributesIdentifier            Attributes = "identifier"
+	AttributesAdditionalInformation Attributes = "additional_information"
+	AttributesAddress               Attributes = "address"
 	AttributesName                  Attributes = "name"
+	AttributesGeneric               Attributes = "generic"
 	AttributesStatus                Attributes = "status"
+	AttributesBusinessPurpose       Attributes = "business_purpose"
+	AttributesShares                Attributes = "shares"
+	AttributesPosition              Attributes = "position"
+	AttributesMonetaryValue         Attributes = "monetary_value"
+	AttributesFinances              Attributes = "finances"
+	AttributesCompanyType           Attributes = "company_type"
+	AttributesContact               Attributes = "contact"
+	AttributesWeakIdentifier        Attributes = "weak_identifier"
+	AttributesPersonStatus          Attributes = "person_status"
+	AttributesRiskIntelligence      Attributes = "risk_intelligence"
+	AttributesMeasurement           Attributes = "measurement"
+	AttributesFinancials            Attributes = "financials"
+	AttributesDateOfBirth           Attributes = "date_of_birth"
+	AttributesCountry               Attributes = "country"
+	AttributesGender                Attributes = "gender"
+	AttributesTranslatedName        Attributes = "translated_name"
 )
 
 func NewAttributesFromString(s string) (Attributes, error) {
 	switch s {
-	case "business_purpose":
-		return AttributesBusinessPurpose, nil
-	case "generic":
-		return AttributesGeneric, nil
-	case "monetary_value":
-		return AttributesMonetaryValue, nil
-	case "address":
-		return AttributesAddress, nil
-	case "shares":
-		return AttributesShares, nil
-	case "date_of_birth":
-		return AttributesDateOfBirth, nil
-	case "weak_identifier":
-		return AttributesWeakIdentifier, nil
-	case "contact":
-		return AttributesContact, nil
-	case "measurement":
-		return AttributesMeasurement, nil
-	case "company_type":
-		return AttributesCompanyType, nil
-	case "translated_name":
-		return AttributesTranslatedName, nil
-	case "finances":
-		return AttributesFinances, nil
-	case "position":
-		return AttributesPosition, nil
-	case "gender":
-		return AttributesGender, nil
-	case "risk_intelligence":
-		return AttributesRiskIntelligence, nil
-	case "country":
-		return AttributesCountry, nil
-	case "person_status":
-		return AttributesPersonStatus, nil
-	case "financials":
-		return AttributesFinancials, nil
-	case "additional_information":
-		return AttributesAdditionalInformation, nil
 	case "identifier":
 		return AttributesIdentifier, nil
+	case "additional_information":
+		return AttributesAdditionalInformation, nil
+	case "address":
+		return AttributesAddress, nil
 	case "name":
 		return AttributesName, nil
+	case "generic":
+		return AttributesGeneric, nil
 	case "status":
 		return AttributesStatus, nil
+	case "business_purpose":
+		return AttributesBusinessPurpose, nil
+	case "shares":
+		return AttributesShares, nil
+	case "position":
+		return AttributesPosition, nil
+	case "monetary_value":
+		return AttributesMonetaryValue, nil
+	case "finances":
+		return AttributesFinances, nil
+	case "company_type":
+		return AttributesCompanyType, nil
+	case "contact":
+		return AttributesContact, nil
+	case "weak_identifier":
+		return AttributesWeakIdentifier, nil
+	case "person_status":
+		return AttributesPersonStatus, nil
+	case "risk_intelligence":
+		return AttributesRiskIntelligence, nil
+	case "measurement":
+		return AttributesMeasurement, nil
+	case "financials":
+		return AttributesFinancials, nil
+	case "date_of_birth":
+		return AttributesDateOfBirth, nil
+	case "country":
+		return AttributesCountry, nil
+	case "gender":
+		return AttributesGender, nil
+	case "translated_name":
+		return AttributesTranslatedName, nil
 	}
 	var t Attributes
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -585,9 +589,11 @@ func (b *BusinessPurposeData) String() string {
 
 // Text and/or a code (NAICS, NACE, ISIC, etc.) that describes what a company is legally allowed to do or produce
 type BusinessPurposeInfo struct {
-	Limit int                    `json:"limit"`
-	Size  *SizeInfo              `json:"size,omitempty"`
-	Data  []*BusinessPurposeData `json:"data,omitempty"`
+	Limit  int                    `json:"limit"`
+	Size   *SizeInfo              `json:"size,omitempty"`
+	Data   []*BusinessPurposeData `json:"data,omitempty"`
+	Next   interface{}            `json:"next,omitempty"`
+	Offset *int                   `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -864,9 +870,11 @@ func (c *CompanyTypeData) String() string {
 
 // A type of legal entity in a given jurisdiction (e.g. 'LLC,' 'Sociedad Anonima,' 'Private Company Limited by Shares')
 type CompanyTypeInfo struct {
-	Limit int                `json:"limit"`
-	Size  *SizeInfo          `json:"size,omitempty"`
-	Data  []*CompanyTypeData `json:"data,omitempty"`
+	Limit  int                `json:"limit"`
+	Size   *SizeInfo          `json:"size,omitempty"`
+	Data   []*CompanyTypeData `json:"data,omitempty"`
+	Next   interface{}        `json:"next,omitempty"`
+	Offset *int               `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -956,9 +964,11 @@ func (c *ContactData) String() string {
 
 // Contact information for an entity
 type ContactInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*ContactData `json:"data,omitempty"`
+	Limit  int            `json:"limit"`
+	Size   *SizeInfo      `json:"size,omitempty"`
+	Data   []*ContactData `json:"data,omitempty"`
+	Next   interface{}    `json:"next,omitempty"`
+	Offset *int           `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -2169,9 +2179,11 @@ func (c *CountryData) String() string {
 
 // An affiliation of an entity with a given country through residence, nationality, etc.
 type CountryInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*CountryData `json:"data,omitempty"`
+	Limit  int            `json:"limit"`
+	Size   *SizeInfo      `json:"size,omitempty"`
+	Data   []*CountryData `json:"data,omitempty"`
+	Next   interface{}    `json:"next,omitempty"`
+	Offset *int           `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3024,9 +3036,11 @@ func (d *DateOfBirthData) String() string {
 
 // Birth date of a person
 type DateOfBirthInfo struct {
-	Limit int                `json:"limit"`
-	Size  *SizeInfo          `json:"size,omitempty"`
-	Data  []*DateOfBirthData `json:"data,omitempty"`
+	Limit  int                `json:"limit"`
+	Size   *SizeInfo          `json:"size,omitempty"`
+	Data   []*DateOfBirthData `json:"data,omitempty"`
+	Next   interface{}        `json:"next,omitempty"`
+	Offset *int               `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3087,58 +3101,58 @@ func (d *DateOfBirthProperties) String() string {
 type Entities string
 
 const (
+	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
+	EntitiesVessel Entities = "vessel"
 	// A generic placeholder entity. Rarely used.
 	EntitiesGeneric Entities = "generic"
-	// An unknown placeholder entity. Rarely used.
-	EntitiesUnknown Entities = "unknown"
-	// A trademark, patent, copyright, or similar type of intangible property
-	EntitiesIntellectualProperty Entities = "intellectual_property"
-	// A shipment between two entities
-	EntitiesShipment Entities = "shipment"
-	// A tradable financial asset
-	EntitiesSecurity Entities = "security"
-	// Land, real estate, real property, or personal property not categorized under another entity type
-	EntitiesProperty Entities = "property"
-	// A natural person (human being)
-	EntitiesPerson Entities = "person"
 	// A discretely registered name used by a person or company not operating under its legal name. This includes doing-business-as names, fictitious names, etc. in jurisdictions that treat them as registered objects distinct from the person/company using them.
 	EntitiesTradename Entities = "tradename"
 	// A legal entity or organization
 	EntitiesCompany Entities = "company"
-	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
-	EntitiesVessel Entities = "vessel"
+	// A tradable financial asset
+	EntitiesSecurity Entities = "security"
+	// An unknown placeholder entity. Rarely used.
+	EntitiesUnknown Entities = "unknown"
+	// A shipment between two entities
+	EntitiesShipment Entities = "shipment"
+	// A trademark, patent, copyright, or similar type of intangible property
+	EntitiesIntellectualProperty Entities = "intellectual_property"
+	// Land, real estate, real property, or personal property not categorized under another entity type
+	EntitiesProperty Entities = "property"
 	// A civil or criminal legal case or similar type of proceeding
 	EntitiesLegalMatter Entities = "legal_matter"
 	// An airplane, helicopter, etc.
 	EntitiesAircraft Entities = "aircraft"
+	// A natural person (human being)
+	EntitiesPerson Entities = "person"
 )
 
 func NewEntitiesFromString(s string) (Entities, error) {
 	switch s {
+	case "vessel":
+		return EntitiesVessel, nil
 	case "generic":
 		return EntitiesGeneric, nil
-	case "unknown":
-		return EntitiesUnknown, nil
-	case "intellectual_property":
-		return EntitiesIntellectualProperty, nil
-	case "shipment":
-		return EntitiesShipment, nil
-	case "security":
-		return EntitiesSecurity, nil
-	case "property":
-		return EntitiesProperty, nil
-	case "person":
-		return EntitiesPerson, nil
 	case "tradename":
 		return EntitiesTradename, nil
 	case "company":
 		return EntitiesCompany, nil
-	case "vessel":
-		return EntitiesVessel, nil
+	case "security":
+		return EntitiesSecurity, nil
+	case "unknown":
+		return EntitiesUnknown, nil
+	case "shipment":
+		return EntitiesShipment, nil
+	case "intellectual_property":
+		return EntitiesIntellectualProperty, nil
+	case "property":
+		return EntitiesProperty, nil
 	case "legal_matter":
 		return EntitiesLegalMatter, nil
 	case "aircraft":
 		return EntitiesAircraft, nil
+	case "person":
+		return EntitiesPerson, nil
 	}
 	var t Entities
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -3222,9 +3236,11 @@ func (f *FinancesData) String() string {
 
 // A financial figure, typically share capital
 type FinancesInfo struct {
-	Limit int             `json:"limit"`
-	Size  *SizeInfo       `json:"size,omitempty"`
-	Data  []*FinancesData `json:"data,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *SizeInfo       `json:"size,omitempty"`
+	Data   []*FinancesData `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3317,9 +3333,11 @@ func (f *FinancialsData) String() string {
 
 // A summary of financial information at one point in time
 type FinancialsInfo struct {
-	Limit int               `json:"limit"`
-	Size  *SizeInfo         `json:"size,omitempty"`
-	Data  []*FinancialsData `json:"data,omitempty"`
+	Limit  int               `json:"limit"`
+	Size   *SizeInfo         `json:"size,omitempty"`
+	Data   []*FinancialsData `json:"data,omitempty"`
+	Next   interface{}       `json:"next,omitempty"`
+	Offset *int              `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3442,9 +3460,11 @@ func (g *GenderData) String() string {
 
 // A person's gender
 type GenderInfo struct {
-	Limit int           `json:"limit"`
-	Size  *SizeInfo     `json:"size,omitempty"`
-	Data  []*GenderData `json:"data,omitempty"`
+	Limit  int           `json:"limit"`
+	Size   *SizeInfo     `json:"size,omitempty"`
+	Data   []*GenderData `json:"data,omitempty"`
+	Next   interface{}   `json:"next,omitempty"`
+	Offset *int          `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3534,9 +3554,11 @@ func (g *GenericData) String() string {
 
 // A placeholder attribute. Rarely used.
 type GenericInfo struct {
-	Limit int            `json:"limit"`
-	Size  *SizeInfo      `json:"size,omitempty"`
-	Data  []*GenericData `json:"data,omitempty"`
+	Limit  int            `json:"limit"`
+	Size   *SizeInfo      `json:"size,omitempty"`
+	Data   []*GenericData `json:"data,omitempty"`
+	Next   interface{}    `json:"next,omitempty"`
+	Offset *int           `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3627,9 +3649,11 @@ func (i *IdentifierData) String() string {
 
 // An ID number that uniquely identifies one entity when value and type are taken into account.
 type IdentifierInfo struct {
-	Limit int               `json:"limit"`
-	Size  *SizeInfo         `json:"size,omitempty"`
-	Data  []*IdentifierData `json:"data,omitempty"`
+	Limit  int               `json:"limit"`
+	Size   *SizeInfo         `json:"size,omitempty"`
+	Data   []*IdentifierData `json:"data,omitempty"`
+	Next   interface{}       `json:"next,omitempty"`
+	Offset *int              `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -6640,9 +6664,11 @@ func (m *MeasurementData) String() string {
 
 // A numerical representation in a standard unit of some dimension of an entity, for example, weight
 type MeasurementInfo struct {
-	Limit int                `json:"limit"`
-	Size  *SizeInfo          `json:"size,omitempty"`
-	Data  []*MeasurementData `json:"data,omitempty"`
+	Limit  int                `json:"limit"`
+	Size   *SizeInfo          `json:"size,omitempty"`
+	Data   []*MeasurementData `json:"data,omitempty"`
+	Next   interface{}        `json:"next,omitempty"`
+	Offset *int               `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -6786,9 +6812,11 @@ func (m *MonetaryValueData) String() string {
 
 // The financial value of an asset (e.g. FOB, CIF)
 type MonetaryValueInfo struct {
-	Limit int                  `json:"limit"`
-	Size  *SizeInfo            `json:"size,omitempty"`
-	Data  []*MonetaryValueData `json:"data,omitempty"`
+	Limit  int                  `json:"limit"`
+	Size   *SizeInfo            `json:"size,omitempty"`
+	Data   []*MonetaryValueData `json:"data,omitempty"`
+	Next   interface{}          `json:"next,omitempty"`
+	Offset *int                 `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -6921,9 +6949,11 @@ func (n *NameData) String() string {
 
 // An entity's name. The value may be straightforward (e.g. 'Acme LLC,' 'John Doe') or context-specific (e.g. 'Jones v. Smith' as a legal matter name).
 type NameInfo struct {
-	Limit int         `json:"limit"`
-	Size  *SizeInfo   `json:"size,omitempty"`
-	Data  []*NameData `json:"data,omitempty"`
+	Limit  int         `json:"limit"`
+	Size   *SizeInfo   `json:"size,omitempty"`
+	Data   []*NameData `json:"data,omitempty"`
+	Next   interface{} `json:"next,omitempty"`
+	Offset *int        `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7043,9 +7073,11 @@ func (p *PersonStatusData) String() string {
 
 // A key event in a person's life, usually temporal
 type PersonStatusInfo struct {
-	Limit int                 `json:"limit"`
-	Size  *SizeInfo           `json:"size,omitempty"`
-	Data  []*PersonStatusData `json:"data,omitempty"`
+	Limit  int                 `json:"limit"`
+	Size   *SizeInfo           `json:"size,omitempty"`
+	Data   []*PersonStatusData `json:"data,omitempty"`
+	Next   interface{}         `json:"next,omitempty"`
+	Offset *int                `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7135,9 +7167,11 @@ func (p *PositionData) String() string {
 
 // An attribute used for many different relationship types that allows for the inclusion of a title or designation (e.g. member_of_the_board_of, Position: 'Secretary of the Board,' or shareholder_of, Position: 'Minority shareholder')
 type PositionInfo struct {
-	Limit int             `json:"limit"`
-	Size  *SizeInfo       `json:"size,omitempty"`
-	Data  []*PositionData `json:"data,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *SizeInfo       `json:"size,omitempty"`
+	Data   []*PositionData `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7227,9 +7261,11 @@ func (r *RiskIntelligenceData) String() string {
 
 // Risk intelligence metadata
 type RiskIntelligenceInfo struct {
-	Limit int                     `json:"limit"`
-	Size  *SizeInfo               `json:"size,omitempty"`
-	Data  []*RiskIntelligenceData `json:"data,omitempty"`
+	Limit  int                     `json:"limit"`
+	Size   *SizeInfo               `json:"size,omitempty"`
+	Data   []*RiskIntelligenceData `json:"data,omitempty"`
+	Next   interface{}             `json:"next,omitempty"`
+	Offset *int                    `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7323,9 +7359,11 @@ func (s *SharesData) String() string {
 
 // Shares associated with an entity (e.g. its number of issued shares, or the number of shares held by a shareholder)
 type SharesInfo struct {
-	Limit int           `json:"limit"`
-	Size  *SizeInfo     `json:"size,omitempty"`
-	Data  []*SharesData `json:"data,omitempty"`
+	Limit  int           `json:"limit"`
+	Size   *SizeInfo     `json:"size,omitempty"`
+	Data   []*SharesData `json:"data,omitempty"`
+	Next   interface{}   `json:"next,omitempty"`
+	Offset *int          `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7456,9 +7494,11 @@ func (s *StatusData) String() string {
 
 // The status of an entity.
 type StatusInfo struct {
-	Limit int           `json:"limit"`
-	Size  *SizeInfo     `json:"size,omitempty"`
-	Data  []*StatusData `json:"data,omitempty"`
+	Limit  int           `json:"limit"`
+	Size   *SizeInfo     `json:"size,omitempty"`
+	Data   []*StatusData `json:"data,omitempty"`
+	Next   interface{}   `json:"next,omitempty"`
+	Offset *int          `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7624,9 +7664,11 @@ func (t *TranslatedNameData) String() string {
 
 // A name that has been translated to English
 type TranslatedNameInfo struct {
-	Limit int                   `json:"limit"`
-	Size  *SizeInfo             `json:"size,omitempty"`
-	Data  []*TranslatedNameData `json:"data,omitempty"`
+	Limit  int                   `json:"limit"`
+	Size   *SizeInfo             `json:"size,omitempty"`
+	Data   []*TranslatedNameData `json:"data,omitempty"`
+	Next   interface{}           `json:"next,omitempty"`
+	Offset *int                  `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7773,9 +7815,11 @@ func (w *WeakIdentifierData) String() string {
 
 // A non-unique ID number, like a partially redacted tax ID or a registry identifier whose value and type may be shared by multiple entities
 type WeakIdentifierInfo struct {
-	Limit int                   `json:"limit"`
-	Size  *SizeInfo             `json:"size,omitempty"`
-	Data  []*WeakIdentifierData `json:"data,omitempty"`
+	Limit  int                   `json:"limit"`
+	Size   *SizeInfo             `json:"size,omitempty"`
+	Data   []*WeakIdentifierData `json:"data,omitempty"`
+	Next   interface{}           `json:"next,omitempty"`
+	Offset *int                  `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8312,9 +8356,44 @@ func (u *UsageInfo) String() string {
 	return fmt.Sprintf("%#v", u)
 }
 
+type RecordReferences struct {
+	Limit  int         `json:"limit"`
+	Size   *SizeInfo   `json:"size,omitempty"`
+	Next   bool        `json:"next"`
+	Offset int         `json:"offset"`
+	Data   interface{} `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RecordReferences) UnmarshalJSON(data []byte) error {
+	type unmarshaler RecordReferences
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RecordReferences(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RecordReferences) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
 type MatchExplanation struct {
-	Matched  *string `json:"matched,omitempty"`
-	Uploaded *string `json:"uploaded,omitempty"`
+	Matched              *string  `json:"matched,omitempty"`
+	Uploaded             *string  `json:"uploaded,omitempty"`
+	NameCustomTfIdfScore *float64 `json:"nameCustomTfIdfScore,omitempty"`
+	HighQualityMatchName *bool    `json:"highQualityMatchName,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8378,18 +8457,19 @@ func (r *ResolutionResponseFields) String() string {
 }
 
 type ResolutionResult struct {
-	Score          float64                        `json:"score"`
-	EntityId       string                         `json:"entity_id"`
-	Label          string                         `json:"label"`
-	Type           Entities                       `json:"type,omitempty"`
-	Identifiers    []*Identifier                  `json:"identifiers,omitempty"`
-	PsaId          *int                           `json:"psa_id,omitempty"`
-	Addresses      []string                       `json:"addresses,omitempty"`
-	Countries      []Country                      `json:"countries,omitempty"`
-	Sources        []string                       `json:"sources,omitempty"`
-	MatchedQueries []string                       `json:"matched_queries,omitempty"`
-	Highlight      map[string][]string            `json:"highlight,omitempty"`
-	Explanation    map[string][]*MatchExplanation `json:"explanation,omitempty"`
+	Score               float64                        `json:"score"`
+	EntityId            string                         `json:"entity_id"`
+	Label               string                         `json:"label"`
+	Type                Entities                       `json:"type,omitempty"`
+	Identifiers         []*Identifier                  `json:"identifiers,omitempty"`
+	PsaId               *float64                       `json:"psa_id,omitempty"`
+	Addresses           []string                       `json:"addresses,omitempty"`
+	Countries           []Country                      `json:"countries,omitempty"`
+	Sources             []string                       `json:"sources,omitempty"`
+	TypedMatchedQueries []string                       `json:"typed_matched_queries,omitempty"`
+	MatchedQueries      []string                       `json:"matched_queries,omitempty"`
+	Highlight           map[string][]string            `json:"highlight,omitempty"`
+	Explanation         map[string][]*MatchExplanation `json:"explanation,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8415,6 +8495,95 @@ func (r *ResolutionResult) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
+}
+
+type Coordinates struct {
+	Lat     float64 `json:"lat"`
+	Lng     float64 `json:"lng"`
+	Address string  `json:"address"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *Coordinates) UnmarshalJSON(data []byte) error {
+	type unmarshaler Coordinates
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = Coordinates(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *Coordinates) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+type SearchResults struct {
+	Id                EntityId                `json:"id"`
+	Label             EntityLabel             `json:"label"`
+	Degree            EntityDegree            `json:"degree"`
+	Closed            EntityClosed            `json:"closed"`
+	EntityUrl         EntityUrl               `json:"entity_url"`
+	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
+	PsaCount          EntityPsaCount          `json:"psa_count"`
+	Sanctioned        EntitySanctioned        `json:"sanctioned"`
+	Type              Entities                `json:"type,omitempty"`
+	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
+	Countries         []Country               `json:"countries,omitempty"`
+	SourceCount       SourceCount             `json:"source_count,omitempty"`
+	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
+	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType       *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus      *Status                 `json:"latest_status,omitempty"`
+	Risk              EntityRisk              `json:"risk,omitempty"`
+	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
+	Coordinates       []*Coordinates          `json:"coordinates,omitempty"`
+	Matches           EntityMatches           `json:"matches,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SearchResults) UnmarshalJSON(data []byte) error {
+	type unmarshaler SearchResults
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SearchResults(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SearchResults) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 // Bad gateway
@@ -8573,6 +8742,7 @@ type EmbeddedEntity struct {
 	Closed            EntityClosed            `json:"closed"`
 	EntityUrl         EntityUrl               `json:"entity_url"`
 	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
 	PsaCount          EntityPsaCount          `json:"psa_count"`
 	Sanctioned        EntitySanctioned        `json:"sanctioned"`
 	Type              Entities                `json:"type,omitempty"`
@@ -8629,6 +8799,7 @@ type EntityDetails struct {
 	Closed            EntityClosed            `json:"closed"`
 	EntityUrl         EntityUrl               `json:"entity_url"`
 	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
 	PsaCount          EntityPsaCount          `json:"psa_count"`
 	Sanctioned        EntitySanctioned        `json:"sanctioned"`
 	Type              Entities                `json:"type,omitempty"`
@@ -8650,7 +8821,6 @@ type EntityDetails struct {
 	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
 	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Matches           *EntityMatches          `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8786,6 +8956,7 @@ type PsaEntity struct {
 	Closed            EntityClosed            `json:"closed"`
 	EntityUrl         EntityUrl               `json:"entity_url"`
 	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
 	PsaCount          EntityPsaCount          `json:"psa_count"`
 	Sanctioned        EntitySanctioned        `json:"sanctioned"`
 	Type              Entities                `json:"type,omitempty"`
@@ -8796,6 +8967,9 @@ type PsaEntity struct {
 	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
 	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
 	Risk              EntityRisk              `json:"risk,omitempty"`
+	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
+	CompanyType       *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus      *Status                 `json:"latest_status,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8825,9 +8999,11 @@ func (p *PsaEntity) String() string {
 
 // List of entities that are Possibly the Same As (PSA) the entity.
 type PossiblySameAs struct {
-	Limit int                   `json:"limit"`
-	Size  *SizeInfo             `json:"size,omitempty"`
-	Data  []*PossiblySameAsData `json:"data,omitempty"`
+	Limit  int                   `json:"limit"`
+	Size   *SizeInfo             `json:"size,omitempty"`
+	Offset *int                  `json:"offset,omitempty"`
+	Next   *bool                 `json:"next,omitempty"`
+	Data   []*PossiblySameAsData `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8925,6 +9101,7 @@ type RecordDetails struct {
 	ReferencesCount int                 `json:"references_count"`
 	RecordUrl       string              `json:"record_url"`
 	SourceUrl       *string             `json:"source_url,omitempty"`
+	DocumentUrls    []string            `json:"document_urls,omitempty"`
 	Matches         map[string][]string `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
@@ -8958,9 +9135,11 @@ type RecordId = string
 
 // List of records that reference the entity.
 type ReferencedBy struct {
-	Limit int                 `json:"limit"`
-	Size  *SizeInfo           `json:"size,omitempty"`
-	Data  []*ReferencedByData `json:"data,omitempty"`
+	Limit  int                 `json:"limit"`
+	Size   *SizeInfo           `json:"size,omitempty"`
+	Offset *int                `json:"offset,omitempty"`
+	Next   interface{}         `json:"next,omitempty"`
+	Data   []*ReferencedByData `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9071,12 +9250,14 @@ func (r *RelationshipAttributeValue) String() string {
 }
 
 type RelationshipData struct {
-	Target        *EmbeddedEntity   `json:"target,omitempty"`
+	Target        *EntityDetails    `json:"target,omitempty"`
 	Types         RelationshipTypes `json:"types,omitempty"`
 	Dates         []string          `json:"dates,omitempty"`
 	FirstObserved *string           `json:"first_observed,omitempty"`
+	Former        *bool             `json:"former,omitempty"`
 	LastObserved  *string           `json:"last_observed,omitempty"`
 	StartDate     *string           `json:"start_date,omitempty"`
+	EndDate       *string           `json:"end_date,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9105,10 +9286,14 @@ func (r *RelationshipData) String() string {
 }
 
 type RelationshipInfo struct {
+	Editable        *bool                                        `json:"editable,omitempty"`
 	Record          string                                       `json:"record"`
 	Attributes      map[Attributes][]*RelationshipAttributeValue `json:"attributes,omitempty"`
+	Date            *string                                      `json:"date,omitempty"`
 	FromDate        *string                                      `json:"from_date,omitempty"`
+	ToDate          *string                                      `json:"to_date,omitempty"`
 	AcquisitionDate string                                       `json:"acquisition_date"`
+	Former          *bool                                        `json:"former,omitempty"`
 	PublicationDate *string                                      `json:"publication_date,omitempty"`
 
 	_rawJSON json.RawMessage
@@ -9547,8 +9732,49 @@ func (s *Status) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
+type Source struct {
+	Id          string  `json:"id"`
+	Label       string  `json:"label"`
+	Description string  `json:"description"`
+	Country     Country `json:"country,omitempty"`
+	Region      string  `json:"region"`
+	DateAdded   string  `json:"date_added"`
+	SourceType  string  `json:"source_type"`
+	RecordType  string  `json:"record_type"`
+	Structure   string  `json:"structure"`
+	SourceUrl   *string `json:"source_url,omitempty"`
+	Pep         bool    `json:"pep"`
+	Watchlist   bool    `json:"watchlist"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *Source) UnmarshalJSON(data []byte) error {
+	type unmarshaler Source
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Source(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Source) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
 type Aggregations struct {
-	ByVolume []*VolumeAggregates `json:"byVolume,omitempty"`
+	ByVolume    []*VolumeAggregates `json:"byVolume,omitempty"`
+	EntityCount []interface{}       `json:"entityCount,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9863,6 +10089,7 @@ type SourceOrDestinationEntity struct {
 	Name            []string             `json:"name,omitempty"`
 	BusinessPurpose []*BusinessPurpose   `json:"business_purpose,omitempty"`
 	Country         []Country            `json:"country,omitempty"`
+	Date            *string              `json:"date,omitempty"`
 	EntityId        EntityId             `json:"entity_id"`
 	Type            Relationships        `json:"type,omitempty"`
 
@@ -9899,6 +10126,7 @@ type Supplier struct {
 	Closed            EntityClosed            `json:"closed"`
 	EntityUrl         EntityUrl               `json:"entity_url"`
 	Pep               EntityPep               `json:"pep"`
+	PsaId             *string                 `json:"psa_id,omitempty"`
 	PsaCount          EntityPsaCount          `json:"psa_count"`
 	Sanctioned        EntitySanctioned        `json:"sanctioned"`
 	Type              Entities                `json:"type,omitempty"`
@@ -9920,7 +10148,6 @@ type Supplier struct {
 	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
 	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
 	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Matches           *EntityMatches          `json:"matches,omitempty"`
 	Metadata          *SupplierMetadata       `json:"metadata,omitempty"`
 
 	_rawJSON json.RawMessage
@@ -10072,6 +10299,7 @@ func (w *Weight) String() string {
 }
 
 type ShortestPathData struct {
+	Source string           `json:"source"`
 	Target *EntityDetails   `json:"target,omitempty"`
 	Path   []*TraversalPath `json:"path,omitempty"`
 
@@ -10165,7 +10393,10 @@ func (t *TraversalPath) String() string {
 
 type TraversalRelationshipData struct {
 	Values       []*RelationshipInfo `json:"values,omitempty"`
+	Former       *bool               `json:"former,omitempty"`
+	StartDate    *string             `json:"start_date,omitempty"`
 	LastObserved *string             `json:"last_observed,omitempty"`
+	EndDate      *string             `json:"end_date,omitempty"`
 
 	_rawJSON json.RawMessage
 }

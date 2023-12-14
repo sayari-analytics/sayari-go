@@ -34,7 +34,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 }
 
 // Returns metadata for all sources that Sayari collects data from
-func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSources) (*generatedgo.SourceList, error) {
+func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSources) (*generatedgo.ListSourcesResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -99,7 +99,7 @@ func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSourc
 		return apiError
 	}
 
-	var response *generatedgo.SourceList
+	var response *generatedgo.ListSourcesResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -116,7 +116,7 @@ func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSourc
 }
 
 // Returns metadata for a source that Sayari collects data from
-func (c *Client) GetSource(ctx context.Context, id generatedgo.SourceId) (*generatedgo.Source, error) {
+func (c *Client) GetSource(ctx context.Context, id generatedgo.SourceId) (*generatedgo.GetSourceResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -177,7 +177,7 @@ func (c *Client) GetSource(ctx context.Context, id generatedgo.SourceId) (*gener
 		return apiError
 	}
 
-	var response *generatedgo.Source
+	var response *generatedgo.GetSourceResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

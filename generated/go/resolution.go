@@ -25,6 +25,7 @@ type Resolution struct {
 	Type []*Entities `json:"-"`
 }
 
+// OK
 type ResolutionResponse struct {
 	Fields *ResolutionResponseFields `json:"fields,omitempty"`
 	Data   []*ResolutionResult       `json:"data,omitempty"`

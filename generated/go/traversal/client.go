@@ -212,12 +212,95 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 }
 
 // The UBO endpoint returns paths from a single target entity to up to 50 beneficial owners. The endpoint is a shorthand for the equivalent traversal query.
-func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId) (*generatedgo.TraversalResponse, error) {
+func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId, request *generatedgo.Ubo) (*generatedgo.TraversalResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/ubo/%v", id)
+
+	queryParams := make(url.Values)
+	if request.Limit != nil {
+		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
+	}
+	if request.Offset != nil {
+		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
+	}
+	if request.MinDepth != nil {
+		queryParams.Add("min_depth", fmt.Sprintf("%v", *request.MinDepth))
+	}
+	if request.MaxDepth != nil {
+		queryParams.Add("max_depth", fmt.Sprintf("%v", *request.MaxDepth))
+	}
+	if request.Psa != nil {
+		queryParams.Add("psa", fmt.Sprintf("%v", *request.Psa))
+	}
+	for _, value := range request.Countries {
+		queryParams.Add("countries", fmt.Sprintf("%v", *value))
+	}
+	for _, value := range request.Types {
+		queryParams.Add("types", fmt.Sprintf("%v", *value))
+	}
+	if request.Sanctioned != nil {
+		queryParams.Add("sanctioned", fmt.Sprintf("%v", *request.Sanctioned))
+	}
+	if request.Pep != nil {
+		queryParams.Add("pep", fmt.Sprintf("%v", *request.Pep))
+	}
+	if request.MinShares != nil {
+		queryParams.Add("min_shares", fmt.Sprintf("%v", *request.MinShares))
+	}
+	if request.IncludeUnknownShares != nil {
+		queryParams.Add("include_unknown_shares", fmt.Sprintf("%v", *request.IncludeUnknownShares))
+	}
+	if request.ExcludeFormerRelationships != nil {
+		queryParams.Add("exclude_former_relationships", fmt.Sprintf("%v", *request.ExcludeFormerRelationships))
+	}
+	if request.ExcludeClosedEntities != nil {
+		queryParams.Add("exclude_closed_entities", fmt.Sprintf("%v", *request.ExcludeClosedEntities))
+	}
+	if request.EuHighRiskThird != nil {
+		queryParams.Add("eu_high_risk_third", fmt.Sprintf("%v", *request.EuHighRiskThird))
+	}
+	if request.ReputationalRiskModernSlavery != nil {
+		queryParams.Add("reputational_risk_modern_slavery", fmt.Sprintf("%v", *request.ReputationalRiskModernSlavery))
+	}
+	if request.StateOwned != nil {
+		queryParams.Add("state_owned", fmt.Sprintf("%v", *request.StateOwned))
+	}
+	if request.FormerlySanctioned != nil {
+		queryParams.Add("formerly_sanctioned", fmt.Sprintf("%v", *request.FormerlySanctioned))
+	}
+	if request.ReputationalRiskTerrorism != nil {
+		queryParams.Add("reputational_risk_terrorism", fmt.Sprintf("%v", *request.ReputationalRiskTerrorism))
+	}
+	if request.ReputationalRiskOrganizedCrime != nil {
+		queryParams.Add("reputational_risk_organized_crime", fmt.Sprintf("%v", *request.ReputationalRiskOrganizedCrime))
+	}
+	if request.ReputationalRiskFinancialCrime != nil {
+		queryParams.Add("reputational_risk_financial_crime", fmt.Sprintf("%v", *request.ReputationalRiskFinancialCrime))
+	}
+	if request.ReputationalRiskBriberyAndCorruption != nil {
+		queryParams.Add("reputational_risk_bribery_and_corruption", fmt.Sprintf("%v", *request.ReputationalRiskBriberyAndCorruption))
+	}
+	if request.ReputationalRiskOther != nil {
+		queryParams.Add("reputational_risk_other", fmt.Sprintf("%v", *request.ReputationalRiskOther))
+	}
+	if request.ReputationalRiskCybercrime != nil {
+		queryParams.Add("reputational_risk_cybercrime", fmt.Sprintf("%v", *request.ReputationalRiskCybercrime))
+	}
+	if request.RegulatoryAction != nil {
+		queryParams.Add("regulatory_action", fmt.Sprintf("%v", *request.RegulatoryAction))
+	}
+	if request.LawEnforcementAction != nil {
+		queryParams.Add("law_enforcement_action", fmt.Sprintf("%v", *request.LawEnforcementAction))
+	}
+	if request.XinjiangGeospatial != nil {
+		queryParams.Add("xinjiang_geospatial", fmt.Sprintf("%v", *request.XinjiangGeospatial))
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -304,12 +387,95 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId) (*generatedgo
 }
 
 // The Ownership endpoint returns paths from a single target entity to up to 50 entities directly or indirectly owned by that entity. The endpoint is a shorthand for the equivalent traversal query.
-func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId) (*generatedgo.TraversalResponse, error) {
+func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId, request *generatedgo.Ownership) (*generatedgo.TraversalResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/downstream/%v", id)
+
+	queryParams := make(url.Values)
+	if request.Limit != nil {
+		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
+	}
+	if request.Offset != nil {
+		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
+	}
+	if request.MinDepth != nil {
+		queryParams.Add("min_depth", fmt.Sprintf("%v", *request.MinDepth))
+	}
+	if request.MaxDepth != nil {
+		queryParams.Add("max_depth", fmt.Sprintf("%v", *request.MaxDepth))
+	}
+	if request.Psa != nil {
+		queryParams.Add("psa", fmt.Sprintf("%v", *request.Psa))
+	}
+	for _, value := range request.Countries {
+		queryParams.Add("countries", fmt.Sprintf("%v", *value))
+	}
+	for _, value := range request.Types {
+		queryParams.Add("types", fmt.Sprintf("%v", *value))
+	}
+	if request.Sanctioned != nil {
+		queryParams.Add("sanctioned", fmt.Sprintf("%v", *request.Sanctioned))
+	}
+	if request.Pep != nil {
+		queryParams.Add("pep", fmt.Sprintf("%v", *request.Pep))
+	}
+	if request.MinShares != nil {
+		queryParams.Add("min_shares", fmt.Sprintf("%v", *request.MinShares))
+	}
+	if request.IncludeUnknownShares != nil {
+		queryParams.Add("include_unknown_shares", fmt.Sprintf("%v", *request.IncludeUnknownShares))
+	}
+	if request.ExcludeFormerRelationships != nil {
+		queryParams.Add("exclude_former_relationships", fmt.Sprintf("%v", *request.ExcludeFormerRelationships))
+	}
+	if request.ExcludeClosedEntities != nil {
+		queryParams.Add("exclude_closed_entities", fmt.Sprintf("%v", *request.ExcludeClosedEntities))
+	}
+	if request.EuHighRiskThird != nil {
+		queryParams.Add("eu_high_risk_third", fmt.Sprintf("%v", *request.EuHighRiskThird))
+	}
+	if request.ReputationalRiskModernSlavery != nil {
+		queryParams.Add("reputational_risk_modern_slavery", fmt.Sprintf("%v", *request.ReputationalRiskModernSlavery))
+	}
+	if request.StateOwned != nil {
+		queryParams.Add("state_owned", fmt.Sprintf("%v", *request.StateOwned))
+	}
+	if request.FormerlySanctioned != nil {
+		queryParams.Add("formerly_sanctioned", fmt.Sprintf("%v", *request.FormerlySanctioned))
+	}
+	if request.ReputationalRiskTerrorism != nil {
+		queryParams.Add("reputational_risk_terrorism", fmt.Sprintf("%v", *request.ReputationalRiskTerrorism))
+	}
+	if request.ReputationalRiskOrganizedCrime != nil {
+		queryParams.Add("reputational_risk_organized_crime", fmt.Sprintf("%v", *request.ReputationalRiskOrganizedCrime))
+	}
+	if request.ReputationalRiskFinancialCrime != nil {
+		queryParams.Add("reputational_risk_financial_crime", fmt.Sprintf("%v", *request.ReputationalRiskFinancialCrime))
+	}
+	if request.ReputationalRiskBriberyAndCorruption != nil {
+		queryParams.Add("reputational_risk_bribery_and_corruption", fmt.Sprintf("%v", *request.ReputationalRiskBriberyAndCorruption))
+	}
+	if request.ReputationalRiskOther != nil {
+		queryParams.Add("reputational_risk_other", fmt.Sprintf("%v", *request.ReputationalRiskOther))
+	}
+	if request.ReputationalRiskCybercrime != nil {
+		queryParams.Add("reputational_risk_cybercrime", fmt.Sprintf("%v", *request.ReputationalRiskCybercrime))
+	}
+	if request.RegulatoryAction != nil {
+		queryParams.Add("regulatory_action", fmt.Sprintf("%v", *request.RegulatoryAction))
+	}
+	if request.LawEnforcementAction != nil {
+		queryParams.Add("law_enforcement_action", fmt.Sprintf("%v", *request.LawEnforcementAction))
+	}
+	if request.XinjiangGeospatial != nil {
+		queryParams.Add("xinjiang_geospatial", fmt.Sprintf("%v", *request.XinjiangGeospatial))
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -396,12 +562,98 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId) (*gener
 }
 
 // The Watchlist endpoint returns paths from a single target entity to up to 50 other entities that appear on a watchlist or are peps. The endpoint is a shorthand for the equivalent traversal query.
-func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId) (*generatedgo.TraversalResponse, error) {
+func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId, request *generatedgo.Watchlist) (*generatedgo.TraversalResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/watchlist/%v", id)
+
+	queryParams := make(url.Values)
+	if request.Limit != nil {
+		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
+	}
+	if request.Offset != nil {
+		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
+	}
+	if request.MinDepth != nil {
+		queryParams.Add("min_depth", fmt.Sprintf("%v", *request.MinDepth))
+	}
+	if request.MaxDepth != nil {
+		queryParams.Add("max_depth", fmt.Sprintf("%v", *request.MaxDepth))
+	}
+	for _, value := range request.Relationships {
+		queryParams.Add("relationships", fmt.Sprintf("%v", *value))
+	}
+	if request.Psa != nil {
+		queryParams.Add("psa", fmt.Sprintf("%v", *request.Psa))
+	}
+	for _, value := range request.Countries {
+		queryParams.Add("countries", fmt.Sprintf("%v", *value))
+	}
+	for _, value := range request.Types {
+		queryParams.Add("types", fmt.Sprintf("%v", *value))
+	}
+	if request.Sanctioned != nil {
+		queryParams.Add("sanctioned", fmt.Sprintf("%v", *request.Sanctioned))
+	}
+	if request.Pep != nil {
+		queryParams.Add("pep", fmt.Sprintf("%v", *request.Pep))
+	}
+	if request.MinShares != nil {
+		queryParams.Add("min_shares", fmt.Sprintf("%v", *request.MinShares))
+	}
+	if request.IncludeUnknownShares != nil {
+		queryParams.Add("include_unknown_shares", fmt.Sprintf("%v", *request.IncludeUnknownShares))
+	}
+	if request.ExcludeFormerRelationships != nil {
+		queryParams.Add("exclude_former_relationships", fmt.Sprintf("%v", *request.ExcludeFormerRelationships))
+	}
+	if request.ExcludeClosedEntities != nil {
+		queryParams.Add("exclude_closed_entities", fmt.Sprintf("%v", *request.ExcludeClosedEntities))
+	}
+	if request.EuHighRiskThird != nil {
+		queryParams.Add("eu_high_risk_third", fmt.Sprintf("%v", *request.EuHighRiskThird))
+	}
+	if request.ReputationalRiskModernSlavery != nil {
+		queryParams.Add("reputational_risk_modern_slavery", fmt.Sprintf("%v", *request.ReputationalRiskModernSlavery))
+	}
+	if request.StateOwned != nil {
+		queryParams.Add("state_owned", fmt.Sprintf("%v", *request.StateOwned))
+	}
+	if request.FormerlySanctioned != nil {
+		queryParams.Add("formerly_sanctioned", fmt.Sprintf("%v", *request.FormerlySanctioned))
+	}
+	if request.ReputationalRiskTerrorism != nil {
+		queryParams.Add("reputational_risk_terrorism", fmt.Sprintf("%v", *request.ReputationalRiskTerrorism))
+	}
+	if request.ReputationalRiskOrganizedCrime != nil {
+		queryParams.Add("reputational_risk_organized_crime", fmt.Sprintf("%v", *request.ReputationalRiskOrganizedCrime))
+	}
+	if request.ReputationalRiskFinancialCrime != nil {
+		queryParams.Add("reputational_risk_financial_crime", fmt.Sprintf("%v", *request.ReputationalRiskFinancialCrime))
+	}
+	if request.ReputationalRiskBriberyAndCorruption != nil {
+		queryParams.Add("reputational_risk_bribery_and_corruption", fmt.Sprintf("%v", *request.ReputationalRiskBriberyAndCorruption))
+	}
+	if request.ReputationalRiskOther != nil {
+		queryParams.Add("reputational_risk_other", fmt.Sprintf("%v", *request.ReputationalRiskOther))
+	}
+	if request.ReputationalRiskCybercrime != nil {
+		queryParams.Add("reputational_risk_cybercrime", fmt.Sprintf("%v", *request.ReputationalRiskCybercrime))
+	}
+	if request.RegulatoryAction != nil {
+		queryParams.Add("regulatory_action", fmt.Sprintf("%v", *request.RegulatoryAction))
+	}
+	if request.LawEnforcementAction != nil {
+		queryParams.Add("law_enforcement_action", fmt.Sprintf("%v", *request.LawEnforcementAction))
+	}
+	if request.XinjiangGeospatial != nil {
+		queryParams.Add("xinjiang_geospatial", fmt.Sprintf("%v", *request.XinjiangGeospatial))
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)

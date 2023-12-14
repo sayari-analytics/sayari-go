@@ -18,7 +18,8 @@ type ListSources struct {
 // The unique identifier for a source in the database
 type SourceId = string
 
-type Source struct {
+// OK
+type GetSourceResponse struct {
 	Id          string  `json:"id"`
 	Label       string  `json:"label"`
 	Description string  `json:"description"`
@@ -35,30 +36,31 @@ type Source struct {
 	_rawJSON json.RawMessage
 }
 
-func (s *Source) UnmarshalJSON(data []byte) error {
-	type unmarshaler Source
+func (g *GetSourceResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler GetSourceResponse
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = Source(value)
-	s._rawJSON = json.RawMessage(data)
+	*g = GetSourceResponse(value)
+	g._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (s *Source) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+func (g *GetSourceResponse) String() string {
+	if len(g._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := core.StringifyJSON(g); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", s)
+	return fmt.Sprintf("%#v", g)
 }
 
-type SourceList struct {
+// OK
+type ListSourcesResponse struct {
 	Limit  int       `json:"limit"`
 	Size   *SizeInfo `json:"size,omitempty"`
 	Offset int       `json:"offset"`
@@ -68,25 +70,25 @@ type SourceList struct {
 	_rawJSON json.RawMessage
 }
 
-func (s *SourceList) UnmarshalJSON(data []byte) error {
-	type unmarshaler SourceList
+func (l *ListSourcesResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListSourcesResponse
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SourceList(value)
-	s._rawJSON = json.RawMessage(data)
+	*l = ListSourcesResponse(value)
+	l._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (s *SourceList) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+func (l *ListSourcesResponse) String() string {
+	if len(l._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(l._rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := core.StringifyJSON(l); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", s)
+	return fmt.Sprintf("%#v", l)
 }

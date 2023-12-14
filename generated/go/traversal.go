@@ -8,6 +8,61 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
+type Ownership struct {
+	// Limit total values for traversal. Defaults to 20. Max of 50.
+	Limit *int `json:"-"`
+	// Offset values for traversal. Defaults to 0.
+	Offset *int `json:"-"`
+	// Set minimum depth for traversal. Defaults to 1.
+	MinDepth *int `json:"-"`
+	// Set maximum depth for traversal. Defaults to 6.
+	MaxDepth *int `json:"-"`
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	Psa *bool `json:"-"`
+	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any country.
+	Countries []*Country `json:"-"`
+	// Filter paths to only those that end at an entity of the specified type(s). Defaults to returning paths that end at any type.
+	Types []*Entities `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a watchlist. Defaults to not filtering paths by sanctioned status.
+	Sanctioned *bool `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a pep list. Defaults to not filtering paths by pep status.
+	Pep *bool `json:"-"`
+	// Set minimum percentage of share ownership for traversal. Defaults to 0.
+	MinShares *int `json:"-"`
+	// Also traverse relationships when share percentages are unknown. Only useful when min_shares is set greater than 0. Defaults to true.
+	IncludeUnknownShares *bool `json:"-"`
+	// Include relationships that were valid in the past but not at the present time. Defaults to false.
+	ExcludeFormerRelationships *bool `json:"-"`
+	// Include entities that existed in the past but not at the present time. Defaults to false.
+	ExcludeClosedEntities *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	EuHighRiskThird *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskModernSlavery *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	StateOwned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	FormerlySanctioned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskTerrorism *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOrganizedCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskFinancialCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskBriberyAndCorruption *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOther *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskCybercrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	RegulatoryAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	LawEnforcementAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	XinjiangGeospatial *bool `json:"-"`
+}
+
 type ShortestPath struct {
 	Entities []string `json:"-"`
 }
@@ -72,199 +127,103 @@ type Traversal struct {
 type Relationships string
 
 const (
-	RelationshipsSoleProprietorOf          Relationships = "sole_proprietor_of"
-	RelationshipsHasSoleProprietor         Relationships = "has_sole_proprietor"
-	RelationshipsLawyerOf                  Relationships = "lawyer_of"
-	RelationshipsHasLawyer                 Relationships = "has_lawyer"
-	RelationshipsGeneric                   Relationships = "generic"
-	RelationshipsSecretaryOf               Relationships = "secretary_of"
-	RelationshipsHasSecretary              Relationships = "has_secretary"
-	RelationshipsReceiverOf                Relationships = "receiver_of"
-	RelationshipsReceivedBy                Relationships = "received_by"
-	RelationshipsLegalRepresentativeOf     Relationships = "legal_representative_of"
-	RelationshipsHasLegalRepresentative    Relationships = "has_legal_representative"
-	RelationshipsLiquidatorOf              Relationships = "liquidator_of"
-	RelationshipsHasLiquidator             Relationships = "has_liquidator"
 	RelationshipsLegalSuccessorOf          Relationships = "legal_successor_of"
 	RelationshipsHasLegalSuccessor         Relationships = "has_legal_successor"
-	RelationshipsPartnerOf                 Relationships = "partner_of"
-	RelationshipsHasPartner                Relationships = "has_partner"
-	RelationshipsAssociateOf               Relationships = "associate_of"
-	RelationshipsHasAssociate              Relationships = "has_associate"
-	RelationshipsShipsTo                   Relationships = "ships_to"
-	RelationshipsReceivesFrom              Relationships = "receives_from"
-	RelationshipsLinkedTo                  Relationships = "linked_to"
-	RelationshipsShareholderOf             Relationships = "shareholder_of"
-	RelationshipsHasShareholder            Relationships = "has_shareholder"
-	RelationshipsDirectorOf                Relationships = "director_of"
-	RelationshipsHasDirector               Relationships = "has_director"
-	RelationshipsOwnerOf                   Relationships = "owner_of"
-	RelationshipsHasOwner                  Relationships = "has_owner"
-	RelationshipsIssuerOf                  Relationships = "issuer_of"
-	RelationshipsHasIssuer                 Relationships = "has_issuer"
-	RelationshipsShipperOf                 Relationships = "shipper_of"
-	RelationshipsShippedBy                 Relationships = "shipped_by"
-	RelationshipsBeneficialOwnerOf         Relationships = "beneficial_owner_of"
-	RelationshipsHasBeneficialOwner        Relationships = "has_beneficial_owner"
-	RelationshipsSupervisorOf              Relationships = "supervisor_of"
-	RelationshipsHasSupervisor             Relationships = "has_supervisor"
-	RelationshipsClientOf                  Relationships = "client_of"
-	RelationshipsHasClient                 Relationships = "has_client"
-	RelationshipsOfficerOf                 Relationships = "officer_of"
-	RelationshipsHasOfficer                Relationships = "has_officer"
-	RelationshipsExecutiveOf               Relationships = "executive_of"
-	RelationshipsHasExecutive              Relationships = "has_executive"
 	RelationshipsJudicialRepresentativeOf  Relationships = "judicial_representative_of"
 	RelationshipsHasJudicialRepresentative Relationships = "has_judicial_representative"
-	RelationshipsNotifyPartyOf             Relationships = "notify_party_of"
-	RelationshipsHasNotifyParty            Relationships = "has_notify_party"
+	RelationshipsSupervisorOf              Relationships = "supervisor_of"
+	RelationshipsHasSupervisor             Relationships = "has_supervisor"
 	RelationshipsLegalPredecessorOf        Relationships = "legal_predecessor_of"
 	RelationshipsHasLegalPredecessor       Relationships = "has_legal_predecessor"
-	RelationshipsCarrierOf                 Relationships = "carrier_of"
-	RelationshipsHasCarrier                Relationships = "has_carrier"
-	RelationshipsBranchOf                  Relationships = "branch_of"
-	RelationshipsHasBranch                 Relationships = "has_branch"
-	RelationshipsFamilyOf                  Relationships = "family_of"
-	RelationshipsAuditorOf                 Relationships = "auditor_of"
-	RelationshipsHasAuditor                Relationships = "has_auditor"
-	RelationshipsEmployeeOf                Relationships = "employee_of"
-	RelationshipsHasEmployee               Relationships = "has_employee"
-	RelationshipsPartyTo                   Relationships = "party_to"
-	RelationshipsHasParty                  Relationships = "has_party"
+	RelationshipsIssuerOf                  Relationships = "issuer_of"
+	RelationshipsHasIssuer                 Relationships = "has_issuer"
+	RelationshipsGeneric                   Relationships = "generic"
 	RelationshipsRegisteredAgentOf         Relationships = "registered_agent_of"
 	RelationshipsHasRegisteredAgent        Relationships = "has_registered_agent"
 	RelationshipsSubsidiaryOf              Relationships = "subsidiary_of"
 	RelationshipsHasSubsidiary             Relationships = "has_subsidiary"
-	RelationshipsJudidicalRepresentativeOf Relationships = "judidical_representative_of"
+	RelationshipsOfficerOf                 Relationships = "officer_of"
+	RelationshipsHasOfficer                Relationships = "has_officer"
+	RelationshipsLawyerIn                  Relationships = "lawyer_in"
+	RelationshipsHasLawyer                 Relationships = "has_lawyer"
+	RelationshipsBranchOf                  Relationships = "branch_of"
+	RelationshipsHasBranch                 Relationships = "has_branch"
 	RelationshipsManagerOf                 Relationships = "manager_of"
 	RelationshipsHasManager                Relationships = "has_manager"
+	RelationshipsBeneficialOwnerOf         Relationships = "beneficial_owner_of"
+	RelationshipsHasBeneficialOwner        Relationships = "has_beneficial_owner"
+	RelationshipsSecretaryOf               Relationships = "secretary_of"
+	RelationshipsHasSecretary              Relationships = "has_secretary"
+	RelationshipsAuditorOf                 Relationships = "auditor_of"
+	RelationshipsHasAuditor                Relationships = "has_auditor"
 	RelationshipsMemberOfTheBoardOf        Relationships = "member_of_the_board_of"
 	RelationshipsHasMemberOfTheBoard       Relationships = "has_member_of_the_board"
-	RelationshipsLawyerIn                  Relationships = "lawyer_in"
+	RelationshipsShipsTo                   Relationships = "ships_to"
+	RelationshipsReceivesFrom              Relationships = "receives_from"
+	RelationshipsCarrierOf                 Relationships = "carrier_of"
+	RelationshipsHasCarrier                Relationships = "has_carrier"
+	RelationshipsAssociateOf               Relationships = "associate_of"
+	RelationshipsHasAssociate              Relationships = "has_associate"
+	RelationshipsFamilyOf                  Relationships = "family_of"
+	RelationshipsSoleProprietorOf          Relationships = "sole_proprietor_of"
+	RelationshipsHasSoleProprietor         Relationships = "has_sole_proprietor"
+	RelationshipsPartnerOf                 Relationships = "partner_of"
+	RelationshipsHasPartner                Relationships = "has_partner"
+	RelationshipsClientOf                  Relationships = "client_of"
+	RelationshipsHasClient                 Relationships = "has_client"
+	RelationshipsShipperOf                 Relationships = "shipper_of"
+	RelationshipsShippedBy                 Relationships = "shipped_by"
+	RelationshipsLinkedTo                  Relationships = "linked_to"
+	RelationshipsLawyerOf                  Relationships = "lawyer_of"
+	RelationshipsExecutiveOf               Relationships = "executive_of"
+	RelationshipsHasExecutive              Relationships = "has_executive"
 	RelationshipsFounderOf                 Relationships = "founder_of"
 	RelationshipsHasFounder                Relationships = "has_founder"
+	RelationshipsReceiverOf                Relationships = "receiver_of"
+	RelationshipsReceivedBy                Relationships = "received_by"
+	RelationshipsNotifyPartyOf             Relationships = "notify_party_of"
+	RelationshipsHasNotifyParty            Relationships = "has_notify_party"
+	RelationshipsLegalRepresentativeOf     Relationships = "legal_representative_of"
+	RelationshipsHasLegalRepresentative    Relationships = "has_legal_representative"
+	RelationshipsJudidicalRepresentativeOf Relationships = "judidical_representative_of"
+	RelationshipsOwnerOf                   Relationships = "owner_of"
+	RelationshipsHasOwner                  Relationships = "has_owner"
+	RelationshipsDirectorOf                Relationships = "director_of"
+	RelationshipsHasDirector               Relationships = "has_director"
+	RelationshipsPartyTo                   Relationships = "party_to"
+	RelationshipsHasParty                  Relationships = "has_party"
+	RelationshipsLiquidatorOf              Relationships = "liquidator_of"
+	RelationshipsHasLiquidator             Relationships = "has_liquidator"
+	RelationshipsShareholderOf             Relationships = "shareholder_of"
+	RelationshipsHasShareholder            Relationships = "has_shareholder"
+	RelationshipsEmployeeOf                Relationships = "employee_of"
+	RelationshipsHasEmployee               Relationships = "has_employee"
 )
 
 func NewRelationshipsFromString(s string) (Relationships, error) {
 	switch s {
-	case "sole_proprietor_of":
-		return RelationshipsSoleProprietorOf, nil
-	case "has_sole_proprietor":
-		return RelationshipsHasSoleProprietor, nil
-	case "lawyer_of":
-		return RelationshipsLawyerOf, nil
-	case "has_lawyer":
-		return RelationshipsHasLawyer, nil
-	case "generic":
-		return RelationshipsGeneric, nil
-	case "secretary_of":
-		return RelationshipsSecretaryOf, nil
-	case "has_secretary":
-		return RelationshipsHasSecretary, nil
-	case "receiver_of":
-		return RelationshipsReceiverOf, nil
-	case "received_by":
-		return RelationshipsReceivedBy, nil
-	case "legal_representative_of":
-		return RelationshipsLegalRepresentativeOf, nil
-	case "has_legal_representative":
-		return RelationshipsHasLegalRepresentative, nil
-	case "liquidator_of":
-		return RelationshipsLiquidatorOf, nil
-	case "has_liquidator":
-		return RelationshipsHasLiquidator, nil
 	case "legal_successor_of":
 		return RelationshipsLegalSuccessorOf, nil
 	case "has_legal_successor":
 		return RelationshipsHasLegalSuccessor, nil
-	case "partner_of":
-		return RelationshipsPartnerOf, nil
-	case "has_partner":
-		return RelationshipsHasPartner, nil
-	case "associate_of":
-		return RelationshipsAssociateOf, nil
-	case "has_associate":
-		return RelationshipsHasAssociate, nil
-	case "ships_to":
-		return RelationshipsShipsTo, nil
-	case "receives_from":
-		return RelationshipsReceivesFrom, nil
-	case "linked_to":
-		return RelationshipsLinkedTo, nil
-	case "shareholder_of":
-		return RelationshipsShareholderOf, nil
-	case "has_shareholder":
-		return RelationshipsHasShareholder, nil
-	case "director_of":
-		return RelationshipsDirectorOf, nil
-	case "has_director":
-		return RelationshipsHasDirector, nil
-	case "owner_of":
-		return RelationshipsOwnerOf, nil
-	case "has_owner":
-		return RelationshipsHasOwner, nil
-	case "issuer_of":
-		return RelationshipsIssuerOf, nil
-	case "has_issuer":
-		return RelationshipsHasIssuer, nil
-	case "shipper_of":
-		return RelationshipsShipperOf, nil
-	case "shipped_by":
-		return RelationshipsShippedBy, nil
-	case "beneficial_owner_of":
-		return RelationshipsBeneficialOwnerOf, nil
-	case "has_beneficial_owner":
-		return RelationshipsHasBeneficialOwner, nil
-	case "supervisor_of":
-		return RelationshipsSupervisorOf, nil
-	case "has_supervisor":
-		return RelationshipsHasSupervisor, nil
-	case "client_of":
-		return RelationshipsClientOf, nil
-	case "has_client":
-		return RelationshipsHasClient, nil
-	case "officer_of":
-		return RelationshipsOfficerOf, nil
-	case "has_officer":
-		return RelationshipsHasOfficer, nil
-	case "executive_of":
-		return RelationshipsExecutiveOf, nil
-	case "has_executive":
-		return RelationshipsHasExecutive, nil
 	case "judicial_representative_of":
 		return RelationshipsJudicialRepresentativeOf, nil
 	case "has_judicial_representative":
 		return RelationshipsHasJudicialRepresentative, nil
-	case "notify_party_of":
-		return RelationshipsNotifyPartyOf, nil
-	case "has_notify_party":
-		return RelationshipsHasNotifyParty, nil
+	case "supervisor_of":
+		return RelationshipsSupervisorOf, nil
+	case "has_supervisor":
+		return RelationshipsHasSupervisor, nil
 	case "legal_predecessor_of":
 		return RelationshipsLegalPredecessorOf, nil
 	case "has_legal_predecessor":
 		return RelationshipsHasLegalPredecessor, nil
-	case "carrier_of":
-		return RelationshipsCarrierOf, nil
-	case "has_carrier":
-		return RelationshipsHasCarrier, nil
-	case "branch_of":
-		return RelationshipsBranchOf, nil
-	case "has_branch":
-		return RelationshipsHasBranch, nil
-	case "family_of":
-		return RelationshipsFamilyOf, nil
-	case "auditor_of":
-		return RelationshipsAuditorOf, nil
-	case "has_auditor":
-		return RelationshipsHasAuditor, nil
-	case "employee_of":
-		return RelationshipsEmployeeOf, nil
-	case "has_employee":
-		return RelationshipsHasEmployee, nil
-	case "party_to":
-		return RelationshipsPartyTo, nil
-	case "has_party":
-		return RelationshipsHasParty, nil
+	case "issuer_of":
+		return RelationshipsIssuerOf, nil
+	case "has_issuer":
+		return RelationshipsHasIssuer, nil
+	case "generic":
+		return RelationshipsGeneric, nil
 	case "registered_agent_of":
 		return RelationshipsRegisteredAgentOf, nil
 	case "has_registered_agent":
@@ -273,22 +232,118 @@ func NewRelationshipsFromString(s string) (Relationships, error) {
 		return RelationshipsSubsidiaryOf, nil
 	case "has_subsidiary":
 		return RelationshipsHasSubsidiary, nil
-	case "judidical_representative_of":
-		return RelationshipsJudidicalRepresentativeOf, nil
+	case "officer_of":
+		return RelationshipsOfficerOf, nil
+	case "has_officer":
+		return RelationshipsHasOfficer, nil
+	case "lawyer_in":
+		return RelationshipsLawyerIn, nil
+	case "has_lawyer":
+		return RelationshipsHasLawyer, nil
+	case "branch_of":
+		return RelationshipsBranchOf, nil
+	case "has_branch":
+		return RelationshipsHasBranch, nil
 	case "manager_of":
 		return RelationshipsManagerOf, nil
 	case "has_manager":
 		return RelationshipsHasManager, nil
+	case "beneficial_owner_of":
+		return RelationshipsBeneficialOwnerOf, nil
+	case "has_beneficial_owner":
+		return RelationshipsHasBeneficialOwner, nil
+	case "secretary_of":
+		return RelationshipsSecretaryOf, nil
+	case "has_secretary":
+		return RelationshipsHasSecretary, nil
+	case "auditor_of":
+		return RelationshipsAuditorOf, nil
+	case "has_auditor":
+		return RelationshipsHasAuditor, nil
 	case "member_of_the_board_of":
 		return RelationshipsMemberOfTheBoardOf, nil
 	case "has_member_of_the_board":
 		return RelationshipsHasMemberOfTheBoard, nil
-	case "lawyer_in":
-		return RelationshipsLawyerIn, nil
+	case "ships_to":
+		return RelationshipsShipsTo, nil
+	case "receives_from":
+		return RelationshipsReceivesFrom, nil
+	case "carrier_of":
+		return RelationshipsCarrierOf, nil
+	case "has_carrier":
+		return RelationshipsHasCarrier, nil
+	case "associate_of":
+		return RelationshipsAssociateOf, nil
+	case "has_associate":
+		return RelationshipsHasAssociate, nil
+	case "family_of":
+		return RelationshipsFamilyOf, nil
+	case "sole_proprietor_of":
+		return RelationshipsSoleProprietorOf, nil
+	case "has_sole_proprietor":
+		return RelationshipsHasSoleProprietor, nil
+	case "partner_of":
+		return RelationshipsPartnerOf, nil
+	case "has_partner":
+		return RelationshipsHasPartner, nil
+	case "client_of":
+		return RelationshipsClientOf, nil
+	case "has_client":
+		return RelationshipsHasClient, nil
+	case "shipper_of":
+		return RelationshipsShipperOf, nil
+	case "shipped_by":
+		return RelationshipsShippedBy, nil
+	case "linked_to":
+		return RelationshipsLinkedTo, nil
+	case "lawyer_of":
+		return RelationshipsLawyerOf, nil
+	case "executive_of":
+		return RelationshipsExecutiveOf, nil
+	case "has_executive":
+		return RelationshipsHasExecutive, nil
 	case "founder_of":
 		return RelationshipsFounderOf, nil
 	case "has_founder":
 		return RelationshipsHasFounder, nil
+	case "receiver_of":
+		return RelationshipsReceiverOf, nil
+	case "received_by":
+		return RelationshipsReceivedBy, nil
+	case "notify_party_of":
+		return RelationshipsNotifyPartyOf, nil
+	case "has_notify_party":
+		return RelationshipsHasNotifyParty, nil
+	case "legal_representative_of":
+		return RelationshipsLegalRepresentativeOf, nil
+	case "has_legal_representative":
+		return RelationshipsHasLegalRepresentative, nil
+	case "judidical_representative_of":
+		return RelationshipsJudidicalRepresentativeOf, nil
+	case "owner_of":
+		return RelationshipsOwnerOf, nil
+	case "has_owner":
+		return RelationshipsHasOwner, nil
+	case "director_of":
+		return RelationshipsDirectorOf, nil
+	case "has_director":
+		return RelationshipsHasDirector, nil
+	case "party_to":
+		return RelationshipsPartyTo, nil
+	case "has_party":
+		return RelationshipsHasParty, nil
+	case "liquidator_of":
+		return RelationshipsLiquidatorOf, nil
+	case "has_liquidator":
+		return RelationshipsHasLiquidator, nil
+	case "shareholder_of":
+		return RelationshipsShareholderOf, nil
+	case "has_shareholder":
+		return RelationshipsHasShareholder, nil
+	case "employee_of":
+		return RelationshipsEmployeeOf, nil
+	case "has_employee":
+		return RelationshipsHasEmployee, nil
 	}
 	var t Relationships
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -298,6 +353,7 @@ func (r Relationships) Ptr() *Relationships {
 	return &r
 }
 
+// OK
 type ShortestPathResponse struct {
 	Entities []string            `json:"entities,omitempty"`
 	Data     []*ShortestPathData `json:"data,omitempty"`
@@ -328,17 +384,22 @@ func (s *ShortestPathResponse) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
+// OK
 type TraversalResponse struct {
 	MinDepth      int              `json:"min_depth"`
 	MaxDepth      int              `json:"max_depth"`
 	Relationships []Relationships  `json:"relationships,omitempty"`
 	Countries     []Country        `json:"countries,omitempty"`
 	Types         []string         `json:"types,omitempty"`
+	Name          string           `json:"name"`
+	Watchlist     bool             `json:"watchlist"`
 	Psa           bool             `json:"psa"`
 	Offset        int              `json:"offset"`
 	Limit         int              `json:"limit"`
 	Next          bool             `json:"next"`
 	Data          []*TraversalData `json:"data,omitempty"`
+	Sanctioned    *bool            `json:"sanctioned,omitempty"`
+	Pep           *bool            `json:"pep,omitempty"`
 	ExploredCount int              `json:"explored_count"`
 
 	_rawJSON json.RawMessage
@@ -365,4 +426,116 @@ func (t *TraversalResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
+}
+
+type Ubo struct {
+	// Limit total values for traversal. Defaults to 20. Max of 50.
+	Limit *int `json:"-"`
+	// Offset values for traversal. Defaults to 0.
+	Offset *int `json:"-"`
+	// Set minimum depth for traversal. Defaults to 1.
+	MinDepth *int `json:"-"`
+	// Set maximum depth for traversal. Defaults to 6.
+	MaxDepth *int `json:"-"`
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	Psa *bool `json:"-"`
+	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any country.
+	Countries []*Country `json:"-"`
+	// Filter paths to only those that end at an entity of the specified type(s). Defaults to returning paths that end at any type.
+	Types []*Entities `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a watchlist. Defaults to not filtering paths by sanctioned status.
+	Sanctioned *bool `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a pep list. Defaults to not filtering paths by pep status.
+	Pep *bool `json:"-"`
+	// Set minimum percentage of share ownership for traversal. Defaults to 0.
+	MinShares *int `json:"-"`
+	// Also traverse relationships when share percentages are unknown. Only useful when min_shares is set greater than 0. Defaults to true.
+	IncludeUnknownShares *bool `json:"-"`
+	// Include relationships that were valid in the past but not at the present time. Defaults to false.
+	ExcludeFormerRelationships *bool `json:"-"`
+	// Include entities that existed in the past but not at the present time. Defaults to false.
+	ExcludeClosedEntities *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	EuHighRiskThird *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskModernSlavery *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	StateOwned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	FormerlySanctioned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskTerrorism *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOrganizedCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskFinancialCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskBriberyAndCorruption *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOther *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskCybercrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	RegulatoryAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	LawEnforcementAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	XinjiangGeospatial *bool `json:"-"`
+}
+
+type Watchlist struct {
+	// Limit total values for traversal. Defaults to 20. Max of 50.
+	Limit *int `json:"-"`
+	// Offset values for traversal. Defaults to 0.
+	Offset *int `json:"-"`
+	// Set minimum depth for traversal. Defaults to 1.
+	MinDepth *int `json:"-"`
+	// Set maximum depth for traversal. Defaults to 6.
+	MaxDepth *int `json:"-"`
+	// Set relationship type(s) to follow when traversing related entities. Defaults to following all relationship types.
+	Relationships []*Relationships `json:"-"`
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	Psa *bool `json:"-"`
+	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any country.
+	Countries []*Country `json:"-"`
+	// Filter paths to only those that end at an entity of the specified type(s). Defaults to returning paths that end at any type.
+	Types []*Entities `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a watchlist. Defaults to not filtering paths by sanctioned status.
+	Sanctioned *bool `json:"-"`
+	// Filter paths to only those that end at an entity appearing on a pep list. Defaults to not filtering paths by pep status.
+	Pep *bool `json:"-"`
+	// Set minimum percentage of share ownership for traversal. Defaults to 0.
+	MinShares *int `json:"-"`
+	// Also traverse relationships when share percentages are unknown. Only useful when min_shares is set greater than 0. Defaults to true.
+	IncludeUnknownShares *bool `json:"-"`
+	// Include relationships that were valid in the past but not at the present time. Defaults to false.
+	ExcludeFormerRelationships *bool `json:"-"`
+	// Include entities that existed in the past but not at the present time. Defaults to false.
+	ExcludeClosedEntities *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	EuHighRiskThird *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskModernSlavery *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	StateOwned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	FormerlySanctioned *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskTerrorism *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOrganizedCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskFinancialCrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskBriberyAndCorruption *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskOther *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	ReputationalRiskCybercrime *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	RegulatoryAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	LawEnforcementAction *bool `json:"-"`
+	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	XinjiangGeospatial *bool `json:"-"`
 }

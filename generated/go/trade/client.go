@@ -34,7 +34,7 @@ func NewClient(opts ...core.ClientOption) *Client {
 }
 
 // Search for a shipment. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.SearchShipments) (*generatedgo.ShipmentSearchResults, error) {
+func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.SearchShipments) (*generatedgo.ShipmentSearchResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -99,7 +99,7 @@ func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.Searc
 		return apiError
 	}
 
-	var response *generatedgo.ShipmentSearchResults
+	var response *generatedgo.ShipmentSearchResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -117,7 +117,7 @@ func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.Searc
 }
 
 // Search for a supplier. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.SearchSuppliers) (*generatedgo.SupplierSearchResults, error) {
+func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.SearchSuppliers) (*generatedgo.SupplierSearchResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -182,7 +182,7 @@ func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.Searc
 		return apiError
 	}
 
-	var response *generatedgo.SupplierSearchResults
+	var response *generatedgo.SupplierSearchResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
@@ -200,7 +200,7 @@ func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.Searc
 }
 
 // Search for a buyer. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBuyers) (*generatedgo.BuyerSearchResults, error) {
+func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBuyers) (*generatedgo.BuyerSearchResponse, error) {
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
@@ -265,7 +265,7 @@ func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBu
 		return apiError
 	}
 
-	var response *generatedgo.BuyerSearchResults
+	var response *generatedgo.BuyerSearchResponse
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{

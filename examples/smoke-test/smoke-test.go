@@ -114,7 +114,7 @@ func main() {
 	log.Printf("Did traversal of entity %v. Found %v related things.", firstEntityResult, len(traversal.Data))
 
 	// Do UBO traversal
-	ubo, err := client.Traversal.Ubo(context.Background(), firstEntityResult)
+	ubo, err := client.Traversal.Ubo(context.Background(), firstEntityResult, &sayari.Ubo{})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
@@ -123,7 +123,7 @@ func main() {
 	log.Printf("Found %v beneficial owners.", len(ubo.Data))
 
 	// Ownership
-	downstream, err := client.Traversal.Ownership(context.Background(), ubo.Data[0].Target.Id)
+	downstream, err := client.Traversal.Ownership(context.Background(), ubo.Data[0].Target.Id, &sayari.Ownership{})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
@@ -137,7 +137,7 @@ func main() {
 		log.Fatalf("Error: %v", err)
 	}
 	// Check watchlist
-	watchlist, err := client.Traversal.Watchlist(context.Background(), putinResult.Data[0].Id)
+	watchlist, err := client.Traversal.Watchlist(context.Background(), putinResult.Data[0].Id, &sayari.Watchlist{})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
