@@ -9248,8 +9248,11 @@ func (r ReferencedByDataType) Ptr() *ReferencedByDataType {
 }
 
 type RelationshipAttributeValue struct {
-	Value     *string `json:"value,omitempty"`
-	NumShares *int    `json:"num_shares,omitempty"`
+	Value     *string  `json:"value,omitempty"`
+	NumShares *float64 `json:"num_shares,omitempty"`
+	Date      *string  `json:"date,omitempty"`
+	FromDate  *string  `json:"from_date,omitempty"`
+	Type      *string  `json:"type,omitempty"`
 
 	_rawJSON json.RawMessage
 }
