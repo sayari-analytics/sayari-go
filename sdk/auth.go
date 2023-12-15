@@ -78,7 +78,7 @@ func getToken(id, secret string) (*sayari.AuthResponse, error) {
 	return authClient.GetToken(context.Background(), &sayari.GetToken{
 		ClientId:     id,
 		ClientSecret: secret,
-		Audience:     "sayari.com",
-		GrantType:    "client_credentials",
+		Audience:     sayari.AudienceSayari,
+		GrantType:    sayari.GrantTypeClientCredentials,
 	})
 }

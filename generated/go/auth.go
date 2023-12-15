@@ -11,8 +11,8 @@ import (
 type GetToken struct {
 	ClientId     ClientId     `json:"client_id"`
 	ClientSecret ClientSecret `json:"client_secret"`
-	Audience     Audience     `json:"audience"`
-	GrantType    GrantType    `json:"grant_type"`
+	Audience     Audience     `json:"audience,omitempty"`
+	GrantType    GrantType    `json:"grant_type,omitempty"`
 }
 
 type AuthResponse struct {
@@ -47,7 +47,24 @@ func (a *AuthResponse) String() string {
 }
 
 // Will always be "sayari.com"
-type Audience = string
+type Audience string
+
+const (
+	AudienceSayari Audience = "sayari.com"
+)
+
+func NewAudienceFromString(s string) (Audience, error) {
+	switch s {
+	case "sayari.com":
+		return AudienceSayari, nil
+	}
+	var t Audience
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (a Audience) Ptr() *Audience {
+	return &a
+}
 
 // The client ID you use to authenticate against the Sayari API.
 type ClientId = string
@@ -56,4 +73,21 @@ type ClientId = string
 type ClientSecret = string
 
 // Will always be "client_credentials"
-type GrantType = string
+type GrantType string
+
+const (
+	GrantTypeClientCredentials GrantType = "client_credentials"
+)
+
+func NewGrantTypeFromString(s string) (GrantType, error) {
+	switch s {
+	case "client_credentials":
+		return GrantTypeClientCredentials, nil
+	}
+	var t GrantType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (g GrantType) Ptr() *GrantType {
+	return &g
+}
