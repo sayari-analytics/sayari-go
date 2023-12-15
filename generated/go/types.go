@@ -8700,6 +8700,34 @@ type RateLimitResponse = interface{}
 // Request made without valid token.
 type UnauthorizedResponse = interface{}
 
+type ClientName string
+
+const (
+	ClientNameGo     ClientName = "sayari-go"
+	ClientNamePython ClientName = "sayari-python"
+	ClientNameJava   ClientName = "sayari-java"
+	ClientNameNode   ClientName = "sayari-node"
+)
+
+func NewClientNameFromString(s string) (ClientName, error) {
+	switch s {
+	case "sayari-go":
+		return ClientNameGo, nil
+	case "sayari-python":
+		return ClientNamePython, nil
+	case "sayari-java":
+		return ClientNameJava, nil
+	case "sayari-node":
+		return ClientNameNode, nil
+	}
+	var t ClientName
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c ClientName) Ptr() *ClientName {
+	return &c
+}
+
 // A type of legal entity in a given jurisdiction (e.g. 'LLC,' 'Sociedad Anonima,' 'Private Company Limited by Shares')
 type CompanyType = string
 
