@@ -18,8 +18,6 @@ type Connection struct {
 	*core.RateLimiter
 }
 
-const clientName = "sayari-go"
-
 func Connect(id, secret string) (*Connection, error) {
 	// Connect to auth endpoint and get a token
 	tokenResponse, err := getToken(id, secret)
@@ -31,7 +29,7 @@ func Connect(id, secret string) (*Connection, error) {
 
 	connection := &Connection{
 		client.NewClient(client.WithToken(tokenResponse.AccessToken),
-			client.WithClientName(clientName),
+			client.WithClientName(string(sayari.ClientNameGo)),
 			client.WithRateLimiter(rateLimter),
 		),
 		id,
@@ -64,7 +62,7 @@ func (c *Connection) maintainToken(expiresIn int) {
 	c.RateLimiter.Block()
 	c.Client = client.NewClient(
 		client.WithToken(tokenResponse.AccessToken),
-		client.WithClientName(clientName),
+		client.WithClientName(string(sayari.ClientNameGo)),
 		client.WithRateLimiter(c.RateLimiter),
 	)
 	c.RateLimiter.UnBlock()
@@ -74,11 +72,11 @@ func (c *Connection) maintainToken(expiresIn int) {
 }
 
 func getToken(id, secret string) (*sayari.AuthResponse, error) {
-	authClient := auth.NewClient(client.WithClientName(clientName))
+	authClient := auth.NewClient(client.WithClientName(string(sayari.ClientNameGo)))
 	return authClient.GetToken(context.Background(), &sayari.GetToken{
 		ClientId:     id,
 		ClientSecret: secret,
-		Audience:     "sayari.com",
-		GrantType:    "client_credentials",
+		Audience:     sayari.AudienceSayari,
+		GrantType:    sayari.GrantTypeClientCredentials,
 	})
 }

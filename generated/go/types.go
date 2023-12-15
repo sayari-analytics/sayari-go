@@ -8700,6 +8700,34 @@ type RateLimitResponse = interface{}
 // Request made without valid token.
 type UnauthorizedResponse = interface{}
 
+type ClientName string
+
+const (
+	ClientNameGo     ClientName = "sayari-go"
+	ClientNamePython ClientName = "sayari-python"
+	ClientNameJava   ClientName = "sayari-java"
+	ClientNameNode   ClientName = "sayari-node"
+)
+
+func NewClientNameFromString(s string) (ClientName, error) {
+	switch s {
+	case "sayari-go":
+		return ClientNameGo, nil
+	case "sayari-python":
+		return ClientNamePython, nil
+	case "sayari-java":
+		return ClientNameJava, nil
+	case "sayari-node":
+		return ClientNameNode, nil
+	}
+	var t ClientName
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c ClientName) Ptr() *ClientName {
+	return &c
+}
+
 // A type of legal entity in a given jurisdiction (e.g. 'LLC,' 'Sociedad Anonima,' 'Private Company Limited by Shares')
 type CompanyType = string
 
@@ -9220,8 +9248,11 @@ func (r ReferencedByDataType) Ptr() *ReferencedByDataType {
 }
 
 type RelationshipAttributeValue struct {
-	Value     *string `json:"value,omitempty"`
-	NumShares *int    `json:"num_shares,omitempty"`
+	Value     *string  `json:"value,omitempty"`
+	NumShares *float64 `json:"num_shares,omitempty"`
+	Date      *string  `json:"date,omitempty"`
+	FromDate  *string  `json:"from_date,omitempty"`
+	Type      *string  `json:"type,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10361,9 +10392,9 @@ func (t *TraversalData) String() string {
 }
 
 type TraversalPath struct {
-	Field         string                                `json:"field"`
-	Entity        *EntityDetails                        `json:"entity,omitempty"`
-	Relationships map[string]*TraversalRelationshipData `json:"relationships,omitempty"`
+	Field         string                                       `json:"field"`
+	Entity        *EntityDetails                               `json:"entity,omitempty"`
+	Relationships map[Relationships]*TraversalRelationshipData `json:"relationships,omitempty"`
 
 	_rawJSON json.RawMessage
 }
