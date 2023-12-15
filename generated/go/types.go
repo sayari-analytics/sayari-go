@@ -10392,9 +10392,9 @@ func (t *TraversalData) String() string {
 }
 
 type TraversalPath struct {
-	Field         string                                `json:"field"`
-	Entity        *EntityDetails                        `json:"entity,omitempty"`
-	Relationships map[string]*TraversalRelationshipData `json:"relationships,omitempty"`
+	Field         string                                       `json:"field"`
+	Entity        *EntityDetails                               `json:"entity,omitempty"`
+	Relationships map[Relationships]*TraversalRelationshipData `json:"relationships,omitempty"`
 
 	_rawJSON json.RawMessage
 }
