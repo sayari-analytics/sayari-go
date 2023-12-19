@@ -44,7 +44,7 @@ func TestSources(t *testing.T) {
 	// list sources
 	sources, err := api.Source.ListSources(context.Background(), &sayari.ListSources{})
 	assert.Nil(t, err)
-	assert.Len(t, sources.Data, 249, "There should be 249 sources as of 10/10/2023")
+	assert.Len(t, sources.Data, 250, "There should be 250 sources as of 12/19/2023")
 	assert.Equal(t, sources.Data[0].Label, "Abu Dhabi Registration Authority Online Registry", "The first shource should be 'Abu Dhabi Registration Authority Online Registry'")
 }
 
