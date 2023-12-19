@@ -127,211 +127,203 @@ type Traversal struct {
 type Relationships string
 
 const (
+	RelationshipsJudidicalRepresentativeOf Relationships = "judidical_representative_of"
+	RelationshipsHasJudicialRepresentative Relationships = "has_judicial_representative"
 	RelationshipsLegalSuccessorOf          Relationships = "legal_successor_of"
 	RelationshipsHasLegalSuccessor         Relationships = "has_legal_successor"
-	RelationshipsJudicialRepresentativeOf  Relationships = "judicial_representative_of"
-	RelationshipsHasJudicialRepresentative Relationships = "has_judicial_representative"
-	RelationshipsSupervisorOf              Relationships = "supervisor_of"
-	RelationshipsHasSupervisor             Relationships = "has_supervisor"
-	RelationshipsLegalPredecessorOf        Relationships = "legal_predecessor_of"
-	RelationshipsHasLegalPredecessor       Relationships = "has_legal_predecessor"
-	RelationshipsIssuerOf                  Relationships = "issuer_of"
-	RelationshipsHasIssuer                 Relationships = "has_issuer"
-	RelationshipsGeneric                   Relationships = "generic"
-	RelationshipsRegisteredAgentOf         Relationships = "registered_agent_of"
-	RelationshipsHasRegisteredAgent        Relationships = "has_registered_agent"
-	RelationshipsSubsidiaryOf              Relationships = "subsidiary_of"
-	RelationshipsHasSubsidiary             Relationships = "has_subsidiary"
-	RelationshipsOfficerOf                 Relationships = "officer_of"
-	RelationshipsHasOfficer                Relationships = "has_officer"
-	RelationshipsLawyerIn                  Relationships = "lawyer_in"
-	RelationshipsHasLawyer                 Relationships = "has_lawyer"
-	RelationshipsBranchOf                  Relationships = "branch_of"
-	RelationshipsHasBranch                 Relationships = "has_branch"
-	RelationshipsManagerOf                 Relationships = "manager_of"
-	RelationshipsHasManager                Relationships = "has_manager"
-	RelationshipsBeneficialOwnerOf         Relationships = "beneficial_owner_of"
-	RelationshipsHasBeneficialOwner        Relationships = "has_beneficial_owner"
-	RelationshipsSecretaryOf               Relationships = "secretary_of"
-	RelationshipsHasSecretary              Relationships = "has_secretary"
-	RelationshipsAuditorOf                 Relationships = "auditor_of"
-	RelationshipsHasAuditor                Relationships = "has_auditor"
-	RelationshipsMemberOfTheBoardOf        Relationships = "member_of_the_board_of"
-	RelationshipsHasMemberOfTheBoard       Relationships = "has_member_of_the_board"
-	RelationshipsShipsTo                   Relationships = "ships_to"
-	RelationshipsReceivesFrom              Relationships = "receives_from"
+	RelationshipsFamilyOf                  Relationships = "family_of"
 	RelationshipsCarrierOf                 Relationships = "carrier_of"
 	RelationshipsHasCarrier                Relationships = "has_carrier"
-	RelationshipsAssociateOf               Relationships = "associate_of"
-	RelationshipsHasAssociate              Relationships = "has_associate"
-	RelationshipsFamilyOf                  Relationships = "family_of"
-	RelationshipsSoleProprietorOf          Relationships = "sole_proprietor_of"
-	RelationshipsHasSoleProprietor         Relationships = "has_sole_proprietor"
-	RelationshipsPartnerOf                 Relationships = "partner_of"
-	RelationshipsHasPartner                Relationships = "has_partner"
-	RelationshipsClientOf                  Relationships = "client_of"
-	RelationshipsHasClient                 Relationships = "has_client"
-	RelationshipsShipperOf                 Relationships = "shipper_of"
-	RelationshipsShippedBy                 Relationships = "shipped_by"
-	RelationshipsLinkedTo                  Relationships = "linked_to"
-	RelationshipsLawyerOf                  Relationships = "lawyer_of"
-	RelationshipsExecutiveOf               Relationships = "executive_of"
-	RelationshipsHasExecutive              Relationships = "has_executive"
-	RelationshipsFounderOf                 Relationships = "founder_of"
-	RelationshipsHasFounder                Relationships = "has_founder"
-	RelationshipsReceiverOf                Relationships = "receiver_of"
-	RelationshipsReceivedBy                Relationships = "received_by"
-	RelationshipsNotifyPartyOf             Relationships = "notify_party_of"
-	RelationshipsHasNotifyParty            Relationships = "has_notify_party"
-	RelationshipsLegalRepresentativeOf     Relationships = "legal_representative_of"
-	RelationshipsHasLegalRepresentative    Relationships = "has_legal_representative"
-	RelationshipsJudidicalRepresentativeOf Relationships = "judidical_representative_of"
-	RelationshipsOwnerOf                   Relationships = "owner_of"
-	RelationshipsHasOwner                  Relationships = "has_owner"
-	RelationshipsDirectorOf                Relationships = "director_of"
-	RelationshipsHasDirector               Relationships = "has_director"
 	RelationshipsPartyTo                   Relationships = "party_to"
 	RelationshipsHasParty                  Relationships = "has_party"
+	RelationshipsLawyerOf                  Relationships = "lawyer_of"
+	RelationshipsHasLawyer                 Relationships = "has_lawyer"
+	RelationshipsLegalRepresentativeOf     Relationships = "legal_representative_of"
+	RelationshipsHasLegalRepresentative    Relationships = "has_legal_representative"
+	RelationshipsDirectorOf                Relationships = "director_of"
+	RelationshipsHasDirector               Relationships = "has_director"
+	RelationshipsEmployeeOf                Relationships = "employee_of"
+	RelationshipsHasEmployee               Relationships = "has_employee"
+	RelationshipsOwnerOf                   Relationships = "owner_of"
+	RelationshipsHasOwner                  Relationships = "has_owner"
+	RelationshipsBranchOf                  Relationships = "branch_of"
+	RelationshipsHasBranch                 Relationships = "has_branch"
+	RelationshipsClientOf                  Relationships = "client_of"
+	RelationshipsHasClient                 Relationships = "has_client"
+	RelationshipsFounderOf                 Relationships = "founder_of"
+	RelationshipsHasFounder                Relationships = "has_founder"
+	RelationshipsJudicialRepresentativeOf  Relationships = "judicial_representative_of"
+	RelationshipsManagerOf                 Relationships = "manager_of"
+	RelationshipsHasManager                Relationships = "has_manager"
+	RelationshipsOfficerOf                 Relationships = "officer_of"
+	RelationshipsHasOfficer                Relationships = "has_officer"
+	RelationshipsRegisteredAgentOf         Relationships = "registered_agent_of"
+	RelationshipsHasRegisteredAgent        Relationships = "has_registered_agent"
+	RelationshipsLinkedTo                  Relationships = "linked_to"
+	RelationshipsBeneficialOwnerOf         Relationships = "beneficial_owner_of"
+	RelationshipsHasBeneficialOwner        Relationships = "has_beneficial_owner"
+	RelationshipsGeneric                   Relationships = "generic"
+	RelationshipsLawyerIn                  Relationships = "lawyer_in"
+	RelationshipsIssuerOf                  Relationships = "issuer_of"
+	RelationshipsHasIssuer                 Relationships = "has_issuer"
+	RelationshipsExecutiveOf               Relationships = "executive_of"
+	RelationshipsHasExecutive              Relationships = "has_executive"
+	RelationshipsNotifyPartyOf             Relationships = "notify_party_of"
+	RelationshipsHasNotifyParty            Relationships = "has_notify_party"
+	RelationshipsLegalPredecessorOf        Relationships = "legal_predecessor_of"
+	RelationshipsHasLegalPredecessor       Relationships = "has_legal_predecessor"
+	RelationshipsSubsidiaryOf              Relationships = "subsidiary_of"
+	RelationshipsHasSubsidiary             Relationships = "has_subsidiary"
+	RelationshipsPartnerOf                 Relationships = "partner_of"
+	RelationshipsHasPartner                Relationships = "has_partner"
+	RelationshipsSoleProprietorOf          Relationships = "sole_proprietor_of"
+	RelationshipsHasSoleProprietor         Relationships = "has_sole_proprietor"
+	RelationshipsShipperOf                 Relationships = "shipper_of"
+	RelationshipsShippedBy                 Relationships = "shipped_by"
+	RelationshipsShipsTo                   Relationships = "ships_to"
+	RelationshipsReceivesFrom              Relationships = "receives_from"
+	RelationshipsSupervisorOf              Relationships = "supervisor_of"
+	RelationshipsHasSupervisor             Relationships = "has_supervisor"
+	RelationshipsMemberOfTheBoardOf        Relationships = "member_of_the_board_of"
+	RelationshipsHasMemberOfTheBoard       Relationships = "has_member_of_the_board"
+	RelationshipsAssociateOf               Relationships = "associate_of"
+	RelationshipsHasAssociate              Relationships = "has_associate"
 	RelationshipsLiquidatorOf              Relationships = "liquidator_of"
 	RelationshipsHasLiquidator             Relationships = "has_liquidator"
 	RelationshipsShareholderOf             Relationships = "shareholder_of"
 	RelationshipsHasShareholder            Relationships = "has_shareholder"
-	RelationshipsEmployeeOf                Relationships = "employee_of"
-	RelationshipsHasEmployee               Relationships = "has_employee"
+	RelationshipsReceiverOf                Relationships = "receiver_of"
+	RelationshipsReceivedBy                Relationships = "received_by"
+	RelationshipsSecretaryOf               Relationships = "secretary_of"
+	RelationshipsHasSecretary              Relationships = "has_secretary"
+	RelationshipsAuditorOf                 Relationships = "auditor_of"
+	RelationshipsHasAuditor                Relationships = "has_auditor"
 )
 
 func NewRelationshipsFromString(s string) (Relationships, error) {
 	switch s {
+	case "judidical_representative_of":
+		return RelationshipsJudidicalRepresentativeOf, nil
+	case "has_judicial_representative":
+		return RelationshipsHasJudicialRepresentative, nil
 	case "legal_successor_of":
 		return RelationshipsLegalSuccessorOf, nil
 	case "has_legal_successor":
 		return RelationshipsHasLegalSuccessor, nil
-	case "judicial_representative_of":
-		return RelationshipsJudicialRepresentativeOf, nil
-	case "has_judicial_representative":
-		return RelationshipsHasJudicialRepresentative, nil
-	case "supervisor_of":
-		return RelationshipsSupervisorOf, nil
-	case "has_supervisor":
-		return RelationshipsHasSupervisor, nil
-	case "legal_predecessor_of":
-		return RelationshipsLegalPredecessorOf, nil
-	case "has_legal_predecessor":
-		return RelationshipsHasLegalPredecessor, nil
-	case "issuer_of":
-		return RelationshipsIssuerOf, nil
-	case "has_issuer":
-		return RelationshipsHasIssuer, nil
-	case "generic":
-		return RelationshipsGeneric, nil
-	case "registered_agent_of":
-		return RelationshipsRegisteredAgentOf, nil
-	case "has_registered_agent":
-		return RelationshipsHasRegisteredAgent, nil
-	case "subsidiary_of":
-		return RelationshipsSubsidiaryOf, nil
-	case "has_subsidiary":
-		return RelationshipsHasSubsidiary, nil
-	case "officer_of":
-		return RelationshipsOfficerOf, nil
-	case "has_officer":
-		return RelationshipsHasOfficer, nil
-	case "lawyer_in":
-		return RelationshipsLawyerIn, nil
-	case "has_lawyer":
-		return RelationshipsHasLawyer, nil
-	case "branch_of":
-		return RelationshipsBranchOf, nil
-	case "has_branch":
-		return RelationshipsHasBranch, nil
-	case "manager_of":
-		return RelationshipsManagerOf, nil
-	case "has_manager":
-		return RelationshipsHasManager, nil
-	case "beneficial_owner_of":
-		return RelationshipsBeneficialOwnerOf, nil
-	case "has_beneficial_owner":
-		return RelationshipsHasBeneficialOwner, nil
-	case "secretary_of":
-		return RelationshipsSecretaryOf, nil
-	case "has_secretary":
-		return RelationshipsHasSecretary, nil
-	case "auditor_of":
-		return RelationshipsAuditorOf, nil
-	case "has_auditor":
-		return RelationshipsHasAuditor, nil
-	case "member_of_the_board_of":
-		return RelationshipsMemberOfTheBoardOf, nil
-	case "has_member_of_the_board":
-		return RelationshipsHasMemberOfTheBoard, nil
-	case "ships_to":
-		return RelationshipsShipsTo, nil
-	case "receives_from":
-		return RelationshipsReceivesFrom, nil
+	case "family_of":
+		return RelationshipsFamilyOf, nil
 	case "carrier_of":
 		return RelationshipsCarrierOf, nil
 	case "has_carrier":
 		return RelationshipsHasCarrier, nil
-	case "associate_of":
-		return RelationshipsAssociateOf, nil
-	case "has_associate":
-		return RelationshipsHasAssociate, nil
-	case "family_of":
-		return RelationshipsFamilyOf, nil
-	case "sole_proprietor_of":
-		return RelationshipsSoleProprietorOf, nil
-	case "has_sole_proprietor":
-		return RelationshipsHasSoleProprietor, nil
-	case "partner_of":
-		return RelationshipsPartnerOf, nil
-	case "has_partner":
-		return RelationshipsHasPartner, nil
-	case "client_of":
-		return RelationshipsClientOf, nil
-	case "has_client":
-		return RelationshipsHasClient, nil
-	case "shipper_of":
-		return RelationshipsShipperOf, nil
-	case "shipped_by":
-		return RelationshipsShippedBy, nil
-	case "linked_to":
-		return RelationshipsLinkedTo, nil
-	case "lawyer_of":
-		return RelationshipsLawyerOf, nil
-	case "executive_of":
-		return RelationshipsExecutiveOf, nil
-	case "has_executive":
-		return RelationshipsHasExecutive, nil
-	case "founder_of":
-		return RelationshipsFounderOf, nil
-	case "has_founder":
-		return RelationshipsHasFounder, nil
-	case "receiver_of":
-		return RelationshipsReceiverOf, nil
-	case "received_by":
-		return RelationshipsReceivedBy, nil
-	case "notify_party_of":
-		return RelationshipsNotifyPartyOf, nil
-	case "has_notify_party":
-		return RelationshipsHasNotifyParty, nil
-	case "legal_representative_of":
-		return RelationshipsLegalRepresentativeOf, nil
-	case "has_legal_representative":
-		return RelationshipsHasLegalRepresentative, nil
-	case "judidical_representative_of":
-		return RelationshipsJudidicalRepresentativeOf, nil
-	case "owner_of":
-		return RelationshipsOwnerOf, nil
-	case "has_owner":
-		return RelationshipsHasOwner, nil
-	case "director_of":
-		return RelationshipsDirectorOf, nil
-	case "has_director":
-		return RelationshipsHasDirector, nil
 	case "party_to":
 		return RelationshipsPartyTo, nil
 	case "has_party":
 		return RelationshipsHasParty, nil
+	case "lawyer_of":
+		return RelationshipsLawyerOf, nil
+	case "has_lawyer":
+		return RelationshipsHasLawyer, nil
+	case "legal_representative_of":
+		return RelationshipsLegalRepresentativeOf, nil
+	case "has_legal_representative":
+		return RelationshipsHasLegalRepresentative, nil
+	case "director_of":
+		return RelationshipsDirectorOf, nil
+	case "has_director":
+		return RelationshipsHasDirector, nil
+	case "employee_of":
+		return RelationshipsEmployeeOf, nil
+	case "has_employee":
+		return RelationshipsHasEmployee, nil
+	case "owner_of":
+		return RelationshipsOwnerOf, nil
+	case "has_owner":
+		return RelationshipsHasOwner, nil
+	case "branch_of":
+		return RelationshipsBranchOf, nil
+	case "has_branch":
+		return RelationshipsHasBranch, nil
+	case "client_of":
+		return RelationshipsClientOf, nil
+	case "has_client":
+		return RelationshipsHasClient, nil
+	case "founder_of":
+		return RelationshipsFounderOf, nil
+	case "has_founder":
+		return RelationshipsHasFounder, nil
+	case "judicial_representative_of":
+		return RelationshipsJudicialRepresentativeOf, nil
+	case "manager_of":
+		return RelationshipsManagerOf, nil
+	case "has_manager":
+		return RelationshipsHasManager, nil
+	case "officer_of":
+		return RelationshipsOfficerOf, nil
+	case "has_officer":
+		return RelationshipsHasOfficer, nil
+	case "registered_agent_of":
+		return RelationshipsRegisteredAgentOf, nil
+	case "has_registered_agent":
+		return RelationshipsHasRegisteredAgent, nil
+	case "linked_to":
+		return RelationshipsLinkedTo, nil
+	case "beneficial_owner_of":
+		return RelationshipsBeneficialOwnerOf, nil
+	case "has_beneficial_owner":
+		return RelationshipsHasBeneficialOwner, nil
+	case "generic":
+		return RelationshipsGeneric, nil
+	case "lawyer_in":
+		return RelationshipsLawyerIn, nil
+	case "issuer_of":
+		return RelationshipsIssuerOf, nil
+	case "has_issuer":
+		return RelationshipsHasIssuer, nil
+	case "executive_of":
+		return RelationshipsExecutiveOf, nil
+	case "has_executive":
+		return RelationshipsHasExecutive, nil
+	case "notify_party_of":
+		return RelationshipsNotifyPartyOf, nil
+	case "has_notify_party":
+		return RelationshipsHasNotifyParty, nil
+	case "legal_predecessor_of":
+		return RelationshipsLegalPredecessorOf, nil
+	case "has_legal_predecessor":
+		return RelationshipsHasLegalPredecessor, nil
+	case "subsidiary_of":
+		return RelationshipsSubsidiaryOf, nil
+	case "has_subsidiary":
+		return RelationshipsHasSubsidiary, nil
+	case "partner_of":
+		return RelationshipsPartnerOf, nil
+	case "has_partner":
+		return RelationshipsHasPartner, nil
+	case "sole_proprietor_of":
+		return RelationshipsSoleProprietorOf, nil
+	case "has_sole_proprietor":
+		return RelationshipsHasSoleProprietor, nil
+	case "shipper_of":
+		return RelationshipsShipperOf, nil
+	case "shipped_by":
+		return RelationshipsShippedBy, nil
+	case "ships_to":
+		return RelationshipsShipsTo, nil
+	case "receives_from":
+		return RelationshipsReceivesFrom, nil
+	case "supervisor_of":
+		return RelationshipsSupervisorOf, nil
+	case "has_supervisor":
+		return RelationshipsHasSupervisor, nil
+	case "member_of_the_board_of":
+		return RelationshipsMemberOfTheBoardOf, nil
+	case "has_member_of_the_board":
+		return RelationshipsHasMemberOfTheBoard, nil
+	case "associate_of":
+		return RelationshipsAssociateOf, nil
+	case "has_associate":
+		return RelationshipsHasAssociate, nil
 	case "liquidator_of":
 		return RelationshipsLiquidatorOf, nil
 	case "has_liquidator":
@@ -340,10 +332,18 @@ func NewRelationshipsFromString(s string) (Relationships, error) {
 		return RelationshipsShareholderOf, nil
 	case "has_shareholder":
 		return RelationshipsHasShareholder, nil
-	case "employee_of":
-		return RelationshipsEmployeeOf, nil
-	case "has_employee":
-		return RelationshipsHasEmployee, nil
+	case "receiver_of":
+		return RelationshipsReceiverOf, nil
+	case "received_by":
+		return RelationshipsReceivedBy, nil
+	case "secretary_of":
+		return RelationshipsSecretaryOf, nil
+	case "has_secretary":
+		return RelationshipsHasSecretary, nil
+	case "auditor_of":
+		return RelationshipsAuditorOf, nil
+	case "has_auditor":
+		return RelationshipsHasAuditor, nil
 	}
 	var t Relationships
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

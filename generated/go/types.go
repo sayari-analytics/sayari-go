@@ -420,76 +420,76 @@ func (a *AttributeDetails) String() string {
 type Attributes string
 
 const (
-	AttributesIdentifier            Attributes = "identifier"
-	AttributesAdditionalInformation Attributes = "additional_information"
 	AttributesAddress               Attributes = "address"
-	AttributesName                  Attributes = "name"
-	AttributesGeneric               Attributes = "generic"
-	AttributesStatus                Attributes = "status"
-	AttributesBusinessPurpose       Attributes = "business_purpose"
-	AttributesShares                Attributes = "shares"
-	AttributesPosition              Attributes = "position"
-	AttributesMonetaryValue         Attributes = "monetary_value"
-	AttributesFinances              Attributes = "finances"
-	AttributesCompanyType           Attributes = "company_type"
-	AttributesContact               Attributes = "contact"
-	AttributesWeakIdentifier        Attributes = "weak_identifier"
-	AttributesPersonStatus          Attributes = "person_status"
-	AttributesRiskIntelligence      Attributes = "risk_intelligence"
 	AttributesMeasurement           Attributes = "measurement"
-	AttributesFinancials            Attributes = "financials"
-	AttributesDateOfBirth           Attributes = "date_of_birth"
+	AttributesWeakIdentifier        Attributes = "weak_identifier"
 	AttributesCountry               Attributes = "country"
 	AttributesGender                Attributes = "gender"
+	AttributesGeneric               Attributes = "generic"
+	AttributesShares                Attributes = "shares"
+	AttributesIdentifier            Attributes = "identifier"
+	AttributesStatus                Attributes = "status"
+	AttributesDateOfBirth           Attributes = "date_of_birth"
+	AttributesFinances              Attributes = "finances"
+	AttributesAdditionalInformation Attributes = "additional_information"
+	AttributesPosition              Attributes = "position"
+	AttributesContact               Attributes = "contact"
+	AttributesBusinessPurpose       Attributes = "business_purpose"
+	AttributesRiskIntelligence      Attributes = "risk_intelligence"
 	AttributesTranslatedName        Attributes = "translated_name"
+	AttributesName                  Attributes = "name"
+	AttributesPersonStatus          Attributes = "person_status"
+	AttributesMonetaryValue         Attributes = "monetary_value"
+	AttributesCompanyType           Attributes = "company_type"
+	AttributesFinancials            Attributes = "financials"
 )
 
 func NewAttributesFromString(s string) (Attributes, error) {
 	switch s {
-	case "identifier":
-		return AttributesIdentifier, nil
-	case "additional_information":
-		return AttributesAdditionalInformation, nil
 	case "address":
 		return AttributesAddress, nil
-	case "name":
-		return AttributesName, nil
-	case "generic":
-		return AttributesGeneric, nil
-	case "status":
-		return AttributesStatus, nil
-	case "business_purpose":
-		return AttributesBusinessPurpose, nil
-	case "shares":
-		return AttributesShares, nil
-	case "position":
-		return AttributesPosition, nil
-	case "monetary_value":
-		return AttributesMonetaryValue, nil
-	case "finances":
-		return AttributesFinances, nil
-	case "company_type":
-		return AttributesCompanyType, nil
-	case "contact":
-		return AttributesContact, nil
-	case "weak_identifier":
-		return AttributesWeakIdentifier, nil
-	case "person_status":
-		return AttributesPersonStatus, nil
-	case "risk_intelligence":
-		return AttributesRiskIntelligence, nil
 	case "measurement":
 		return AttributesMeasurement, nil
-	case "financials":
-		return AttributesFinancials, nil
-	case "date_of_birth":
-		return AttributesDateOfBirth, nil
+	case "weak_identifier":
+		return AttributesWeakIdentifier, nil
 	case "country":
 		return AttributesCountry, nil
 	case "gender":
 		return AttributesGender, nil
+	case "generic":
+		return AttributesGeneric, nil
+	case "shares":
+		return AttributesShares, nil
+	case "identifier":
+		return AttributesIdentifier, nil
+	case "status":
+		return AttributesStatus, nil
+	case "date_of_birth":
+		return AttributesDateOfBirth, nil
+	case "finances":
+		return AttributesFinances, nil
+	case "additional_information":
+		return AttributesAdditionalInformation, nil
+	case "position":
+		return AttributesPosition, nil
+	case "contact":
+		return AttributesContact, nil
+	case "business_purpose":
+		return AttributesBusinessPurpose, nil
+	case "risk_intelligence":
+		return AttributesRiskIntelligence, nil
 	case "translated_name":
 		return AttributesTranslatedName, nil
+	case "name":
+		return AttributesName, nil
+	case "person_status":
+		return AttributesPersonStatus, nil
+	case "monetary_value":
+		return AttributesMonetaryValue, nil
+	case "company_type":
+		return AttributesCompanyType, nil
+	case "financials":
+		return AttributesFinancials, nil
 	}
 	var t Attributes
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -3101,58 +3101,58 @@ func (d *DateOfBirthProperties) String() string {
 type Entities string
 
 const (
-	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
-	EntitiesVessel Entities = "vessel"
+	// A legal entity or organization
+	EntitiesCompany Entities = "company"
+	// A natural person (human being)
+	EntitiesPerson Entities = "person"
+	// An airplane, helicopter, etc.
+	EntitiesAircraft Entities = "aircraft"
+	// An unknown placeholder entity. Rarely used.
+	EntitiesUnknown Entities = "unknown"
+	// A tradable financial asset
+	EntitiesSecurity Entities = "security"
+	// A trademark, patent, copyright, or similar type of intangible property
+	EntitiesIntellectualProperty Entities = "intellectual_property"
+	// A civil or criminal legal case or similar type of proceeding
+	EntitiesLegalMatter Entities = "legal_matter"
+	// Land, real estate, real property, or personal property not categorized under another entity type
+	EntitiesProperty Entities = "property"
 	// A generic placeholder entity. Rarely used.
 	EntitiesGeneric Entities = "generic"
 	// A discretely registered name used by a person or company not operating under its legal name. This includes doing-business-as names, fictitious names, etc. in jurisdictions that treat them as registered objects distinct from the person/company using them.
 	EntitiesTradename Entities = "tradename"
-	// A legal entity or organization
-	EntitiesCompany Entities = "company"
-	// A tradable financial asset
-	EntitiesSecurity Entities = "security"
-	// An unknown placeholder entity. Rarely used.
-	EntitiesUnknown Entities = "unknown"
+	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
+	EntitiesVessel Entities = "vessel"
 	// A shipment between two entities
 	EntitiesShipment Entities = "shipment"
-	// A trademark, patent, copyright, or similar type of intangible property
-	EntitiesIntellectualProperty Entities = "intellectual_property"
-	// Land, real estate, real property, or personal property not categorized under another entity type
-	EntitiesProperty Entities = "property"
-	// A civil or criminal legal case or similar type of proceeding
-	EntitiesLegalMatter Entities = "legal_matter"
-	// An airplane, helicopter, etc.
-	EntitiesAircraft Entities = "aircraft"
-	// A natural person (human being)
-	EntitiesPerson Entities = "person"
 )
 
 func NewEntitiesFromString(s string) (Entities, error) {
 	switch s {
-	case "vessel":
-		return EntitiesVessel, nil
+	case "company":
+		return EntitiesCompany, nil
+	case "person":
+		return EntitiesPerson, nil
+	case "aircraft":
+		return EntitiesAircraft, nil
+	case "unknown":
+		return EntitiesUnknown, nil
+	case "security":
+		return EntitiesSecurity, nil
+	case "intellectual_property":
+		return EntitiesIntellectualProperty, nil
+	case "legal_matter":
+		return EntitiesLegalMatter, nil
+	case "property":
+		return EntitiesProperty, nil
 	case "generic":
 		return EntitiesGeneric, nil
 	case "tradename":
 		return EntitiesTradename, nil
-	case "company":
-		return EntitiesCompany, nil
-	case "security":
-		return EntitiesSecurity, nil
-	case "unknown":
-		return EntitiesUnknown, nil
+	case "vessel":
+		return EntitiesVessel, nil
 	case "shipment":
 		return EntitiesShipment, nil
-	case "intellectual_property":
-		return EntitiesIntellectualProperty, nil
-	case "property":
-		return EntitiesProperty, nil
-	case "legal_matter":
-		return EntitiesLegalMatter, nil
-	case "aircraft":
-		return EntitiesAircraft, nil
-	case "person":
-		return EntitiesPerson, nil
 	}
 	var t Entities
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -8529,36 +8529,44 @@ func (c *Coordinates) String() string {
 }
 
 type SearchResults struct {
-	Id                EntityId                `json:"id"`
-	Label             EntityLabel             `json:"label"`
-	Degree            EntityDegree            `json:"degree"`
-	Closed            EntityClosed            `json:"closed"`
-	EntityUrl         EntityUrl               `json:"entity_url"`
-	Pep               EntityPep               `json:"pep"`
-	PsaId             *string                 `json:"psa_id,omitempty"`
-	PsaCount          EntityPsaCount          `json:"psa_count"`
-	Sanctioned        EntitySanctioned        `json:"sanctioned"`
-	Type              Entities                `json:"type,omitempty"`
-	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
-	Countries         []Country               `json:"countries,omitempty"`
-	SourceCount       SourceCount             `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
-	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
-	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
-	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
-	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *ShipmentDepartue       `json:"shipment_departure,omitempty"`
-	CompanyType       *CompanyType            `json:"company_type,omitempty"`
-	LatestStatus      *Status                 `json:"latest_status,omitempty"`
-	Risk              EntityRisk              `json:"risk,omitempty"`
-	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Coordinates       []*Coordinates          `json:"coordinates,omitempty"`
-	Matches           EntityMatches           `json:"matches,omitempty"`
+	Id EntityId `json:"id"`
+	// Display name of the entity
+	Label string `json:"label"`
+	// Number of outgoing relationships
+	Degree int `json:"degree"`
+	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+	Closed bool `json:"closed"`
+	// Convenience URL to the entity in the API.
+	EntityUrl string `json:"entity_url"`
+	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	Pep   bool    `json:"pep"`
+	PsaId *string `json:"psa_id,omitempty"`
+	// Number of entities that are Possibly the Same As (PSA) the entity.
+	PsaCount int `json:"psa_count"`
+	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
+	Sanctioned  bool          `json:"sanctioned"`
+	Type        Entities      `json:"type,omitempty"`
+	Identifiers []*Identifier `json:"identifiers,omitempty"`
+	Countries   []Country     `json:"countries,omitempty"`
+	// Number of records associated with the entity, grouped by source.
+	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel      `json:"translated_label,omitempty"`
+	HsCode            *EntityHsCode               `json:"hs_code,omitempty"`
+	ShipmentArrival   *ShipmentArrival            `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDepartue           `json:"shipment_departure,omitempty"`
+	CompanyType       *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus      *Status                     `json:"latest_status,omitempty"`
+	Risk              EntityRisk                  `json:"risk,omitempty"`
+	Attributes        *AttributeDetails           `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships        `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs             `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy               `json:"referenced_by,omitempty"`
+	Coordinates       []*Coordinates              `json:"coordinates,omitempty"`
+	Matches           EntityMatches               `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8764,22 +8772,30 @@ func (c *Coordinate) String() string {
 
 // The attributes fields common to most entities.
 type EmbeddedEntity struct {
-	Id                EntityId                `json:"id"`
-	Label             EntityLabel             `json:"label"`
-	Degree            EntityDegree            `json:"degree"`
-	Closed            EntityClosed            `json:"closed"`
-	EntityUrl         EntityUrl               `json:"entity_url"`
-	Pep               EntityPep               `json:"pep"`
-	PsaId             *string                 `json:"psa_id,omitempty"`
-	PsaCount          EntityPsaCount          `json:"psa_count"`
-	Sanctioned        EntitySanctioned        `json:"sanctioned"`
-	Type              Entities                `json:"type,omitempty"`
-	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
-	Countries         []Country               `json:"countries,omitempty"`
-	SourceCount       SourceCount             `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
+	Id EntityId `json:"id"`
+	// Display name of the entity
+	Label string `json:"label"`
+	// Number of outgoing relationships
+	Degree int `json:"degree"`
+	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+	Closed bool `json:"closed"`
+	// Convenience URL to the entity in the API.
+	EntityUrl string `json:"entity_url"`
+	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	Pep   bool    `json:"pep"`
+	PsaId *string `json:"psa_id,omitempty"`
+	// Number of entities that are Possibly the Same As (PSA) the entity.
+	PsaCount int `json:"psa_count"`
+	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
+	Sanctioned  bool          `json:"sanctioned"`
+	Type        Entities      `json:"type,omitempty"`
+	Identifiers []*Identifier `json:"identifiers,omitempty"`
+	Countries   []Country     `json:"countries,omitempty"`
+	// Number of records associated with the entity, grouped by source.
+	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8810,45 +8826,47 @@ func (e *EmbeddedEntity) String() string {
 // List of physical addresses associated with the entity. See https://docs.sayari.com/attributes/#address
 type EntityAddresses = string
 
-// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
-type EntityClosed = bool
-
 // Birth date of a person. See https://docs.sayari.com/attributes/#date-of-birth
 type EntityDob = string
 
-// Number of outgoing relationships
-type EntityDegree = int
-
 // Additional fields providing more details about an enetity
 type EntityDetails struct {
-	Id                EntityId                `json:"id"`
-	Label             EntityLabel             `json:"label"`
-	Degree            EntityDegree            `json:"degree"`
-	Closed            EntityClosed            `json:"closed"`
-	EntityUrl         EntityUrl               `json:"entity_url"`
-	Pep               EntityPep               `json:"pep"`
-	PsaId             *string                 `json:"psa_id,omitempty"`
-	PsaCount          EntityPsaCount          `json:"psa_count"`
-	Sanctioned        EntitySanctioned        `json:"sanctioned"`
-	Type              Entities                `json:"type,omitempty"`
-	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
-	Countries         []Country               `json:"countries,omitempty"`
-	SourceCount       SourceCount             `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
-	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
-	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
-	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
-	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *ShipmentDepartue       `json:"shipment_departure,omitempty"`
-	CompanyType       *CompanyType            `json:"company_type,omitempty"`
-	LatestStatus      *Status                 `json:"latest_status,omitempty"`
-	Risk              EntityRisk              `json:"risk,omitempty"`
-	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
+	Id EntityId `json:"id"`
+	// Display name of the entity
+	Label string `json:"label"`
+	// Number of outgoing relationships
+	Degree int `json:"degree"`
+	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+	Closed bool `json:"closed"`
+	// Convenience URL to the entity in the API.
+	EntityUrl string `json:"entity_url"`
+	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	Pep   bool    `json:"pep"`
+	PsaId *string `json:"psa_id,omitempty"`
+	// Number of entities that are Possibly the Same As (PSA) the entity.
+	PsaCount int `json:"psa_count"`
+	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
+	Sanctioned  bool          `json:"sanctioned"`
+	Type        Entities      `json:"type,omitempty"`
+	Identifiers []*Identifier `json:"identifiers,omitempty"`
+	Countries   []Country     `json:"countries,omitempty"`
+	// Number of records associated with the entity, grouped by source.
+	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel      `json:"translated_label,omitempty"`
+	HsCode            *EntityHsCode               `json:"hs_code,omitempty"`
+	ShipmentArrival   *ShipmentArrival            `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDepartue           `json:"shipment_departure,omitempty"`
+	CompanyType       *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus      *Status                     `json:"latest_status,omitempty"`
+	Risk              EntityRisk                  `json:"risk,omitempty"`
+	Attributes        *AttributeDetails           `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships        `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs             `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy               `json:"referenced_by,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8882,17 +8900,8 @@ type EntityHsCode = string
 // Unique identifier of the entity
 type EntityId = string
 
-// Display name of the entity
-type EntityLabel = string
-
 // An explanation of why this entity was returned as the result of a query.
 type EntityMatches = map[string][]string
-
-// Number of entities that are Possibly the Same As (PSA) the entity.
-type EntityPsaCount = int
-
-// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
-type EntityPep = bool
 
 // Type (registered/incorporated/active) and date of the earliest significant activity associated with the entity. Will appear as 'Registered YYYY-MM-DD'
 type EntityRegistrationDate = string
@@ -8935,14 +8944,8 @@ func (e *EntityRelationships) String() string {
 // Risk factors associated with the entity.
 type EntityRisk = map[Risk]*RiskData
 
-// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
-type EntitySanctioned = bool
-
 // Label in English if available. Translation performed by Sayari.
 type EntityTranslatedLabel = string
-
-// Convenience URL to the entity in the API.
-type EntityUrl = string
 
 // Identifiers associated with the entity. See https://docs.sayari.com/attributes/#identifier
 type Identifier struct {
@@ -8978,26 +8981,34 @@ func (i *Identifier) String() string {
 
 // The entity that is possibly the same as the target entity.
 type PsaEntity struct {
-	Id                EntityId                `json:"id"`
-	Label             EntityLabel             `json:"label"`
-	Degree            EntityDegree            `json:"degree"`
-	Closed            EntityClosed            `json:"closed"`
-	EntityUrl         EntityUrl               `json:"entity_url"`
-	Pep               EntityPep               `json:"pep"`
-	PsaId             *string                 `json:"psa_id,omitempty"`
-	PsaCount          EntityPsaCount          `json:"psa_count"`
-	Sanctioned        EntitySanctioned        `json:"sanctioned"`
-	Type              Entities                `json:"type,omitempty"`
-	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
-	Countries         []Country               `json:"countries,omitempty"`
-	SourceCount       SourceCount             `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
-	Risk              EntityRisk              `json:"risk,omitempty"`
-	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
-	CompanyType       *CompanyType            `json:"company_type,omitempty"`
-	LatestStatus      *Status                 `json:"latest_status,omitempty"`
+	Id EntityId `json:"id"`
+	// Display name of the entity
+	Label string `json:"label"`
+	// Number of outgoing relationships
+	Degree int `json:"degree"`
+	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+	Closed bool `json:"closed"`
+	// Convenience URL to the entity in the API.
+	EntityUrl string `json:"entity_url"`
+	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	Pep   bool    `json:"pep"`
+	PsaId *string `json:"psa_id,omitempty"`
+	// Number of entities that are Possibly the Same As (PSA) the entity.
+	PsaCount int `json:"psa_count"`
+	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
+	Sanctioned  bool          `json:"sanctioned"`
+	Type        Entities      `json:"type,omitempty"`
+	Identifiers []*Identifier `json:"identifiers,omitempty"`
+	Countries   []Country     `json:"countries,omitempty"`
+	// Number of records associated with the entity, grouped by source.
+	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	Risk              EntityRisk                  `json:"risk,omitempty"`
+	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	CompanyType       *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus      *Status                     `json:"latest_status,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9281,14 +9292,14 @@ func (r *RelationshipAttributeValue) String() string {
 }
 
 type RelationshipData struct {
-	Target        *EntityDetails    `json:"target,omitempty"`
-	Types         RelationshipTypes `json:"types,omitempty"`
-	Dates         []string          `json:"dates,omitempty"`
-	FirstObserved *string           `json:"first_observed,omitempty"`
-	Former        *bool             `json:"former,omitempty"`
-	LastObserved  *string           `json:"last_observed,omitempty"`
-	StartDate     *string           `json:"start_date,omitempty"`
-	EndDate       *string           `json:"end_date,omitempty"`
+	Target        *EntityDetails                        `json:"target,omitempty"`
+	Types         map[Relationships][]*RelationshipInfo `json:"types,omitempty"`
+	Dates         []string                              `json:"dates,omitempty"`
+	FirstObserved *string                               `json:"first_observed,omitempty"`
+	Former        *bool                                 `json:"former,omitempty"`
+	LastObserved  *string                               `json:"last_observed,omitempty"`
+	StartDate     *string                               `json:"start_date,omitempty"`
+	EndDate       *string                               `json:"end_date,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9352,8 +9363,6 @@ func (r *RelationshipInfo) String() string {
 	}
 	return fmt.Sprintf("%#v", r)
 }
-
-type RelationshipTypes = map[Relationships][]*RelationshipInfo
 
 type Risk string
 
@@ -9697,9 +9706,6 @@ type ShipmentArrival = string
 
 // Departure date of a shipment.
 type ShipmentDepartue = string
-
-// Number of records associated with the entity, grouped by source.
-type SourceCount = map[string]*SourceCountInfo
 
 // The number of time the entity is referenced by a source.
 type SourceCountInfo struct {
@@ -10151,35 +10157,43 @@ func (s *SourceOrDestinationEntity) String() string {
 }
 
 type Supplier struct {
-	Id                EntityId                `json:"id"`
-	Label             EntityLabel             `json:"label"`
-	Degree            EntityDegree            `json:"degree"`
-	Closed            EntityClosed            `json:"closed"`
-	EntityUrl         EntityUrl               `json:"entity_url"`
-	Pep               EntityPep               `json:"pep"`
-	PsaId             *string                 `json:"psa_id,omitempty"`
-	PsaCount          EntityPsaCount          `json:"psa_count"`
-	Sanctioned        EntitySanctioned        `json:"sanctioned"`
-	Type              Entities                `json:"type,omitempty"`
-	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
-	Countries         []Country               `json:"countries,omitempty"`
-	SourceCount       SourceCount             `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses       `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob              `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount `json:"relationship_count,omitempty"`
-	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
-	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
-	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
-	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *ShipmentDepartue       `json:"shipment_departure,omitempty"`
-	CompanyType       *CompanyType            `json:"company_type,omitempty"`
-	LatestStatus      *Status                 `json:"latest_status,omitempty"`
-	Risk              EntityRisk              `json:"risk,omitempty"`
-	Attributes        *AttributeDetails       `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships    `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs         `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy           `json:"referenced_by,omitempty"`
-	Metadata          *SupplierMetadata       `json:"metadata,omitempty"`
+	Id EntityId `json:"id"`
+	// Display name of the entity
+	Label string `json:"label"`
+	// Number of outgoing relationships
+	Degree int `json:"degree"`
+	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+	Closed bool `json:"closed"`
+	// Convenience URL to the entity in the API.
+	EntityUrl string `json:"entity_url"`
+	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	Pep   bool    `json:"pep"`
+	PsaId *string `json:"psa_id,omitempty"`
+	// Number of entities that are Possibly the Same As (PSA) the entity.
+	PsaCount int `json:"psa_count"`
+	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
+	Sanctioned  bool          `json:"sanctioned"`
+	Type        Entities      `json:"type,omitempty"`
+	Identifiers []*Identifier `json:"identifiers,omitempty"`
+	Countries   []Country     `json:"countries,omitempty"`
+	// Number of records associated with the entity, grouped by source.
+	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel      `json:"translated_label,omitempty"`
+	HsCode            *EntityHsCode               `json:"hs_code,omitempty"`
+	ShipmentArrival   *ShipmentArrival            `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDepartue           `json:"shipment_departure,omitempty"`
+	CompanyType       *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus      *Status                     `json:"latest_status,omitempty"`
+	Risk              EntityRisk                  `json:"risk,omitempty"`
+	Attributes        *AttributeDetails           `json:"attributes,omitempty"`
+	Relationships     *EntityRelationships        `json:"relationships,omitempty"`
+	PossiblySameAs    *PossiblySameAs             `json:"possibly_same_as,omitempty"`
+	ReferencedBy      *ReferencedBy               `json:"referenced_by,omitempty"`
+	Metadata          *SupplierMetadata           `json:"metadata,omitempty"`
 
 	_rawJSON json.RawMessage
 }
