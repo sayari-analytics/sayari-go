@@ -144,6 +144,7 @@ func (a *AdditionalInformationInfo) String() string {
 }
 
 type AdditionalInformationProperties struct {
+	// We would probably group by type in a GUI
 	Type  *string `json:"type,omitempty"`
 	Value *string `json:"value,omitempty"`
 
@@ -239,36 +240,61 @@ func (a *AddressInfo) String() string {
 }
 
 type AddressProperties struct {
-	Building       *string      `json:"building,omitempty"`
-	Category       *string      `json:"category,omitempty"`
-	City           *string      `json:"city,omitempty"`
-	CityDistrict   *string      `json:"city_district,omitempty"`
-	Country        *string      `json:"country,omitempty"`
-	CountryRegion  *string      `json:"country_region,omitempty"`
-	Entrance       *string      `json:"entrance,omitempty"`
-	House          *string      `json:"house,omitempty"`
-	HouseNumber    *string      `json:"house_number,omitempty"`
-	Island         *string      `json:"island,omitempty"`
-	Language       *Language    `json:"language,omitempty"`
-	Level          *string      `json:"level,omitempty"`
-	MetroStation   *string      `json:"metro_station,omitempty"`
-	Near           *string      `json:"near,omitempty"`
-	PoBox          *string      `json:"po_box,omitempty"`
-	Postcode       *string      `json:"postcode,omitempty"`
-	PrecisionCode  *string      `json:"precision_code,omitempty"`
-	Road           *string      `json:"road,omitempty"`
-	Staircase      *string      `json:"staircase,omitempty"`
-	State          *string      `json:"state,omitempty"`
-	StateDistrict  *string      `json:"state_district,omitempty"`
-	Suburb         *string      `json:"suburb,omitempty"`
-	Translated     *string      `json:"translated,omitempty"`
-	Transliterated *string      `json:"transliterated,omitempty"`
-	Type           *AddressType `json:"type,omitempty"`
-	Unit           *string      `json:"unit,omitempty"`
-	Value          *string      `json:"value,omitempty"`
-	WorldRegion    *string      `json:"world_region,omitempty"`
-	X              *float64     `json:"x,omitempty"`
-	Y              *float64     `json:"y,omitempty"`
+	Building *string `json:"building,omitempty"`
+	// For category queries like "restaurants", etc.
+	Category *string `json:"category,omitempty"`
+	// Any human settlement, including cities, towns, villages, hamlets, localities, etc.
+	City *string `json:"city,omitempty"`
+	// Boroughs or districts within a city that serve some official purpose e.g. "Brooklyn" or "Hackney" or "Bratislava IV"
+	CityDistrict *string `json:"city_district,omitempty"`
+	// Sovereign nations and their dependent territories; anything with an ISO-3166 code
+	Country *string `json:"country,omitempty"`
+	// Informal subdivision of a country without any political status
+	CountryRegion *string `json:"country_region,omitempty"`
+	// Numbered/lettered entrance
+	Entrance *string `json:"entrance,omitempty"`
+	// Building/site name (e.g. 'Brooklyn Academy of Music', 'Empire State Building')
+	House *string `json:"house,omitempty"`
+	// Usually refers to the external (street-facing) building number. In some jurisdictions, this may be a compound number that also includes an apartment/block number.
+	HouseNumber *string `json:"house_number,omitempty"`
+	// Named islands, e.g. 'Maui'
+	Island *string `json:"island,omitempty"`
+	// The language in which the address was provided in the record
+	Language *Language `json:"language,omitempty"`
+	// Expressions indicating a floor number (e.g. "3rd Floor", "Ground Floor")
+	Level        *string `json:"level,omitempty"`
+	MetroStation *string `json:"metro_station,omitempty"`
+	// Phrases like "in", "near", etc. used after a category phrase, to help with parsing queries like "restaurants in Brooklyn"
+	Near     *string `json:"near,omitempty"`
+	PoBox    *string `json:"po_box,omitempty"`
+	Postcode *string `json:"postcode,omitempty"`
+	// A code describing the precision of the X and Y coordinates
+	PrecisionCode *string `json:"precision_code,omitempty"`
+	// Street name(s)
+	Road *string `json:"road,omitempty"`
+	// Numbered/lettered staircase
+	Staircase *string `json:"staircase,omitempty"`
+	// A first-level administrative division, including provinces and departments. Scotland, Northern Ireland, Wales, and England in the UK are mapped to "state" as well (convention used in OSM, GeoPlanet, etc.)
+	State *string `json:"state,omitempty"`
+	// A second-level administrative division or county
+	StateDistrict *string `json:"state_district,omitempty"`
+	// Usually an unofficial neighborhood name, like "Harlem", "South Bronx", or "Crown Heights"
+	Suburb *string `json:"suburb,omitempty"`
+	// The address value translated to English
+	Translated *string `json:"translated,omitempty"`
+	// The address value transliterated to English
+	Transliterated *string `json:"transliterated,omitempty"`
+	// Indicates what the address is referring to. For example, a physical versus a mailing address.
+	Type *AddressType `json:"type,omitempty"`
+	// An apartment, unit, office, lot, or other secondary unit designator
+	Unit  *string `json:"unit,omitempty"`
+	Value *string `json:"value,omitempty"`
+	// Currently only used for appending “West Indies” after the country name, a pattern frequently used in the English-speaking Caribbean (e.g. “Jamaica, West Indies”)
+	WorldRegion *string `json:"world_region,omitempty"`
+	// The X coordinate (longitude) of the address
+	X *float64 `json:"x,omitempty"`
+	// The Y coordinate (latitude) of the address
+	Y *float64 `json:"y,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -622,9 +648,11 @@ func (b *BusinessPurposeInfo) String() string {
 }
 
 type BusinessPurposeProperties struct {
+	// A code
 	Code     *string                  `json:"code,omitempty"`
 	Standard *BusinessPurposeStandard `json:"standard,omitempty"`
-	Value    *string                  `json:"value,omitempty"`
+	// A text description
+	Value *string `json:"value,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -997,8 +1025,9 @@ func (c *ContactInfo) String() string {
 }
 
 type ContactProperties struct {
-	Type  *ContactType `json:"type,omitempty"`
-	Value string       `json:"value"`
+	Type *ContactType `json:"type,omitempty"`
+	// The contact detail itself (e.g. 'jdoe@sayari.com,' '202-555-5555')
+	Value string `json:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -2212,9 +2241,12 @@ func (c *CountryInfo) String() string {
 }
 
 type CountryProperties struct {
+	// The type of affiliation
 	Context *CountryContext `json:"context,omitempty"`
-	State   *string         `json:"state,omitempty"`
-	Value   Country         `json:"value,omitempty"`
+	// Subnational state, province, region, etc.
+	State *string `json:"state,omitempty"`
+	// The country, ideally normalized to an ISO trigram
+	Value Country `json:"value,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3069,6 +3101,7 @@ func (d *DateOfBirthInfo) String() string {
 }
 
 type DateOfBirthProperties struct {
+	// The date of birth in YYYY-MM-DD, YYYY-MM, or YYYY format
 	Value string `json:"value"`
 
 	_rawJSON json.RawMessage
@@ -3269,10 +3302,14 @@ func (f *FinancesInfo) String() string {
 }
 
 type FinancesProperties struct {
-	Context  *FinanceType `json:"context,omitempty"`
-	Currency *Currency    `json:"currency,omitempty"`
-	Type     *string      `json:"type,omitempty"`
-	Value    float64      `json:"value"`
+	// The type of figure
+	Context *FinanceType `json:"context,omitempty"`
+	// The currency, if applicable
+	Currency *Currency `json:"currency,omitempty"`
+	// A free-text definition of the type
+	Type *string `json:"type,omitempty"`
+	// The numerical amount
+	Value float64 `json:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -3366,14 +3403,22 @@ func (f *FinancialsInfo) String() string {
 }
 
 type FinancialsProperties struct {
-	Assets            *float64  `json:"assets,omitempty"`
-	Currency          *Currency `json:"currency,omitempty"`
-	Employees         *int      `json:"employees,omitempty"`
-	Liabilities       *float64  `json:"liabilities,omitempty"`
-	NetIncome         *float64  `json:"net_income,omitempty"`
-	PaidUpCapital     *float64  `json:"paid_up_capital,omitempty"`
-	RegisteredCapital *float64  `json:"registered_capital,omitempty"`
-	Revenue           *float64  `json:"revenue,omitempty"`
+	// The total amount of assets owned by a company
+	Assets *float64 `json:"assets,omitempty"`
+	// Reporting currency
+	Currency *Currency `json:"currency,omitempty"`
+	// Total employees
+	Employees *int `json:"employees,omitempty"`
+	// Sum of the combined debts a company owes
+	Liabilities *float64 `json:"liabilities,omitempty"`
+	// Company's earnings for a period net of operating costs, taxes, and interest
+	NetIncome *float64 `json:"net_income,omitempty"`
+	// Paid-up capital is the capital already held by the company
+	PaidUpCapital *float64 `json:"paid_up_capital,omitempty"`
+	// Registered capital is the maximum amount of share capital that a company is authorized to raise
+	RegisteredCapital *float64 `json:"registered_capital,omitempty"`
+	// The total amount of income generated by the sale of goods or services related to the company's primary operations
+	Revenue *float64 `json:"revenue,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3587,6 +3632,7 @@ func (g *GenericInfo) String() string {
 }
 
 type GenericProperties struct {
+	// We would probably group by type in a GUI
 	Type  *string `json:"type,omitempty"`
 	Value *string `json:"value,omitempty"`
 
@@ -3682,8 +3728,9 @@ func (i *IdentifierInfo) String() string {
 }
 
 type IdentifierProperties struct {
-	Type  *BothIdentifierTypes `json:"type,omitempty"`
-	Value string               `json:"value"`
+	Type *BothIdentifierTypes `json:"type,omitempty"`
+	// The text/number value of the identifier
+	Value string `json:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -6697,9 +6744,12 @@ func (m *MeasurementInfo) String() string {
 }
 
 type MeasurementProperties struct {
-	Type  MeasurementType `json:"type,omitempty"`
-	Unit  Unit            `json:"unit,omitempty"`
-	Value float64         `json:"value"`
+	// Type of the measurement
+	Type MeasurementType `json:"type,omitempty"`
+	// The unit of the measurement
+	Unit Unit `json:"unit,omitempty"`
+	// The value of the measurement
+	Value float64 `json:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -6845,9 +6895,12 @@ func (m *MonetaryValueInfo) String() string {
 }
 
 type MonetaryValueProperties struct {
-	Context  *string   `json:"context,omitempty"`
+	// The type of value
+	Context *string `json:"context,omitempty"`
+	// The ISO 4217 currency code
 	Currency *Currency `json:"currency,omitempty"`
-	Value    float64   `json:"value"`
+	// The financial value of the asset
+	Value float64 `json:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -6982,11 +7035,15 @@ func (n *NameInfo) String() string {
 }
 
 type NameProperties struct {
-	Context        *string   `json:"context,omitempty"`
-	Language       *Language `json:"language,omitempty"`
-	Translated     *string   `json:"translated,omitempty"`
-	Transliterated *string   `json:"transliterated,omitempty"`
-	Value          string    `json:"value"`
+	Context *string `json:"context,omitempty"`
+	// The language that the name is in
+	Language *Language `json:"language,omitempty"`
+	// The name value translated to English
+	Translated *string `json:"translated,omitempty"`
+	// The name value transliterated to English
+	Transliterated *string `json:"transliterated,omitempty"`
+	// The name, as text
+	Value string `json:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -7106,6 +7163,7 @@ func (p *PersonStatusInfo) String() string {
 }
 
 type PersonStatusProperties struct {
+	// The event
 	Value PersonStatus `json:"value,omitempty"`
 
 	_rawJSON json.RawMessage
@@ -7200,6 +7258,7 @@ func (p *PositionInfo) String() string {
 }
 
 type PositionProperties struct {
+	// The position as text
 	Value string `json:"value"`
 
 	_rawJSON json.RawMessage
@@ -7294,11 +7353,16 @@ func (r *RiskIntelligenceInfo) String() string {
 }
 
 type RiskIntelligenceProperties struct {
+	// Government authority issuing the enforcement or risk intelligence action
 	Authority *string `json:"authority,omitempty"`
-	List      *string `json:"list,omitempty"`
-	Program   *string `json:"program,omitempty"`
-	Reason    *string `json:"reason,omitempty"`
-	Type      Tag     `json:"type,omitempty"`
+	// Official list where the entity's risk information or enforcement action is recorded
+	List *string `json:"list,omitempty"`
+	// Specific to sanctions risk. Sanctions program under which the entity is designated.
+	Program *string `json:"program,omitempty"`
+	// Explanation or legal basis for the risk intelligence
+	Reason *string `json:"reason,omitempty"`
+	// Type of risk intelligence
+	Type Tag `json:"type,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7392,11 +7456,16 @@ func (s *SharesInfo) String() string {
 }
 
 type SharesProperties struct {
-	Currency      *Currency `json:"currency,omitempty"`
-	MonetaryValue *float64  `json:"monetary_value,omitempty"`
-	NumShares     *float64  `json:"num_shares,omitempty"`
-	Percentage    *float64  `json:"percentage,omitempty"`
-	Type          *string   `json:"type,omitempty"`
+	// The currency of the monetary_value
+	Currency *Currency `json:"currency,omitempty"`
+	// The total monetary value of the shares
+	MonetaryValue *float64 `json:"monetary_value,omitempty"`
+	// The number of shares held, issued, etc.
+	NumShares *float64 `json:"num_shares,omitempty"`
+	// The percentage of shares owned
+	Percentage *float64 `json:"percentage,omitempty"`
+	// A string describing the type of shares (e.g. 'Class B,' 'Protected cell shares')
+	Type *string `json:"type,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7527,9 +7596,12 @@ func (s *StatusInfo) String() string {
 }
 
 type StatusProperties struct {
+	// The type of status
 	Context *StatusContext `json:"context,omitempty"`
-	Text    *string        `json:"text,omitempty"`
-	Value   *CompanyStatus `json:"value,omitempty"`
+	// The raw status text
+	Text *string `json:"text,omitempty"`
+	// The status, normalized to one of the status enums
+	Value *CompanyStatus `json:"value,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7697,9 +7769,11 @@ func (t *TranslatedNameInfo) String() string {
 }
 
 type TranslatedNameProperties struct {
-	Context  *TranslationContext `json:"context,omitempty"`
-	Original *string             `json:"original,omitempty"`
-	Value    string              `json:"value"`
+	Context *TranslationContext `json:"context,omitempty"`
+	// The original name
+	Original *string `json:"original,omitempty"`
+	// the name, as text
+	Value string `json:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -7848,8 +7922,10 @@ func (w *WeakIdentifierInfo) String() string {
 }
 
 type WeakIdentifierProperties struct {
-	Type  WeakIdentifierType `json:"type,omitempty"`
-	Value string             `json:"value"`
+	// The type of the identifier, including the country/jurisdiction that issued it
+	Type WeakIdentifierType `json:"type,omitempty"`
+	// The text value of the identifier
+	Value string `json:"value"`
 
 	_rawJSON json.RawMessage
 }
