@@ -62,24 +62,11 @@ type SearchSuppliers struct {
 type ShipmentField string
 
 const (
-	ShipmentFieldBuyerName        ShipmentField = "buyer_name"
-	ShipmentFieldSupplierName     ShipmentField = "supplier_name"
-	ShipmentFieldBuyerRisk        ShipmentField = "buyer_risk"
-	ShipmentFieldSupplierRisk     ShipmentField = "supplier_risk"
-	ShipmentFieldBuyerCountry     ShipmentField = "buyer_country"
-	ShipmentFieldSupplierCountry  ShipmentField = "supplier_country"
-	ShipmentFieldDepartureCountry ShipmentField = "departure_country"
-	ShipmentFieldDepartureState   ShipmentField = "departure_state"
-	ShipmentFieldDepartureCity    ShipmentField = "departure_city"
-	ShipmentFieldArrivalCountry   ShipmentField = "arrival_country"
-	ShipmentFieldArrivalState     ShipmentField = "arrival_state"
-	ShipmentFieldArrivalCity      ShipmentField = "arrival_city"
-	ShipmentFieldHsCode           ShipmentField = "hs_code"
-	ShipmentFieldHsDescription    ShipmentField = "hs_description"
-	ShipmentFieldSupplierPurpose  ShipmentField = "supplier_purpose"
-	ShipmentFieldBuyerPurpose     ShipmentField = "buyer_purpose"
-	ShipmentFieldArrivalDate      ShipmentField = "arrival_date"
-	ShipmentFieldWeight           ShipmentField = "weight"
+	ShipmentFieldBuyerName       ShipmentField = "buyer_name"
+	ShipmentFieldSupplierName    ShipmentField = "supplier_name"
+	ShipmentFieldHsDescription   ShipmentField = "hs_description"
+	ShipmentFieldSupplierPurpose ShipmentField = "supplier_purpose"
+	ShipmentFieldBuyerPurpose    ShipmentField = "buyer_purpose"
 )
 
 func NewShipmentFieldFromString(s string) (ShipmentField, error) {
@@ -88,38 +75,12 @@ func NewShipmentFieldFromString(s string) (ShipmentField, error) {
 		return ShipmentFieldBuyerName, nil
 	case "supplier_name":
 		return ShipmentFieldSupplierName, nil
-	case "buyer_risk":
-		return ShipmentFieldBuyerRisk, nil
-	case "supplier_risk":
-		return ShipmentFieldSupplierRisk, nil
-	case "buyer_country":
-		return ShipmentFieldBuyerCountry, nil
-	case "supplier_country":
-		return ShipmentFieldSupplierCountry, nil
-	case "departure_country":
-		return ShipmentFieldDepartureCountry, nil
-	case "departure_state":
-		return ShipmentFieldDepartureState, nil
-	case "departure_city":
-		return ShipmentFieldDepartureCity, nil
-	case "arrival_country":
-		return ShipmentFieldArrivalCountry, nil
-	case "arrival_state":
-		return ShipmentFieldArrivalState, nil
-	case "arrival_city":
-		return ShipmentFieldArrivalCity, nil
-	case "hs_code":
-		return ShipmentFieldHsCode, nil
 	case "hs_description":
 		return ShipmentFieldHsDescription, nil
 	case "supplier_purpose":
 		return ShipmentFieldSupplierPurpose, nil
 	case "buyer_purpose":
 		return ShipmentFieldBuyerPurpose, nil
-	case "arrival_date":
-		return ShipmentFieldArrivalDate, nil
-	case "weight":
-		return ShipmentFieldWeight, nil
 	}
 	var t ShipmentField
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
