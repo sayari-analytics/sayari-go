@@ -8905,7 +8905,7 @@ type EntityAddresses = string
 // Birth date of a person. See https://docs.sayari.com/attributes/#date-of-birth
 type EntityDob = string
 
-// Additional fields providing more details about an enetity
+// Additional fields providing more details about an entity
 type EntityDetails struct {
 	Id EntityId `json:"id"`
 	// Display name of the entity

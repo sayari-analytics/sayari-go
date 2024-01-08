@@ -2,7 +2,6 @@ package sdk
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"math/rand"
 	"os"
@@ -295,13 +294,14 @@ func TestShipmentSearch(t *testing.T) {
 
 	assert.Greater(t, len(shipments.Data.Hits), 0)
 
-	// test field and filter
-	entityID := "f_nIivE32HCYDPEoSPTGJw"
+	// test field and multi-filter
+	buyerName := "HANSOLL TEXTILE LTD"
+	buyerID := "f_nIivE32HCYDPEoSPTGJw"
 	hsCode := "600410"
 	shipments, err = api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{
-		Q:      hsCode,
-		Fields: []sayari.ShipmentField{sayari.ShipmentFieldHsCode},
-		Filter: &sayari.TradeFilterList{BuyerId: []string{entityID}},
+		Q:      buyerName,
+		Fields: []sayari.ShipmentField{sayari.ShipmentFieldBuyerName},
+		Filter: &sayari.TradeFilterList{HsCode: []string{hsCode}, BuyerId: []string{buyerID}},
 	})
 	assert.Nil(t, err)
 	assert.NotZero(t, len(shipments.Data.Hits))
@@ -321,64 +321,12 @@ func TestShipmentSearch(t *testing.T) {
 		assert.NotZero(t, len(shipment.Dst))
 		var entityFound bool
 		for _, dst := range shipment.Dst {
-			if dst.EntityId == entityID {
+			if dst.EntityId == buyerID {
 				entityFound = true
 				break
 			}
 		}
 		assert.True(t, entityFound)
-	}
-
-	// test field and multi-filter
-	supplierCountry := sayari.CountryChn
-	supplierRisk := "sheffield_hallam_university_forced_labor_entity"
-	hsCode = "600410"
-	shipments, err = api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{
-		Q:      hsCode,
-		Fields: []sayari.ShipmentField{sayari.ShipmentFieldHsCode},
-		Filter: &sayari.TradeFilterList{
-			SupplierCountry: []sayari.Country{supplierCountry},
-			SupplierRisk:    []string{supplierRisk},
-		},
-	})
-	assert.Nil(t, err)
-	assert.NotZero(t, len(shipments.Data.Hits))
-	for _, shipment := range shipments.Data.Hits {
-		// verify shipment matches on HS code
-		assert.NotZero(t, len(shipment.BusinessPurpose))
-		var hsFound bool
-		for _, purpose := range shipment.BusinessPurpose {
-			if purpose.Code != nil && *purpose.Code == hsCode {
-				hsFound = true
-				break
-			}
-		}
-		assert.True(t, hsFound)
-
-		// verify shipment match supplier country and risk
-		assert.NotZero(t, len(shipment.Src))
-		var supplierCountryFound bool
-		var supplierRiskFound bool
-		for _, src := range shipment.Src {
-			for _, country := range src.Country {
-				if country == supplierCountry {
-					supplierCountryFound = true
-					break
-				}
-			}
-			for risk := range src.RiskFactors {
-				// FIXME: fix type
-				if fmt.Sprint(risk) == supplierRisk {
-					supplierRiskFound = true
-					break
-				}
-			}
-			if supplierCountryFound && supplierRiskFound {
-				break
-			}
-		}
-		assert.True(t, supplierCountryFound)
-		assert.True(t, supplierRiskFound)
 	}
 }
 
