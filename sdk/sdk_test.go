@@ -321,11 +321,9 @@ func TestShipmentSearch(t *testing.T) {
 		assert.NotZero(t, len(shipment.Dst))
 		var entityFound bool
 		for _, dst := range shipment.Dst {
-			for _, dstName := range dst.Name {
-				if dstName == buyerName {
-					entityFound = true
-					break
-				}
+			if dst.EntityId == buyerID {
+				entityFound = true
+				break
 			}
 		}
 		assert.True(t, entityFound)
