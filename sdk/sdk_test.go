@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -287,12 +288,12 @@ func TestShipmentSearch(t *testing.T) {
 	shipments, err := api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{Q: randomString})
 	assert.Nil(t, err)
 	// try until we get results
-	if len(shipments.Data.Hits) == 0 {
+	if len(shipments.Data) == 0 {
 		TestShipmentSearch(t)
 		return
 	}
 
-	assert.Greater(t, len(shipments.Data.Hits), 0)
+	assert.Greater(t, len(shipments.Data), 0)
 
 	// test field and multi-filter
 	buyerName := "HANSOLL TEXTILE LTD"
@@ -300,17 +301,16 @@ func TestShipmentSearch(t *testing.T) {
 	hsCode := "600410"
 	shipments, err = api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{
 		Q:      buyerName,
-		Fields: []sayari.ShipmentField{sayari.ShipmentFieldBuyerName},
 		Filter: &sayari.TradeFilterList{HsCode: []string{hsCode}, BuyerId: []string{buyerID}},
 	})
 	assert.Nil(t, err)
-	assert.NotZero(t, len(shipments.Data.Hits))
-	for _, shipment := range shipments.Data.Hits {
+	assert.NotZero(t, len(shipments.Data))
+	for _, shipment := range shipments.Data {
 		// verify shipment matches on HS code
-		assert.NotZero(t, len(shipment.BusinessPurpose))
+		assert.NotZero(t, len(shipment.ProductDescriptions))
 		var hsFound bool
-		for _, purpose := range shipment.BusinessPurpose {
-			if purpose.Code != nil && *purpose.Code == hsCode {
+		for _, shipmentHScode := range shipment.HsCodes {
+			if strings.HasPrefix(shipmentHScode.Code, hsCode) {
 				hsFound = true
 				break
 			}
@@ -318,10 +318,10 @@ func TestShipmentSearch(t *testing.T) {
 		assert.True(t, hsFound)
 
 		// verify shipment matches entity
-		assert.NotZero(t, len(shipment.Dst))
+		assert.NotZero(t, len(shipment.Buyer))
 		var entityFound bool
-		for _, dst := range shipment.Dst {
-			if dst.EntityId == buyerID {
+		for _, buyer := range shipment.Buyer {
+			if buyer.Id == buyerID {
 				entityFound = true
 				break
 			}
@@ -337,12 +337,12 @@ func TestSupplierSearch(t *testing.T) {
 	suppliers, err := api.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: randomString})
 	assert.Nil(t, err)
 	// try until we get results
-	if len(suppliers.Data.Hits) == 0 {
+	if len(suppliers.Data) == 0 {
 		TestSupplierSearch(t)
 		return
 	}
 
-	assert.Greater(t, len(suppliers.Data.Hits), 0)
+	assert.Greater(t, len(suppliers.Data), 0)
 }
 
 func TestBuyerSearch(t *testing.T) {
@@ -352,12 +352,12 @@ func TestBuyerSearch(t *testing.T) {
 	buyers, err := api.Trade.SearchBuyers(context.Background(), &sayari.SearchBuyers{Q: randomString})
 	assert.Nil(t, err)
 	// try until we get results
-	if len(buyers.Data.Hits) == 0 {
+	if len(buyers.Data) == 0 {
 		TestBuyerSearch(t)
 		return
 	}
 
-	assert.Greater(t, len(buyers.Data.Hits), 0)
+	assert.Greater(t, len(buyers.Data), 0)
 }
 
 func TestUsage(t *testing.T) {

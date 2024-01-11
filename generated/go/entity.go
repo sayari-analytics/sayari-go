@@ -100,22 +100,28 @@ type EntitySummaryResponse struct {
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	Countries   []Country     `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel   *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode            *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival   *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType       *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus      *Status                     `json:"latest_status,omitempty"`
-	Risk              EntityRisk                  `json:"risk,omitempty"`
-	Attributes        *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy               `json:"referenced_by,omitempty"`
+	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                         `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
+	UserRecordCount          int                         `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus             *Status                     `json:"latest_status,omitempty"`
+	Risk                     EntityRisk                  `json:"risk,omitempty"`
+	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
+	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
+	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
+	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -165,22 +171,28 @@ type GetEntityResponse struct {
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	Countries   []Country     `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel   *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode            *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival   *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType       *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus      *Status                     `json:"latest_status,omitempty"`
-	Risk              EntityRisk                  `json:"risk,omitempty"`
-	Attributes        *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy               `json:"referenced_by,omitempty"`
+	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                         `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
+	UserRecordCount          int                         `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus             *Status                     `json:"latest_status,omitempty"`
+	Risk                     EntityRisk                  `json:"risk,omitempty"`
+	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
+	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
+	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
+	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
 
 	_rawJSON json.RawMessage
 }

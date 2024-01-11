@@ -15,8 +15,6 @@ type SearchBuyers struct {
 	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
-	// Shipment fields to search against.
-	Fields []ShipmentField `json:"fields,omitempty"`
 	// Filters to be applied to search query to limit the result-set.
 	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
@@ -32,8 +30,6 @@ type SearchShipments struct {
 	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
-	// Shipment fields to search against.
-	Fields []ShipmentField `json:"fields,omitempty"`
 	// Filters to be applied to search query to limit the result-set.
 	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
@@ -49,8 +45,6 @@ type SearchSuppliers struct {
 	Offset *int `json:"-"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q"`
-	// Shipment fields to search against.
-	Fields []ShipmentField `json:"fields,omitempty"`
 	// Filters to be applied to search query to limit the result-set.
 	Filter *TradeFilterList `json:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
@@ -59,44 +53,13 @@ type SearchSuppliers struct {
 	Advanced *bool `json:"advanced,omitempty"`
 }
 
-type ShipmentField string
-
-const (
-	ShipmentFieldBuyerName       ShipmentField = "buyer_name"
-	ShipmentFieldSupplierName    ShipmentField = "supplier_name"
-	ShipmentFieldHsDescription   ShipmentField = "hs_description"
-	ShipmentFieldSupplierPurpose ShipmentField = "supplier_purpose"
-	ShipmentFieldBuyerPurpose    ShipmentField = "buyer_purpose"
-)
-
-func NewShipmentFieldFromString(s string) (ShipmentField, error) {
-	switch s {
-	case "buyer_name":
-		return ShipmentFieldBuyerName, nil
-	case "supplier_name":
-		return ShipmentFieldSupplierName, nil
-	case "hs_description":
-		return ShipmentFieldHsDescription, nil
-	case "supplier_purpose":
-		return ShipmentFieldSupplierPurpose, nil
-	case "buyer_purpose":
-		return ShipmentFieldBuyerPurpose, nil
-	}
-	var t ShipmentField
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s ShipmentField) Ptr() *ShipmentField {
-	return &s
-}
-
 // OK
 type BuyerSearchResponse struct {
-	Limit  int                  `json:"limit"`
-	Size   *SizeInfo            `json:"size,omitempty"`
-	Offset int                  `json:"offset"`
-	Next   bool                 `json:"next"`
-	Data   *SupplierOrBuyerHits `json:"data,omitempty"`
+	Limit  int                `json:"limit"`
+	Size   *SizeInfo          `json:"size,omitempty"`
+	Offset int                `json:"offset"`
+	Next   bool               `json:"next"`
+	Data   []*SupplierOrBuyer `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -126,11 +89,11 @@ func (b *BuyerSearchResponse) String() string {
 
 // OK
 type ShipmentSearchResponse struct {
-	Limit  int           `json:"limit"`
-	Size   *SizeInfo     `json:"size,omitempty"`
-	Offset int           `json:"offset"`
-	Next   bool          `json:"next"`
-	Data   *ShipmentHits `json:"data,omitempty"`
+	Limit  int         `json:"limit"`
+	Size   *SizeInfo   `json:"size,omitempty"`
+	Offset int         `json:"offset"`
+	Next   bool        `json:"next"`
+	Data   []*Shipment `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -160,11 +123,11 @@ func (s *ShipmentSearchResponse) String() string {
 
 // OK
 type SupplierSearchResponse struct {
-	Limit  int                  `json:"limit"`
-	Size   *SizeInfo            `json:"size,omitempty"`
-	Offset int                  `json:"offset"`
-	Next   bool                 `json:"next"`
-	Data   *SupplierOrBuyerHits `json:"data,omitempty"`
+	Limit  int                `json:"limit"`
+	Size   *SizeInfo          `json:"size,omitempty"`
+	Offset int                `json:"offset"`
+	Next   bool               `json:"next"`
+	Data   []*SupplierOrBuyer `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
