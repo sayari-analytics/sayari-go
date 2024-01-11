@@ -79,6 +79,7 @@ func (s *SizeInfo) String() string {
 }
 
 type AdditionalInformationData struct {
+	Editable    *bool                            `json:"editable,omitempty"`
 	Record      []string                         `json:"record,omitempty"`
 	RecordCount int                              `json:"record_count"`
 	Properties  *AdditionalInformationProperties `json:"properties,omitempty"`
@@ -175,6 +176,7 @@ func (a *AdditionalInformationProperties) String() string {
 }
 
 type AddressData struct {
+	Editable    *bool              `json:"editable,omitempty"`
 	Record      []string           `json:"record,omitempty"`
 	RecordCount int                `json:"record_count"`
 	Properties  *AddressProperties `json:"properties,omitempty"`
@@ -265,9 +267,10 @@ type AddressProperties struct {
 	Level        *string `json:"level,omitempty"`
 	MetroStation *string `json:"metro_station,omitempty"`
 	// Phrases like "in", "near", etc. used after a category phrase, to help with parsing queries like "restaurants in Brooklyn"
-	Near     *string `json:"near,omitempty"`
-	PoBox    *string `json:"po_box,omitempty"`
-	Postcode *string `json:"postcode,omitempty"`
+	Near       *string `json:"near,omitempty"`
+	Normalized string  `json:"normalized"`
+	PoBox      *string `json:"po_box,omitempty"`
+	Postcode   *string `json:"postcode,omitempty"`
 	// A code describing the precision of the X and Y coordinates
 	PrecisionCode *string `json:"precision_code,omitempty"`
 	// Street name(s)
@@ -364,6 +367,7 @@ func (a AddressType) Ptr() *AddressType {
 }
 
 type AttributeData struct {
+	Editable    *bool    `json:"editable,omitempty"`
 	Record      []string `json:"record,omitempty"`
 	RecordCount int      `json:"record_count"`
 
@@ -583,6 +587,7 @@ func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
 }
 
 type BusinessPurposeData struct {
+	Editable    *bool                      `json:"editable,omitempty"`
 	Record      []string                   `json:"record,omitempty"`
 	RecordCount int                        `json:"record_count"`
 	Properties  *BusinessPurposeProperties `json:"properties,omitempty"`
@@ -732,6 +737,8 @@ const (
 	BusinessPurposeStandardSic BusinessPurposeStandard = "SIC"
 	// Singapore Standard Industrial Classification (national standard for classifying economic activities undertaken by economic units)
 	BusinessPurposeStandardSsic2020 BusinessPurposeStandard = "SSIC2020"
+	// Polska Klasyfikacja Działalności (PKD) - Polish Classification of Activities, Rev. 2007
+	BusinessPurposeStandardPkd2007 BusinessPurposeStandard = "PKD2007"
 )
 
 func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, error) {
@@ -784,6 +791,8 @@ func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, er
 		return BusinessPurposeStandardSic, nil
 	case "SSIC2020":
 		return BusinessPurposeStandardSsic2020, nil
+	case "PKD2007":
+		return BusinessPurposeStandardPkd2007, nil
 	}
 	var t BusinessPurposeStandard
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -866,6 +875,7 @@ func (c CompanyStatus) Ptr() *CompanyStatus {
 }
 
 type CompanyTypeData struct {
+	Editable    *bool                  `json:"editable,omitempty"`
 	Record      []string               `json:"record,omitempty"`
 	RecordCount int                    `json:"record_count"`
 	Properties  *CompanyTypeProperties `json:"properties,omitempty"`
@@ -960,6 +970,7 @@ func (c *CompanyTypeProperties) String() string {
 }
 
 type ContactData struct {
+	Editable    *bool              `json:"editable,omitempty"`
 	Record      []string           `json:"record,omitempty"`
 	RecordCount int                `json:"record_count"`
 	Properties  *ContactProperties `json:"properties,omitempty"`
@@ -2176,6 +2187,7 @@ func (c CountryContext) Ptr() *CountryContext {
 }
 
 type CountryData struct {
+	Editable    *bool              `json:"editable,omitempty"`
 	Record      []string           `json:"record,omitempty"`
 	RecordCount int                `json:"record_count"`
 	Properties  *CountryProperties `json:"properties,omitempty"`
@@ -3036,6 +3048,7 @@ func (c Currency) Ptr() *Currency {
 }
 
 type DateOfBirthData struct {
+	Editable    *bool                  `json:"editable,omitempty"`
 	Record      []string               `json:"record,omitempty"`
 	RecordCount int                    `json:"record_count"`
 	Properties  *DateOfBirthProperties `json:"properties,omitempty"`
@@ -3237,6 +3250,7 @@ func (f FinanceType) Ptr() *FinanceType {
 }
 
 type FinancesData struct {
+	Editable    *bool               `json:"editable,omitempty"`
 	Record      []string            `json:"record,omitempty"`
 	RecordCount int                 `json:"record_count"`
 	Properties  *FinancesProperties `json:"properties,omitempty"`
@@ -3338,6 +3352,7 @@ func (f *FinancesProperties) String() string {
 }
 
 type FinancialsData struct {
+	Editable    *bool                 `json:"editable,omitempty"`
 	Record      []string              `json:"record,omitempty"`
 	RecordCount int                   `json:"record_count"`
 	Properties  *FinancialsProperties `json:"properties,omitempty"`
@@ -3473,6 +3488,7 @@ func (g Gender) Ptr() *Gender {
 }
 
 type GenderData struct {
+	Editable    *bool             `json:"editable,omitempty"`
 	Record      []string          `json:"record,omitempty"`
 	RecordCount int               `json:"record_count"`
 	Properties  *GenderProperties `json:"properties,omitempty"`
@@ -3567,6 +3583,7 @@ func (g *GenderProperties) String() string {
 }
 
 type GenericData struct {
+	Editable    *bool              `json:"editable,omitempty"`
 	Record      []string           `json:"record,omitempty"`
 	RecordCount int                `json:"record_count"`
 	Properties  *GenericProperties `json:"properties,omitempty"`
@@ -3663,6 +3680,7 @@ func (g *GenericProperties) String() string {
 }
 
 type IdentifierData struct {
+	Editable    *bool                 `json:"editable,omitempty"`
 	Record      []string              `json:"record,omitempty"`
 	RecordCount int                   `json:"record_count"`
 	Properties  *IdentifierProperties `json:"properties,omitempty"`
@@ -6679,6 +6697,7 @@ func (l Language) Ptr() *Language {
 }
 
 type MeasurementData struct {
+	Editable    *bool                  `json:"editable,omitempty"`
 	Record      []string               `json:"record,omitempty"`
 	RecordCount int                    `json:"record_count"`
 	Properties  *MeasurementProperties `json:"properties,omitempty"`
@@ -6830,6 +6849,7 @@ func (m MonetaryValueContext) Ptr() *MonetaryValueContext {
 }
 
 type MonetaryValueData struct {
+	Editable    *bool                    `json:"editable,omitempty"`
 	Record      []string                 `json:"record,omitempty"`
 	RecordCount int                      `json:"record_count"`
 	Properties  *MonetaryValueProperties `json:"properties,omitempty"`
@@ -6970,6 +6990,7 @@ func (n NameContext) Ptr() *NameContext {
 }
 
 type NameData struct {
+	Editable    *bool           `json:"editable,omitempty"`
 	Record      []string        `json:"record,omitempty"`
 	RecordCount int             `json:"record_count"`
 	Properties  *NameProperties `json:"properties,omitempty"`
@@ -7098,6 +7119,7 @@ func (p PersonStatus) Ptr() *PersonStatus {
 }
 
 type PersonStatusData struct {
+	Editable    *bool                   `json:"editable,omitempty"`
 	Record      []string                `json:"record,omitempty"`
 	RecordCount int                     `json:"record_count"`
 	Properties  *PersonStatusProperties `json:"properties,omitempty"`
@@ -7193,6 +7215,7 @@ func (p *PersonStatusProperties) String() string {
 }
 
 type PositionData struct {
+	Editable    *bool               `json:"editable,omitempty"`
 	Record      []string            `json:"record,omitempty"`
 	RecordCount int                 `json:"record_count"`
 	Properties  *PositionProperties `json:"properties,omitempty"`
@@ -7288,6 +7311,7 @@ func (p *PositionProperties) String() string {
 }
 
 type RiskIntelligenceData struct {
+	Editable    *bool                       `json:"editable,omitempty"`
 	Record      []string                    `json:"record,omitempty"`
 	RecordCount int                         `json:"record_count"`
 	Properties  *RiskIntelligenceProperties `json:"properties,omitempty"`
@@ -7391,6 +7415,7 @@ func (r *RiskIntelligenceProperties) String() string {
 }
 
 type SharesData struct {
+	Editable    *bool             `json:"editable,omitempty"`
 	Record      []string          `json:"record,omitempty"`
 	RecordCount int               `json:"record_count"`
 	Properties  *SharesProperties `json:"properties,omitempty"`
@@ -7531,6 +7556,7 @@ func (s StatusContext) Ptr() *StatusContext {
 }
 
 type StatusData struct {
+	Editable    *bool             `json:"editable,omitempty"`
 	Record      []string          `json:"record,omitempty"`
 	RecordCount int               `json:"record_count"`
 	Properties  *StatusProperties `json:"properties,omitempty"`
@@ -7704,6 +7730,7 @@ func (t Tag) Ptr() *Tag {
 }
 
 type TranslatedNameData struct {
+	Editable    *bool                     `json:"editable,omitempty"`
 	Record      []string                  `json:"record,omitempty"`
 	RecordCount int                       `json:"record_count"`
 	Properties  *TranslatedNameProperties `json:"properties,omitempty"`
@@ -7857,6 +7884,7 @@ func (u Unit) Ptr() *Unit {
 }
 
 type WeakIdentifierData struct {
+	Editable    *bool                     `json:"editable,omitempty"`
 	Record      []string                  `json:"record,omitempty"`
 	RecordCount int                       `json:"record_count"`
 	Properties  *WeakIdentifierProperties `json:"properties,omitempty"`
@@ -8625,24 +8653,30 @@ type SearchResults struct {
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	Countries   []Country     `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel   *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode            *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival   *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType       *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus      *Status                     `json:"latest_status,omitempty"`
-	Risk              EntityRisk                  `json:"risk,omitempty"`
-	Attributes        *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy               `json:"referenced_by,omitempty"`
-	Coordinates       []*Coordinates              `json:"coordinates,omitempty"`
-	Matches           EntityMatches               `json:"matches,omitempty"`
+	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                         `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
+	UserRecordCount          int                         `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus             *Status                     `json:"latest_status,omitempty"`
+	Risk                     EntityRisk                  `json:"risk,omitempty"`
+	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
+	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
+	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
+	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
+	Coordinates              []*Coordinates              `json:"coordinates,omitempty"`
+	Matches                  EntityMatches               `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8868,10 +8902,16 @@ type EmbeddedEntity struct {
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	Countries   []Country     `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                         `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
+	UserRecordCount          int                         `json:"user_record_count"`
 
 	_rawJSON json.RawMessage
 }
@@ -8927,22 +8967,28 @@ type EntityDetails struct {
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	Countries   []Country     `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel   *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode            *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival   *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType       *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus      *Status                     `json:"latest_status,omitempty"`
-	Risk              EntityRisk                  `json:"risk,omitempty"`
-	Attributes        *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy               `json:"referenced_by,omitempty"`
+	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                         `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
+	UserRecordCount          int                         `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus             *Status                     `json:"latest_status,omitempty"`
+	Risk                     EntityRisk                  `json:"risk,omitempty"`
+	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
+	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
+	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
+	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9077,14 +9123,20 @@ type PsaEntity struct {
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	Countries   []Country     `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	Risk              EntityRisk                  `json:"risk,omitempty"`
-	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	CompanyType       *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus      *Status                     `json:"latest_status,omitempty"`
+	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                         `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
+	UserRecordCount          int                         `json:"user_record_count"`
+	Risk                     EntityRisk                  `json:"risk,omitempty"`
+	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	CompanyType              *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus             *Status                     `json:"latest_status,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9117,7 +9169,7 @@ type PossiblySameAs struct {
 	Limit  int                   `json:"limit"`
 	Size   *SizeInfo             `json:"size,omitempty"`
 	Offset *int                  `json:"offset,omitempty"`
-	Next   *bool                 `json:"next,omitempty"`
+	Next   interface{}           `json:"next,omitempty"`
 	Data   []*PossiblySameAsData `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
@@ -9885,66 +9937,6 @@ func (s *Source) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-type Aggregations struct {
-	ByVolume    []*VolumeAggregates `json:"byVolume,omitempty"`
-	EntityCount []interface{}       `json:"entityCount,omitempty"`
-
-	_rawJSON json.RawMessage
-}
-
-func (a *Aggregations) UnmarshalJSON(data []byte) error {
-	type unmarshaler Aggregations
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*a = Aggregations(value)
-	a._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (a *Aggregations) String() string {
-	if len(a._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(a); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", a)
-}
-
-type Bucket struct {
-	Key      string `json:"key"`
-	DocCount int    `json:"doc_count"`
-
-	_rawJSON json.RawMessage
-}
-
-func (b *Bucket) UnmarshalJSON(data []byte) error {
-	type unmarshaler Bucket
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*b = Bucket(value)
-	b._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (b *Bucket) String() string {
-	if len(b._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(b); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", b)
-}
-
 type BusinessPurpose struct {
 	Value *string `json:"value,omitempty"`
 	Code  *string `json:"code,omitempty"`
@@ -9975,35 +9967,34 @@ func (b *BusinessPurpose) String() string {
 	return fmt.Sprintf("%#v", b)
 }
 
-type LatestShipmentDate struct {
-	DocCountErrorUpperBound int       `json:"doc_count_error_upper_bound"`
-	SumOtherDocCount        int       `json:"sum_other_doc_count"`
-	Buckets                 []*Bucket `json:"buckets,omitempty"`
+type DataSource struct {
+	Id    SourceId `json:"id"`
+	Label string   `json:"label"`
 
 	_rawJSON json.RawMessage
 }
 
-func (l *LatestShipmentDate) UnmarshalJSON(data []byte) error {
-	type unmarshaler LatestShipmentDate
+func (d *DataSource) UnmarshalJSON(data []byte) error {
+	type unmarshaler DataSource
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*l = LatestShipmentDate(value)
-	l._rawJSON = json.RawMessage(data)
+	*d = DataSource(value)
+	d._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (l *LatestShipmentDate) String() string {
-	if len(l._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(l._rawJSON); err == nil {
+func (d *DataSource) String() string {
+	if len(d._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(l); err == nil {
+	if value, err := core.StringifyJSON(d); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", l)
+	return fmt.Sprintf("%#v", d)
 }
 
 type MonetaryValue struct {
@@ -10038,14 +10029,21 @@ func (m *MonetaryValue) String() string {
 }
 
 type Shipment struct {
-	MonetaryValue   []*MonetaryValue             `json:"monetary_value,omitempty"`
-	Dst             []*SourceOrDestinationEntity `json:"dst,omitempty"`
-	Weight          []*Weight                    `json:"weight,omitempty"`
-	BusinessPurpose []*BusinessPurpose           `json:"business_purpose,omitempty"`
-	Identifier      []*ShipmentIdentifier        `json:"identifier,omitempty"`
-	Country         []*ShipmentCountry           `json:"country,omitempty"`
-	Src             []*SourceOrDestinationEntity `json:"src,omitempty"`
-	Metadata        *ShipmentMetadata            `json:"metadata,omitempty"`
+	Id                  string                       `json:"id"`
+	Type                string                       `json:"type"`
+	Buyer               []*SourceOrDestinationEntity `json:"buyer,omitempty"`
+	Supplier            []*SourceOrDestinationEntity `json:"supplier,omitempty"`
+	ArrivalDate         *string                      `json:"arrival_date,omitempty"`
+	DepartureDate       *string                      `json:"departure_date,omitempty"`
+	DepartureAddress    *ShipmentAddress             `json:"departure_address,omitempty"`
+	ArrivalAddress      *ShipmentAddress             `json:"arrival_address,omitempty"`
+	MonetaryValue       []*MonetaryValue             `json:"monetary_value,omitempty"`
+	Weight              []*Weight                    `json:"weight,omitempty"`
+	Identifier          []*ShipmentIdentifier        `json:"identifier,omitempty"`
+	Sources             []*DataSource                `json:"sources,omitempty"`
+	HsCodes             []*HsCodeInfo                `json:"hs_codes,omitempty"`
+	ProductDescriptions []string                     `json:"product_descriptions,omitempty"`
+	Record              RecordId                     `json:"record"`
 
 	_rawJSON json.RawMessage
 }
@@ -10062,6 +10060,40 @@ func (s *Shipment) UnmarshalJSON(data []byte) error {
 }
 
 func (s *Shipment) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+type ShipmentAddress struct {
+	X       *float64 `json:"x,omitempty"`
+	Y       *float64 `json:"y,omitempty"`
+	City    *string  `json:"city,omitempty"`
+	State   *string  `json:"state,omitempty"`
+	Country *string  `json:"country,omitempty"`
+	Value   *string  `json:"value,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *ShipmentAddress) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentAddress
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentAddress(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentAddress) String() string {
 	if len(s._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
 			return value
@@ -10091,35 +10123,6 @@ func (s *ShipmentCountry) UnmarshalJSON(data []byte) error {
 }
 
 func (s *ShipmentCountry) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(s); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", s)
-}
-
-type ShipmentHits struct {
-	Hits []*Shipment `json:"hits,omitempty"`
-
-	_rawJSON json.RawMessage
-}
-
-func (s *ShipmentHits) UnmarshalJSON(data []byte) error {
-	type unmarshaler ShipmentHits
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*s = ShipmentHits(value)
-	s._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (s *ShipmentHits) String() string {
 	if len(s._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
 			return value
@@ -10198,13 +10201,11 @@ func (s *ShipmentMetadata) String() string {
 }
 
 type SourceOrDestinationEntity struct {
-	RiskFactors     map[Risk]interface{} `json:"risk_factors,omitempty"`
-	Name            []string             `json:"name,omitempty"`
+	Id              EntityId             `json:"id"`
+	Names           []string             `json:"names,omitempty"`
+	Risks           map[Risk]interface{} `json:"risks,omitempty"`
 	BusinessPurpose []*BusinessPurpose   `json:"business_purpose,omitempty"`
-	Country         []Country            `json:"country,omitempty"`
-	Date            *string              `json:"date,omitempty"`
-	EntityId        EntityId             `json:"entity_id"`
-	Type            Relationships        `json:"type,omitempty"`
+	Countries       []Country            `json:"countries,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10232,74 +10233,10 @@ func (s *SourceOrDestinationEntity) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-type Supplier struct {
-	Id EntityId `json:"id"`
-	// Display name of the entity
-	Label string `json:"label"`
-	// Number of outgoing relationships
-	Degree int `json:"degree"`
-	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
-	Closed bool `json:"closed"`
-	// Convenience URL to the entity in the API.
-	EntityUrl string `json:"entity_url"`
-	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
-	Pep   bool    `json:"pep"`
-	PsaId *string `json:"psa_id,omitempty"`
-	// Number of entities that are Possibly the Same As (PSA) the entity.
-	PsaCount int `json:"psa_count"`
-	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
-	Sanctioned  bool          `json:"sanctioned"`
-	Type        Entities      `json:"type,omitempty"`
-	Identifiers []*Identifier `json:"identifiers,omitempty"`
-	Countries   []Country     `json:"countries,omitempty"`
-	// Number of records associated with the entity, grouped by source.
-	SourceCount       map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses         []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth       *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	RegistrationDate  *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel   *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode            *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival   *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType       *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus      *Status                     `json:"latest_status,omitempty"`
-	Risk              EntityRisk                  `json:"risk,omitempty"`
-	Attributes        *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships     *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs    *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy      *ReferencedBy               `json:"referenced_by,omitempty"`
-	Metadata          *SupplierMetadata           `json:"metadata,omitempty"`
-
-	_rawJSON json.RawMessage
-}
-
-func (s *Supplier) UnmarshalJSON(data []byte) error {
-	type unmarshaler Supplier
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*s = Supplier(value)
-	s._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (s *Supplier) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(s); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", s)
-}
-
 type SupplierMetadata struct {
-	LatestShipmentDate *string `json:"latestShipmentDate,omitempty"`
-	Shipments          int     `json:"shipments"`
+	LatestShipmentDate *string   `json:"latestShipmentDate,omitempty"`
+	Shipments          int       `json:"shipments"`
+	HsCodes            []*HsCode `json:"hsCodes,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10327,25 +10264,66 @@ func (s *SupplierMetadata) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-type SupplierOrBuyerHits struct {
-	Hits         []*Supplier   `json:"hits,omitempty"`
-	Aggregations *Aggregations `json:"aggregations,omitempty"`
+type SupplierOrBuyer struct {
+	Id EntityId `json:"id"`
+	// Display name of the entity
+	Label string `json:"label"`
+	// Number of outgoing relationships
+	Degree int `json:"degree"`
+	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+	Closed bool `json:"closed"`
+	// Convenience URL to the entity in the API.
+	EntityUrl string `json:"entity_url"`
+	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	Pep   bool    `json:"pep"`
+	PsaId *string `json:"psa_id,omitempty"`
+	// Number of entities that are Possibly the Same As (PSA) the entity.
+	PsaCount int `json:"psa_count"`
+	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
+	Sanctioned  bool          `json:"sanctioned"`
+	Type        Entities      `json:"type,omitempty"`
+	Identifiers []*Identifier `json:"identifiers,omitempty"`
+	Countries   []Country     `json:"countries,omitempty"`
+	// Number of records associated with the entity, grouped by source.
+	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
+	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
+	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
+	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                         `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
+	UserRecordCount          int                         `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType                `json:"company_type,omitempty"`
+	LatestStatus             *Status                     `json:"latest_status,omitempty"`
+	Risk                     EntityRisk                  `json:"risk,omitempty"`
+	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
+	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
+	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
+	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
+	Metadata                 *SupplierMetadata           `json:"metadata,omitempty"`
 
 	_rawJSON json.RawMessage
 }
 
-func (s *SupplierOrBuyerHits) UnmarshalJSON(data []byte) error {
-	type unmarshaler SupplierOrBuyerHits
+func (s *SupplierOrBuyer) UnmarshalJSON(data []byte) error {
+	type unmarshaler SupplierOrBuyer
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SupplierOrBuyerHits(value)
+	*s = SupplierOrBuyer(value)
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (s *SupplierOrBuyerHits) String() string {
+func (s *SupplierOrBuyer) String() string {
 	if len(s._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
 			return value
@@ -10355,37 +10333,6 @@ func (s *SupplierOrBuyerHits) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
-}
-
-type VolumeAggregates struct {
-	Key                string              `json:"key"`
-	DocCount           int                 `json:"doc_count"`
-	LatestShipmentDate *LatestShipmentDate `json:"latest_shipment_date,omitempty"`
-
-	_rawJSON json.RawMessage
-}
-
-func (v *VolumeAggregates) UnmarshalJSON(data []byte) error {
-	type unmarshaler VolumeAggregates
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*v = VolumeAggregates(value)
-	v._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (v *VolumeAggregates) String() string {
-	if len(v._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(v._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(v); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", v)
 }
 
 type Weight struct {
@@ -10417,6 +10364,68 @@ func (w *Weight) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", w)
+}
+
+type HsCode struct {
+	Key         string  `json:"key"`
+	DocCount    int     `json:"doc_count"`
+	Value       string  `json:"value"`
+	ValueSimple *string `json:"value_simple,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (h *HsCode) UnmarshalJSON(data []byte) error {
+	type unmarshaler HsCode
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HsCode(value)
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HsCode) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
+}
+
+type HsCodeInfo struct {
+	Code        string `json:"code"`
+	Description string `json:"description"`
+
+	_rawJSON json.RawMessage
+}
+
+func (h *HsCodeInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler HsCodeInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HsCodeInfo(value)
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HsCodeInfo) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
 }
 
 type ShortestPathData struct {
