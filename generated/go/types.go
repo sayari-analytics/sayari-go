@@ -145,6 +145,12 @@ func (a *AdditionalInformationInfo) String() string {
 }
 
 type AdditionalInformationProperties struct {
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// We would probably group by type in a GUI
 	Type  *string `json:"type,omitempty"`
 	Value *string `json:"value,omitempty"`
@@ -253,8 +259,12 @@ type AddressProperties struct {
 	Country *string `json:"country,omitempty"`
 	// Informal subdivision of a country without any political status
 	CountryRegion *string `json:"country_region,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
 	// Numbered/lettered entrance
 	Entrance *string `json:"entrance,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
 	// Building/site name (e.g. 'Brooklyn Academy of Music', 'Empire State Building')
 	House *string `json:"house,omitempty"`
 	// Usually refers to the external (street-facing) building number. In some jurisdictions, this may be a compound number that also includes an apartment/block number.
@@ -283,6 +293,8 @@ type AddressProperties struct {
 	StateDistrict *string `json:"state_district,omitempty"`
 	// Usually an unofficial neighborhood name, like "Harlem", "South Bronx", or "Crown Heights"
 	Suburb *string `json:"suburb,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// The address value translated to English
 	Translated *string `json:"translated,omitempty"`
 	// The address value transliterated to English
@@ -654,8 +666,14 @@ func (b *BusinessPurposeInfo) String() string {
 
 type BusinessPurposeProperties struct {
 	// A code
-	Code     *string                  `json:"code,omitempty"`
+	Code *string `json:"code,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string                  `json:"from_date,omitempty"`
 	Standard *BusinessPurposeStandard `json:"standard,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// A text description
 	Value *string `json:"value,omitempty"`
 
@@ -941,7 +959,13 @@ func (c *CompanyTypeInfo) String() string {
 }
 
 type CompanyTypeProperties struct {
-	Value *string `json:"value,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
+	Value  *string `json:"value,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -1036,7 +1060,13 @@ func (c *ContactInfo) String() string {
 }
 
 type ContactProperties struct {
-	Type *ContactType `json:"type,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string      `json:"to_date,omitempty"`
+	Type   *ContactType `json:"type,omitempty"`
 	// The contact detail itself (e.g. 'jdoe@sayari.com,' '202-555-5555')
 	Value string `json:"value"`
 
@@ -2255,8 +2285,14 @@ func (c *CountryInfo) String() string {
 type CountryProperties struct {
 	// The type of affiliation
 	Context *CountryContext `json:"context,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
 	// Subnational state, province, region, etc.
 	State *string `json:"state,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// The country, ideally normalized to an ISO trigram
 	Value Country `json:"value,omitempty"`
 
@@ -3114,6 +3150,12 @@ func (d *DateOfBirthInfo) String() string {
 }
 
 type DateOfBirthProperties struct {
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// The date of birth in YYYY-MM-DD, YYYY-MM, or YYYY format
 	Value string `json:"value"`
 
@@ -3320,6 +3362,12 @@ type FinancesProperties struct {
 	Context *FinanceType `json:"context,omitempty"`
 	// The currency, if applicable
 	Currency *Currency `json:"currency,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// A free-text definition of the type
 	Type *string `json:"type,omitempty"`
 	// The numerical amount
@@ -3422,8 +3470,12 @@ type FinancialsProperties struct {
 	Assets *float64 `json:"assets,omitempty"`
 	// Reporting currency
 	Currency *Currency `json:"currency,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
 	// Total employees
 	Employees *int `json:"employees,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
 	// Sum of the combined debts a company owes
 	Liabilities *float64 `json:"liabilities,omitempty"`
 	// Company's earnings for a period net of operating costs, taxes, and interest
@@ -3434,6 +3486,8 @@ type FinancialsProperties struct {
 	RegisteredCapital *float64 `json:"registered_capital,omitempty"`
 	// The total amount of income generated by the sale of goods or services related to the company's primary operations
 	Revenue *float64 `json:"revenue,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3554,7 +3608,13 @@ func (g *GenderInfo) String() string {
 }
 
 type GenderProperties struct {
-	Value Gender `json:"value,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
+	Value  Gender  `json:"value,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3649,6 +3709,12 @@ func (g *GenericInfo) String() string {
 }
 
 type GenericProperties struct {
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// We would probably group by type in a GUI
 	Type  *string `json:"type,omitempty"`
 	Value *string `json:"value,omitempty"`
@@ -3746,7 +3812,13 @@ func (i *IdentifierInfo) String() string {
 }
 
 type IdentifierProperties struct {
-	Type *BothIdentifierTypes `json:"type,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string              `json:"to_date,omitempty"`
+	Type   *BothIdentifierTypes `json:"type,omitempty"`
 	// The text/number value of the identifier
 	Value string `json:"value"`
 
@@ -4836,6 +4908,10 @@ const (
 	IdentifierTypeWipoIntlRegNo IdentifierType = "wipo_intl_reg_no"
 	// Unique USA ID number. Assigned to every foreign trademark application.
 	IdentifierTypeWipoIntlRefNo IdentifierType = "wipo_intl_ref_no"
+	// Unique UK charity ID number. Assigned to every charity registered with the Charity Commission for England and Wales.
+	IdentifierTypeGbrCharityNo IdentifierType = "gbr_charity_no"
+	// Unique UK government organization ID number. Assigned to government organizations in the UK.
+	IdentifierTypeGbrGoNo IdentifierType = "gbr_go_no"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -5934,6 +6010,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeWipoIntlRegNo, nil
 	case "wipo_intl_ref_no":
 		return IdentifierTypeWipoIntlRefNo, nil
+	case "gbr_charity_no":
+		return IdentifierTypeGbrCharityNo, nil
+	case "gbr_go_no":
+		return IdentifierTypeGbrGoNo, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -6763,6 +6843,12 @@ func (m *MeasurementInfo) String() string {
 }
 
 type MeasurementProperties struct {
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// Type of the measurement
 	Type MeasurementType `json:"type,omitempty"`
 	// The unit of the measurement
@@ -6919,6 +7005,12 @@ type MonetaryValueProperties struct {
 	Context *string `json:"context,omitempty"`
 	// The ISO 4217 currency code
 	Currency *Currency `json:"currency,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// The financial value of the asset
 	Value float64 `json:"value"`
 
@@ -7057,8 +7149,14 @@ func (n *NameInfo) String() string {
 
 type NameProperties struct {
 	Context *string `json:"context,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
 	// The language that the name is in
 	Language *Language `json:"language,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// The name value translated to English
 	Translated *string `json:"translated,omitempty"`
 	// The name value transliterated to English
@@ -7185,6 +7283,12 @@ func (p *PersonStatusInfo) String() string {
 }
 
 type PersonStatusProperties struct {
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// The event
 	Value PersonStatus `json:"value,omitempty"`
 
@@ -7281,6 +7385,12 @@ func (p *PositionInfo) String() string {
 }
 
 type PositionProperties struct {
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// The position as text
 	Value string `json:"value"`
 
@@ -7379,12 +7489,18 @@ func (r *RiskIntelligenceInfo) String() string {
 type RiskIntelligenceProperties struct {
 	// Government authority issuing the enforcement or risk intelligence action
 	Authority *string `json:"authority,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
 	// Official list where the entity's risk information or enforcement action is recorded
 	List *string `json:"list,omitempty"`
 	// Specific to sanctions risk. Sanctions program under which the entity is designated.
 	Program *string `json:"program,omitempty"`
 	// Explanation or legal basis for the risk intelligence
 	Reason *string `json:"reason,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// Type of risk intelligence
 	Type Tag `json:"type,omitempty"`
 
@@ -7483,12 +7599,18 @@ func (s *SharesInfo) String() string {
 type SharesProperties struct {
 	// The currency of the monetary_value
 	Currency *Currency `json:"currency,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
 	// The total monetary value of the shares
 	MonetaryValue *float64 `json:"monetary_value,omitempty"`
 	// The number of shares held, issued, etc.
 	NumShares *float64 `json:"num_shares,omitempty"`
 	// The percentage of shares owned
 	Percentage *float64 `json:"percentage,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// A string describing the type of shares (e.g. 'Class B,' 'Protected cell shares')
 	Type *string `json:"type,omitempty"`
 
@@ -7624,8 +7746,14 @@ func (s *StatusInfo) String() string {
 type StatusProperties struct {
 	// The type of status
 	Context *StatusContext `json:"context,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
 	// The raw status text
 	Text *string `json:"text,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// The status, normalized to one of the status enums
 	Value *CompanyStatus `json:"value,omitempty"`
 
@@ -7797,8 +7925,14 @@ func (t *TranslatedNameInfo) String() string {
 
 type TranslatedNameProperties struct {
 	Context *TranslationContext `json:"context,omitempty"`
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
 	// The original name
 	Original *string `json:"original,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// the name, as text
 	Value string `json:"value"`
 
@@ -7950,6 +8084,12 @@ func (w *WeakIdentifierInfo) String() string {
 }
 
 type WeakIdentifierProperties struct {
+	// as-of date
+	Date *string `json:"date,omitempty"`
+	// start date
+	FromDate *string `json:"from_date,omitempty"`
+	// end date
+	ToDate *string `json:"to_date,omitempty"`
 	// The type of the identifier, including the country/jurisdiction that issued it
 	Type WeakIdentifierType `json:"type,omitempty"`
 	// The text value of the identifier
@@ -8173,6 +8313,8 @@ const (
 	WeakIdentifierTypeGeoStateRegistrationNumber WeakIdentifierType = "geo_state_registration_number"
 	// Bosnia and Herzegovenia business register registration number
 	WeakIdentifierTypeBihMbsNumber WeakIdentifierType = "bih_mbs_number"
+	// UK entity ID number assigned to entities registered in the UK Government Grants Information System.
+	WeakIdentifierTypeGbrGrantInfoNumber WeakIdentifierType = "gbr_grant_info_number"
 	// A temporary malformed type
 	WeakIdentifierTypeMalformedMmrPriorRegNo WeakIdentifierType = "malformed mmr_prior_reg_no"
 )
@@ -8377,6 +8519,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeGeoStateRegistrationNumber, nil
 	case "bih_mbs_number":
 		return WeakIdentifierTypeBihMbsNumber, nil
+	case "gbr_grant_info_number":
+		return WeakIdentifierTypeGbrGrantInfoNumber, nil
 	case "malformed mmr_prior_reg_no":
 		return WeakIdentifierTypeMalformedMmrPriorRegNo, nil
 	}
