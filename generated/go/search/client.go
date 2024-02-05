@@ -10,6 +10,7 @@ import (
 	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
 	url "net/url"
@@ -21,23 +22,35 @@ type Client struct {
 	header  http.Header
 }
 
-func NewClient(opts ...core.ClientOption) *Client {
-	options := core.NewClientOptions()
-	for _, opt := range opts {
-		opt(options)
-	}
+func NewClient(opts ...option.RequestOption) *Client {
+	options := core.NewRequestOptions(opts...)
 	return &Client{
 		baseURL: options.BaseURL,
-		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
-		header:  options.ToHeader(),
+		caller: core.NewCaller(
+			&core.CallerParams{
+				Client:      options.HTTPClient,
+				MaxAttempts: options.MaxAttempts,
+			},
+			options.RateLimiter,
+		),
+		header: options.ToHeader(),
 	}
 }
 
 // Search for an entity. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEntity) (*generatedgo.EntitySearchResponse, error) {
+func (c *Client) SearchEntity(
+	ctx context.Context,
+	request *generatedgo.SearchEntity,
+	opts ...option.RequestOption,
+) (*generatedgo.EntitySearchResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := baseURL + "/" + "v1/search/entity"
 
@@ -51,6 +64,8 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -112,7 +127,9 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodPost,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Request:      request,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
@@ -124,10 +141,19 @@ func (c *Client) SearchEntity(ctx context.Context, request *generatedgo.SearchEn
 }
 
 // Search for a record. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRecord) (*generatedgo.RecordSearchResponse, error) {
+func (c *Client) SearchRecord(
+	ctx context.Context,
+	request *generatedgo.SearchRecord,
+	opts ...option.RequestOption,
+) (*generatedgo.RecordSearchResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := baseURL + "/" + "v1/search/record"
 
@@ -141,6 +167,8 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -202,7 +230,9 @@ func (c *Client) SearchRecord(ctx context.Context, request *generatedgo.SearchRe
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodPost,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Request:      request,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,

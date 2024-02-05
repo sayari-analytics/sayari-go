@@ -10,6 +10,7 @@ import (
 	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
 	url "net/url"
@@ -21,23 +22,35 @@ type Client struct {
 	header  http.Header
 }
 
-func NewClient(opts ...core.ClientOption) *Client {
-	options := core.NewClientOptions()
-	for _, opt := range opts {
-		opt(options)
-	}
+func NewClient(opts ...option.RequestOption) *Client {
+	options := core.NewRequestOptions(opts...)
 	return &Client{
 		baseURL: options.BaseURL,
-		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
-		header:  options.ToHeader(),
+		caller: core.NewCaller(
+			&core.CallerParams{
+				Client:      options.HTTPClient,
+				MaxAttempts: options.MaxAttempts,
+			},
+			options.RateLimiter,
+		),
+		header: options.ToHeader(),
 	}
 }
 
 // Returns metadata for all sources that Sayari collects data from
-func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSources) (*generatedgo.ListSourcesResponse, error) {
+func (c *Client) ListSources(
+	ctx context.Context,
+	request *generatedgo.ListSources,
+	opts ...option.RequestOption,
+) (*generatedgo.ListSourcesResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := baseURL + "/" + "v1/sources"
 
@@ -51,6 +64,8 @@ func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSourc
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -105,7 +120,9 @@ func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSourc
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},
@@ -116,12 +133,23 @@ func (c *Client) ListSources(ctx context.Context, request *generatedgo.ListSourc
 }
 
 // Returns metadata for a source that Sayari collects data from
-func (c *Client) GetSource(ctx context.Context, id generatedgo.SourceId) (*generatedgo.GetSourceResponse, error) {
+func (c *Client) GetSource(
+	ctx context.Context,
+	id generatedgo.SourceId,
+	opts ...option.RequestOption,
+) (*generatedgo.GetSourceResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
 	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
+	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/source/%v", id)
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -183,7 +211,9 @@ func (c *Client) GetSource(ctx context.Context, id generatedgo.SourceId) (*gener
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},

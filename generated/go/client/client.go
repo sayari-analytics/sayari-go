@@ -7,6 +7,7 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	entity "github.com/sayari-analytics/sayari-go/generated/go/entity"
 	info "github.com/sayari-analytics/sayari-go/generated/go/info"
+	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	record "github.com/sayari-analytics/sayari-go/generated/go/record"
 	resolution "github.com/sayari-analytics/sayari-go/generated/go/resolution"
 	search "github.com/sayari-analytics/sayari-go/generated/go/search"
@@ -32,14 +33,17 @@ type Client struct {
 	Traversal  *traversal.Client
 }
 
-func NewClient(opts ...core.ClientOption) *Client {
-	options := core.NewClientOptions()
-	for _, opt := range opts {
-		opt(options)
-	}
+func NewClient(opts ...option.RequestOption) *Client {
+	options := core.NewRequestOptions(opts...)
 	return &Client{
-		baseURL:    options.BaseURL,
-		caller:     core.NewCaller(options.HTTPClient, options.RateLimiter),
+		baseURL: options.BaseURL,
+		caller: core.NewCaller(
+			&core.CallerParams{
+				Client:      options.HTTPClient,
+				MaxAttempts: options.MaxAttempts,
+			},
+			options.RateLimiter,
+		),
 		header:     options.ToHeader(),
 		Auth:       auth.NewClient(opts...),
 		Entity:     entity.NewClient(opts...),

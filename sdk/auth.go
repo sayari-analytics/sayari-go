@@ -5,6 +5,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/sayari-analytics/sayari-go/generated/go/option"
+
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 	"github.com/sayari-analytics/sayari-go/generated/go/auth"
 	"github.com/sayari-analytics/sayari-go/generated/go/client"
@@ -28,9 +30,9 @@ func Connect(id, secret string) (*Connection, error) {
 	rateLimter := core.NewRateLimiter()
 
 	connection := &Connection{
-		client.NewClient(client.WithToken(tokenResponse.AccessToken),
-			client.WithClientName(string(sayari.ClientNameGo)),
-			client.WithRateLimiter(rateLimter),
+		client.NewClient(option.WithToken(tokenResponse.AccessToken),
+			option.WithClientName(string(sayari.ClientNameGo)),
+			option.WithRateLimiter(rateLimter),
 		),
 		id,
 		secret,
@@ -61,9 +63,9 @@ func (c *Connection) maintainToken(expiresIn int) {
 	// update client
 	c.RateLimiter.Block()
 	c.Client = client.NewClient(
-		client.WithToken(tokenResponse.AccessToken),
-		client.WithClientName(string(sayari.ClientNameGo)),
-		client.WithRateLimiter(c.RateLimiter),
+		option.WithToken(tokenResponse.AccessToken),
+		option.WithClientName(string(sayari.ClientNameGo)),
+		option.WithRateLimiter(c.RateLimiter),
 	)
 	c.RateLimiter.UnBlock()
 
@@ -72,7 +74,7 @@ func (c *Connection) maintainToken(expiresIn int) {
 }
 
 func getToken(id, secret string) (*sayari.AuthResponse, error) {
-	authClient := auth.NewClient(client.WithClientName(string(sayari.ClientNameGo)))
+	authClient := auth.NewClient(option.WithClientName(string(sayari.ClientNameGo)))
 	return authClient.GetToken(context.Background(), &sayari.GetToken{
 		ClientId:     id,
 		ClientSecret: secret,
