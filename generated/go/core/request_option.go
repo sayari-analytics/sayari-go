@@ -109,10 +109,11 @@ func (c *ClientNameOption) applyRequestOptions(opts *RequestOptions) {
 	opts.ClientName = c.ClientName
 }
 
+// RateLimiterOption implements the RequestOption interface.
 type RateLimiterOption struct {
 	RateLimiter *RateLimiter
 }
 
-func (c *RateLimiterOption) applyRequestOptions(opts *RequestOptions) {
-	opts.RateLimiter = c.RateLimiter
+func (r *RateLimiterOption) applyRequestOptions(opts *RequestOptions) {
+	opts.RateLimiter = r.RateLimiter
 }
