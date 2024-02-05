@@ -2,9 +2,10 @@ package sdk
 
 import (
 	"context"
-	"github.com/sayari-analytics/sayari-go/generated/go/option"
 	"log"
 	"time"
+
+	"github.com/sayari-analytics/sayari-go/generated/go/option"
 
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 	"github.com/sayari-analytics/sayari-go/generated/go/auth"
