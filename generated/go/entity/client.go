@@ -10,6 +10,7 @@ import (
 	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
 	url "net/url"
@@ -21,23 +22,35 @@ type Client struct {
 	header  http.Header
 }
 
-func NewClient(opts ...core.ClientOption) *Client {
-	options := core.NewClientOptions()
-	for _, opt := range opts {
-		opt(options)
-	}
+func NewClient(opts ...option.RequestOption) *Client {
+	options := core.NewRequestOptions(opts...)
 	return &Client{
 		baseURL: options.BaseURL,
-		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
-		header:  options.ToHeader(),
+		caller: core.NewCaller(
+			&core.CallerParams{
+				Client:      options.HTTPClient,
+				MaxAttempts: options.MaxAttempts,
+			},
+		),
+		header: options.ToHeader(),
 	}
 }
 
 // Retrieve an entity from the database based on the ID
-func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request *generatedgo.GetEntity) (*generatedgo.GetEntityResponse, error) {
+func (c *Client) GetEntity(
+	ctx context.Context,
+	id generatedgo.EntityId,
+	request *generatedgo.GetEntity,
+	opts ...option.RequestOption,
+) (*generatedgo.GetEntityResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/entity/%v", id)
 
@@ -145,6 +158,8 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 		endpointURL += "?" + queryParams.Encode()
 	}
 
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
+
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
 		if err != nil {
@@ -205,7 +220,9 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},
@@ -216,12 +233,23 @@ func (c *Client) GetEntity(ctx context.Context, id generatedgo.EntityId, request
 }
 
 // The Entity Summary endpoint returns a smaller entity payload
-func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*generatedgo.EntitySummaryResponse, error) {
+func (c *Client) EntitySummary(
+	ctx context.Context,
+	id generatedgo.EntityId,
+	opts ...option.RequestOption,
+) (*generatedgo.EntitySummaryResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
 	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
+	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/entity_summary/%v", id)
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -283,7 +311,9 @@ func (c *Client) EntitySummary(ctx context.Context, id generatedgo.EntityId) (*g
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},

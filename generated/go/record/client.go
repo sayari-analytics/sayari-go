@@ -10,6 +10,7 @@ import (
 	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
 	url "net/url"
@@ -21,23 +22,35 @@ type Client struct {
 	header  http.Header
 }
 
-func NewClient(opts ...core.ClientOption) *Client {
-	options := core.NewClientOptions()
-	for _, opt := range opts {
-		opt(options)
-	}
+func NewClient(opts ...option.RequestOption) *Client {
+	options := core.NewRequestOptions(opts...)
 	return &Client{
 		baseURL: options.BaseURL,
-		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
-		header:  options.ToHeader(),
+		caller: core.NewCaller(
+			&core.CallerParams{
+				Client:      options.HTTPClient,
+				MaxAttempts: options.MaxAttempts,
+			},
+		),
+		header: options.ToHeader(),
 	}
 }
 
 // Retrieve a record from the database based on the ID
-func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request *generatedgo.GetRecord) (*generatedgo.GetRecordResponse, error) {
+func (c *Client) GetRecord(
+	ctx context.Context,
+	id generatedgo.RecordId,
+	request *generatedgo.GetRecord,
+	opts ...option.RequestOption,
+) (*generatedgo.GetRecordResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/record/%v", id)
 
@@ -51,6 +64,8 @@ func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -112,7 +127,9 @@ func (c *Client) GetRecord(ctx context.Context, id generatedgo.RecordId, request
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},

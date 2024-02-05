@@ -10,6 +10,7 @@ import (
 	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
 	url "net/url"
@@ -21,23 +22,34 @@ type Client struct {
 	header  http.Header
 }
 
-func NewClient(opts ...core.ClientOption) *Client {
-	options := core.NewClientOptions()
-	for _, opt := range opts {
-		opt(options)
-	}
+func NewClient(opts ...option.RequestOption) *Client {
+	options := core.NewRequestOptions(opts...)
 	return &Client{
 		baseURL: options.BaseURL,
-		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
-		header:  options.ToHeader(),
+		caller: core.NewCaller(
+			&core.CallerParams{
+				Client:      options.HTTPClient,
+				MaxAttempts: options.MaxAttempts,
+			},
+		),
+		header: options.ToHeader(),
 	}
 }
 
 // The usage endpoint provides a simple interface to retrieve information on usage made by your API account. This includes both views per API path and credits consumed. The time period for the usage query is also specified in the response and whether or not this includes total usage.
-func (c *Client) GetUsage(ctx context.Context, request *generatedgo.GetUsage) (*generatedgo.UsageResponse, error) {
+func (c *Client) GetUsage(
+	ctx context.Context,
+	request *generatedgo.GetUsage,
+	opts ...option.RequestOption,
+) (*generatedgo.UsageResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := baseURL + "/" + "v1/usage"
 
@@ -51,6 +63,8 @@ func (c *Client) GetUsage(ctx context.Context, request *generatedgo.GetUsage) (*
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -105,7 +119,9 @@ func (c *Client) GetUsage(ctx context.Context, request *generatedgo.GetUsage) (*
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},
@@ -116,10 +132,19 @@ func (c *Client) GetUsage(ctx context.Context, request *generatedgo.GetUsage) (*
 }
 
 // The history endpoint return a user's event history.
-func (c *Client) GetHistory(ctx context.Context, request *generatedgo.GetHistory) (*generatedgo.HistoryResponse, error) {
+func (c *Client) GetHistory(
+	ctx context.Context,
+	request *generatedgo.GetHistory,
+	opts ...option.RequestOption,
+) (*generatedgo.HistoryResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := baseURL + "/" + "v1/history"
 
@@ -142,6 +167,8 @@ func (c *Client) GetHistory(ctx context.Context, request *generatedgo.GetHistory
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -196,7 +223,9 @@ func (c *Client) GetHistory(ctx context.Context, request *generatedgo.GetHistory
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},

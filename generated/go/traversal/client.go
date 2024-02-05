@@ -10,6 +10,7 @@ import (
 	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
 	url "net/url"
@@ -21,23 +22,35 @@ type Client struct {
 	header  http.Header
 }
 
-func NewClient(opts ...core.ClientOption) *Client {
-	options := core.NewClientOptions()
-	for _, opt := range opts {
-		opt(options)
-	}
+func NewClient(opts ...option.RequestOption) *Client {
+	options := core.NewRequestOptions(opts...)
 	return &Client{
 		baseURL: options.BaseURL,
-		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
-		header:  options.ToHeader(),
+		caller: core.NewCaller(
+			&core.CallerParams{
+				Client:      options.HTTPClient,
+				MaxAttempts: options.MaxAttempts,
+			},
+		),
+		header: options.ToHeader(),
 	}
 }
 
 // The Traversal endpoint returns paths from a single target entity to up to 50 directly or indirectly-related entities. Each path includes information on the 0 to 10 intermediary entities, as well as their connecting relationships. The response's explored_count field indicates the size of the graph subset the application searched. Running a traversal on a highly connected entity with a restrictive set of argument filters and a high max depth will require the application to explore a higher number of traversal paths, which may affect performance.
-func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request *generatedgo.Traversal) (*generatedgo.TraversalResponse, error) {
+func (c *Client) Traversal(
+	ctx context.Context,
+	id generatedgo.EntityId,
+	request *generatedgo.Traversal,
+	opts ...option.RequestOption,
+) (*generatedgo.TraversalResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/traversal/%v", id)
 
@@ -127,6 +140,8 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 		endpointURL += "?" + queryParams.Encode()
 	}
 
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
+
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
 		if err != nil {
@@ -201,7 +216,9 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},
@@ -212,10 +229,20 @@ func (c *Client) Traversal(ctx context.Context, id generatedgo.EntityId, request
 }
 
 // The UBO endpoint returns paths from a single target entity to up to 50 beneficial owners. The endpoint is a shorthand for the equivalent traversal query.
-func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId, request *generatedgo.Ubo) (*generatedgo.TraversalResponse, error) {
+func (c *Client) Ubo(
+	ctx context.Context,
+	id generatedgo.EntityId,
+	request *generatedgo.Ubo,
+	opts ...option.RequestOption,
+) (*generatedgo.TraversalResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/ubo/%v", id)
 
@@ -302,6 +329,8 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId, request *gene
 		endpointURL += "?" + queryParams.Encode()
 	}
 
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
+
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
 		if err != nil {
@@ -376,7 +405,9 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId, request *gene
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},
@@ -387,10 +418,20 @@ func (c *Client) Ubo(ctx context.Context, id generatedgo.EntityId, request *gene
 }
 
 // The Ownership endpoint returns paths from a single target entity to up to 50 entities directly or indirectly owned by that entity. The endpoint is a shorthand for the equivalent traversal query.
-func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId, request *generatedgo.Ownership) (*generatedgo.TraversalResponse, error) {
+func (c *Client) Ownership(
+	ctx context.Context,
+	id generatedgo.EntityId,
+	request *generatedgo.Ownership,
+	opts ...option.RequestOption,
+) (*generatedgo.TraversalResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/downstream/%v", id)
 
@@ -477,6 +518,8 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId, request
 		endpointURL += "?" + queryParams.Encode()
 	}
 
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
+
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
 		if err != nil {
@@ -551,7 +594,9 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId, request
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},
@@ -562,10 +607,20 @@ func (c *Client) Ownership(ctx context.Context, id generatedgo.EntityId, request
 }
 
 // The Watchlist endpoint returns paths from a single target entity to up to 50 other entities that appear on a watchlist or are peps. The endpoint is a shorthand for the equivalent traversal query.
-func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId, request *generatedgo.Watchlist) (*generatedgo.TraversalResponse, error) {
+func (c *Client) Watchlist(
+	ctx context.Context,
+	id generatedgo.EntityId,
+	request *generatedgo.Watchlist,
+	opts ...option.RequestOption,
+) (*generatedgo.TraversalResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/watchlist/%v", id)
 
@@ -655,6 +710,8 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId, request
 		endpointURL += "?" + queryParams.Encode()
 	}
 
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
+
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
 		if err != nil {
@@ -729,7 +786,9 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId, request
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},
@@ -740,10 +799,19 @@ func (c *Client) Watchlist(ctx context.Context, id generatedgo.EntityId, request
 }
 
 // The Shortest Path endpoint returns a response identifying the shortest traversal path connecting each pair of entities.
-func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.ShortestPath) (*generatedgo.ShortestPathResponse, error) {
+func (c *Client) ShortestPath(
+	ctx context.Context,
+	request *generatedgo.ShortestPath,
+	opts ...option.RequestOption,
+) (*generatedgo.ShortestPathResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := baseURL + "/" + "v1/shortest_path"
 
@@ -754,6 +822,8 @@ func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.Shortest
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -829,7 +899,9 @@ func (c *Client) ShortestPath(ctx context.Context, request *generatedgo.Shortest
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodGet,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},

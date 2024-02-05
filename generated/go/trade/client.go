@@ -10,6 +10,7 @@ import (
 	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
 	url "net/url"
@@ -21,23 +22,34 @@ type Client struct {
 	header  http.Header
 }
 
-func NewClient(opts ...core.ClientOption) *Client {
-	options := core.NewClientOptions()
-	for _, opt := range opts {
-		opt(options)
-	}
+func NewClient(opts ...option.RequestOption) *Client {
+	options := core.NewRequestOptions(opts...)
 	return &Client{
 		baseURL: options.BaseURL,
-		caller:  core.NewCaller(options.HTTPClient, options.RateLimiter),
-		header:  options.ToHeader(),
+		caller: core.NewCaller(
+			&core.CallerParams{
+				Client:      options.HTTPClient,
+				MaxAttempts: options.MaxAttempts,
+			},
+		),
+		header: options.ToHeader(),
 	}
 }
 
 // Search for a shipment. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.SearchShipments) (*generatedgo.ShipmentSearchResponse, error) {
+func (c *Client) SearchShipments(
+	ctx context.Context,
+	request *generatedgo.SearchShipments,
+	opts ...option.RequestOption,
+) (*generatedgo.ShipmentSearchResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := baseURL + "/" + "v1/trade/search/shipments"
 
@@ -51,6 +63,8 @@ func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.Searc
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -105,7 +119,9 @@ func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.Searc
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodPost,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Request:      request,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
@@ -117,10 +133,19 @@ func (c *Client) SearchShipments(ctx context.Context, request *generatedgo.Searc
 }
 
 // Search for a supplier. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.SearchSuppliers) (*generatedgo.SupplierSearchResponse, error) {
+func (c *Client) SearchSuppliers(
+	ctx context.Context,
+	request *generatedgo.SearchSuppliers,
+	opts ...option.RequestOption,
+) (*generatedgo.SupplierSearchResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := baseURL + "/" + "v1/trade/search/suppliers"
 
@@ -134,6 +159,8 @@ func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.Searc
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -188,7 +215,9 @@ func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.Searc
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodPost,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Request:      request,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
@@ -200,10 +229,19 @@ func (c *Client) SearchSuppliers(ctx context.Context, request *generatedgo.Searc
 }
 
 // Search for a buyer. Please note, searches are limited to a maximum of 10,000 results.
-func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBuyers) (*generatedgo.BuyerSearchResponse, error) {
+func (c *Client) SearchBuyers(
+	ctx context.Context,
+	request *generatedgo.SearchBuyers,
+	opts ...option.RequestOption,
+) (*generatedgo.BuyerSearchResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
 	baseURL := "https://api.sayari.com"
 	if c.baseURL != "" {
 		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
 	}
 	endpointURL := baseURL + "/" + "v1/trade/search/buyers"
 
@@ -217,6 +255,8 @@ func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBu
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
 	errorDecoder := func(statusCode int, body io.Reader) error {
 		raw, err := io.ReadAll(body)
@@ -271,7 +311,9 @@ func (c *Client) SearchBuyers(ctx context.Context, request *generatedgo.SearchBu
 		&core.CallParams{
 			URL:          endpointURL,
 			Method:       http.MethodPost,
-			Headers:      c.header,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Request:      request,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
