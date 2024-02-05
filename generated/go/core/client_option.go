@@ -14,12 +14,11 @@ type ClientOption func(*ClientOptions)
 // This type is primarily used by the generated code and is
 // not meant to be used directly; use ClientOption instead.
 type ClientOptions struct {
-	BaseURL     string
-	HTTPClient  HTTPClient
-	HTTPHeader  http.Header
-	Token       string
-	ClientName  string
-	RateLimiter *RateLimiter
+	BaseURL    string
+	HTTPClient HTTPClient
+	HTTPHeader http.Header
+	Token      string
+	ClientName string
 }
 
 // NewClientOptions returns a new *ClientOptions value.

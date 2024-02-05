@@ -42,6 +42,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 				Client:      options.HTTPClient,
 				MaxAttempts: options.MaxAttempts,
 			},
+			options.RateLimiter,
 		),
 		header:     options.ToHeader(),
 		Auth:       auth.NewClient(opts...),
