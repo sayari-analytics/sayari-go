@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 	"sync"
@@ -53,6 +54,7 @@ func screenCSV(ctx context.Context, c *Connection, attributeColMap map[string][]
 		// Get risks
 		entitySummary, err := c.Entity.EntitySummary(ctx, entityID)
 		if err != nil {
+			log.Printf("Error fetching entity ID '%v'", entityID)
 			errChan <- err
 			return
 		}
