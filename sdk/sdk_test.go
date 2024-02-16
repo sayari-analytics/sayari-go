@@ -62,6 +62,11 @@ func TestEntities(t *testing.T) {
 	}
 	assert.Greater(t, len(entitySearchResults.Data), 0)
 
+	// test the get version of this endpoint
+	entitySearchGETResults, err := api.Search.SearchEntityGet(context.Background(), &sayari.SearchEntityGet{Q: randomString})
+	assert.Nil(t, err)
+	assert.Equal(t, entitySearchResults, entitySearchGETResults)
+
 	// do some checks on the first result
 	firstEntity := entitySearchResults.Data[0]
 	// capture entity id/label for debugging

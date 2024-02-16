@@ -195,6 +195,10 @@ type TradeFilterList struct {
 	BuyerPurpose []string `json:"buyer_purpose,omitempty"`
 	// The arrival date is within the provided range.
 	ArrivalDate []string `json:"arrival_date,omitempty"`
+	// The departure date is within the provided range.
+	DepartureDate []string `json:"departure_date,omitempty"`
+	// The shipment identifier starts with the provided string.
+	ShipmentIdentifier []string `json:"shipment_identifier,omitempty"`
 	// The shipment weight is within the provided range.
 	Weight []string `json:"weight,omitempty"`
 	// An exact match for the provided sources.
