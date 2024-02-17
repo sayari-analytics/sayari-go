@@ -140,6 +140,121 @@ func (c *Client) SearchEntity(
 	return response, nil
 }
 
+// Search for an entity. Please note, searches are limited to a maximum of 10,000 results.
+func (c *Client) SearchEntityGet(
+	ctx context.Context,
+	request *generatedgo.SearchEntityGet,
+	opts ...option.RequestOption,
+) (*generatedgo.EntitySearchResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
+	baseURL := "https://api.sayari.com"
+	if c.baseURL != "" {
+		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
+	}
+	endpointURL := baseURL + "/" + "v1/search/entity"
+
+	queryParams := make(url.Values)
+	if request.Limit != nil {
+		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
+	}
+	if request.Offset != nil {
+		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
+	}
+	queryParams.Add("q", fmt.Sprintf("%v", request.Q))
+	for _, value := range request.Fields {
+		queryParams.Add("fields", fmt.Sprintf("%v", *value))
+	}
+	if request.Facets != nil {
+		queryParams.Add("facets", fmt.Sprintf("%v", *request.Facets))
+	}
+	if request.GeoFacets != nil {
+		queryParams.Add("geo_facets", fmt.Sprintf("%v", *request.GeoFacets))
+	}
+	if request.Advanced != nil {
+		queryParams.Add("advanced", fmt.Sprintf("%v", *request.Advanced))
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
+
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 406:
+			value := new(generatedgo.NotAcceptable)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RateLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 500:
+			value := new(generatedgo.InternalServerError)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
+	var response *generatedgo.EntitySearchResponse
+	if err := c.caller.Call(
+		ctx,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodGet,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
 // Search for a record. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchRecord(
 	ctx context.Context,
@@ -234,6 +349,118 @@ func (c *Client) SearchRecord(
 			Headers:      headers,
 			Client:       options.HTTPClient,
 			Request:      request,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
+// Search for a record. Please note, searches are limited to a maximum of 10,000 results.
+func (c *Client) SearchRecordGet(
+	ctx context.Context,
+	request *generatedgo.SearchRecordGet,
+	opts ...option.RequestOption,
+) (*generatedgo.RecordSearchResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
+	baseURL := "https://api.sayari.com"
+	if c.baseURL != "" {
+		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
+	}
+	endpointURL := baseURL + "/" + "v1/search/record"
+
+	queryParams := make(url.Values)
+	if request.Limit != nil {
+		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
+	}
+	if request.Offset != nil {
+		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
+	}
+	queryParams.Add("q", fmt.Sprintf("%v", request.Q))
+	for _, value := range request.Fields {
+		queryParams.Add("fields", fmt.Sprintf("%v", *value))
+	}
+	if request.Facets != nil {
+		queryParams.Add("facets", fmt.Sprintf("%v", *request.Facets))
+	}
+	if request.Advanced != nil {
+		queryParams.Add("advanced", fmt.Sprintf("%v", *request.Advanced))
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
+
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 406:
+			value := new(generatedgo.NotAcceptable)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RateLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 500:
+			value := new(generatedgo.InternalServerError)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
+	var response *generatedgo.RecordSearchResponse
+	if err := c.caller.Call(
+		ctx,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodGet,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
 			Response:     &response,
 			ErrorDecoder: errorDecoder,
 		},
