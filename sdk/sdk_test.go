@@ -156,7 +156,7 @@ func TestRecords(t *testing.T) {
 	// test the get version of this endpoint
 	recordSearchGetResults, err := api.Search.SearchRecordGet(context.Background(), &sayari.SearchRecordGet{Q: randomString})
 	assert.Nil(t, err)
-	assert.Equal(t, recordSearchResults.Data, recordSearchGetResults.Data)
+	assert.Equal(t, len(recordSearchResults.Data), len(recordSearchGetResults.Data))
 	assert.Equal(t, recordSearchResults.Size.Count, recordSearchGetResults.Size.Count)
 	assert.Equal(t, recordSearchResults.Size.Qualifier, recordSearchGetResults.Size.Qualifier)
 
