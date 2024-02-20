@@ -9,3 +9,5 @@ Look in the 'example' directory to see how to use the SDK.
     ```
 - Run the example **from the same directory as the .env file**
   `go run examples/smoke-test/smoke-test.go`
+
+Please see our [docs site](http://documentation.sayari.com) for more info and or to get in touch with us.
