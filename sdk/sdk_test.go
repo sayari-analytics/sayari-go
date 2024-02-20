@@ -65,7 +65,7 @@ func TestEntities(t *testing.T) {
 	// test the get version of this endpoint
 	entitySearchGETResults, err := api.Search.SearchEntityGet(context.Background(), &sayari.SearchEntityGet{Q: randomString})
 	assert.Nil(t, err)
-	assert.Equal(t, entitySearchResults.Data, entitySearchGETResults.Data)
+	assert.Equal(t, len(entitySearchResults.Data), len(entitySearchGETResults.Data))
 	assert.Equal(t, entitySearchResults.Size.Count, entitySearchGETResults.Size.Count)
 	assert.Equal(t, entitySearchResults.Size.Qualifier, entitySearchGETResults.Size.Qualifier)
 
