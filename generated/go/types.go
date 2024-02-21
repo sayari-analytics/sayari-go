@@ -10575,7 +10575,7 @@ type ShipmentAddress struct {
 	Y       *float64 `json:"y,omitempty"`
 	City    *string  `json:"city,omitempty"`
 	State   *string  `json:"state,omitempty"`
-	Country *Country `json:"country,omitempty"`
+	Country *string  `json:"country,omitempty"`
 	Value   *string  `json:"value,omitempty"`
 
 	_rawJSON json.RawMessage
