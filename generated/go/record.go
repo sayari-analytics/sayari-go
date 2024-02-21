@@ -17,17 +17,24 @@ type GetRecord struct {
 
 // OK
 type GetRecordResponse struct {
-	Id              RecordId            `json:"id"`
-	Label           string              `json:"label"`
-	Source          SourceId            `json:"source"`
-	PublicationDate *string             `json:"publication_date,omitempty"`
-	AcquisitionDate string              `json:"acquisition_date"`
-	ReferencesCount int                 `json:"references_count"`
-	RecordUrl       string              `json:"record_url"`
-	SourceUrl       *string             `json:"source_url,omitempty"`
-	DocumentUrls    []string            `json:"document_urls,omitempty"`
-	Matches         map[string][]string `json:"matches,omitempty"`
-	References      *RecordReferences   `json:"references,omitempty"`
+	// The unique identifier for a record in the database
+	Id    string `json:"id"`
+	Label string `json:"label"`
+	// The unique identifier for a source in the database
+	Source string `json:"source"`
+	// The date the record was published
+	PublicationDate *string `json:"publication_date,omitempty"`
+	// The date Sayari acquired this record
+	AcquisitionDate string `json:"acquisition_date"`
+	// Number of times this record is referenced
+	ReferencesCount int `json:"references_count"`
+	// The url to download the record from Sayari
+	RecordUrl string `json:"record_url"`
+	// The url to access to original source
+	SourceUrl    *string             `json:"source_url,omitempty"`
+	DocumentUrls []string            `json:"document_urls,omitempty"`
+	Matches      map[string][]string `json:"matches,omitempty"`
+	References   *RecordReferences   `json:"references,omitempty"`
 
 	_rawJSON json.RawMessage
 }

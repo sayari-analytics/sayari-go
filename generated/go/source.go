@@ -15,23 +15,22 @@ type ListSources struct {
 	Offset *int `json:"-"`
 }
 
-// The unique identifier for a source in the database
-type SourceId = string
-
 // OK
 type GetSourceResponse struct {
-	Id          string  `json:"id"`
-	Label       string  `json:"label"`
-	Description string  `json:"description"`
-	Country     Country `json:"country,omitempty"`
-	Region      string  `json:"region"`
-	DateAdded   string  `json:"date_added"`
-	SourceType  string  `json:"source_type"`
-	RecordType  string  `json:"record_type"`
-	Structure   string  `json:"structure"`
-	SourceUrl   *string `json:"source_url,omitempty"`
-	Pep         bool    `json:"pep"`
-	Watchlist   bool    `json:"watchlist"`
+	// The unique identifier of the source
+	Id          string `json:"id"`
+	Label       string `json:"label"`
+	Description string `json:"description"`
+	// Source [country](/sayari-library/ontology/enumerated-types#country)
+	Country    Country `json:"country,omitempty"`
+	Region     string  `json:"region"`
+	DateAdded  string  `json:"date_added"`
+	SourceType string  `json:"source_type"`
+	RecordType string  `json:"record_type"`
+	Structure  string  `json:"structure"`
+	SourceUrl  *string `json:"source_url,omitempty"`
+	Pep        bool    `json:"pep"`
+	Watchlist  bool    `json:"watchlist"`
 
 	_rawJSON json.RawMessage
 }

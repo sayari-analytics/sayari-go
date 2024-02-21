@@ -21,7 +21,7 @@ type Resolution struct {
 	DateOfBirth []*string `json:"-"`
 	// Entity contact
 	Contact []*string `json:"-"`
-	// Entity type. If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
+	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
 	Type []*Entities `json:"-"`
 }
 

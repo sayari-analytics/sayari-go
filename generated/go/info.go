@@ -61,9 +61,12 @@ func (h *HistoryResponse) String() string {
 }
 
 type UsageResponse struct {
+	// Usage information for each endpoint
 	Usage *UsageInfo `json:"usage,omitempty"`
-	From  string     `json:"from"`
-	To    string     `json:"to"`
+	// The start date of the returned usage information.
+	From string `json:"from"`
+	// The end date of the returned usage information.
+	To string `json:"to"`
 
 	_rawJSON json.RawMessage
 }

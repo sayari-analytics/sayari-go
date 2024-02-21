@@ -9230,13 +9230,16 @@ func (m *MatchExplanation) String() string {
 }
 
 type ResolutionResponseFields struct {
-	Name        []string   `json:"name,omitempty"`
-	Identifier  []string   `json:"identifier,omitempty"`
-	Country     []Country  `json:"country,omitempty"`
-	Address     []string   `json:"address,omitempty"`
-	DateOfBirth []string   `json:"date_of_birth,omitempty"`
-	Contact     []string   `json:"contact,omitempty"`
-	Type        []Entities `json:"type,omitempty"`
+	Name       []string `json:"name,omitempty"`
+	Identifier []string `json:"identifier,omitempty"`
+	// Entity country - must be ISO (3166) Trigram i.e., USA. See complete list [here](/sayari-library/ontology/enumerated-types#country)
+	Country []Country `json:"country,omitempty"`
+	// List of physical addresses associated with the entity.
+	Address     []string `json:"address,omitempty"`
+	DateOfBirth []string `json:"date_of_birth,omitempty"`
+	Contact     []string `json:"contact,omitempty"`
+	// [Entity type](/sayari-library/ontology/entities)
+	Type []Entities `json:"type,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9354,7 +9357,7 @@ type SearchResults struct {
 	PsaCount int `json:"psa_count"`
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned"`
-	// The entity type. See detailed explanations [here](/sayari-library/ontology/entities).
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
@@ -9365,9 +9368,9 @@ type SearchResults struct {
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
 	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
 	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
@@ -9382,8 +9385,10 @@ type SearchResults struct {
 	CompanyType              *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus             *Status                 `json:"latest_status,omitempty"`
 	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
-	Risk           EntityRisk           `json:"risk,omitempty"`
-	Attributes     *AttributeDetails    `json:"attributes,omitempty"`
+	Risk EntityRisk `json:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
 	Relationships  *EntityRelationships `json:"relationships,omitempty"`
 	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty"`
 	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty"`
@@ -9415,6 +9420,9 @@ func (s *SearchResults) String() string {
 	}
 	return fmt.Sprintf("%#v", s)
 }
+
+// The unique identifier for a source in the database
+type SourceId = string
 
 // Bad gateway
 type BadGatewayResponse = interface{}
@@ -9611,7 +9619,7 @@ type EmbeddedEntity struct {
 	PsaCount int `json:"psa_count"`
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned"`
-	// The entity type. See detailed explanations [here](/sayari-library/ontology/entities).
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
@@ -9622,9 +9630,9 @@ type EmbeddedEntity struct {
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	UserRelationshipCount    map[Relationships]int `json:"user_relationship_count,omitempty"`
 	AttributeCounts          interface{}           `json:"attribute_counts,omitempty"`
 	UserAttributeCounts      interface{}           `json:"user_attribute_counts,omitempty"`
@@ -9677,7 +9685,7 @@ type EntityDetails struct {
 	PsaCount int `json:"psa_count"`
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned"`
-	// The entity type. See detailed explanations [here](/sayari-library/ontology/entities).
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
@@ -9688,9 +9696,9 @@ type EntityDetails struct {
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
 	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
 	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
@@ -9705,8 +9713,10 @@ type EntityDetails struct {
 	CompanyType              *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus             *Status                 `json:"latest_status,omitempty"`
 	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
-	Risk           EntityRisk           `json:"risk,omitempty"`
-	Attributes     *AttributeDetails    `json:"attributes,omitempty"`
+	Risk EntityRisk `json:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
 	Relationships  *EntityRelationships `json:"relationships,omitempty"`
 	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty"`
 	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty"`
@@ -9836,7 +9846,7 @@ type PsaEntity struct {
 	PsaCount int `json:"psa_count"`
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned"`
-	// The entity type. See detailed explanations [here](/sayari-library/ontology/entities).
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
@@ -9847,9 +9857,9 @@ type PsaEntity struct {
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
 	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
 	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
@@ -9983,16 +9993,23 @@ func (p *PossiblySameAsMatch) String() string {
 }
 
 type RecordDetails struct {
-	Id              RecordId            `json:"id"`
-	Label           string              `json:"label"`
-	Source          SourceId            `json:"source"`
-	PublicationDate *string             `json:"publication_date,omitempty"`
-	AcquisitionDate string              `json:"acquisition_date"`
-	ReferencesCount int                 `json:"references_count"`
-	RecordUrl       string              `json:"record_url"`
-	SourceUrl       *string             `json:"source_url,omitempty"`
-	DocumentUrls    []string            `json:"document_urls,omitempty"`
-	Matches         map[string][]string `json:"matches,omitempty"`
+	// The unique identifier for a record in the database
+	Id    string `json:"id"`
+	Label string `json:"label"`
+	// The unique identifier for a source in the database
+	Source string `json:"source"`
+	// The date the record was published
+	PublicationDate *string `json:"publication_date,omitempty"`
+	// The date Sayari acquired this record
+	AcquisitionDate string `json:"acquisition_date"`
+	// Number of times this record is referenced
+	ReferencesCount int `json:"references_count"`
+	// The url to download the record from Sayari
+	RecordUrl string `json:"record_url"`
+	// The url to access to original source
+	SourceUrl    *string             `json:"source_url,omitempty"`
+	DocumentUrls []string            `json:"document_urls,omitempty"`
+	Matches      map[string][]string `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10019,9 +10036,6 @@ func (r *RecordDetails) String() string {
 	}
 	return fmt.Sprintf("%#v", r)
 }
-
-// The unique identifier for a record in the database
-type RecordId = string
 
 // List of records that reference the entity.
 type ReferencedBy struct {
@@ -10143,7 +10157,8 @@ func (r *RelationshipAttributeValue) String() string {
 }
 
 type RelationshipData struct {
-	Target        *EntityDetails                        `json:"target,omitempty"`
+	Target *EntityDetails `json:"target,omitempty"`
+	// Additional information for each [relationship type](/sayari-library/ontology/relationships).
 	Types         map[Relationships][]*RelationshipInfo `json:"types,omitempty"`
 	Dates         []string                              `json:"dates,omitempty"`
 	FirstObserved *string                               `json:"first_observed,omitempty"`
@@ -10378,18 +10393,20 @@ func (s *Status) String() string {
 }
 
 type Source struct {
-	Id          string  `json:"id"`
-	Label       string  `json:"label"`
-	Description string  `json:"description"`
-	Country     Country `json:"country,omitempty"`
-	Region      string  `json:"region"`
-	DateAdded   string  `json:"date_added"`
-	SourceType  string  `json:"source_type"`
-	RecordType  string  `json:"record_type"`
-	Structure   string  `json:"structure"`
-	SourceUrl   *string `json:"source_url,omitempty"`
-	Pep         bool    `json:"pep"`
-	Watchlist   bool    `json:"watchlist"`
+	// The unique identifier of the source
+	Id          string `json:"id"`
+	Label       string `json:"label"`
+	Description string `json:"description"`
+	// Source [country](/sayari-library/ontology/enumerated-types#country)
+	Country    Country `json:"country,omitempty"`
+	Region     string  `json:"region"`
+	DateAdded  string  `json:"date_added"`
+	SourceType string  `json:"source_type"`
+	RecordType string  `json:"record_type"`
+	Structure  string  `json:"structure"`
+	SourceUrl  *string `json:"source_url,omitempty"`
+	Pep        bool    `json:"pep"`
+	Watchlist  bool    `json:"watchlist"`
 
 	_rawJSON json.RawMessage
 }
@@ -10448,8 +10465,9 @@ func (b *BusinessPurpose) String() string {
 }
 
 type DataSource struct {
-	Id    SourceId `json:"id"`
-	Label string   `json:"label"`
+	// The unique identifier for a source in the database
+	Id    string `json:"id"`
+	Label string `json:"label"`
 
 	_rawJSON json.RawMessage
 }
@@ -10523,7 +10541,8 @@ type Shipment struct {
 	Sources             []*DataSource                `json:"sources,omitempty"`
 	HsCodes             []*HsCodeInfo                `json:"hs_codes,omitempty"`
 	ProductDescriptions []string                     `json:"product_descriptions,omitempty"`
-	Record              RecordId                     `json:"record"`
+	// The unique identifier for a record in the database
+	Record string `json:"record"`
 
 	_rawJSON json.RawMessage
 }
@@ -10683,11 +10702,14 @@ func (s *ShipmentMetadata) String() string {
 
 type SourceOrDestinationEntity struct {
 	// Unique identifier of the entity
-	Id              string               `json:"id"`
-	Names           []string             `json:"names,omitempty"`
-	Risks           map[Risk]interface{} `json:"risks,omitempty"`
-	BusinessPurpose []*BusinessPurpose   `json:"business_purpose,omitempty"`
-	Countries       []Country            `json:"countries,omitempty"`
+	Id    string   `json:"id"`
+	Names []string `json:"names,omitempty"`
+	// [Risks](/sayari-library/ontology/risk-factors)
+	Risks map[Risk]interface{} `json:"risks,omitempty"`
+	// [Business Purpose](/sayari-library/ontology/enumerated-types#business-purpose-standard)
+	BusinessPurpose []*BusinessPurpose `json:"business_purpose,omitempty"`
+	// [Countries](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10764,7 +10786,7 @@ type SupplierOrBuyer struct {
 	PsaCount int `json:"psa_count"`
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned"`
-	// The entity type. See detailed explanations [here](/sayari-library/ontology/entities).
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
@@ -10775,9 +10797,9 @@ type SupplierOrBuyer struct {
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given relationship type.
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
 	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
 	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
 	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
@@ -10792,8 +10814,10 @@ type SupplierOrBuyer struct {
 	CompanyType              *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus             *Status                 `json:"latest_status,omitempty"`
 	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
-	Risk           EntityRisk           `json:"risk,omitempty"`
-	Attributes     *AttributeDetails    `json:"attributes,omitempty"`
+	Risk EntityRisk `json:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
 	Relationships  *EntityRelationships `json:"relationships,omitempty"`
 	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty"`
 	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty"`
