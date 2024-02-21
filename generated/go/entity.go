@@ -34,8 +34,8 @@ type GetEntity struct {
 	RelationshipsPrev *string `json:"-"`
 	// Limit total relationship values. Defaults to 50.
 	RelationshipsLimit *int `json:"-"`
-	// Filter relationships to relationship type, e.g. director_of or has_shareholder
-	RelationshipsType *string `json:"-"`
+	// Filter relationships to [relationship type](/sayari-library/ontology/relationships), e.g. director_of or has_shareholder
+	RelationshipsType *Relationships `json:"-"`
 	// Sorts relationships by As Of date or Shareholder percentage, e.g. date or -shares
 	RelationshipsSort *string `json:"-"`
 	// Filters relationships to after a date
@@ -44,15 +44,15 @@ type GetEntity struct {
 	RelationshipsEndDate *time.Time `json:"-"`
 	// Filters relationships to greater than or equal to a Shareholder percentage
 	RelationshipsMinShares *int `json:"-"`
-	// Filters relationships to a list of countries
+	// Filters relationships to a list of [countries](/sayari-library/ontology/enumerated-types#country)
 	RelationshipsCountry []*Country `json:"-"`
-	// Filters shipment relationships to a list of arrival countries
+	// Filters shipment relationships to a list of arrival [countries](/sayari-library/ontology/enumerated-types#country)
 	RelationshipsArrivalCountry []*Country `json:"-"`
 	// Filters shipment relationships to an arrival state
 	RelationshipsArrivalState *string `json:"-"`
 	// Filters shipment relationships to an arrival city
 	RelationshipsArrivalCity *string `json:"-"`
-	// Filters shipment relationships to a list of departure countries
+	// Filters shipment relationships to a list of departure [countries](/sayari-library/ontology/enumerated-types#country)
 	RelationshipsDepartureCountry []*Country `json:"-"`
 	// Filters shipment relationships to a departure state
 	RelationshipsDepartureState *string `json:"-"`
@@ -60,7 +60,7 @@ type GetEntity struct {
 	RelationshipsDepartureCity *string `json:"-"`
 	// Filters shipment relationships to a trade partner name
 	RelationshipsPartnerName *string `json:"-"`
-	// Filters shipment relationships to a trade partner risk
+	// Filters shipment relationships to a trade partner [risk tag](/sayari-library/ontology/enumerated-types#tag)
 	RelationshipsPartnerRisk []*Tag `json:"-"`
 	// Filters shipment relationships to an HS code
 	RelationshipsHsCode *string `json:"-"`
@@ -80,7 +80,8 @@ type GetEntity struct {
 
 // OK
 type EntitySummaryResponse struct {
-	Id EntityId `json:"id"`
+	// Unique identifier of the entity
+	Id string `json:"id"`
 	// Display name of the entity
 	Label string `json:"label"`
 	// Number of outgoing relationships
@@ -89,39 +90,48 @@ type EntitySummaryResponse struct {
 	Closed bool `json:"closed"`
 	// Convenience URL to the entity in the API.
 	EntityUrl string `json:"entity_url"`
-	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	// True if the entity has the ["Politically Exposed Person (PEP)" risk factor](/sayari-library/ontology/risk-factors#politically-exposed-person-pep-), otherwise false.
 	Pep   bool    `json:"pep"`
 	PsaId *string `json:"psa_id,omitempty"`
 	// Number of entities that are Possibly the Same As (PSA) the entity.
 	PsaCount int `json:"psa_count"`
-	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
-	Sanctioned  bool          `json:"sanctioned"`
+	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
+	Sanctioned bool `json:"sanctioned"`
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
-	Countries   []Country     `json:"countries,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
-	RelatedEntitiesCount     int                         `json:"related_entities_count"`
-	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
-	UserRecordCount          int                         `json:"user_record_count"`
-	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType              *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus             *Status                     `json:"latest_status,omitempty"`
-	Risk                     EntityRisk                  `json:"risk,omitempty"`
-	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
+	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses []string `json:"addresses,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth *string `json:"date_of_birth,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                     `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
+	UserRecordCount          int                     `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus             *Status                 `json:"latest_status,omitempty"`
+	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
+	Risk EntityRisk `json:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
+	Relationships  *EntityRelationships `json:"relationships,omitempty"`
+	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty"`
+	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -151,7 +161,8 @@ func (e *EntitySummaryResponse) String() string {
 
 // OK
 type GetEntityResponse struct {
-	Id EntityId `json:"id"`
+	// Unique identifier of the entity
+	Id string `json:"id"`
 	// Display name of the entity
 	Label string `json:"label"`
 	// Number of outgoing relationships
@@ -160,39 +171,48 @@ type GetEntityResponse struct {
 	Closed bool `json:"closed"`
 	// Convenience URL to the entity in the API.
 	EntityUrl string `json:"entity_url"`
-	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	// True if the entity has the ["Politically Exposed Person (PEP)" risk factor](/sayari-library/ontology/risk-factors#politically-exposed-person-pep-), otherwise false.
 	Pep   bool    `json:"pep"`
 	PsaId *string `json:"psa_id,omitempty"`
 	// Number of entities that are Possibly the Same As (PSA) the entity.
 	PsaCount int `json:"psa_count"`
-	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
-	Sanctioned  bool          `json:"sanctioned"`
+	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
+	Sanctioned bool `json:"sanctioned"`
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
-	Countries   []Country     `json:"countries,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
-	RelatedEntitiesCount     int                         `json:"related_entities_count"`
-	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
-	UserRecordCount          int                         `json:"user_record_count"`
-	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType              *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus             *Status                     `json:"latest_status,omitempty"`
-	Risk                     EntityRisk                  `json:"risk,omitempty"`
-	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
+	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses []string `json:"addresses,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth *string `json:"date_of_birth,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                     `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
+	UserRecordCount          int                     `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus             *Status                 `json:"latest_status,omitempty"`
+	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
+	Risk EntityRisk `json:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
+	Relationships  *EntityRelationships `json:"relationships,omitempty"`
+	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty"`
+	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty"`
 
 	_rawJSON json.RawMessage
 }

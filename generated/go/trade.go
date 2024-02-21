@@ -165,21 +165,21 @@ type TradeFilterList struct {
 	BuyerName []string `json:"buyer_name,omitempty"`
 	// Shipper whose name contains the provided string.
 	SupplierName []string `json:"supplier_name,omitempty"`
-	// Buyer with an exact match for the provided risk factor.
-	BuyerRisk []string `json:"buyer_risk,omitempty"`
-	// Shipper with an exact match for the provided risk factor.
-	SupplierRisk []string `json:"supplier_risk,omitempty"`
-	// Buyer with an exact match for the provided country code.
+	// Buyer with an exact match for the provided [risk factor](/sayari-library/ontology/risk-factors).
+	BuyerRisk []Risk `json:"buyer_risk,omitempty"`
+	// Shipper with an exact match for the provided [risk factor](/sayari-library/ontology/risk-factors).
+	SupplierRisk []Risk `json:"supplier_risk,omitempty"`
+	// Buyer with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
 	BuyerCountry []Country `json:"buyer_country,omitempty"`
-	// Supplier with an exact match for the provided country code.
+	// Supplier with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
 	SupplierCountry []Country `json:"supplier_country,omitempty"`
-	// Shipment departs from a country with an exact match for the provided country code.
+	// Shipment departs from a country with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
 	DepartureCountry []Country `json:"departure_country,omitempty"`
 	// Shipment departs from a state that contains the provided state name.
 	DepartureState []string `json:"departure_state,omitempty"`
 	// Shipment departs from a city that contains the provided city name.
 	DepartureCity []string `json:"departure_city,omitempty"`
-	// Shipment arrives at a country with an exact match for the provided country code.
+	// Shipment arrives at a country with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
 	ArrivalCountry []Country `json:"arrival_country,omitempty"`
 	// Shipment arrives at a state that contains the provided state name.
 	ArrivalState []string `json:"arrival_state,omitempty"`

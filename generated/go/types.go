@@ -8,15 +8,6 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
-// The bearer token you will pass in to subsequent API calls to authenticate.
-type AccessToken = string
-
-// Tells you how long (in seconds) until your bearer token expires.
-type ExpiresIn = int
-
-// Will always be "Bearer"
-type TokenType = string
-
 // Response fields that represent unbounded collections, such as a search result or an entity's attributes or relationships, or a record's references, can all be paginated in cases where the collection is larger than can be efficiently returned in a single request.
 type PaginatedResponse struct {
 	Limit int       `json:"limit"`
@@ -7424,6 +7415,306 @@ func (p *PositionProperties) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
+type Relationships string
+
+const (
+	// Parent companies of which this company is a branch
+	RelationshipsBranchOf Relationships = "branch_of"
+	// Branches of this company
+	RelationshipsHasBranch Relationships = "has_branch"
+	// Entities created by or legally derived from this entity
+	RelationshipsLegalPredecessorOf Relationships = "legal_predecessor_of"
+	// Entities from which this entity was created or legally derived
+	RelationshipsHasLegalPredecessor Relationships = "has_legal_predecessor"
+	// Companies of which this entity is a CEO, Treasurer, etc.
+	RelationshipsOfficerOf Relationships = "officer_of"
+	// CEOs, Treasurers, etc. of this company
+	RelationshipsHasOfficer Relationships = "has_officer"
+	// Entities for which this entity works as a lawyer in a professional capacity
+	RelationshipsLawyerOf Relationships = "lawyer_of"
+	// Lawyers reported to work for this entity in a professional capacity
+	RelationshipsHasLawyer Relationships = "has_lawyer"
+	// Deprecated and converted to shareholder_of
+	RelationshipsSoleProprietorOf Relationships = "sole_proprietor_of"
+	// Deprecated and converted to shareholder_of
+	RelationshipsHasSoleProprietor Relationships = "has_sole_proprietor"
+	// Deprecated and converted to legal_representative_of
+	RelationshipsJudicialRepresentativeOf Relationships = "judicial_representative_of"
+	// Deprecated and converted to legal_representative_of
+	RelationshipsHasJudicialRepresentative Relationships = "has_judicial_representative"
+	// Partnerships or similar types of companies of which this entity is a business partner with an ownership stake
+	RelationshipsPartnerOf Relationships = "partner_of"
+	// Business partners with an ownership stake in this company
+	RelationshipsHasPartner Relationships = "has_partner"
+	// Deprecated and converted to officer_of (in jurisdictions where the secretary is a fairly important control figure) or registered_agent_of (in jurisdictions where the secretary is more of a clerical role)
+	RelationshipsSecretaryOf Relationships = "secretary_of"
+	// Deprecated and converted to officer_of (in jurisdictions where the secretary is a fairly important control figure) or registered_agent_of (in jurisdictions where the secretary is more of a clerical role)
+	RelationshipsHasSecretary Relationships = "has_secretary"
+	// Legal Matters to which this entity is tied in a professional capacity
+	RelationshipsLawyerIn Relationships = "lawyer_in"
+	// Entities connected to this entity via a type of relationship that does not exist in the Graph ontology
+	RelationshipsLinkedTo Relationships = "linked_to"
+	// Entities with a corporate or statutory body of oversight/control of which this entity is a member
+	RelationshipsMemberOfTheBoardOf Relationships = "member_of_the_board_of"
+	// Entities that are members of this entity's corporate or statutory body of oversight/control
+	RelationshipsHasMemberOfTheBoard Relationships = "has_member_of_the_board"
+	// Deprecated and converted to linked_to
+	RelationshipsAssociateOf Relationships = "associate_of"
+	// Deprecated and converted to linked_to
+	RelationshipsHasAssociate Relationships = "has_associate"
+	// Entities of which this entity is reported to be (or have acted as) a legal representative
+	RelationshipsLegalRepresentativeOf Relationships = "legal_representative_of"
+	// Entities reported to be (or have acted as) legal representatives of this entity
+	RelationshipsHasLegalRepresentative Relationships = "has_legal_representative"
+	// Deprecated and converted to linked_to
+	RelationshipsClientOf Relationships = "client_of"
+	// Deprecated and converted to linked_to
+	RelationshipsHasClient Relationships = "has_client"
+	// Deprecated and converted to officer_of
+	RelationshipsExecutiveOf Relationships = "executive_of"
+	// Deprecated and converted to officer_of
+	RelationshipsHasExecutive Relationships = "has_executive"
+	// The entity who has sent a shipment
+	RelationshipsShipsTo Relationships = "ships_to"
+	// The entity that has received a shipment
+	RelationshipsReceivesFrom Relationships = "receives_from"
+	// Family members of this entity
+	RelationshipsFamilyOf Relationships = "family_of"
+	// Companies that indirectly own this company and/or report it as a subsidiary
+	RelationshipsSubsidiaryOf Relationships = "subsidiary_of"
+	// Companies reported to be subsidiaries or indirectly owned by this company
+	RelationshipsHasSubsidiary Relationships = "has_subsidiary"
+	// Entities of which this entity is reported to be a supervisor, typically in East Asia
+	RelationshipsSupervisorOf Relationships = "supervisor_of"
+	// Supervisors of this company, typically in East Asia
+	RelationshipsHasSupervisor Relationships = "has_supervisor"
+	// Companies of which this entity is a direct owner
+	RelationshipsShareholderOf Relationships = "shareholder_of"
+	// Direct owners of this company
+	RelationshipsHasShareholder Relationships = "has_shareholder"
+	// Companies of which this entity is a liquidator
+	RelationshipsLiquidatorOf Relationships = "liquidator_of"
+	// Liquidators of this company
+	RelationshipsHasLiquidator Relationships = "has_liquidator"
+	// Companies audited by this entity
+	RelationshipsAuditorOf Relationships = "auditor_of"
+	// Auditors of this company
+	RelationshipsHasAuditor Relationships = "has_auditor"
+	// Companies of which this entity is a Director
+	RelationshipsDirectorOf Relationships = "director_of"
+	// Directors of this company
+	RelationshipsHasDirector Relationships = "has_director"
+	// Deprecated and converted to legal_representative_of
+	RelationshipsJudidicalRepresentativeOf Relationships = "judidical_representative_of"
+	// Legal Matters in which this entity is a litigant
+	RelationshipsPartyTo Relationships = "party_to"
+	// Litigants in this Legal Matter
+	RelationshipsHasParty Relationships = "has_party"
+	// Non-corporate entities (trade name, security, intellectual property, etc.) directly owned by this entity
+	RelationshipsOwnerOf Relationships = "owner_of"
+	// Direct owners of this entity
+	RelationshipsHasOwner Relationships = "has_owner"
+	// Entities reported to be beneficially or indirectly owned by this entity
+	RelationshipsBeneficialOwnerOf Relationships = "beneficial_owner_of"
+	// Entities reported to beneficially or indirectly own this entity
+	RelationshipsHasBeneficialOwner Relationships = "has_beneficial_owner"
+	// The entity in charge of the transportation of goods
+	RelationshipsCarrierOf Relationships = "carrier_of"
+	// The shipment carrying the goods
+	RelationshipsHasCarrier Relationships = "has_carrier"
+	// Securities this entity has issued
+	RelationshipsIssuerOf Relationships = "issuer_of"
+	// Companies that issued this security
+	RelationshipsHasIssuer Relationships = "has_issuer"
+	// Shipments this entity sent
+	RelationshipsShipperOf Relationships = "shipper_of"
+	// The entity that sent this shipment
+	RelationshipsShippedBy Relationships = "shipped_by"
+	// Companies of which this entity is a Manager
+	RelationshipsManagerOf Relationships = "manager_of"
+	// Managers of this company
+	RelationshipsHasManager Relationships = "has_manager"
+	// Entities from which this entity inherited legal personality
+	RelationshipsLegalSuccessorOf Relationships = "legal_successor_of"
+	// Successor entities to which this entity granted legal personality
+	RelationshipsHasLegalSuccessor Relationships = "has_legal_successor"
+	// Entities that legally founded this company
+	RelationshipsFounderOf Relationships = "founder_of"
+	// The source entity is reported to be the founder of a company
+	RelationshipsHasFounder Relationships = "has_founder"
+	// Shipments this entity received
+	RelationshipsReceiverOf Relationships = "receiver_of"
+	// The entity that received this shipment
+	RelationshipsReceivedBy Relationships = "received_by"
+	// A placeholder relationship. Rarely used.
+	RelationshipsGeneric Relationships = "generic"
+	// Shipments that this entity were notified of upon their arrival at their destinations
+	RelationshipsNotifyPartyOf Relationships = "notify_party_of"
+	// Entity to be notified when this shipment arrives
+	RelationshipsHasNotifyParty Relationships = "has_notify_party"
+	// Entities of which this entity is reported to be a Registered Agent, corporate secretary, or similar
+	RelationshipsRegisteredAgentOf Relationships = "registered_agent_of"
+	// Entities acting in a Registered Agent, corporate secretary, or similar role for this entity
+	RelationshipsHasRegisteredAgent Relationships = "has_registered_agent"
+	// Companies of which this entity is an employee
+	RelationshipsEmployeeOf Relationships = "employee_of"
+	// Employees of this company
+	RelationshipsHasEmployee Relationships = "has_employee"
+)
+
+func NewRelationshipsFromString(s string) (Relationships, error) {
+	switch s {
+	case "branch_of":
+		return RelationshipsBranchOf, nil
+	case "has_branch":
+		return RelationshipsHasBranch, nil
+	case "legal_predecessor_of":
+		return RelationshipsLegalPredecessorOf, nil
+	case "has_legal_predecessor":
+		return RelationshipsHasLegalPredecessor, nil
+	case "officer_of":
+		return RelationshipsOfficerOf, nil
+	case "has_officer":
+		return RelationshipsHasOfficer, nil
+	case "lawyer_of":
+		return RelationshipsLawyerOf, nil
+	case "has_lawyer":
+		return RelationshipsHasLawyer, nil
+	case "sole_proprietor_of":
+		return RelationshipsSoleProprietorOf, nil
+	case "has_sole_proprietor":
+		return RelationshipsHasSoleProprietor, nil
+	case "judicial_representative_of":
+		return RelationshipsJudicialRepresentativeOf, nil
+	case "has_judicial_representative":
+		return RelationshipsHasJudicialRepresentative, nil
+	case "partner_of":
+		return RelationshipsPartnerOf, nil
+	case "has_partner":
+		return RelationshipsHasPartner, nil
+	case "secretary_of":
+		return RelationshipsSecretaryOf, nil
+	case "has_secretary":
+		return RelationshipsHasSecretary, nil
+	case "lawyer_in":
+		return RelationshipsLawyerIn, nil
+	case "linked_to":
+		return RelationshipsLinkedTo, nil
+	case "member_of_the_board_of":
+		return RelationshipsMemberOfTheBoardOf, nil
+	case "has_member_of_the_board":
+		return RelationshipsHasMemberOfTheBoard, nil
+	case "associate_of":
+		return RelationshipsAssociateOf, nil
+	case "has_associate":
+		return RelationshipsHasAssociate, nil
+	case "legal_representative_of":
+		return RelationshipsLegalRepresentativeOf, nil
+	case "has_legal_representative":
+		return RelationshipsHasLegalRepresentative, nil
+	case "client_of":
+		return RelationshipsClientOf, nil
+	case "has_client":
+		return RelationshipsHasClient, nil
+	case "executive_of":
+		return RelationshipsExecutiveOf, nil
+	case "has_executive":
+		return RelationshipsHasExecutive, nil
+	case "ships_to":
+		return RelationshipsShipsTo, nil
+	case "receives_from":
+		return RelationshipsReceivesFrom, nil
+	case "family_of":
+		return RelationshipsFamilyOf, nil
+	case "subsidiary_of":
+		return RelationshipsSubsidiaryOf, nil
+	case "has_subsidiary":
+		return RelationshipsHasSubsidiary, nil
+	case "supervisor_of":
+		return RelationshipsSupervisorOf, nil
+	case "has_supervisor":
+		return RelationshipsHasSupervisor, nil
+	case "shareholder_of":
+		return RelationshipsShareholderOf, nil
+	case "has_shareholder":
+		return RelationshipsHasShareholder, nil
+	case "liquidator_of":
+		return RelationshipsLiquidatorOf, nil
+	case "has_liquidator":
+		return RelationshipsHasLiquidator, nil
+	case "auditor_of":
+		return RelationshipsAuditorOf, nil
+	case "has_auditor":
+		return RelationshipsHasAuditor, nil
+	case "director_of":
+		return RelationshipsDirectorOf, nil
+	case "has_director":
+		return RelationshipsHasDirector, nil
+	case "judidical_representative_of":
+		return RelationshipsJudidicalRepresentativeOf, nil
+	case "party_to":
+		return RelationshipsPartyTo, nil
+	case "has_party":
+		return RelationshipsHasParty, nil
+	case "owner_of":
+		return RelationshipsOwnerOf, nil
+	case "has_owner":
+		return RelationshipsHasOwner, nil
+	case "beneficial_owner_of":
+		return RelationshipsBeneficialOwnerOf, nil
+	case "has_beneficial_owner":
+		return RelationshipsHasBeneficialOwner, nil
+	case "carrier_of":
+		return RelationshipsCarrierOf, nil
+	case "has_carrier":
+		return RelationshipsHasCarrier, nil
+	case "issuer_of":
+		return RelationshipsIssuerOf, nil
+	case "has_issuer":
+		return RelationshipsHasIssuer, nil
+	case "shipper_of":
+		return RelationshipsShipperOf, nil
+	case "shipped_by":
+		return RelationshipsShippedBy, nil
+	case "manager_of":
+		return RelationshipsManagerOf, nil
+	case "has_manager":
+		return RelationshipsHasManager, nil
+	case "legal_successor_of":
+		return RelationshipsLegalSuccessorOf, nil
+	case "has_legal_successor":
+		return RelationshipsHasLegalSuccessor, nil
+	case "founder_of":
+		return RelationshipsFounderOf, nil
+	case "has_founder":
+		return RelationshipsHasFounder, nil
+	case "receiver_of":
+		return RelationshipsReceiverOf, nil
+	case "received_by":
+		return RelationshipsReceivedBy, nil
+	case "generic":
+		return RelationshipsGeneric, nil
+	case "notify_party_of":
+		return RelationshipsNotifyPartyOf, nil
+	case "has_notify_party":
+		return RelationshipsHasNotifyParty, nil
+	case "registered_agent_of":
+		return RelationshipsRegisteredAgentOf, nil
+	case "has_registered_agent":
+		return RelationshipsHasRegisteredAgent, nil
+	case "employee_of":
+		return RelationshipsEmployeeOf, nil
+	case "has_employee":
+		return RelationshipsHasEmployee, nil
+	}
+	var t Relationships
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r Relationships) Ptr() *Relationships {
+	return &r
+}
+
 type Risk string
 
 const (
@@ -8939,13 +9230,16 @@ func (m *MatchExplanation) String() string {
 }
 
 type ResolutionResponseFields struct {
-	Name        []string   `json:"name,omitempty"`
-	Identifier  []string   `json:"identifier,omitempty"`
-	Country     []Country  `json:"country,omitempty"`
-	Address     []string   `json:"address,omitempty"`
-	DateOfBirth []string   `json:"date_of_birth,omitempty"`
-	Contact     []string   `json:"contact,omitempty"`
-	Type        []Entities `json:"type,omitempty"`
+	Name       []string `json:"name,omitempty"`
+	Identifier []string `json:"identifier,omitempty"`
+	// Entity country - must be ISO (3166) Trigram i.e., USA. See complete list [here](/sayari-library/ontology/enumerated-types#country)
+	Country []Country `json:"country,omitempty"`
+	// List of physical addresses associated with the entity.
+	Address     []string `json:"address,omitempty"`
+	DateOfBirth []string `json:"date_of_birth,omitempty"`
+	Contact     []string `json:"contact,omitempty"`
+	// [Entity type](/sayari-library/ontology/entities)
+	Type []Entities `json:"type,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9046,7 +9340,8 @@ func (c *Coordinates) String() string {
 }
 
 type SearchResults struct {
-	Id EntityId `json:"id"`
+	// Unique identifier of the entity
+	Id string `json:"id"`
 	// Display name of the entity
 	Label string `json:"label"`
 	// Number of outgoing relationships
@@ -9055,41 +9350,50 @@ type SearchResults struct {
 	Closed bool `json:"closed"`
 	// Convenience URL to the entity in the API.
 	EntityUrl string `json:"entity_url"`
-	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	// True if the entity has the ["Politically Exposed Person (PEP)" risk factor](/sayari-library/ontology/risk-factors#politically-exposed-person-pep-), otherwise false.
 	Pep   bool    `json:"pep"`
 	PsaId *string `json:"psa_id,omitempty"`
 	// Number of entities that are Possibly the Same As (PSA) the entity.
 	PsaCount int `json:"psa_count"`
-	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
-	Sanctioned  bool          `json:"sanctioned"`
+	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
+	Sanctioned bool `json:"sanctioned"`
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
-	Countries   []Country     `json:"countries,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
-	RelatedEntitiesCount     int                         `json:"related_entities_count"`
-	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
-	UserRecordCount          int                         `json:"user_record_count"`
-	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType              *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus             *Status                     `json:"latest_status,omitempty"`
-	Risk                     EntityRisk                  `json:"risk,omitempty"`
-	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
-	Coordinates              []*Coordinates              `json:"coordinates,omitempty"`
-	Matches                  EntityMatches               `json:"matches,omitempty"`
+	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses []string `json:"addresses,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth *string `json:"date_of_birth,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                     `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
+	UserRecordCount          int                     `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus             *Status                 `json:"latest_status,omitempty"`
+	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
+	Risk EntityRisk `json:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
+	Relationships  *EntityRelationships `json:"relationships,omitempty"`
+	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty"`
+	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty"`
+	Coordinates    []*Coordinates       `json:"coordinates,omitempty"`
+	Matches        EntityMatches        `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9116,6 +9420,9 @@ func (s *SearchResults) String() string {
 	}
 	return fmt.Sprintf("%#v", s)
 }
+
+// The unique identifier for a source in the database
+type SourceId = string
 
 // Bad gateway
 type BadGatewayResponse = interface{}
@@ -9295,7 +9602,8 @@ func (c *Coordinate) String() string {
 
 // The attributes fields common to most entities.
 type EmbeddedEntity struct {
-	Id EntityId `json:"id"`
+	// Unique identifier of the entity
+	Id string `json:"id"`
 	// Display name of the entity
 	Label string `json:"label"`
 	// Number of outgoing relationships
@@ -9304,27 +9612,33 @@ type EmbeddedEntity struct {
 	Closed bool `json:"closed"`
 	// Convenience URL to the entity in the API.
 	EntityUrl string `json:"entity_url"`
-	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	// True if the entity has the ["Politically Exposed Person (PEP)" risk factor](/sayari-library/ontology/risk-factors#politically-exposed-person-pep-), otherwise false.
 	Pep   bool    `json:"pep"`
 	PsaId *string `json:"psa_id,omitempty"`
 	// Number of entities that are Possibly the Same As (PSA) the entity.
 	PsaCount int `json:"psa_count"`
-	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
-	Sanctioned  bool          `json:"sanctioned"`
+	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
+	Sanctioned bool `json:"sanctioned"`
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
-	Countries   []Country     `json:"countries,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
-	RelatedEntitiesCount     int                         `json:"related_entities_count"`
-	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
-	UserRecordCount          int                         `json:"user_record_count"`
+	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses []string `json:"addresses,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth *string `json:"date_of_birth,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	UserRelationshipCount    map[Relationships]int `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}           `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}           `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                   `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                   `json:"user_related_entities_count"`
+	UserRecordCount          int                   `json:"user_record_count"`
 
 	_rawJSON json.RawMessage
 }
@@ -9352,15 +9666,10 @@ func (e *EmbeddedEntity) String() string {
 	return fmt.Sprintf("%#v", e)
 }
 
-// List of physical addresses associated with the entity. See https://docs.sayari.com/attributes/#address
-type EntityAddresses = string
-
-// Birth date of a person. See https://docs.sayari.com/attributes/#date-of-birth
-type EntityDob = string
-
 // Additional fields providing more details about an entity
 type EntityDetails struct {
-	Id EntityId `json:"id"`
+	// Unique identifier of the entity
+	Id string `json:"id"`
 	// Display name of the entity
 	Label string `json:"label"`
 	// Number of outgoing relationships
@@ -9369,39 +9678,48 @@ type EntityDetails struct {
 	Closed bool `json:"closed"`
 	// Convenience URL to the entity in the API.
 	EntityUrl string `json:"entity_url"`
-	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	// True if the entity has the ["Politically Exposed Person (PEP)" risk factor](/sayari-library/ontology/risk-factors#politically-exposed-person-pep-), otherwise false.
 	Pep   bool    `json:"pep"`
 	PsaId *string `json:"psa_id,omitempty"`
 	// Number of entities that are Possibly the Same As (PSA) the entity.
 	PsaCount int `json:"psa_count"`
-	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
-	Sanctioned  bool          `json:"sanctioned"`
+	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
+	Sanctioned bool `json:"sanctioned"`
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
-	Countries   []Country     `json:"countries,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
-	RelatedEntitiesCount     int                         `json:"related_entities_count"`
-	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
-	UserRecordCount          int                         `json:"user_record_count"`
-	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType              *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus             *Status                     `json:"latest_status,omitempty"`
-	Risk                     EntityRisk                  `json:"risk,omitempty"`
-	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
+	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses []string `json:"addresses,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth *string `json:"date_of_birth,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                     `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
+	UserRecordCount          int                     `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus             *Status                 `json:"latest_status,omitempty"`
+	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
+	Risk EntityRisk `json:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
+	Relationships  *EntityRelationships `json:"relationships,omitempty"`
+	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty"`
+	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9432,17 +9750,11 @@ func (e *EntityDetails) String() string {
 // Harmonized Tariff Schedule Code associated with the entity/shipment
 type EntityHsCode = string
 
-// Unique identifier of the entity
-type EntityId = string
-
 // An explanation of why this entity was returned as the result of a query.
 type EntityMatches = map[string][]string
 
 // Type (registered/incorporated/active) and date of the earliest significant activity associated with the entity. Will appear as 'Registered YYYY-MM-DD'
 type EntityRegistrationDate = string
-
-// Count of related entities by relationship type.
-type EntityRelationshipCount = map[Relationships]int
 
 // All relationships the entity is a part of.
 type EntityRelationships struct {
@@ -9485,8 +9797,9 @@ type EntityTranslatedLabel = string
 // Identifiers associated with the entity. See https://docs.sayari.com/attributes/#identifier
 type Identifier struct {
 	Value string `json:"value"`
-	Type  string `json:"type"`
-	Label string `json:"label"`
+	// [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type)
+	Type  *BothIdentifierTypes `json:"type,omitempty"`
+	Label string               `json:"label"`
 
 	_rawJSON json.RawMessage
 }
@@ -9516,7 +9829,8 @@ func (i *Identifier) String() string {
 
 // The entity that is possibly the same as the target entity.
 type PsaEntity struct {
-	Id EntityId `json:"id"`
+	// Unique identifier of the entity
+	Id string `json:"id"`
 	// Display name of the entity
 	Label string `json:"label"`
 	// Number of outgoing relationships
@@ -9525,31 +9839,37 @@ type PsaEntity struct {
 	Closed bool `json:"closed"`
 	// Convenience URL to the entity in the API.
 	EntityUrl string `json:"entity_url"`
-	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	// True if the entity has the ["Politically Exposed Person (PEP)" risk factor](/sayari-library/ontology/risk-factors#politically-exposed-person-pep-), otherwise false.
 	Pep   bool    `json:"pep"`
 	PsaId *string `json:"psa_id,omitempty"`
 	// Number of entities that are Possibly the Same As (PSA) the entity.
 	PsaCount int `json:"psa_count"`
-	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
-	Sanctioned  bool          `json:"sanctioned"`
+	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
+	Sanctioned bool `json:"sanctioned"`
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
-	Countries   []Country     `json:"countries,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
-	RelatedEntitiesCount     int                         `json:"related_entities_count"`
-	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
-	UserRecordCount          int                         `json:"user_record_count"`
-	Risk                     EntityRisk                  `json:"risk,omitempty"`
-	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	CompanyType              *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus             *Status                     `json:"latest_status,omitempty"`
+	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses []string `json:"addresses,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth *string `json:"date_of_birth,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                     `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
+	UserRecordCount          int                     `json:"user_record_count"`
+	Risk                     EntityRisk              `json:"risk,omitempty"`
+	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty"`
+	CompanyType              *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus             *Status                 `json:"latest_status,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9673,16 +9993,23 @@ func (p *PossiblySameAsMatch) String() string {
 }
 
 type RecordDetails struct {
-	Id              RecordId            `json:"id"`
-	Label           string              `json:"label"`
-	Source          SourceId            `json:"source"`
-	PublicationDate *string             `json:"publication_date,omitempty"`
-	AcquisitionDate string              `json:"acquisition_date"`
-	ReferencesCount int                 `json:"references_count"`
-	RecordUrl       string              `json:"record_url"`
-	SourceUrl       *string             `json:"source_url,omitempty"`
-	DocumentUrls    []string            `json:"document_urls,omitempty"`
-	Matches         map[string][]string `json:"matches,omitempty"`
+	// The unique identifier for a record in the database
+	Id    string `json:"id"`
+	Label string `json:"label"`
+	// The unique identifier for a source in the database
+	Source string `json:"source"`
+	// The date the record was published
+	PublicationDate *string `json:"publication_date,omitempty"`
+	// The date Sayari acquired this record
+	AcquisitionDate string `json:"acquisition_date"`
+	// Number of times this record is referenced
+	ReferencesCount int `json:"references_count"`
+	// The url to download the record from Sayari
+	RecordUrl string `json:"record_url"`
+	// The url to access to original source
+	SourceUrl    *string             `json:"source_url,omitempty"`
+	DocumentUrls []string            `json:"document_urls,omitempty"`
+	Matches      map[string][]string `json:"matches,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9709,9 +10036,6 @@ func (r *RecordDetails) String() string {
 	}
 	return fmt.Sprintf("%#v", r)
 }
-
-// The unique identifier for a record in the database
-type RecordId = string
 
 // List of records that reference the entity.
 type ReferencedBy struct {
@@ -9833,7 +10157,8 @@ func (r *RelationshipAttributeValue) String() string {
 }
 
 type RelationshipData struct {
-	Target        *EntityDetails                        `json:"target,omitempty"`
+	Target *EntityDetails `json:"target,omitempty"`
+	// Additional information for each [relationship type](/sayari-library/ontology/relationships).
 	Types         map[Relationships][]*RelationshipInfo `json:"types,omitempty"`
 	Dates         []string                              `json:"dates,omitempty"`
 	FirstObserved *string                               `json:"first_observed,omitempty"`
@@ -9908,7 +10233,8 @@ func (r *RelationshipInfo) String() string {
 type RiskData struct {
 	Value    interface{}            `json:"value,omitempty"`
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
-	Level    RiskLevel              `json:"level,omitempty"`
+	// The severity of the risk.
+	Level RiskLevel `json:"level,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10067,18 +10393,20 @@ func (s *Status) String() string {
 }
 
 type Source struct {
-	Id          string  `json:"id"`
-	Label       string  `json:"label"`
-	Description string  `json:"description"`
-	Country     Country `json:"country,omitempty"`
-	Region      string  `json:"region"`
-	DateAdded   string  `json:"date_added"`
-	SourceType  string  `json:"source_type"`
-	RecordType  string  `json:"record_type"`
-	Structure   string  `json:"structure"`
-	SourceUrl   *string `json:"source_url,omitempty"`
-	Pep         bool    `json:"pep"`
-	Watchlist   bool    `json:"watchlist"`
+	// The unique identifier of the source
+	Id          string `json:"id"`
+	Label       string `json:"label"`
+	Description string `json:"description"`
+	// Source [country](/sayari-library/ontology/enumerated-types#country)
+	Country    Country `json:"country,omitempty"`
+	Region     string  `json:"region"`
+	DateAdded  string  `json:"date_added"`
+	SourceType string  `json:"source_type"`
+	RecordType string  `json:"record_type"`
+	Structure  string  `json:"structure"`
+	SourceUrl  *string `json:"source_url,omitempty"`
+	Pep        bool    `json:"pep"`
+	Watchlist  bool    `json:"watchlist"`
 
 	_rawJSON json.RawMessage
 }
@@ -10137,8 +10465,9 @@ func (b *BusinessPurpose) String() string {
 }
 
 type DataSource struct {
-	Id    SourceId `json:"id"`
-	Label string   `json:"label"`
+	// The unique identifier for a source in the database
+	Id    string `json:"id"`
+	Label string `json:"label"`
 
 	_rawJSON json.RawMessage
 }
@@ -10212,7 +10541,8 @@ type Shipment struct {
 	Sources             []*DataSource                `json:"sources,omitempty"`
 	HsCodes             []*HsCodeInfo                `json:"hs_codes,omitempty"`
 	ProductDescriptions []string                     `json:"product_descriptions,omitempty"`
-	Record              RecordId                     `json:"record"`
+	// The unique identifier for a record in the database
+	Record string `json:"record"`
 
 	_rawJSON json.RawMessage
 }
@@ -10334,10 +10664,11 @@ func (s *ShipmentIdentifier) String() string {
 }
 
 type ShipmentMetadata struct {
-	ArrivalCountry   []Country          `json:"arrival_country,omitempty"`
-	Jurisdiction     []Country          `json:"jurisdiction,omitempty"`
-	ReferenceId      string             `json:"reference_id"`
-	EntityId         EntityId           `json:"entity_id"`
+	ArrivalCountry []Country `json:"arrival_country,omitempty"`
+	Jurisdiction   []Country `json:"jurisdiction,omitempty"`
+	ReferenceId    string    `json:"reference_id"`
+	// Unique identifier of the entity
+	EntityId         string             `json:"entity_id"`
 	DepartureAddress *AddressProperties `json:"departure_address,omitempty"`
 	Type             string             `json:"type"`
 	Sources          []string           `json:"sources,omitempty"`
@@ -10370,11 +10701,15 @@ func (s *ShipmentMetadata) String() string {
 }
 
 type SourceOrDestinationEntity struct {
-	Id              EntityId             `json:"id"`
-	Names           []string             `json:"names,omitempty"`
-	Risks           map[Risk]interface{} `json:"risks,omitempty"`
-	BusinessPurpose []*BusinessPurpose   `json:"business_purpose,omitempty"`
-	Countries       []Country            `json:"countries,omitempty"`
+	// Unique identifier of the entity
+	Id    string   `json:"id"`
+	Names []string `json:"names,omitempty"`
+	// [Risks](/sayari-library/ontology/risk-factors)
+	Risks map[Risk]interface{} `json:"risks,omitempty"`
+	// [Business Purpose](/sayari-library/ontology/enumerated-types#business-purpose-standard)
+	BusinessPurpose []*BusinessPurpose `json:"business_purpose,omitempty"`
+	// [Countries](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10434,7 +10769,8 @@ func (s *SupplierMetadata) String() string {
 }
 
 type SupplierOrBuyer struct {
-	Id EntityId `json:"id"`
+	// Unique identifier of the entity
+	Id string `json:"id"`
 	// Display name of the entity
 	Label string `json:"label"`
 	// Number of outgoing relationships
@@ -10443,40 +10779,49 @@ type SupplierOrBuyer struct {
 	Closed bool `json:"closed"`
 	// Convenience URL to the entity in the API.
 	EntityUrl string `json:"entity_url"`
-	// True if the entity has the "Politically Exposed Person (PEP)" risk factor, otherwise false. See https://docs.sayari.com/risk/#politically-exposed-person-pep
+	// True if the entity has the ["Politically Exposed Person (PEP)" risk factor](/sayari-library/ontology/risk-factors#politically-exposed-person-pep-), otherwise false.
 	Pep   bool    `json:"pep"`
 	PsaId *string `json:"psa_id,omitempty"`
 	// Number of entities that are Possibly the Same As (PSA) the entity.
 	PsaCount int `json:"psa_count"`
-	// True if the entity has the "Sanctioned" risk factor, otherwise false. See https://docs.sayari.com/risk/#sanctioned
-	Sanctioned  bool          `json:"sanctioned"`
+	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
+	Sanctioned bool `json:"sanctioned"`
+	// The [entity type](/sayari-library/ontology/entities).
 	Type        Entities      `json:"type,omitempty"`
 	Identifiers []*Identifier `json:"identifiers,omitempty"`
-	Countries   []Country     `json:"countries,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
 	// Number of records associated with the entity, grouped by source.
-	SourceCount              map[string]*SourceCountInfo `json:"source_count,omitempty"`
-	Addresses                []EntityAddresses           `json:"addresses,omitempty"`
-	DateOfBirth              *EntityDob                  `json:"date_of_birth,omitempty"`
-	RelationshipCount        EntityRelationshipCount     `json:"relationship_count,omitempty"`
-	UserRelationshipCount    EntityRelationshipCount     `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}                 `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}                 `json:"user_attribute_counts,omitempty"`
-	RelatedEntitiesCount     int                         `json:"related_entities_count"`
-	UserRelatedEntitiesCount int                         `json:"user_related_entities_count"`
-	UserRecordCount          int                         `json:"user_record_count"`
-	RegistrationDate         *EntityRegistrationDate     `json:"registration_date,omitempty"`
-	TranslatedLabel          *EntityTranslatedLabel      `json:"translated_label,omitempty"`
-	HsCode                   *EntityHsCode               `json:"hs_code,omitempty"`
-	ShipmentArrival          *ShipmentArrival            `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue           `json:"shipment_departure,omitempty"`
-	CompanyType              *CompanyType                `json:"company_type,omitempty"`
-	LatestStatus             *Status                     `json:"latest_status,omitempty"`
-	Risk                     EntityRisk                  `json:"risk,omitempty"`
-	Attributes               *AttributeDetails           `json:"attributes,omitempty"`
-	Relationships            *EntityRelationships        `json:"relationships,omitempty"`
-	PossiblySameAs           *PossiblySameAs             `json:"possibly_same_as,omitempty"`
-	ReferencedBy             *ReferencedBy               `json:"referenced_by,omitempty"`
-	Metadata                 *SupplierMetadata           `json:"metadata,omitempty"`
+	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses []string `json:"addresses,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth *string `json:"date_of_birth,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
+	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                     `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
+	UserRecordCount          int                     `json:"user_record_count"`
+	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType            `json:"company_type,omitempty"`
+	LatestStatus             *Status                 `json:"latest_status,omitempty"`
+	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
+	Risk EntityRisk `json:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
+	Relationships  *EntityRelationships `json:"relationships,omitempty"`
+	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty"`
+	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty"`
+	Metadata       *SupplierMetadata    `json:"metadata,omitempty"`
 
 	_rawJSON json.RawMessage
 }

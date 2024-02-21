@@ -135,7 +135,8 @@ func (c *Client) ListSources(
 // Returns metadata for a source that Sayari collects data from
 func (c *Client) GetSource(
 	ctx context.Context,
-	id generatedgo.SourceId,
+	// The unique identifier for a source in the database
+	id string,
 	opts ...option.RequestOption,
 ) (*generatedgo.GetSourceResponse, error) {
 	options := core.NewRequestOptions(opts...)

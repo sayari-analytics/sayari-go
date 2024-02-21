@@ -11,9 +11,9 @@ import (
 type Resolution struct {
 	// Entity name
 	Name []*string `json:"-"`
-	// Entity identifier
+	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
 	Identifier []*string `json:"-"`
-	// Entity country - must be ISO (3166) Trigram i.e., `USA`
+	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
 	Country []*Country `json:"-"`
 	// Entity address
 	Address []*string `json:"-"`
@@ -21,7 +21,7 @@ type Resolution struct {
 	DateOfBirth []*string `json:"-"`
 	// Entity contact
 	Contact []*string `json:"-"`
-	// Entity type. If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
+	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
 	Type []*Entities `json:"-"`
 }
 

@@ -40,7 +40,8 @@ func NewClient(opts ...option.RequestOption) *Client {
 // Retrieve a record from the database based on the ID
 func (c *Client) GetRecord(
 	ctx context.Context,
-	id generatedgo.RecordId,
+	// The unique identifier for a record in the database
+	id string,
 	request *generatedgo.GetRecord,
 	opts ...option.RequestOption,
 ) (*generatedgo.GetRecordResponse, error) {

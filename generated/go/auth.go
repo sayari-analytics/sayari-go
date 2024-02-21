@@ -16,9 +16,12 @@ type GetToken struct {
 }
 
 type AuthResponse struct {
-	AccessToken AccessToken `json:"access_token"`
-	ExpiresIn   ExpiresIn   `json:"expires_in"`
-	TokenType   TokenType   `json:"token_type"`
+	// The bearer token you will pass in to subsequent API calls to authenticate.
+	AccessToken string `json:"access_token"`
+	// Tells you how long (in seconds) until your bearer token expires.
+	ExpiresIn int `json:"expires_in"`
+	// Will always be "Bearer"
+	TokenType string `json:"token_type"`
 
 	_rawJSON json.RawMessage
 }
