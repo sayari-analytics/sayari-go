@@ -40,7 +40,8 @@ func NewClient(opts ...option.RequestOption) *Client {
 // The Traversal endpoint returns paths from a single target entity to up to 50 directly or indirectly-related entities. Each path includes information on the 0 to 10 intermediary entities, as well as their connecting relationships. The response's explored_count field indicates the size of the graph subset the application searched. Running a traversal on a highly connected entity with a restrictive set of argument filters and a high max depth will require the application to explore a higher number of traversal paths, which may affect performance.
 func (c *Client) Traversal(
 	ctx context.Context,
-	id generatedgo.EntityId,
+	// Unique identifier of the entity
+	id string,
 	request *generatedgo.Traversal,
 	opts ...option.RequestOption,
 ) (*generatedgo.TraversalResponse, error) {
@@ -232,7 +233,8 @@ func (c *Client) Traversal(
 // The UBO endpoint returns paths from a single target entity to up to 50 beneficial owners. The endpoint is a shorthand for the equivalent traversal query.
 func (c *Client) Ubo(
 	ctx context.Context,
-	id generatedgo.EntityId,
+	// Unique identifier of the entity
+	id string,
 	request *generatedgo.Ubo,
 	opts ...option.RequestOption,
 ) (*generatedgo.TraversalResponse, error) {
@@ -421,7 +423,8 @@ func (c *Client) Ubo(
 // The Ownership endpoint returns paths from a single target entity to up to 50 entities directly or indirectly owned by that entity. The endpoint is a shorthand for the equivalent traversal query.
 func (c *Client) Ownership(
 	ctx context.Context,
-	id generatedgo.EntityId,
+	// Unique identifier of the entity
+	id string,
 	request *generatedgo.Ownership,
 	opts ...option.RequestOption,
 ) (*generatedgo.TraversalResponse, error) {
@@ -610,7 +613,8 @@ func (c *Client) Ownership(
 // The Watchlist endpoint returns paths from a single target entity to up to 50 other entities that appear on a watchlist or are peps. The endpoint is a shorthand for the equivalent traversal query.
 func (c *Client) Watchlist(
 	ctx context.Context,
-	id generatedgo.EntityId,
+	// Unique identifier of the entity
+	id string,
 	request *generatedgo.Watchlist,
 	opts ...option.RequestOption,
 ) (*generatedgo.TraversalResponse, error) {

@@ -40,7 +40,8 @@ func NewClient(opts ...option.RequestOption) *Client {
 // Retrieve an entity from the database based on the ID
 func (c *Client) GetEntity(
 	ctx context.Context,
-	id generatedgo.EntityId,
+	// Unique identifier of the entity
+	id string,
 	request *generatedgo.GetEntity,
 	opts ...option.RequestOption,
 ) (*generatedgo.GetEntityResponse, error) {
@@ -236,7 +237,8 @@ func (c *Client) GetEntity(
 // The Entity Summary endpoint returns a smaller entity payload
 func (c *Client) EntitySummary(
 	ctx context.Context,
-	id generatedgo.EntityId,
+	// Unique identifier of the entity
+	id string,
 	opts ...option.RequestOption,
 ) (*generatedgo.EntitySummaryResponse, error) {
 	options := core.NewRequestOptions(opts...)
