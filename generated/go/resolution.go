@@ -12,7 +12,7 @@ type Resolution struct {
 	// Entity name
 	Name []*string `json:"-"`
 	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
-	Identifier []*string `json:"-"`
+	Identifier []*BothIdentifierTypes `json:"-"`
 	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
 	Country []*Country `json:"-"`
 	// Entity address
@@ -23,6 +23,63 @@ type Resolution struct {
 	Contact []*string `json:"-"`
 	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
 	Type []*Entities `json:"-"`
+}
+
+type BothIdentifierTypes struct {
+	typeName           string
+	IdentifierType     IdentifierType
+	WeakIdentifierType WeakIdentifierType
+}
+
+func NewBothIdentifierTypesFromIdentifierType(value IdentifierType) *BothIdentifierTypes {
+	return &BothIdentifierTypes{typeName: "identifierType", IdentifierType: value}
+}
+
+func NewBothIdentifierTypesFromWeakIdentifierType(value WeakIdentifierType) *BothIdentifierTypes {
+	return &BothIdentifierTypes{typeName: "weakIdentifierType", WeakIdentifierType: value}
+}
+
+func (b *BothIdentifierTypes) UnmarshalJSON(data []byte) error {
+	var valueIdentifierType IdentifierType
+	if err := json.Unmarshal(data, &valueIdentifierType); err == nil {
+		b.typeName = "identifierType"
+		b.IdentifierType = valueIdentifierType
+		return nil
+	}
+	var valueWeakIdentifierType WeakIdentifierType
+	if err := json.Unmarshal(data, &valueWeakIdentifierType); err == nil {
+		b.typeName = "weakIdentifierType"
+		b.WeakIdentifierType = valueWeakIdentifierType
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, b)
+}
+
+func (b BothIdentifierTypes) MarshalJSON() ([]byte, error) {
+	switch b.typeName {
+	default:
+		return nil, fmt.Errorf("invalid type %s in %T", b.typeName, b)
+	case "identifierType":
+		return json.Marshal(b.IdentifierType)
+	case "weakIdentifierType":
+		return json.Marshal(b.WeakIdentifierType)
+	}
+}
+
+type BothIdentifierTypesVisitor interface {
+	VisitIdentifierType(IdentifierType) error
+	VisitWeakIdentifierType(WeakIdentifierType) error
+}
+
+func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
+	switch b.typeName {
+	default:
+		return fmt.Errorf("invalid type %s in %T", b.typeName, b)
+	case "identifierType":
+		return visitor.VisitIdentifierType(b.IdentifierType)
+	case "weakIdentifierType":
+		return visitor.VisitWeakIdentifierType(b.WeakIdentifierType)
+	}
 }
 
 // OK

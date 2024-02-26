@@ -535,63 +535,6 @@ func (a Attributes) Ptr() *Attributes {
 	return &a
 }
 
-type BothIdentifierTypes struct {
-	typeName           string
-	IdentifierType     IdentifierType
-	WeakIdentifierType WeakIdentifierType
-}
-
-func NewBothIdentifierTypesFromIdentifierType(value IdentifierType) *BothIdentifierTypes {
-	return &BothIdentifierTypes{typeName: "identifierType", IdentifierType: value}
-}
-
-func NewBothIdentifierTypesFromWeakIdentifierType(value WeakIdentifierType) *BothIdentifierTypes {
-	return &BothIdentifierTypes{typeName: "weakIdentifierType", WeakIdentifierType: value}
-}
-
-func (b *BothIdentifierTypes) UnmarshalJSON(data []byte) error {
-	var valueIdentifierType IdentifierType
-	if err := json.Unmarshal(data, &valueIdentifierType); err == nil {
-		b.typeName = "identifierType"
-		b.IdentifierType = valueIdentifierType
-		return nil
-	}
-	var valueWeakIdentifierType WeakIdentifierType
-	if err := json.Unmarshal(data, &valueWeakIdentifierType); err == nil {
-		b.typeName = "weakIdentifierType"
-		b.WeakIdentifierType = valueWeakIdentifierType
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, b)
-}
-
-func (b BothIdentifierTypes) MarshalJSON() ([]byte, error) {
-	switch b.typeName {
-	default:
-		return nil, fmt.Errorf("invalid type %s in %T", b.typeName, b)
-	case "identifierType":
-		return json.Marshal(b.IdentifierType)
-	case "weakIdentifierType":
-		return json.Marshal(b.WeakIdentifierType)
-	}
-}
-
-type BothIdentifierTypesVisitor interface {
-	VisitIdentifierType(IdentifierType) error
-	VisitWeakIdentifierType(WeakIdentifierType) error
-}
-
-func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
-	switch b.typeName {
-	default:
-		return fmt.Errorf("invalid type %s in %T", b.typeName, b)
-	case "identifierType":
-		return visitor.VisitIdentifierType(b.IdentifierType)
-	case "weakIdentifierType":
-		return visitor.VisitWeakIdentifierType(b.WeakIdentifierType)
-	}
-}
-
 type BusinessPurposeData struct {
 	Editable    *bool                      `json:"editable,omitempty"`
 	Record      []string                   `json:"record,omitempty"`
@@ -9853,7 +9796,7 @@ type EntityRisk = map[Risk]*RiskData
 // Label in English if available. Translation performed by Sayari.
 type EntityTranslatedLabel = string
 
-// Identifiers associated with the entity. See https://docs.sayari.com/attributes/#identifier
+// Identifiers associated with the entity.
 type Identifier struct {
 	Value string `json:"value"`
 	// [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type)
