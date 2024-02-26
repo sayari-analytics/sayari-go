@@ -180,7 +180,26 @@ func resolveEntity(ctx context.Context, c *Connection, attributeColMap map[strin
 
 	if colNums, ok := attributeColMap[identifier]; ok {
 		for _, colNum := range colNums {
-			entityInfo.Identifier = append(entityInfo.Identifier, &row[colNum])
+			var bothIdentifier *sayari.BothIdentifierTypes
+			providedIdentifier := strings.ToLower(row[colNum])
+			// attempt to get Identifier
+			thisIdentifier, err := sayari.NewIdentifierTypeFromString(providedIdentifier)
+			if err != nil {
+				bothIdentifier = sayari.NewBothIdentifierTypesFromIdentifierType(thisIdentifier)
+			}
+
+			// if that didn't work, attempt to get weak identifier
+			thisWeakIdentifier, err := sayari.NewWeakIdentifierTypeFromString(providedIdentifier)
+			if err != nil {
+				bothIdentifier = sayari.NewBothIdentifierTypesFromWeakIdentifierType(thisWeakIdentifier)
+			}
+
+			if bothIdentifier == nil {
+				log.Printf("Failed to resolve entity. '%v' is not a valid strong or weak identifier type.", row[colNum])
+				return "", fmt.Errorf("'%v' is not a valid strong or weak identifier type", row[colNum])
+			}
+
+			entityInfo.Identifier = append(entityInfo.Identifier, bothIdentifier)
 		}
 	}
 
