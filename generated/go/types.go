@@ -205,7 +205,7 @@ func (a *AddressData) String() string {
 	return fmt.Sprintf("%#v", a)
 }
 
-// A physical location description. Addresses may exist as a simple string ("123 South Main St., South Bend, IN 46556"), or may be in smaller chunks with separate fields ("Number: 123", "Street name: South Main ..."). Where possible, these fields will be parsed using the Libpostal ontology (https://github.com/openvenues/libpostal#parser-labels), which facilitates more robust address analysis and comparison.
+// A physical location description. Addresses may exist as a simple string ("123 South Main St., South Bend, IN 46556"), or may be in smaller chunks with separate fields ("Number: 123", "Street name: South Main ..."). Where possible, these fields will be parsed using the [Libpostal ontology](https://github.com/openvenues/libpostal#parser-labels), which facilitates more robust address analysis and comparison.
 type AddressInfo struct {
 	Limit  int            `json:"limit"`
 	Size   *SizeInfo      `json:"size,omitempty"`
@@ -695,6 +695,8 @@ const (
 	BusinessPurposeStandardSsic2020 BusinessPurposeStandard = "SSIC2020"
 	// Polska Klasyfikacja Działalności (PKD) - Polish Classification of Activities, Rev. 2007
 	BusinessPurposeStandardPkd2007 BusinessPurposeStandard = "PKD2007"
+	// European System of Accounts
+	BusinessPurposeStandardEsa2010 BusinessPurposeStandard = "ESA2010"
 )
 
 func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, error) {
@@ -749,6 +751,8 @@ func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, er
 		return BusinessPurposeStandardSsic2020, nil
 	case "PKD2007":
 		return BusinessPurposeStandardPkd2007, nil
+	case "ESA2010":
+		return BusinessPurposeStandardEsa2010, nil
 	}
 	var t BusinessPurposeStandard
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -1068,7 +1072,7 @@ func (c ContactType) Ptr() *ContactType {
 	return &c
 }
 
-// Country enums are normalized representations of country names. Taken from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#ECU
+// Country enums are normalized representations of country names. [Source](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#ECU)
 type Country string
 
 const (
@@ -2264,7 +2268,7 @@ func (c *CountryProperties) String() string {
 	return fmt.Sprintf("%#v", c)
 }
 
-// Currency enums are normalized representations of currencies. Based on https://en.wikipedia.org/wiki/ISO_4217.
+// Currency enums are normalized representations of currencies. [Source](https://en.wikipedia.org/wiki/ISO_4217).
 type Currency string
 
 const (
@@ -2626,7 +2630,7 @@ const (
 	CurrencyXpt Currency = "XPT"
 	// Silver/961/N.A.
 	CurrencyXag Currency = "XAG"
-	// Latvian Lat; See https://en.wikipedia.org/wiki/Latvian_lats
+	// Latvian Lat; Learn more [here](https://en.wikipedia.org/wiki/Latvian_lats)
 	CurrencyLvl Currency = "LVL"
 	// Slovak Koruna
 	CurrencySkk Currency = "SKK"
@@ -4277,7 +4281,7 @@ const (
 	IdentifierTypeMusFileNo IdentifierType = "mus_file_no"
 	// Colombian tax identification number
 	IdentifierTypeColNitNo IdentifierType = "col_nit_no"
-	// Japanese corporate number (https://en.wikipedia.org/wiki/Corporate_Number).
+	// Japanese corporate number. Learn more [here](https://en.wikipedia.org/wiki/Corporate_Number).
 	IdentifierTypeJpnCorporateNo IdentifierType = "jpn_corporate_no"
 	// Common Government-wide Accounting Classification (CGAC) agency code assigned by the US Treasury
 	IdentifierTypeUsaCgacAgencyCode IdentifierType = "usa_cgac_agency_code"
@@ -4291,7 +4295,7 @@ const (
 	IdentifierTypeColSecopNo IdentifierType = "col_secop_no"
 	// Deprecated; use weak identifier jordan_company_no
 	IdentifierTypeJordanCompanyNo IdentifierType = "jordan_company_no"
-	// Denmark business registration number; see https://erhvervsstyrelsen.dk/cvr-numre-p-numre-og-se-numre
+	// Denmark business registration number; learn more [here](https://erhvervsstyrelsen.dk/cvr-numre-p-numre-og-se-numre)
 	IdentifierTypeDnkCvr IdentifierType = "dnk_cvr"
 	// Denmark business branch number
 	IdentifierTypeDnkProductionUnitNo IdentifierType = "dnk_production_unit_no"
@@ -4318,7 +4322,7 @@ const (
 	IdentifierTypeCheChIdNumber   IdentifierType = "che_ch_id_number"
 	// Dubai International Financial Centre registration number
 	IdentifierTypeAreDifcRegNo IdentifierType = "are_difc_reg_no"
-	// Indonesian tax ID aka NPWP Number; see https://wiki.scn.sap.com/wiki/display/CRM/Indonesia
+	// Indonesian tax ID aka NPWP Number; learn more [here](https://wiki.scn.sap.com/wiki/display/CRM/Indonesia)
 	IdentifierTypeIdnTaxId IdentifierType = "idn_tax_id"
 	// USA Vermont Business ID
 	IdentifierTypeUsaVtBizId IdentifierType = "usa_vt_biz_id"
@@ -4471,7 +4475,7 @@ const (
 	IdentifierTypeChnShenzenSecCode IdentifierType = "chn_shenzen_sec_code"
 	// USA Connecticut Business ID
 	IdentifierTypeUsaCtBusinessId IdentifierType = "usa_ct_business_id"
-	// Ecuador cedula (https://www.jybaro.com/blog/cedula-de-identidad-ecuatoriana/)
+	// [Ecuador cedula](https://www.jybaro.com/blog/cedula-de-identidad-ecuatoriana/)
 	IdentifierTypeEcuCedulaNumber IdentifierType = "ecu_cedula_number"
 	// Hong Kong Stock Exchange Code
 	IdentifierTypeHkgStockCode IdentifierType = "hkg_stock_code"
@@ -4479,6 +4483,8 @@ const (
 	IdentifierTypeCanBcCompanyRegistrationId IdentifierType = "can_bc_company_registration_id"
 	// British Columbia Extraprovincial Company Registration ID
 	IdentifierTypeCanBcExtraprovincialRegistrationId IdentifierType = "can_bc_extraprovincial_registration_id"
+	// Unique Canada ID number. Assigned to every trademark application.
+	IdentifierTypeCanIpoTrademarkApplicationNo IdentifierType = "can_ipo_trademark_application_no"
 	// Lithuanian Company Registration Code
 	IdentifierTypeLtuCompanyRegistrationCode IdentifierType = "ltu_company_registration_code"
 	// SEC private fund ID
@@ -4635,7 +4641,7 @@ const (
 	IdentifierTypeSmrEconomicOperatorCode IdentifierType = "smr_economic_operator_code"
 	// USA Connecticut Internal ID
 	IdentifierTypeUsaCtInternalId IdentifierType = "usa_ct_internal_id"
-	// Authoritative legal entity identifier (ALEI), a government-issued registration number that is standardized according to https://en.wikipedia.org/wiki/ISO_8000
+	// Authoritative legal entity identifier (ALEI), a government-issued registration number that is standardized according to [ISO 8000](https://en.wikipedia.org/wiki/ISO_8000)
 	IdentifierTypeAlei IdentifierType = "alei"
 	// Unique Canada province ID number. Assigned to every entity in the Nova Scotia Corporate Registry.
 	IdentifierTypeCanNsCorporateRegistry IdentifierType = "can_ns_corporate_registry"
@@ -4684,7 +4690,7 @@ const (
 	IdentifierTypeNgaTaxId IdentifierType = "nga_tax_id"
 	// Dominica Business Registry Internal ID
 	IdentifierTypeDmaBusinessRegistryInternalId IdentifierType = "dma_business_registry_internal_id"
-	// The Commercial and Government Entity (CAGE) code is a five-character ID assigned by the US Department of Defense's Defense Logistics Agency (DLA) to refer to a facility at a specific location (includes government suppliers, agencies, and other organizations). CAGE codes for entities outside the USA are called NATO Commercial and Government Entity (NCAGE) codes and are part of the NATO Codification System (NCS). See https://fawiki.fws.gov/display/SAM/Commercial+And+Government+Entity+%28CAGE%29+Code+Information.
+	// The Commercial and Government Entity (CAGE) code is a five-character ID assigned by the US Department of Defense's Defense Logistics Agency (DLA) to refer to a facility at a specific location (includes government suppliers, agencies, and other organizations). CAGE codes for entities outside the USA are called NATO Commercial and Government Entity (NCAGE) codes and are part of the NATO Codification System (NCS). Learn more [here](https://fawiki.fws.gov/display/SAM/Commercial+And+Government+Entity+%28CAGE%29+Code+Information).
 	IdentifierTypeCage IdentifierType = "cage"
 	// Antigua and Barbuda Business Registry Internal ID
 	IdentifierTypeAtgBusinessRegistryInternalId IdentifierType = "atg_business_registry_internal_id"
@@ -4769,7 +4775,7 @@ const (
 	IdentifierTypeUsaUpinNumber IdentifierType = "usa_upin_number"
 	// British Columbia Registration Number
 	IdentifierTypeCanBcRegistrationNumber IdentifierType = "can_bc_registration_number"
-	// The Canada Revenue Agency (CRA) business number is a nine-digit tax ID assigned to organizations to help them engage with federal and provincial government programs. See https://www.liveabout.com/what-is-the-canada-revenue-agency-cra-business-number-2947322.
+	// The Canada Revenue Agency (CRA) business number is a nine-digit tax ID assigned to organizations to help them engage with federal and provincial government programs. Learn more [here](https://www.liveabout.com/what-is-the-canada-revenue-agency-cra-business-number-2947322).
 	IdentifierTypeCanBusinessNumber IdentifierType = "can_business_number"
 	// China Securities Regulatory Commission Code / 证券代码
 	IdentifierTypeChnCsrcNo IdentifierType = "chn_csrc_no"
@@ -4881,6 +4887,10 @@ const (
 	IdentifierTypeBlzBccarRegNo IdentifierType = "blz_bccar_reg_no"
 	// Unique customs registration number. Assigned to all entities registered with China General Administration of Customs.
 	IdentifierTypeChnCustomsRegistrationNo IdentifierType = "chn_customs_registration_no"
+	// Iceland VAT identification number. Assigned to legal entities registered with Tax Administration.
+	IdentifierTypeIslVatNum IdentifierType = "isl_vat_num"
+	// Unique Canada ID number. Assigned to every registered trademark.
+	IdentifierTypeCanTmRegistrationNo IdentifierType = "can_tm_registration_no"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -5581,6 +5591,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCanBcCompanyRegistrationId, nil
 	case "can_bc_extraprovincial_registration_id":
 		return IdentifierTypeCanBcExtraprovincialRegistrationId, nil
+	case "can_ipo_trademark_application_no":
+		return IdentifierTypeCanIpoTrademarkApplicationNo, nil
 	case "ltu_company_registration_code":
 		return IdentifierTypeLtuCompanyRegistrationCode, nil
 	case "usa_sec_private_fund":
@@ -5989,6 +6001,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBlzBccarRegNo, nil
 	case "chn_customs_registration_no":
 		return IdentifierTypeChnCustomsRegistrationNo, nil
+	case "isl_vat_num":
+		return IdentifierTypeIslVatNum, nil
+	case "can_tm_registration_no":
+		return IdentifierTypeCanTmRegistrationNo, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -5998,7 +6014,7 @@ func (i IdentifierType) Ptr() *IdentifierType {
 	return &i
 }
 
-// Language enums are normalized representations of languages. Taken from https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes.
+// Language enums are normalized representations of languages. [Source](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 type Language string
 
 const (
@@ -8688,7 +8704,7 @@ const (
 	WeakIdentifierTypeUnknownPassport WeakIdentifierType = "unknown_passport"
 	// An identifier from the Kosovo company registry
 	WeakIdentifierTypeRksKtaNumber WeakIdentifierType = "rks_kta_number"
-	// Individual taxpayer registry identification in Brazil (https://en.wikipedia.org/wiki/Cadastro_de_Pessoas_F%C3%ADsicas)
+	// Individual taxpayer registry identification in Brazil. Learn more [here](https://en.wikipedia.org/wiki/Cadastro_de_Pessoas_F%C3%ADsicas)
 	WeakIdentifierTypeBraPartialCpf WeakIdentifierType = "bra_partial_cpf"
 	// Identification number for Venezuelan comisarios
 	WeakIdentifierTypeVenColegiadoNumber WeakIdentifierType = "ven_colegiado_number"
@@ -8713,7 +8729,7 @@ const (
 	WeakIdentifierTypeIrnRegNumber WeakIdentifierType = "irn_reg_number"
 	// Mexican FME
 	WeakIdentifierTypeMxFme WeakIdentifierType = "mx_fme"
-	// See https://www.wikidata.org/wiki/Property:P3125
+	// Learn more [here](https://www.wikidata.org/wiki/Property:P3125)
 	WeakIdentifierTypeUkrEdrpou WeakIdentifierType = "ukr_edrpou"
 	// Label for various license numbers extracted from EGRUL (Russia Federal Tax Registry) documents
 	WeakIdentifierTypeRuLicenseNumber WeakIdentifierType = "ru_license_number"
@@ -8851,7 +8867,7 @@ const (
 	WeakIdentifierTypeVenManifiestoNumber WeakIdentifierType = "ven_manifiesto_number"
 	// Matricula mercantil number, which is non-unique across different chambers of commerce
 	WeakIdentifierTypeColMatriculaMercantil WeakIdentifierType = "col_matricula_mercantil"
-	// Maritime Mobile Service Identity number (https://en.wikipedia.org/wiki/Maritime_Mobile_Service_Identity)
+	// Maritime Mobile Service Identity number. Learn more [here](https://en.wikipedia.org/wiki/Maritime_Mobile_Service_Identity)
 	WeakIdentifierTypeMaritimeMobileServiceIdentity WeakIdentifierType = "maritime_mobile_service_identity"
 	// Former USA/IRS FEI/EIN Number
 	WeakIdentifierTypeUsaFormerFein WeakIdentifierType = "usa_former_fein"
