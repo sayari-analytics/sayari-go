@@ -61,7 +61,7 @@ type GetEntity struct {
 	// Filters shipment relationships to a trade partner name
 	RelationshipsPartnerName *string `json:"-"`
 	// Filters shipment relationships to a trade partner [risk tag](/sayari-library/ontology/enumerated-types#tag)
-	RelationshipsPartnerRisk []*Tag `json:"-"`
+	RelationshipsPartnerRisk []*Risk `json:"-"`
 	// Filters shipment relationships to an HS code
 	RelationshipsHsCode *string `json:"-"`
 	// The pagination token for the next page of possibly same entities.
