@@ -118,7 +118,7 @@ type FilterList struct {
 	City       []string   `json:"city,omitempty"`
 	EntityType []Entities `json:"entity_type,omitempty"`
 	Bounds     []string   `json:"bounds,omitempty"`
-	Risk       []Tag      `json:"risk,omitempty"`
+	Risk       []Risk     `json:"risk,omitempty"`
 
 	_rawJSON json.RawMessage
 }
