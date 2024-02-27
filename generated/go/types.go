@@ -294,7 +294,7 @@ type AddressProperties struct {
 	// The address value transliterated to English
 	Transliterated *string `json:"transliterated,omitempty"`
 	// Indicates what the address is referring to. For example, it could be a physical address, mailing address, or other address type.
-	Type *AddressType `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 	// An apartment, unit, office, lot, or other secondary unit designator
 	Unit  *string `json:"unit,omitempty"`
 	Value *string `json:"value,omitempty"`
