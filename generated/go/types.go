@@ -9778,6 +9778,7 @@ type EntityRegistrationDate = string
 type EntityRelationships struct {
 	Limit int                 `json:"limit"`
 	Size  *SizeInfo           `json:"size,omitempty"`
+	Next  interface{}         `json:"next,omitempty"`
 	Data  []*RelationshipData `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
@@ -10141,39 +10142,6 @@ func (r ReferencedByDataType) Ptr() *ReferencedByDataType {
 	return &r
 }
 
-type RelationshipAttributeValue struct {
-	Value     *string  `json:"value,omitempty"`
-	NumShares *float64 `json:"num_shares,omitempty"`
-	Date      *string  `json:"date,omitempty"`
-	FromDate  *string  `json:"from_date,omitempty"`
-	Type      *string  `json:"type,omitempty"`
-
-	_rawJSON json.RawMessage
-}
-
-func (r *RelationshipAttributeValue) UnmarshalJSON(data []byte) error {
-	type unmarshaler RelationshipAttributeValue
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*r = RelationshipAttributeValue(value)
-	r._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (r *RelationshipAttributeValue) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(r); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", r)
-}
-
 type RelationshipData struct {
 	Target *EntityDetails `json:"target,omitempty"`
 	// Additional information for each [relationship type](/sayari-library/ontology/relationships).
@@ -10212,15 +10180,15 @@ func (r *RelationshipData) String() string {
 }
 
 type RelationshipInfo struct {
-	Editable        *bool                                        `json:"editable,omitempty"`
-	Record          string                                       `json:"record"`
-	Attributes      map[Attributes][]*RelationshipAttributeValue `json:"attributes,omitempty"`
-	Date            *string                                      `json:"date,omitempty"`
-	FromDate        *string                                      `json:"from_date,omitempty"`
-	ToDate          *string                                      `json:"to_date,omitempty"`
-	AcquisitionDate string                                       `json:"acquisition_date"`
-	Former          *bool                                        `json:"former,omitempty"`
-	PublicationDate *string                                      `json:"publication_date,omitempty"`
+	Editable        *bool                        `json:"editable,omitempty"`
+	Record          string                       `json:"record"`
+	Attributes      map[Attributes][]interface{} `json:"attributes,omitempty"`
+	Date            *string                      `json:"date,omitempty"`
+	FromDate        *string                      `json:"from_date,omitempty"`
+	ToDate          *string                      `json:"to_date,omitempty"`
+	AcquisitionDate string                       `json:"acquisition_date"`
+	Former          *bool                        `json:"former,omitempty"`
+	PublicationDate *string                      `json:"publication_date,omitempty"`
 
 	_rawJSON json.RawMessage
 }
