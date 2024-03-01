@@ -6995,7 +6995,7 @@ func (m *MonetaryValueInfo) String() string {
 
 type MonetaryValueProperties struct {
 	// The type of value
-	Context *string `json:"context,omitempty"`
+	Context MonetaryValueContext `json:"context,omitempty"`
 	// The ISO 4217 currency code
 	Currency *Currency `json:"currency,omitempty"`
 	// as-of date
