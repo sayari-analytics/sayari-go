@@ -11,7 +11,7 @@ import (
 type Ownership struct {
 	// Limit total values for traversal. Defaults to 20. Max of 50.
 	Limit *int `json:"-"`
-	// Offset values for traversal. Defaults to 0.
+	// Offset values for traversal. Defaults to 0. Max of 1000.
 	Offset *int `json:"-"`
 	// Set minimum depth for traversal. Defaults to 1.
 	MinDepth *int `json:"-"`
@@ -70,7 +70,7 @@ type ShortestPath struct {
 type Traversal struct {
 	// Limit total values for traversal. Defaults to 20. Max of 50.
 	Limit *int `json:"-"`
-	// Offset values for traversal. Defaults to 0.
+	// Offset values for traversal. Defaults to 0. Max of 1000.
 	Offset *int `json:"-"`
 	// Set minimum depth for traversal. Defaults to 1.
 	MinDepth *int `json:"-"`
@@ -202,7 +202,7 @@ func (t *TraversalResponse) String() string {
 type Ubo struct {
 	// Limit total values for traversal. Defaults to 20. Max of 50.
 	Limit *int `json:"-"`
-	// Offset values for traversal. Defaults to 0.
+	// Offset values for traversal. Defaults to 0. Max of 1000.
 	Offset *int `json:"-"`
 	// Set minimum depth for traversal. Defaults to 1.
 	MinDepth *int `json:"-"`
@@ -257,7 +257,7 @@ type Ubo struct {
 type Watchlist struct {
 	// Limit total values for traversal. Defaults to 20. Max of 50.
 	Limit *int `json:"-"`
-	// Offset values for traversal. Defaults to 0.
+	// Offset values for traversal. Defaults to 0. Max of 1000.
 	Offset *int `json:"-"`
 	// Set minimum depth for traversal. Defaults to 1.
 	MinDepth *int `json:"-"`
