@@ -9399,7 +9399,7 @@ type SearchResults struct {
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
 	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	ShipmentDeparture        *ShipmentDeparture      `json:"shipment_departure,omitempty"`
 	CompanyType              *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus             *Status                 `json:"latest_status,omitempty"`
 	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
@@ -9727,7 +9727,7 @@ type EntityDetails struct {
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
 	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	ShipmentDeparture        *ShipmentDeparture      `json:"shipment_departure,omitempty"`
 	CompanyType              *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus             *Status                 `json:"latest_status,omitempty"`
 	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
@@ -10314,7 +10314,7 @@ func (s SearchField) Ptr() *SearchField {
 type ShipmentArrival = string
 
 // Departure date of a shipment.
-type ShipmentDepartue = string
+type ShipmentDeparture = string
 
 // The number of time the entity is referenced by a source.
 type SourceCountInfo struct {
@@ -10347,7 +10347,7 @@ func (s *SourceCountInfo) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-// The most recent satus of an entity and when that status was observed.
+// The most recent status of an entity and when that status was observed.
 type Status struct {
 	Status string  `json:"status"`
 	Date   *string `json:"date,omitempty"`
@@ -10796,7 +10796,7 @@ type SupplierOrBuyer struct {
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
 	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	ShipmentDeparture        *ShipmentDeparture      `json:"shipment_departure,omitempty"`
 	CompanyType              *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus             *Status                 `json:"latest_status,omitempty"`
 	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
