@@ -121,7 +121,7 @@ type EntitySummaryResponse struct {
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
 	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	ShipmentDeparture        *ShipmentDeparture      `json:"shipment_departure,omitempty"`
 	CompanyType              *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus             *Status                 `json:"latest_status,omitempty"`
 	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
@@ -202,7 +202,7 @@ type GetEntityResponse struct {
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty"`
 	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty"`
-	ShipmentDeparture        *ShipmentDepartue       `json:"shipment_departure,omitempty"`
+	ShipmentDeparture        *ShipmentDeparture      `json:"shipment_departure,omitempty"`
 	CompanyType              *CompanyType            `json:"company_type,omitempty"`
 	LatestStatus             *Status                 `json:"latest_status,omitempty"`
 	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.

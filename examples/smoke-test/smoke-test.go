@@ -48,7 +48,7 @@ func main() {
 	log.Printf("First source is: %v", firstSource.Label)
 
 	// Search for an entity
-	searchTerm := "Slickdeals"
+	searchTerm := "victoria beckham limited"
 	entitySearchResults, err := client.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
