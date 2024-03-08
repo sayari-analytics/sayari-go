@@ -4891,6 +4891,12 @@ const (
 	IdentifierTypeIslVatNum IdentifierType = "isl_vat_num"
 	// Unique Canada ID number. Assigned to every registered trademark.
 	IdentifierTypeCanTmRegistrationNo IdentifierType = "can_tm_registration_no"
+	// Azerbaijan TIN. Unique number assigned to taxpayers registered with Azerbaijan State Tax Service.
+	IdentifierTypeAzeTinNumber IdentifierType = "aze_tin_number"
+	// Tajikistan TIN. Unique number assigned to taxpayers registered with Tajikistan Tax Authorities.
+	IdentifierTypeTjkTinNumber IdentifierType = "tjk_tin_number"
+	// Tajikistan EIN (RYIAM) number. Unique number assigned to taxpayers in Tajikistan.
+	IdentifierTypeTjkEinNumber IdentifierType = "tjk_ein_number"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6005,6 +6011,12 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIslVatNum, nil
 	case "can_tm_registration_no":
 		return IdentifierTypeCanTmRegistrationNo, nil
+	case "aze_tin_number":
+		return IdentifierTypeAzeTinNumber, nil
+	case "tjk_tin_number":
+		return IdentifierTypeTjkTinNumber, nil
+	case "tjk_ein_number":
+		return IdentifierTypeTjkEinNumber, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
