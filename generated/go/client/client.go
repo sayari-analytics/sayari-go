@@ -7,6 +7,7 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	entity "github.com/sayari-analytics/sayari-go/generated/go/entity"
 	info "github.com/sayari-analytics/sayari-go/generated/go/info"
+	notifications "github.com/sayari-analytics/sayari-go/generated/go/notifications"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	record "github.com/sayari-analytics/sayari-go/generated/go/record"
 	resolution "github.com/sayari-analytics/sayari-go/generated/go/resolution"
@@ -22,15 +23,16 @@ type Client struct {
 	caller  *core.Caller
 	header  http.Header
 
-	Auth       *auth.Client
-	Entity     *entity.Client
-	Info       *info.Client
-	Record     *record.Client
-	Resolution *resolution.Client
-	Search     *search.Client
-	Source     *source.Client
-	Trade      *trade.Client
-	Traversal  *traversal.Client
+	Auth          *auth.Client
+	Entity        *entity.Client
+	Info          *info.Client
+	Notifications *notifications.Client
+	Record        *record.Client
+	Resolution    *resolution.Client
+	Search        *search.Client
+	Source        *source.Client
+	Trade         *trade.Client
+	Traversal     *traversal.Client
 }
 
 func NewClient(opts ...option.RequestOption) *Client {
@@ -44,15 +46,16 @@ func NewClient(opts ...option.RequestOption) *Client {
 			},
 			options.RateLimiter,
 		),
-		header:     options.ToHeader(),
-		Auth:       auth.NewClient(opts...),
-		Entity:     entity.NewClient(opts...),
-		Info:       info.NewClient(opts...),
-		Record:     record.NewClient(opts...),
-		Resolution: resolution.NewClient(opts...),
-		Search:     search.NewClient(opts...),
-		Source:     source.NewClient(opts...),
-		Trade:      trade.NewClient(opts...),
-		Traversal:  traversal.NewClient(opts...),
+		header:        options.ToHeader(),
+		Auth:          auth.NewClient(opts...),
+		Entity:        entity.NewClient(opts...),
+		Info:          info.NewClient(opts...),
+		Notifications: notifications.NewClient(opts...),
+		Record:        record.NewClient(opts...),
+		Resolution:    resolution.NewClient(opts...),
+		Search:        search.NewClient(opts...),
+		Source:        source.NewClient(opts...),
+		Trade:         trade.NewClient(opts...),
+		Traversal:     traversal.NewClient(opts...),
 	}
 }

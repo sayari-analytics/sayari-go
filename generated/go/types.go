@@ -9194,6 +9194,169 @@ func (u *UsageInfo) String() string {
 	return fmt.Sprintf("%#v", u)
 }
 
+type Notification struct {
+	// The type of notification, currently limited to 'risk'
+	Type NotificationType `json:"type,omitempty"`
+	// The field that the notification is for
+	Field Risk `json:"field,omitempty"`
+	// The previous values of the field
+	Values []*RiskValue `json:"values,omitempty"`
+	// The date the notification was created
+	Date                  string                             `json:"date"`
+	AdditionalInformation *NotificationAdditionalInformation `json:"additional_information,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (n *Notification) UnmarshalJSON(data []byte) error {
+	type unmarshaler Notification
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = Notification(value)
+	n._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *Notification) String() string {
+	if len(n._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
+}
+
+type NotificationAdditionalInformation struct {
+	Value      map[string]interface{}             `json:"value,omitempty"`
+	Properties []*AdditionalInformationProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (n *NotificationAdditionalInformation) UnmarshalJSON(data []byte) error {
+	type unmarshaler NotificationAdditionalInformation
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = NotificationAdditionalInformation(value)
+	n._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *NotificationAdditionalInformation) String() string {
+	if len(n._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
+}
+
+type NotificationType string
+
+const (
+	NotificationTypeRisk NotificationType = "risk"
+)
+
+func NewNotificationTypeFromString(s string) (NotificationType, error) {
+	switch s {
+	case "risk":
+		return NotificationTypeRisk, nil
+	}
+	var t NotificationType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (n NotificationType) Ptr() *NotificationType {
+	return &n
+}
+
+type ProjectNotificationData struct {
+	// The ID of the entity
+	Id string `json:"id"`
+	// The ID of the saved resource
+	ResourceId string `json:"resourceId"`
+	// The ID of the entity
+	EntityId      string          `json:"entityId"`
+	Notifications []*Notification `json:"notifications,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *ProjectNotificationData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectNotificationData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectNotificationData(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectNotificationData) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ResourceNotificationData struct {
+	// The ID of the saved resource
+	SavedResourceId string `json:"savedResourceId"`
+	// The ID of the project the entity is saved to
+	ProjectId string `json:"projectId"`
+	// The ID of the entity
+	EntityId string `json:"entityId"`
+	// The type of notification, currently limited to 'risk'
+	Type NotificationType `json:"type,omitempty"`
+	// The field that the notification is for
+	Field Risk `json:"field,omitempty"`
+	// The previous value of the field
+	Value *RiskValue `json:"value,omitempty"`
+	// The date the notification was created
+	Date string `json:"date"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *ResourceNotificationData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResourceNotificationData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResourceNotificationData(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResourceNotificationData) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
 type RecordReferences struct {
 	Limit  int         `json:"limit"`
 	Size   *SizeInfo   `json:"size,omitempty"`
@@ -10229,7 +10392,7 @@ func (r *RelationshipInfo) String() string {
 }
 
 type RiskData struct {
-	Value    interface{}            `json:"value,omitempty"`
+	Value    *RiskValue             `json:"value,omitempty"`
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
 	// The severity of the risk.
 	Level RiskLevel `json:"level,omitempty"`
@@ -10286,6 +10449,79 @@ func NewRiskLevelFromString(s string) (RiskLevel, error) {
 
 func (r RiskLevel) Ptr() *RiskLevel {
 	return &r
+}
+
+type RiskValue struct {
+	typeName string
+	String   string
+	Double   float64
+	Boolean  bool
+}
+
+func NewRiskValueFromString(value string) *RiskValue {
+	return &RiskValue{typeName: "string", String: value}
+}
+
+func NewRiskValueFromDouble(value float64) *RiskValue {
+	return &RiskValue{typeName: "double", Double: value}
+}
+
+func NewRiskValueFromBoolean(value bool) *RiskValue {
+	return &RiskValue{typeName: "boolean", Boolean: value}
+}
+
+func (r *RiskValue) UnmarshalJSON(data []byte) error {
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		r.typeName = "string"
+		r.String = valueString
+		return nil
+	}
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		r.typeName = "double"
+		r.Double = valueDouble
+		return nil
+	}
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		r.typeName = "boolean"
+		r.Boolean = valueBoolean
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, r)
+}
+
+func (r RiskValue) MarshalJSON() ([]byte, error) {
+	switch r.typeName {
+	default:
+		return nil, fmt.Errorf("invalid type %s in %T", r.typeName, r)
+	case "string":
+		return json.Marshal(r.String)
+	case "double":
+		return json.Marshal(r.Double)
+	case "boolean":
+		return json.Marshal(r.Boolean)
+	}
+}
+
+type RiskValueVisitor interface {
+	VisitString(string) error
+	VisitDouble(float64) error
+	VisitBoolean(bool) error
+}
+
+func (r *RiskValue) Accept(visitor RiskValueVisitor) error {
+	switch r.typeName {
+	default:
+		return fmt.Errorf("invalid type %s in %T", r.typeName, r)
+	case "string":
+		return visitor.VisitString(r.String)
+	case "double":
+		return visitor.VisitDouble(r.Double)
+	case "boolean":
+		return visitor.VisitBoolean(r.Boolean)
+	}
 }
 
 type SearchField string
