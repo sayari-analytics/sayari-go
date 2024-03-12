@@ -10136,6 +10136,62 @@ func (r *ResolutionResult) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
+type ResourceType string
+
+const (
+	ResourceTypeEntity ResourceType = "entity"
+)
+
+func NewResourceTypeFromString(s string) (ResourceType, error) {
+	switch s {
+	case "entity":
+		return ResourceTypeEntity, nil
+	}
+	var t ResourceType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r ResourceType) Ptr() *ResourceType {
+	return &r
+}
+
+type SaveEntityResponseData struct {
+	Type       ResourceType `json:"type,omitempty"`
+	Id         string       `json:"id"`
+	Project    string       `json:"project"`
+	Label      string       `json:"label"`
+	Created    string       `json:"created"`
+	Updated    string       `json:"updated"`
+	UpdatedBy  string       `json:"updated_by"`
+	Version    int          `json:"version"`
+	ResourceId string       `json:"resource_id"`
+
+	_rawJSON json.RawMessage
+}
+
+func (s *SaveEntityResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler SaveEntityResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SaveEntityResponseData(value)
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SaveEntityResponseData) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
 type Coordinates struct {
 	Lat     float64 `json:"lat"`
 	Lng     float64 `json:"lng"`
