@@ -13,6 +13,7 @@ import (
 	project "github.com/sayari-analytics/sayari-go/generated/go/project"
 	record "github.com/sayari-analytics/sayari-go/generated/go/record"
 	resolution "github.com/sayari-analytics/sayari-go/generated/go/resolution"
+	resource "github.com/sayari-analytics/sayari-go/generated/go/resource"
 	search "github.com/sayari-analytics/sayari-go/generated/go/search"
 	source "github.com/sayari-analytics/sayari-go/generated/go/source"
 	trade "github.com/sayari-analytics/sayari-go/generated/go/trade"
@@ -33,6 +34,7 @@ type Client struct {
 	Project       *project.Client
 	Record        *record.Client
 	Resolution    *resolution.Client
+	Resource      *resource.Client
 	Search        *search.Client
 	Source        *source.Client
 	Trade         *trade.Client
@@ -59,6 +61,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 		Project:       project.NewClient(opts...),
 		Record:        record.NewClient(opts...),
 		Resolution:    resolution.NewClient(opts...),
+		Resource:      resource.NewClient(opts...),
 		Search:        search.NewClient(opts...),
 		Source:        source.NewClient(opts...),
 		Trade:         trade.NewClient(opts...),
