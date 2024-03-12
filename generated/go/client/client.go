@@ -3,6 +3,7 @@
 package client
 
 import (
+	attributes "github.com/sayari-analytics/sayari-go/generated/go/attributes"
 	auth "github.com/sayari-analytics/sayari-go/generated/go/auth"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	entity "github.com/sayari-analytics/sayari-go/generated/go/entity"
@@ -23,6 +24,7 @@ type Client struct {
 	caller  *core.Caller
 	header  http.Header
 
+	Attributes    *attributes.Client
 	Auth          *auth.Client
 	Entity        *entity.Client
 	Info          *info.Client
@@ -47,6 +49,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 			options.RateLimiter,
 		),
 		header:        options.ToHeader(),
+		Attributes:    attributes.NewClient(opts...),
 		Auth:          auth.NewClient(opts...),
 		Entity:        entity.NewClient(opts...),
 		Info:          info.NewClient(opts...),

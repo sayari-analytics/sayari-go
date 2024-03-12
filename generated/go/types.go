@@ -8,6 +8,67 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
+type AttributeProperties struct {
+	Editable    bool   `json:"editable"`
+	RecordCount int    `json:"record_count"`
+	Id          string `json:"id"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AttributeProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler AttributeProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AttributeProperties(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AttributeProperties) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
+type AttributeResponseData struct {
+	Value      interface{}            `json:"value,omitempty"`
+	Properties []*AttributeProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AttributeResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler AttributeResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AttributeResponseData(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AttributeResponseData) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
 // Response fields that represent unbounded collections, such as a search result or an entity's attributes or relationships, or a record's references, can all be paginated in cases where the collection is larger than can be efficiently returned in a single request.
 type PaginatedResponse struct {
 	Limit int       `json:"limit"`
