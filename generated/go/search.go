@@ -79,7 +79,7 @@ type SearchRecordGet struct {
 // OK
 type EntitySearchResponse struct {
 	Limit  int              `json:"limit"`
-	Size   *SizeInfo        `json:"size,omitempty"`
+	Size   *QualifiedCount  `json:"size,omitempty"`
 	Offset int              `json:"offset"`
 	Next   bool             `json:"next"`
 	Data   []*SearchResults `json:"data,omitempty"`
@@ -149,7 +149,7 @@ func (f *FilterList) String() string {
 // OK
 type RecordSearchResponse struct {
 	Limit  int              `json:"limit"`
-	Size   *SizeInfo        `json:"size,omitempty"`
+	Size   *QualifiedCount  `json:"size,omitempty"`
 	Offset int              `json:"offset"`
 	Next   bool             `json:"next"`
 	Data   []*RecordDetails `json:"data,omitempty"`
