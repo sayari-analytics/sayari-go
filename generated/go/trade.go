@@ -56,7 +56,7 @@ type SearchSuppliers struct {
 // OK
 type BuyerSearchResponse struct {
 	Limit  int                `json:"limit"`
-	Size   *SizeInfo          `json:"size,omitempty"`
+	Size   *QualifiedCount    `json:"size,omitempty"`
 	Offset int                `json:"offset"`
 	Next   bool               `json:"next"`
 	Data   []*SupplierOrBuyer `json:"data,omitempty"`
@@ -89,11 +89,11 @@ func (b *BuyerSearchResponse) String() string {
 
 // OK
 type ShipmentSearchResponse struct {
-	Limit  int         `json:"limit"`
-	Size   *SizeInfo   `json:"size,omitempty"`
-	Offset int         `json:"offset"`
-	Next   bool        `json:"next"`
-	Data   []*Shipment `json:"data,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Offset int             `json:"offset"`
+	Next   bool            `json:"next"`
+	Data   []*Shipment     `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -124,7 +124,7 @@ func (s *ShipmentSearchResponse) String() string {
 // OK
 type SupplierSearchResponse struct {
 	Limit  int                `json:"limit"`
-	Size   *SizeInfo          `json:"size,omitempty"`
+	Size   *QualifiedCount    `json:"size,omitempty"`
 	Offset int                `json:"offset"`
 	Next   bool               `json:"next"`
 	Data   []*SupplierOrBuyer `json:"data,omitempty"`

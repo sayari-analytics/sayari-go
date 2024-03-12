@@ -60,11 +60,11 @@ func (g *GetSourceResponse) String() string {
 
 // OK
 type ListSourcesResponse struct {
-	Limit  int       `json:"limit"`
-	Size   *SizeInfo `json:"size,omitempty"`
-	Offset int       `json:"offset"`
-	Next   bool      `json:"next"`
-	Data   []*Source `json:"data,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Offset int             `json:"offset"`
+	Next   bool            `json:"next"`
+	Data   []*Source       `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }

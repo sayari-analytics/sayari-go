@@ -3,12 +3,14 @@
 package client
 
 import (
+	attributes "github.com/sayari-analytics/sayari-go/generated/go/attributes"
 	auth "github.com/sayari-analytics/sayari-go/generated/go/auth"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	entity "github.com/sayari-analytics/sayari-go/generated/go/entity"
 	info "github.com/sayari-analytics/sayari-go/generated/go/info"
 	notifications "github.com/sayari-analytics/sayari-go/generated/go/notifications"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
+	project "github.com/sayari-analytics/sayari-go/generated/go/project"
 	record "github.com/sayari-analytics/sayari-go/generated/go/record"
 	resolution "github.com/sayari-analytics/sayari-go/generated/go/resolution"
 	search "github.com/sayari-analytics/sayari-go/generated/go/search"
@@ -23,10 +25,12 @@ type Client struct {
 	caller  *core.Caller
 	header  http.Header
 
+	Attributes    *attributes.Client
 	Auth          *auth.Client
 	Entity        *entity.Client
 	Info          *info.Client
 	Notifications *notifications.Client
+	Project       *project.Client
 	Record        *record.Client
 	Resolution    *resolution.Client
 	Search        *search.Client
@@ -47,10 +51,12 @@ func NewClient(opts ...option.RequestOption) *Client {
 			options.RateLimiter,
 		),
 		header:        options.ToHeader(),
+		Attributes:    attributes.NewClient(opts...),
 		Auth:          auth.NewClient(opts...),
 		Entity:        entity.NewClient(opts...),
 		Info:          info.NewClient(opts...),
 		Notifications: notifications.NewClient(opts...),
+		Project:       project.NewClient(opts...),
 		Record:        record.NewClient(opts...),
 		Resolution:    resolution.NewClient(opts...),
 		Search:        search.NewClient(opts...),

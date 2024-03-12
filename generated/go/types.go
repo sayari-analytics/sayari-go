@@ -8,10 +8,93 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
+type AttributeProperties struct {
+	Editable    bool   `json:"editable"`
+	RecordCount int    `json:"record_count"`
+	Id          string `json:"id"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AttributeProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler AttributeProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AttributeProperties(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AttributeProperties) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
+type AttributeResponseData struct {
+	Value      interface{}            `json:"value,omitempty"`
+	Properties []*AttributeProperties `json:"properties,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (a *AttributeResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler AttributeResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AttributeResponseData(value)
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AttributeResponseData) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
+type CountQualifier string
+
+const (
+	CountQualifierEq  CountQualifier = "eq"
+	CountQualifierGte CountQualifier = "gte"
+)
+
+func NewCountQualifierFromString(s string) (CountQualifier, error) {
+	switch s {
+	case "eq":
+		return CountQualifierEq, nil
+	case "gte":
+		return CountQualifierGte, nil
+	}
+	var t CountQualifier
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CountQualifier) Ptr() *CountQualifier {
+	return &c
+}
+
 // Response fields that represent unbounded collections, such as a search result or an entity's attributes or relationships, or a record's references, can all be paginated in cases where the collection is larger than can be efficiently returned in a single request.
 type PaginatedResponse struct {
-	Limit int       `json:"limit"`
-	Size  *SizeInfo `json:"size,omitempty"`
+	Limit int             `json:"limit"`
+	Size  *QualifiedCount `json:"size,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -39,34 +122,34 @@ func (p *PaginatedResponse) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
-type SizeInfo struct {
-	Count     int    `json:"count"`
-	Qualifier string `json:"qualifier"`
+type QualifiedCount struct {
+	Count     int            `json:"count"`
+	Qualifier CountQualifier `json:"qualifier,omitempty"`
 
 	_rawJSON json.RawMessage
 }
 
-func (s *SizeInfo) UnmarshalJSON(data []byte) error {
-	type unmarshaler SizeInfo
+func (q *QualifiedCount) UnmarshalJSON(data []byte) error {
+	type unmarshaler QualifiedCount
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SizeInfo(value)
-	s._rawJSON = json.RawMessage(data)
+	*q = QualifiedCount(value)
+	q._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (s *SizeInfo) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+func (q *QualifiedCount) String() string {
+	if len(q._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(q._rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := core.StringifyJSON(q); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", s)
+	return fmt.Sprintf("%#v", q)
 }
 
 type AdditionalInformationData struct {
@@ -104,7 +187,7 @@ func (a *AdditionalInformationData) String() string {
 // This is a generic attribute used to hold miscellaneous information not covered by any other attribute. Includes "value" (for the attribute itself), "type" (a name: e.g., "Real property description"), and "extra" (a miscellaneous field to hold any other details).
 type AdditionalInformationInfo struct {
 	Limit  int                          `json:"limit"`
-	Size   *SizeInfo                    `json:"size,omitempty"`
+	Size   *QualifiedCount              `json:"size,omitempty"`
 	Data   []*AdditionalInformationData `json:"data,omitempty"`
 	Next   interface{}                  `json:"next,omitempty"`
 	Offset *int                         `json:"offset,omitempty"`
@@ -207,11 +290,11 @@ func (a *AddressData) String() string {
 
 // A physical location description. Addresses may exist as a simple string ("123 South Main St., South Bend, IN 46556"), or may be in smaller chunks with separate fields ("Number: 123", "Street name: South Main ..."). Where possible, these fields will be parsed using the [Libpostal ontology](https://github.com/openvenues/libpostal#parser-labels), which facilitates more robust address analysis and comparison.
 type AddressInfo struct {
-	Limit  int            `json:"limit"`
-	Size   *SizeInfo      `json:"size,omitempty"`
-	Data   []*AddressData `json:"data,omitempty"`
-	Next   interface{}    `json:"next,omitempty"`
-	Offset *int           `json:"offset,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Data   []*AddressData  `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -570,7 +653,7 @@ func (b *BusinessPurposeData) String() string {
 // Text and/or a code (NAICS, NACE, ISIC, etc.) that describes what a company is legally allowed to do or produce
 type BusinessPurposeInfo struct {
 	Limit  int                    `json:"limit"`
-	Size   *SizeInfo              `json:"size,omitempty"`
+	Size   *QualifiedCount        `json:"size,omitempty"`
 	Data   []*BusinessPurposeData `json:"data,omitempty"`
 	Next   interface{}            `json:"next,omitempty"`
 	Offset *int                   `json:"offset,omitempty"`
@@ -869,7 +952,7 @@ func (c *CompanyTypeData) String() string {
 // A type of legal entity in a given jurisdiction (e.g., "LLC", "Sociedad Anonima", "Private Company Limited by Shares")
 type CompanyTypeInfo struct {
 	Limit  int                `json:"limit"`
-	Size   *SizeInfo          `json:"size,omitempty"`
+	Size   *QualifiedCount    `json:"size,omitempty"`
 	Data   []*CompanyTypeData `json:"data,omitempty"`
 	Next   interface{}        `json:"next,omitempty"`
 	Offset *int               `json:"offset,omitempty"`
@@ -969,11 +1052,11 @@ func (c *ContactData) String() string {
 
 // Contact information for an entity
 type ContactInfo struct {
-	Limit  int            `json:"limit"`
-	Size   *SizeInfo      `json:"size,omitempty"`
-	Data   []*ContactData `json:"data,omitempty"`
-	Next   interface{}    `json:"next,omitempty"`
-	Offset *int           `json:"offset,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Data   []*ContactData  `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -2196,11 +2279,11 @@ func (c *CountryData) String() string {
 
 // An affiliation of an entity with a given country through residence, nationality, etc.
 type CountryInfo struct {
-	Limit  int            `json:"limit"`
-	Size   *SizeInfo      `json:"size,omitempty"`
-	Data   []*CountryData `json:"data,omitempty"`
-	Next   interface{}    `json:"next,omitempty"`
-	Offset *int           `json:"offset,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Data   []*CountryData  `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3064,7 +3147,7 @@ func (d *DateOfBirthData) String() string {
 // Birth date of a person
 type DateOfBirthInfo struct {
 	Limit  int                `json:"limit"`
-	Size   *SizeInfo          `json:"size,omitempty"`
+	Size   *QualifiedCount    `json:"size,omitempty"`
 	Data   []*DateOfBirthData `json:"data,omitempty"`
 	Next   interface{}        `json:"next,omitempty"`
 	Offset *int               `json:"offset,omitempty"`
@@ -3272,7 +3355,7 @@ func (f *FinancesData) String() string {
 // A financial figure, typically share capital
 type FinancesInfo struct {
 	Limit  int             `json:"limit"`
-	Size   *SizeInfo       `json:"size,omitempty"`
+	Size   *QualifiedCount `json:"size,omitempty"`
 	Data   []*FinancesData `json:"data,omitempty"`
 	Next   interface{}     `json:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty"`
@@ -3380,7 +3463,7 @@ func (f *FinancialsData) String() string {
 // A summary of financial information at one point in time
 type FinancialsInfo struct {
 	Limit  int               `json:"limit"`
-	Size   *SizeInfo         `json:"size,omitempty"`
+	Size   *QualifiedCount   `json:"size,omitempty"`
 	Data   []*FinancialsData `json:"data,omitempty"`
 	Next   interface{}       `json:"next,omitempty"`
 	Offset *int              `json:"offset,omitempty"`
@@ -3524,11 +3607,11 @@ func (g *GenderData) String() string {
 
 // A person's gender
 type GenderInfo struct {
-	Limit  int           `json:"limit"`
-	Size   *SizeInfo     `json:"size,omitempty"`
-	Data   []*GenderData `json:"data,omitempty"`
-	Next   interface{}   `json:"next,omitempty"`
-	Offset *int          `json:"offset,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Data   []*GenderData   `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3626,11 +3709,11 @@ func (g *GenericData) String() string {
 
 // A placeholder attribute. Rarely used. A generic attribute typically does not fit any other attribute type.
 type GenericInfo struct {
-	Limit  int            `json:"limit"`
-	Size   *SizeInfo      `json:"size,omitempty"`
-	Data   []*GenericData `json:"data,omitempty"`
-	Next   interface{}    `json:"next,omitempty"`
-	Offset *int           `json:"offset,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Data   []*GenericData  `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -3731,7 +3814,7 @@ func (i *IdentifierData) String() string {
 // An ID number that uniquely identifies one entity when value and type are taken into account.
 type IdentifierInfo struct {
 	Limit  int               `json:"limit"`
-	Size   *SizeInfo         `json:"size,omitempty"`
+	Size   *QualifiedCount   `json:"size,omitempty"`
 	Data   []*IdentifierData `json:"data,omitempty"`
 	Next   interface{}       `json:"next,omitempty"`
 	Offset *int              `json:"offset,omitempty"`
@@ -6814,7 +6897,7 @@ func (m *MeasurementData) String() string {
 // A numerical measurement of a dimension of an entity (e.g., weight) using a standard unit
 type MeasurementInfo struct {
 	Limit  int                `json:"limit"`
-	Size   *SizeInfo          `json:"size,omitempty"`
+	Size   *QualifiedCount    `json:"size,omitempty"`
 	Data   []*MeasurementData `json:"data,omitempty"`
 	Next   interface{}        `json:"next,omitempty"`
 	Offset *int               `json:"offset,omitempty"`
@@ -6974,7 +7057,7 @@ func (m *MonetaryValueData) String() string {
 // The financial value of an asset (e.g., FOB, CIF)
 type MonetaryValueInfo struct {
 	Limit  int                  `json:"limit"`
-	Size   *SizeInfo            `json:"size,omitempty"`
+	Size   *QualifiedCount      `json:"size,omitempty"`
 	Data   []*MonetaryValueData `json:"data,omitempty"`
 	Next   interface{}          `json:"next,omitempty"`
 	Offset *int                 `json:"offset,omitempty"`
@@ -7120,11 +7203,11 @@ func (n *NameData) String() string {
 
 // An entity's name. The value may be straightforward (e.g., "Acme LLC", "John Doe") or context specific (e.g., "Jones v. Smith" as a legal matter name).
 type NameInfo struct {
-	Limit  int         `json:"limit"`
-	Size   *SizeInfo   `json:"size,omitempty"`
-	Data   []*NameData `json:"data,omitempty"`
-	Next   interface{} `json:"next,omitempty"`
-	Offset *int        `json:"offset,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Data   []*NameData     `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -7259,7 +7342,7 @@ func (p *PersonStatusData) String() string {
 // A key event occurring in a person's life, usually temporal
 type PersonStatusInfo struct {
 	Limit  int                 `json:"limit"`
-	Size   *SizeInfo           `json:"size,omitempty"`
+	Size   *QualifiedCount     `json:"size,omitempty"`
 	Data   []*PersonStatusData `json:"data,omitempty"`
 	Next   interface{}         `json:"next,omitempty"`
 	Offset *int                `json:"offset,omitempty"`
@@ -7361,7 +7444,7 @@ func (p *PositionData) String() string {
 // An attribute used for many different relationship types that allows for the inclusion of a title or designation (e.g., member_of_the_board_of, Position: "Secretary of the Board" or shareholder_of, Position: "Minority shareholder")
 type PositionInfo struct {
 	Limit  int             `json:"limit"`
-	Size   *SizeInfo       `json:"size,omitempty"`
+	Size   *QualifiedCount `json:"size,omitempty"`
 	Data   []*PositionData `json:"data,omitempty"`
 	Next   interface{}     `json:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty"`
@@ -8028,7 +8111,7 @@ func (r *RiskIntelligenceData) String() string {
 // An attribute for risk intelligence metadata
 type RiskIntelligenceInfo struct {
 	Limit  int                     `json:"limit"`
-	Size   *SizeInfo               `json:"size,omitempty"`
+	Size   *QualifiedCount         `json:"size,omitempty"`
 	Data   []*RiskIntelligenceData `json:"data,omitempty"`
 	Next   interface{}             `json:"next,omitempty"`
 	Offset *int                    `json:"offset,omitempty"`
@@ -8137,11 +8220,11 @@ func (s *SharesData) String() string {
 
 // Shares associated with an entity (e.g., number of shares issued by a company or number of shares held by a shareholder)
 type SharesInfo struct {
-	Limit  int           `json:"limit"`
-	Size   *SizeInfo     `json:"size,omitempty"`
-	Data   []*SharesData `json:"data,omitempty"`
-	Next   interface{}   `json:"next,omitempty"`
-	Offset *int          `json:"offset,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Data   []*SharesData   `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8284,11 +8367,11 @@ func (s *StatusData) String() string {
 
 // The status of an entity. This attribute is used to indicate details such as registration, operating, or liquidation status as well as an entity's license or sole proprietorship status.
 type StatusInfo struct {
-	Limit  int           `json:"limit"`
-	Size   *SizeInfo     `json:"size,omitempty"`
-	Data   []*StatusData `json:"data,omitempty"`
-	Next   interface{}   `json:"next,omitempty"`
-	Offset *int          `json:"offset,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Data   []*StatusData   `json:"data,omitempty"`
+	Next   interface{}     `json:"next,omitempty"`
+	Offset *int            `json:"offset,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -8465,7 +8548,7 @@ func (t *TranslatedNameData) String() string {
 // A name that has been translated to English
 type TranslatedNameInfo struct {
 	Limit  int                   `json:"limit"`
-	Size   *SizeInfo             `json:"size,omitempty"`
+	Size   *QualifiedCount       `json:"size,omitempty"`
 	Data   []*TranslatedNameData `json:"data,omitempty"`
 	Next   interface{}           `json:"next,omitempty"`
 	Offset *int                  `json:"offset,omitempty"`
@@ -8629,7 +8712,7 @@ func (w *WeakIdentifierData) String() string {
 // A non-unique ID number, like a partially redacted tax ID or a registry identifier, whose value and type may be shared by multiple entities
 type WeakIdentifierInfo struct {
 	Limit  int                   `json:"limit"`
-	Size   *SizeInfo             `json:"size,omitempty"`
+	Size   *QualifiedCount       `json:"size,omitempty"`
 	Data   []*WeakIdentifierData `json:"data,omitempty"`
 	Next   interface{}           `json:"next,omitempty"`
 	Offset *int                  `json:"offset,omitempty"`
@@ -9357,12 +9440,564 @@ func (r *ResourceNotificationData) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
+// Aggregation buckets for entities in a project.
+type BucketAgg struct {
+	Key        string       `json:"key"`
+	DocCount   int          `json:"doc_count"`
+	Label      *string      `json:"label,omitempty"`
+	Comment    *string      `json:"comment,omitempty"`
+	HsCodeSums *IntKeyValue `json:"hs_code_sums,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (b *BucketAgg) UnmarshalJSON(data []byte) error {
+	type unmarshaler BucketAgg
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*b = BucketAgg(value)
+	b._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (b *BucketAgg) String() string {
+	if len(b._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(b); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", b)
+}
+
+type DocCount struct {
+	DocCount int `json:"doc_count"`
+
+	_rawJSON json.RawMessage
+}
+
+func (d *DocCount) UnmarshalJSON(data []byte) error {
+	type unmarshaler DocCount
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DocCount(value)
+	d._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DocCount) String() string {
+	if len(d._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
+}
+
+type HsCodeAgg struct {
+	DocCount    int             `json:"doc_count"`
+	HsCodeTerms *HsCodeAggTerms `json:"hs_code_terms,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (h *HsCodeAgg) UnmarshalJSON(data []byte) error {
+	type unmarshaler HsCodeAgg
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HsCodeAgg(value)
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HsCodeAgg) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
+}
+
+type HsCodeAggBucket struct {
+	Key        string       `json:"key"`
+	DocCount   int          `json:"doc_count"`
+	HsCodeSums *IntKeyValue `json:"hs_code_sums,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (h *HsCodeAggBucket) UnmarshalJSON(data []byte) error {
+	type unmarshaler HsCodeAggBucket
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HsCodeAggBucket(value)
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HsCodeAggBucket) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
+}
+
+type HsCodeAggTerms struct {
+	DocCountErrorUpperBound int                `json:"doc_count_error_upper_bound"`
+	SumOtherDocCount        int                `json:"sum_other_doc_count"`
+	Buckets                 []*HsCodeAggBucket `json:"buckets,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (h *HsCodeAggTerms) UnmarshalJSON(data []byte) error {
+	type unmarshaler HsCodeAggTerms
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HsCodeAggTerms(value)
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HsCodeAggTerms) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
+}
+
+type IntKeyValue struct {
+	Value int `json:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (i *IntKeyValue) UnmarshalJSON(data []byte) error {
+	type unmarshaler IntKeyValue
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*i = IntKeyValue(value)
+	i._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (i *IntKeyValue) String() string {
+	if len(i._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(i._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(i); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", i)
+}
+
+type PsaSummary struct {
+	Risk      []Risk    `json:"risk,omitempty"`
+	Countries []Country `json:"countries,omitempty"`
+	Count     int       `json:"count"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PsaSummary) UnmarshalJSON(data []byte) error {
+	type unmarshaler PsaSummary
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PsaSummary(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PsaSummary) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type Project struct {
+	// Unique project identifier.
+	Id string `json:"id"`
+	// Most recently set name for the project.
+	Label string `json:"label"`
+	// Whether the project is archived. Archival is a soft delete.
+	Archived bool           `json:"archived"`
+	Created  string         `json:"created"`
+	Updated  string         `json:"updated"`
+	Counts   *ProjectCounts `json:"counts,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *Project) UnmarshalJSON(data []byte) error {
+	type unmarshaler Project
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = Project(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *Project) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectCounts struct {
+	// The number of entities in the project.
+	Entity *int `json:"entity,omitempty"`
+	Graph  *int `json:"graph,omitempty"`
+	Search *int `json:"search,omitempty"`
+	Record *int `json:"record,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *ProjectCounts) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectCounts
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectCounts(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectCounts) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+// Aggregation buckets for entities in a project.
+type ProjectEntitiesAggs struct {
+	HitCount        []*BucketAgg `json:"hit_count,omitempty"`
+	Country         []*BucketAgg `json:"country,omitempty"`
+	UpstreamCountry []*BucketAgg `json:"upstream_country,omitempty"`
+	Risk            []*BucketAgg `json:"risk,omitempty"`
+	UpstreamRisk    []*BucketAgg `json:"upstream_risk,omitempty"`
+	Source          []*BucketAgg `json:"source,omitempty"`
+	BusinessPurpose []*BucketAgg `json:"business_purpose,omitempty"`
+	TagIds          []*BucketAgg `json:"tag_ids,omitempty"`
+	CaseStatuses    []*BucketAgg `json:"case_statuses,omitempty"`
+	ShipmentCounts  []*BucketAgg `json:"shipment_counts,omitempty"`
+	ShippedHsCodes  *HsCodeAgg   `json:"shipped_hs_codes,omitempty"`
+	ReceivedHsCodes *HsCodeAgg   `json:"received_hs_codes,omitempty"`
+	MatchResults    []*BucketAgg `json:"match_results,omitempty"`
+	Location        []*BucketAgg `json:"location,omitempty"`
+	SourceType      []*BucketAgg `json:"source_type,omitempty"`
+	Region          []*BucketAgg `json:"region,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *ProjectEntitiesAggs) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntitiesAggs
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntitiesAggs(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntitiesAggs) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntity struct {
+	Id      string `json:"id"`
+	Project string `json:"project"`
+	// Entity label (display name).
+	Label     string `json:"label"`
+	Created   string `json:"created"`
+	Updated   string `json:"updated"`
+	UpdatedBy string `json:"updated_by"`
+	// Will be 0.
+	Version int `json:"version"`
+	// Entity ID.
+	ResourceId    string      `json:"resource_id"`
+	TagIds        []string    `json:"tag_ids,omitempty"`
+	CaseStatus    string      `json:"case_status"`
+	MatchStrength interface{} `json:"match_strength,omitempty"`
+	// HS codes shipped by the entity.
+	ShippedHsCodes []string `json:"shipped_hs_codes,omitempty"`
+	// HS codes received by the entity.
+	ReceivedHsCodes []string               `json:"received_hs_codes,omitempty"`
+	Upstream        *ProjectEntityUpstream `json:"upstream,omitempty"`
+	Summary         *CoreEntity            `json:"summary,omitempty"`
+	Psa             *PsaSummary            `json:"psa,omitempty"`
+	type_           string
+
+	_rawJSON json.RawMessage
+}
+
+func (p *ProjectEntity) Type() string {
+	return p.type_
+}
+
+func (p *ProjectEntity) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntity
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntity(value)
+	p.type_ = "entity"
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntity) MarshalJSON() ([]byte, error) {
+	type embed ProjectEntity
+	var marshaler = struct {
+		embed
+		Type string `json:"type"`
+	}{
+		embed: embed(*p),
+		Type:  "entity",
+	}
+	return json.Marshal(marshaler)
+}
+
+func (p *ProjectEntity) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityUpstream struct {
+	Risk      []Risk    `json:"risk,omitempty"`
+	Countries []Country `json:"countries,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *ProjectEntityUpstream) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityUpstream
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityUpstream(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityUpstream) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectWithMembers struct {
+	// Unique project identifier.
+	Id string `json:"id"`
+	// Most recently set name for the project.
+	Label string `json:"label"`
+	// Whether the project is archived. Archival is a soft delete.
+	Archived bool           `json:"archived"`
+	Created  string         `json:"created"`
+	Updated  string         `json:"updated"`
+	Counts   *ProjectCounts `json:"counts,omitempty"`
+	Members  []*RoleMember  `json:"members,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *ProjectWithMembers) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectWithMembers
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectWithMembers(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectWithMembers) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+// Role enum describes the access levels a user has to a project and its contents.
+type Role string
+
+const (
+	// The user can view the project and its contents.
+	RoleViewer Role = "viewer"
+	// The user can view and edit the project and its contents.
+	RoleEditor Role = "editor"
+	// The user can view, edit, and delete the project and its contents.
+	RoleAdmin Role = "admin"
+)
+
+func NewRoleFromString(s string) (Role, error) {
+	switch s {
+	case "viewer":
+		return RoleViewer, nil
+	case "editor":
+		return RoleEditor, nil
+	case "admin":
+		return RoleAdmin, nil
+	}
+	var t Role
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r Role) Ptr() *Role {
+	return &r
+}
+
+type RoleMember struct {
+	Id      string         `json:"id"`
+	Type    RoleMemberType `json:"type,omitempty"`
+	Role    Role           `json:"role,omitempty"`
+	Created string         `json:"created"`
+	Updated string         `json:"updated"`
+
+	_rawJSON json.RawMessage
+}
+
+func (r *RoleMember) UnmarshalJSON(data []byte) error {
+	type unmarshaler RoleMember
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RoleMember(value)
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RoleMember) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+// Role member type enum describes how access is granted to a project and its contents
+type RoleMemberType string
+
+const (
+	// The access is granted to a user.
+	RoleMemberTypeUser RoleMemberType = "user"
+	// The access is granted to a group.
+	RoleMemberTypeGroup RoleMemberType = "group"
+)
+
+func NewRoleMemberTypeFromString(s string) (RoleMemberType, error) {
+	switch s {
+	case "user":
+		return RoleMemberTypeUser, nil
+	case "group":
+		return RoleMemberTypeGroup, nil
+	}
+	var t RoleMemberType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r RoleMemberType) Ptr() *RoleMemberType {
+	return &r
+}
+
 type RecordReferences struct {
-	Limit  int         `json:"limit"`
-	Size   *SizeInfo   `json:"size,omitempty"`
-	Next   bool        `json:"next"`
-	Offset int         `json:"offset"`
-	Data   interface{} `json:"data,omitempty"`
+	Limit  int             `json:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty"`
+	Next   bool            `json:"next"`
+	Offset int             `json:"offset"`
+	Data   interface{}     `json:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -9794,6 +10429,84 @@ func (c *Coordinate) String() string {
 }
 
 // The attributes fields common to most entities.
+type CoreEntity struct {
+	Attributes map[Attributes][]interface{} `json:"attributes,omitempty"`
+	// Unique identifier of the entity
+	Id string `json:"id"`
+	// User or group that created the entity, if applicable. Undefined for Sayari entities.
+	Owner *string `json:"owner,omitempty"`
+	// The [entity type](/sayari-library/ontology/entities).
+	Type Entities `json:"type,omitempty"`
+	// Display name of the entity
+	Label string `json:"label"`
+	// Name variations of the entity.
+	Names             []string                `json:"names,omitempty"`
+	CompanyType       *CompanyType            `json:"company_type,omitempty"`
+	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty"`
+	LatestStatus      *Status                 `json:"latest_status,omitempty"`
+	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty"`
+	ShipmentDeparture *ShipmentDeparture      `json:"shipment_departure,omitempty"`
+	HsCode            *EntityHsCode           `json:"hs_code,omitempty"`
+	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty"`
+	ShortLabel        *string                 `json:"short_label,omitempty"`
+	Identifiers       []*Identifier           `json:"identifiers,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses []string `json:"addresses,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth *string `json:"date_of_birth,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty"`
+	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+	Closed                   *bool `json:"closed,omitempty"`
+	RelatedEntitiesCount     int   `json:"related_entities_count"`
+	UserRelatedEntitiesCount int   `json:"user_related_entities_count"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	RelationshipCounts map[Relationships]int `json:"relationship_counts,omitempty"`
+	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+	UserRelationshipCounts map[Relationships]int `json:"user_relationship_counts,omitempty"`
+	AttributeCounts        interface{}           `json:"attribute_counts,omitempty"`
+	UserAttributeCounts    interface{}           `json:"user_attribute_counts,omitempty"`
+	TradeCounts            map[string]int        `json:"trade_counts,omitempty"`
+	RecordCount            int                   `json:"record_count"`
+	UserRecordCount        int                   `json:"user_record_count"`
+	// Number of records associated with the entity, grouped by source.
+	SourceCounts map[string]*SourceCountInfo `json:"source_counts,omitempty"`
+	Psa          *Psa                        `json:"psa,omitempty"`
+	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
+	Risk     EntityRisk `json:"risk,omitempty"`
+	Created  *string    `json:"created,omitempty"`
+	Updated  *string    `json:"updated,omitempty"`
+	EditedBy *string    `json:"edited_by,omitempty"`
+	Editable *bool      `json:"editable,omitempty"`
+	Upload   *string    `json:"upload,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *CoreEntity) UnmarshalJSON(data []byte) error {
+	type unmarshaler CoreEntity
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CoreEntity(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CoreEntity) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Fields of an entity when nested within other data structures.
 type EmbeddedEntity struct {
 	// Unique identifier of the entity
 	Id string `json:"id"`
@@ -9952,7 +10665,7 @@ type EntityRegistrationDate = string
 // All relationships the entity is a part of.
 type EntityRelationships struct {
 	Limit int                 `json:"limit"`
-	Size  *SizeInfo           `json:"size,omitempty"`
+	Size  *QualifiedCount     `json:"size,omitempty"`
 	Next  interface{}         `json:"next,omitempty"`
 	Data  []*RelationshipData `json:"data,omitempty"`
 
@@ -9984,6 +10697,35 @@ func (e *EntityRelationships) String() string {
 
 // Risk factors associated with the entity.
 type EntityRisk = map[Risk]*RiskData
+
+type EntitySummary struct {
+	Attributes map[Attributes][]interface{} `json:"attributes,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (e *EntitySummary) UnmarshalJSON(data []byte) error {
+	type unmarshaler EntitySummary
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*e = EntitySummary(value)
+	e._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (e *EntitySummary) String() string {
+	if len(e._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(e); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", e)
+}
 
 // Label in English if available. Translation performed by Sayari.
 type EntityTranslatedLabel = string
@@ -10019,6 +10761,38 @@ func (i *Identifier) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", i)
+}
+
+type Psa struct {
+	PsaId     string          `json:"psa_id"`
+	Label     string          `json:"label"`
+	Count     *int            `json:"count,omitempty"`
+	MatchKeys []*PsaMatchKeys `json:"match_keys,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *Psa) UnmarshalJSON(data []byte) error {
+	type unmarshaler Psa
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = Psa(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *Psa) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 // The entity that is possibly the same as the target entity.
@@ -10091,10 +10865,41 @@ func (p *PsaEntity) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
+type PsaMatchKeys struct {
+	Key        string `json:"key"`
+	Normalized string `json:"normalized"`
+	Original   string `json:"original"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *PsaMatchKeys) UnmarshalJSON(data []byte) error {
+	type unmarshaler PsaMatchKeys
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PsaMatchKeys(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PsaMatchKeys) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
 // List of entities that are Possibly the Same As (PSA) the entity.
 type PossiblySameAs struct {
 	Limit  int                   `json:"limit"`
-	Size   *SizeInfo             `json:"size,omitempty"`
+	Size   *QualifiedCount       `json:"size,omitempty"`
 	Offset *int                  `json:"offset,omitempty"`
 	Next   interface{}           `json:"next,omitempty"`
 	Data   []*PossiblySameAsData `json:"data,omitempty"`
@@ -10234,7 +11039,7 @@ func (r *RecordDetails) String() string {
 // List of records that reference the entity.
 type ReferencedBy struct {
 	Limit  int                 `json:"limit"`
-	Size   *SizeInfo           `json:"size,omitempty"`
+	Size   *QualifiedCount     `json:"size,omitempty"`
 	Offset *int                `json:"offset,omitempty"`
 	Next   interface{}         `json:"next,omitempty"`
 	Data   []*ReferencedByData `json:"data,omitempty"`
