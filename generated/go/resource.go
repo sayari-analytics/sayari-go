@@ -13,7 +13,7 @@ type SaveEntityRequest struct {
 	// The project identifier.
 	Project string `json:"project"`
 	// The entity identifier.
-	ResourceId string `json:"resource_id"`
+	EntityId string `json:"entity_id"`
 
 	_rawJSON json.RawMessage
 }

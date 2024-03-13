@@ -9781,7 +9781,7 @@ type ProjectEntity struct {
 	// Will be 0.
 	Version int `json:"version"`
 	// Entity ID.
-	ResourceId    string      `json:"resource_id"`
+	EntityId      string      `json:"entity_id"`
 	TagIds        []string    `json:"tag_ids,omitempty"`
 	CaseStatus    string      `json:"case_status"`
 	MatchStrength interface{} `json:"match_strength,omitempty"`
@@ -10164,7 +10164,9 @@ type SaveEntityResponseData struct {
 	Updated    string       `json:"updated"`
 	UpdatedBy  string       `json:"updated_by"`
 	Version    int          `json:"version"`
-	ResourceId string       `json:"resource_id"`
+	EntityId   string       `json:"entity_id"`
+	TagIds     []string     `json:"tag_ids,omitempty"`
+	CaseStatus string       `json:"case_status"`
 
 	_rawJSON json.RawMessage
 }
