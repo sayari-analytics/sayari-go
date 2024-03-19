@@ -7820,6 +7820,7 @@ const (
 	RiskForcedLaborXinjiangGeospatial                                 Risk = "forced_labor_xinjiang_geospatial"
 	RiskEuHighRiskThird                                               Risk = "eu_high_risk_third"
 	RiskSheffieldHallamUniversityUsefulResources                      Risk = "sheffield_hallam_university_useful_resources"
+	RiskOwnerOfAspiForcedLaborEntity                                  Risk = "owner_of_aspi_forced_labor_entity"
 	RiskSanctioned                                                    Risk = "sanctioned"
 	RiskReputationalRiskFinancialCrime                                Risk = "reputational_risk_financial_crime"
 	RiskCmicEntity                                                    Risk = "cmic_entity"
@@ -7837,15 +7838,18 @@ const (
 	RiskForcedLaborXinjiangOriginSubtier                              Risk = "forced_labor_xinjiang_origin_subtier"
 	RiskPsaForcedLaborXinjiangName                                    Risk = "psa_forced_labor_xinjiang_name"
 	RiskBaselAml                                                      Risk = "basel_aml"
+	RiskAspiUyghurForcedLaborReportEntityAdjacent                     Risk = "aspi_uyghur_forced_labor_report_entity_adjacent"
 	RiskOwnedByCmicEntity                                             Risk = "owned_by_cmic_entity"
 	RiskOfacSdn                                                       Risk = "ofac_sdn"
 	RiskOwnedByBisMeuEntity                                           Risk = "owned_by_bis_meu_entity"
 	RiskOwnedByForcedLaborXinjiangUflpa                               Risk = "owned_by_forced_labor_xinjiang_uflpa"
 	RiskForcedLaborXinjiangUflpaAdjacent                              Risk = "forced_labor_xinjiang_uflpa_adjacent"
 	RiskOwnedByWroEntity                                              Risk = "owned_by_wro_entity"
+	RiskForcedLaborAspiOriginSubtier                                  Risk = "forced_labor_aspi_origin_subtier"
 	RiskFormerWroEntity                                               Risk = "former_wro_entity"
 	RiskForcedLaborWroOriginDirect                                    Risk = "forced_labor_wro_origin_direct"
 	RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity      Risk = "owned_by_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskAspiUyghurForcedLaborReportEntity                             Risk = "aspi_uyghur_forced_labor_report_entity"
 	RiskForcedLaborChinaKeywords                                      Risk = "forced_labor_china_keywords"
 	RiskSoeAdjacent                                                   Risk = "soe_adjacent"
 	RiskStateOwned                                                    Risk = "state_owned"
@@ -7860,6 +7864,7 @@ const (
 	RiskOwnerOfForcedLaborXinjiangUflpa                               Risk = "owner_of_forced_labor_xinjiang_uflpa"
 	RiskPep                                                           Risk = "pep"
 	RiskOwnedByEntityInExportControls                                 Risk = "owned_by_entity_in_export_controls"
+	RiskPsaForcedLaborAspiUyghur                                      Risk = "psa_forced_labor_aspi_uyghur"
 	RiskForcedLaborWroOriginSubtier                                   Risk = "forced_labor_wro_origin_subtier"
 	RiskReputationalRiskOther                                         Risk = "reputational_risk_other"
 	RiskExportToSanctioned                                            Risk = "export_to_sanctioned"
@@ -7875,6 +7880,7 @@ const (
 	RiskOwnerOfWroEntity                                              Risk = "owner_of_wro_entity"
 	RiskForcedLaborXinjiangRegistration                               Risk = "forced_labor_xinjiang_registration"
 	RiskForcedLaborXinjiangName                                       Risk = "forced_labor_xinjiang_name"
+	RiskOwnedByAspiForcedLaborEntity                                  Risk = "owned_by_aspi_forced_labor_entity"
 	RiskReputationalRiskTerrorism                                     Risk = "reputational_risk_terrorism"
 	RiskFormerlySanctioned                                            Risk = "formerly_sanctioned"
 	RiskOwnedBySection1260HEntity                                     Risk = "owned_by_section_1260h_entity"
@@ -7889,6 +7895,7 @@ const (
 	RiskWroEntityAdjacent                                             Risk = "wro_entity_adjacent"
 	RiskReputationalRiskCybercrime                                    Risk = "reputational_risk_cybercrime"
 	RiskOwnerOfSoe                                                    Risk = "owner_of_soe"
+	RiskForcedLaborAspiOriginDirect                                   Risk = "forced_labor_aspi_origin_direct"
 	RiskExportsBisHighPriorityItems                                   Risk = "exports_bis_high_priority_items"
 	RiskForcedLaborUflpaOriginSubtier                                 Risk = "forced_labor_uflpa_origin_subtier"
 	RiskOwnerOfRegulatoryActionEntity                                 Risk = "owner_of_regulatory_action_entity"
@@ -7913,6 +7920,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskEuHighRiskThird, nil
 	case "sheffield_hallam_university_useful_resources":
 		return RiskSheffieldHallamUniversityUsefulResources, nil
+	case "owner_of_aspi_forced_labor_entity":
+		return RiskOwnerOfAspiForcedLaborEntity, nil
 	case "sanctioned":
 		return RiskSanctioned, nil
 	case "reputational_risk_financial_crime":
@@ -7947,6 +7956,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaForcedLaborXinjiangName, nil
 	case "basel_aml":
 		return RiskBaselAml, nil
+	case "aspi_uyghur_forced_labor_report_entity_adjacent":
+		return RiskAspiUyghurForcedLaborReportEntityAdjacent, nil
 	case "owned_by_cmic_entity":
 		return RiskOwnedByCmicEntity, nil
 	case "ofac_sdn":
@@ -7959,12 +7970,16 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskForcedLaborXinjiangUflpaAdjacent, nil
 	case "owned_by_wro_entity":
 		return RiskOwnedByWroEntity, nil
+	case "forced_labor_aspi_origin_subtier":
+		return RiskForcedLaborAspiOriginSubtier, nil
 	case "former_wro_entity":
 		return RiskFormerWroEntity, nil
 	case "forced_labor_wro_origin_direct":
 		return RiskForcedLaborWroOriginDirect, nil
 	case "owned_by_sheffield_hallam_university_reports_forced_labor_entity":
 		return RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity, nil
+	case "aspi_uyghur_forced_labor_report_entity":
+		return RiskAspiUyghurForcedLaborReportEntity, nil
 	case "forced_labor_china_keywords":
 		return RiskForcedLaborChinaKeywords, nil
 	case "soe_adjacent":
@@ -7993,6 +8008,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPep, nil
 	case "owned_by_entity_in_export_controls":
 		return RiskOwnedByEntityInExportControls, nil
+	case "psa_forced_labor_aspi_uyghur":
+		return RiskPsaForcedLaborAspiUyghur, nil
 	case "forced_labor_wro_origin_subtier":
 		return RiskForcedLaborWroOriginSubtier, nil
 	case "reputational_risk_other":
@@ -8023,6 +8040,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskForcedLaborXinjiangRegistration, nil
 	case "forced_labor_xinjiang_name":
 		return RiskForcedLaborXinjiangName, nil
+	case "owned_by_aspi_forced_labor_entity":
+		return RiskOwnedByAspiForcedLaborEntity, nil
 	case "reputational_risk_terrorism":
 		return RiskReputationalRiskTerrorism, nil
 	case "formerly_sanctioned":
@@ -8051,6 +8070,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskReputationalRiskCybercrime, nil
 	case "owner_of_soe":
 		return RiskOwnerOfSoe, nil
+	case "forced_labor_aspi_origin_direct":
+		return RiskForcedLaborAspiOriginDirect, nil
 	case "exports_bis_high_priority_items":
 		return RiskExportsBisHighPriorityItems, nil
 	case "forced_labor_uflpa_origin_subtier":
