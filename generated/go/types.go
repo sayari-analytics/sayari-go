@@ -4962,6 +4962,8 @@ const (
 	IdentifierTypeWipoIntlRefNo IdentifierType = "wipo_intl_ref_no"
 	// Unique UK charity ID number. Assigned to every charity registered with the Charity Commission for England and Wales.
 	IdentifierTypeGbrCharityNo IdentifierType = "gbr_charity_no"
+	// Unique UK internal ID number. Assigned to every trustee registered with the Charity Commission for England and Wales.
+	IdentifierTypeGbrTrusteeId IdentifierType = "gbr_trustee_id"
 	// Unique UK government organization ID number. Assigned to government organizations in the UK.
 	IdentifierTypeGbrGoNo IdentifierType = "gbr_go_no"
 	// Unique Ireland ID number. Assigned to every legal entity registered with Ireland Companies Registration Office.
@@ -4980,6 +4982,10 @@ const (
 	IdentifierTypeTjkTinNumber IdentifierType = "tjk_tin_number"
 	// Tajikistan EIN (RYIAM) number. Unique number assigned to taxpayers in Tajikistan.
 	IdentifierTypeTjkEinNumber IdentifierType = "tjk_ein_number"
+	// Monaco RCI Trade Register Number. Unique number assigned to entities with activities in Monaco registered with the Directory of Trade and Industry Directory.
+	IdentifierTypeMcoRciNumber IdentifierType = "mco_rci_number"
+	// Monaco Statistical Identification Number. Unique identifier assigned by the Institute of Statistics and Economic Studies (Monaco Statistics) for entities with economic activity in Monaco.
+	IdentifierTypeMcoNis IdentifierType = "mco_nis"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6082,6 +6088,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeWipoIntlRefNo, nil
 	case "gbr_charity_no":
 		return IdentifierTypeGbrCharityNo, nil
+	case "gbr_trustee_id":
+		return IdentifierTypeGbrTrusteeId, nil
 	case "gbr_go_no":
 		return IdentifierTypeGbrGoNo, nil
 	case "irl_registration_no":
@@ -6100,6 +6108,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeTjkTinNumber, nil
 	case "tjk_ein_number":
 		return IdentifierTypeTjkEinNumber, nil
+	case "mco_rci_number":
+		return IdentifierTypeMcoRciNumber, nil
+	case "mco_nis":
+		return IdentifierTypeMcoNis, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -8483,6 +8495,7 @@ const (
 	TagWroEntity                                  Tag = "wro_entity"
 	TagUflpaEntity                                Tag = "uflpa_entity"
 	TagSheffieldHallamUniversityForcedLaborEntity Tag = "sheffield_hallam_university_forced_labor_entity"
+	TagAspiUyghurForcedLaborReportEntity          Tag = "aspi_uyghur_forced_labor_report_entity"
 )
 
 func NewTagFromString(s string) (Tag, error) {
@@ -8525,6 +8538,8 @@ func NewTagFromString(s string) (Tag, error) {
 		return TagUflpaEntity, nil
 	case "sheffield_hallam_university_forced_labor_entity":
 		return TagSheffieldHallamUniversityForcedLaborEntity, nil
+	case "aspi_uyghur_forced_labor_report_entity":
+		return TagAspiUyghurForcedLaborReportEntity, nil
 	}
 	var t Tag
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
