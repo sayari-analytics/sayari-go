@@ -9022,6 +9022,10 @@ const (
 	WeakIdentifierTypeGbrGrantInfoNumber WeakIdentifierType = "gbr_grant_info_number"
 	// Paraguay Shipment Number
 	WeakIdentifierTypePryShipmentNumber WeakIdentifierType = "pry_shipment_number"
+	// Unique identifier for Argentinian imports and exports
+	WeakIdentifierTypeArgImportExportId WeakIdentifierType = "arg_import_export_id"
+	// Internal ID for Costa Rica comexport data (shipping operation number)
+	WeakIdentifierTypeCriOpNo WeakIdentifierType = "cri_op_no"
 	// A temporary malformed type
 	WeakIdentifierTypeMalformedMmrPriorRegNo WeakIdentifierType = "malformed mmr_prior_reg_no"
 )
@@ -9230,6 +9234,10 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeGbrGrantInfoNumber, nil
 	case "pry_shipment_number":
 		return WeakIdentifierTypePryShipmentNumber, nil
+	case "arg_import_export_id":
+		return WeakIdentifierTypeArgImportExportId, nil
+	case "cri_op_no":
+		return WeakIdentifierTypeCriOpNo, nil
 	case "malformed mmr_prior_reg_no":
 		return WeakIdentifierTypeMalformedMmrPriorRegNo, nil
 	}
