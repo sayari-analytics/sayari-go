@@ -9026,6 +9026,8 @@ const (
 	WeakIdentifierTypeArgImportExportId WeakIdentifierType = "arg_import_export_id"
 	// Internal ID for Costa Rica comexport data (shipping operation number)
 	WeakIdentifierTypeCriOpNo WeakIdentifierType = "cri_op_no"
+	// Weak AUS state registration number. Registration number assigned when legal entity is originally registered by the Australian State.
+	WeakIdentifierTypeAusStateRegNumber WeakIdentifierType = "aus_state_reg_number"
 	// A temporary malformed type
 	WeakIdentifierTypeMalformedMmrPriorRegNo WeakIdentifierType = "malformed mmr_prior_reg_no"
 )
@@ -9238,6 +9240,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeArgImportExportId, nil
 	case "cri_op_no":
 		return WeakIdentifierTypeCriOpNo, nil
+	case "aus_state_reg_number":
+		return WeakIdentifierTypeAusStateRegNumber, nil
 	case "malformed mmr_prior_reg_no":
 		return WeakIdentifierTypeMalformedMmrPriorRegNo, nil
 	}
