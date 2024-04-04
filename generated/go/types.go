@@ -7863,6 +7863,7 @@ const (
 	RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity      Risk = "owned_by_sheffield_hallam_university_reports_forced_labor_entity"
 	RiskAspiUyghurForcedLaborReportEntity                             Risk = "aspi_uyghur_forced_labor_report_entity"
 	RiskForcedLaborChinaKeywords                                      Risk = "forced_labor_china_keywords"
+	RiskExportsBisHighPriorityItemsCriticalComponents                 Risk = "exports_bis_high_priority_items_critical_components"
 	RiskSoeAdjacent                                                   Risk = "soe_adjacent"
 	RiskStateOwned                                                    Risk = "state_owned"
 	RiskPsaSheffieldHallamUniversityForcedLaborEntity                 Risk = "psa_sheffield_hallam_university_forced_labor_entity"
@@ -7884,6 +7885,7 @@ const (
 	RiskFormerSoe                                                     Risk = "former_soe"
 	RiskReputationalRiskOrganizedCrime                                Risk = "reputational_risk_organized_crime"
 	RiskReputationalRiskForcedLabor                                   Risk = "reputational_risk_forced_labor"
+	RiskImportsBisHighPriorityItemsCriticalComponents                 Risk = "imports_bis_high_priority_items_critical_components"
 	RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity      Risk = "owner_of_sheffield_hallam_university_reports_forced_labor_entity"
 	RiskCpiScore                                                      Risk = "cpi_score"
 	RiskPsaSheffieldHallamUniversityUsefulResources                   Risk = "psa_sheffield_hallam_university_useful_resources"
@@ -7994,6 +7996,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskAspiUyghurForcedLaborReportEntity, nil
 	case "forced_labor_china_keywords":
 		return RiskForcedLaborChinaKeywords, nil
+	case "exports_bis_high_priority_items_critical_components":
+		return RiskExportsBisHighPriorityItemsCriticalComponents, nil
 	case "soe_adjacent":
 		return RiskSoeAdjacent, nil
 	case "state_owned":
@@ -8036,6 +8040,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskReputationalRiskOrganizedCrime, nil
 	case "reputational_risk_forced_labor":
 		return RiskReputationalRiskForcedLabor, nil
+	case "imports_bis_high_priority_items_critical_components":
+		return RiskImportsBisHighPriorityItemsCriticalComponents, nil
 	case "owner_of_sheffield_hallam_university_reports_forced_labor_entity":
 		return RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity, nil
 	case "cpi_score":
