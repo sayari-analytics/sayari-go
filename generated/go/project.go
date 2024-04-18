@@ -47,6 +47,64 @@ type GetProjects struct {
 	Archived *bool `json:"-"`
 }
 
+type CreateProjectRequest struct {
+	Label string `json:"label"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *CreateProjectRequest) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateProjectRequest
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateProjectRequest(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateProjectRequest) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+type CreateProjectResponse struct {
+	Data *Project `json:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (c *CreateProjectResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateProjectResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateProjectResponse(value)
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateProjectResponse) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
 type GetProjectEntitiesAcceptHeader string
 
 const (

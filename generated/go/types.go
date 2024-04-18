@@ -10307,13 +10307,13 @@ type SearchResults struct {
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
-	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	DateOfBirth           *string           `json:"date_of_birth,omitempty"`
+	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty"`
+	UserRelationshipCount RelationshipCount `json:"user_relationship_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCount map[Attributes]int `json:"attribute_count,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCount       map[Attributes]int      `json:"user_attribute_count,omitempty"`
 	RelatedEntitiesCount     int                     `json:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count"`
@@ -10569,18 +10569,16 @@ type CoreEntity struct {
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
 	Countries []Country `json:"countries,omitempty"`
 	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
-	Closed                   *bool `json:"closed,omitempty"`
-	RelatedEntitiesCount     int   `json:"related_entities_count"`
-	UserRelatedEntitiesCount int   `json:"user_related_entities_count"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	RelationshipCounts map[Relationships]int `json:"relationship_counts,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	UserRelationshipCounts map[Relationships]int `json:"user_relationship_counts,omitempty"`
-	AttributeCounts        interface{}           `json:"attribute_counts,omitempty"`
-	UserAttributeCounts    interface{}           `json:"user_attribute_counts,omitempty"`
-	TradeCounts            map[string]int        `json:"trade_counts,omitempty"`
-	RecordCount            int                   `json:"record_count"`
-	UserRecordCount        int                   `json:"user_record_count"`
+	Closed                   *bool             `json:"closed,omitempty"`
+	RelatedEntitiesCount     int               `json:"related_entities_count"`
+	UserRelatedEntitiesCount int               `json:"user_related_entities_count"`
+	RelationshipCounts       RelationshipCount `json:"relationship_counts,omitempty"`
+	UserRelationshipCounts   RelationshipCount `json:"user_relationship_counts,omitempty"`
+	AttributeCounts          interface{}       `json:"attribute_counts,omitempty"`
+	UserAttributeCounts      interface{}       `json:"user_attribute_counts,omitempty"`
+	TradeCounts              map[string]int    `json:"trade_counts,omitempty"`
+	RecordCount              int               `json:"record_count"`
+	UserRecordCount          int               `json:"user_record_count"`
 	// Number of records associated with the entity, grouped by source.
 	SourceCounts map[string]*SourceCountInfo `json:"source_counts,omitempty"`
 	Psa          *Psa                        `json:"psa,omitempty"`
@@ -10647,16 +10645,16 @@ type EmbeddedEntity struct {
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
-	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	UserRelationshipCount    map[Relationships]int `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}           `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}           `json:"user_attribute_counts,omitempty"`
-	RelatedEntitiesCount     int                   `json:"related_entities_count"`
-	UserRelatedEntitiesCount int                   `json:"user_related_entities_count"`
-	UserRecordCount          int                   `json:"user_record_count"`
+	DateOfBirth           *string           `json:"date_of_birth,omitempty"`
+	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty"`
+	UserRelationshipCount RelationshipCount `json:"user_relationship_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCount map[Attributes]int `json:"attribute_count,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCount       map[Attributes]int `json:"user_attribute_count,omitempty"`
+	RelatedEntitiesCount     int                `json:"related_entities_count"`
+	UserRelatedEntitiesCount int                `json:"user_related_entities_count"`
+	UserRecordCount          int                `json:"user_record_count"`
 
 	_rawJSON json.RawMessage
 }
@@ -10713,13 +10711,13 @@ type EntityDetails struct {
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
-	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	DateOfBirth           *string           `json:"date_of_birth,omitempty"`
+	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty"`
+	UserRelationshipCount RelationshipCount `json:"user_relationship_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCount map[Attributes]int `json:"attribute_count,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCount       map[Attributes]int      `json:"user_attribute_count,omitempty"`
 	RelatedEntitiesCount     int                     `json:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count"`
@@ -10936,13 +10934,13 @@ type PsaEntity struct {
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
-	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	DateOfBirth           *string           `json:"date_of_birth,omitempty"`
+	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty"`
+	UserRelationshipCount RelationshipCount `json:"user_relationship_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCount map[Attributes]int `json:"attribute_count,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCount       map[Attributes]int      `json:"user_attribute_count,omitempty"`
 	RelatedEntitiesCount     int                     `json:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count"`
@@ -11233,6 +11231,9 @@ func NewReferencedByDataTypeFromString(s string) (ReferencedByDataType, error) {
 func (r ReferencedByDataType) Ptr() *ReferencedByDataType {
 	return &r
 }
+
+// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
+type RelationshipCount = map[Relationships]int
 
 type RelationshipData struct {
 	Target *EntityDetails `json:"target,omitempty"`
@@ -11947,13 +11948,13 @@ type SupplierOrBuyer struct {
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
 	Addresses []string `json:"addresses,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
-	DateOfBirth *string `json:"date_of_birth,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	RelationshipCount map[Relationships]int `json:"relationship_count,omitempty"`
-	// Count of related entities for a given [relationship type](/sayari-library/ontology/relationships).
-	UserRelationshipCount    map[Relationships]int   `json:"user_relationship_count,omitempty"`
-	AttributeCounts          interface{}             `json:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}             `json:"user_attribute_counts,omitempty"`
+	DateOfBirth           *string           `json:"date_of_birth,omitempty"`
+	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty"`
+	UserRelationshipCount RelationshipCount `json:"user_relationship_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCount map[Attributes]int `json:"attribute_count,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCount       map[Attributes]int      `json:"user_attribute_count,omitempty"`
 	RelatedEntitiesCount     int                     `json:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count"`

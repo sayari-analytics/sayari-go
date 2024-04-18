@@ -9,15 +9,17 @@ import (
 )
 
 type Ownership struct {
-	// Limit total values for traversal. Defaults to 20. Max of 50.
+	// Limit total values for traversal. Defaults to 10. Max of 50.
 	Limit *int `json:"-"`
 	// Offset values for traversal. Defaults to 0. Max of 1000.
 	Offset *int `json:"-"`
 	// Set minimum depth for traversal. Defaults to 1.
 	MinDepth *int `json:"-"`
-	// Set maximum depth for traversal. Defaults to 6.
+	// Set maximum depth for traversal. Defaults to 4.
 	MaxDepth *int `json:"-"`
-	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	// Set relationship type(s) to follow when traversing related entities. Defaults to shareholder_of, beneficial_owner_of, owner_of, has_subsidiary, and has_branch.
+	Relationships []*Relationships `json:"-"`
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to traversing possibly same as relationships.
 	Psa *bool `json:"-"`
 	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any country.
 	Countries []*Country `json:"-"`
@@ -31,7 +33,7 @@ type Ownership struct {
 	MinShares *int `json:"-"`
 	// Also traverse relationships when share percentages are unknown. Only useful when min_shares is set greater than 0. Defaults to true.
 	IncludeUnknownShares *bool `json:"-"`
-	// Include relationships that were valid in the past but not at the present time. Defaults to false.
+	// Include relationships that were valid in the past but not at the present time. Defaults to true.
 	ExcludeFormerRelationships *bool `json:"-"`
 	// Include entities that existed in the past but not at the present time. Defaults to false.
 	ExcludeClosedEntities *bool `json:"-"`
@@ -68,17 +70,17 @@ type ShortestPath struct {
 }
 
 type Traversal struct {
-	// Limit total values for traversal. Defaults to 20. Max of 50.
+	// Limit total values for traversal. Defaults to 10. Max of 50.
 	Limit *int `json:"-"`
 	// Offset values for traversal. Defaults to 0. Max of 1000.
 	Offset *int `json:"-"`
 	// Set minimum depth for traversal. Defaults to 1.
 	MinDepth *int `json:"-"`
-	// Set maximum depth for traversal. Defaults to 6.
+	// Set maximum depth for traversal. Defaults to 4.
 	MaxDepth *int `json:"-"`
 	// Set relationship type(s) to follow when traversing related entities. Defaults to following all relationship types.
 	Relationships []*Relationships `json:"-"`
-	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to traversing possibly same as relationships.
 	Psa *bool `json:"-"`
 	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any [country](/sayari-library/ontology/enumerated-types#country).
 	Countries []*Country `json:"-"`
@@ -92,7 +94,7 @@ type Traversal struct {
 	MinShares *int `json:"-"`
 	// Also traverse relationships when share percentages are unknown. Only useful when min_shares is set greater than 0. Defaults to true.
 	IncludeUnknownShares *bool `json:"-"`
-	// Include relationships that were valid in the past but not at the present time. Defaults to false.
+	// Include relationships that were valid in the past but not at the present time. Defaults to true.
 	ExcludeFormerRelationships *bool `json:"-"`
 	// Include entities that existed in the past but not at the present time. Defaults to false.
 	ExcludeClosedEntities *bool `json:"-"`
@@ -201,15 +203,17 @@ func (t *TraversalResponse) String() string {
 }
 
 type Ubo struct {
-	// Limit total values for traversal. Defaults to 20. Max of 50.
+	// Limit total values for traversal. Defaults to 10. Max of 50.
 	Limit *int `json:"-"`
 	// Offset values for traversal. Defaults to 0. Max of 1000.
 	Offset *int `json:"-"`
 	// Set minimum depth for traversal. Defaults to 1.
 	MinDepth *int `json:"-"`
-	// Set maximum depth for traversal. Defaults to 6.
+	// Set maximum depth for traversal. Defaults to 4.
 	MaxDepth *int `json:"-"`
-	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	// Set relationship type(s) to follow when traversing related entities. Defaults to has_shareholder, has_beneficial_owner, has_owner, subsidiary_of, and branch_of.
+	Relationships []*Relationships `json:"-"`
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to traversing possibly same as relationships.
 	Psa *bool `json:"-"`
 	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any [country](/sayari-library/ontology/enumerated-types#country).
 	Countries []*Country `json:"-"`
@@ -223,7 +227,7 @@ type Ubo struct {
 	MinShares *int `json:"-"`
 	// Also traverse relationships when share percentages are unknown. Only useful when min_shares is set greater than 0. Defaults to true.
 	IncludeUnknownShares *bool `json:"-"`
-	// Include relationships that were valid in the past but not at the present time. Defaults to false.
+	// Include relationships that were valid in the past but not at the present time. Defaults to true.
 	ExcludeFormerRelationships *bool `json:"-"`
 	// Include entities that existed in the past but not at the present time. Defaults to false.
 	ExcludeClosedEntities *bool `json:"-"`
@@ -256,17 +260,17 @@ type Ubo struct {
 }
 
 type Watchlist struct {
-	// Limit total values for traversal. Defaults to 20. Max of 50.
+	// Limit total values for traversal. Defaults to 10. Max of 50.
 	Limit *int `json:"-"`
 	// Offset values for traversal. Defaults to 0. Max of 1000.
 	Offset *int `json:"-"`
 	// Set minimum depth for traversal. Defaults to 1.
 	MinDepth *int `json:"-"`
-	// Set maximum depth for traversal. Defaults to 6.
+	// Set maximum depth for traversal. Defaults to 4.
 	MaxDepth *int `json:"-"`
-	// Set relationship type(s) to follow when traversing related entities. Defaults to following all relationship types.
+	// Set relationship type(s) to follow when traversing related entities. Defaults to following 31 relevant relationship types covering ownership, control, and trade.
 	Relationships []*Relationships `json:"-"`
-	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to not traversing possibly same as relationships.
+	// Also traverse relationships from entities that are possibly the same as any entity that appears in the path. Defaults to traversing possibly same as relationships.
 	Psa *bool `json:"-"`
 	// Filter paths to only those that end at an entity associated with the specified country(ies). Defaults to returning paths that end in any country.
 	Countries []*Country `json:"-"`

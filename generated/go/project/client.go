@@ -37,6 +37,98 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
+// Create a new project.
+func (c *Client) CreateProject(
+	ctx context.Context,
+	request *generatedgo.CreateProjectRequest,
+	opts ...option.RequestOption,
+) (*generatedgo.CreateProjectResponse, error) {
+	options := core.NewRequestOptions(opts...)
+
+	baseURL := "https://api.sayari.com"
+	if c.baseURL != "" {
+		baseURL = c.baseURL
+	}
+	if options.BaseURL != "" {
+		baseURL = options.BaseURL
+	}
+	endpointURL := baseURL + "/" + "v1/projects"
+
+	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
+
+	errorDecoder := func(statusCode int, body io.Reader) error {
+		raw, err := io.ReadAll(body)
+		if err != nil {
+			return err
+		}
+		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
+		decoder := json.NewDecoder(bytes.NewReader(raw))
+		switch statusCode {
+		case 400:
+			value := new(generatedgo.BadRequest)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 401:
+			value := new(generatedgo.Unauthorized)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 404:
+			value := new(generatedgo.NotFound)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 405:
+			value := new(generatedgo.MethodNotAllowed)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 429:
+			value := new(generatedgo.RateLimitExceeded)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		case 500:
+			value := new(generatedgo.InternalServerError)
+			value.APIError = apiError
+			if err := decoder.Decode(value); err != nil {
+				return apiError
+			}
+			return value
+		}
+		return apiError
+	}
+
+	var response *generatedgo.CreateProjectResponse
+	if err := c.caller.Call(
+		ctx,
+		&core.CallParams{
+			URL:          endpointURL,
+			Method:       http.MethodPost,
+			MaxAttempts:  options.MaxAttempts,
+			Headers:      headers,
+			Client:       options.HTTPClient,
+			Request:      request,
+			Response:     &response,
+			ErrorDecoder: errorDecoder,
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
 // Retrieve a list of projects including upload progress info.
 func (c *Client) GetProjects(
 	ctx context.Context,
@@ -162,7 +254,7 @@ func (c *Client) GetProjectEntities(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/project/%v/contents/entity", id)
+	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/projects/%v/contents/entity", id)
 
 	queryParams := make(url.Values)
 	if request.Next != nil {
