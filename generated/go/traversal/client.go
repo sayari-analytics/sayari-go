@@ -262,6 +262,9 @@ func (c *Client) Ubo(
 	if request.MaxDepth != nil {
 		queryParams.Add("max_depth", fmt.Sprintf("%v", *request.MaxDepth))
 	}
+	for _, value := range request.Relationships {
+		queryParams.Add("relationships", fmt.Sprintf("%v", *value))
+	}
 	if request.Psa != nil {
 		queryParams.Add("psa", fmt.Sprintf("%v", *request.Psa))
 	}
@@ -452,6 +455,9 @@ func (c *Client) Ownership(
 	if request.MaxDepth != nil {
 		queryParams.Add("max_depth", fmt.Sprintf("%v", *request.MaxDepth))
 	}
+	for _, value := range request.Relationships {
+		queryParams.Add("relationships", fmt.Sprintf("%v", *value))
+	}
 	if request.Psa != nil {
 		queryParams.Add("psa", fmt.Sprintf("%v", *request.Psa))
 	}
@@ -610,7 +616,7 @@ func (c *Client) Ownership(
 	return response, nil
 }
 
-// The Watchlist endpoint returns paths from a single target entity to up to 50 other entities that appear on a watchlist or are peps. The endpoint is a shorthand for the equivalent traversal query.
+// The Watchlist endpoint returns paths from a single target entity to up to 50 other entities that appear on a watchlist. The endpoint is a shorthand for the equivalent traversal query.
 func (c *Client) Watchlist(
 	ctx context.Context,
 	// Unique identifier of the entity
