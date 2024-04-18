@@ -8,6 +8,8 @@ package api
 // if any.
 var Environments = struct {
 	Production string
+	Dev        string
 }{
 	Production: "https://api.sayari.com",
+	Dev:        "https://api.internal.sayari.com",
 }
