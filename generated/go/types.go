@@ -4354,6 +4354,8 @@ const (
 	IdentifierTypeFraSiren IdentifierType = "fra_siren"
 	// France legal person establishment ID number
 	IdentifierTypeFraSiret IdentifierType = "fra_siret"
+	// Skráseting Føroya Registration Number. Assigned to legal entities registered with the Company Registry of the Faroe Islands.
+	IdentifierTypeFroRegNum IdentifierType = "fro_reg_num"
 	// Czechia commercial registry ID number
 	IdentifierTypeCzeFileNumber IdentifierType = "cze_file_number"
 	// Value taken from datos registrales section used to identify companies in the Borme. Not an official identifier.
@@ -5470,6 +5472,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeFraSiren, nil
 	case "fra_siret":
 		return IdentifierTypeFraSiret, nil
+	case "fro_reg_num":
+		return IdentifierTypeFroRegNum, nil
 	case "cze_file_number":
 		return IdentifierTypeCzeFileNumber, nil
 	case "esp_borme_reg_id":
