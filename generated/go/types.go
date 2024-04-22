@@ -4988,6 +4988,12 @@ const (
 	IdentifierTypeMcoRciNumber IdentifierType = "mco_rci_number"
 	// Monaco Statistical Identification Number. Unique identifier assigned by the Institute of Statistics and Economic Studies (Monaco Statistics) for entities with economic activity in Monaco.
 	IdentifierTypeMcoNis IdentifierType = "mco_nis"
+	// Unique Canada provincial ID number. Assigned to every business registered with Ontario Ministry of Consumer and Business Services.
+	IdentifierTypeOnBusinessIdNumber IdentifierType = "on_business_id_number"
+	// Unique Syria ID number. Assigned to every legal entity registered with the Syria Ministry of Economy and Foreign Trade.
+	IdentifierTypeSyriaCommercialRegisterNumber IdentifierType = "syria_commercial_register_number"
+	// Unique internal company ID number. Assigned to every company in China Xinjiang Department of Housing and Urban-Rural Development Company Database
+	IdentifierTypeCnHurdInternalCompanyId IdentifierType = "cn_hurd_internal_company_id"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6116,6 +6122,12 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeMcoRciNumber, nil
 	case "mco_nis":
 		return IdentifierTypeMcoNis, nil
+	case "on_business_id_number":
+		return IdentifierTypeOnBusinessIdNumber, nil
+	case "syria_commercial_register_number":
+		return IdentifierTypeSyriaCommercialRegisterNumber, nil
+	case "cn_hurd_internal_company_id":
+		return IdentifierTypeCnHurdInternalCompanyId, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
