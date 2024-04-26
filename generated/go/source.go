@@ -10,27 +10,27 @@ import (
 
 type ListSources struct {
 	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
-	Limit *int `json:"-"`
+	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
-	Offset *int `json:"-"`
+	Offset *int `json:"-" url:"offset,omitempty"`
 }
 
 // OK
 type GetSourceResponse struct {
 	// The unique identifier of the source
-	Id          string `json:"id"`
-	Label       string `json:"label"`
-	Description string `json:"description"`
+	Id          string `json:"id" url:"id"`
+	Label       string `json:"label" url:"label"`
+	Description string `json:"description" url:"description"`
 	// Source [country](/sayari-library/ontology/enumerated-types#country)
-	Country    Country `json:"country,omitempty"`
-	Region     string  `json:"region"`
-	DateAdded  string  `json:"date_added"`
-	SourceType string  `json:"source_type"`
-	RecordType string  `json:"record_type"`
-	Structure  string  `json:"structure"`
-	SourceUrl  *string `json:"source_url,omitempty"`
-	Pep        bool    `json:"pep"`
-	Watchlist  bool    `json:"watchlist"`
+	Country    Country `json:"country,omitempty" url:"country,omitempty"`
+	Region     string  `json:"region" url:"region"`
+	DateAdded  string  `json:"date_added" url:"date_added"`
+	SourceType string  `json:"source_type" url:"source_type"`
+	RecordType string  `json:"record_type" url:"record_type"`
+	Structure  string  `json:"structure" url:"structure"`
+	SourceUrl  *string `json:"source_url,omitempty" url:"source_url,omitempty"`
+	Pep        bool    `json:"pep" url:"pep"`
+	Watchlist  bool    `json:"watchlist" url:"watchlist"`
 
 	_rawJSON json.RawMessage
 }
@@ -60,11 +60,11 @@ func (g *GetSourceResponse) String() string {
 
 // OK
 type ListSourcesResponse struct {
-	Limit  int             `json:"limit"`
-	Size   *QualifiedCount `json:"size,omitempty"`
-	Offset int             `json:"offset"`
-	Next   bool            `json:"next"`
-	Data   []*Source       `json:"data,omitempty"`
+	Limit  int             `json:"limit" url:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty" url:"size,omitempty"`
+	Offset int             `json:"offset" url:"offset"`
+	Next   bool            `json:"next" url:"next"`
+	Data   []*Source       `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }

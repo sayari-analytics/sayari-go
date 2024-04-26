@@ -10,45 +10,45 @@ import (
 
 type GetProjectEntities struct {
 	// The response format. Defaults to application/json.
-	Accept GetProjectEntitiesAcceptHeader `json:"-"`
+	Accept GetProjectEntitiesAcceptHeader `json:"-" url:"-"`
 	// The pagination token for the next page of entities.
-	Next *string `json:"-"`
+	Next *string `json:"-" url:"next,omitempty"`
 	// The pagination token for the previous page of entities.
-	Prev *string `json:"-"`
+	Prev *string `json:"-" url:"prev,omitempty"`
 	// Limit total entities returned. Defaults to 10,000. Max 10,000.
-	Limit *int `json:"-"`
+	Limit *int `json:"-" url:"limit,omitempty"`
 	// Only return entities of the specified [entity type(s)](/sayari-library/ontology/entities). Defaults to all types.
-	EntityTypes []*Entities `json:"-"`
+	EntityTypes []*Entities `json:"-" url:"entity_types,omitempty"`
 	// Whether to include geo facets in the response. Defaults to false.
-	GeoFacets *bool `json:"-"`
+	GeoFacets *bool `json:"-" url:"geo_facets,omitempty"`
 	// Only return entities with the specified HS code(s).
-	HsCodes []*string `json:"-"`
+	HsCodes []*string `json:"-" url:"hs_codes,omitempty"`
 	// Only return entities that received the specified HS code(s).
-	ReceivedHsCodes []*string `json:"-"`
+	ReceivedHsCodes []*string `json:"-" url:"received_hs_codes,omitempty"`
 	// Only return entities that shipped the specified HS code(s).
-	ShippedHsCodes []*string `json:"-"`
+	ShippedHsCodes []*string `json:"-" url:"shipped_hs_codes,omitempty"`
 	// The language code to translate the entity labels to. Defaults to the user's preferred language.
-	Translation *string    `json:"-"`
-	Sort        *SortField `json:"-"`
+	Translation *string    `json:"-" url:"translation,omitempty"`
+	Sort        *SortField `json:"-" url:"sort,omitempty"`
 	// Only return entities that match the specified filters.
-	Filters []*ProjectEntitiesFilter `json:"-"`
+	Filters []*ProjectEntitiesFilter `json:"-" url:"filters,omitempty"`
 	// Aggregations for entities in a project.
-	Aggregations []*ProjectEntitiesAggsDefinition `json:"-"`
+	Aggregations []*ProjectEntitiesAggsDefinition `json:"-" url:"aggregations,omitempty"`
 }
 
 type GetProjects struct {
 	// The pagination token for the next page of projects.
-	Next *string `json:"-"`
+	Next *string `json:"-" url:"next,omitempty"`
 	// The pagination token for the previous page of projects.
-	Prev *string `json:"-"`
+	Prev *string `json:"-" url:"prev,omitempty"`
 	// Limit total values returned for projects. Defaults to 100. Max 100.
-	Limit *int `json:"-"`
+	Limit *int `json:"-" url:"limit,omitempty"`
 	// Toggle between projects that have been archived (true) or not (false). Defaults to false.
-	Archived *bool `json:"-"`
+	Archived *bool `json:"-" url:"archived,omitempty"`
 }
 
 type CreateProjectRequest struct {
-	Label string `json:"label"`
+	Label string `json:"label" url:"label"`
 
 	_rawJSON json.RawMessage
 }
@@ -77,7 +77,7 @@ func (c *CreateProjectRequest) String() string {
 }
 
 type CreateProjectResponse struct {
-	Data *Project `json:"data,omitempty"`
+	Data *Project `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -131,12 +131,12 @@ func (g GetProjectEntitiesAcceptHeader) Ptr() *GetProjectEntitiesAcceptHeader {
 }
 
 type GetProjectEntitiesResponse struct {
-	Limit        int                  `json:"limit"`
-	Size         *QualifiedCount      `json:"size,omitempty"`
-	Next         *string              `json:"next,omitempty"`
-	Prev         *string              `json:"prev,omitempty"`
-	Data         []*ProjectEntity     `json:"data,omitempty"`
-	Aggregations *ProjectEntitiesAggs `json:"aggregations,omitempty"`
+	Limit        int                  `json:"limit" url:"limit"`
+	Size         *QualifiedCount      `json:"size,omitempty" url:"size,omitempty"`
+	Next         *string              `json:"next,omitempty" url:"next,omitempty"`
+	Prev         *string              `json:"prev,omitempty" url:"prev,omitempty"`
+	Data         []*ProjectEntity     `json:"data,omitempty" url:"data,omitempty"`
+	Aggregations *ProjectEntitiesAggs `json:"aggregations,omitempty" url:"aggregations,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -165,12 +165,12 @@ func (g *GetProjectEntitiesResponse) String() string {
 }
 
 type GetProjectsResponse struct {
-	Next  *string               `json:"next,omitempty"`
-	Prev  *string               `json:"prev,omitempty"`
-	First *bool                 `json:"first,omitempty"`
-	Last  *bool                 `json:"last,omitempty"`
-	Limit int                   `json:"limit"`
-	Data  []*ProjectWithMembers `json:"data,omitempty"`
+	Next  *string               `json:"next,omitempty" url:"next,omitempty"`
+	Prev  *string               `json:"prev,omitempty" url:"prev,omitempty"`
+	First *bool                 `json:"first,omitempty" url:"first,omitempty"`
+	Last  *bool                 `json:"last,omitempty" url:"last,omitempty"`
+	Limit int                   `json:"limit" url:"limit"`
+	Data  []*ProjectWithMembers `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }

@@ -10,31 +10,31 @@ import (
 
 type GetRecord struct {
 	// A limit on the number of references to be returned. Defaults to 100.
-	ReferencesLimit *int `json:"-"`
+	ReferencesLimit *int `json:"-" url:"references.limit,omitempty"`
 	// Number of references to skip before returning response. Defaults to 0.
-	ReferencesOffset *int `json:"-"`
+	ReferencesOffset *int `json:"-" url:"references.offset,omitempty"`
 }
 
 // OK
 type GetRecordResponse struct {
 	// The unique identifier for a record in the database
-	Id    string `json:"id"`
-	Label string `json:"label"`
+	Id    string `json:"id" url:"id"`
+	Label string `json:"label" url:"label"`
 	// The unique identifier for a source in the database
-	Source string `json:"source"`
+	Source string `json:"source" url:"source"`
 	// The date the record was published
-	PublicationDate *string `json:"publication_date,omitempty"`
+	PublicationDate *string `json:"publication_date,omitempty" url:"publication_date,omitempty"`
 	// The date Sayari acquired this record
-	AcquisitionDate string `json:"acquisition_date"`
+	AcquisitionDate string `json:"acquisition_date" url:"acquisition_date"`
 	// Number of times this record is referenced
-	ReferencesCount int `json:"references_count"`
+	ReferencesCount int `json:"references_count" url:"references_count"`
 	// The url to download the record from Sayari
-	RecordUrl string `json:"record_url"`
+	RecordUrl string `json:"record_url" url:"record_url"`
 	// The url to access to original source
-	SourceUrl    *string             `json:"source_url,omitempty"`
-	DocumentUrls []string            `json:"document_urls,omitempty"`
-	Matches      map[string][]string `json:"matches,omitempty"`
-	References   *RecordReferences   `json:"references,omitempty"`
+	SourceUrl    *string             `json:"source_url,omitempty" url:"source_url,omitempty"`
+	DocumentUrls []string            `json:"document_urls,omitempty" url:"document_urls,omitempty"`
+	Matches      map[string][]string `json:"matches,omitempty" url:"matches,omitempty"`
+	References   *RecordReferences   `json:"references,omitempty" url:"references,omitempty"`
 
 	_rawJSON json.RawMessage
 }

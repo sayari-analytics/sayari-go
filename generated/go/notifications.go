@@ -10,24 +10,24 @@ import (
 
 type ProjectNotifications struct {
 	// Limit total notifications in the response. Defaults to 100.
-	Limit *int `json:"-"`
+	Limit *int `json:"-" url:"limit,omitempty"`
 	// Offset which notifications are returned. Defaults to 0.
-	Offset *int `json:"-"`
+	Offset *int `json:"-" url:"offset,omitempty"`
 }
 
 type ResourceNotifications struct {
 	// Limit total notifications in the response. Defaults to 100.
-	Limit *int `json:"-"`
+	Limit *int `json:"-" url:"limit,omitempty"`
 	// Offset which notifications are returned. Defaults to 0.
-	Offset *int `json:"-"`
+	Offset *int `json:"-" url:"offset,omitempty"`
 }
 
 // OK
 type ProjectNotificationsResponse struct {
-	Offset int                        `json:"offset"`
-	Limit  int                        `json:"limit"`
-	Next   bool                       `json:"next"`
-	Data   []*ProjectNotificationData `json:"data,omitempty"`
+	Offset int                        `json:"offset" url:"offset"`
+	Limit  int                        `json:"limit" url:"limit"`
+	Next   bool                       `json:"next" url:"next"`
+	Data   []*ProjectNotificationData `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -57,10 +57,10 @@ func (p *ProjectNotificationsResponse) String() string {
 
 // OK
 type ResourceNotificationsResponse struct {
-	Offset int                         `json:"offset"`
-	Limit  int                         `json:"limit"`
-	Next   bool                        `json:"next"`
-	Data   []*ResourceNotificationData `json:"data,omitempty"`
+	Offset int                         `json:"offset" url:"offset"`
+	Limit  int                         `json:"limit" url:"limit"`
+	Next   bool                        `json:"next" url:"next"`
+	Data   []*ResourceNotificationData `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }

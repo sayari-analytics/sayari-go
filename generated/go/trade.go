@@ -10,50 +10,50 @@ import (
 
 type SearchBuyers struct {
 	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
-	Limit *int `json:"-"`
+	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
-	Offset *int `json:"-"`
+	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q"`
+	Q string `json:"q" url:"q"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *TradeFilterList `json:"filter,omitempty"`
+	Filter *TradeFilterList `json:"filter,omitempty" url:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
-	Facets *bool `json:"facets,omitempty"`
+	Facets *bool `json:"facets,omitempty" url:"facets,omitempty"`
 }
 
 type SearchShipments struct {
 	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
-	Limit *int `json:"-"`
+	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
-	Offset *int `json:"-"`
+	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q"`
+	Q string `json:"q" url:"q"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *TradeFilterList `json:"filter,omitempty"`
+	Filter *TradeFilterList `json:"filter,omitempty" url:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
-	Facets *bool `json:"facets,omitempty"`
+	Facets *bool `json:"facets,omitempty" url:"facets,omitempty"`
 }
 
 type SearchSuppliers struct {
 	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
-	Limit *int `json:"-"`
+	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
-	Offset *int `json:"-"`
+	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q"`
+	Q string `json:"q" url:"q"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *TradeFilterList `json:"filter,omitempty"`
+	Filter *TradeFilterList `json:"filter,omitempty" url:"filter,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
-	Facets *bool `json:"facets,omitempty"`
+	Facets *bool `json:"facets,omitempty" url:"facets,omitempty"`
 }
 
 // OK
 type BuyerSearchResponse struct {
-	Limit  int                `json:"limit"`
-	Size   *QualifiedCount    `json:"size,omitempty"`
-	Offset int                `json:"offset"`
-	Next   bool               `json:"next"`
-	Data   []*SupplierOrBuyer `json:"data,omitempty"`
+	Limit  int                `json:"limit" url:"limit"`
+	Size   *QualifiedCount    `json:"size,omitempty" url:"size,omitempty"`
+	Offset int                `json:"offset" url:"offset"`
+	Next   bool               `json:"next" url:"next"`
+	Data   []*SupplierOrBuyer `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -83,11 +83,11 @@ func (b *BuyerSearchResponse) String() string {
 
 // OK
 type ShipmentSearchResponse struct {
-	Limit  int             `json:"limit"`
-	Size   *QualifiedCount `json:"size,omitempty"`
-	Offset int             `json:"offset"`
-	Next   bool            `json:"next"`
-	Data   []*Shipment     `json:"data,omitempty"`
+	Limit  int             `json:"limit" url:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty" url:"size,omitempty"`
+	Offset int             `json:"offset" url:"offset"`
+	Next   bool            `json:"next" url:"next"`
+	Data   []*Shipment     `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -117,11 +117,11 @@ func (s *ShipmentSearchResponse) String() string {
 
 // OK
 type SupplierSearchResponse struct {
-	Limit  int                `json:"limit"`
-	Size   *QualifiedCount    `json:"size,omitempty"`
-	Offset int                `json:"offset"`
-	Next   bool               `json:"next"`
-	Data   []*SupplierOrBuyer `json:"data,omitempty"`
+	Limit  int                `json:"limit" url:"limit"`
+	Size   *QualifiedCount    `json:"size,omitempty" url:"size,omitempty"`
+	Offset int                `json:"offset" url:"offset"`
+	Next   bool               `json:"next" url:"next"`
+	Data   []*SupplierOrBuyer `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -152,51 +152,51 @@ func (s *SupplierSearchResponse) String() string {
 // Filter your search on the following attributes.
 type TradeFilterList struct {
 	// Exact match against the entity_id of the buyer. The buyer is the receiver_of shipments.
-	BuyerId []string `json:"buyer_id,omitempty"`
+	BuyerId []string `json:"buyer_id,omitempty" url:"buyer_id,omitempty"`
 	// Exact match against the entity_id of the supplier. The supplier is the shipper_of shipments.
-	SupplierId []string `json:"supplier_id,omitempty"`
+	SupplierId []string `json:"supplier_id,omitempty" url:"supplier_id,omitempty"`
 	// Buyers whose name contains the provided string.
-	BuyerName []string `json:"buyer_name,omitempty"`
+	BuyerName []string `json:"buyer_name,omitempty" url:"buyer_name,omitempty"`
 	// Shipper whose name contains the provided string.
-	SupplierName []string `json:"supplier_name,omitempty"`
+	SupplierName []string `json:"supplier_name,omitempty" url:"supplier_name,omitempty"`
 	// Buyer with an exact match for the provided [risk factor](/sayari-library/ontology/risk-factors).
-	BuyerRisk []Risk `json:"buyer_risk,omitempty"`
+	BuyerRisk []Risk `json:"buyer_risk,omitempty" url:"buyer_risk,omitempty"`
 	// Shipper with an exact match for the provided [risk factor](/sayari-library/ontology/risk-factors).
-	SupplierRisk []Risk `json:"supplier_risk,omitempty"`
+	SupplierRisk []Risk `json:"supplier_risk,omitempty" url:"supplier_risk,omitempty"`
 	// Buyer with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
-	BuyerCountry []Country `json:"buyer_country,omitempty"`
+	BuyerCountry []Country `json:"buyer_country,omitempty" url:"buyer_country,omitempty"`
 	// Supplier with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
-	SupplierCountry []Country `json:"supplier_country,omitempty"`
+	SupplierCountry []Country `json:"supplier_country,omitempty" url:"supplier_country,omitempty"`
 	// Shipment departs from a country with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
-	DepartureCountry []Country `json:"departure_country,omitempty"`
+	DepartureCountry []Country `json:"departure_country,omitempty" url:"departure_country,omitempty"`
 	// Shipment departs from a state that contains the provided state name.
-	DepartureState []string `json:"departure_state,omitempty"`
+	DepartureState []string `json:"departure_state,omitempty" url:"departure_state,omitempty"`
 	// Shipment departs from a city that contains the provided city name.
-	DepartureCity []string `json:"departure_city,omitempty"`
+	DepartureCity []string `json:"departure_city,omitempty" url:"departure_city,omitempty"`
 	// Shipment arrives at a country with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
-	ArrivalCountry []Country `json:"arrival_country,omitempty"`
+	ArrivalCountry []Country `json:"arrival_country,omitempty" url:"arrival_country,omitempty"`
 	// Shipment arrives at a state that contains the provided state name.
-	ArrivalState []string `json:"arrival_state,omitempty"`
+	ArrivalState []string `json:"arrival_state,omitempty" url:"arrival_state,omitempty"`
 	// Shipment arrives at a city that contains the provided city name.
-	ArrivalCity []string `json:"arrival_city,omitempty"`
+	ArrivalCity []string `json:"arrival_city,omitempty" url:"arrival_city,omitempty"`
 	// The shipment HS code starts with the provided HS code.
-	HsCode []string `json:"hs_code,omitempty"`
+	HsCode []string `json:"hs_code,omitempty" url:"hs_code,omitempty"`
 	// The HS description contains the provided string.
-	HsDescription []string `json:"hs_description,omitempty"`
+	HsDescription []string `json:"hs_description,omitempty" url:"hs_description,omitempty"`
 	// The supplier purpose contains the provided string.
-	SupplierPurpose []string `json:"supplier_purpose,omitempty"`
+	SupplierPurpose []string `json:"supplier_purpose,omitempty" url:"supplier_purpose,omitempty"`
 	// The buyer purpose contains the provided string.
-	BuyerPurpose []string `json:"buyer_purpose,omitempty"`
+	BuyerPurpose []string `json:"buyer_purpose,omitempty" url:"buyer_purpose,omitempty"`
 	// The arrival date is within the provided range.
-	ArrivalDate []string `json:"arrival_date,omitempty"`
+	ArrivalDate []string `json:"arrival_date,omitempty" url:"arrival_date,omitempty"`
 	// The departure date is within the provided range.
-	DepartureDate []string `json:"departure_date,omitempty"`
+	DepartureDate []string `json:"departure_date,omitempty" url:"departure_date,omitempty"`
 	// The shipment identifier starts with the provided string.
-	ShipmentIdentifier []string `json:"shipment_identifier,omitempty"`
+	ShipmentIdentifier []string `json:"shipment_identifier,omitempty" url:"shipment_identifier,omitempty"`
 	// The shipment weight is within the provided range.
-	Weight []string `json:"weight,omitempty"`
+	Weight []string `json:"weight,omitempty" url:"weight,omitempty"`
 	// An exact match for the provided sources.
-	Sources []string `json:"sources,omitempty"`
+	Sources []string `json:"sources,omitempty" url:"sources,omitempty"`
 
 	_rawJSON json.RawMessage
 }

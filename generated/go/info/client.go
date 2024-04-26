@@ -7,13 +7,11 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
-	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
-	url "net/url"
 )
 
 type Client struct {
@@ -31,7 +29,6 @@ func NewClient(opts ...option.RequestOption) *Client {
 				Client:      options.HTTPClient,
 				MaxAttempts: options.MaxAttempts,
 			},
-			options.RateLimiter,
 		),
 		header: options.ToHeader(),
 	}
@@ -54,12 +51,9 @@ func (c *Client) GetUsage(
 	}
 	endpointURL := baseURL + "/" + "v1/usage"
 
-	queryParams := make(url.Values)
-	if request.From != nil {
-		queryParams.Add("from", fmt.Sprintf("%v", request.From.Format("2006-01-02")))
-	}
-	if request.To != nil {
-		queryParams.Add("to", fmt.Sprintf("%v", request.To.Format("2006-01-02")))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
@@ -149,21 +143,9 @@ func (c *Client) GetHistory(
 	}
 	endpointURL := baseURL + "/" + "v1/history"
 
-	queryParams := make(url.Values)
-	for _, value := range request.Events {
-		queryParams.Add("events", fmt.Sprintf("%v", *value))
-	}
-	if request.From != nil {
-		queryParams.Add("from", fmt.Sprintf("%v", request.From.Format("2006-01-02")))
-	}
-	if request.To != nil {
-		queryParams.Add("to", fmt.Sprintf("%v", request.To.Format("2006-01-02")))
-	}
-	if request.Size != nil {
-		queryParams.Add("size", fmt.Sprintf("%v", *request.Size))
-	}
-	if request.Token != nil {
-		queryParams.Add("token", fmt.Sprintf("%v", *request.Token))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()

@@ -23,7 +23,6 @@ type RequestOptions struct {
 	MaxAttempts uint
 	Token       string
 	ClientName  string
-	RateLimiter *RateLimiter
 }
 
 // NewRequestOptions returns a new *RequestOptions value.
@@ -107,13 +106,4 @@ type ClientNameOption struct {
 
 func (c *ClientNameOption) applyRequestOptions(opts *RequestOptions) {
 	opts.ClientName = c.ClientName
-}
-
-// RateLimiterOption implements the RequestOption interface.
-type RateLimiterOption struct {
-	RateLimiter *RateLimiter
-}
-
-func (r *RateLimiterOption) applyRequestOptions(opts *RequestOptions) {
-	opts.RateLimiter = r.RateLimiter
 }

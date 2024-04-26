@@ -117,7 +117,6 @@ func TestCall(t *testing.T) {
 				&CallerParams{
 					Client: client,
 				},
-				nil,
 			)
 			var response *Response
 			err := caller.Call(
@@ -273,8 +272,7 @@ func newTestErrorDecoder(t *testing.T) func(int, io.Reader) error {
 			apiError = NewAPIError(statusCode, errors.New(string(raw)))
 			decoder  = json.NewDecoder(bytes.NewReader(raw))
 		)
-		switch statusCode {
-		case 404:
+		if statusCode == http.StatusNotFound {
 			value := new(NotFoundError)
 			value.APIError = apiError
 			require.NoError(t, decoder.Decode(value))

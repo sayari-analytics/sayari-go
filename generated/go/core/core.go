@@ -7,13 +7,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
-	"math"
 	"mime/multipart"
 	"net/http"
-	"strconv"
-	"sync"
-	"time"
 )
 
 const (
@@ -96,59 +91,10 @@ func (a *APIError) Error() string {
 // typed API error (e.g. *APIError).
 type ErrorDecoder func(statusCode int, body io.Reader) error
 
-type RateLimiter struct {
-	mutex sync.Mutex
-	// TODO: replace this with a wait until...
-	wait bool
-}
-
-func NewRateLimiter() *RateLimiter {
-	return &RateLimiter{}
-}
-
-func (r *RateLimiter) Block() {
-	// return early if already blocked
-	if r == nil || r.wait {
-		return
-	}
-
-	r.mutex.Lock()
-	defer r.mutex.Unlock()
-	r.wait = true
-}
-
-func (r *RateLimiter) UnBlock() {
-	// return early if already unblocked
-	if r == nil || !r.wait {
-		return
-	}
-
-	r.mutex.Lock()
-	defer r.mutex.Unlock()
-	r.wait = false
-}
-
-func (r *RateLimiter) Wait() {
-	if r != nil {
-		for {
-			r.mutex.Lock()
-			if r.wait {
-				r.mutex.Unlock()
-				log.Println("Waiting for rate limit to reset")
-				time.Sleep(time.Second)
-			} else {
-				r.mutex.Unlock()
-				return
-			}
-		}
-	}
-}
-
 // Caller calls APIs and deserializes their response, if any.
 type Caller struct {
-	client      HTTPClient
-	retrier     *Retrier
-	rateLimiter *RateLimiter
+	client  HTTPClient
+	retrier *Retrier
 }
 
 // CallerParams represents the parameters used to constrcut a new *Caller.
@@ -158,7 +104,7 @@ type CallerParams struct {
 }
 
 // NewCaller returns a new *Caller backed by the given parameters.
-func NewCaller(params *CallerParams, rateLimiter *RateLimiter) *Caller {
+func NewCaller(params *CallerParams) *Caller {
 	var httpClient HTTPClient = http.DefaultClient
 	if params.Client != nil {
 		httpClient = params.Client
@@ -168,9 +114,8 @@ func NewCaller(params *CallerParams, rateLimiter *RateLimiter) *Caller {
 		retryOptions = append(retryOptions, WithMaxAttempts(params.MaxAttempts))
 	}
 	return &Caller{
-		client:      httpClient,
-		retrier:     NewRetrier(retryOptions...),
-		rateLimiter: rateLimiter,
+		client:  httpClient,
+		retrier: NewRetrier(retryOptions...),
 	}
 }
 
@@ -210,9 +155,6 @@ func (c *Caller) Call(ctx context.Context, params *CallParams) error {
 		retryOptions = append(retryOptions, WithMaxAttempts(params.MaxAttempts))
 	}
 
-	// Wait for rate limiter if needed
-	c.rateLimiter.Wait()
-
 	resp, err := c.retrier.Run(
 		client.Do,
 		req,
@@ -230,46 +172,6 @@ func (c *Caller) Call(ctx context.Context, params *CallParams) error {
 	// associated with the call and/or unmarshal the response data.
 	if err := ctx.Err(); err != nil {
 		return err
-	}
-
-	// If we get a 429 (Too many requests) response code or 502 and have a rate limiter setup, block other request and retry
-	if c.rateLimiter != nil && (resp.StatusCode == 429 || resp.StatusCode == 502) {
-		// block other requests until we can finish processing this one
-		c.rateLimiter.Block()
-		defer c.rateLimiter.UnBlock()
-
-		attemptLimit := 3
-		var attemptCount int
-		for resp.StatusCode == 429 || resp.StatusCode == 502 {
-			// close the previous response body, the defer will catch whatever we are left with after looping
-			resp.Body.Close()
-			var sleepTime int
-			if resp.StatusCode == 502 {
-				sleepTime = 30
-			} else if sleepTimeStr := resp.Header.Get("Retry-After"); sleepTimeStr != "" {
-				// Ideally we will have a "Retry-After" header to tell us how long to wait if it is a 429
-				sleepTime, err = strconv.Atoi(sleepTimeStr)
-				if err != nil {
-					return fmt.Errorf("found a 'Retry-After' header and atttempted to parse it to an integer but failed. err: %v", err)
-				}
-			} else {
-				// Without a header we will just do an exponential backoff
-				if attemptCount > attemptLimit {
-					// Give up after we hit the attempt limit
-					break
-				}
-				attemptCount++
-				sleepTime = int(math.Pow(2, float64(attemptCount)))
-			}
-			log.Printf("Waiting %vs for rate limit to recover...", sleepTime)
-			time.Sleep(time.Duration(sleepTime) * time.Second)
-
-			// re-make the request
-			resp, err = c.client.Do(req)
-			if err != nil {
-				return err
-			}
-		}
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {

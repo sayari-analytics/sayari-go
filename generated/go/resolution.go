@@ -10,19 +10,19 @@ import (
 
 type Resolution struct {
 	// Entity name
-	Name []*string `json:"-"`
+	Name []*string `json:"-" url:"name,omitempty"`
 	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
-	Identifier []*BothIdentifierTypes `json:"-"`
+	Identifier []*BothIdentifierTypes `json:"-" url:"identifier,omitempty"`
 	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
-	Country []*Country `json:"-"`
+	Country []*Country `json:"-" url:"country,omitempty"`
 	// Entity address
-	Address []*string `json:"-"`
+	Address []*string `json:"-" url:"address,omitempty"`
 	// Entity date of birth
-	DateOfBirth []*string `json:"-"`
+	DateOfBirth []*string `json:"-" url:"date_of_birth,omitempty"`
 	// Entity contact
-	Contact []*string `json:"-"`
+	Contact []*string `json:"-" url:"contact,omitempty"`
 	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
-	Type []*Entities `json:"-"`
+	Type []*Entities `json:"-" url:"type,omitempty"`
 }
 
 type BothIdentifierTypes struct {
@@ -84,8 +84,8 @@ func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
 
 // OK
 type ResolutionResponse struct {
-	Fields *ResolutionResponseFields `json:"fields,omitempty"`
-	Data   []*ResolutionResult       `json:"data,omitempty"`
+	Fields *ResolutionResponseFields `json:"fields,omitempty" url:"fields,omitempty"`
+	Data   []*ResolutionResult       `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }

@@ -13,7 +13,6 @@ import (
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
-	url "net/url"
 )
 
 type Client struct {
@@ -31,7 +30,6 @@ func NewClient(opts ...option.RequestOption) *Client {
 				Client:      options.HTTPClient,
 				MaxAttempts: options.MaxAttempts,
 			},
-			options.RateLimiter,
 		),
 		header: options.ToHeader(),
 	}
@@ -56,12 +54,9 @@ func (c *Client) GetRecord(
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/record/%v", id)
 
-	queryParams := make(url.Values)
-	if request.ReferencesLimit != nil {
-		queryParams.Add("references.limit", fmt.Sprintf("%v", *request.ReferencesLimit))
-	}
-	if request.ReferencesOffset != nil {
-		queryParams.Add("references.offset", fmt.Sprintf("%v", *request.ReferencesOffset))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()

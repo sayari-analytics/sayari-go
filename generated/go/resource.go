@@ -9,11 +9,11 @@ import (
 )
 
 type SaveEntityRequest struct {
-	Type ResourceType `json:"type,omitempty"`
+	Type ResourceType `json:"type,omitempty" url:"type,omitempty"`
 	// The project identifier.
-	Project string `json:"project"`
+	Project string `json:"project" url:"project"`
 	// The entity identifier.
-	EntityId string `json:"entity_id"`
+	EntityId string `json:"entity_id" url:"entity_id"`
 
 	_rawJSON json.RawMessage
 }
@@ -42,7 +42,7 @@ func (s *SaveEntityRequest) String() string {
 }
 
 type SaveEntityResponse struct {
-	Data *SaveEntityResponseData `json:"data,omitempty"`
+	Data *SaveEntityResponseData `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }

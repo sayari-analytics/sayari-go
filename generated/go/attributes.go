@@ -10,17 +10,17 @@ import (
 
 type AddAttribute struct {
 	// entity ID
-	Entity string `json:"entity"`
+	Entity string `json:"entity" url:"entity"`
 	// type of additional information
-	Type string `json:"type"`
+	Type string `json:"type" url:"type"`
 	// value of additional information in JSON format
-	Value interface{} `json:"value,omitempty"`
+	Value interface{} `json:"value,omitempty" url:"value,omitempty"`
 	// as of date of the attribute
-	Date *string `json:"date,omitempty"`
+	Date *string `json:"date,omitempty" url:"date,omitempty"`
 	// start date of the attribute
-	FromDate *string `json:"from_date,omitempty"`
+	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// end date of the attribute
-	ToDate *string `json:"to_date,omitempty"`
+	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -50,7 +50,7 @@ func (a *AddAttribute) String() string {
 
 // OK
 type AttributeResponse struct {
-	Data *AttributeResponseData `json:"data,omitempty"`
+	Data *AttributeResponseData `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -80,13 +80,13 @@ func (a *AttributeResponse) String() string {
 
 type UpdateAttribute struct {
 	// value of additional information in JSON format
-	Value interface{} `json:"value,omitempty"`
+	Value interface{} `json:"value,omitempty" url:"value,omitempty"`
 	// as of date of the attribute
-	Date *string `json:"date,omitempty"`
+	Date *string `json:"date,omitempty" url:"date,omitempty"`
 	// start date of the attribute
-	FromDate *string `json:"from_date,omitempty"`
+	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// end date of the attribute
-	ToDate *string `json:"to_date,omitempty"`
+	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 
 	_rawJSON json.RawMessage
 }
