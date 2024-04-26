@@ -11,28 +11,28 @@ import (
 
 type GetHistory struct {
 	// The type of events to filter on.
-	Events []*string `json:"-"`
+	Events []*string `json:"-" url:"events,omitempty"`
 	// An ISO 8601 encoded date string indicating the starting time period for the events. In the format YYYY-MM-DD
-	From *time.Time `json:"-"`
+	From *time.Time `json:"-" url:"from,omitempty" format:"date"`
 	// An ISO 8601 encoded date string indicating the ending time period for the events. In the format YYYY-MM-DD
-	To *time.Time `json:"-"`
+	To *time.Time `json:"-" url:"to,omitempty" format:"date"`
 	// Size to limit number of events returned
-	Size *int `json:"-"`
+	Size *int `json:"-" url:"size,omitempty"`
 	// Pagination token to retrieve the next page of results
-	Token *string `json:"-"`
+	Token *string `json:"-" url:"token,omitempty"`
 }
 
 type GetUsage struct {
 	// An ISO 8601 encoded date string indicating the starting time period to obtain usage stats. In the format YYYY-MM-DD
-	From *time.Time `json:"-"`
+	From *time.Time `json:"-" url:"from,omitempty" format:"date"`
 	// An ISO 8601 encoded date string indicating the ending time period to obtain usage stats. In the format YYYY-MM-DD
-	To *time.Time `json:"-"`
+	To *time.Time `json:"-" url:"to,omitempty" format:"date"`
 }
 
 type HistoryResponse struct {
-	Size      int            `json:"size"`
-	NextToken string         `json:"next_token"`
-	Events    []*HistoryInfo `json:"events,omitempty"`
+	Size      int            `json:"size" url:"size"`
+	NextToken string         `json:"next_token" url:"next_token"`
+	Events    []*HistoryInfo `json:"events,omitempty" url:"events,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -62,11 +62,11 @@ func (h *HistoryResponse) String() string {
 
 type UsageResponse struct {
 	// Usage information for each endpoint
-	Usage *UsageInfo `json:"usage,omitempty"`
+	Usage *UsageInfo `json:"usage,omitempty" url:"usage,omitempty"`
 	// The start date of the returned usage information.
-	From string `json:"from"`
+	From string `json:"from" url:"from"`
 	// The end date of the returned usage information.
-	To string `json:"to"`
+	To string `json:"to" url:"to"`
 
 	_rawJSON json.RawMessage
 }

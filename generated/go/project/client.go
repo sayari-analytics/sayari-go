@@ -13,7 +13,6 @@ import (
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
-	url "net/url"
 )
 
 type Client struct {
@@ -31,7 +30,6 @@ func NewClient(opts ...option.RequestOption) *Client {
 				Client:      options.HTTPClient,
 				MaxAttempts: options.MaxAttempts,
 			},
-			options.RateLimiter,
 		),
 		header: options.ToHeader(),
 	}
@@ -146,18 +144,9 @@ func (c *Client) GetProjects(
 	}
 	endpointURL := baseURL + "/" + "v1/projects"
 
-	queryParams := make(url.Values)
-	if request.Next != nil {
-		queryParams.Add("next", fmt.Sprintf("%v", *request.Next))
-	}
-	if request.Prev != nil {
-		queryParams.Add("prev", fmt.Sprintf("%v", *request.Prev))
-	}
-	if request.Limit != nil {
-		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
-	}
-	if request.Archived != nil {
-		queryParams.Add("archived", fmt.Sprintf("%v", *request.Archived))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
@@ -256,42 +245,9 @@ func (c *Client) GetProjectEntities(
 	}
 	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/projects/%v/contents/entity", id)
 
-	queryParams := make(url.Values)
-	if request.Next != nil {
-		queryParams.Add("next", fmt.Sprintf("%v", *request.Next))
-	}
-	if request.Prev != nil {
-		queryParams.Add("prev", fmt.Sprintf("%v", *request.Prev))
-	}
-	if request.Limit != nil {
-		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
-	}
-	for _, value := range request.EntityTypes {
-		queryParams.Add("entity_types", fmt.Sprintf("%v", *value))
-	}
-	if request.GeoFacets != nil {
-		queryParams.Add("geo_facets", fmt.Sprintf("%v", *request.GeoFacets))
-	}
-	for _, value := range request.HsCodes {
-		queryParams.Add("hs_codes", fmt.Sprintf("%v", *value))
-	}
-	for _, value := range request.ReceivedHsCodes {
-		queryParams.Add("received_hs_codes", fmt.Sprintf("%v", *value))
-	}
-	for _, value := range request.ShippedHsCodes {
-		queryParams.Add("shipped_hs_codes", fmt.Sprintf("%v", *value))
-	}
-	if request.Translation != nil {
-		queryParams.Add("translation", fmt.Sprintf("%v", *request.Translation))
-	}
-	if request.Sort != nil {
-		queryParams.Add("sort", fmt.Sprintf("%v", *request.Sort))
-	}
-	for _, value := range request.Filters {
-		queryParams.Add("filters", fmt.Sprintf("%v", *value))
-	}
-	for _, value := range request.Aggregations {
-		queryParams.Add("aggregations", fmt.Sprintf("%v", *value))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()

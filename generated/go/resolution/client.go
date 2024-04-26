@@ -7,13 +7,11 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
-	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
-	url "net/url"
 )
 
 type Client struct {
@@ -31,7 +29,6 @@ func NewClient(opts ...option.RequestOption) *Client {
 				Client:      options.HTTPClient,
 				MaxAttempts: options.MaxAttempts,
 			},
-			options.RateLimiter,
 		),
 		header: options.ToHeader(),
 	}
@@ -54,27 +51,9 @@ func (c *Client) Resolution(
 	}
 	endpointURL := baseURL + "/" + "v1/resolution"
 
-	queryParams := make(url.Values)
-	for _, value := range request.Name {
-		queryParams.Add("name", fmt.Sprintf("%v", *value))
-	}
-	for _, value := range request.Identifier {
-		queryParams.Add("identifier", fmt.Sprintf("%v", *value))
-	}
-	for _, value := range request.Country {
-		queryParams.Add("country", fmt.Sprintf("%v", *value))
-	}
-	for _, value := range request.Address {
-		queryParams.Add("address", fmt.Sprintf("%v", *value))
-	}
-	for _, value := range request.DateOfBirth {
-		queryParams.Add("date_of_birth", fmt.Sprintf("%v", *value))
-	}
-	for _, value := range request.Contact {
-		queryParams.Add("contact", fmt.Sprintf("%v", *value))
-	}
-	for _, value := range request.Type {
-		queryParams.Add("type", fmt.Sprintf("%v", *value))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()

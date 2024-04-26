@@ -7,13 +7,11 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
-	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	io "io"
 	http "net/http"
-	url "net/url"
 )
 
 type Client struct {
@@ -31,7 +29,6 @@ func NewClient(opts ...option.RequestOption) *Client {
 				Client:      options.HTTPClient,
 				MaxAttempts: options.MaxAttempts,
 			},
-			options.RateLimiter,
 		),
 		header: options.ToHeader(),
 	}
@@ -54,12 +51,9 @@ func (c *Client) SearchEntity(
 	}
 	endpointURL := baseURL + "/" + "v1/search/entity"
 
-	queryParams := make(url.Values)
-	if request.Limit != nil {
-		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
-	}
-	if request.Offset != nil {
-		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
@@ -157,25 +151,9 @@ func (c *Client) SearchEntityGet(
 	}
 	endpointURL := baseURL + "/" + "v1/search/entity"
 
-	queryParams := make(url.Values)
-	if request.Limit != nil {
-		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
-	}
-	if request.Offset != nil {
-		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
-	}
-	queryParams.Add("q", fmt.Sprintf("%v", request.Q))
-	for _, value := range request.Fields {
-		queryParams.Add("fields", fmt.Sprintf("%v", *value))
-	}
-	if request.Facets != nil {
-		queryParams.Add("facets", fmt.Sprintf("%v", *request.Facets))
-	}
-	if request.GeoFacets != nil {
-		queryParams.Add("geo_facets", fmt.Sprintf("%v", *request.GeoFacets))
-	}
-	if request.Advanced != nil {
-		queryParams.Add("advanced", fmt.Sprintf("%v", *request.Advanced))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
@@ -272,12 +250,9 @@ func (c *Client) SearchRecord(
 	}
 	endpointURL := baseURL + "/" + "v1/search/record"
 
-	queryParams := make(url.Values)
-	if request.Limit != nil {
-		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
-	}
-	if request.Offset != nil {
-		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
@@ -375,22 +350,9 @@ func (c *Client) SearchRecordGet(
 	}
 	endpointURL := baseURL + "/" + "v1/search/record"
 
-	queryParams := make(url.Values)
-	if request.Limit != nil {
-		queryParams.Add("limit", fmt.Sprintf("%v", *request.Limit))
-	}
-	if request.Offset != nil {
-		queryParams.Add("offset", fmt.Sprintf("%v", *request.Offset))
-	}
-	queryParams.Add("q", fmt.Sprintf("%v", request.Q))
-	for _, value := range request.Fields {
-		queryParams.Add("fields", fmt.Sprintf("%v", *value))
-	}
-	if request.Facets != nil {
-		queryParams.Add("facets", fmt.Sprintf("%v", *request.Facets))
-	}
-	if request.Advanced != nil {
-		queryParams.Add("advanced", fmt.Sprintf("%v", *request.Advanced))
+	queryParams, err := core.QueryValues(request)
+	if err != nil {
+		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()

@@ -53,10 +53,3 @@ func WithClientName(clientName string) *core.ClientNameOption {
 		ClientName: clientName,
 	}
 }
-
-// WithRateLimiter will provide a rate limiter for the client.
-func WithRateLimiter(rateLimiter *core.RateLimiter) *core.RateLimiterOption {
-	return &core.RateLimiterOption{
-		RateLimiter: rateLimiter,
-	}
-}

@@ -9,19 +9,53 @@ import (
 )
 
 type GetToken struct {
-	ClientId     ClientId     `json:"client_id"`
-	ClientSecret ClientSecret `json:"client_secret"`
-	Audience     Audience     `json:"audience,omitempty"`
-	GrantType    GrantType    `json:"grant_type,omitempty"`
+	ClientId     string `json:"client_id" url:"client_id"`
+	ClientSecret string `json:"client_secret" url:"client_secret"`
+	audience     string
+	grantType    string
+}
+
+func (g *GetToken) Audience() string {
+	return g.audience
+}
+
+func (g *GetToken) GrantType() string {
+	return g.grantType
+}
+
+func (g *GetToken) UnmarshalJSON(data []byte) error {
+	type unmarshaler GetToken
+	var body unmarshaler
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*g = GetToken(body)
+	g.audience = "sayari.com"
+	g.grantType = "client_credentials"
+	return nil
+}
+
+func (g *GetToken) MarshalJSON() ([]byte, error) {
+	type embed GetToken
+	var marshaler = struct {
+		embed
+		Audience  string `json:"audience"`
+		GrantType string `json:"grant_type"`
+	}{
+		embed:     embed(*g),
+		Audience:  "sayari.com",
+		GrantType: "client_credentials",
+	}
+	return json.Marshal(marshaler)
 }
 
 type AuthResponse struct {
 	// The bearer token you will pass in to subsequent API calls to authenticate.
-	AccessToken string `json:"access_token"`
+	AccessToken string `json:"access_token" url:"access_token"`
 	// Tells you how long (in seconds) until your bearer token expires.
-	ExpiresIn int `json:"expires_in"`
+	ExpiresIn int `json:"expires_in" url:"expires_in"`
 	// Will always be "Bearer"
-	TokenType string `json:"token_type"`
+	TokenType string `json:"token_type" url:"token_type"`
 
 	_rawJSON json.RawMessage
 }
@@ -47,50 +81,4 @@ func (a *AuthResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", a)
-}
-
-// Will always be "sayari.com"
-type Audience string
-
-const (
-	AudienceSayari Audience = "sayari.com"
-)
-
-func NewAudienceFromString(s string) (Audience, error) {
-	switch s {
-	case "sayari.com":
-		return AudienceSayari, nil
-	}
-	var t Audience
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (a Audience) Ptr() *Audience {
-	return &a
-}
-
-// The client ID you use to authenticate against the Sayari API.
-type ClientId = string
-
-// The client Secret you use to authenticate against the Sayari API.
-type ClientSecret = string
-
-// Will always be "client_credentials"
-type GrantType string
-
-const (
-	GrantTypeClientCredentials GrantType = "client_credentials"
-)
-
-func NewGrantTypeFromString(s string) (GrantType, error) {
-	switch s {
-	case "client_credentials":
-		return GrantTypeClientCredentials, nil
-	}
-	var t GrantType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GrantType) Ptr() *GrantType {
-	return &g
 }
