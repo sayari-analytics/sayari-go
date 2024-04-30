@@ -24,7 +24,7 @@ func Connect(id, secret string) (*Connection, error) {
 	}
 
 	connection := &Connection{
-		client.NewClient(option.WithToken(tokenResponse.AccessToken),
+		client.NewClient(option.WithHTTPHeader(map[string][]string{"Authorization": []string{tokenResponse.AccessToken}}),
 			option.WithClientName(string(sayari.ClientNameGo)),
 		),
 		id,

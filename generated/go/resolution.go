@@ -26,29 +26,26 @@ type Resolution struct {
 }
 
 type BothIdentifierTypes struct {
-	typeName           string
 	IdentifierType     IdentifierType
 	WeakIdentifierType WeakIdentifierType
 }
 
 func NewBothIdentifierTypesFromIdentifierType(value IdentifierType) *BothIdentifierTypes {
-	return &BothIdentifierTypes{typeName: "identifierType", IdentifierType: value}
+	return &BothIdentifierTypes{IdentifierType: value}
 }
 
 func NewBothIdentifierTypesFromWeakIdentifierType(value WeakIdentifierType) *BothIdentifierTypes {
-	return &BothIdentifierTypes{typeName: "weakIdentifierType", WeakIdentifierType: value}
+	return &BothIdentifierTypes{WeakIdentifierType: value}
 }
 
 func (b *BothIdentifierTypes) UnmarshalJSON(data []byte) error {
 	var valueIdentifierType IdentifierType
 	if err := json.Unmarshal(data, &valueIdentifierType); err == nil {
-		b.typeName = "identifierType"
 		b.IdentifierType = valueIdentifierType
 		return nil
 	}
 	var valueWeakIdentifierType WeakIdentifierType
 	if err := json.Unmarshal(data, &valueWeakIdentifierType); err == nil {
-		b.typeName = "weakIdentifierType"
 		b.WeakIdentifierType = valueWeakIdentifierType
 		return nil
 	}
@@ -56,14 +53,13 @@ func (b *BothIdentifierTypes) UnmarshalJSON(data []byte) error {
 }
 
 func (b BothIdentifierTypes) MarshalJSON() ([]byte, error) {
-	switch b.typeName {
-	default:
-		return nil, fmt.Errorf("invalid type %s in %T", b.typeName, b)
-	case "identifierType":
+	if b.IdentifierType != "" {
 		return json.Marshal(b.IdentifierType)
-	case "weakIdentifierType":
+	}
+	if b.WeakIdentifierType != "" {
 		return json.Marshal(b.WeakIdentifierType)
 	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", b)
 }
 
 type BothIdentifierTypesVisitor interface {
@@ -72,14 +68,13 @@ type BothIdentifierTypesVisitor interface {
 }
 
 func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
-	switch b.typeName {
-	default:
-		return fmt.Errorf("invalid type %s in %T", b.typeName, b)
-	case "identifierType":
+	if b.IdentifierType != "" {
 		return visitor.VisitIdentifierType(b.IdentifierType)
-	case "weakIdentifierType":
+	}
+	if b.WeakIdentifierType != "" {
 		return visitor.VisitWeakIdentifierType(b.WeakIdentifierType)
 	}
+	return fmt.Errorf("type %T does not include a non-empty union type", b)
 }
 
 // OK

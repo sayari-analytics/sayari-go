@@ -22,7 +22,7 @@ type GetSourceResponse struct {
 	Label       string `json:"label" url:"label"`
 	Description string `json:"description" url:"description"`
 	// Source [country](/sayari-library/ontology/enumerated-types#country)
-	Country    Country `json:"country,omitempty" url:"country,omitempty"`
+	Country    Country `json:"country" url:"country"`
 	Region     string  `json:"region" url:"region"`
 	DateAdded  string  `json:"date_added" url:"date_added"`
 	SourceType string  `json:"source_type" url:"source_type"`

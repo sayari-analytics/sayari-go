@@ -124,7 +124,7 @@ func (p *PaginatedResponse) String() string {
 
 type QualifiedCount struct {
 	Count     int            `json:"count" url:"count"`
-	Qualifier CountQualifier `json:"qualifier,omitempty" url:"qualifier,omitempty"`
+	Qualifier CountQualifier `json:"qualifier" url:"qualifier"`
 
 	_rawJSON json.RawMessage
 }
@@ -2323,7 +2323,7 @@ type CountryProperties struct {
 	// end date
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The country, ideally normalized to an ISO trigram
-	Value Country `json:"value,omitempty" url:"value,omitempty"`
+	Value Country `json:"value" url:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -3647,7 +3647,7 @@ type GenderProperties struct {
 	// end date
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// May be described as "female", "male", or "other"
-	Value Gender `json:"value,omitempty" url:"value,omitempty"`
+	Value Gender `json:"value" url:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -6976,9 +6976,9 @@ type MeasurementProperties struct {
 	// end date
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// Type of the measurement
-	Type MeasurementType `json:"type,omitempty" url:"type,omitempty"`
+	Type MeasurementType `json:"type" url:"type"`
 	// The unit of the measurement
-	Unit Unit `json:"unit,omitempty" url:"unit,omitempty"`
+	Unit Unit `json:"unit" url:"unit"`
 	// The value of the measurement
 	Value float64 `json:"value" url:"value"`
 
@@ -7130,7 +7130,7 @@ func (m *MonetaryValueInfo) String() string {
 
 type MonetaryValueProperties struct {
 	// The type of value
-	Context MonetaryValueContext `json:"context,omitempty" url:"context,omitempty"`
+	Context MonetaryValueContext `json:"context" url:"context"`
 	// The ISO 4217 currency code
 	Currency *Currency `json:"currency,omitempty" url:"currency,omitempty"`
 	// as-of date
@@ -7421,7 +7421,7 @@ type PersonStatusProperties struct {
 	// end date
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The event
-	Value PersonStatus `json:"value,omitempty" url:"value,omitempty"`
+	Value PersonStatus `json:"value" url:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -8243,7 +8243,7 @@ type RiskIntelligenceProperties struct {
 	// end date
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// Type of risk intelligence
-	Type Tag `json:"type,omitempty" url:"type,omitempty"`
+	Type Tag `json:"type" url:"type"`
 
 	_rawJSON json.RawMessage
 }
@@ -8839,7 +8839,7 @@ type WeakIdentifierProperties struct {
 	// end date
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The type of the identifier, including the country/jurisdiction that issued it
-	Type WeakIdentifierType `json:"type,omitempty" url:"type,omitempty"`
+	Type WeakIdentifierType `json:"type" url:"type"`
 	// The text value of the identifier
 	Value string `json:"value" url:"value"`
 
@@ -9383,9 +9383,9 @@ func (u *UsageInfo) String() string {
 
 type Notification struct {
 	// The type of notification, currently limited to 'risk'
-	Type NotificationType `json:"type,omitempty" url:"type,omitempty"`
+	Type NotificationType `json:"type" url:"type"`
 	// The field that the notification is for
-	Field Risk `json:"field,omitempty" url:"field,omitempty"`
+	Field Risk `json:"field" url:"field"`
 	// The previous values of the field
 	Values []*RiskValue `json:"values,omitempty" url:"values,omitempty"`
 	// The date the notification was created
@@ -9510,9 +9510,9 @@ type ResourceNotificationData struct {
 	// The ID of the entity
 	EntityId string `json:"entityId" url:"entityId"`
 	// The type of notification, currently limited to 'risk'
-	Type NotificationType `json:"type,omitempty" url:"type,omitempty"`
+	Type NotificationType `json:"type" url:"type"`
 	// The field that the notification is for
-	Field Risk `json:"field,omitempty" url:"field,omitempty"`
+	Field Risk `json:"field" url:"field"`
 	// The previous value of the field
 	Value *RiskValue `json:"value,omitempty" url:"value,omitempty"`
 	// The date the notification was created
@@ -9917,6 +9917,7 @@ func (p *ProjectEntity) UnmarshalJSON(data []byte) error {
 	}
 	*p = ProjectEntity(unmarshaler.embed)
 	p.type_ = "entity"
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10044,8 +10045,8 @@ func (r Role) Ptr() *Role {
 
 type RoleMember struct {
 	Id      string         `json:"id" url:"id"`
-	Type    RoleMemberType `json:"type,omitempty" url:"type,omitempty"`
-	Role    Role           `json:"role,omitempty" url:"role,omitempty"`
+	Type    RoleMemberType `json:"type" url:"type"`
+	Role    Role           `json:"role" url:"role"`
 	Created string         `json:"created" url:"created"`
 	Updated string         `json:"updated" url:"updated"`
 
@@ -10207,7 +10208,7 @@ type ResolutionResult struct {
 	Score               float64                        `json:"score" url:"score"`
 	EntityId            string                         `json:"entity_id" url:"entity_id"`
 	Label               string                         `json:"label" url:"label"`
-	Type                Entities                       `json:"type,omitempty" url:"type,omitempty"`
+	Type                Entities                       `json:"type" url:"type"`
 	Identifiers         []*Identifier                  `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	PsaId               *float64                       `json:"psa_id,omitempty" url:"psa_id,omitempty"`
 	Addresses           []string                       `json:"addresses,omitempty" url:"addresses,omitempty"`
@@ -10264,7 +10265,7 @@ func (r ResourceType) Ptr() *ResourceType {
 }
 
 type SaveEntityResponseData struct {
-	Type       ResourceType `json:"type,omitempty" url:"type,omitempty"`
+	Type       ResourceType `json:"type" url:"type"`
 	Id         string       `json:"id" url:"id"`
 	Project    string       `json:"project" url:"project"`
 	Label      string       `json:"label" url:"label"`
@@ -10352,7 +10353,7 @@ type SearchResults struct {
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned" url:"sanctioned"`
 	// The [entity type](/sayari-library/ontology/entities).
-	Type        Entities      `json:"type,omitempty" url:"type,omitempty"`
+	Type        Entities      `json:"type" url:"type"`
 	Identifiers []*Identifier `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
@@ -10602,7 +10603,7 @@ type CoreEntity struct {
 	// User or group that created the entity, if applicable. Undefined for Sayari entities.
 	Owner *string `json:"owner,omitempty" url:"owner,omitempty"`
 	// The [entity type](/sayari-library/ontology/entities).
-	Type Entities `json:"type,omitempty" url:"type,omitempty"`
+	Type Entities `json:"type" url:"type"`
 	// Display name of the entity
 	Label string `json:"label" url:"label"`
 	// Name variations of the entity.
@@ -10690,7 +10691,7 @@ type EmbeddedEntity struct {
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned" url:"sanctioned"`
 	// The [entity type](/sayari-library/ontology/entities).
-	Type        Entities      `json:"type,omitempty" url:"type,omitempty"`
+	Type        Entities      `json:"type" url:"type"`
 	Identifiers []*Identifier `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
@@ -10756,7 +10757,7 @@ type EntityDetails struct {
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned" url:"sanctioned"`
 	// The [entity type](/sayari-library/ontology/entities).
-	Type        Entities      `json:"type,omitempty" url:"type,omitempty"`
+	Type        Entities      `json:"type" url:"type"`
 	Identifiers []*Identifier `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
@@ -10979,7 +10980,7 @@ type PsaEntity struct {
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned" url:"sanctioned"`
 	// The [entity type](/sayari-library/ontology/entities).
-	Type        Entities      `json:"type,omitempty" url:"type,omitempty"`
+	Type        Entities      `json:"type" url:"type"`
 	Identifiers []*Identifier `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
@@ -11236,7 +11237,7 @@ func (r *ReferencedBy) String() string {
 
 type ReferencedByData struct {
 	Record *RecordDetails       `json:"record,omitempty" url:"record,omitempty"`
-	Type   ReferencedByDataType `json:"type,omitempty" url:"type,omitempty"`
+	Type   ReferencedByDataType `json:"type" url:"type"`
 
 	_rawJSON json.RawMessage
 }
@@ -11367,7 +11368,7 @@ type RiskData struct {
 	Value    *RiskValue             `json:"value,omitempty" url:"value,omitempty"`
 	Metadata map[string]interface{} `json:"metadata,omitempty" url:"metadata,omitempty"`
 	// The severity of the risk.
-	Level RiskLevel `json:"level,omitempty" url:"level,omitempty"`
+	Level RiskLevel `json:"level" url:"level"`
 
 	_rawJSON json.RawMessage
 }
@@ -11424,40 +11425,36 @@ func (r RiskLevel) Ptr() *RiskLevel {
 }
 
 type RiskValue struct {
-	typeName string
-	String   string
-	Double   float64
-	Boolean  bool
+	String  string
+	Double  float64
+	Boolean bool
 }
 
 func NewRiskValueFromString(value string) *RiskValue {
-	return &RiskValue{typeName: "string", String: value}
+	return &RiskValue{String: value}
 }
 
 func NewRiskValueFromDouble(value float64) *RiskValue {
-	return &RiskValue{typeName: "double", Double: value}
+	return &RiskValue{Double: value}
 }
 
 func NewRiskValueFromBoolean(value bool) *RiskValue {
-	return &RiskValue{typeName: "boolean", Boolean: value}
+	return &RiskValue{Boolean: value}
 }
 
 func (r *RiskValue) UnmarshalJSON(data []byte) error {
 	var valueString string
 	if err := json.Unmarshal(data, &valueString); err == nil {
-		r.typeName = "string"
 		r.String = valueString
 		return nil
 	}
 	var valueDouble float64
 	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		r.typeName = "double"
 		r.Double = valueDouble
 		return nil
 	}
 	var valueBoolean bool
 	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		r.typeName = "boolean"
 		r.Boolean = valueBoolean
 		return nil
 	}
@@ -11465,16 +11462,16 @@ func (r *RiskValue) UnmarshalJSON(data []byte) error {
 }
 
 func (r RiskValue) MarshalJSON() ([]byte, error) {
-	switch r.typeName {
-	default:
-		return nil, fmt.Errorf("invalid type %s in %T", r.typeName, r)
-	case "string":
+	if r.String != "" {
 		return json.Marshal(r.String)
-	case "double":
+	}
+	if r.Double != 0 {
 		return json.Marshal(r.Double)
-	case "boolean":
+	}
+	if r.Boolean != false {
 		return json.Marshal(r.Boolean)
 	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", r)
 }
 
 type RiskValueVisitor interface {
@@ -11484,16 +11481,16 @@ type RiskValueVisitor interface {
 }
 
 func (r *RiskValue) Accept(visitor RiskValueVisitor) error {
-	switch r.typeName {
-	default:
-		return fmt.Errorf("invalid type %s in %T", r.typeName, r)
-	case "string":
+	if r.String != "" {
 		return visitor.VisitString(r.String)
-	case "double":
+	}
+	if r.Double != 0 {
 		return visitor.VisitDouble(r.Double)
-	case "boolean":
+	}
+	if r.Boolean != false {
 		return visitor.VisitBoolean(r.Boolean)
 	}
+	return fmt.Errorf("type %T does not include a non-empty union type", r)
 }
 
 type SearchField string
@@ -11604,7 +11601,7 @@ type Source struct {
 	Label       string `json:"label" url:"label"`
 	Description string `json:"description" url:"description"`
 	// Source [country](/sayari-library/ontology/enumerated-types#country)
-	Country    Country `json:"country,omitempty" url:"country,omitempty"`
+	Country    Country `json:"country" url:"country"`
 	Region     string  `json:"region" url:"region"`
 	DateAdded  string  `json:"date_added" url:"date_added"`
 	SourceType string  `json:"source_type" url:"source_type"`
@@ -11811,7 +11808,7 @@ func (s *ShipmentAddress) String() string {
 }
 
 type ShipmentCountry struct {
-	Value Country `json:"value,omitempty" url:"value,omitempty"`
+	Value Country `json:"value" url:"value"`
 
 	_rawJSON json.RawMessage
 }
@@ -11993,7 +11990,7 @@ type SupplierOrBuyer struct {
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned" url:"sanctioned"`
 	// The [entity type](/sayari-library/ontology/entities).
-	Type        Entities      `json:"type,omitempty" url:"type,omitempty"`
+	Type        Entities      `json:"type" url:"type"`
 	Identifiers []*Identifier `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`

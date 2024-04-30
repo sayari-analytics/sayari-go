@@ -9,7 +9,7 @@ import (
 )
 
 type SaveEntityRequest struct {
-	Type ResourceType `json:"type,omitempty" url:"type,omitempty"`
+	Type ResourceType `json:"type" url:"type"`
 	// The project identifier.
 	Project string `json:"project" url:"project"`
 	// The entity identifier.
