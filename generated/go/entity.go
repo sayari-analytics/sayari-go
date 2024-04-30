@@ -98,7 +98,7 @@ type EntitySummaryResponse struct {
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned" url:"sanctioned"`
 	// The [entity type](/sayari-library/ontology/entities).
-	Type        Entities      `json:"type,omitempty" url:"type,omitempty"`
+	Type        Entities      `json:"type" url:"type"`
 	Identifiers []*Identifier `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
@@ -179,7 +179,7 @@ type GetEntityResponse struct {
 	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
 	Sanctioned bool `json:"sanctioned" url:"sanctioned"`
 	// The [entity type](/sayari-library/ontology/entities).
-	Type        Entities      `json:"type,omitempty" url:"type,omitempty"`
+	Type        Entities      `json:"type" url:"type"`
 	Identifiers []*Identifier `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	// Entity [country](/sayari-library/ontology/enumerated-types#country)
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`

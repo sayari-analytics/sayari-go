@@ -40,13 +40,6 @@ func WithMaxAttempts(attempts uint) *core.MaxAttemptsOption {
 	}
 }
 
-// WithToken sets the 'Authorization: Bearer <token>' request header.
-func WithToken(token string) *core.TokenOption {
-	return &core.TokenOption{
-		Token: token,
-	}
-}
-
 // WithClientName sets the clientName request header.
 func WithClientName(clientName string) *core.ClientNameOption {
 	return &core.ClientNameOption{
