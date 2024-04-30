@@ -3922,7 +3922,7 @@ const (
 	IdentifierTypeUkCompanyNumber IdentifierType = "uk_company_number"
 	// Unique UK ID number. Assigned to every firm in the FCA financial services registry.
 	IdentifierTypeUkFirmReferenceNumber IdentifierType = "uk_firm_reference_number"
-	// Seems to be internal use, and is not perfectly applied
+	// Internal person ID
 	IdentifierTypeUkPersonNumber IdentifierType = "uk_person_number"
 	// A tax ID issued by the Mexican Tax Administration Service
 	IdentifierTypeMxRfcPerson IdentifierType = "mx_rfc_person"
@@ -4994,6 +4994,12 @@ const (
 	IdentifierTypeSyriaCommercialRegisterNumber IdentifierType = "syria_commercial_register_number"
 	// Unique internal company ID number. Assigned to every company in China Xinjiang Department of Housing and Urban-Rural Development Company Database
 	IdentifierTypeCnHurdInternalCompanyId IdentifierType = "cn_hurd_internal_company_id"
+	// Unique Hungary Tax ID. Issued to companies registered in Hungary.
+	IdentifierTypeHunTaxNumber IdentifierType = "hun_tax_number"
+	// Unique HUN registration number. Assigned to every legal entity registered with the Ministry of Justice of Hungary.
+	IdentifierTypeHunCompanyRegisterNumber IdentifierType = "hun_company_register_number"
+	// Unique TIN. Issued for individuals by Hungarian Tax Authorities.
+	IdentifierTypeHunPersonTaxId IdentifierType = "hun_person_tax_id"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6128,6 +6134,12 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeSyriaCommercialRegisterNumber, nil
 	case "cn_hurd_internal_company_id":
 		return IdentifierTypeCnHurdInternalCompanyId, nil
+	case "hun_tax_number":
+		return IdentifierTypeHunTaxNumber, nil
+	case "hun_company_register_number":
+		return IdentifierTypeHunCompanyRegisterNumber, nil
+	case "hun_person_tax_id":
+		return IdentifierTypeHunPersonTaxId, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -7851,6 +7863,7 @@ const (
 	RiskForcedLaborXinjiangGeospatial                                 Risk = "forced_labor_xinjiang_geospatial"
 	RiskEuHighRiskThird                                               Risk = "eu_high_risk_third"
 	RiskSheffieldHallamUniversityUsefulResources                      Risk = "sheffield_hallam_university_useful_resources"
+	RiskExportsToEntityLicensedWithFsbRf                              Risk = "exports_to_entity_licensed_with_fsb_rf"
 	RiskOwnerOfAspiForcedLaborEntity                                  Risk = "owner_of_aspi_forced_labor_entity"
 	RiskSanctioned                                                    Risk = "sanctioned"
 	RiskReputationalRiskFinancialCrime                                Risk = "reputational_risk_financial_crime"
@@ -7897,6 +7910,7 @@ const (
 	RiskPep                                                           Risk = "pep"
 	RiskOwnedByEntityInExportControls                                 Risk = "owned_by_entity_in_export_controls"
 	RiskPsaForcedLaborAspiUyghur                                      Risk = "psa_forced_labor_aspi_uyghur"
+	RiskForcedLaborXinjiangOperations                                 Risk = "forced_labor_xinjiang_operations"
 	RiskForcedLaborWroOriginSubtier                                   Risk = "forced_labor_wro_origin_subtier"
 	RiskReputationalRiskOther                                         Risk = "reputational_risk_other"
 	RiskExportToSanctioned                                            Risk = "export_to_sanctioned"
@@ -7909,6 +7923,7 @@ const (
 	RiskCpiScore                                                      Risk = "cpi_score"
 	RiskPsaSheffieldHallamUniversityUsefulResources                   Risk = "psa_sheffield_hallam_university_useful_resources"
 	RiskPsaWroEntity                                                  Risk = "psa_wro_entity"
+	RiskPsaEntityLicensedWithFsbRf                                    Risk = "psa_entity_licensed_with_fsb_rf"
 	RiskPsaForcedLaborXinjiangUflpa                                   Risk = "psa_forced_labor_xinjiang_uflpa"
 	RiskOwnerOfWroEntity                                              Risk = "owner_of_wro_entity"
 	RiskForcedLaborXinjiangRegistration                               Risk = "forced_labor_xinjiang_registration"
@@ -7922,11 +7937,13 @@ const (
 	RiskOwnerOfForcedLaborXinjiangEntity                              Risk = "owner_of_forced_labor_xinjiang_entity"
 	RiskLawEnforcementAction                                          Risk = "law_enforcement_action"
 	RiskOwnedBySoe                                                    Risk = "owned_by_soe"
+	RiskEntityLicensedWithFsbRf                                       Risk = "entity_licensed_with_fsb_rf"
 	RiskPsaForcedLaborXinjiangRegistration                            Risk = "psa_forced_labor_xinjiang_registration"
 	RiskForcedLaborSheffieldHallamUniversityReportsOriginDirect       Risk = "forced_labor_sheffield_hallam_university_reports_origin_direct"
 	RiskPsaForcedLaborXinjiangGeospatial                              Risk = "psa_forced_labor_xinjiang_geospatial"
 	RiskWroEntityAdjacent                                             Risk = "wro_entity_adjacent"
 	RiskReputationalRiskCybercrime                                    Risk = "reputational_risk_cybercrime"
+	RiskPsaForcedLaborXinjiangOperations                              Risk = "psa_forced_labor_xinjiang_operations"
 	RiskOwnerOfSoe                                                    Risk = "owner_of_soe"
 	RiskForcedLaborAspiOriginDirect                                   Risk = "forced_labor_aspi_origin_direct"
 	RiskExportsBisHighPriorityItems                                   Risk = "exports_bis_high_priority_items"
@@ -7953,6 +7970,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskEuHighRiskThird, nil
 	case "sheffield_hallam_university_useful_resources":
 		return RiskSheffieldHallamUniversityUsefulResources, nil
+	case "exports_to_entity_licensed_with_fsb_rf":
+		return RiskExportsToEntityLicensedWithFsbRf, nil
 	case "owner_of_aspi_forced_labor_entity":
 		return RiskOwnerOfAspiForcedLaborEntity, nil
 	case "sanctioned":
@@ -8045,6 +8064,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedByEntityInExportControls, nil
 	case "psa_forced_labor_aspi_uyghur":
 		return RiskPsaForcedLaborAspiUyghur, nil
+	case "forced_labor_xinjiang_operations":
+		return RiskForcedLaborXinjiangOperations, nil
 	case "forced_labor_wro_origin_subtier":
 		return RiskForcedLaborWroOriginSubtier, nil
 	case "reputational_risk_other":
@@ -8069,6 +8090,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaSheffieldHallamUniversityUsefulResources, nil
 	case "psa_wro_entity":
 		return RiskPsaWroEntity, nil
+	case "psa_entity_licensed_with_fsb_rf":
+		return RiskPsaEntityLicensedWithFsbRf, nil
 	case "psa_forced_labor_xinjiang_uflpa":
 		return RiskPsaForcedLaborXinjiangUflpa, nil
 	case "owner_of_wro_entity":
@@ -8095,6 +8118,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskLawEnforcementAction, nil
 	case "owned_by_soe":
 		return RiskOwnedBySoe, nil
+	case "entity_licensed_with_fsb_rf":
+		return RiskEntityLicensedWithFsbRf, nil
 	case "psa_forced_labor_xinjiang_registration":
 		return RiskPsaForcedLaborXinjiangRegistration, nil
 	case "forced_labor_sheffield_hallam_university_reports_origin_direct":
@@ -8105,6 +8130,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskWroEntityAdjacent, nil
 	case "reputational_risk_cybercrime":
 		return RiskReputationalRiskCybercrime, nil
+	case "psa_forced_labor_xinjiang_operations":
+		return RiskPsaForcedLaborXinjiangOperations, nil
 	case "owner_of_soe":
 		return RiskOwnerOfSoe, nil
 	case "forced_labor_aspi_origin_direct":
@@ -9053,6 +9080,8 @@ const (
 	WeakIdentifierTypeCriOpNo WeakIdentifierType = "cri_op_no"
 	// Weak AUS state registration number. Registration number assigned when legal entity is originally registered by the Australian State.
 	WeakIdentifierTypeAusStateRegNumber WeakIdentifierType = "aus_state_reg_number"
+	// Internal ID for Hungarian companies by Opten Ltd
+	WeakIdentifierTypeHunOptenId WeakIdentifierType = "hun_opten_id"
 	// A temporary malformed type
 	WeakIdentifierTypeMalformedMmrPriorRegNo WeakIdentifierType = "malformed mmr_prior_reg_no"
 )
@@ -9267,6 +9296,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeCriOpNo, nil
 	case "aus_state_reg_number":
 		return WeakIdentifierTypeAusStateRegNumber, nil
+	case "hun_opten_id":
+		return WeakIdentifierTypeHunOptenId, nil
 	case "malformed mmr_prior_reg_no":
 		return WeakIdentifierTypeMalformedMmrPriorRegNo, nil
 	}
