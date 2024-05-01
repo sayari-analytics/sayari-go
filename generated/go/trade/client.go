@@ -34,7 +34,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// Search for a shipment. Please note, searches are limited to a maximum of 10,000 results.
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Search for a shipment. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchShipments(
 	ctx context.Context,
 	request *generatedgo.SearchShipments,
@@ -127,7 +127,7 @@ func (c *Client) SearchShipments(
 	return response, nil
 }
 
-// Search for a supplier. Please note, searches are limited to a maximum of 10,000 results.
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Search for a supplier. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchSuppliers(
 	ctx context.Context,
 	request *generatedgo.SearchSuppliers,
@@ -220,7 +220,7 @@ func (c *Client) SearchSuppliers(
 	return response, nil
 }
 
-// Search for a buyer. Please note, searches are limited to a maximum of 10,000 results.
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Search for a buyer. Please note, searches are limited to a maximum of 10,000 results.
 func (c *Client) SearchBuyers(
 	ctx context.Context,
 	request *generatedgo.SearchBuyers,

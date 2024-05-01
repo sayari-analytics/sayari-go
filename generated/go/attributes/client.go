@@ -35,7 +35,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// Adds a new Attribute
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Adds a new Attribute
 func (c *Client) PostAttribute(
 	ctx context.Context,
 	request *generatedgo.AddAttribute,
@@ -134,7 +134,7 @@ func (c *Client) PostAttribute(
 	return response, nil
 }
 
-// Updates an existing Attribute
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Updates an existing Attribute
 func (c *Client) PatchAttribute(
 	ctx context.Context,
 	attributeId string,
@@ -241,7 +241,7 @@ func (c *Client) PatchAttribute(
 	return response, nil
 }
 
-// Delete an existing Attribute
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Delete an existing Attribute
 func (c *Client) DeleteAttribute(
 	ctx context.Context,
 	attributeId string,

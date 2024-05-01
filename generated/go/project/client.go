@@ -35,7 +35,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// Create a new project.
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Create a new project.
 func (c *Client) CreateProject(
 	ctx context.Context,
 	request *generatedgo.CreateProjectRequest,
@@ -127,7 +127,7 @@ func (c *Client) CreateProject(
 	return response, nil
 }
 
-// Retrieve a list of projects including upload progress info.
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Retrieve a list of projects including upload progress info.
 func (c *Client) GetProjects(
 	ctx context.Context,
 	request *generatedgo.GetProjects,
@@ -226,7 +226,7 @@ func (c *Client) GetProjects(
 	return response, nil
 }
 
-// Retrieve a list of entities in a project.
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Retrieve a list of entities in a project.
 func (c *Client) GetProjectEntities(
 	ctx context.Context,
 	// The project identifier.
