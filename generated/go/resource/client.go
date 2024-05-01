@@ -34,7 +34,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// Save an entity to a project.
+// <Callout intent="warning">This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Callout> Save an entity to a project.
 func (c *Client) SaveEntity(
 	ctx context.Context,
 	request *generatedgo.SaveEntityRequest,
