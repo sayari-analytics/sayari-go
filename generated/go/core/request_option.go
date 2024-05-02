@@ -3,7 +3,6 @@
 package core
 
 import (
-	fmt "fmt"
 	http "net/http"
 )
 
@@ -21,7 +20,6 @@ type RequestOptions struct {
 	HTTPClient  HTTPClient
 	HTTPHeader  http.Header
 	MaxAttempts uint
-	ClientName  string
 }
 
 // NewRequestOptions returns a new *RequestOptions value.
@@ -42,7 +40,6 @@ func NewRequestOptions(opts ...RequestOption) *RequestOptions {
 // for the request(s).
 func (r *RequestOptions) ToHeader() http.Header {
 	header := r.cloneHeader()
-	header.Set("client-name", fmt.Sprintf("%v", r.ClientName))
 	return header
 }
 
@@ -84,13 +81,4 @@ type MaxAttemptsOption struct {
 
 func (m *MaxAttemptsOption) applyRequestOptions(opts *RequestOptions) {
 	opts.MaxAttempts = m.MaxAttempts
-}
-
-// ClientNameOption implements the RequestOption interface.
-type ClientNameOption struct {
-	ClientName string
-}
-
-func (c *ClientNameOption) applyRequestOptions(opts *RequestOptions) {
-	opts.ClientName = c.ClientName
 }
