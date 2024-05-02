@@ -39,10 +39,3 @@ func WithMaxAttempts(attempts uint) *core.MaxAttemptsOption {
 		MaxAttempts: attempts,
 	}
 }
-
-// WithClientName sets the clientName request header.
-func WithClientName(clientName string) *core.ClientNameOption {
-	return &core.ClientNameOption{
-		ClientName: clientName,
-	}
-}

@@ -26,10 +26,7 @@ func Connect(id, secret string) (*Connection, error) {
 	}
 
 	connection := &Connection{
-		client.NewClient(
-			option.WithHTTPHeader(map[string][]string{"Authorization": {tokenResponse.AccessToken}}),
-			option.WithClientName(string(sayari.ClientNameGo)),
-		),
+		client.NewClient(option.WithHTTPHeader(map[string][]string{"Authorization": {tokenResponse.AccessToken}})),
 		id,
 		secret,
 	}
@@ -42,7 +39,7 @@ func Connect(id, secret string) (*Connection, error) {
 }
 
 func getToken(id, secret string) (*sayari.AuthResponse, error) {
-	authClient := auth.NewClient(option.WithClientName(string(sayari.ClientNameGo)))
+	authClient := auth.NewClient()
 	return authClient.GetToken(context.Background(), &sayari.GetToken{
 		ClientId:     id,
 		ClientSecret: secret,
@@ -64,10 +61,7 @@ func (c *Connection) maintainToken(expiresIn int) {
 	}
 
 	// update client
-	c.Client = client.NewClient(
-		option.WithHTTPHeader(map[string][]string{"Authorization": {tokenResponse.AccessToken}}),
-		option.WithClientName(string(sayari.ClientNameGo)),
-	)
+	c.Client = client.NewClient(option.WithHTTPHeader(map[string][]string{"Authorization": {tokenResponse.AccessToken}}))
 
 	// recurse
 	c.maintainToken(tokenResponse.ExpiresIn)
