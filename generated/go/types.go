@@ -780,6 +780,8 @@ const (
 	BusinessPurposeStandardPkd2007 BusinessPurposeStandard = "PKD2007"
 	// European System of Accounts
 	BusinessPurposeStandardEsa2010 BusinessPurposeStandard = "ESA2010"
+	// San Marino Codici ATECO
+	BusinessPurposeStandardAteco BusinessPurposeStandard = "ATECO"
 )
 
 func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, error) {
@@ -836,6 +838,8 @@ func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, er
 		return BusinessPurposeStandardPkd2007, nil
 	case "ESA2010":
 		return BusinessPurposeStandardEsa2010, nil
+	case "ATECO":
+		return BusinessPurposeStandardAteco, nil
 	}
 	var t BusinessPurposeStandard
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
