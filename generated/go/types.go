@@ -5004,6 +5004,16 @@ const (
 	IdentifierTypeHunCompanyRegisterNumber IdentifierType = "hun_company_register_number"
 	// Unique TIN. Issued for individuals by Hungarian Tax Authorities.
 	IdentifierTypeHunPersonTaxId IdentifierType = "hun_person_tax_id"
+	// Malawi Tax Payer Identification Number. Unique number assigned to taxpayers in Malawi and issued by the Malawi Revenue Authority.
+	IdentifierTypeMwTpinTaxRegNum IdentifierType = "mw_tpin_tax_reg_num"
+	// Liberia Tax Identification Number. Unique number assigned to taxpayers in Liberia and issued by the Liberia Revenue Authority.
+	IdentifierTypeLrTin IdentifierType = "lr_tin"
+	// Cameroon Tax Registration Number. Unique number assigned to taxpayers in Cameroon and issued by the Directorate General of Tax.
+	IdentifierTypeCmNuiTaxRegNum IdentifierType = "cm_nui_tax_reg_num"
+	// Unique EU Financial Sanctions Database ID number. Assigned to every entity in the EU Financial Sanctions Database.
+	IdentifierTypeEuFsdId IdentifierType = "eu_fsd_id"
+	// Unique Hong Kong tax ID number. Assigned to every company registered with the Hong Kong Business Registration Office.
+	IdentifierTypeCnHkBrNumber IdentifierType = "cn_hk_br_number"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6144,6 +6154,16 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeHunCompanyRegisterNumber, nil
 	case "hun_person_tax_id":
 		return IdentifierTypeHunPersonTaxId, nil
+	case "mw_tpin_tax_reg_num":
+		return IdentifierTypeMwTpinTaxRegNum, nil
+	case "lr_tin":
+		return IdentifierTypeLrTin, nil
+	case "cm_nui_tax_reg_num":
+		return IdentifierTypeCmNuiTaxRegNum, nil
+	case "eu_fsd_id":
+		return IdentifierTypeEuFsdId, nil
+	case "cn_hk_br_number":
+		return IdentifierTypeCnHkBrNumber, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
