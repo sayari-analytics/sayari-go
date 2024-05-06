@@ -32,9 +32,15 @@ func setup() {
 		}
 	}
 
-	// Create a client that is authed against the API
+	// Use the base URL ENV var if provided
+	baseURL := sayari.Environments.Production
+	if os.Getenv("BASE_URL") != "" {
+		baseURL = os.Getenv("BASE_URL")
+	}
+
+	// Create a client that is authed against the desired API
 	var err error
-	api, err = Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
+	api, err = ConnectTo(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), baseURL)
 	if err != nil {
 		log.Fatalf("Failed to connect. Err: %v", err)
 	}
@@ -373,17 +379,20 @@ func TestBuyerSearch(t *testing.T) {
 	assert.Greater(t, len(buyers.Data), 0)
 }
 
+// Currently this test will only work on the prod env/user
 func TestUsage(t *testing.T) {
-	usage, err := api.Info.GetUsage(context.Background(), &sayari.GetUsage{})
-	assert.Nil(t, err)
-	assert.NotZero(t, usage.Usage.Entity, "all endpoints should show usage")
-	assert.NotZero(t, usage.Usage.EntitySummary, "all endpoints should show usage")
-	assert.NotZero(t, usage.Usage.Record, "all endpoints should show usage")
-	assert.NotZero(t, usage.Usage.Resolve, "all endpoints should show usage")
-	assert.NotZero(t, usage.Usage.SearchEntities, "all endpoints should show usage")
-	assert.NotZero(t, usage.Usage.SearchRecords, "all endpoints should show usage")
-	assert.NotZero(t, usage.Usage.SearchTrade, "all endpoints should show usage")
-	assert.NotZero(t, usage.Usage.Traversal, "all endpoints should show usage")
+	if api.baseURL == sayari.Environments.Production {
+		usage, err := api.Info.GetUsage(context.Background(), &sayari.GetUsage{})
+		assert.Nil(t, err)
+		assert.NotZero(t, usage.Usage.Entity, "all endpoints should show usage")
+		assert.NotZero(t, usage.Usage.EntitySummary, "all endpoints should show usage")
+		assert.NotZero(t, usage.Usage.Record, "all endpoints should show usage")
+		assert.NotZero(t, usage.Usage.Resolve, "all endpoints should show usage")
+		assert.NotZero(t, usage.Usage.SearchEntities, "all endpoints should show usage")
+		assert.NotZero(t, usage.Usage.SearchRecords, "all endpoints should show usage")
+		assert.NotZero(t, usage.Usage.SearchTrade, "all endpoints should show usage")
+		assert.NotZero(t, usage.Usage.Traversal, "all endpoints should show usage")
+	}
 }
 
 func TestHistory(t *testing.T) {

@@ -24,8 +24,14 @@ func main() {
 	// NOTE: To connect you most provide your client ID and client secret. To avoid accidentally checking these into git,
 	// it is recommended to use ENV variables
 
+	// Use the base URL ENV var if provided
+	baseURL := sayari.Environments.Production
+	if os.Getenv("BASE_URL") != "" {
+		baseURL = os.Getenv("BASE_URL")
+	}
+
 	// Create a client to auth against the API
-	client, err := sdk.Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
+	client, err := sdk.ConnectTo(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), baseURL)
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
@@ -154,12 +160,15 @@ func main() {
 	//spew.Dump(shortestPath)
 	log.Printf("Found path with %v hops", len(shortestPath.Data[0].Path))
 
-	// Check usage
-	usage, err := client.Info.GetUsage(context.Background(), &sayari.GetUsage{})
-	if err != nil {
-		log.Fatalf("Error: %v", err)
+	// currently this is only working in prod b/c of my test user
+	if baseURL == sayari.Environments.Production {
+		// Check usage
+		usage, err := client.Info.GetUsage(context.Background(), &sayari.GetUsage{})
+		if err != nil {
+			log.Fatalf("Error: %v", err)
+		}
+		log.Printf("Entity summary usage: %v", *usage.Usage.EntitySummary)
 	}
-	log.Printf("Entity summary usage: %v", *usage.Usage.EntitySummary)
 
 	// Check history
 	historyParams := sayari.GetHistory{
