@@ -15,7 +15,7 @@ type GetProjectEntities struct {
 	Next *string `json:"-" url:"next,omitempty"`
 	// The pagination token for the previous page of entities.
 	Prev *string `json:"-" url:"prev,omitempty"`
-	// Limit total entities returned. Defaults to 10,000. Max 10,000.
+	// Limit total entities returned. Defaults to 1,000. Max 10,000.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Only return entities of the specified [entity type(s)](/sayari-library/ontology/entities). Defaults to all types.
 	EntityTypes []*Entities `json:"-" url:"entity_types,omitempty"`
