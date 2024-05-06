@@ -160,12 +160,15 @@ func main() {
 	//spew.Dump(shortestPath)
 	log.Printf("Found path with %v hops", len(shortestPath.Data[0].Path))
 
-	// Check usage
-	usage, err := client.Info.GetUsage(context.Background(), &sayari.GetUsage{})
-	if err != nil {
-		log.Fatalf("Error: %v", err)
+	// currently this is only working in prod b/c of my test user
+	if baseURL == sayari.Environments.Production {
+		// Check usage
+		usage, err := client.Info.GetUsage(context.Background(), &sayari.GetUsage{})
+		if err != nil {
+			log.Fatalf("Error: %v", err)
+		}
+		log.Printf("Entity summary usage: %v", *usage.Usage.EntitySummary)
 	}
-	log.Printf("Entity summary usage: %v", *usage.Usage.EntitySummary)
 
 	// Check history
 	historyParams := sayari.GetHistory{
