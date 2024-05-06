@@ -32,9 +32,15 @@ func setup() {
 		}
 	}
 
-	// Create a client that is authed against the API
+	// Use the base URL ENV var if provided
+	baseURL := sayari.Environments.Production
+	if os.Getenv("BASE_URL") != "" {
+		baseURL = os.Getenv("BASE_URL")
+	}
+
+	// Create a client that is authed against the desired API
 	var err error
-	api, err = Connect(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"))
+	api, err = ConnectTo(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), baseURL)
 	if err != nil {
 		log.Fatalf("Failed to connect. Err: %v", err)
 	}

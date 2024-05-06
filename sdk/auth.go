@@ -14,21 +14,32 @@ import (
 
 type Connection struct {
 	*client.Client
-	id     string
-	secret string
+	id      string
+	secret  string
+	baseURL string
 }
 
+// Connect generates a connection to the production Sayari API
 func Connect(id, secret string) (*Connection, error) {
+	return ConnectTo(id, secret, sayari.Environments.Production)
+}
+
+// ConnectTo generates a connection to the specified instance of the Sayari API
+func ConnectTo(id, secret, baseURL string) (*Connection, error) {
 	// Connect to auth endpoint and get a token
-	tokenResponse, err := getToken(id, secret)
+	tokenResponse, err := getToken(id, secret, baseURL)
 	if err != nil {
 		return nil, err
 	}
 
 	connection := &Connection{
-		client.NewClient(option.WithHTTPHeader(map[string][]string{"Authorization": {tokenResponse.AccessToken}})),
+		client.NewClient(
+			option.WithHTTPHeader(map[string][]string{"Authorization": {tokenResponse.AccessToken}}),
+			option.WithBaseURL(baseURL),
+		),
 		id,
 		secret,
+		baseURL,
 	}
 
 	// Maintain the token
@@ -38,8 +49,8 @@ func Connect(id, secret string) (*Connection, error) {
 	return connection, nil
 }
 
-func getToken(id, secret string) (*sayari.AuthResponse, error) {
-	authClient := auth.NewClient()
+func getToken(id, secret, baseURL string) (*sayari.AuthResponse, error) {
+	authClient := auth.NewClient(option.WithBaseURL(baseURL))
 	return authClient.GetToken(context.Background(), &sayari.GetToken{
 		ClientId:     id,
 		ClientSecret: secret,
@@ -55,7 +66,7 @@ func (c *Connection) maintainToken(expiresIn int) {
 	time.Sleep(time.Duration(expiresIn) * time.Second)
 
 	// get updated token
-	tokenResponse, err := getToken(c.id, c.secret)
+	tokenResponse, err := getToken(c.id, c.secret, c.baseURL)
 	if err != nil {
 		log.Fatalf("Error maintining token. Err: %v", err)
 	}
