@@ -49,6 +49,8 @@ type GetProjects struct {
 
 type CreateProjectRequest struct {
 	Label string `json:"label" url:"label"`
+	// Specifies access levels available to users in a project within an organization. For comprehensive access, the admin role is recommended.
+	Share *ProjectShareOnCreate `json:"share,omitempty" url:"share,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -103,6 +105,35 @@ func (c *CreateProjectResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
+}
+
+type DeleteProjectResponse struct {
+	Data *Project `json:"data,omitempty" url:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (d *DeleteProjectResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler DeleteProjectResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DeleteProjectResponse(value)
+	d._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DeleteProjectResponse) String() string {
+	if len(d._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
 }
 
 type GetProjectEntitiesAcceptHeader string

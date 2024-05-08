@@ -34,6 +34,9 @@ type GetRecordResponse struct {
 	SourceUrl    *string             `json:"source_url,omitempty" url:"source_url,omitempty"`
 	DocumentUrls []string            `json:"document_urls,omitempty" url:"document_urls,omitempty"`
 	Matches      map[string][]string `json:"matches,omitempty" url:"matches,omitempty"`
+	Country      *Country            `json:"country,omitempty" url:"country,omitempty"`
+	Page         *float64            `json:"page,omitempty" url:"page,omitempty"`
+	PageCount    *float64            `json:"page_count,omitempty" url:"page_count,omitempty"`
 	References   *RecordReferences   `json:"references,omitempty" url:"references,omitempty"`
 
 	_rawJSON json.RawMessage
