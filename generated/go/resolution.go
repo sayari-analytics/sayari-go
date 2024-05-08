@@ -9,6 +9,10 @@ import (
 )
 
 type Resolution struct {
+	// A limit on the number of objects to be returned with a range between 1 and 10. Defaults to 10.
+	Limit *int `json:"-" url:"limit,omitempty"`
+	// Number of results to skip before returning response. Defaults to 0.
+	Offset *int `json:"-" url:"offset,omitempty"`
 	// Entity name
 	Name []*string `json:"-" url:"name,omitempty"`
 	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
@@ -23,6 +27,27 @@ type Resolution struct {
 	Contact []*string `json:"-" url:"contact,omitempty"`
 	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
 	Type []*Entities `json:"-" url:"type,omitempty"`
+}
+
+type ResolutionPost struct {
+	// A limit on the number of objects to be returned with a range between 1 and 10. Defaults to 10.
+	Limit *int `json:"-" url:"limit,omitempty"`
+	// Number of results to skip before returning response. Defaults to 0.
+	Offset *int `json:"-" url:"offset,omitempty"`
+	// Entity name
+	Name []string `json:"name,omitempty" url:"name,omitempty"`
+	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
+	Identifier []*BothIdentifierTypes `json:"identifier,omitempty" url:"identifier,omitempty"`
+	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
+	Country []Country `json:"country,omitempty" url:"country,omitempty"`
+	// Entity address
+	Address []string `json:"address,omitempty" url:"address,omitempty"`
+	// Entity date of birth
+	DateOfBirth []string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
+	// Entity contact
+	Contact []string `json:"contact,omitempty" url:"contact,omitempty"`
+	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
+	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
 }
 
 type BothIdentifierTypes struct {

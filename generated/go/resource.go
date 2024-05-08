@@ -8,6 +8,54 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
+type DeleteResourceResponse struct {
+	Data *EntityResponseData `json:"data,omitempty" url:"data,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (d *DeleteResourceResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler DeleteResourceResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DeleteResourceResponse(value)
+	d._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DeleteResourceResponse) String() string {
+	if len(d._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
+}
+
+type ResourceType string
+
+const (
+	ResourceTypeEntity ResourceType = "entity"
+)
+
+func NewResourceTypeFromString(s string) (ResourceType, error) {
+	switch s {
+	case "entity":
+		return ResourceTypeEntity, nil
+	}
+	var t ResourceType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r ResourceType) Ptr() *ResourceType {
+	return &r
+}
+
 type SaveEntityRequest struct {
 	Type ResourceType `json:"type" url:"type"`
 	// The project identifier.
@@ -42,7 +90,7 @@ func (s *SaveEntityRequest) String() string {
 }
 
 type SaveEntityResponse struct {
-	Data *SaveEntityResponseData `json:"data,omitempty" url:"data,omitempty"`
+	Data *EntityResponseData `json:"data,omitempty" url:"data,omitempty"`
 
 	_rawJSON json.RawMessage
 }

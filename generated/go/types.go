@@ -9495,9 +9495,9 @@ type ProjectNotificationData struct {
 	// The ID of the entity
 	Id string `json:"id" url:"id"`
 	// The ID of the saved resource
-	ResourceId string `json:"resourceId" url:"resourceId"`
+	ResourceId string `json:"resource_id" url:"resource_id"`
 	// The ID of the entity
-	EntityId      string          `json:"entityId" url:"entityId"`
+	EntityId      string          `json:"entity_id" url:"entity_id"`
 	Notifications []*Notification `json:"notifications,omitempty" url:"notifications,omitempty"`
 
 	_rawJSON json.RawMessage
@@ -9528,11 +9528,11 @@ func (p *ProjectNotificationData) String() string {
 
 type ResourceNotificationData struct {
 	// The ID of the saved resource
-	SavedResourceId string `json:"savedResourceId" url:"savedResourceId"`
+	SavedResourceId string `json:"saved_resource_id" url:"saved_resource_id"`
 	// The ID of the project the entity is saved to
-	ProjectId string `json:"projectId" url:"projectId"`
+	ProjectId string `json:"project_id" url:"project_id"`
 	// The ID of the entity
-	EntityId string `json:"entityId" url:"entityId"`
+	EntityId string `json:"entity_id" url:"entity_id"`
 	// The type of notification, currently limited to 'risk'
 	Type NotificationType `json:"type" url:"type"`
 	// The field that the notification is for
@@ -9916,11 +9916,13 @@ type ProjectEntity struct {
 	// HS codes shipped by the entity.
 	ShippedHsCodes []string `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
 	// HS codes received by the entity.
-	ReceivedHsCodes []string               `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
-	Upstream        *ProjectEntityUpstream `json:"upstream,omitempty" url:"upstream,omitempty"`
-	Summary         *CoreEntity            `json:"summary,omitempty" url:"summary,omitempty"`
-	Psa             *PsaSummary            `json:"psa,omitempty" url:"psa,omitempty"`
-	type_           string
+	ReceivedHsCodes []string `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
+	// Counts of sent and received shipments for this entity and its match group.
+	TradeCountInclMg *TradeCount            `json:"trade_count_incl_mg,omitempty" url:"trade_count_incl_mg,omitempty"`
+	Upstream         *ProjectEntityUpstream `json:"upstream,omitempty" url:"upstream,omitempty"`
+	Summary          *CoreEntity            `json:"summary,omitempty" url:"summary,omitempty"`
+	Psa              *PsaSummary            `json:"psa,omitempty" url:"psa,omitempty"`
+	type_            string
 
 	_rawJSON json.RawMessage
 }
@@ -9989,6 +9991,35 @@ func (p *ProjectEntityUpstream) UnmarshalJSON(data []byte) error {
 }
 
 func (p *ProjectEntityUpstream) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectShareOnCreate struct {
+	Org Role `json:"org" url:"org"`
+
+	_rawJSON json.RawMessage
+}
+
+func (p *ProjectShareOnCreate) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectShareOnCreate
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectShareOnCreate(value)
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectShareOnCreate) String() string {
 	if len(p._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
 			return value
@@ -10125,6 +10156,36 @@ func (r RoleMemberType) Ptr() *RoleMemberType {
 	return &r
 }
 
+type TradeCount struct {
+	ReceiverOf int `json:"receiver_of" url:"receiver_of"`
+	ShipperOf  int `json:"shipper_of" url:"shipper_of"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TradeCount) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeCount
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeCount(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeCount) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
 type RecordReferences struct {
 	Limit  int             `json:"limit" url:"limit"`
 	Size   *QualifiedCount `json:"size,omitempty" url:"size,omitempty"`
@@ -10190,6 +10251,35 @@ func (m *MatchExplanation) String() string {
 	return fmt.Sprintf("%#v", m)
 }
 
+type MatchStrength struct {
+	Value string `json:"value" url:"value"`
+
+	_rawJSON json.RawMessage
+}
+
+func (m *MatchStrength) UnmarshalJSON(data []byte) error {
+	type unmarshaler MatchStrength
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MatchStrength(value)
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MatchStrength) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
+}
+
 type ResolutionResponseFields struct {
 	Name       []string `json:"name,omitempty" url:"name,omitempty"`
 	Identifier []string `json:"identifier,omitempty" url:"identifier,omitempty"`
@@ -10229,6 +10319,7 @@ func (r *ResolutionResponseFields) String() string {
 }
 
 type ResolutionResult struct {
+	Profile             string                         `json:"profile" url:"profile"`
 	Score               float64                        `json:"score" url:"score"`
 	EntityId            string                         `json:"entity_id" url:"entity_id"`
 	Label               string                         `json:"label" url:"label"`
@@ -10242,6 +10333,7 @@ type ResolutionResult struct {
 	MatchedQueries      []string                       `json:"matched_queries,omitempty" url:"matched_queries,omitempty"`
 	Highlight           map[string][]string            `json:"highlight,omitempty" url:"highlight,omitempty"`
 	Explanation         map[string][]*MatchExplanation `json:"explanation,omitempty" url:"explanation,omitempty"`
+	MatchStrength       *MatchStrength                 `json:"match_strength,omitempty" url:"match_strength,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10269,26 +10361,7 @@ func (r *ResolutionResult) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
-type ResourceType string
-
-const (
-	ResourceTypeEntity ResourceType = "entity"
-)
-
-func NewResourceTypeFromString(s string) (ResourceType, error) {
-	switch s {
-	case "entity":
-		return ResourceTypeEntity, nil
-	}
-	var t ResourceType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (r ResourceType) Ptr() *ResourceType {
-	return &r
-}
-
-type SaveEntityResponseData struct {
+type EntityResponseData struct {
 	Type       ResourceType `json:"type" url:"type"`
 	Id         string       `json:"id" url:"id"`
 	Project    string       `json:"project" url:"project"`
@@ -10304,27 +10377,27 @@ type SaveEntityResponseData struct {
 	_rawJSON json.RawMessage
 }
 
-func (s *SaveEntityResponseData) UnmarshalJSON(data []byte) error {
-	type unmarshaler SaveEntityResponseData
+func (e *EntityResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler EntityResponseData
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SaveEntityResponseData(value)
-	s._rawJSON = json.RawMessage(data)
+	*e = EntityResponseData(value)
+	e._rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (s *SaveEntityResponseData) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+func (e *EntityResponseData) String() string {
+	if len(e._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := core.StringifyJSON(e); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", s)
+	return fmt.Sprintf("%#v", e)
 }
 
 type Coordinates struct {
@@ -10384,7 +10457,8 @@ type SearchResults struct {
 	// Number of records associated with the entity, grouped by source.
 	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty" url:"source_count,omitempty"`
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
-	Addresses []string `json:"addresses,omitempty" url:"addresses,omitempty"`
+	Addresses  []string       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	TradeCount map[string]int `json:"trade_count,omitempty" url:"trade_count,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth           *string           `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
 	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty" url:"relationship_count,omitempty"`
@@ -10396,6 +10470,7 @@ type SearchResults struct {
 	RelatedEntitiesCount     int                     `json:"related_entities_count" url:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
+	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
@@ -10655,7 +10730,7 @@ type CoreEntity struct {
 	UserRelationshipCounts   RelationshipCount `json:"user_relationship_counts,omitempty" url:"user_relationship_counts,omitempty"`
 	AttributeCounts          interface{}       `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
 	UserAttributeCounts      interface{}       `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
-	TradeCounts              map[string]int    `json:"trade_counts,omitempty" url:"trade_counts,omitempty"`
+	TradeCount               map[string]int    `json:"trade_count,omitempty" url:"trade_count,omitempty"`
 	RecordCount              int               `json:"record_count" url:"record_count"`
 	UserRecordCount          int               `json:"user_record_count" url:"user_record_count"`
 	// Number of records associated with the entity, grouped by source.
@@ -10722,7 +10797,8 @@ type EmbeddedEntity struct {
 	// Number of records associated with the entity, grouped by source.
 	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty" url:"source_count,omitempty"`
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
-	Addresses []string `json:"addresses,omitempty" url:"addresses,omitempty"`
+	Addresses  []string       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	TradeCount map[string]int `json:"trade_count,omitempty" url:"trade_count,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth           *string           `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
 	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty" url:"relationship_count,omitempty"`
@@ -10734,6 +10810,7 @@ type EmbeddedEntity struct {
 	RelatedEntitiesCount     int                `json:"related_entities_count" url:"related_entities_count"`
 	UserRelatedEntitiesCount int                `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                `json:"user_record_count" url:"user_record_count"`
+	ReferenceId              *string            `json:"reference_id,omitempty" url:"reference_id,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -10788,7 +10865,8 @@ type EntityDetails struct {
 	// Number of records associated with the entity, grouped by source.
 	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty" url:"source_count,omitempty"`
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
-	Addresses []string `json:"addresses,omitempty" url:"addresses,omitempty"`
+	Addresses  []string       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	TradeCount map[string]int `json:"trade_count,omitempty" url:"trade_count,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth           *string           `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
 	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty" url:"relationship_count,omitempty"`
@@ -10800,6 +10878,7 @@ type EntityDetails struct {
 	RelatedEntitiesCount     int                     `json:"related_entities_count" url:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
+	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
@@ -11011,7 +11090,8 @@ type PsaEntity struct {
 	// Number of records associated with the entity, grouped by source.
 	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty" url:"source_count,omitempty"`
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
-	Addresses []string `json:"addresses,omitempty" url:"addresses,omitempty"`
+	Addresses  []string       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	TradeCount map[string]int `json:"trade_count,omitempty" url:"trade_count,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth           *string           `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
 	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty" url:"relationship_count,omitempty"`
@@ -11023,6 +11103,7 @@ type PsaEntity struct {
 	RelatedEntitiesCount     int                     `json:"related_entities_count" url:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
+	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
 	Risk                     EntityRisk              `json:"risk,omitempty" url:"risk,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	CompanyType              *CompanyType            `json:"company_type,omitempty" url:"company_type,omitempty"`
@@ -11198,6 +11279,9 @@ type RecordDetails struct {
 	SourceUrl    *string             `json:"source_url,omitempty" url:"source_url,omitempty"`
 	DocumentUrls []string            `json:"document_urls,omitempty" url:"document_urls,omitempty"`
 	Matches      map[string][]string `json:"matches,omitempty" url:"matches,omitempty"`
+	Country      *Country            `json:"country,omitempty" url:"country,omitempty"`
+	Page         *float64            `json:"page,omitempty" url:"page,omitempty"`
+	PageCount    *float64            `json:"page_count,omitempty" url:"page_count,omitempty"`
 
 	_rawJSON json.RawMessage
 }
@@ -11661,6 +11745,217 @@ func (s *Source) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
+type EntityId = string
+
+type TradeTraversalEntity struct {
+	Type      string   `json:"type" url:"type"`
+	Label     string   `json:"label" url:"label"`
+	Countries []string `json:"countries,omitempty" url:"countries,omitempty"`
+	Risks     []string `json:"risks,omitempty" url:"risks,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TradeTraversalEntity) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalEntity
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalEntity(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalEntity) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TradeTraversalPath struct {
+	Start string                        `json:"start" url:"start"`
+	End   string                        `json:"end" url:"end"`
+	Paths []*TradeTraversalPathSegments `json:"paths,omitempty" url:"paths,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TradeTraversalPath) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalPath
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalPath(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalPath) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TradeTraversalPathOrSegment struct {
+	TradeTraversalPathList            []*TradeTraversalPath
+	TradeTraversalPathSegmentListList [][]*TradeTraversalPathSegment
+}
+
+func NewTradeTraversalPathOrSegmentFromTradeTraversalPathList(value []*TradeTraversalPath) *TradeTraversalPathOrSegment {
+	return &TradeTraversalPathOrSegment{TradeTraversalPathList: value}
+}
+
+func NewTradeTraversalPathOrSegmentFromTradeTraversalPathSegmentListList(value [][]*TradeTraversalPathSegment) *TradeTraversalPathOrSegment {
+	return &TradeTraversalPathOrSegment{TradeTraversalPathSegmentListList: value}
+}
+
+func (t *TradeTraversalPathOrSegment) UnmarshalJSON(data []byte) error {
+	var valueTradeTraversalPathList []*TradeTraversalPath
+	if err := json.Unmarshal(data, &valueTradeTraversalPathList); err == nil {
+		t.TradeTraversalPathList = valueTradeTraversalPathList
+		return nil
+	}
+	var valueTradeTraversalPathSegmentListList [][]*TradeTraversalPathSegment
+	if err := json.Unmarshal(data, &valueTradeTraversalPathSegmentListList); err == nil {
+		t.TradeTraversalPathSegmentListList = valueTradeTraversalPathSegmentListList
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, t)
+}
+
+func (t TradeTraversalPathOrSegment) MarshalJSON() ([]byte, error) {
+	if t.TradeTraversalPathList != nil {
+		return json.Marshal(t.TradeTraversalPathList)
+	}
+	if t.TradeTraversalPathSegmentListList != nil {
+		return json.Marshal(t.TradeTraversalPathSegmentListList)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", t)
+}
+
+type TradeTraversalPathOrSegmentVisitor interface {
+	VisitTradeTraversalPathList([]*TradeTraversalPath) error
+	VisitTradeTraversalPathSegmentListList([][]*TradeTraversalPathSegment) error
+}
+
+func (t *TradeTraversalPathOrSegment) Accept(visitor TradeTraversalPathOrSegmentVisitor) error {
+	if t.TradeTraversalPathList != nil {
+		return visitor.VisitTradeTraversalPathList(t.TradeTraversalPathList)
+	}
+	if t.TradeTraversalPathSegmentListList != nil {
+		return visitor.VisitTradeTraversalPathSegmentListList(t.TradeTraversalPathSegmentListList)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", t)
+}
+
+type TradeTraversalPathSegment struct {
+	Src      string                   `json:"src" url:"src"`
+	Dst      string                   `json:"dst" url:"dst"`
+	HsCodes  []string                 `json:"hs_codes,omitempty" url:"hs_codes,omitempty"`
+	Products []*TradeTraversalProduct `json:"products,omitempty" url:"products,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TradeTraversalPathSegment) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalPathSegment
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalPathSegment(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalPathSegment) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TradeTraversalPathSegments struct {
+	Segments []*TradeTraversalPathSegment `json:"segments,omitempty" url:"segments,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TradeTraversalPathSegments) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalPathSegments
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalPathSegments(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalPathSegments) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TradeTraversalProduct struct {
+	HsCode             string   `json:"hsCode" url:"hsCode"`
+	MinDate            string   `json:"minDate" url:"minDate"`
+	MaxDate            string   `json:"maxDate" url:"maxDate"`
+	ArrivalCountries   []string `json:"arrivalCountries,omitempty" url:"arrivalCountries,omitempty"`
+	DepartureCountries []string `json:"departureCountries,omitempty" url:"departureCountries,omitempty"`
+
+	_rawJSON json.RawMessage
+}
+
+func (t *TradeTraversalProduct) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalProduct
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalProduct(value)
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalProduct) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
 type BusinessPurpose struct {
 	Value *string `json:"value,omitempty" url:"value,omitempty"`
 	Code  *string `json:"code,omitempty" url:"code,omitempty"`
@@ -12021,7 +12316,8 @@ type SupplierOrBuyer struct {
 	// Number of records associated with the entity, grouped by source.
 	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty" url:"source_count,omitempty"`
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
-	Addresses []string `json:"addresses,omitempty" url:"addresses,omitempty"`
+	Addresses  []string       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	TradeCount map[string]int `json:"trade_count,omitempty" url:"trade_count,omitempty"`
 	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
 	DateOfBirth           *string           `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
 	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty" url:"relationship_count,omitempty"`
@@ -12033,6 +12329,7 @@ type SupplierOrBuyer struct {
 	RelatedEntitiesCount     int                     `json:"related_entities_count" url:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
+	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
