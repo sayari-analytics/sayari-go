@@ -5018,6 +5018,8 @@ const (
 	IdentifierTypeEuFsdId IdentifierType = "eu_fsd_id"
 	// Unique Hong Kong tax ID number. Assigned to every company registered with the Hong Kong Business Registration Office.
 	IdentifierTypeCnHkBrNumber IdentifierType = "cn_hk_br_number"
+	// Global Intermediary Identification Number (GIIN). Unique Identifier issued by the IRS to financial institutions, branches, direct reporting non-financial foreign entities, and sponsored entities.
+	IdentifierTypeUsaIrsGiin IdentifierType = "usa_irs_giin"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6168,6 +6170,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeEuFsdId, nil
 	case "cn_hk_br_number":
 		return IdentifierTypeCnHkBrNumber, nil
+	case "usa_irs_giin":
+		return IdentifierTypeUsaIrsGiin, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -7921,6 +7925,7 @@ const (
 	RiskFormerWroEntity                                               Risk = "former_wro_entity"
 	RiskForcedLaborWroOriginDirect                                    Risk = "forced_labor_wro_origin_direct"
 	RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity      Risk = "owned_by_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskEuSanctioned                                                  Risk = "eu_sanctioned"
 	RiskAspiUyghurForcedLaborReportEntity                             Risk = "aspi_uyghur_forced_labor_report_entity"
 	RiskForcedLaborChinaKeywords                                      Risk = "forced_labor_china_keywords"
 	RiskExportsBisHighPriorityItemsCriticalComponents                 Risk = "exports_bis_high_priority_items_critical_components"
@@ -7938,6 +7943,7 @@ const (
 	RiskPep                                                           Risk = "pep"
 	RiskOwnedByEntityInExportControls                                 Risk = "owned_by_entity_in_export_controls"
 	RiskPsaForcedLaborAspiUyghur                                      Risk = "psa_forced_labor_aspi_uyghur"
+	RiskEu50PercentRule                                               Risk = "eu_50_percent_rule"
 	RiskForcedLaborXinjiangOperations                                 Risk = "forced_labor_xinjiang_operations"
 	RiskForcedLaborWroOriginSubtier                                   Risk = "forced_labor_wro_origin_subtier"
 	RiskReputationalRiskOther                                         Risk = "reputational_risk_other"
@@ -8058,6 +8064,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskForcedLaborWroOriginDirect, nil
 	case "owned_by_sheffield_hallam_university_reports_forced_labor_entity":
 		return RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity, nil
+	case "eu_sanctioned":
+		return RiskEuSanctioned, nil
 	case "aspi_uyghur_forced_labor_report_entity":
 		return RiskAspiUyghurForcedLaborReportEntity, nil
 	case "forced_labor_china_keywords":
@@ -8092,6 +8100,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedByEntityInExportControls, nil
 	case "psa_forced_labor_aspi_uyghur":
 		return RiskPsaForcedLaborAspiUyghur, nil
+	case "eu_50_percent_rule":
+		return RiskEu50PercentRule, nil
 	case "forced_labor_xinjiang_operations":
 		return RiskForcedLaborXinjiangOperations, nil
 	case "forced_labor_wro_origin_subtier":
