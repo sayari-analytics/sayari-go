@@ -4036,7 +4036,9 @@ const (
 	// Value-added tax ID number
 	IdentifierTypeVat IdentifierType = "vat"
 	// Italy tax ID code
-	IdentifierTypeItaFiscalCode       IdentifierType = "ita_fiscal_code"
+	IdentifierTypeItaFiscalCode IdentifierType = "ita_fiscal_code"
+	// Italy VAT number
+	IdentifierTypeItaVatNumber        IdentifierType = "ita_vat_number"
 	IdentifierTypeRioDeJaneiroLegalId IdentifierType = "rio_de_janeiro_legal_id"
 	// Iceland natural and legal person ID number
 	IdentifierTypeIslTinNumber IdentifierType = "isl_tin_number"
@@ -4362,6 +4364,8 @@ const (
 	IdentifierTypeFraSiren IdentifierType = "fra_siren"
 	// France legal person establishment ID number
 	IdentifierTypeFraSiret IdentifierType = "fra_siret"
+	// Unique France ID number. Assigned to every legal entity registered with National Registry of Associations.
+	IdentifierTypeFraRna IdentifierType = "fra_rna"
 	// Skráseting Føroya Registration Number. Assigned to legal entities registered with the Company Registry of the Faroe Islands.
 	IdentifierTypeFroRegNum IdentifierType = "fro_reg_num"
 	// Czechia commercial registry ID number
@@ -5018,6 +5022,8 @@ const (
 	IdentifierTypeEuFsdId IdentifierType = "eu_fsd_id"
 	// Unique Hong Kong tax ID number. Assigned to every company registered with the Hong Kong Business Registration Office.
 	IdentifierTypeCnHkBrNumber IdentifierType = "cn_hk_br_number"
+	// Unique Canada ID number. Assigned to every entity registered with Canadian Securities Administrators National Registration Database.
+	IdentifierTypeCanNrd IdentifierType = "can_nrd"
 	// Global Intermediary Identification Number (GIIN). Unique Identifier issued by the IRS to financial institutions, branches, direct reporting non-financial foreign entities, and sponsored entities.
 	IdentifierTypeUsaIrsGiin IdentifierType = "usa_irs_giin"
 )
@@ -5176,6 +5182,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeVat, nil
 	case "ita_fiscal_code":
 		return IdentifierTypeItaFiscalCode, nil
+	case "ita_vat_number":
+		return IdentifierTypeItaVatNumber, nil
 	case "rio_de_janeiro_legal_id":
 		return IdentifierTypeRioDeJaneiroLegalId, nil
 	case "isl_tin_number":
@@ -5504,6 +5512,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeFraSiren, nil
 	case "fra_siret":
 		return IdentifierTypeFraSiret, nil
+	case "fra_rna":
+		return IdentifierTypeFraRna, nil
 	case "fro_reg_num":
 		return IdentifierTypeFroRegNum, nil
 	case "cze_file_number":
@@ -6170,6 +6180,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeEuFsdId, nil
 	case "cn_hk_br_number":
 		return IdentifierTypeCnHkBrNumber, nil
+	case "can_nrd":
+		return IdentifierTypeCanNrd, nil
 	case "usa_irs_giin":
 		return IdentifierTypeUsaIrsGiin, nil
 	}
