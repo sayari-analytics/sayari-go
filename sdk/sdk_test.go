@@ -2,12 +2,16 @@ package sdk
 
 import (
 	"context"
+	"errors"
 	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/sayari-analytics/sayari-go/generated/go/core"
 
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 
@@ -243,6 +247,9 @@ func TestOwnershipTraversal(t *testing.T) {
 
 	// shortest path
 	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
+	if shouldRetry(err) {
+		TestOwnershipTraversal(t)
+	}
 	assert.Nil(t, err)
 	assert.Greater(t, len(shortestPath.Data[0].Path), 0)
 
@@ -397,6 +404,9 @@ func TestUsage(t *testing.T) {
 
 func TestHistory(t *testing.T) {
 	history, err := api.Info.GetHistory(context.Background(), &sayari.GetHistory{Size: sayari.Int(10)})
+	if shouldRetry(err) {
+		TestHistory(t)
+	}
 	assert.Nil(t, err)
 	assert.Equal(t, history.Size, len(history.Events))
 }
@@ -411,4 +421,42 @@ func generateRandomString(length int) string {
 		b[i] = charset[seededRand.Intn(len(charset))]
 	}
 	return string(b)
+}
+
+// retryErrs is a map of errors that we should just retry on
+var retryErrs = map[int]string{
+	http.StatusRequestTimeout:  "StatusRequestTimeout",
+	http.StatusTooManyRequests: "StatusTooManyRequests",
+}
+
+// getErrCode will extract the status code of an error if it exists
+func getErrCode(err error) *int {
+	var apiErr *core.APIError
+	if errors.As(err, &apiErr) {
+		return &apiErr.StatusCode
+	}
+	return nil
+}
+
+// shouldRetry will determine if a request should be retried based on the status code
+func shouldRetry(err error) bool {
+	// get the status code from the error
+	statusCode := getErrCode(err)
+	// if there was none, don't retry
+	if statusCode == nil {
+		return false
+	}
+	// check to see if the returned status code warrants a retry
+	if _, ok := retryErrs[*statusCode]; ok {
+		log.Printf("Recieved status code %v, will retry", *statusCode)
+		// sleep a second before attempting a retry
+		time.Sleep(time.Second)
+		return true
+	}
+	// also retry if we get a bigquery error
+	if strings.Contains(err.Error(), "failed to read from bigquery: context deadline exceeded") {
+		log.Println("ran into issue with bigquery, will retry")
+		return true
+	}
+	return false
 }
