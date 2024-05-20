@@ -2,8 +2,11 @@ package sdk
 
 import (
 	"context"
+	"errors"
+	"github.com/sayari-analytics/sayari-go/generated/go/core"
 	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"strings"
 	"testing"
@@ -243,6 +246,9 @@ func TestOwnershipTraversal(t *testing.T) {
 
 	// shortest path
 	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
+	if shouldRetry(err) {
+		TestOwnershipTraversal(t)
+	}
 	assert.Nil(t, err)
 	assert.Greater(t, len(shortestPath.Data[0].Path), 0)
 
@@ -411,4 +417,35 @@ func generateRandomString(length int) string {
 		b[i] = charset[seededRand.Intn(len(charset))]
 	}
 	return string(b)
+}
+
+// retryErrs is a map of errors that we should just retry on
+var retryErrs = map[int]string{
+	http.StatusRequestTimeout:  "StatusRequestTimeout",
+	http.StatusTooManyRequests: "StatusTooManyRequests",
+}
+
+// getErrCode will extract the status code of an error if it exists
+func getErrCode(err error) *int {
+	var apiErr *core.APIError
+	if errors.As(err, &apiErr) {
+		return &apiErr.StatusCode
+	}
+	return nil
+}
+
+// shouldRetry will determine if a request should be retried based on the status code
+func shouldRetry(err error) bool {
+	// get the status code from the error
+	statusCode := getErrCode(err)
+	// if there was none, don't retry
+	if statusCode == nil {
+		return false
+	}
+	// check to see if the returned status code warrants a retry
+	if _, ok := retryErrs[*statusCode]; ok {
+		// sleep a second before attempting a retry
+		time.Sleep(time.Second)
+		return true
+	}
 }
