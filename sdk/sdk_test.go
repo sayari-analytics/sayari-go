@@ -403,6 +403,9 @@ func TestUsage(t *testing.T) {
 
 func TestHistory(t *testing.T) {
 	history, err := api.Info.GetHistory(context.Background(), &sayari.GetHistory{Size: sayari.Int(10)})
+	if shouldRetry(err) {
+		TestHistory(t)
+	}
 	assert.Nil(t, err)
 	assert.Equal(t, history.Size, len(history.Events))
 }
@@ -448,4 +451,6 @@ func shouldRetry(err error) bool {
 		time.Sleep(time.Second)
 		return true
 	}
+	// also retry if we get a bigquery error
+	return strings.Contains(err.Error(), "failed to read from bigquery: context deadline exceeded")
 }
