@@ -3,7 +3,6 @@ package sdk
 import (
 	"context"
 	"errors"
-	"github.com/sayari-analytics/sayari-go/generated/go/core"
 	"log"
 	"math/rand"
 	"net/http"
@@ -11,6 +10,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/sayari-analytics/sayari-go/generated/go/core"
 
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 
