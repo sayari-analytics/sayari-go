@@ -447,10 +447,15 @@ func shouldRetry(err error) bool {
 	}
 	// check to see if the returned status code warrants a retry
 	if _, ok := retryErrs[*statusCode]; ok {
+		log.Printf("Recieved status code %v, will retry", *statusCode)
 		// sleep a second before attempting a retry
 		time.Sleep(time.Second)
 		return true
 	}
 	// also retry if we get a bigquery error
-	return strings.Contains(err.Error(), "failed to read from bigquery: context deadline exceeded")
+	if strings.Contains(err.Error(), "failed to read from bigquery: context deadline exceeded") {
+		log.Println("ran into issue with bigquery, will retry")
+		return true
+	}
+	return false
 }
