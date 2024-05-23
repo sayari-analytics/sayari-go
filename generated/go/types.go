@@ -784,6 +784,8 @@ const (
 	BusinessPurposeStandardAteco BusinessPurposeStandard = "ATECO"
 	// Code d'activité économique Quebec
 	BusinessPurposeStandardCae BusinessPurposeStandard = "CAE"
+	// Abu Dhabi Global Market Activity Code
+	BusinessPurposeStandardAdgm BusinessPurposeStandard = "ADGM"
 )
 
 func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, error) {
@@ -844,6 +846,8 @@ func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, er
 		return BusinessPurposeStandardAteco, nil
 	case "CAE":
 		return BusinessPurposeStandardCae, nil
+	case "ADGM":
+		return BusinessPurposeStandardAdgm, nil
 	}
 	var t BusinessPurposeStandard
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
