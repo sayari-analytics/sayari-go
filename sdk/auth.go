@@ -34,7 +34,11 @@ func ConnectTo(id, secret, baseURL string) (*Connection, error) {
 
 	connection := &Connection{
 		client.NewClient(
-			option.WithHTTPHeader(map[string][]string{"Authorization": {tokenResponse.AccessToken}}),
+			option.WithHTTPHeader(map[string][]string{
+				"Authorization":      {tokenResponse.AccessToken},
+				"X-Fern-Language":    {"Go"},
+				"X-Fern-SDK-Version": {"0.0.1"},
+			}),
 			option.WithBaseURL(baseURL),
 		),
 		id,
