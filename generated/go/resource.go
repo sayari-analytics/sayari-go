@@ -11,7 +11,12 @@ import (
 type DeleteResourceResponse struct {
 	Data *EntityResponseData `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (d *DeleteResourceResponse) GetExtraProperties() map[string]interface{} {
+	return d.extraProperties
 }
 
 func (d *DeleteResourceResponse) UnmarshalJSON(data []byte) error {
@@ -21,6 +26,13 @@ func (d *DeleteResourceResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DeleteResourceResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+
 	d._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -63,7 +75,12 @@ type SaveEntityRequest struct {
 	// The entity identifier.
 	EntityId string `json:"entity_id" url:"entity_id"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SaveEntityRequest) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SaveEntityRequest) UnmarshalJSON(data []byte) error {
@@ -73,6 +90,13 @@ func (s *SaveEntityRequest) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SaveEntityRequest(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -92,7 +116,12 @@ func (s *SaveEntityRequest) String() string {
 type SaveEntityResponse struct {
 	Data *EntityResponseData `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SaveEntityResponse) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SaveEntityResponse) UnmarshalJSON(data []byte) error {
@@ -102,6 +131,13 @@ func (s *SaveEntityResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SaveEntityResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }

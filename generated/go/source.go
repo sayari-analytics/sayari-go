@@ -32,7 +32,12 @@ type GetSourceResponse struct {
 	Pep        bool    `json:"pep" url:"pep"`
 	Watchlist  bool    `json:"watchlist" url:"watchlist"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GetSourceResponse) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GetSourceResponse) UnmarshalJSON(data []byte) error {
@@ -42,6 +47,13 @@ func (g *GetSourceResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetSourceResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -66,7 +78,12 @@ type ListSourcesResponse struct {
 	Next   bool            `json:"next" url:"next"`
 	Data   []*Source       `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (l *ListSourcesResponse) GetExtraProperties() map[string]interface{} {
+	return l.extraProperties
 }
 
 func (l *ListSourcesResponse) UnmarshalJSON(data []byte) error {
@@ -76,6 +93,13 @@ func (l *ListSourcesResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*l = ListSourcesResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+
 	l._rawJSON = json.RawMessage(data)
 	return nil
 }

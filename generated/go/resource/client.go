@@ -7,7 +7,6 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
-	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
@@ -50,7 +49,7 @@ func (c *Client) SaveEntity(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/resource/entity"
+	endpointURL := baseURL + "/v1/resource/entity"
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
@@ -143,7 +142,11 @@ func (c *Client) DeleteResource(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/resource/%v/%v", type_, resourceId)
+	endpointURL := core.EncodeURL(
+		baseURL+"/v1/resource/%v/%v",
+		type_,
+		resourceId,
+	)
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 

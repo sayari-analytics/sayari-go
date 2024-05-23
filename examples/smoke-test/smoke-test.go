@@ -102,7 +102,7 @@ func main() {
 	log.Printf("Found %v records.", len(recordSearch.Data))
 
 	// Get record
-	record, err := client.Record.GetRecord(context.Background(), sdk.EncodeRecordID(recordSearch.Data[0].Id), &sayari.GetRecord{})
+	record, err := client.Record.GetRecord(context.Background(), recordSearch.Data[0].Id, &sayari.GetRecord{})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}

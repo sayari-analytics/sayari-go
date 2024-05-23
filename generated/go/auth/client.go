@@ -49,7 +49,7 @@ func (c *Client) GetToken(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "oauth/token"
+	endpointURL := baseURL + "/oauth/token"
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 

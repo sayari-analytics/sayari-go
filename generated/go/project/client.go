@@ -50,7 +50,7 @@ func (c *Client) CreateProject(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/projects"
+	endpointURL := baseURL + "/v1/projects"
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
@@ -142,7 +142,7 @@ func (c *Client) GetProjects(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/projects"
+	endpointURL := baseURL + "/v1/projects"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -243,7 +243,7 @@ func (c *Client) GetProjectEntities(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/projects/%v/contents/entity", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/projects/%v/contents/entity", id)
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -343,7 +343,7 @@ func (c *Client) DeleteProject(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/projects/%v", projectId)
+	endpointURL := core.EncodeURL(baseURL+"/v1/projects/%v", projectId)
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 

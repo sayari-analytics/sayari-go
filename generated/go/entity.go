@@ -165,7 +165,12 @@ type EntitySummaryResponse struct {
 	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
 	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (e *EntitySummaryResponse) GetExtraProperties() map[string]interface{} {
+	return e.extraProperties
 }
 
 func (e *EntitySummaryResponse) UnmarshalJSON(data []byte) error {
@@ -175,6 +180,13 @@ func (e *EntitySummaryResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EntitySummaryResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	if err != nil {
+		return err
+	}
+	e.extraProperties = extraProperties
+
 	e._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -248,7 +260,12 @@ type GetEntityResponse struct {
 	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
 	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GetEntityResponse) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GetEntityResponse) UnmarshalJSON(data []byte) error {
@@ -258,6 +275,13 @@ func (g *GetEntityResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetEntityResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }

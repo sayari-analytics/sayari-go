@@ -22,7 +22,12 @@ type AddAttribute struct {
 	// end date of the attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AddAttribute) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AddAttribute) UnmarshalJSON(data []byte) error {
@@ -32,6 +37,13 @@ func (a *AddAttribute) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AddAttribute(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -52,7 +64,12 @@ func (a *AddAttribute) String() string {
 type AttributeResponse struct {
 	Data *AttributeResponseData `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AttributeResponse) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AttributeResponse) UnmarshalJSON(data []byte) error {
@@ -62,6 +79,13 @@ func (a *AttributeResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AttributeResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -88,7 +112,12 @@ type UpdateAttribute struct {
 	// end date of the attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (u *UpdateAttribute) GetExtraProperties() map[string]interface{} {
+	return u.extraProperties
 }
 
 func (u *UpdateAttribute) UnmarshalJSON(data []byte) error {
@@ -98,6 +127,13 @@ func (u *UpdateAttribute) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*u = UpdateAttribute(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+
 	u._rawJSON = json.RawMessage(data)
 	return nil
 }

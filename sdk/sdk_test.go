@@ -175,7 +175,7 @@ func TestRecords(t *testing.T) {
 	log.Println(firstRecord.Label)
 
 	// get record and compare with search result
-	record, err := api.Record.GetRecord(context.Background(), EncodeRecordID(firstRecord.Id), &sayari.GetRecord{})
+	record, err := api.Record.GetRecord(context.Background(), firstRecord.Id, &sayari.GetRecord{})
 	assert.Nil(t, err)
 	assert.Equal(t, record.Label, firstRecord.Label)
 	assert.Equal(t, record.Source, firstRecord.Source)

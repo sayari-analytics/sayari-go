@@ -29,7 +29,12 @@ type ProjectNotificationsResponse struct {
 	Next   bool                       `json:"next" url:"next"`
 	Data   []*ProjectNotificationData `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectNotificationsResponse) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *ProjectNotificationsResponse) UnmarshalJSON(data []byte) error {
@@ -39,6 +44,13 @@ func (p *ProjectNotificationsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectNotificationsResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -62,7 +74,12 @@ type ResourceNotificationsResponse struct {
 	Next   bool                        `json:"next" url:"next"`
 	Data   []*ResourceNotificationData `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResourceNotificationsResponse) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *ResourceNotificationsResponse) UnmarshalJSON(data []byte) error {
@@ -72,6 +89,13 @@ func (r *ResourceNotificationsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResourceNotificationsResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }

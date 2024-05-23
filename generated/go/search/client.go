@@ -49,7 +49,7 @@ func (c *Client) SearchEntity(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/search/entity"
+	endpointURL := baseURL + "/v1/search/entity"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -149,7 +149,7 @@ func (c *Client) SearchEntityGet(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/search/entity"
+	endpointURL := baseURL + "/v1/search/entity"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -248,7 +248,7 @@ func (c *Client) SearchRecord(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/search/record"
+	endpointURL := baseURL + "/v1/search/record"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -348,7 +348,7 @@ func (c *Client) SearchRecordGet(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/search/record"
+	endpointURL := baseURL + "/v1/search/record"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {

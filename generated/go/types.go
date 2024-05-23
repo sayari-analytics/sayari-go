@@ -13,7 +13,12 @@ type AttributeProperties struct {
 	RecordCount int    `json:"record_count" url:"record_count"`
 	Id          string `json:"id" url:"id"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AttributeProperties) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AttributeProperties) UnmarshalJSON(data []byte) error {
@@ -23,6 +28,13 @@ func (a *AttributeProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AttributeProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -43,7 +55,12 @@ type AttributeResponseData struct {
 	Value      interface{}            `json:"value,omitempty" url:"value,omitempty"`
 	Properties []*AttributeProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AttributeResponseData) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AttributeResponseData) UnmarshalJSON(data []byte) error {
@@ -53,6 +70,13 @@ func (a *AttributeResponseData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AttributeResponseData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -96,7 +120,12 @@ type PaginatedResponse struct {
 	Limit int             `json:"limit" url:"limit"`
 	Size  *QualifiedCount `json:"size,omitempty" url:"size,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PaginatedResponse) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PaginatedResponse) UnmarshalJSON(data []byte) error {
@@ -106,6 +135,13 @@ func (p *PaginatedResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PaginatedResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -126,7 +162,12 @@ type QualifiedCount struct {
 	Count     int            `json:"count" url:"count"`
 	Qualifier CountQualifier `json:"qualifier" url:"qualifier"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (q *QualifiedCount) GetExtraProperties() map[string]interface{} {
+	return q.extraProperties
 }
 
 func (q *QualifiedCount) UnmarshalJSON(data []byte) error {
@@ -136,6 +177,13 @@ func (q *QualifiedCount) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*q = QualifiedCount(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *q)
+	if err != nil {
+		return err
+	}
+	q.extraProperties = extraProperties
+
 	q._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -158,7 +206,12 @@ type AdditionalInformationData struct {
 	RecordCount int                              `json:"record_count" url:"record_count"`
 	Properties  *AdditionalInformationProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AdditionalInformationData) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AdditionalInformationData) UnmarshalJSON(data []byte) error {
@@ -168,6 +221,13 @@ func (a *AdditionalInformationData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AdditionalInformationData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -192,7 +252,12 @@ type AdditionalInformationInfo struct {
 	Next   interface{}                  `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int                         `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AdditionalInformationInfo) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AdditionalInformationInfo) UnmarshalJSON(data []byte) error {
@@ -202,6 +267,13 @@ func (a *AdditionalInformationInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AdditionalInformationInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -230,7 +302,12 @@ type AdditionalInformationProperties struct {
 	// The additional information itself
 	Value *string `json:"value,omitempty" url:"value,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AdditionalInformationProperties) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AdditionalInformationProperties) UnmarshalJSON(data []byte) error {
@@ -240,6 +317,13 @@ func (a *AdditionalInformationProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AdditionalInformationProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -262,7 +346,12 @@ type AddressData struct {
 	RecordCount int                `json:"record_count" url:"record_count"`
 	Properties  *AddressProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AddressData) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AddressData) UnmarshalJSON(data []byte) error {
@@ -272,6 +361,13 @@ func (a *AddressData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AddressData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -296,7 +392,12 @@ type AddressInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AddressInfo) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AddressInfo) UnmarshalJSON(data []byte) error {
@@ -306,6 +407,13 @@ func (a *AddressInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AddressInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -388,7 +496,12 @@ type AddressProperties struct {
 	// The Y coordinate (latitude) of the address
 	Y *float64 `json:"y,omitempty" url:"y,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AddressProperties) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AddressProperties) UnmarshalJSON(data []byte) error {
@@ -398,6 +511,13 @@ func (a *AddressProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AddressProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -460,7 +580,12 @@ type AttributeData struct {
 	Record      []string `json:"record,omitempty" url:"record,omitempty"`
 	RecordCount int      `json:"record_count" url:"record_count"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AttributeData) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AttributeData) UnmarshalJSON(data []byte) error {
@@ -470,6 +595,13 @@ func (a *AttributeData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AttributeData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -510,7 +642,12 @@ type AttributeDetails struct {
 	TranslatedName        *TranslatedNameInfo        `json:"translated_name,omitempty" url:"translated_name,omitempty"`
 	WeakIdentifier        *WeakIdentifierInfo        `json:"weak_identifier,omitempty" url:"weak_identifier,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AttributeDetails) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AttributeDetails) UnmarshalJSON(data []byte) error {
@@ -520,6 +657,13 @@ func (a *AttributeDetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AttributeDetails(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -624,7 +768,12 @@ type BusinessPurposeData struct {
 	RecordCount int                        `json:"record_count" url:"record_count"`
 	Properties  *BusinessPurposeProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (b *BusinessPurposeData) GetExtraProperties() map[string]interface{} {
+	return b.extraProperties
 }
 
 func (b *BusinessPurposeData) UnmarshalJSON(data []byte) error {
@@ -634,6 +783,13 @@ func (b *BusinessPurposeData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*b = BusinessPurposeData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *b)
+	if err != nil {
+		return err
+	}
+	b.extraProperties = extraProperties
+
 	b._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -658,7 +814,12 @@ type BusinessPurposeInfo struct {
 	Next   interface{}            `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int                   `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (b *BusinessPurposeInfo) GetExtraProperties() map[string]interface{} {
+	return b.extraProperties
 }
 
 func (b *BusinessPurposeInfo) UnmarshalJSON(data []byte) error {
@@ -668,6 +829,13 @@ func (b *BusinessPurposeInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*b = BusinessPurposeInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *b)
+	if err != nil {
+		return err
+	}
+	b.extraProperties = extraProperties
+
 	b._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -698,7 +866,12 @@ type BusinessPurposeProperties struct {
 	// A text description
 	Value *string `json:"value,omitempty" url:"value,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (b *BusinessPurposeProperties) GetExtraProperties() map[string]interface{} {
+	return b.extraProperties
 }
 
 func (b *BusinessPurposeProperties) UnmarshalJSON(data []byte) error {
@@ -708,6 +881,13 @@ func (b *BusinessPurposeProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*b = BusinessPurposeProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *b)
+	if err != nil {
+		return err
+	}
+	b.extraProperties = extraProperties
+
 	b._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -935,7 +1115,12 @@ type CompanyTypeData struct {
 	RecordCount int                    `json:"record_count" url:"record_count"`
 	Properties  *CompanyTypeProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *CompanyTypeData) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *CompanyTypeData) UnmarshalJSON(data []byte) error {
@@ -945,6 +1130,13 @@ func (c *CompanyTypeData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CompanyTypeData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -969,7 +1161,12 @@ type CompanyTypeInfo struct {
 	Next   interface{}        `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int               `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *CompanyTypeInfo) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *CompanyTypeInfo) UnmarshalJSON(data []byte) error {
@@ -979,6 +1176,13 @@ func (c *CompanyTypeInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CompanyTypeInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -1004,7 +1208,12 @@ type CompanyTypeProperties struct {
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	Value  *string `json:"value,omitempty" url:"value,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *CompanyTypeProperties) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *CompanyTypeProperties) UnmarshalJSON(data []byte) error {
@@ -1014,6 +1223,13 @@ func (c *CompanyTypeProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CompanyTypeProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -1036,7 +1252,12 @@ type ContactData struct {
 	RecordCount int                `json:"record_count" url:"record_count"`
 	Properties  *ContactProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *ContactData) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *ContactData) UnmarshalJSON(data []byte) error {
@@ -1046,6 +1267,13 @@ func (c *ContactData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = ContactData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -1070,7 +1298,12 @@ type ContactInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *ContactInfo) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *ContactInfo) UnmarshalJSON(data []byte) error {
@@ -1080,6 +1313,13 @@ func (c *ContactInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = ContactInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -1108,7 +1348,12 @@ type ContactProperties struct {
 	// The contact detail itself (e.g., "jdoe@sayari.com", "202-555-5555")
 	Value string `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *ContactProperties) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *ContactProperties) UnmarshalJSON(data []byte) error {
@@ -1118,6 +1363,13 @@ func (c *ContactProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = ContactProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -2263,7 +2515,12 @@ type CountryData struct {
 	RecordCount int                `json:"record_count" url:"record_count"`
 	Properties  *CountryProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *CountryData) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *CountryData) UnmarshalJSON(data []byte) error {
@@ -2273,6 +2530,13 @@ func (c *CountryData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CountryData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -2297,7 +2561,12 @@ type CountryInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *CountryInfo) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *CountryInfo) UnmarshalJSON(data []byte) error {
@@ -2307,6 +2576,13 @@ func (c *CountryInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CountryInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -2337,7 +2613,12 @@ type CountryProperties struct {
 	// The country, ideally normalized to an ISO trigram
 	Value Country `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *CountryProperties) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *CountryProperties) UnmarshalJSON(data []byte) error {
@@ -2347,6 +2628,13 @@ func (c *CountryProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CountryProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3130,7 +3418,12 @@ type DateOfBirthData struct {
 	RecordCount int                    `json:"record_count" url:"record_count"`
 	Properties  *DateOfBirthProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (d *DateOfBirthData) GetExtraProperties() map[string]interface{} {
+	return d.extraProperties
 }
 
 func (d *DateOfBirthData) UnmarshalJSON(data []byte) error {
@@ -3140,6 +3433,13 @@ func (d *DateOfBirthData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DateOfBirthData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+
 	d._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3164,7 +3464,12 @@ type DateOfBirthInfo struct {
 	Next   interface{}        `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int               `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (d *DateOfBirthInfo) GetExtraProperties() map[string]interface{} {
+	return d.extraProperties
 }
 
 func (d *DateOfBirthInfo) UnmarshalJSON(data []byte) error {
@@ -3174,6 +3479,13 @@ func (d *DateOfBirthInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DateOfBirthInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+
 	d._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3200,7 +3512,12 @@ type DateOfBirthProperties struct {
 	// The date of birth in YYYY-MM-DD, YYYY-MM, or YYYY format
 	Value string `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (d *DateOfBirthProperties) GetExtraProperties() map[string]interface{} {
+	return d.extraProperties
 }
 
 func (d *DateOfBirthProperties) UnmarshalJSON(data []byte) error {
@@ -3210,6 +3527,13 @@ func (d *DateOfBirthProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DateOfBirthProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+
 	d._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3338,7 +3662,12 @@ type FinancesData struct {
 	RecordCount int                 `json:"record_count" url:"record_count"`
 	Properties  *FinancesProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (f *FinancesData) GetExtraProperties() map[string]interface{} {
+	return f.extraProperties
 }
 
 func (f *FinancesData) UnmarshalJSON(data []byte) error {
@@ -3348,6 +3677,13 @@ func (f *FinancesData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*f = FinancesData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *f)
+	if err != nil {
+		return err
+	}
+	f.extraProperties = extraProperties
+
 	f._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3372,7 +3708,12 @@ type FinancesInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (f *FinancesInfo) GetExtraProperties() map[string]interface{} {
+	return f.extraProperties
 }
 
 func (f *FinancesInfo) UnmarshalJSON(data []byte) error {
@@ -3382,6 +3723,13 @@ func (f *FinancesInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*f = FinancesInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *f)
+	if err != nil {
+		return err
+	}
+	f.extraProperties = extraProperties
+
 	f._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3414,7 +3762,12 @@ type FinancesProperties struct {
 	// The numerical amount
 	Value float64 `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (f *FinancesProperties) GetExtraProperties() map[string]interface{} {
+	return f.extraProperties
 }
 
 func (f *FinancesProperties) UnmarshalJSON(data []byte) error {
@@ -3424,6 +3777,13 @@ func (f *FinancesProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*f = FinancesProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *f)
+	if err != nil {
+		return err
+	}
+	f.extraProperties = extraProperties
+
 	f._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3446,7 +3806,12 @@ type FinancialsData struct {
 	RecordCount int                   `json:"record_count" url:"record_count"`
 	Properties  *FinancialsProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (f *FinancialsData) GetExtraProperties() map[string]interface{} {
+	return f.extraProperties
 }
 
 func (f *FinancialsData) UnmarshalJSON(data []byte) error {
@@ -3456,6 +3821,13 @@ func (f *FinancialsData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*f = FinancialsData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *f)
+	if err != nil {
+		return err
+	}
+	f.extraProperties = extraProperties
+
 	f._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3480,7 +3852,12 @@ type FinancialsInfo struct {
 	Next   interface{}       `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int              `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (f *FinancialsInfo) GetExtraProperties() map[string]interface{} {
+	return f.extraProperties
 }
 
 func (f *FinancialsInfo) UnmarshalJSON(data []byte) error {
@@ -3490,6 +3867,13 @@ func (f *FinancialsInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*f = FinancialsInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *f)
+	if err != nil {
+		return err
+	}
+	f.extraProperties = extraProperties
+
 	f._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3530,7 +3914,12 @@ type FinancialsProperties struct {
 	// end date
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (f *FinancialsProperties) GetExtraProperties() map[string]interface{} {
+	return f.extraProperties
 }
 
 func (f *FinancialsProperties) UnmarshalJSON(data []byte) error {
@@ -3540,6 +3929,13 @@ func (f *FinancialsProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*f = FinancialsProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *f)
+	if err != nil {
+		return err
+	}
+	f.extraProperties = extraProperties
+
 	f._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3591,7 +3987,12 @@ type GenderData struct {
 	RecordCount int               `json:"record_count" url:"record_count"`
 	Properties  *GenderProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GenderData) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GenderData) UnmarshalJSON(data []byte) error {
@@ -3601,6 +4002,13 @@ func (g *GenderData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GenderData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3625,7 +4033,12 @@ type GenderInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GenderInfo) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GenderInfo) UnmarshalJSON(data []byte) error {
@@ -3635,6 +4048,13 @@ func (g *GenderInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GenderInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3661,7 +4081,12 @@ type GenderProperties struct {
 	// May be described as "female", "male", or "other"
 	Value Gender `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GenderProperties) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GenderProperties) UnmarshalJSON(data []byte) error {
@@ -3671,6 +4096,13 @@ func (g *GenderProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GenderProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3693,7 +4125,12 @@ type GenericData struct {
 	RecordCount int                `json:"record_count" url:"record_count"`
 	Properties  *GenericProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GenericData) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GenericData) UnmarshalJSON(data []byte) error {
@@ -3703,6 +4140,13 @@ func (g *GenericData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GenericData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3727,7 +4171,12 @@ type GenericInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GenericInfo) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GenericInfo) UnmarshalJSON(data []byte) error {
@@ -3737,6 +4186,13 @@ func (g *GenericInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GenericInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3765,7 +4221,12 @@ type GenericProperties struct {
 	// The value of the attribute as text (e.g., "Max")
 	Value *string `json:"value,omitempty" url:"value,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GenericProperties) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GenericProperties) UnmarshalJSON(data []byte) error {
@@ -3775,6 +4236,13 @@ func (g *GenericProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GenericProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3797,7 +4265,12 @@ type IdentifierData struct {
 	RecordCount int                   `json:"record_count" url:"record_count"`
 	Properties  *IdentifierProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (i *IdentifierData) GetExtraProperties() map[string]interface{} {
+	return i.extraProperties
 }
 
 func (i *IdentifierData) UnmarshalJSON(data []byte) error {
@@ -3807,6 +4280,13 @@ func (i *IdentifierData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*i = IdentifierData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *i)
+	if err != nil {
+		return err
+	}
+	i.extraProperties = extraProperties
+
 	i._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3831,7 +4311,12 @@ type IdentifierInfo struct {
 	Next   interface{}       `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int              `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (i *IdentifierInfo) GetExtraProperties() map[string]interface{} {
+	return i.extraProperties
 }
 
 func (i *IdentifierInfo) UnmarshalJSON(data []byte) error {
@@ -3841,6 +4326,13 @@ func (i *IdentifierInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*i = IdentifierInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *i)
+	if err != nil {
+		return err
+	}
+	i.extraProperties = extraProperties
+
 	i._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3868,7 +4360,12 @@ type IdentifierProperties struct {
 	// The text/number value of the identifier
 	Value string `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (i *IdentifierProperties) GetExtraProperties() map[string]interface{} {
+	return i.extraProperties
 }
 
 func (i *IdentifierProperties) UnmarshalJSON(data []byte) error {
@@ -3878,6 +4375,13 @@ func (i *IdentifierProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*i = IdentifierProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *i)
+	if err != nil {
+		return err
+	}
+	i.extraProperties = extraProperties
+
 	i._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -6960,7 +7464,12 @@ type MeasurementData struct {
 	RecordCount int                    `json:"record_count" url:"record_count"`
 	Properties  *MeasurementProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MeasurementData) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MeasurementData) UnmarshalJSON(data []byte) error {
@@ -6970,6 +7479,13 @@ func (m *MeasurementData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MeasurementData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -6994,7 +7510,12 @@ type MeasurementInfo struct {
 	Next   interface{}        `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int               `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MeasurementInfo) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MeasurementInfo) UnmarshalJSON(data []byte) error {
@@ -7004,6 +7525,13 @@ func (m *MeasurementInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MeasurementInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7034,7 +7562,12 @@ type MeasurementProperties struct {
 	// The value of the measurement
 	Value float64 `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MeasurementProperties) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MeasurementProperties) UnmarshalJSON(data []byte) error {
@@ -7044,6 +7577,13 @@ func (m *MeasurementProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MeasurementProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7120,7 +7660,12 @@ type MonetaryValueData struct {
 	RecordCount int                      `json:"record_count" url:"record_count"`
 	Properties  *MonetaryValueProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MonetaryValueData) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MonetaryValueData) UnmarshalJSON(data []byte) error {
@@ -7130,6 +7675,13 @@ func (m *MonetaryValueData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MonetaryValueData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7154,7 +7706,12 @@ type MonetaryValueInfo struct {
 	Next   interface{}          `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int                 `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MonetaryValueInfo) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MonetaryValueInfo) UnmarshalJSON(data []byte) error {
@@ -7164,6 +7721,13 @@ func (m *MonetaryValueInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MonetaryValueInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7194,7 +7758,12 @@ type MonetaryValueProperties struct {
 	// The financial value of the asset
 	Value float64 `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MonetaryValueProperties) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MonetaryValueProperties) UnmarshalJSON(data []byte) error {
@@ -7204,6 +7773,13 @@ func (m *MonetaryValueProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MonetaryValueProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7267,7 +7843,12 @@ type NameData struct {
 	RecordCount int             `json:"record_count" url:"record_count"`
 	Properties  *NameProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (n *NameData) GetExtraProperties() map[string]interface{} {
+	return n.extraProperties
 }
 
 func (n *NameData) UnmarshalJSON(data []byte) error {
@@ -7277,6 +7858,13 @@ func (n *NameData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*n = NameData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+
 	n._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7301,7 +7889,12 @@ type NameInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (n *NameInfo) GetExtraProperties() map[string]interface{} {
+	return n.extraProperties
 }
 
 func (n *NameInfo) UnmarshalJSON(data []byte) error {
@@ -7311,6 +7904,13 @@ func (n *NameInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*n = NameInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+
 	n._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7344,7 +7944,12 @@ type NameProperties struct {
 	// The name, as text
 	Value string `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (n *NameProperties) GetExtraProperties() map[string]interface{} {
+	return n.extraProperties
 }
 
 func (n *NameProperties) UnmarshalJSON(data []byte) error {
@@ -7354,6 +7959,13 @@ func (n *NameProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*n = NameProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+
 	n._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7405,7 +8017,12 @@ type PersonStatusData struct {
 	RecordCount int                     `json:"record_count" url:"record_count"`
 	Properties  *PersonStatusProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PersonStatusData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PersonStatusData) UnmarshalJSON(data []byte) error {
@@ -7415,6 +8032,13 @@ func (p *PersonStatusData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PersonStatusData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7439,7 +8063,12 @@ type PersonStatusInfo struct {
 	Next   interface{}         `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int                `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PersonStatusInfo) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PersonStatusInfo) UnmarshalJSON(data []byte) error {
@@ -7449,6 +8078,13 @@ func (p *PersonStatusInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PersonStatusInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7475,7 +8111,12 @@ type PersonStatusProperties struct {
 	// The event
 	Value PersonStatus `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PersonStatusProperties) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PersonStatusProperties) UnmarshalJSON(data []byte) error {
@@ -7485,6 +8126,13 @@ func (p *PersonStatusProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PersonStatusProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7507,7 +8155,12 @@ type PositionData struct {
 	RecordCount int                 `json:"record_count" url:"record_count"`
 	Properties  *PositionProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PositionData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PositionData) UnmarshalJSON(data []byte) error {
@@ -7517,6 +8170,13 @@ func (p *PositionData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PositionData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7541,7 +8201,12 @@ type PositionInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PositionInfo) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PositionInfo) UnmarshalJSON(data []byte) error {
@@ -7551,6 +8216,13 @@ func (p *PositionInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PositionInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -7577,7 +8249,12 @@ type PositionProperties struct {
 	// The position as text
 	Value string `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PositionProperties) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PositionProperties) UnmarshalJSON(data []byte) error {
@@ -7587,6 +8264,13 @@ func (p *PositionProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PositionProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8225,7 +8909,12 @@ type RiskIntelligenceData struct {
 	RecordCount int                         `json:"record_count" url:"record_count"`
 	Properties  *RiskIntelligenceProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RiskIntelligenceData) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RiskIntelligenceData) UnmarshalJSON(data []byte) error {
@@ -8235,6 +8924,13 @@ func (r *RiskIntelligenceData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RiskIntelligenceData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8259,7 +8955,12 @@ type RiskIntelligenceInfo struct {
 	Next   interface{}             `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int                    `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RiskIntelligenceInfo) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RiskIntelligenceInfo) UnmarshalJSON(data []byte) error {
@@ -8269,6 +8970,13 @@ func (r *RiskIntelligenceInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RiskIntelligenceInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8303,7 +9011,12 @@ type RiskIntelligenceProperties struct {
 	// Type of risk intelligence
 	Type Tag `json:"type" url:"type"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RiskIntelligenceProperties) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RiskIntelligenceProperties) UnmarshalJSON(data []byte) error {
@@ -8313,6 +9026,13 @@ func (r *RiskIntelligenceProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RiskIntelligenceProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8335,7 +9055,12 @@ type SharesData struct {
 	RecordCount int               `json:"record_count" url:"record_count"`
 	Properties  *SharesProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SharesData) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SharesData) UnmarshalJSON(data []byte) error {
@@ -8345,6 +9070,13 @@ func (s *SharesData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SharesData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8369,7 +9101,12 @@ type SharesInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SharesInfo) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SharesInfo) UnmarshalJSON(data []byte) error {
@@ -8379,6 +9116,13 @@ func (s *SharesInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SharesInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8413,7 +9157,12 @@ type SharesProperties struct {
 	// A string describing the type of shares (e.g., "Class B", "Protected cell shares")
 	Type *string `json:"type,omitempty" url:"type,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SharesProperties) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SharesProperties) UnmarshalJSON(data []byte) error {
@@ -8423,6 +9172,13 @@ func (s *SharesProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SharesProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8482,7 +9238,12 @@ type StatusData struct {
 	RecordCount int               `json:"record_count" url:"record_count"`
 	Properties  *StatusProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *StatusData) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *StatusData) UnmarshalJSON(data []byte) error {
@@ -8492,6 +9253,13 @@ func (s *StatusData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = StatusData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8516,7 +9284,12 @@ type StatusInfo struct {
 	Next   interface{}     `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int            `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *StatusInfo) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *StatusInfo) UnmarshalJSON(data []byte) error {
@@ -8526,6 +9299,13 @@ func (s *StatusInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = StatusInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8556,7 +9336,12 @@ type StatusProperties struct {
 	// The status, normalized to one of the status enums
 	Value *CompanyStatus `json:"value,omitempty" url:"value,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *StatusProperties) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *StatusProperties) UnmarshalJSON(data []byte) error {
@@ -8566,6 +9351,13 @@ func (s *StatusProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = StatusProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8665,7 +9457,12 @@ type TranslatedNameData struct {
 	RecordCount int                       `json:"record_count" url:"record_count"`
 	Properties  *TranslatedNameProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TranslatedNameData) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TranslatedNameData) UnmarshalJSON(data []byte) error {
@@ -8675,6 +9472,13 @@ func (t *TranslatedNameData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TranslatedNameData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8699,7 +9503,12 @@ type TranslatedNameInfo struct {
 	Next   interface{}           `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int                  `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TranslatedNameInfo) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TranslatedNameInfo) UnmarshalJSON(data []byte) error {
@@ -8709,6 +9518,13 @@ func (t *TranslatedNameInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TranslatedNameInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8739,7 +9555,12 @@ type TranslatedNameProperties struct {
 	// The name, as text
 	Value string `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TranslatedNameProperties) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TranslatedNameProperties) UnmarshalJSON(data []byte) error {
@@ -8749,6 +9570,13 @@ func (t *TranslatedNameProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TranslatedNameProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8829,7 +9657,12 @@ type WeakIdentifierData struct {
 	RecordCount int                       `json:"record_count" url:"record_count"`
 	Properties  *WeakIdentifierProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (w *WeakIdentifierData) GetExtraProperties() map[string]interface{} {
+	return w.extraProperties
 }
 
 func (w *WeakIdentifierData) UnmarshalJSON(data []byte) error {
@@ -8839,6 +9672,13 @@ func (w *WeakIdentifierData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*w = WeakIdentifierData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *w)
+	if err != nil {
+		return err
+	}
+	w.extraProperties = extraProperties
+
 	w._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8863,7 +9703,12 @@ type WeakIdentifierInfo struct {
 	Next   interface{}           `json:"next,omitempty" url:"next,omitempty"`
 	Offset *int                  `json:"offset,omitempty" url:"offset,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (w *WeakIdentifierInfo) GetExtraProperties() map[string]interface{} {
+	return w.extraProperties
 }
 
 func (w *WeakIdentifierInfo) UnmarshalJSON(data []byte) error {
@@ -8873,6 +9718,13 @@ func (w *WeakIdentifierInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*w = WeakIdentifierInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *w)
+	if err != nil {
+		return err
+	}
+	w.extraProperties = extraProperties
+
 	w._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -8901,7 +9753,12 @@ type WeakIdentifierProperties struct {
 	// The text value of the identifier
 	Value string `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (w *WeakIdentifierProperties) GetExtraProperties() map[string]interface{} {
+	return w.extraProperties
 }
 
 func (w *WeakIdentifierProperties) UnmarshalJSON(data []byte) error {
@@ -8911,6 +9768,13 @@ func (w *WeakIdentifierProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*w = WeakIdentifierProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *w)
+	if err != nil {
+		return err
+	}
+	w.extraProperties = extraProperties
+
 	w._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9381,7 +10245,12 @@ type HistoryInfo struct {
 	Data        EventInfo `json:"data,omitempty" url:"data,omitempty"`
 	Timestamp   string    `json:"timestamp" url:"timestamp"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HistoryInfo) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
 }
 
 func (h *HistoryInfo) UnmarshalJSON(data []byte) error {
@@ -9391,6 +10260,13 @@ func (h *HistoryInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HistoryInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
 	h._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9417,7 +10293,12 @@ type UsageInfo struct {
 	SearchTrade    *int `json:"search_trade,omitempty" url:"search_trade,omitempty"`
 	Traversal      *int `json:"traversal,omitempty" url:"traversal,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (u *UsageInfo) GetExtraProperties() map[string]interface{} {
+	return u.extraProperties
 }
 
 func (u *UsageInfo) UnmarshalJSON(data []byte) error {
@@ -9427,6 +10308,13 @@ func (u *UsageInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*u = UsageInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+
 	u._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9454,7 +10342,12 @@ type Notification struct {
 	Date                  string                             `json:"date" url:"date"`
 	AdditionalInformation *NotificationAdditionalInformation `json:"additional_information,omitempty" url:"additional_information,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (n *Notification) GetExtraProperties() map[string]interface{} {
+	return n.extraProperties
 }
 
 func (n *Notification) UnmarshalJSON(data []byte) error {
@@ -9464,6 +10357,13 @@ func (n *Notification) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*n = Notification(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+
 	n._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9484,7 +10384,12 @@ type NotificationAdditionalInformation struct {
 	Value      map[string]interface{}             `json:"value,omitempty" url:"value,omitempty"`
 	Properties []*AdditionalInformationProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (n *NotificationAdditionalInformation) GetExtraProperties() map[string]interface{} {
+	return n.extraProperties
 }
 
 func (n *NotificationAdditionalInformation) UnmarshalJSON(data []byte) error {
@@ -9494,6 +10399,13 @@ func (n *NotificationAdditionalInformation) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*n = NotificationAdditionalInformation(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+
 	n._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9538,7 +10450,12 @@ type ProjectNotificationData struct {
 	EntityId      string          `json:"entity_id" url:"entity_id"`
 	Notifications []*Notification `json:"notifications,omitempty" url:"notifications,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectNotificationData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *ProjectNotificationData) UnmarshalJSON(data []byte) error {
@@ -9548,6 +10465,13 @@ func (p *ProjectNotificationData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectNotificationData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9580,7 +10504,12 @@ type ResourceNotificationData struct {
 	// The date the notification was created
 	Date string `json:"date" url:"date"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResourceNotificationData) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *ResourceNotificationData) UnmarshalJSON(data []byte) error {
@@ -9590,6 +10519,13 @@ func (r *ResourceNotificationData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResourceNotificationData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9614,7 +10550,12 @@ type BucketAgg struct {
 	Comment    *string      `json:"comment,omitempty" url:"comment,omitempty"`
 	HsCodeSums *IntKeyValue `json:"hs_code_sums,omitempty" url:"hs_code_sums,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (b *BucketAgg) GetExtraProperties() map[string]interface{} {
+	return b.extraProperties
 }
 
 func (b *BucketAgg) UnmarshalJSON(data []byte) error {
@@ -9624,6 +10565,13 @@ func (b *BucketAgg) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*b = BucketAgg(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *b)
+	if err != nil {
+		return err
+	}
+	b.extraProperties = extraProperties
+
 	b._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9643,7 +10591,12 @@ func (b *BucketAgg) String() string {
 type DocCount struct {
 	DocCount int `json:"doc_count" url:"doc_count"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (d *DocCount) GetExtraProperties() map[string]interface{} {
+	return d.extraProperties
 }
 
 func (d *DocCount) UnmarshalJSON(data []byte) error {
@@ -9653,6 +10606,13 @@ func (d *DocCount) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DocCount(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+
 	d._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9673,7 +10633,12 @@ type HsCodeAgg struct {
 	DocCount    int             `json:"doc_count" url:"doc_count"`
 	HsCodeTerms *HsCodeAggTerms `json:"hs_code_terms,omitempty" url:"hs_code_terms,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HsCodeAgg) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
 }
 
 func (h *HsCodeAgg) UnmarshalJSON(data []byte) error {
@@ -9683,6 +10648,13 @@ func (h *HsCodeAgg) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCodeAgg(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
 	h._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9704,7 +10676,12 @@ type HsCodeAggBucket struct {
 	DocCount   int          `json:"doc_count" url:"doc_count"`
 	HsCodeSums *IntKeyValue `json:"hs_code_sums,omitempty" url:"hs_code_sums,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HsCodeAggBucket) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
 }
 
 func (h *HsCodeAggBucket) UnmarshalJSON(data []byte) error {
@@ -9714,6 +10691,13 @@ func (h *HsCodeAggBucket) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCodeAggBucket(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
 	h._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9735,7 +10719,12 @@ type HsCodeAggTerms struct {
 	SumOtherDocCount        int                `json:"sum_other_doc_count" url:"sum_other_doc_count"`
 	Buckets                 []*HsCodeAggBucket `json:"buckets,omitempty" url:"buckets,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HsCodeAggTerms) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
 }
 
 func (h *HsCodeAggTerms) UnmarshalJSON(data []byte) error {
@@ -9745,6 +10734,13 @@ func (h *HsCodeAggTerms) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCodeAggTerms(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
 	h._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9764,7 +10760,12 @@ func (h *HsCodeAggTerms) String() string {
 type IntKeyValue struct {
 	Value int `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (i *IntKeyValue) GetExtraProperties() map[string]interface{} {
+	return i.extraProperties
 }
 
 func (i *IntKeyValue) UnmarshalJSON(data []byte) error {
@@ -9774,6 +10775,13 @@ func (i *IntKeyValue) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*i = IntKeyValue(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *i)
+	if err != nil {
+		return err
+	}
+	i.extraProperties = extraProperties
+
 	i._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9795,7 +10803,12 @@ type PsaSummary struct {
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
 	Count     int       `json:"count" url:"count"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PsaSummary) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PsaSummary) UnmarshalJSON(data []byte) error {
@@ -9805,6 +10818,13 @@ func (p *PsaSummary) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PsaSummary(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9832,7 +10852,12 @@ type Project struct {
 	Updated  string         `json:"updated" url:"updated"`
 	Counts   *ProjectCounts `json:"counts,omitempty" url:"counts,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *Project) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *Project) UnmarshalJSON(data []byte) error {
@@ -9842,6 +10867,13 @@ func (p *Project) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = Project(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9865,7 +10897,12 @@ type ProjectCounts struct {
 	Search *int `json:"search,omitempty" url:"search,omitempty"`
 	Record *int `json:"record,omitempty" url:"record,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectCounts) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *ProjectCounts) UnmarshalJSON(data []byte) error {
@@ -9875,6 +10912,13 @@ func (p *ProjectCounts) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectCounts(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9910,7 +10954,12 @@ type ProjectEntitiesAggs struct {
 	SourceType      []*BucketAgg `json:"source_type,omitempty" url:"source_type,omitempty"`
 	Region          []*BucketAgg `json:"region,omitempty" url:"region,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectEntitiesAggs) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *ProjectEntitiesAggs) UnmarshalJSON(data []byte) error {
@@ -9920,6 +10969,13 @@ func (p *ProjectEntitiesAggs) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectEntitiesAggs(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -9962,7 +11018,12 @@ type ProjectEntity struct {
 	Psa              *PsaSummary            `json:"psa,omitempty" url:"psa,omitempty"`
 	type_            string
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectEntity) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *ProjectEntity) Type() string {
@@ -9981,6 +11042,12 @@ func (p *ProjectEntity) UnmarshalJSON(data []byte) error {
 	}
 	*p = ProjectEntity(unmarshaler.embed)
 	p.type_ = "entity"
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p, "type")
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
 
 	p._rawJSON = json.RawMessage(data)
 	return nil
@@ -10014,7 +11081,12 @@ type ProjectEntityUpstream struct {
 	Risk      []Risk    `json:"risk,omitempty" url:"risk,omitempty"`
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectEntityUpstream) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *ProjectEntityUpstream) UnmarshalJSON(data []byte) error {
@@ -10024,6 +11096,13 @@ func (p *ProjectEntityUpstream) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectEntityUpstream(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10043,7 +11122,12 @@ func (p *ProjectEntityUpstream) String() string {
 type ProjectShareOnCreate struct {
 	Org Role `json:"org" url:"org"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectShareOnCreate) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *ProjectShareOnCreate) UnmarshalJSON(data []byte) error {
@@ -10053,6 +11137,13 @@ func (p *ProjectShareOnCreate) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectShareOnCreate(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10081,7 +11172,12 @@ type ProjectWithMembers struct {
 	Counts   *ProjectCounts `json:"counts,omitempty" url:"counts,omitempty"`
 	Members  []*RoleMember  `json:"members,omitempty" url:"members,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectWithMembers) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *ProjectWithMembers) UnmarshalJSON(data []byte) error {
@@ -10091,6 +11187,13 @@ func (p *ProjectWithMembers) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectWithMembers(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10143,7 +11246,12 @@ type RoleMember struct {
 	Created string         `json:"created" url:"created"`
 	Updated string         `json:"updated" url:"updated"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RoleMember) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RoleMember) UnmarshalJSON(data []byte) error {
@@ -10153,6 +11261,13 @@ func (r *RoleMember) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RoleMember(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10198,7 +11313,12 @@ type TradeCount struct {
 	ReceiverOf int `json:"receiver_of" url:"receiver_of"`
 	ShipperOf  int `json:"shipper_of" url:"shipper_of"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeCount) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TradeCount) UnmarshalJSON(data []byte) error {
@@ -10208,6 +11328,13 @@ func (t *TradeCount) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TradeCount(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10231,7 +11358,12 @@ type RecordReferences struct {
 	Offset int             `json:"offset" url:"offset"`
 	Data   interface{}     `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RecordReferences) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RecordReferences) UnmarshalJSON(data []byte) error {
@@ -10241,6 +11373,13 @@ func (r *RecordReferences) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RecordReferences(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10263,7 +11402,12 @@ type MatchExplanation struct {
 	NameCustomTfIdfScore *float64 `json:"nameCustomTfIdfScore,omitempty" url:"nameCustomTfIdfScore,omitempty"`
 	HighQualityMatchName *bool    `json:"highQualityMatchName,omitempty" url:"highQualityMatchName,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MatchExplanation) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MatchExplanation) UnmarshalJSON(data []byte) error {
@@ -10273,6 +11417,13 @@ func (m *MatchExplanation) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MatchExplanation(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10292,7 +11443,12 @@ func (m *MatchExplanation) String() string {
 type MatchStrength struct {
 	Value string `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MatchStrength) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MatchStrength) UnmarshalJSON(data []byte) error {
@@ -10302,6 +11458,13 @@ func (m *MatchStrength) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MatchStrength(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10330,7 +11493,12 @@ type ResolutionResponseFields struct {
 	// [Entity type](/sayari-library/ontology/entities)
 	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionResponseFields) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *ResolutionResponseFields) UnmarshalJSON(data []byte) error {
@@ -10340,6 +11508,13 @@ func (r *ResolutionResponseFields) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionResponseFields(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10373,7 +11548,12 @@ type ResolutionResult struct {
 	Explanation         map[string][]*MatchExplanation `json:"explanation,omitempty" url:"explanation,omitempty"`
 	MatchStrength       *MatchStrength                 `json:"match_strength,omitempty" url:"match_strength,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionResult) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *ResolutionResult) UnmarshalJSON(data []byte) error {
@@ -10383,6 +11563,13 @@ func (r *ResolutionResult) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionResult(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10412,7 +11599,12 @@ type EntityResponseData struct {
 	TagIds     []string     `json:"tag_ids,omitempty" url:"tag_ids,omitempty"`
 	CaseStatus string       `json:"case_status" url:"case_status"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (e *EntityResponseData) GetExtraProperties() map[string]interface{} {
+	return e.extraProperties
 }
 
 func (e *EntityResponseData) UnmarshalJSON(data []byte) error {
@@ -10422,6 +11614,13 @@ func (e *EntityResponseData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EntityResponseData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	if err != nil {
+		return err
+	}
+	e.extraProperties = extraProperties
+
 	e._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10443,7 +11642,12 @@ type Coordinates struct {
 	Lng     float64 `json:"lng" url:"lng"`
 	Address string  `json:"address" url:"address"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *Coordinates) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *Coordinates) UnmarshalJSON(data []byte) error {
@@ -10453,6 +11657,13 @@ func (c *Coordinates) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = Coordinates(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10527,7 +11738,12 @@ type SearchResults struct {
 	Coordinates    []*Coordinates       `json:"coordinates,omitempty" url:"coordinates,omitempty"`
 	Matches        EntityMatches        `json:"matches,omitempty" url:"matches,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SearchResults) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SearchResults) UnmarshalJSON(data []byte) error {
@@ -10537,6 +11753,13 @@ func (s *SearchResults) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SearchResults(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10574,7 +11797,12 @@ type MethodNotAllowedResponse struct {
 	Message []string `json:"message,omitempty" url:"message,omitempty"`
 	Success bool     `json:"success" url:"success"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MethodNotAllowedResponse) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MethodNotAllowedResponse) UnmarshalJSON(data []byte) error {
@@ -10584,6 +11812,13 @@ func (m *MethodNotAllowedResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MethodNotAllowedResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10606,7 +11841,12 @@ type NotAcceptableResponse struct {
 	Message []string `json:"message,omitempty" url:"message,omitempty"`
 	Success bool     `json:"success" url:"success"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (n *NotAcceptableResponse) GetExtraProperties() map[string]interface{} {
+	return n.extraProperties
 }
 
 func (n *NotAcceptableResponse) UnmarshalJSON(data []byte) error {
@@ -10616,6 +11856,13 @@ func (n *NotAcceptableResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*n = NotAcceptableResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+
 	n._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10638,7 +11885,12 @@ type NotFoundResponse struct {
 	Message []string `json:"message,omitempty" url:"message,omitempty"`
 	Success bool     `json:"success" url:"success"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (n *NotFoundResponse) GetExtraProperties() map[string]interface{} {
+	return n.extraProperties
 }
 
 func (n *NotFoundResponse) UnmarshalJSON(data []byte) error {
@@ -10648,6 +11900,13 @@ func (n *NotFoundResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*n = NotFoundResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+
 	n._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10706,7 +11965,12 @@ type Coordinate struct {
 	Lng     float64 `json:"lng" url:"lng"`
 	Address string  `json:"address" url:"address"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *Coordinate) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *Coordinate) UnmarshalJSON(data []byte) error {
@@ -10716,6 +11980,13 @@ func (c *Coordinate) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = Coordinate(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10782,7 +12053,12 @@ type CoreEntity struct {
 	Editable *bool      `json:"editable,omitempty" url:"editable,omitempty"`
 	Upload   *string    `json:"upload,omitempty" url:"upload,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *CoreEntity) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *CoreEntity) UnmarshalJSON(data []byte) error {
@@ -10792,6 +12068,13 @@ func (c *CoreEntity) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CoreEntity(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10850,7 +12133,12 @@ type EmbeddedEntity struct {
 	UserRecordCount          int                `json:"user_record_count" url:"user_record_count"`
 	ReferenceId              *string            `json:"reference_id,omitempty" url:"reference_id,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (e *EmbeddedEntity) GetExtraProperties() map[string]interface{} {
+	return e.extraProperties
 }
 
 func (e *EmbeddedEntity) UnmarshalJSON(data []byte) error {
@@ -10860,6 +12148,13 @@ func (e *EmbeddedEntity) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EmbeddedEntity(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	if err != nil {
+		return err
+	}
+	e.extraProperties = extraProperties
+
 	e._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10933,7 +12228,12 @@ type EntityDetails struct {
 	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
 	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (e *EntityDetails) GetExtraProperties() map[string]interface{} {
+	return e.extraProperties
 }
 
 func (e *EntityDetails) UnmarshalJSON(data []byte) error {
@@ -10943,6 +12243,13 @@ func (e *EntityDetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EntityDetails(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	if err != nil {
+		return err
+	}
+	e.extraProperties = extraProperties
+
 	e._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -10975,7 +12282,12 @@ type EntityRelationships struct {
 	Next  interface{}         `json:"next,omitempty" url:"next,omitempty"`
 	Data  []*RelationshipData `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (e *EntityRelationships) GetExtraProperties() map[string]interface{} {
+	return e.extraProperties
 }
 
 func (e *EntityRelationships) UnmarshalJSON(data []byte) error {
@@ -10985,6 +12297,13 @@ func (e *EntityRelationships) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EntityRelationships(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	if err != nil {
+		return err
+	}
+	e.extraProperties = extraProperties
+
 	e._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11007,7 +12326,12 @@ type EntityRisk = map[Risk]*RiskData
 type EntitySummary struct {
 	Attributes map[Attributes][]interface{} `json:"attributes,omitempty" url:"attributes,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (e *EntitySummary) GetExtraProperties() map[string]interface{} {
+	return e.extraProperties
 }
 
 func (e *EntitySummary) UnmarshalJSON(data []byte) error {
@@ -11017,6 +12341,13 @@ func (e *EntitySummary) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EntitySummary(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	if err != nil {
+		return err
+	}
+	e.extraProperties = extraProperties
+
 	e._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11043,7 +12374,12 @@ type Identifier struct {
 	Type  *BothIdentifierTypes `json:"type,omitempty" url:"type,omitempty"`
 	Label string               `json:"label" url:"label"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (i *Identifier) GetExtraProperties() map[string]interface{} {
+	return i.extraProperties
 }
 
 func (i *Identifier) UnmarshalJSON(data []byte) error {
@@ -11053,6 +12389,13 @@ func (i *Identifier) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*i = Identifier(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *i)
+	if err != nil {
+		return err
+	}
+	i.extraProperties = extraProperties
+
 	i._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11075,7 +12418,12 @@ type Psa struct {
 	Count     *int            `json:"count,omitempty" url:"count,omitempty"`
 	MatchKeys []*PsaMatchKeys `json:"match_keys,omitempty" url:"match_keys,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *Psa) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *Psa) UnmarshalJSON(data []byte) error {
@@ -11085,6 +12433,13 @@ func (p *Psa) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = Psa(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11147,7 +12502,12 @@ type PsaEntity struct {
 	CompanyType              *CompanyType            `json:"company_type,omitempty" url:"company_type,omitempty"`
 	LatestStatus             *Status                 `json:"latest_status,omitempty" url:"latest_status,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PsaEntity) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PsaEntity) UnmarshalJSON(data []byte) error {
@@ -11157,6 +12517,13 @@ func (p *PsaEntity) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PsaEntity(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11178,7 +12545,12 @@ type PsaMatchKeys struct {
 	Normalized string `json:"normalized" url:"normalized"`
 	Original   string `json:"original" url:"original"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PsaMatchKeys) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PsaMatchKeys) UnmarshalJSON(data []byte) error {
@@ -11188,6 +12560,13 @@ func (p *PsaMatchKeys) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PsaMatchKeys(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11212,7 +12591,12 @@ type PossiblySameAs struct {
 	Next   interface{}           `json:"next,omitempty" url:"next,omitempty"`
 	Data   []*PossiblySameAsData `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PossiblySameAs) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PossiblySameAs) UnmarshalJSON(data []byte) error {
@@ -11222,6 +12606,13 @@ func (p *PossiblySameAs) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PossiblySameAs(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11243,7 +12634,12 @@ type PossiblySameAsData struct {
 	Entity   *PsaEntity                        `json:"entity,omitempty" url:"entity,omitempty"`
 	Matches  map[string][]*PossiblySameAsMatch `json:"matches,omitempty" url:"matches,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PossiblySameAsData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PossiblySameAsData) UnmarshalJSON(data []byte) error {
@@ -11253,6 +12649,13 @@ func (p *PossiblySameAsData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PossiblySameAsData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11273,7 +12676,12 @@ type PossiblySameAsMatch struct {
 	Source string `json:"source" url:"source"`
 	Target string `json:"target" url:"target"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *PossiblySameAsMatch) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *PossiblySameAsMatch) UnmarshalJSON(data []byte) error {
@@ -11283,6 +12691,13 @@ func (p *PossiblySameAsMatch) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PossiblySameAsMatch(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
 	p._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11321,7 +12736,12 @@ type RecordDetails struct {
 	Page         *float64            `json:"page,omitempty" url:"page,omitempty"`
 	PageCount    *float64            `json:"page_count,omitempty" url:"page_count,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RecordDetails) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RecordDetails) UnmarshalJSON(data []byte) error {
@@ -11331,6 +12751,13 @@ func (r *RecordDetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RecordDetails(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11355,7 +12782,12 @@ type ReferencedBy struct {
 	Next   interface{}         `json:"next,omitempty" url:"next,omitempty"`
 	Data   []*ReferencedByData `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ReferencedBy) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *ReferencedBy) UnmarshalJSON(data []byte) error {
@@ -11365,6 +12797,13 @@ func (r *ReferencedBy) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ReferencedBy(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11385,7 +12824,12 @@ type ReferencedByData struct {
 	Record *RecordDetails       `json:"record,omitempty" url:"record,omitempty"`
 	Type   ReferencedByDataType `json:"type" url:"type"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ReferencedByData) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *ReferencedByData) UnmarshalJSON(data []byte) error {
@@ -11395,6 +12839,13 @@ func (r *ReferencedByData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ReferencedByData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11447,7 +12898,12 @@ type RelationshipData struct {
 	StartDate     *string                               `json:"start_date,omitempty" url:"start_date,omitempty"`
 	EndDate       *string                               `json:"end_date,omitempty" url:"end_date,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RelationshipData) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RelationshipData) UnmarshalJSON(data []byte) error {
@@ -11457,6 +12913,13 @@ func (r *RelationshipData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RelationshipData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11484,7 +12947,12 @@ type RelationshipInfo struct {
 	Former          *bool                        `json:"former,omitempty" url:"former,omitempty"`
 	PublicationDate *string                      `json:"publication_date,omitempty" url:"publication_date,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RelationshipInfo) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RelationshipInfo) UnmarshalJSON(data []byte) error {
@@ -11494,6 +12962,13 @@ func (r *RelationshipInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RelationshipInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11516,7 +12991,12 @@ type RiskData struct {
 	// The severity of the risk.
 	Level RiskLevel `json:"level" url:"level"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RiskData) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RiskData) UnmarshalJSON(data []byte) error {
@@ -11526,6 +13006,13 @@ func (r *RiskData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RiskData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11684,7 +13171,12 @@ type SourceCountInfo struct {
 	Count int    `json:"count" url:"count"`
 	Label string `json:"label" url:"label"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SourceCountInfo) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SourceCountInfo) UnmarshalJSON(data []byte) error {
@@ -11694,6 +13186,13 @@ func (s *SourceCountInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SourceCountInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11715,7 +13214,12 @@ type Status struct {
 	Status string  `json:"status" url:"status"`
 	Date   *string `json:"date,omitempty" url:"date,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *Status) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *Status) UnmarshalJSON(data []byte) error {
@@ -11725,6 +13229,13 @@ func (s *Status) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = Status(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11757,7 +13268,12 @@ type Source struct {
 	Pep        bool    `json:"pep" url:"pep"`
 	Watchlist  bool    `json:"watchlist" url:"watchlist"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *Source) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *Source) UnmarshalJSON(data []byte) error {
@@ -11767,6 +13283,13 @@ func (s *Source) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = Source(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11791,7 +13314,12 @@ type TradeTraversalEntity struct {
 	Countries []string `json:"countries,omitempty" url:"countries,omitempty"`
 	Risks     []string `json:"risks,omitempty" url:"risks,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeTraversalEntity) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TradeTraversalEntity) UnmarshalJSON(data []byte) error {
@@ -11801,6 +13329,13 @@ func (t *TradeTraversalEntity) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TradeTraversalEntity(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11822,7 +13357,12 @@ type TradeTraversalPath struct {
 	End   string                        `json:"end" url:"end"`
 	Paths []*TradeTraversalPathSegments `json:"paths,omitempty" url:"paths,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeTraversalPath) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TradeTraversalPath) UnmarshalJSON(data []byte) error {
@@ -11832,6 +13372,13 @@ func (t *TradeTraversalPath) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TradeTraversalPath(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11906,7 +13453,12 @@ type TradeTraversalPathSegment struct {
 	HsCodes  []string                 `json:"hs_codes,omitempty" url:"hs_codes,omitempty"`
 	Products []*TradeTraversalProduct `json:"products,omitempty" url:"products,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeTraversalPathSegment) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TradeTraversalPathSegment) UnmarshalJSON(data []byte) error {
@@ -11916,6 +13468,13 @@ func (t *TradeTraversalPathSegment) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TradeTraversalPathSegment(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11935,7 +13494,12 @@ func (t *TradeTraversalPathSegment) String() string {
 type TradeTraversalPathSegments struct {
 	Segments []*TradeTraversalPathSegment `json:"segments,omitempty" url:"segments,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeTraversalPathSegments) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TradeTraversalPathSegments) UnmarshalJSON(data []byte) error {
@@ -11945,6 +13509,13 @@ func (t *TradeTraversalPathSegments) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TradeTraversalPathSegments(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11968,7 +13539,12 @@ type TradeTraversalProduct struct {
 	ArrivalCountries   []string `json:"arrivalCountries,omitempty" url:"arrivalCountries,omitempty"`
 	DepartureCountries []string `json:"departureCountries,omitempty" url:"departureCountries,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeTraversalProduct) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TradeTraversalProduct) UnmarshalJSON(data []byte) error {
@@ -11978,6 +13554,13 @@ func (t *TradeTraversalProduct) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TradeTraversalProduct(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -11998,7 +13581,12 @@ type BusinessPurpose struct {
 	Value *string `json:"value,omitempty" url:"value,omitempty"`
 	Code  *string `json:"code,omitempty" url:"code,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (b *BusinessPurpose) GetExtraProperties() map[string]interface{} {
+	return b.extraProperties
 }
 
 func (b *BusinessPurpose) UnmarshalJSON(data []byte) error {
@@ -12008,6 +13596,13 @@ func (b *BusinessPurpose) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*b = BusinessPurpose(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *b)
+	if err != nil {
+		return err
+	}
+	b.extraProperties = extraProperties
+
 	b._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12029,7 +13624,12 @@ type DataSource struct {
 	Id    string `json:"id" url:"id"`
 	Label string `json:"label" url:"label"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (d *DataSource) GetExtraProperties() map[string]interface{} {
+	return d.extraProperties
 }
 
 func (d *DataSource) UnmarshalJSON(data []byte) error {
@@ -12039,6 +13639,13 @@ func (d *DataSource) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DataSource(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+
 	d._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12060,7 +13667,12 @@ type MonetaryValue struct {
 	Currency *Currency `json:"currency,omitempty" url:"currency,omitempty"`
 	Context  *string   `json:"context,omitempty" url:"context,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MonetaryValue) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
 func (m *MonetaryValue) UnmarshalJSON(data []byte) error {
@@ -12070,6 +13682,13 @@ func (m *MonetaryValue) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MonetaryValue(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
 	m._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12104,7 +13723,12 @@ type Shipment struct {
 	// The unique identifier for a record in the database
 	Record string `json:"record" url:"record"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *Shipment) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *Shipment) UnmarshalJSON(data []byte) error {
@@ -12114,6 +13738,13 @@ func (s *Shipment) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = Shipment(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12138,7 +13769,12 @@ type ShipmentAddress struct {
 	Country *string  `json:"country,omitempty" url:"country,omitempty"`
 	Value   *string  `json:"value,omitempty" url:"value,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *ShipmentAddress) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *ShipmentAddress) UnmarshalJSON(data []byte) error {
@@ -12148,6 +13784,13 @@ func (s *ShipmentAddress) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShipmentAddress(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12167,7 +13810,12 @@ func (s *ShipmentAddress) String() string {
 type ShipmentCountry struct {
 	Value Country `json:"value" url:"value"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *ShipmentCountry) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *ShipmentCountry) UnmarshalJSON(data []byte) error {
@@ -12177,6 +13825,13 @@ func (s *ShipmentCountry) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShipmentCountry(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12197,7 +13852,12 @@ type ShipmentIdentifier struct {
 	Value string               `json:"value" url:"value"`
 	Type  *BothIdentifierTypes `json:"type,omitempty" url:"type,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *ShipmentIdentifier) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *ShipmentIdentifier) UnmarshalJSON(data []byte) error {
@@ -12207,6 +13867,13 @@ func (s *ShipmentIdentifier) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShipmentIdentifier(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12234,7 +13901,12 @@ type ShipmentMetadata struct {
 	Sources          []string           `json:"sources,omitempty" url:"sources,omitempty"`
 	DepartureCountry []Country          `json:"departure_country,omitempty" url:"departure_country,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *ShipmentMetadata) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *ShipmentMetadata) UnmarshalJSON(data []byte) error {
@@ -12244,6 +13916,13 @@ func (s *ShipmentMetadata) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShipmentMetadata(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12271,7 +13950,12 @@ type SourceOrDestinationEntity struct {
 	// [Countries](/sayari-library/ontology/enumerated-types#country)
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SourceOrDestinationEntity) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SourceOrDestinationEntity) UnmarshalJSON(data []byte) error {
@@ -12281,6 +13965,13 @@ func (s *SourceOrDestinationEntity) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SourceOrDestinationEntity(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12302,7 +13993,12 @@ type SupplierMetadata struct {
 	Shipments          int       `json:"shipments" url:"shipments"`
 	HsCodes            []*HsCode `json:"hsCodes,omitempty" url:"hsCodes,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SupplierMetadata) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SupplierMetadata) UnmarshalJSON(data []byte) error {
@@ -12312,6 +14008,13 @@ func (s *SupplierMetadata) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SupplierMetadata(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12385,7 +14088,12 @@ type SupplierOrBuyer struct {
 	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
 	Metadata       *SupplierMetadata    `json:"metadata,omitempty" url:"metadata,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SupplierOrBuyer) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SupplierOrBuyer) UnmarshalJSON(data []byte) error {
@@ -12395,6 +14103,13 @@ func (s *SupplierOrBuyer) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SupplierOrBuyer(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12416,7 +14131,12 @@ type Weight struct {
 	Unit  string  `json:"unit" url:"unit"`
 	Type  string  `json:"type" url:"type"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (w *Weight) GetExtraProperties() map[string]interface{} {
+	return w.extraProperties
 }
 
 func (w *Weight) UnmarshalJSON(data []byte) error {
@@ -12426,6 +14146,13 @@ func (w *Weight) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*w = Weight(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *w)
+	if err != nil {
+		return err
+	}
+	w.extraProperties = extraProperties
+
 	w._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12448,7 +14175,12 @@ type HsCode struct {
 	Value       string  `json:"value" url:"value"`
 	ValueSimple *string `json:"value_simple,omitempty" url:"value_simple,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HsCode) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
 }
 
 func (h *HsCode) UnmarshalJSON(data []byte) error {
@@ -12458,6 +14190,13 @@ func (h *HsCode) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCode(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
 	h._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12478,7 +14217,12 @@ type HsCodeInfo struct {
 	Code        string `json:"code" url:"code"`
 	Description string `json:"description" url:"description"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HsCodeInfo) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
 }
 
 func (h *HsCodeInfo) UnmarshalJSON(data []byte) error {
@@ -12488,6 +14232,13 @@ func (h *HsCodeInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCodeInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
 	h._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12509,7 +14260,12 @@ type ShortestPathData struct {
 	Target *EntityDetails   `json:"target,omitempty" url:"target,omitempty"`
 	Path   []*TraversalPath `json:"path,omitempty" url:"path,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *ShortestPathData) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *ShortestPathData) UnmarshalJSON(data []byte) error {
@@ -12519,6 +14275,13 @@ func (s *ShortestPathData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShortestPathData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12540,7 +14303,12 @@ type TraversalData struct {
 	Target *EntityDetails   `json:"target,omitempty" url:"target,omitempty"`
 	Path   []*TraversalPath `json:"path,omitempty" url:"path,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TraversalData) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TraversalData) UnmarshalJSON(data []byte) error {
@@ -12550,6 +14318,13 @@ func (t *TraversalData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TraversalData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12571,7 +14346,12 @@ type TraversalPath struct {
 	Entity        *EntityDetails                               `json:"entity,omitempty" url:"entity,omitempty"`
 	Relationships map[Relationships]*TraversalRelationshipData `json:"relationships,omitempty" url:"relationships,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TraversalPath) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TraversalPath) UnmarshalJSON(data []byte) error {
@@ -12581,6 +14361,13 @@ func (t *TraversalPath) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TraversalPath(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -12604,7 +14391,12 @@ type TraversalRelationshipData struct {
 	LastObserved *string             `json:"last_observed,omitempty" url:"last_observed,omitempty"`
 	EndDate      *string             `json:"end_date,omitempty" url:"end_date,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TraversalRelationshipData) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TraversalRelationshipData) UnmarshalJSON(data []byte) error {
@@ -12614,6 +14406,13 @@ func (t *TraversalRelationshipData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TraversalRelationshipData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }

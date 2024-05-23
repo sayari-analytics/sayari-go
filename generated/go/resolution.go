@@ -35,19 +35,19 @@ type ResolutionPost struct {
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Entity name
-	Name []string `json:"name,omitempty" url:"name,omitempty"`
+	Name []string `json:"name,omitempty" url:"-"`
 	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
-	Identifier []*BothIdentifierTypes `json:"identifier,omitempty" url:"identifier,omitempty"`
+	Identifier []*BothIdentifierTypes `json:"identifier,omitempty" url:"-"`
 	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
-	Country []Country `json:"country,omitempty" url:"country,omitempty"`
+	Country []Country `json:"country,omitempty" url:"-"`
 	// Entity address
-	Address []string `json:"address,omitempty" url:"address,omitempty"`
+	Address []string `json:"address,omitempty" url:"-"`
 	// Entity date of birth
-	DateOfBirth []string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
+	DateOfBirth []string `json:"date_of_birth,omitempty" url:"-"`
 	// Entity contact
-	Contact []string `json:"contact,omitempty" url:"contact,omitempty"`
+	Contact []string `json:"contact,omitempty" url:"-"`
 	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
-	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
+	Type []Entities `json:"type,omitempty" url:"-"`
 }
 
 type BothIdentifierTypes struct {
@@ -107,7 +107,12 @@ type ResolutionResponse struct {
 	Fields *ResolutionResponseFields `json:"fields,omitempty" url:"fields,omitempty"`
 	Data   []*ResolutionResult       `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionResponse) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *ResolutionResponse) UnmarshalJSON(data []byte) error {
@@ -117,6 +122,13 @@ func (r *ResolutionResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }
