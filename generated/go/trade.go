@@ -14,11 +14,11 @@ type SearchBuyers struct {
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q" url:"q"`
+	Q string `json:"q" url:"-"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *TradeFilterList `json:"filter,omitempty" url:"filter,omitempty"`
+	Filter *TradeFilterList `json:"filter,omitempty" url:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
-	Facets *bool `json:"facets,omitempty" url:"facets,omitempty"`
+	Facets *bool `json:"facets,omitempty" url:"-"`
 }
 
 type SearchShipments struct {
@@ -27,11 +27,11 @@ type SearchShipments struct {
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q" url:"q"`
+	Q string `json:"q" url:"-"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *TradeFilterList `json:"filter,omitempty" url:"filter,omitempty"`
+	Filter *TradeFilterList `json:"filter,omitempty" url:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
-	Facets *bool `json:"facets,omitempty" url:"facets,omitempty"`
+	Facets *bool `json:"facets,omitempty" url:"-"`
 }
 
 type SearchSuppliers struct {
@@ -40,11 +40,11 @@ type SearchSuppliers struct {
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q" url:"q"`
+	Q string `json:"q" url:"-"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *TradeFilterList `json:"filter,omitempty" url:"filter,omitempty"`
+	Filter *TradeFilterList `json:"filter,omitempty" url:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
-	Facets *bool `json:"facets,omitempty" url:"facets,omitempty"`
+	Facets *bool `json:"facets,omitempty" url:"-"`
 }
 
 // OK
@@ -55,7 +55,12 @@ type BuyerSearchResponse struct {
 	Next   bool               `json:"next" url:"next"`
 	Data   []*SupplierOrBuyer `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (b *BuyerSearchResponse) GetExtraProperties() map[string]interface{} {
+	return b.extraProperties
 }
 
 func (b *BuyerSearchResponse) UnmarshalJSON(data []byte) error {
@@ -65,6 +70,13 @@ func (b *BuyerSearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*b = BuyerSearchResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *b)
+	if err != nil {
+		return err
+	}
+	b.extraProperties = extraProperties
+
 	b._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -89,7 +101,12 @@ type ShipmentSearchResponse struct {
 	Next   bool            `json:"next" url:"next"`
 	Data   []*Shipment     `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *ShipmentSearchResponse) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *ShipmentSearchResponse) UnmarshalJSON(data []byte) error {
@@ -99,6 +116,13 @@ func (s *ShipmentSearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShipmentSearchResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -123,7 +147,12 @@ type SupplierSearchResponse struct {
 	Next   bool               `json:"next" url:"next"`
 	Data   []*SupplierOrBuyer `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SupplierSearchResponse) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
 }
 
 func (s *SupplierSearchResponse) UnmarshalJSON(data []byte) error {
@@ -133,6 +162,13 @@ func (s *SupplierSearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SupplierSearchResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
 	s._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -198,7 +234,12 @@ type TradeFilterList struct {
 	// An exact match for the provided sources.
 	Sources []string `json:"sources,omitempty" url:"sources,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeFilterList) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
 }
 
 func (t *TradeFilterList) UnmarshalJSON(data []byte) error {
@@ -208,6 +249,13 @@ func (t *TradeFilterList) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TradeFilterList(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
 	t._rawJSON = json.RawMessage(data)
 	return nil
 }

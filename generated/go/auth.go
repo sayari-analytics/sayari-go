@@ -9,8 +9,8 @@ import (
 )
 
 type GetToken struct {
-	ClientId     string `json:"client_id" url:"client_id"`
-	ClientSecret string `json:"client_secret" url:"client_secret"`
+	ClientId     string `json:"client_id" url:"-"`
+	ClientSecret string `json:"client_secret" url:"-"`
 	audience     string
 	grantType    string
 }
@@ -57,7 +57,12 @@ type AuthResponse struct {
 	// Will always be "Bearer"
 	TokenType string `json:"token_type" url:"token_type"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AuthResponse) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
 }
 
 func (a *AuthResponse) UnmarshalJSON(data []byte) error {
@@ -67,6 +72,13 @@ func (a *AuthResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AuthResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
 	a._rawJSON = json.RawMessage(data)
 	return nil
 }

@@ -52,7 +52,12 @@ type CreateProjectRequest struct {
 	// Specifies access levels available to users in a project within an organization. For comprehensive access, the admin role is recommended.
 	Share *ProjectShareOnCreate `json:"share,omitempty" url:"share,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *CreateProjectRequest) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *CreateProjectRequest) UnmarshalJSON(data []byte) error {
@@ -62,6 +67,13 @@ func (c *CreateProjectRequest) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CreateProjectRequest(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -81,7 +93,12 @@ func (c *CreateProjectRequest) String() string {
 type CreateProjectResponse struct {
 	Data *Project `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *CreateProjectResponse) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
 }
 
 func (c *CreateProjectResponse) UnmarshalJSON(data []byte) error {
@@ -91,6 +108,13 @@ func (c *CreateProjectResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CreateProjectResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
 	c._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -110,7 +134,12 @@ func (c *CreateProjectResponse) String() string {
 type DeleteProjectResponse struct {
 	Data *Project `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (d *DeleteProjectResponse) GetExtraProperties() map[string]interface{} {
+	return d.extraProperties
 }
 
 func (d *DeleteProjectResponse) UnmarshalJSON(data []byte) error {
@@ -120,6 +149,13 @@ func (d *DeleteProjectResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DeleteProjectResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+
 	d._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -169,7 +205,12 @@ type GetProjectEntitiesResponse struct {
 	Data         []*ProjectEntity     `json:"data,omitempty" url:"data,omitempty"`
 	Aggregations *ProjectEntitiesAggs `json:"aggregations,omitempty" url:"aggregations,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GetProjectEntitiesResponse) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GetProjectEntitiesResponse) UnmarshalJSON(data []byte) error {
@@ -179,6 +220,13 @@ func (g *GetProjectEntitiesResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetProjectEntitiesResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -203,7 +251,12 @@ type GetProjectsResponse struct {
 	Limit int                   `json:"limit" url:"limit"`
 	Data  []*ProjectWithMembers `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GetProjectsResponse) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GetProjectsResponse) UnmarshalJSON(data []byte) error {
@@ -213,6 +266,13 @@ func (g *GetProjectsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetProjectsResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }

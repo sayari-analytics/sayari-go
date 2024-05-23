@@ -7,7 +7,6 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
-	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
@@ -52,7 +51,7 @@ func (c *Client) Traversal(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/traversal/%v", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/traversal/%v", id)
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -167,7 +166,7 @@ func (c *Client) Ubo(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/ubo/%v", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/ubo/%v", id)
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -282,7 +281,7 @@ func (c *Client) Ownership(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/downstream/%v", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/downstream/%v", id)
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -397,7 +396,7 @@ func (c *Client) Watchlist(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/watchlist/%v", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/watchlist/%v", id)
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -510,7 +509,7 @@ func (c *Client) ShortestPath(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/shortest_path"
+	endpointURL := baseURL + "/v1/shortest_path"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {

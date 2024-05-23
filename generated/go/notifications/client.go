@@ -7,7 +7,6 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
-	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
@@ -52,7 +51,7 @@ func (c *Client) ProjectNotifications(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/notifications/projects/%v", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/notifications/projects/%v", id)
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -167,7 +166,7 @@ func (c *Client) ResourceNotifications(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/notifications/resources/%v", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/notifications/resources/%v", id)
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -280,7 +279,7 @@ func (c *Client) DeleteProjectNotifications(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/notifications/projects/%v", projectId)
+	endpointURL := core.EncodeURL(baseURL+"/v1/notifications/projects/%v", projectId)
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
@@ -369,7 +368,7 @@ func (c *Client) DeleteEntityNotifications(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/notifications/entity/%v", entityId)
+	endpointURL := core.EncodeURL(baseURL+"/v1/notifications/entity/%v", entityId)
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
@@ -458,7 +457,7 @@ func (c *Client) DeleteResourceNotifications(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/notifications/resources/%v", resourceId)
+	endpointURL := core.EncodeURL(baseURL+"/v1/notifications/resources/%v", resourceId)
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 

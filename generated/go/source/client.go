@@ -7,7 +7,6 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
-	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
@@ -50,7 +49,7 @@ func (c *Client) ListSources(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/sources"
+	endpointURL := baseURL + "/v1/sources"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -143,7 +142,7 @@ func (c *Client) GetSource(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/source/%v", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/source/%v", id)
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 

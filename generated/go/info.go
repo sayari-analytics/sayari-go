@@ -34,7 +34,12 @@ type HistoryResponse struct {
 	NextToken string         `json:"next_token" url:"next_token"`
 	Events    []*HistoryInfo `json:"events,omitempty" url:"events,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HistoryResponse) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
 }
 
 func (h *HistoryResponse) UnmarshalJSON(data []byte) error {
@@ -44,6 +49,13 @@ func (h *HistoryResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HistoryResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
 	h._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -68,7 +80,12 @@ type UsageResponse struct {
 	// The end date of the returned usage information.
 	To string `json:"to" url:"to"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (u *UsageResponse) GetExtraProperties() map[string]interface{} {
+	return u.extraProperties
 }
 
 func (u *UsageResponse) UnmarshalJSON(data []byte) error {
@@ -78,6 +95,13 @@ func (u *UsageResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*u = UsageResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+
 	u._rawJSON = json.RawMessage(data)
 	return nil
 }

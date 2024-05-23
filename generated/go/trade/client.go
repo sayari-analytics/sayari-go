@@ -49,7 +49,7 @@ func (c *Client) SearchShipments(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/trade/search/shipments"
+	endpointURL := baseURL + "/v1/trade/search/shipments"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -142,7 +142,7 @@ func (c *Client) SearchSuppliers(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/trade/search/suppliers"
+	endpointURL := baseURL + "/v1/trade/search/suppliers"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -235,7 +235,7 @@ func (c *Client) SearchBuyers(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/trade/search/buyers"
+	endpointURL := baseURL + "/v1/trade/search/buyers"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {

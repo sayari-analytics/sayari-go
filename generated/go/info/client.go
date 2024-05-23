@@ -49,7 +49,7 @@ func (c *Client) GetUsage(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/usage"
+	endpointURL := baseURL + "/v1/usage"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -141,7 +141,7 @@ func (c *Client) GetHistory(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/history"
+	endpointURL := baseURL + "/v1/history"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {

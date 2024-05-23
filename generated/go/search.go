@@ -14,17 +14,17 @@ type SearchEntity struct {
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q" url:"q"`
+	Q string `json:"q" url:"-"`
 	// Record or entity fields to search against.
-	Fields []SearchField `json:"fields,omitempty" url:"fields,omitempty"`
+	Fields []SearchField `json:"fields,omitempty" url:"-"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *FilterList `json:"filter,omitempty" url:"filter,omitempty"`
+	Filter *FilterList `json:"filter,omitempty" url:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
-	Facets *bool `json:"facets,omitempty" url:"facets,omitempty"`
+	Facets *bool `json:"facets,omitempty" url:"-"`
 	// Whether or not to return search geo bound facets in results giving counts by geo tile. Defaults to false.
-	GeoFacets *bool `json:"geo_facets,omitempty" url:"geo_facets,omitempty"`
+	GeoFacets *bool `json:"geo_facets,omitempty" url:"-"`
 	// Set to true to enable full elasticsearch query string syntax which allows for fielded search and more complex operators. Note that the syntax is more strict and can result in empty result-sets. Defaults to false.
-	Advanced *bool `json:"advanced,omitempty" url:"advanced,omitempty"`
+	Advanced *bool `json:"advanced,omitempty" url:"-"`
 }
 
 type SearchEntityGet struct {
@@ -50,15 +50,15 @@ type SearchRecord struct {
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q" url:"q"`
+	Q string `json:"q" url:"-"`
 	// Record or entity fields to search against.
-	Fields []SearchField `json:"fields,omitempty" url:"fields,omitempty"`
+	Fields []SearchField `json:"fields,omitempty" url:"-"`
 	// Filters to be applied to search query to limit the result-set.
-	Filter *FilterList `json:"filter,omitempty" url:"filter,omitempty"`
+	Filter *FilterList `json:"filter,omitempty" url:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
-	Facets *bool `json:"facets,omitempty" url:"facets,omitempty"`
+	Facets *bool `json:"facets,omitempty" url:"-"`
 	// Set to true to enable full elasticsearch query string syntax which allows for fielded search and more complex operators. Note that the syntax is more strict and can result in empty result-sets. Defaults to false.
-	Advanced *bool `json:"advanced,omitempty" url:"advanced,omitempty"`
+	Advanced *bool `json:"advanced,omitempty" url:"-"`
 }
 
 type SearchRecordGet struct {
@@ -84,7 +84,12 @@ type EntitySearchResponse struct {
 	Next   bool             `json:"next" url:"next"`
 	Data   []*SearchResults `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (e *EntitySearchResponse) GetExtraProperties() map[string]interface{} {
+	return e.extraProperties
 }
 
 func (e *EntitySearchResponse) UnmarshalJSON(data []byte) error {
@@ -94,6 +99,13 @@ func (e *EntitySearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EntitySearchResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	if err != nil {
+		return err
+	}
+	e.extraProperties = extraProperties
+
 	e._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -120,7 +132,12 @@ type FilterList struct {
 	Bounds     []string   `json:"bounds,omitempty" url:"bounds,omitempty"`
 	Risk       []Risk     `json:"risk,omitempty" url:"risk,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (f *FilterList) GetExtraProperties() map[string]interface{} {
+	return f.extraProperties
 }
 
 func (f *FilterList) UnmarshalJSON(data []byte) error {
@@ -130,6 +147,13 @@ func (f *FilterList) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*f = FilterList(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *f)
+	if err != nil {
+		return err
+	}
+	f.extraProperties = extraProperties
+
 	f._rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -154,7 +178,12 @@ type RecordSearchResponse struct {
 	Next   bool             `json:"next" url:"next"`
 	Data   []*RecordDetails `json:"data,omitempty" url:"data,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RecordSearchResponse) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
 }
 
 func (r *RecordSearchResponse) UnmarshalJSON(data []byte) error {
@@ -164,6 +193,13 @@ func (r *RecordSearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RecordSearchResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
 	r._rawJSON = json.RawMessage(data)
 	return nil
 }

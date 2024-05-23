@@ -39,7 +39,12 @@ type GetRecordResponse struct {
 	PageCount    *float64            `json:"page_count,omitempty" url:"page_count,omitempty"`
 	References   *RecordReferences   `json:"references,omitempty" url:"references,omitempty"`
 
-	_rawJSON json.RawMessage
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (g *GetRecordResponse) GetExtraProperties() map[string]interface{} {
+	return g.extraProperties
 }
 
 func (g *GetRecordResponse) UnmarshalJSON(data []byte) error {
@@ -49,6 +54,13 @@ func (g *GetRecordResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetRecordResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+
 	g._rawJSON = json.RawMessage(data)
 	return nil
 }

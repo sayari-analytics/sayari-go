@@ -7,7 +7,6 @@ import (
 	context "context"
 	json "encoding/json"
 	errors "errors"
-	fmt "fmt"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
@@ -52,7 +51,7 @@ func (c *Client) UpstreamTradeTraversal(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := fmt.Sprintf(baseURL+"/"+"v1/upstream/%v", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/upstream/%v", id)
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {

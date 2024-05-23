@@ -49,7 +49,7 @@ func (c *Client) Resolution(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/resolution"
+	endpointURL := baseURL + "/v1/resolution"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
@@ -148,7 +148,7 @@ func (c *Client) ResolutionPost(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := baseURL + "/" + "v1/resolution"
+	endpointURL := baseURL + "/v1/resolution"
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
