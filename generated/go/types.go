@@ -964,6 +964,8 @@ const (
 	BusinessPurposeStandardAteco BusinessPurposeStandard = "ATECO"
 	// Code d'activité économique Quebec
 	BusinessPurposeStandardCae BusinessPurposeStandard = "CAE"
+	// Finland Standard Industrial Classification TOL 2008
+	BusinessPurposeStandardTol2008 BusinessPurposeStandard = "TOL2008"
 	// Abu Dhabi Global Market Activity Code
 	BusinessPurposeStandardAdgm BusinessPurposeStandard = "ADGM"
 )
@@ -1026,6 +1028,8 @@ func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, er
 		return BusinessPurposeStandardAteco, nil
 	case "CAE":
 		return BusinessPurposeStandardCae, nil
+	case "TOL2008":
+		return BusinessPurposeStandardTol2008, nil
 	case "ADGM":
 		return BusinessPurposeStandardAdgm, nil
 	}
