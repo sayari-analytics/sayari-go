@@ -5494,6 +5494,8 @@ const (
 	IdentifierTypeGbrGoNo IdentifierType = "gbr_go_no"
 	// Unique Ireland ID number. Assigned to every legal entity registered with Ireland Companies Registration Office.
 	IdentifierTypeIrlRegistrationNo IdentifierType = "irl_registration_no"
+	// Registered Charity Number (RCN). Unique Identifier issued by the Charities Regulator to the registered charitable organizations awarded with charitable status.
+	IdentifierTypeIrlRcn IdentifierType = "irl_rcn"
 	// Belize Companies & Corporate Affairs Registry (BCCAR) registration number
 	IdentifierTypeBlzBccarRegNo IdentifierType = "blz_bccar_reg_no"
 	// Unique customs registration number. Assigned to all entities registered with China General Administration of Customs.
@@ -6654,6 +6656,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeGbrGoNo, nil
 	case "irl_registration_no":
 		return IdentifierTypeIrlRegistrationNo, nil
+	case "irl_rcn":
+		return IdentifierTypeIrlRcn, nil
 	case "blz_bccar_reg_no":
 		return IdentifierTypeBlzBccarRegNo, nil
 	case "chn_customs_registration_no":
@@ -8629,6 +8633,7 @@ const (
 	RiskOwnedByForcedLaborXinjiangUflpa                               Risk = "owned_by_forced_labor_xinjiang_uflpa"
 	RiskForcedLaborXinjiangUflpaAdjacent                              Risk = "forced_labor_xinjiang_uflpa_adjacent"
 	RiskOwnedByWroEntity                                              Risk = "owned_by_wro_entity"
+	RiskPsaMilitaryCivilFusion                                        Risk = "psa_military_civil_fusion"
 	RiskForcedLaborAspiOriginSubtier                                  Risk = "forced_labor_aspi_origin_subtier"
 	RiskFormerWroEntity                                               Risk = "former_wro_entity"
 	RiskForcedLaborWroOriginDirect                                    Risk = "forced_labor_wro_origin_direct"
@@ -8668,6 +8673,7 @@ const (
 	RiskPsaEntityLicensedWithFsbRf                                    Risk = "psa_entity_licensed_with_fsb_rf"
 	RiskPsaForcedLaborXinjiangUflpa                                   Risk = "psa_forced_labor_xinjiang_uflpa"
 	RiskOwnerOfWroEntity                                              Risk = "owner_of_wro_entity"
+	RiskMilitaryCivilFusion                                           Risk = "military_civil_fusion"
 	RiskForcedLaborXinjiangRegistration                               Risk = "forced_labor_xinjiang_registration"
 	RiskForcedLaborXinjiangName                                       Risk = "forced_labor_xinjiang_name"
 	RiskOwnedByAspiForcedLaborEntity                                  Risk = "owned_by_aspi_forced_labor_entity"
@@ -8764,6 +8770,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskForcedLaborXinjiangUflpaAdjacent, nil
 	case "owned_by_wro_entity":
 		return RiskOwnedByWroEntity, nil
+	case "psa_military_civil_fusion":
+		return RiskPsaMilitaryCivilFusion, nil
 	case "forced_labor_aspi_origin_subtier":
 		return RiskForcedLaborAspiOriginSubtier, nil
 	case "former_wro_entity":
@@ -8842,6 +8850,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaForcedLaborXinjiangUflpa, nil
 	case "owner_of_wro_entity":
 		return RiskOwnerOfWroEntity, nil
+	case "military_civil_fusion":
+		return RiskMilitaryCivilFusion, nil
 	case "forced_labor_xinjiang_registration":
 		return RiskForcedLaborXinjiangRegistration, nil
 	case "forced_labor_xinjiang_name":
