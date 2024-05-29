@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/csv"
-	"errors"
 	"fmt"
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 	"github.com/sayari-analytics/sayari-go/sdk"
@@ -71,7 +70,12 @@ func main() {
 	// Map CSV
 	err = mapCSV(rows[0], attributeColMap)
 
-	headers := []string{"t1", "t2", "t3", "r1", "r2", "r3"}
+	headers := []string{
+		"field_name", "field_address", "field_country", "field_type",
+		"corporate_entity_id", "corporate_strength", "corporate_name", "corporate_address", "corporate_country", "corporate_type",
+		"supplier_entity_id", "supplier_strength", "supplier_name", "supplier_address", "supplier_country", "supplier_type",
+		"search_entity_id", "search_name", "search_address", "search_country", "search_type",
+	}
 	w.Write(headers)
 
 	// Process each row
@@ -82,37 +86,81 @@ func main() {
 			continue
 		}
 
+		results := getFieldInfo(attributeColMap, row)
+
 		// Resolve corporate profile
-		t1, resp1, err := resolveEntity(client, "corporate", attributeColMap, row)
+		_, resp1, err := resolveEntity(client, "corporate", attributeColMap, row)
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
+		results = append(results, getResolveData(resp1)...)
 
 		// Resolve supplies profile
-		t2, resp2, err := resolveEntity(client, "suppliers", attributeColMap, row)
+		_, resp2, err := resolveEntity(client, "suppliers", attributeColMap, row)
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
+		results = append(results, getResolveData(resp2)...)
 
 		// Search
-		t3, resp3, err := searchEntity(client, attributeColMap, row)
+		_, resp3, err := searchEntity(client, attributeColMap, row)
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
+		results = append(results, getSearchData(resp3)...)
 
-		resultsRow := []string{
-			fmt.Sprint(t1.Seconds()),
-			fmt.Sprint(t2.Seconds()),
-			fmt.Sprint(t3.Seconds()),
-			resp1.String(),
-			resp2.String(),
-			resp3.String(),
-		}
-		err = w.Write(resultsRow)
+		err = w.Write(results)
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
 	}
+}
+
+func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
+	fieldName := row[attributeFieldsMap[name][0]]
+	fieldAddress := row[attributeFieldsMap[address][0]]
+	fieldCountry := row[attributeFieldsMap[country][0]]
+
+	var fieldType string
+	if len(attributeFieldsMap[entityType]) > 0 {
+		fieldType = row[attributeFieldsMap[entityType][0]]
+	}
+	return []string{fieldName, fieldAddress, fieldCountry, fieldType}
+}
+
+func getResolveData(resp *sayari.ResolutionResponse) []string {
+	if len(resp.Data) == 0 {
+		emptyResp := make([]string, 6)
+		return emptyResp
+	}
+	e1 := resp.Data[0]
+	var e1addr string
+	if len(e1.Addresses) > 0 {
+		e1addr = e1.Addresses[0]
+	}
+	var e1country string
+	if len(e1.Countries) > 0 {
+		e1country = fmt.Sprint(e1.Countries[0])
+	}
+	return []string{e1.EntityId, e1.MatchStrength.Value, e1.Label, e1addr, e1country, fmt.Sprint(e1.Type)}
+}
+
+func getSearchData(resp *sayari.EntitySearchResponse) []string {
+	if len(resp.Data) == 0 {
+		emptyResp := make([]string, 5)
+		return emptyResp
+	}
+	e1 := resp.Data[0]
+	var e1addr string
+	if len(e1.Addresses) > 0 {
+		e1addr = e1.Addresses[0]
+	}
+	var e1country string
+	if len(e1.Countries) > 0 {
+		e1country = fmt.Sprint(e1.Countries[0])
+	}
+	return []string{e1.Id, e1.Label, e1addr, e1country, fmt.Sprint(e1.Type)}
+
 }
 
 func loadCSV(csvPath string) ([][]string, error) {
@@ -148,8 +196,6 @@ func mapCSV(row []string, attributeColMap map[string][]int) error {
 	}
 	return nil
 }
-
-var ErrNoMatchFound = errors.New("no match found for this entity")
 
 func resolveEntity(client *sdk.Connection, profile string, attributeColMap map[string][]int, row []string) (time.Duration, *sayari.ResolutionResponse, error) {
 	var entityInfo sayari.Resolution
@@ -229,9 +275,6 @@ func resolveEntity(client *sdk.Connection, profile string, attributeColMap map[s
 		return duration, nil, err
 	}
 
-	if len(resp.Data) == 0 {
-		return duration, nil, ErrNoMatchFound
-	}
 	return duration, resp, nil
 }
 
@@ -261,8 +304,5 @@ func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row 
 		return duration, nil, err
 	}
 
-	if len(resp.Data) == 0 {
-		return duration, nil, ErrNoMatchFound
-	}
 	return duration, resp, nil
 }
