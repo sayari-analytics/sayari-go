@@ -239,6 +239,20 @@ func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row 
 	var entityInfo sayari.SearchEntity
 
 	entityInfo.Q = row[attributeColMap[name][0]]
+	entityInfo.Fields = []sayari.SearchField{sayari.SearchFieldName}
+	filterList := sayari.FilterList{}
+	filterList.EntityType = []sayari.Entities{sayari.EntitiesCompany}
+
+	if colNums, ok := attributeColMap[country]; ok {
+		for _, colNum := range colNums {
+			country, err := sayari.NewCountryFromString(row[colNum])
+			if err != nil {
+				log.Fatalf("Error: %v", err)
+			}
+			filterList.Country = append(filterList.Country, country)
+		}
+	}
+	entityInfo.Filter = &filterList
 
 	start := time.Now()
 	resp, err := client.Search.SearchEntity(context.Background(), &entityInfo)
