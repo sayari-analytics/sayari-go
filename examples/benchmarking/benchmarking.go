@@ -89,14 +89,14 @@ func main() {
 		results := getFieldInfo(attributeColMap, row)
 
 		// Resolve corporate profile
-		_, resp1, err := resolveEntity(client, "corporate", attributeColMap, row)
+		_, resp1, err := resolveEntity(client, sayari.ProfileEnumCorporate, attributeColMap, row)
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
 		results = append(results, getResolveData(resp1)...)
 
 		// Resolve supplies profile
-		_, resp2, err := resolveEntity(client, "suppliers", attributeColMap, row)
+		_, resp2, err := resolveEntity(client, sayari.ProfileEnumSupplier, attributeColMap, row)
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
@@ -197,13 +197,9 @@ func mapCSV(row []string, attributeColMap map[string][]int) error {
 	return nil
 }
 
-func resolveEntity(client *sdk.Connection, profile string, attributeColMap map[string][]int, row []string) (time.Duration, *sayari.ResolutionResponse, error) {
+func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attributeColMap map[string][]int, row []string) (time.Duration, *sayari.ResolutionResponse, error) {
 	var entityInfo sayari.Resolution
-	profileEnum, err := sayari.NewProfileEnumFromString(profile)
-	if err != nil {
-		log.Fatalf("Error: %v", err)
-	}
-	entityInfo.Profile = &profileEnum
+	entityInfo.Profile = &profile
 
 	if colNums, ok := attributeColMap[name]; ok {
 		for _, colNum := range colNums {
