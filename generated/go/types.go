@@ -11411,10 +11411,11 @@ func (r *RecordReferences) String() string {
 }
 
 type MatchExplanation struct {
-	Matched              *string  `json:"matched,omitempty" url:"matched,omitempty"`
-	Uploaded             *string  `json:"uploaded,omitempty" url:"uploaded,omitempty"`
-	NameCustomTfIdfScore *float64 `json:"nameCustomTfIdfScore,omitempty" url:"nameCustomTfIdfScore,omitempty"`
-	HighQualityMatchName *bool    `json:"highQualityMatchName,omitempty" url:"highQualityMatchName,omitempty"`
+	Matched               *string  `json:"matched,omitempty" url:"matched,omitempty"`
+	Uploaded              *string  `json:"uploaded,omitempty" url:"uploaded,omitempty"`
+	NameCustomTfIdfScore  *float64 `json:"name_custom_tf_idf_score,omitempty" url:"name_custom_tf_idf_score,omitempty"`
+	HighQualityMatchName  *bool    `json:"high_quality_match_name,omitempty" url:"high_quality_match_name,omitempty"`
+	IsDeletionRecommended *bool    `json:"is_deletion_recommended,omitempty" url:"is_deletion_recommended,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -11498,6 +11499,7 @@ func (m *MatchStrength) String() string {
 type ResolutionResponseFields struct {
 	Name       []string `json:"name,omitempty" url:"name,omitempty"`
 	Identifier []string `json:"identifier,omitempty" url:"identifier,omitempty"`
+	Profile    []string `json:"profile,omitempty" url:"profile,omitempty"`
 	// Entity country - must be ISO (3166) Trigram i.e., USA. See complete list [here](/sayari-library/ontology/enumerated-types#country)
 	Country []Country `json:"country,omitempty" url:"country,omitempty"`
 	// List of physical addresses associated with the entity.

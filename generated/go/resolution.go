@@ -27,6 +27,8 @@ type Resolution struct {
 	Contact []*string `json:"-" url:"contact,omitempty"`
 	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
 	Type []*Entities `json:"-" url:"type,omitempty"`
+	// Profile can be used to switch between search algorithms. The default profile `corporate` is optimized for accurate entity attribute matching and is ideal for business verification and matching entities with corporate data. The `supplier` profile is optimized for matching entities with extensive trade data. Ideal for supply chain and trade-related use cases.
+	Profile *ProfileEnum `json:"-" url:"profile,omitempty"`
 }
 
 type ResolutionPost struct {
@@ -48,6 +50,8 @@ type ResolutionPost struct {
 	Contact []string `json:"contact,omitempty" url:"-"`
 	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
 	Type []Entities `json:"type,omitempty" url:"-"`
+	// Profile can be used to switch between search algorithms. The default profile `corporate` is optimized for accurate entity attribute matching and is ideal for business verification and matching entities with corporate data. The `supplier` profile is optimized for matching entities with extensive trade data. Ideal for supply chain and trade-related use cases.
+	Profile *ProfileEnum `json:"profile,omitempty" url:"-"`
 }
 
 type BothIdentifierTypes struct {
@@ -100,6 +104,28 @@ func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
 		return visitor.VisitWeakIdentifierType(b.WeakIdentifierType)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", b)
+}
+
+type ProfileEnum string
+
+const (
+	ProfileEnumCorporate ProfileEnum = "corporate"
+	ProfileEnumSupplier  ProfileEnum = "supplier"
+)
+
+func NewProfileEnumFromString(s string) (ProfileEnum, error) {
+	switch s {
+	case "corporate":
+		return ProfileEnumCorporate, nil
+	case "supplier":
+		return ProfileEnumSupplier, nil
+	}
+	var t ProfileEnum
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p ProfileEnum) Ptr() *ProfileEnum {
+	return &p
 }
 
 // OK
