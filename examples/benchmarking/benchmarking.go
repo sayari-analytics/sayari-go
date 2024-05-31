@@ -199,6 +199,11 @@ func mapCSV(row []string, attributeColMap map[string][]int) error {
 
 func resolveEntity(client *sdk.Connection, profile string, attributeColMap map[string][]int, row []string) (time.Duration, *sayari.ResolutionResponse, error) {
 	var entityInfo sayari.Resolution
+	profileEnum, err := sayari.NewProfileEnumFromString(profile)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	entityInfo.Profile = &profileEnum
 
 	if colNums, ok := attributeColMap[name]; ok {
 		for _, colNum := range colNums {
