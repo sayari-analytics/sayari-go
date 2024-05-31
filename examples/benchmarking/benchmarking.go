@@ -72,9 +72,12 @@ func main() {
 
 	headers := []string{
 		"field_name", "field_address", "field_country", "field_type",
-		"corporate_entity_id", "corporate_strength", "corporate_name", "corporate_address", "corporate_country", "corporate_type",
-		"supplier_entity_id", "supplier_strength", "supplier_name", "supplier_address", "supplier_country", "supplier_type",
-		"search_entity_id", "search_name", "search_address", "search_country", "search_type",
+		"corporate_entity_id", "supplier_entity_id", "search_entity_id",
+		"corporate_name", "supplier_name", "search_name",
+		"corporate_address", "supplier_address", "search_address",
+		"corporate_country", "supplier_country", "search_country",
+		"corporate_type", "supplier_type", "search_type",
+		"corporate_strength", "supplier_strength",
 	}
 	w.Write(headers)
 
@@ -86,28 +89,38 @@ func main() {
 			continue
 		}
 
-		results := getFieldInfo(attributeColMap, row)
+		fieldValues := getFieldInfo(attributeColMap, row)
 
 		// Resolve corporate profile
 		_, resp1, err := resolveEntity(client, sayari.ProfileEnumCorporate, attributeColMap, row)
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
-		results = append(results, getResolveData(resp1)...)
+		r1 := getResolveData(resp1)
 
 		// Resolve supplies profile
 		_, resp2, err := resolveEntity(client, sayari.ProfileEnumSupplier, attributeColMap, row)
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
-		results = append(results, getResolveData(resp2)...)
+		r2 := getResolveData(resp2)
 
 		// Search
 		_, resp3, err := searchEntity(client, attributeColMap, row)
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
-		results = append(results, getSearchData(resp3)...)
+		r3 := getSearchData(resp3)
+
+		results := []string{
+			fieldValues[0], fieldValues[1], fieldValues[2], fieldValues[3], // fieldName, fieldAddress, fieldCountry, fieldType
+			r1[0], r2[0], r3[0], // ID
+			r1[1], r2[1], r3[1], // Name
+			r1[2], r2[2], r3[2], // Address
+			r1[3], r2[3], r3[3], // Country
+			r1[4], r2[4], r3[4], // Type
+			r1[5], r2[5], // match strength
+		}
 
 		err = w.Write(results)
 		if err != nil {
@@ -142,7 +155,7 @@ func getResolveData(resp *sayari.ResolutionResponse) []string {
 	if len(e1.Countries) > 0 {
 		e1country = fmt.Sprint(e1.Countries[0])
 	}
-	return []string{e1.EntityId, e1.MatchStrength.Value, e1.Label, e1addr, e1country, fmt.Sprint(e1.Type)}
+	return []string{e1.EntityId, e1.Label, e1addr, e1country, fmt.Sprint(e1.Type), e1.MatchStrength.Value}
 }
 
 func getSearchData(resp *sayari.EntitySearchResponse) []string {
