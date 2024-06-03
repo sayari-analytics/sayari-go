@@ -5542,6 +5542,10 @@ const (
 	IdentifierTypeCanNrd IdentifierType = "can_nrd"
 	// Global Intermediary Identification Number (GIIN). Unique Identifier issued by the IRS to financial institutions, branches, direct reporting non-financial foreign entities, and sponsored entities.
 	IdentifierTypeUsaIrsGiin IdentifierType = "usa_irs_giin"
+	// Unique internal ID number assigned to individuals. Assigned to every individual registered with Canadian Securities Administrators National Registration Database.
+	IdentifierTypeCanNrdIndividualId IdentifierType = "can_nrd_individual_id"
+	// Unique Jamaica company registration number. Assigned to every company in the Jamaica Corporate Registry.
+	IdentifierTypeJamCompanyId IdentifierType = "jam_company_id"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6704,6 +6708,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCanNrd, nil
 	case "usa_irs_giin":
 		return IdentifierTypeUsaIrsGiin, nil
+	case "can_nrd_individual_id":
+		return IdentifierTypeCanNrdIndividualId, nil
+	case "jam_company_id":
+		return IdentifierTypeJamCompanyId, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
