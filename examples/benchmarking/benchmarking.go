@@ -80,7 +80,7 @@ func main() {
 	err = mapCSV(rows[0], attributeColMap)
 
 	headers := []string{
-		"field_name", "field_address", "field_country", "field_type",
+		"field_name", "field_address", "field_country", "field_type", "result index",
 		"corporate_entity_id", "supplier_entity_id", "search_entity_id",
 		"corporate_name", "supplier_name", "search_name",
 		"corporate_address", "supplier_address", "search_address",
@@ -134,6 +134,7 @@ func main() {
 			}
 			results := []string{
 				fieldValues[0], fieldValues[1], fieldValues[2], fieldValues[3], // fieldName, fieldAddress, fieldCountry, fieldType
+				fmt.Sprintf("Result %v", i+1),                  // Result index
 				r1[i].entityID, r2[i].entityID, r3[i].entityID, // ID
 				r1[i].name, r2[i].name, r3[i].name, // Name
 				r1[i].address, r2[i].address, r3[i].address, // Address
