@@ -24,6 +24,15 @@ const (
 	entityType  = "type"
 )
 
+type result struct {
+	entityID      string
+	name          string
+	address       string
+	entityCountry string
+	entityType    string
+	matchStrength string
+}
+
 var attributeFieldsMap = map[string]string{
 	name:        "The name of the entity",
 	identifier:  "...",
@@ -83,6 +92,7 @@ func main() {
 
 	// Process each row
 	for i, row := range rows {
+		log.Printf("Processing line %v of %v", i+1, len(rows))
 		// skip first row
 		if i == 0 {
 			log.Println("Headers: ", row)
@@ -112,19 +122,29 @@ func main() {
 		}
 		r3 := getSearchData(resp3)
 
-		results := []string{
-			fieldValues[0], fieldValues[1], fieldValues[2], fieldValues[3], // fieldName, fieldAddress, fieldCountry, fieldType
-			r1[0], r2[0], r3[0], // ID
-			r1[1], r2[1], r3[1], // Name
-			r1[2], r2[2], r3[2], // Address
-			r1[3], r2[3], r3[3], // Country
-			r1[4], r2[4], r3[4], // Type
-			r1[5], r2[5], // match strength
-		}
-
-		err = w.Write(results)
-		if err != nil {
-			log.Fatalf("Error: %v", err)
+		// loop through the results
+		for i, _ := range r1 {
+			if i > 0 {
+				// if there are not second or third match, break
+				if len(r1[i].entityID) == 0 && len(r2[i].entityID) == 0 && len(r3[i].entityID) == 0 {
+					break
+				}
+				// remove field values for 2nd and 3rd result to make things easier to read
+				fieldValues = []string{"", "", "", ""}
+			}
+			results := []string{
+				fieldValues[0], fieldValues[1], fieldValues[2], fieldValues[3], // fieldName, fieldAddress, fieldCountry, fieldType
+				r1[i].entityID, r2[i].entityID, r3[i].entityID, // ID
+				r1[i].name, r2[i].name, r3[i].name, // Name
+				r1[i].address, r2[i].address, r3[i].address, // Address
+				r1[i].entityCountry, r2[i].entityCountry, r3[i].entityCountry, // Country
+				r1[i].entityType, r2[i].entityType, r3[i].entityType, // Type
+				r1[i].matchStrength, r2[i].matchStrength, // match strength
+			}
+			err = w.Write(results)
+			if err != nil {
+				log.Fatalf("Error: %v", err)
+			}
 		}
 	}
 }
@@ -141,39 +161,54 @@ func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
 	return []string{fieldName, fieldAddress, fieldCountry, fieldType}
 }
 
-func getResolveData(resp *sayari.ResolutionResponse) []string {
+func getResolveData(resp *sayari.ResolutionResponse) []result {
+	results := make([]result, 3)
 	if len(resp.Data) == 0 {
-		emptyResp := make([]string, 6)
-		return emptyResp
+		return results
 	}
-	e1 := resp.Data[0]
-	var e1addr string
-	if len(e1.Addresses) > 0 {
-		e1addr = e1.Addresses[0]
+	for i := range results {
+		if len(resp.Data) <= i {
+			return results
+		}
+		thisEntity := resp.Data[i]
+		results[i].entityID = thisEntity.EntityId
+		results[i].name = thisEntity.Label
+		results[i].entityType = fmt.Sprint(thisEntity.Type)
+		results[i].matchStrength = thisEntity.MatchStrength.Value
+
+		if len(thisEntity.Addresses) > 0 {
+			results[i].address = thisEntity.Addresses[0]
+		}
+		if len(thisEntity.Countries) > 0 {
+			results[i].entityCountry = fmt.Sprint(thisEntity.Countries[0])
+		}
 	}
-	var e1country string
-	if len(e1.Countries) > 0 {
-		e1country = fmt.Sprint(e1.Countries[0])
-	}
-	return []string{e1.EntityId, e1.Label, e1addr, e1country, fmt.Sprint(e1.Type), e1.MatchStrength.Value}
+
+	return results
 }
 
-func getSearchData(resp *sayari.EntitySearchResponse) []string {
+func getSearchData(resp *sayari.EntitySearchResponse) []result {
+	results := make([]result, 3)
 	if len(resp.Data) == 0 {
-		emptyResp := make([]string, 5)
-		return emptyResp
+		return results
 	}
-	e1 := resp.Data[0]
-	var e1addr string
-	if len(e1.Addresses) > 0 {
-		e1addr = e1.Addresses[0]
+	for i := range results {
+		if len(resp.Data) <= i {
+			return results
+		}
+		thisEntity := resp.Data[i]
+		results[i].entityID = thisEntity.Id
+		results[i].name = thisEntity.Label
+		results[i].entityType = fmt.Sprint(thisEntity.Type)
+		if len(thisEntity.Addresses) > 0 {
+			results[i].address = thisEntity.Addresses[0]
+		}
+		if len(thisEntity.Countries) > 0 {
+			results[i].entityCountry = fmt.Sprint(thisEntity.Countries[0])
+		}
 	}
-	var e1country string
-	if len(e1.Countries) > 0 {
-		e1country = fmt.Sprint(e1.Countries[0])
-	}
-	return []string{e1.Id, e1.Label, e1addr, e1country, fmt.Sprint(e1.Type)}
 
+	return results
 }
 
 func loadCSV(csvPath string) ([][]string, error) {
