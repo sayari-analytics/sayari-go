@@ -264,6 +264,10 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 
 	if colNums, ok := attributeColMap[identifier]; ok {
 		for _, colNum := range colNums {
+			colVal := row[colNum]
+			if colVal == "" {
+				continue
+			}
 			var bothIdentifier *sayari.BothIdentifierTypes
 			providedIdentifier := strings.ToLower(row[colNum])
 			// attempt to get Identifier
@@ -288,7 +292,11 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 
 	if colNums, ok := attributeColMap[country]; ok {
 		for _, colNum := range colNums {
-			country, err := sayari.NewCountryFromString(row[colNum])
+			countryStr := row[colNum]
+			if countryStr == "" {
+				continue
+			}
+			country, err := sayari.NewCountryFromString(countryStr)
 			if err != nil {
 				log.Fatalf("Error: %v", err)
 			}
@@ -298,25 +306,41 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 
 	if colNums, ok := attributeColMap[address]; ok {
 		for _, colNum := range colNums {
+			colVal := row[colNum]
+			if colVal == "" {
+				continue
+			}
 			entityInfo.Address = append(entityInfo.Address, &row[colNum])
 		}
 	}
 
 	if colNums, ok := attributeColMap[dateOfBirth]; ok {
 		for _, colNum := range colNums {
+			colVal := row[colNum]
+			if colVal == "" {
+				continue
+			}
 			entityInfo.DateOfBirth = append(entityInfo.DateOfBirth, &row[colNum])
 		}
 	}
 
 	if colNums, ok := attributeColMap[contact]; ok {
 		for _, colNum := range colNums {
+			colVal := row[colNum]
+			if colVal == "" {
+				continue
+			}
 			entityInfo.Contact = append(entityInfo.Contact, &row[colNum])
 		}
 	}
 
 	if colNums, ok := attributeColMap[entityType]; ok {
 		for _, colNum := range colNums {
-			entityType, err := sayari.NewEntitiesFromString(row[colNum])
+			entityTypeStr := row[colNum]
+			if entityTypeStr == "" {
+				continue
+			}
+			entityType, err := sayari.NewEntitiesFromString(entityTypeStr)
 			if err != nil {
 				log.Fatalf("Error: %v", err)
 			}
@@ -344,7 +368,11 @@ func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row 
 
 	if colNums, ok := attributeColMap[country]; ok {
 		for _, colNum := range colNums {
-			country, err := sayari.NewCountryFromString(row[colNum])
+			countryStr := row[colNum]
+			if countryStr == "" {
+				continue
+			}
+			country, err := sayari.NewCountryFromString(countryStr)
 			if err != nil {
 				log.Fatalf("Error: %v", err)
 			}
