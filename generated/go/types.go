@@ -8609,107 +8609,112 @@ func (r Relationships) Ptr() *Relationships {
 type Risk string
 
 const (
-	RiskSheffieldHallamUniversityForcedLaborEntity                    Risk = "sheffield_hallam_university_forced_labor_entity"
-	RiskForcedLaborXinjiangOriginDirect                               Risk = "forced_labor_xinjiang_origin_direct"
-	RiskRegulatoryAction                                              Risk = "regulatory_action"
-	RiskForcedLaborXinjiangGeospatial                                 Risk = "forced_labor_xinjiang_geospatial"
-	RiskEuHighRiskThird                                               Risk = "eu_high_risk_third"
-	RiskSheffieldHallamUniversityUsefulResources                      Risk = "sheffield_hallam_university_useful_resources"
-	RiskExportsToEntityLicensedWithFsbRf                              Risk = "exports_to_entity_licensed_with_fsb_rf"
-	RiskOwnerOfAspiForcedLaborEntity                                  Risk = "owner_of_aspi_forced_labor_entity"
-	RiskSanctioned                                                    Risk = "sanctioned"
-	RiskReputationalRiskFinancialCrime                                Risk = "reputational_risk_financial_crime"
-	RiskCmicEntity                                                    Risk = "cmic_entity"
-	RiskPsaPep                                                        Risk = "psa_pep"
-	RiskExportControls                                                Risk = "export_controls"
-	RiskWroEntity                                                     Risk = "wro_entity"
-	RiskImportsBisHighPriorityItems                                   Risk = "imports_bis_high_priority_items"
-	RiskReputationalRiskBriberyAndCorruption                          Risk = "reputational_risk_bribery_and_corruption"
-	RiskSanctionedAdjacent                                            Risk = "sanctioned_adjacent"
-	RiskPsaExportControls                                             Risk = "psa_export_controls"
-	RiskOwnerOfSanctionedEntity                                       Risk = "owner_of_sanctioned_entity"
-	RiskPsaRegulatoryAction                                           Risk = "psa_regulatory_action"
-	RiskForcedLaborXinjiangContractors                                Risk = "forced_labor_xinjiang_contractors"
-	RiskOwnedByXinjiangEntity                                         Risk = "owned_by_xinjiang_entity"
-	RiskForcedLaborXinjiangOriginSubtier                              Risk = "forced_labor_xinjiang_origin_subtier"
-	RiskPsaForcedLaborXinjiangName                                    Risk = "psa_forced_labor_xinjiang_name"
-	RiskBaselAml                                                      Risk = "basel_aml"
-	RiskAspiUyghurForcedLaborReportEntityAdjacent                     Risk = "aspi_uyghur_forced_labor_report_entity_adjacent"
-	RiskOwnedByCmicEntity                                             Risk = "owned_by_cmic_entity"
-	RiskOfacSdn                                                       Risk = "ofac_sdn"
-	RiskOwnedByBisMeuEntity                                           Risk = "owned_by_bis_meu_entity"
-	RiskOwnedByForcedLaborXinjiangUflpa                               Risk = "owned_by_forced_labor_xinjiang_uflpa"
-	RiskForcedLaborXinjiangUflpaAdjacent                              Risk = "forced_labor_xinjiang_uflpa_adjacent"
-	RiskOwnedByWroEntity                                              Risk = "owned_by_wro_entity"
-	RiskPsaMilitaryCivilFusion                                        Risk = "psa_military_civil_fusion"
-	RiskForcedLaborAspiOriginSubtier                                  Risk = "forced_labor_aspi_origin_subtier"
-	RiskFormerWroEntity                                               Risk = "former_wro_entity"
-	RiskForcedLaborWroOriginDirect                                    Risk = "forced_labor_wro_origin_direct"
-	RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity      Risk = "owned_by_sheffield_hallam_university_reports_forced_labor_entity"
-	RiskEuSanctioned                                                  Risk = "eu_sanctioned"
-	RiskAspiUyghurForcedLaborReportEntity                             Risk = "aspi_uyghur_forced_labor_report_entity"
-	RiskForcedLaborChinaKeywords                                      Risk = "forced_labor_china_keywords"
-	RiskExportsBisHighPriorityItemsCriticalComponents                 Risk = "exports_bis_high_priority_items_critical_components"
-	RiskSoeAdjacent                                                   Risk = "soe_adjacent"
-	RiskStateOwned                                                    Risk = "state_owned"
-	RiskPsaSheffieldHallamUniversityForcedLaborEntity                 Risk = "psa_sheffield_hallam_university_forced_labor_entity"
-	RiskExportControlsAdjacent                                        Risk = "export_controls_adjacent"
-	RiskExportToSoe                                                   Risk = "export_to_soe"
-	RiskPsaSanctioned                                                 Risk = "psa_sanctioned"
-	RiskOfac50PercentRule                                             Risk = "ofac_50_percent_rule"
-	RiskOwnerOfExportControlsEntity                                   Risk = "owner_of_export_controls_entity"
-	RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtier      Risk = "forced_labor_sheffield_hallam_university_reports_origin_subtier"
-	RiskMeuListContractors                                            Risk = "meu_list_contractors"
-	RiskOwnerOfForcedLaborXinjiangUflpa                               Risk = "owner_of_forced_labor_xinjiang_uflpa"
-	RiskPep                                                           Risk = "pep"
-	RiskOwnedByEntityInExportControls                                 Risk = "owned_by_entity_in_export_controls"
-	RiskPsaForcedLaborAspiUyghur                                      Risk = "psa_forced_labor_aspi_uyghur"
-	RiskEu50PercentRule                                               Risk = "eu_50_percent_rule"
-	RiskForcedLaborXinjiangOperations                                 Risk = "forced_labor_xinjiang_operations"
-	RiskForcedLaborWroOriginSubtier                                   Risk = "forced_labor_wro_origin_subtier"
-	RiskReputationalRiskOther                                         Risk = "reputational_risk_other"
-	RiskExportToSanctioned                                            Risk = "export_to_sanctioned"
-	RiskSheffieldHallamUniversityForcedLaborReportsEntityAdjacent     Risk = "sheffield_hallam_university_forced_labor_reports_entity_adjacent"
-	RiskFormerSoe                                                     Risk = "former_soe"
-	RiskReputationalRiskOrganizedCrime                                Risk = "reputational_risk_organized_crime"
-	RiskReputationalRiskForcedLabor                                   Risk = "reputational_risk_forced_labor"
-	RiskImportsBisHighPriorityItemsCriticalComponents                 Risk = "imports_bis_high_priority_items_critical_components"
-	RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity      Risk = "owner_of_sheffield_hallam_university_reports_forced_labor_entity"
-	RiskCpiScore                                                      Risk = "cpi_score"
-	RiskPsaSheffieldHallamUniversityUsefulResources                   Risk = "psa_sheffield_hallam_university_useful_resources"
-	RiskPsaWroEntity                                                  Risk = "psa_wro_entity"
-	RiskPsaEntityLicensedWithFsbRf                                    Risk = "psa_entity_licensed_with_fsb_rf"
-	RiskPsaForcedLaborXinjiangUflpa                                   Risk = "psa_forced_labor_xinjiang_uflpa"
-	RiskOwnerOfWroEntity                                              Risk = "owner_of_wro_entity"
-	RiskMilitaryCivilFusion                                           Risk = "military_civil_fusion"
-	RiskForcedLaborXinjiangRegistration                               Risk = "forced_labor_xinjiang_registration"
-	RiskForcedLaborXinjiangName                                       Risk = "forced_labor_xinjiang_name"
-	RiskOwnedByAspiForcedLaborEntity                                  Risk = "owned_by_aspi_forced_labor_entity"
-	RiskReputationalRiskTerrorism                                     Risk = "reputational_risk_terrorism"
-	RiskFormerlySanctioned                                            Risk = "formerly_sanctioned"
-	RiskOwnedBySection1260HEntity                                     Risk = "owned_by_section_1260h_entity"
-	RiskSheffieldHallamUniversityForcedLaborReportsIntermediaryEntity Risk = "sheffield_hallam_university_forced_labor_reports_intermediary_entity"
-	RiskPepAdjacent                                                   Risk = "pep_adjacent"
-	RiskOwnerOfForcedLaborXinjiangEntity                              Risk = "owner_of_forced_labor_xinjiang_entity"
-	RiskLawEnforcementAction                                          Risk = "law_enforcement_action"
-	RiskOwnedBySoe                                                    Risk = "owned_by_soe"
-	RiskEntityLicensedWithFsbRf                                       Risk = "entity_licensed_with_fsb_rf"
-	RiskPsaForcedLaborXinjiangRegistration                            Risk = "psa_forced_labor_xinjiang_registration"
-	RiskForcedLaborSheffieldHallamUniversityReportsOriginDirect       Risk = "forced_labor_sheffield_hallam_university_reports_origin_direct"
-	RiskPsaForcedLaborXinjiangGeospatial                              Risk = "psa_forced_labor_xinjiang_geospatial"
-	RiskWroEntityAdjacent                                             Risk = "wro_entity_adjacent"
-	RiskReputationalRiskCybercrime                                    Risk = "reputational_risk_cybercrime"
-	RiskPsaForcedLaborXinjiangOperations                              Risk = "psa_forced_labor_xinjiang_operations"
-	RiskOwnerOfSoe                                                    Risk = "owner_of_soe"
-	RiskForcedLaborAspiOriginDirect                                   Risk = "forced_labor_aspi_origin_direct"
-	RiskExportsBisHighPriorityItems                                   Risk = "exports_bis_high_priority_items"
-	RiskForcedLaborUflpaOriginSubtier                                 Risk = "forced_labor_uflpa_origin_subtier"
-	RiskOwnerOfRegulatoryActionEntity                                 Risk = "owner_of_regulatory_action_entity"
-	RiskPsaSheffieldHallamUniversityIntermediaryEntity                Risk = "psa_sheffield_hallam_university_intermediary_entity"
-	RiskForcedLaborXinjiangUflpa                                      Risk = "forced_labor_xinjiang_uflpa"
-	RiskPsaStateOwned                                                 Risk = "psa_state_owned"
-	RiskForcedLaborUflpaOriginDirect                                  Risk = "forced_labor_uflpa_origin_direct"
-	RiskOwnedBySanctionedEntity                                       Risk = "owned_by_sanctioned_entity"
+	RiskSheffieldHallamUniversityForcedLaborEntity                         Risk = "sheffield_hallam_university_forced_labor_entity"
+	RiskForcedLaborXinjiangOriginDirect                                    Risk = "forced_labor_xinjiang_origin_direct"
+	RiskRegulatoryAction                                                   Risk = "regulatory_action"
+	RiskForcedLaborUflpaOriginSubtierProductMap                            Risk = "forced_labor_uflpa_origin_subtier_product_map"
+	RiskForcedLaborXinjiangGeospatial                                      Risk = "forced_labor_xinjiang_geospatial"
+	RiskEuHighRiskThird                                                    Risk = "eu_high_risk_third"
+	RiskSheffieldHallamUniversityUsefulResources                           Risk = "sheffield_hallam_university_useful_resources"
+	RiskExportsToEntityLicensedWithFsbRf                                   Risk = "exports_to_entity_licensed_with_fsb_rf"
+	RiskOwnerOfAspiForcedLaborEntity                                       Risk = "owner_of_aspi_forced_labor_entity"
+	RiskSanctioned                                                         Risk = "sanctioned"
+	RiskReputationalRiskFinancialCrime                                     Risk = "reputational_risk_financial_crime"
+	RiskCmicEntity                                                         Risk = "cmic_entity"
+	RiskPsaPep                                                             Risk = "psa_pep"
+	RiskExportControls                                                     Risk = "export_controls"
+	RiskWroEntity                                                          Risk = "wro_entity"
+	RiskImportsBisHighPriorityItems                                        Risk = "imports_bis_high_priority_items"
+	RiskReputationalRiskBriberyAndCorruption                               Risk = "reputational_risk_bribery_and_corruption"
+	RiskSanctionedAdjacent                                                 Risk = "sanctioned_adjacent"
+	RiskForcedLaborAspiOriginSubtierProductMap                             Risk = "forced_labor_aspi_origin_subtier_product_map"
+	RiskPsaExportControls                                                  Risk = "psa_export_controls"
+	RiskOwnerOfSanctionedEntity                                            Risk = "owner_of_sanctioned_entity"
+	RiskPsaRegulatoryAction                                                Risk = "psa_regulatory_action"
+	RiskForcedLaborXinjiangContractors                                     Risk = "forced_labor_xinjiang_contractors"
+	RiskOwnedByXinjiangEntity                                              Risk = "owned_by_xinjiang_entity"
+	RiskForcedLaborXinjiangOriginSubtier                                   Risk = "forced_labor_xinjiang_origin_subtier"
+	RiskPsaForcedLaborXinjiangName                                         Risk = "psa_forced_labor_xinjiang_name"
+	RiskBaselAml                                                           Risk = "basel_aml"
+	RiskAspiUyghurForcedLaborReportEntityAdjacent                          Risk = "aspi_uyghur_forced_labor_report_entity_adjacent"
+	RiskOwnedByCmicEntity                                                  Risk = "owned_by_cmic_entity"
+	RiskOfacSdn                                                            Risk = "ofac_sdn"
+	RiskOwnedByBisMeuEntity                                                Risk = "owned_by_bis_meu_entity"
+	RiskOwnedByForcedLaborXinjiangUflpa                                    Risk = "owned_by_forced_labor_xinjiang_uflpa"
+	RiskForcedLaborXinjiangUflpaAdjacent                                   Risk = "forced_labor_xinjiang_uflpa_adjacent"
+	RiskOwnedByWroEntity                                                   Risk = "owned_by_wro_entity"
+	RiskPsaMilitaryCivilFusion                                             Risk = "psa_military_civil_fusion"
+	RiskForcedLaborAspiOriginSubtier                                       Risk = "forced_labor_aspi_origin_subtier"
+	RiskFormerWroEntity                                                    Risk = "former_wro_entity"
+	RiskForcedLaborWroOriginDirect                                         Risk = "forced_labor_wro_origin_direct"
+	RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity           Risk = "owned_by_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskEuSanctioned                                                       Risk = "eu_sanctioned"
+	RiskAspiUyghurForcedLaborReportEntity                                  Risk = "aspi_uyghur_forced_labor_report_entity"
+	RiskForcedLaborChinaKeywords                                           Risk = "forced_labor_china_keywords"
+	RiskExportsBisHighPriorityItemsCriticalComponents                      Risk = "exports_bis_high_priority_items_critical_components"
+	RiskSoeAdjacent                                                        Risk = "soe_adjacent"
+	RiskStateOwned                                                         Risk = "state_owned"
+	RiskPsaSheffieldHallamUniversityForcedLaborEntity                      Risk = "psa_sheffield_hallam_university_forced_labor_entity"
+	RiskExportControlsAdjacent                                             Risk = "export_controls_adjacent"
+	RiskExportToSoe                                                        Risk = "export_to_soe"
+	RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtierProductMap Risk = "forced_labor_sheffield_hallam_university_reports_origin_subtier_product_map"
+	RiskPsaSanctioned                                                      Risk = "psa_sanctioned"
+	RiskOfac50PercentRule                                                  Risk = "ofac_50_percent_rule"
+	RiskOwnerOfExportControlsEntity                                        Risk = "owner_of_export_controls_entity"
+	RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtier           Risk = "forced_labor_sheffield_hallam_university_reports_origin_subtier"
+	RiskMeuListContractors                                                 Risk = "meu_list_contractors"
+	RiskOwnerOfForcedLaborXinjiangUflpa                                    Risk = "owner_of_forced_labor_xinjiang_uflpa"
+	RiskPep                                                                Risk = "pep"
+	RiskOwnedByEntityInExportControls                                      Risk = "owned_by_entity_in_export_controls"
+	RiskPsaForcedLaborAspiUyghur                                           Risk = "psa_forced_labor_aspi_uyghur"
+	RiskEu50PercentRule                                                    Risk = "eu_50_percent_rule"
+	RiskForcedLaborXinjiangOperations                                      Risk = "forced_labor_xinjiang_operations"
+	RiskForcedLaborWroOriginSubtier                                        Risk = "forced_labor_wro_origin_subtier"
+	RiskReputationalRiskOther                                              Risk = "reputational_risk_other"
+	RiskExportToSanctioned                                                 Risk = "export_to_sanctioned"
+	RiskSheffieldHallamUniversityForcedLaborReportsEntityAdjacent          Risk = "sheffield_hallam_university_forced_labor_reports_entity_adjacent"
+	RiskFormerSoe                                                          Risk = "former_soe"
+	RiskReputationalRiskOrganizedCrime                                     Risk = "reputational_risk_organized_crime"
+	RiskReputationalRiskForcedLabor                                        Risk = "reputational_risk_forced_labor"
+	RiskImportsBisHighPriorityItemsCriticalComponents                      Risk = "imports_bis_high_priority_items_critical_components"
+	RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity           Risk = "owner_of_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskCpiScore                                                           Risk = "cpi_score"
+	RiskPsaSheffieldHallamUniversityUsefulResources                        Risk = "psa_sheffield_hallam_university_useful_resources"
+	RiskPsaWroEntity                                                       Risk = "psa_wro_entity"
+	RiskPsaEntityLicensedWithFsbRf                                         Risk = "psa_entity_licensed_with_fsb_rf"
+	RiskPsaForcedLaborXinjiangUflpa                                        Risk = "psa_forced_labor_xinjiang_uflpa"
+	RiskOwnerOfWroEntity                                                   Risk = "owner_of_wro_entity"
+	RiskForcedLaborXinjiangOriginSubtierProductMap                         Risk = "forced_labor_xinjiang_origin_subtier_product_map"
+	RiskMilitaryCivilFusion                                                Risk = "military_civil_fusion"
+	RiskForcedLaborXinjiangRegistration                                    Risk = "forced_labor_xinjiang_registration"
+	RiskForcedLaborXinjiangName                                            Risk = "forced_labor_xinjiang_name"
+	RiskOwnedByAspiForcedLaborEntity                                       Risk = "owned_by_aspi_forced_labor_entity"
+	RiskReputationalRiskTerrorism                                          Risk = "reputational_risk_terrorism"
+	RiskFormerlySanctioned                                                 Risk = "formerly_sanctioned"
+	RiskOwnedBySection1260HEntity                                          Risk = "owned_by_section_1260h_entity"
+	RiskSheffieldHallamUniversityForcedLaborReportsIntermediaryEntity      Risk = "sheffield_hallam_university_forced_labor_reports_intermediary_entity"
+	RiskPepAdjacent                                                        Risk = "pep_adjacent"
+	RiskOwnerOfForcedLaborXinjiangEntity                                   Risk = "owner_of_forced_labor_xinjiang_entity"
+	RiskLawEnforcementAction                                               Risk = "law_enforcement_action"
+	RiskOwnedBySoe                                                         Risk = "owned_by_soe"
+	RiskForcedLaborWroOriginSubtierProductMap                              Risk = "forced_labor_wro_origin_subtier_product_map"
+	RiskEntityLicensedWithFsbRf                                            Risk = "entity_licensed_with_fsb_rf"
+	RiskPsaForcedLaborXinjiangRegistration                                 Risk = "psa_forced_labor_xinjiang_registration"
+	RiskForcedLaborSheffieldHallamUniversityReportsOriginDirect            Risk = "forced_labor_sheffield_hallam_university_reports_origin_direct"
+	RiskPsaForcedLaborXinjiangGeospatial                                   Risk = "psa_forced_labor_xinjiang_geospatial"
+	RiskWroEntityAdjacent                                                  Risk = "wro_entity_adjacent"
+	RiskReputationalRiskCybercrime                                         Risk = "reputational_risk_cybercrime"
+	RiskPsaForcedLaborXinjiangOperations                                   Risk = "psa_forced_labor_xinjiang_operations"
+	RiskOwnerOfSoe                                                         Risk = "owner_of_soe"
+	RiskForcedLaborAspiOriginDirect                                        Risk = "forced_labor_aspi_origin_direct"
+	RiskExportsBisHighPriorityItems                                        Risk = "exports_bis_high_priority_items"
+	RiskForcedLaborUflpaOriginSubtier                                      Risk = "forced_labor_uflpa_origin_subtier"
+	RiskOwnerOfRegulatoryActionEntity                                      Risk = "owner_of_regulatory_action_entity"
+	RiskPsaSheffieldHallamUniversityIntermediaryEntity                     Risk = "psa_sheffield_hallam_university_intermediary_entity"
+	RiskForcedLaborXinjiangUflpa                                           Risk = "forced_labor_xinjiang_uflpa"
+	RiskPsaStateOwned                                                      Risk = "psa_state_owned"
+	RiskForcedLaborUflpaOriginDirect                                       Risk = "forced_labor_uflpa_origin_direct"
+	RiskOwnedBySanctionedEntity                                            Risk = "owned_by_sanctioned_entity"
 )
 
 func NewRiskFromString(s string) (Risk, error) {
@@ -8720,6 +8725,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskForcedLaborXinjiangOriginDirect, nil
 	case "regulatory_action":
 		return RiskRegulatoryAction, nil
+	case "forced_labor_uflpa_origin_subtier_product_map":
+		return RiskForcedLaborUflpaOriginSubtierProductMap, nil
 	case "forced_labor_xinjiang_geospatial":
 		return RiskForcedLaborXinjiangGeospatial, nil
 	case "eu_high_risk_third":
@@ -8748,6 +8755,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskReputationalRiskBriberyAndCorruption, nil
 	case "sanctioned_adjacent":
 		return RiskSanctionedAdjacent, nil
+	case "forced_labor_aspi_origin_subtier_product_map":
+		return RiskForcedLaborAspiOriginSubtierProductMap, nil
 	case "psa_export_controls":
 		return RiskPsaExportControls, nil
 	case "owner_of_sanctioned_entity":
@@ -8806,6 +8815,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskExportControlsAdjacent, nil
 	case "export_to_soe":
 		return RiskExportToSoe, nil
+	case "forced_labor_sheffield_hallam_university_reports_origin_subtier_product_map":
+		return RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtierProductMap, nil
 	case "psa_sanctioned":
 		return RiskPsaSanctioned, nil
 	case "ofac_50_percent_rule":
@@ -8858,6 +8869,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaForcedLaborXinjiangUflpa, nil
 	case "owner_of_wro_entity":
 		return RiskOwnerOfWroEntity, nil
+	case "forced_labor_xinjiang_origin_subtier_product_map":
+		return RiskForcedLaborXinjiangOriginSubtierProductMap, nil
 	case "military_civil_fusion":
 		return RiskMilitaryCivilFusion, nil
 	case "forced_labor_xinjiang_registration":
@@ -8882,6 +8895,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskLawEnforcementAction, nil
 	case "owned_by_soe":
 		return RiskOwnedBySoe, nil
+	case "forced_labor_wro_origin_subtier_product_map":
+		return RiskForcedLaborWroOriginSubtierProductMap, nil
 	case "entity_licensed_with_fsb_rf":
 		return RiskEntityLicensedWithFsbRf, nil
 	case "psa_forced_labor_xinjiang_registration":
