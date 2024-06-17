@@ -2476,6 +2476,8 @@ const (
 	CountryContextActivityIn CountryContext = "activity_in"
 	// The entity is mentioned in a record originating from this country
 	CountryContextMentionedIn CountryContext = "mentioned_in"
+	// The country of origin of a product
+	CountryContextProductOrigin CountryContext = "product_origin"
 )
 
 func NewCountryContextFromString(s string) (CountryContext, error) {
@@ -2504,6 +2506,8 @@ func NewCountryContextFromString(s string) (CountryContext, error) {
 		return CountryContextActivityIn, nil
 	case "mentioned_in":
 		return CountryContextMentionedIn, nil
+	case "product_origin":
+		return CountryContextProductOrigin, nil
 	}
 	var t CountryContext
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -5546,6 +5550,8 @@ const (
 	IdentifierTypeCanNrdIndividualId IdentifierType = "can_nrd_individual_id"
 	// Unique Jamaica company registration number. Assigned to every company in the Jamaica Corporate Registry.
 	IdentifierTypeJamCompanyId IdentifierType = "jam_company_id"
+	// Spain Internal Employee Number
+	IdentifierTypeEspInternalEmployeeNumber IdentifierType = "esp_internal_employee_number"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6712,6 +6718,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCanNrdIndividualId, nil
 	case "jam_company_id":
 		return IdentifierTypeJamCompanyId, nil
+	case "esp_internal_employee_number":
+		return IdentifierTypeEspInternalEmployeeNumber, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
