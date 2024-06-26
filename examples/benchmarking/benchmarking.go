@@ -61,13 +61,13 @@ func main() {
 	// Create a client to auth against the API
 	client, err := sdk.ConnectTo(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), baseURL)
 	if err != nil {
-		log.Fatalf("Error: %v", err)
+		log.Fatalf("Error creating client. Error: %v", err)
 	}
 
 	// Load in CSV
 	rows, err := loadCSV("examples/benchmarking/input.csv")
 	if err != nil {
-		log.Fatalf("Error: %v", err)
+		log.Fatalf("Error loading CSV. Error: %v", err)
 	}
 
 	// Open output CSV
@@ -110,21 +110,21 @@ func main() {
 		// Resolve corporate profile
 		_, resp1, err := resolveEntity(client, sayari.ProfileEnumCorporate, attributeColMap, row)
 		if err != nil {
-			log.Fatalf("Error: %v", err)
+			log.Fatalf("Error resolving entity w/ corporate profile. Error: %v", err)
 		}
 		r1 := getResolveData(resp1)
 
 		// Resolve supplies profile
-		_, resp2, err := resolveEntity(client, sayari.ProfileEnumSupplier, attributeColMap, row)
+		_, resp2, err := resolveEntity(client, sayari.ProfileEnumSuppliers, attributeColMap, row)
 		if err != nil {
-			log.Fatalf("Error: %v", err)
+			log.Fatalf("Error resolving entity w/ suppliers profile. Error: %v", err)
 		}
 		r2 := getResolveData(resp2)
 
 		// Search
 		_, resp3, err := searchEntity(client, attributeColMap, row)
 		if err != nil {
-			log.Fatalf("Error: %v", err)
+			log.Fatalf("Error searching for entity. Error: %v", err)
 		}
 		r3 := getSearchData(resp3)
 
@@ -150,7 +150,7 @@ func main() {
 			}
 			err = w.Write(results)
 			if err != nil {
-				log.Fatalf("Error: %v", err)
+				log.Fatalf("Error writing results. Error: %v", err)
 			}
 		}
 	}
@@ -298,7 +298,7 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 			}
 			country, err := sayari.NewCountryFromString(countryStr)
 			if err != nil {
-				log.Fatalf("Error: %v", err)
+				log.Fatalf("Error getting country. Error: %v", err)
 			}
 			entityInfo.Country = append(entityInfo.Country, &country)
 		}
@@ -342,16 +342,18 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 			}
 			entityType, err := sayari.NewEntitiesFromString(entityTypeStr)
 			if err != nil {
-				log.Fatalf("Error: %v", err)
+				log.Fatalf("Error getting entity type. Error: %v", err)
 			}
 			entityInfo.Type = append(entityInfo.Type, &entityType)
 		}
 	}
 
 	start := time.Now()
+	log.Printf("%+v", entityInfo)
 	resp, err := client.Resolution.Resolution(context.Background(), &entityInfo)
 	duration := time.Since(start)
 	if err != nil {
+		log.Println("Error calling resolve function.")
 		return duration, nil, err
 	}
 
@@ -374,7 +376,7 @@ func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row 
 			}
 			country, err := sayari.NewCountryFromString(countryStr)
 			if err != nil {
-				log.Fatalf("Error: %v", err)
+				log.Fatalf("Error getting country. Error: %v", err)
 			}
 			filterList.Country = append(filterList.Country, country)
 		}
