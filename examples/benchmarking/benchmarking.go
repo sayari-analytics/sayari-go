@@ -349,7 +349,6 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 	}
 
 	start := time.Now()
-	log.Printf("%+v", entityInfo)
 	resp, err := client.Resolution.Resolution(context.Background(), &entityInfo)
 	duration := time.Since(start)
 	if err != nil {
