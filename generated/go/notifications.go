@@ -12,7 +12,8 @@ type ProjectNotifications struct {
 	// Limit total notifications in the response. Defaults to 100.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Offset which notifications are returned. Defaults to 0.
-	Offset *int `json:"-" url:"offset,omitempty"`
+	Offset *int                    `json:"-" url:"offset,omitempty"`
+	Sort   *NotificationsSortField `json:"-" url:"sort,omitempty"`
 }
 
 type ResourceNotifications struct {
@@ -22,12 +23,34 @@ type ResourceNotifications struct {
 	Offset *int `json:"-" url:"offset,omitempty"`
 }
 
+// Defines a sort order on a field. The value should begin with a '-' to indicate a descending sort, followed by a field name to sort on.
+type NotificationsSortField string
+
+const (
+	// The date the notification was generated, descending.
+	NotificationsSortFieldDateDesc NotificationsSortField = "-date"
+)
+
+func NewNotificationsSortFieldFromString(s string) (NotificationsSortField, error) {
+	switch s {
+	case "-date":
+		return NotificationsSortFieldDateDesc, nil
+	}
+	var t NotificationsSortField
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (n NotificationsSortField) Ptr() *NotificationsSortField {
+	return &n
+}
+
 // OK
 type ProjectNotificationsResponse struct {
 	Offset int                        `json:"offset" url:"offset"`
 	Limit  int                        `json:"limit" url:"limit"`
 	Next   bool                       `json:"next" url:"next"`
 	Data   []*ProjectNotificationData `json:"data,omitempty" url:"data,omitempty"`
+	Size   *QualifiedCount            `json:"size,omitempty" url:"size,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage

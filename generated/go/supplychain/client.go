@@ -51,7 +51,7 @@ func (c *Client) UpstreamTradeTraversal(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := core.EncodeURL(baseURL+"/v1/upstream/%v", id)
+	endpointURL := core.EncodeURL(baseURL+"/v1/supply_chain/upstream/%v", id)
 
 	queryParams, err := core.QueryValues(request)
 	if err != nil {
