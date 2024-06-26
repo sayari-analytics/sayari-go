@@ -9,7 +9,7 @@ import (
 )
 
 type Resolution struct {
-	// A limit on the number of objects to be returned with a range between 1 and 10. Defaults to 10.
+	// A limit on the number of objects to be returned with a range between 1 and 10 inclusive. Defaults to 10.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
@@ -32,26 +32,45 @@ type Resolution struct {
 }
 
 type ResolutionPost struct {
-	// A limit on the number of objects to be returned with a range between 1 and 10. Defaults to 10.
+	// A limit on the number of objects to be returned with a range between 1 and 10 inclusive. Defaults to 10.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
-	Offset *int `json:"-" url:"offset,omitempty"`
-	// Entity name
-	Name []string `json:"name,omitempty" url:"-"`
-	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
-	Identifier []*BothIdentifierTypes `json:"identifier,omitempty" url:"-"`
-	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
-	Country []Country `json:"country,omitempty" url:"-"`
-	// Entity address
-	Address []string `json:"address,omitempty" url:"-"`
-	// Entity date of birth
-	DateOfBirth []string `json:"date_of_birth,omitempty" url:"-"`
-	// Entity contact
-	Contact []string `json:"contact,omitempty" url:"-"`
-	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
-	Type []Entities `json:"type,omitempty" url:"-"`
-	// Profile can be used to switch between search algorithms. The default profile `corporate` is optimized for accurate entity attribute matching and is ideal for business verification and matching entities with corporate data. The `supplier` profile is optimized for matching entities with extensive trade data. Ideal for supply chain and trade-related use cases.
-	Profile *ProfileEnum `json:"profile,omitempty" url:"-"`
+	Offset *int            `json:"-" url:"offset,omitempty"`
+	Body   *ResolutionBody `json:"-" url:"-"`
+}
+
+func (r *ResolutionPost) UnmarshalJSON(data []byte) error {
+	body := new(ResolutionBody)
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	r.Body = body
+	return nil
+}
+
+func (r *ResolutionPost) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.Body)
+}
+
+type ResolutionPersisted struct {
+	// A limit on the number of objects to be returned with a range between 1 and 10 inclusive. Defaults to 10.
+	Limit *int `json:"-" url:"limit,omitempty"`
+	// Number of results to skip before returning response. Defaults to 0.
+	Offset *int            `json:"-" url:"offset,omitempty"`
+	Body   *ResolutionBody `json:"-" url:"-"`
+}
+
+func (r *ResolutionPersisted) UnmarshalJSON(data []byte) error {
+	body := new(ResolutionBody)
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	r.Body = body
+	return nil
+}
+
+func (r *ResolutionPersisted) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.Body)
 }
 
 type BothIdentifierTypes struct {
@@ -128,7 +147,104 @@ func (p ProfileEnum) Ptr() *ProfileEnum {
 	return &p
 }
 
-// OK
+type ResolutionBody struct {
+	// Entity name
+	Name []string `json:"name,omitempty" url:"name,omitempty"`
+	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
+	Identifier []*BothIdentifierTypes `json:"identifier,omitempty" url:"identifier,omitempty"`
+	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
+	Country []Country `json:"country,omitempty" url:"country,omitempty"`
+	// Entity address
+	Address []string `json:"address,omitempty" url:"address,omitempty"`
+	// Entity date of birth
+	DateOfBirth []string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
+	// Entity contact
+	Contact []string `json:"contact,omitempty" url:"contact,omitempty"`
+	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
+	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
+	// Profile can be used to switch between search algorithms. The default profile `corporate` is optimized for accurate entity attribute matching and is ideal for business verification and matching entities with corporate data. The `supplier` profile is optimized for matching entities with extensive trade data. Ideal for supply chain and trade-related use cases.
+	Profile *ProfileEnum `json:"profile,omitempty" url:"profile,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionBody) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionBody) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionBody
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionBody(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionBody) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+type ResolutionPersistedResponse struct {
+	Fields *ResolutionPersistedResponseFields `json:"fields,omitempty" url:"fields,omitempty"`
+	Data   []*ResolutionPersistedResult       `json:"data,omitempty" url:"data,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionPersistedResponse) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionPersistedResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionPersistedResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionPersistedResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionPersistedResponse) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
 type ResolutionResponse struct {
 	Fields *ResolutionResponseFields `json:"fields,omitempty" url:"fields,omitempty"`
 	Data   []*ResolutionResult       `json:"data,omitempty" url:"data,omitempty"`
