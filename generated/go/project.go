@@ -30,9 +30,9 @@ type GetProjectEntities struct {
 	// The language code to translate the entity labels to. Defaults to the user's preferred language.
 	Translation *string    `json:"-" url:"translation,omitempty"`
 	Sort        *SortField `json:"-" url:"sort,omitempty"`
-	// Only return entities that match the specified filters.
+	// Filter for entities in a project. The format is `field=value`, where the equal sign is encoded as `%3D`. Supported fields are as follows
 	Filters []*ProjectEntitiesFilter `json:"-" url:"filters,omitempty"`
-	// Aggregations for entities in a project.
+	// Aggregations that should be returned for entities in the project.
 	Aggregations []*ProjectEntitiesAggsDefinition `json:"-" url:"aggregations,omitempty"`
 }
 
@@ -289,86 +289,167 @@ func (g *GetProjectsResponse) String() string {
 	return fmt.Sprintf("%#v", g)
 }
 
-// Aggregations for entities in a project. Possible values are - hit_count Cardinality of unique entities. - country Count of entities per country. - upstream_country Count of entities per upstream country. - upstream_risk Count of entities per upstream risk factor. - source Count of entities per source. - business_purpose Count of entities per business purpose. - receiver_of Total number of shipments received by entities. - shipper_of Total number of shipments shipped by entities. - received_hs_codes Count of entities and shipments received per HS code. - shipped_hs_codes Count of entities and shipments shipped per HS code. - location Count of entities per grid cell within the specified `bounds` filter. Each cell corresponds to a [map tile](https://en.wikipedia.org/wiki/Tiled_web_map) as used by many online map sites. Each cell is labeled using a "{zoom}/{x}/{y}" format, where zoom is an automatically-selected precision. To use this aggregation, both `filters=bounds` and `geo_facets=true` query parameters must be provided. - <risk> where <risk> is a [risk factor](/sayari-library/ontology/risk-factors) ID. Count of entities per risk factor.
+// Aggregations for entities in a project. Possible values are - hit_count Cardinality of unique entities. - country Count of entities per country. - upstream_country Count of entities per upstream country. - upstream_country_tiers Count of entities per upstream country, by tier. - upstream_risk Count of entities per upstream risk factor. - upstream_risk_tiers Count of entities per upstream risk factor, by tier. - source Count of entities per source. - business_purpose Count of entities per business purpose. - receiver_of Total number of shipments received by entities. - shipper_of Total number of shipments shipped by entities. - received_hs_codes Count of entities and shipments received per HS code. - shipped_hs_codes Count of entities and shipments shipped per HS code. - location Count of entities per grid cell within the specified `bounds` filter. Each cell corresponds to a [map tile](https://en.wikipedia.org/wiki/Tiled_web_map) as used by many online map sites. Each cell is labeled using a "{zoom}/{x}/{y}" format, where zoom is an automatically-selected precision. To use this aggregation, both `filters=bounds` and `geo_facets=true` query parameters must be provided. - <risk> where <risk> is a [risk factor](/sayari-library/ontology/risk-factors) ID. Count of entities per risk factor.
 type ProjectEntitiesAggsDefinition = string
 
-// Filter for entities in a project. The format is `field=value`, where the equal sign is encoded as `%3D`. Supported fields are as follows
-//
-// - risk Filter by [risk factor](/sayari-library/ontology/risk-factors) ID. - upstream_risk Filter by upstream (supply chain) [risk factor](/sayari-library/ontology/risk-factors) ID. - country Filter by [country](/sayari-library/ontology/enumerated-types#country). - upstream_country Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country). - business_purpose Filter by HS code, HS code description, or business description. - label.fuzzy Filter by entity label with fuzzy matching. - city.fuzzy Filter by entity city with fuzzy matching. - state.fuzzy Filter by entity address state with fuzzy matching. - identifier.fuzzy Filter by entity identifier attributes with fuzzy matching. - source.exact Filter by entity source ID. - status.exact Filter by entity [company status](/sayari-library/ontology/enumerated-types#company-status). - bounds Filter by a geographical bounding box. The value is a pipe-delimited set of four values representing the top, left, bottom, and right sides of the bounding box, in that order. The pipes should be URL-encoded as `%7C`. The top coordinate must greater than the bottom coordinate, and the left coordinate must be less than the right coordinate. A sample is `55.680357237879136|-71.53607290158526|41.10876347746233|-40.963927098414736`
-type ProjectEntitiesFilter = string
+type ProjectEntitiesFilter struct {
+	// Filter by [risk factor](/sayari-library/ontology/risk-factors) ID.
+	Risk []Risk `json:"risk,omitempty" url:"risk,omitempty"`
+	// Filter by upstream (supply chain) [risk factor](/sayari-library/ontology/risk-factors) ID.
+	UpstreamRisk []Risk `json:"upstream_risk,omitempty" url:"upstream_risk,omitempty"`
+	// Filter by upstream (supply chain) tiers that has one or more risks
+	UpstreamRiskTiers []UpstreamTiers `json:"upstream_risk_tiers,omitempty" url:"upstream_risk_tiers,omitempty"`
+	// Filter by [country](/sayari-library/ontology/enumerated-types#country).
+	Country []Country `json:"country,omitempty" url:"country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country).
+	UpstreamCountry []Country `json:"upstream_country,omitempty" url:"upstream_country,omitempty"`
+	// Filter by upstream (supply chain) tiers that has one or more countries
+	UpstreamCountryTiers []UpstreamTiers `json:"upstream_country_tiers,omitempty" url:"upstream_country_tiers,omitempty"`
+	// Filter by HS code, HS code description, or business description.
+	BusinessPurpose []string `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
+	// Filter by entity label with fuzzy matching.
+	LabelFuzzy []string `json:"label.fuzzy,omitempty" url:"label.fuzzy,omitempty"`
+	// Filter by entity city with fuzzy matching.
+	CityFuzzy []string `json:"city.fuzzy,omitempty" url:"city.fuzzy,omitempty"`
+	// Filter by entity address state with fuzzy matching.
+	StateFuzzy []string `json:"state.fuzzy,omitempty" url:"state.fuzzy,omitempty"`
+	// Filter by entity identifier attributes with fuzzy matching.
+	IdentifierFuzzy []string `json:"identifier.fuzzy,omitempty" url:"identifier.fuzzy,omitempty"`
+	// Filter by entity source ID.
+	SourceExact []string `json:"source.exact,omitempty" url:"source.exact,omitempty"`
+	// Filter by entity [company status](/sayari-library/ontology/enumerated-types#company-status).
+	StatusExact []CompanyStatus `json:"status.exact,omitempty" url:"status.exact,omitempty"`
+	// Filter by a geographical bounding box. The value is a pipe-delimited set of four values representing the top, left, bottom, and right sides of the bounding box, in that order. The pipes should be URL-encoded as `%7C`. The top coordinate must greater than the bottom coordinate, and the left coordinate must be less than the right coordinate. A sample is `55.680357237879136|-71.53607290158526|41.10876347746233|-40.963927098414736`
+	Bounds *string `json:"bounds,omitempty" url:"bounds,omitempty"`
+	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
+	CustomFieldName []string `json:"custom_<field name>,omitempty" url:"custom_<field name>,omitempty"`
 
-// Defines a sort order on a field, either ascending or descending. The value must begin with either a '+' or a '-' to indicate an ascending or descending sort, respectively, followed by a field name to sort on.
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectEntitiesFilter) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntitiesFilter) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntitiesFilter
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntitiesFilter(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntitiesFilter) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+// Defines a sort order on a field, either ascending or descending. The value should begin with a '-' to indicate a descending sort, followed by a field name to sort on.
 type SortField string
 
 const (
 	// The date the entity was saved to the project, ascending.
-	SortFieldCreatedAsc SortField = "+created"
+	SortFieldCreatedAsc SortField = "created"
 	// The date the entity was saved to the project, descending.
 	SortFieldCreatedDesc SortField = "-created"
 	// The unique identifier of the saved entity within the project, e.g. `12200`, ascending.
-	SortFieldIdAsc SortField = "+saved_resource_id"
+	SortFieldIdAsc SortField = "saved_resource_id"
 	// The unique identifier of the saved entity within the project, e.g. `12200`, descending.
 	SortFieldIdDesc SortField = "-saved_resource_id"
 	// The unique identifier of the entity, e.g. `pLH5fpfZoWTiS1z8ieSTDQ`, ascending.
-	SortFieldEntityIdAsc SortField = "+entity_id"
+	SortFieldEntityIdAsc SortField = "entity_id"
 	// The unique identifier of the entity, e.g. `pLH5fpfZoWTiS1z8ieSTDQ`, descending.
 	SortFieldEntityIdDesc SortField = "-entity_id"
 	// The [country](/sayari-library/ontology/enumerated-types#country) of the entity, ascending.
-	SortFieldCountryAsc SortField = "+country"
+	SortFieldCountryAsc SortField = "country"
 	// The [country](/sayari-library/ontology/enumerated-types#country) of the entity, descending.
 	SortFieldCountryDesc SortField = "-country"
 	// The most recent [company status](/sayari-library/ontology/enumerated-types#company-status) of the entity, ascending.
-	SortFieldStatusAsc SortField = "+latest_status"
+	SortFieldStatusAsc SortField = "latest_status"
 	// The most recent [company status](/sayari-library/ontology/enumerated-types#company-status) of the entity, descending.
 	SortFieldStatusDesc SortField = "-latest_status"
 	// The label (display name) of the entity, ascending.
-	SortFieldLabelAsc SortField = "+label"
+	SortFieldLabelAsc SortField = "label"
 	// The label (display name) of the entity, descending.
 	SortFieldLabelDesc SortField = "-label"
+	// <Warning>This sorting option is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> One of the custom fields provided by the user, ascending.
+	SortFieldCustomFieldsAsc SortField = "custom_<field name>"
+	// <Warning>This sorting option is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> One of the custom fields provided by the user, descending.
+	SortFieldCustomFieldsDesc SortField = "-custom_<field name>"
 	// The number of shipments the entity has received, ascending.
-	SortFieldReceiverOfAcc SortField = "+receiver_of"
+	SortFieldReceiverOfAcc SortField = "receiver_of"
 	// The number of shipments the entity has received, descending.
 	SortFieldReceiverOfDesc SortField = "-receiver_of"
 	// The number of shipments the entity has shipped, ascending.
-	SortFieldShipperOfAsc SortField = "+shipper_of"
+	SortFieldShipperOfAsc SortField = "shipper_of"
 	// The number of shipments the entity has shipped, descending.
 	SortFieldShipperOfDesc SortField = "-shipper_of"
+	// The number of upstream entities in the supply chain of the entity, ascending.
+	SortFieldUpstreamEntitiesAsc SortField = "upstream_entities"
+	// The number of upstream entities in the supply chain of the entity, descending.
+	SortFieldUpstreamEntitiesDesc SortField = "-upstream_entities"
 )
 
 func NewSortFieldFromString(s string) (SortField, error) {
 	switch s {
-	case "+created":
+	case "created":
 		return SortFieldCreatedAsc, nil
 	case "-created":
 		return SortFieldCreatedDesc, nil
-	case "+saved_resource_id":
+	case "saved_resource_id":
 		return SortFieldIdAsc, nil
 	case "-saved_resource_id":
 		return SortFieldIdDesc, nil
-	case "+entity_id":
+	case "entity_id":
 		return SortFieldEntityIdAsc, nil
 	case "-entity_id":
 		return SortFieldEntityIdDesc, nil
-	case "+country":
+	case "country":
 		return SortFieldCountryAsc, nil
 	case "-country":
 		return SortFieldCountryDesc, nil
-	case "+latest_status":
+	case "latest_status":
 		return SortFieldStatusAsc, nil
 	case "-latest_status":
 		return SortFieldStatusDesc, nil
-	case "+label":
+	case "label":
 		return SortFieldLabelAsc, nil
 	case "-label":
 		return SortFieldLabelDesc, nil
-	case "+receiver_of":
+	case "custom_<field name>":
+		return SortFieldCustomFieldsAsc, nil
+	case "-custom_<field name>":
+		return SortFieldCustomFieldsDesc, nil
+	case "receiver_of":
 		return SortFieldReceiverOfAcc, nil
 	case "-receiver_of":
 		return SortFieldReceiverOfDesc, nil
-	case "+shipper_of":
+	case "shipper_of":
 		return SortFieldShipperOfAsc, nil
 	case "-shipper_of":
 		return SortFieldShipperOfDesc, nil
+	case "upstream_entities":
+		return SortFieldUpstreamEntitiesAsc, nil
+	case "-upstream_entities":
+		return SortFieldUpstreamEntitiesDesc, nil
 	}
 	var t SortField
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

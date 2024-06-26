@@ -74,6 +74,8 @@ type SaveEntityRequest struct {
 	Project string `json:"project" url:"project"`
 	// The entity identifier.
 	EntityId string `json:"entity_id" url:"entity_id"`
+	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
+	CustomFields interface{} `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage

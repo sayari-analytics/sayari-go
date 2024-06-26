@@ -10498,6 +10498,8 @@ type ProjectNotificationData struct {
 	// The ID of the entity
 	EntityId      string          `json:"entity_id" url:"entity_id"`
 	Notifications []*Notification `json:"notifications,omitempty" url:"notifications,omitempty"`
+	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
+	CustomFields interface{} `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -10986,22 +10988,24 @@ func (p *ProjectCounts) String() string {
 
 // Aggregation buckets for entities in a project.
 type ProjectEntitiesAggs struct {
-	HitCount        []*BucketAgg `json:"hit_count,omitempty" url:"hit_count,omitempty"`
-	Country         []*BucketAgg `json:"country,omitempty" url:"country,omitempty"`
-	UpstreamCountry []*BucketAgg `json:"upstream_country,omitempty" url:"upstream_country,omitempty"`
-	Risk            []*BucketAgg `json:"risk,omitempty" url:"risk,omitempty"`
-	UpstreamRisk    []*BucketAgg `json:"upstream_risk,omitempty" url:"upstream_risk,omitempty"`
-	Source          []*BucketAgg `json:"source,omitempty" url:"source,omitempty"`
-	BusinessPurpose []*BucketAgg `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
-	TagIds          []*BucketAgg `json:"tag_ids,omitempty" url:"tag_ids,omitempty"`
-	CaseStatuses    []*BucketAgg `json:"case_statuses,omitempty" url:"case_statuses,omitempty"`
-	ShipmentCounts  []*BucketAgg `json:"shipment_counts,omitempty" url:"shipment_counts,omitempty"`
-	ShippedHsCodes  *HsCodeAgg   `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
-	ReceivedHsCodes *HsCodeAgg   `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
-	MatchResults    []*BucketAgg `json:"match_results,omitempty" url:"match_results,omitempty"`
-	Location        []*BucketAgg `json:"location,omitempty" url:"location,omitempty"`
-	SourceType      []*BucketAgg `json:"source_type,omitempty" url:"source_type,omitempty"`
-	Region          []*BucketAgg `json:"region,omitempty" url:"region,omitempty"`
+	HitCount             []*BucketAgg  `json:"hit_count,omitempty" url:"hit_count,omitempty"`
+	Country              []*BucketAgg  `json:"country,omitempty" url:"country,omitempty"`
+	UpstreamCountry      []*BucketAgg  `json:"upstream_country,omitempty" url:"upstream_country,omitempty"`
+	UpstreamCountryTiers *TierCountAgg `json:"upstream_country_tiers,omitempty" url:"upstream_country_tiers,omitempty"`
+	Risk                 []*BucketAgg  `json:"risk,omitempty" url:"risk,omitempty"`
+	UpstreamRisk         []*BucketAgg  `json:"upstream_risk,omitempty" url:"upstream_risk,omitempty"`
+	UpstreamRiskTiers    *TierCountAgg `json:"upstream_risk_tiers,omitempty" url:"upstream_risk_tiers,omitempty"`
+	Source               []*BucketAgg  `json:"source,omitempty" url:"source,omitempty"`
+	BusinessPurpose      []*BucketAgg  `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
+	TagIds               []*BucketAgg  `json:"tag_ids,omitempty" url:"tag_ids,omitempty"`
+	CaseStatuses         []*BucketAgg  `json:"case_statuses,omitempty" url:"case_statuses,omitempty"`
+	ShipmentCounts       []*BucketAgg  `json:"shipment_counts,omitempty" url:"shipment_counts,omitempty"`
+	ShippedHsCodes       *HsCodeAgg    `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
+	ReceivedHsCodes      *HsCodeAgg    `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
+	MatchResults         []*BucketAgg  `json:"match_results,omitempty" url:"match_results,omitempty"`
+	Location             []*BucketAgg  `json:"location,omitempty" url:"location,omitempty"`
+	SourceType           []*BucketAgg  `json:"source_type,omitempty" url:"source_type,omitempty"`
+	Region               []*BucketAgg  `json:"region,omitempty" url:"region,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -11052,9 +11056,11 @@ type ProjectEntity struct {
 	// Will be 0.
 	Version int `json:"version" url:"version"`
 	// Entity ID.
-	EntityId      string      `json:"entity_id" url:"entity_id"`
-	TagIds        []string    `json:"tag_ids,omitempty" url:"tag_ids,omitempty"`
-	CaseStatus    string      `json:"case_status" url:"case_status"`
+	EntityId   string   `json:"entity_id" url:"entity_id"`
+	TagIds     []string `json:"tag_ids,omitempty" url:"tag_ids,omitempty"`
+	CaseStatus string   `json:"case_status" url:"case_status"`
+	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
+	CustomFields  interface{} `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
 	MatchStrength interface{} `json:"match_strength,omitempty" url:"match_strength,omitempty"`
 	// HS codes shipped by the entity.
 	ShippedHsCodes []string `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
@@ -11129,6 +11135,7 @@ func (p *ProjectEntity) String() string {
 type ProjectEntityUpstream struct {
 	Risk      []Risk    `json:"risk,omitempty" url:"risk,omitempty"`
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
+	Entities  int       `json:"entities" url:"entities"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -11358,6 +11365,69 @@ func (r RoleMemberType) Ptr() *RoleMemberType {
 	return &r
 }
 
+// Aggregation of counts by upstream supply chain tiers
+type TierCount = map[*TierCountKeys]int
+
+type TierCountAgg = map[string]TierCount
+
+type TierCountKeys struct {
+	UpstreamTiers           UpstreamTiers
+	totalCountStringLiteral string
+}
+
+func NewTierCountKeysFromUpstreamTiers(value UpstreamTiers) *TierCountKeys {
+	return &TierCountKeys{UpstreamTiers: value}
+}
+
+func NewTierCountKeysWithTotalCountStringLiteral() *TierCountKeys {
+	return &TierCountKeys{totalCountStringLiteral: "totalCount"}
+}
+
+func (t *TierCountKeys) TotalCountStringLiteral() string {
+	return t.totalCountStringLiteral
+}
+
+func (t *TierCountKeys) UnmarshalJSON(data []byte) error {
+	var valueUpstreamTiers UpstreamTiers
+	if err := json.Unmarshal(data, &valueUpstreamTiers); err == nil {
+		t.UpstreamTiers = valueUpstreamTiers
+		return nil
+	}
+	var valueTotalCountStringLiteral string
+	if err := json.Unmarshal(data, &valueTotalCountStringLiteral); err == nil {
+		if valueTotalCountStringLiteral == "totalCount" {
+			t.totalCountStringLiteral = valueTotalCountStringLiteral
+			return nil
+		}
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, t)
+}
+
+func (t TierCountKeys) MarshalJSON() ([]byte, error) {
+	if t.UpstreamTiers != "" {
+		return json.Marshal(t.UpstreamTiers)
+	}
+	if t.totalCountStringLiteral != "" {
+		return json.Marshal("totalCount")
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", t)
+}
+
+type TierCountKeysVisitor interface {
+	VisitUpstreamTiers(UpstreamTiers) error
+	VisitTotalCountStringLiteral(string) error
+}
+
+func (t *TierCountKeys) Accept(visitor TierCountKeysVisitor) error {
+	if t.UpstreamTiers != "" {
+		return visitor.VisitUpstreamTiers(t.UpstreamTiers)
+	}
+	if t.totalCountStringLiteral != "" {
+		return visitor.VisitTotalCountStringLiteral(t.totalCountStringLiteral)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", t)
+}
+
 type TradeCount struct {
 	ReceiverOf int `json:"receiver_of" url:"receiver_of"`
 	ShipperOf  int `json:"shipper_of" url:"shipper_of"`
@@ -11398,6 +11468,34 @@ func (t *TradeCount) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
+}
+
+type UpstreamTiers string
+
+const (
+	UpstreamTiersTier1 UpstreamTiers = "tier1"
+	UpstreamTiersTier2 UpstreamTiers = "tier2"
+	UpstreamTiersTier3 UpstreamTiers = "tier3"
+	UpstreamTiersTier4 UpstreamTiers = "tier4"
+)
+
+func NewUpstreamTiersFromString(s string) (UpstreamTiers, error) {
+	switch s {
+	case "tier1":
+		return UpstreamTiersTier1, nil
+	case "tier2":
+		return UpstreamTiersTier2, nil
+	case "tier3":
+		return UpstreamTiersTier3, nil
+	case "tier4":
+		return UpstreamTiersTier4, nil
+	}
+	var t UpstreamTiers
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpstreamTiers) Ptr() *UpstreamTiers {
+	return &u
 }
 
 type RecordReferences struct {
@@ -11529,6 +11627,117 @@ func (m *MatchStrength) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", m)
+}
+
+type ResolutionPersistedResponseFields struct {
+	Name       []string `json:"name,omitempty" url:"name,omitempty"`
+	Identifier []string `json:"identifier,omitempty" url:"identifier,omitempty"`
+	Profile    []string `json:"profile,omitempty" url:"profile,omitempty"`
+	// Entity country - must be ISO (3166) Trigram i.e., USA. See complete list [here](/sayari-library/ontology/enumerated-types#country)
+	Country []Country `json:"country,omitempty" url:"country,omitempty"`
+	// List of physical addresses associated with the entity.
+	Address     []string `json:"address,omitempty" url:"address,omitempty"`
+	DateOfBirth []string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
+	Contact     []string `json:"contact,omitempty" url:"contact,omitempty"`
+	// [Entity type](/sayari-library/ontology/entities)
+	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
+	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
+	CustomFieldName  *string `json:"custom_<field name>,omitempty" url:"custom_<field name>,omitempty"`
+	CustomName       *string `json:"custom_name,omitempty" url:"custom_name,omitempty"`
+	CustomIdentifier *string `json:"custom_identifier,omitempty" url:"custom_identifier,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionPersistedResponseFields) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionPersistedResponseFields) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionPersistedResponseFields
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionPersistedResponseFields(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionPersistedResponseFields) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+type ResolutionPersistedResult struct {
+	Profile             string                         `json:"profile" url:"profile"`
+	Score               float64                        `json:"score" url:"score"`
+	EntityId            string                         `json:"entity_id" url:"entity_id"`
+	Label               string                         `json:"label" url:"label"`
+	Type                Entities                       `json:"type" url:"type"`
+	Identifiers         []*Identifier                  `json:"identifiers,omitempty" url:"identifiers,omitempty"`
+	PsaId               *float64                       `json:"psa_id,omitempty" url:"psa_id,omitempty"`
+	Addresses           []string                       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	Countries           []Country                      `json:"countries,omitempty" url:"countries,omitempty"`
+	Sources             []string                       `json:"sources,omitempty" url:"sources,omitempty"`
+	TypedMatchedQueries []string                       `json:"typed_matched_queries,omitempty" url:"typed_matched_queries,omitempty"`
+	MatchedQueries      []string                       `json:"matched_queries,omitempty" url:"matched_queries,omitempty"`
+	Highlight           map[string][]string            `json:"highlight,omitempty" url:"highlight,omitempty"`
+	Explanation         map[string][]*MatchExplanation `json:"explanation,omitempty" url:"explanation,omitempty"`
+	MatchStrength       *MatchStrength                 `json:"match_strength,omitempty" url:"match_strength,omitempty"`
+	SavedEntityId       string                         `json:"saved_entity_id" url:"saved_entity_id"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionPersistedResult) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionPersistedResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionPersistedResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionPersistedResult(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionPersistedResult) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 type ResolutionResponseFields struct {
@@ -13359,11 +13568,54 @@ func (s *Source) String() string {
 
 type EntityId = string
 
+type HsCodeWithDescription struct {
+	Code        string `json:"code" url:"code"`
+	Description string `json:"description" url:"description"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HsCodeWithDescription) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
+}
+
+func (h *HsCodeWithDescription) UnmarshalJSON(data []byte) error {
+	type unmarshaler HsCodeWithDescription
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HsCodeWithDescription(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HsCodeWithDescription) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
+}
+
 type TradeTraversalEntity struct {
+	Id        string   `json:"id" url:"id"`
 	Type      string   `json:"type" url:"type"`
 	Label     string   `json:"label" url:"label"`
 	Countries []string `json:"countries,omitempty" url:"countries,omitempty"`
-	Risks     []string `json:"risks,omitempty" url:"risks,omitempty"`
+	Risk      []string `json:"risk,omitempty" url:"risk,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -13404,9 +13656,9 @@ func (t *TradeTraversalEntity) String() string {
 }
 
 type TradeTraversalPath struct {
-	Start string                        `json:"start" url:"start"`
-	End   string                        `json:"end" url:"end"`
-	Paths []*TradeTraversalPathSegments `json:"paths,omitempty" url:"paths,omitempty"`
+	Source string                       `json:"source" url:"source"`
+	Target *TradeTraversalEntity        `json:"target,omitempty" url:"target,omitempty"`
+	Path   []*TradeTraversalPathSegment `json:"path,omitempty" url:"path,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -13446,62 +13698,8 @@ func (t *TradeTraversalPath) String() string {
 	return fmt.Sprintf("%#v", t)
 }
 
-type TradeTraversalPathOrSegment struct {
-	TradeTraversalPathList            []*TradeTraversalPath
-	TradeTraversalPathSegmentListList [][]*TradeTraversalPathSegment
-}
-
-func NewTradeTraversalPathOrSegmentFromTradeTraversalPathList(value []*TradeTraversalPath) *TradeTraversalPathOrSegment {
-	return &TradeTraversalPathOrSegment{TradeTraversalPathList: value}
-}
-
-func NewTradeTraversalPathOrSegmentFromTradeTraversalPathSegmentListList(value [][]*TradeTraversalPathSegment) *TradeTraversalPathOrSegment {
-	return &TradeTraversalPathOrSegment{TradeTraversalPathSegmentListList: value}
-}
-
-func (t *TradeTraversalPathOrSegment) UnmarshalJSON(data []byte) error {
-	var valueTradeTraversalPathList []*TradeTraversalPath
-	if err := json.Unmarshal(data, &valueTradeTraversalPathList); err == nil {
-		t.TradeTraversalPathList = valueTradeTraversalPathList
-		return nil
-	}
-	var valueTradeTraversalPathSegmentListList [][]*TradeTraversalPathSegment
-	if err := json.Unmarshal(data, &valueTradeTraversalPathSegmentListList); err == nil {
-		t.TradeTraversalPathSegmentListList = valueTradeTraversalPathSegmentListList
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, t)
-}
-
-func (t TradeTraversalPathOrSegment) MarshalJSON() ([]byte, error) {
-	if t.TradeTraversalPathList != nil {
-		return json.Marshal(t.TradeTraversalPathList)
-	}
-	if t.TradeTraversalPathSegmentListList != nil {
-		return json.Marshal(t.TradeTraversalPathSegmentListList)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", t)
-}
-
-type TradeTraversalPathOrSegmentVisitor interface {
-	VisitTradeTraversalPathList([]*TradeTraversalPath) error
-	VisitTradeTraversalPathSegmentListList([][]*TradeTraversalPathSegment) error
-}
-
-func (t *TradeTraversalPathOrSegment) Accept(visitor TradeTraversalPathOrSegmentVisitor) error {
-	if t.TradeTraversalPathList != nil {
-		return visitor.VisitTradeTraversalPathList(t.TradeTraversalPathList)
-	}
-	if t.TradeTraversalPathSegmentListList != nil {
-		return visitor.VisitTradeTraversalPathSegmentListList(t.TradeTraversalPathSegmentListList)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", t)
-}
-
 type TradeTraversalPathSegment struct {
-	Src      string                   `json:"src" url:"src"`
-	Dst      string                   `json:"dst" url:"dst"`
-	HsCodes  []string                 `json:"hs_codes,omitempty" url:"hs_codes,omitempty"`
+	Entity   *TradeTraversalEntity    `json:"entity,omitempty" url:"entity,omitempty"`
 	Products []*TradeTraversalProduct `json:"products,omitempty" url:"products,omitempty"`
 
 	extraProperties map[string]interface{}
@@ -13542,53 +13740,12 @@ func (t *TradeTraversalPathSegment) String() string {
 	return fmt.Sprintf("%#v", t)
 }
 
-type TradeTraversalPathSegments struct {
-	Segments []*TradeTraversalPathSegment `json:"segments,omitempty" url:"segments,omitempty"`
-
-	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
-}
-
-func (t *TradeTraversalPathSegments) GetExtraProperties() map[string]interface{} {
-	return t.extraProperties
-}
-
-func (t *TradeTraversalPathSegments) UnmarshalJSON(data []byte) error {
-	type unmarshaler TradeTraversalPathSegments
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*t = TradeTraversalPathSegments(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *t)
-	if err != nil {
-		return err
-	}
-	t.extraProperties = extraProperties
-
-	t._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (t *TradeTraversalPathSegments) String() string {
-	if len(t._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(t); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", t)
-}
-
 type TradeTraversalProduct struct {
-	HsCode             string   `json:"hsCode" url:"hsCode"`
-	MinDate            string   `json:"minDate" url:"minDate"`
-	MaxDate            string   `json:"maxDate" url:"maxDate"`
-	ArrivalCountries   []string `json:"arrivalCountries,omitempty" url:"arrivalCountries,omitempty"`
-	DepartureCountries []string `json:"departureCountries,omitempty" url:"departureCountries,omitempty"`
+	HsCode             *HsCodeWithDescription `json:"hs_code,omitempty" url:"hs_code,omitempty"`
+	MinDate            string                 `json:"min_date" url:"min_date"`
+	MaxDate            string                 `json:"max_date" url:"max_date"`
+	ArrivalCountries   []string               `json:"arrival_countries,omitempty" url:"arrival_countries,omitempty"`
+	DepartureCountries []string               `json:"departure_countries,omitempty" url:"departure_countries,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
