@@ -5562,6 +5562,8 @@ const (
 	IdentifierTypeSrbBeneficialOwnerId IdentifierType = "srb_beneficial_owner_id"
 	// Unique Canada province ID number. Assigned to every entity registered with the Prince Edward Island Corporate Registry.
 	IdentifierTypeCanPeRegistrationNumber IdentifierType = "can_pe_registration_number"
+	// Curacao Registry Number. Unique Identifier issued by the Curacao Chamber of Commerce & Industry to the registered companies.
+	IdentifierTypeCuwRegNumber IdentifierType = "cuw_reg_number"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6740,6 +6742,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeSrbBeneficialOwnerId, nil
 	case "can_pe_registration_number":
 		return IdentifierTypeCanPeRegistrationNumber, nil
+	case "cuw_reg_number":
+		return IdentifierTypeCuwRegNumber, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
