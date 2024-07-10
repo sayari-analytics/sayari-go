@@ -181,12 +181,14 @@ func main() {
 					for _, supplyChain := range supplyChainData.Data {
 						totalHops += len(supplyChain.Path)
 						// get all unique entities
+						suppliers[supplyChain.Target.Id] = nil
 						for _, paths := range supplyChain.Path {
 							suppliers[paths.Entity.Id] = nil
 						}
 					}
 					avgSupplyChainLen = float64(totalHops) / float64(len(supplyChainData.Data))
 				}
+				delete(suppliers, r2[i].entityID)
 				results = append(results, fmt.Sprint(hasSupplyChain))
 				if hasSupplyChain {
 					results = append(results, fmt.Sprint(len(suppliers)), fmt.Sprintf("%.2f", avgSupplyChainLen))
