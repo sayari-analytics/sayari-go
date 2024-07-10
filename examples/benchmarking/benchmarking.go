@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	arg "github.com/alexflint/go-arg"
 	"github.com/joho/godotenv"
 )
 
@@ -43,6 +44,11 @@ var attributeFieldsMap = map[string]string{
 	entityType:  "Must be from the enum set",
 }
 
+var args struct {
+	MaxResults         int  // the maximum number of results to return for each search (defaults to 3)
+	MeasureSupplyChain bool // set to true if you want to include supply chain metrics
+}
+
 func main() {
 	// load ENV file if ENV vars are not set
 	if os.Getenv("CLIENT_ID") == "" || os.Getenv("CLIENT_SECRET") == "" {
@@ -50,6 +56,14 @@ func main() {
 		if err != nil {
 			log.Fatalf("Failed to load .env file. Err: %v", err)
 		}
+	}
+
+	arg.MustParse(&args)
+	if args.MaxResults == 0 {
+		log.Println("MaxResults not set, will use default of 3")
+		args.MaxResults = 3
+	} else {
+		log.Printf("MaxResults set to %v", args.MaxResults)
 	}
 
 	// Use the base URL ENV var if provided
@@ -129,7 +143,7 @@ func main() {
 		r3 := getSearchData(resp3)
 
 		// loop through the results
-		for i, _ := range r1 {
+		for i := 0; i < args.MaxResults; i++ {
 			if i > 0 {
 				// if there are not second or third match, break
 				if len(r1[i].entityID) == 0 && len(r2[i].entityID) == 0 && len(r3[i].entityID) == 0 {
@@ -169,7 +183,7 @@ func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
 }
 
 func getResolveData(resp *sayari.ResolutionResponse) []result {
-	results := make([]result, 3)
+	results := make([]result, args.MaxResults)
 	if len(resp.Data) == 0 {
 		return results
 	}
@@ -195,7 +209,7 @@ func getResolveData(resp *sayari.ResolutionResponse) []result {
 }
 
 func getSearchData(resp *sayari.EntitySearchResponse) []result {
-	results := make([]result, 3)
+	results := make([]result, args.MaxResults)
 	if len(resp.Data) == 0 {
 		return results
 	}
