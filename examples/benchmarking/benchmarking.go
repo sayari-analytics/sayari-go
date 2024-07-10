@@ -182,7 +182,10 @@ func main() {
 					}
 					avgSupplyChainLen = float64(totalHops) / float64(len(supplyChainData.Data))
 				}
-				results = append(results, fmt.Sprint(hasSupplyChain), fmt.Sprint(avgSupplyChainLen))
+				results = append(results, fmt.Sprint(hasSupplyChain))
+				if hasSupplyChain {
+					results = append(results, fmt.Sprintf("%.2f", avgSupplyChainLen))
+				}
 			}
 
 			err = w.Write(results)
