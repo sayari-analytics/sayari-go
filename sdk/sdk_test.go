@@ -323,7 +323,7 @@ func TestShipmentSearch(t *testing.T) {
 
 	// test field and multi-filter
 	buyerName := "HANSOLL TEXTILE LTD"
-	buyerID := "f_nIivE32HCYDPEoSPTGJw"
+	buyerID := "ZxL0IrGu9KNKx3NJjN0aeA"
 	hsCode := "600410"
 	shipments, err = api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{
 		Q:      buyerName,

@@ -78,7 +78,8 @@ func (c *Connection) ScreenCSVEntities(ctx context.Context, csvPath string) ([]*
 	attributeColMap := make(map[string][]int)
 
 	// create channels to handle this work concurrently
-	numWorkers := 3
+	// concurrency reduced from 3 -> 1 to cope with rate limiting
+	numWorkers := 1
 	csvDataChan := make(chan []string, numWorkers)
 	summaryChan := make(chan sayari.EntitySummaryResponse, numWorkers)
 	unresolvedChan := make(chan []string, numWorkers)
