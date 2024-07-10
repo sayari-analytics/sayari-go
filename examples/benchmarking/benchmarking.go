@@ -100,7 +100,7 @@ func main() {
 	err = mapCSV(rows[0], attributeColMap)
 
 	headers := []string{
-		"field_name", "field_address", "field_country", "field_type", "result index",
+		"field_name", "field_address", "field_country", "field_identifier", "field_type", "result index",
 		"corporate_entity_id", "supplier_entity_id", "search_entity_id",
 		"corporate_name", "supplier_name", "search_name",
 		"corporate_address", "supplier_address", "search_address",
@@ -118,7 +118,7 @@ func main() {
 		log.Printf("Processing line %v of %v", i+1, len(rows))
 		// skip first row
 		if i == 0 {
-			log.Println("Headers: ", row)
+			log.Println("Input Headers: ", row)
 			continue
 		}
 
@@ -153,10 +153,10 @@ func main() {
 					break
 				}
 				// remove field values for 2nd and 3rd result to make things easier to read
-				fieldValues = []string{"", "", "", ""}
+				fieldValues = []string{"", "", "", "", ""}
 			}
 			results := []string{
-				fieldValues[0], fieldValues[1], fieldValues[2], fieldValues[3], // fieldName, fieldAddress, fieldCountry, fieldType
+				fieldValues[0], fieldValues[1], fieldValues[2], fieldValues[3], fieldValues[4], // fieldName, fieldAddress, fieldCountry, fieldIdentifier, fieldType
 				fmt.Sprintf("Result %v", i+1),                  // Result index
 				r1[i].entityID, r2[i].entityID, r3[i].entityID, // ID
 				r1[i].name, r2[i].name, r3[i].name, // Name
@@ -208,11 +208,16 @@ func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
 	fieldAddress := row[attributeFieldsMap[address][0]]
 	fieldCountry := row[attributeFieldsMap[country][0]]
 
+	var fieldIdentifier string
+	if len(attributeFieldsMap[identifier]) > 0 {
+		fieldIdentifier = row[attributeFieldsMap[identifier][0]]
+	}
+
 	var fieldType string
 	if len(attributeFieldsMap[entityType]) > 0 {
 		fieldType = row[attributeFieldsMap[entityType][0]]
 	}
-	return []string{fieldName, fieldAddress, fieldCountry, fieldType}
+	return []string{fieldName, fieldAddress, fieldCountry, fieldIdentifier, fieldType}
 }
 
 func getResolveData(resp *sayari.ResolutionResponse) []result {
