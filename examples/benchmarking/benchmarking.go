@@ -109,7 +109,7 @@ func main() {
 		"corporate_strength", "supplier_strength",
 	}
 	if args.MeasureSupplyChain {
-		headers = append(headers, "supply_chain", "avg_supply_chain_len")
+		headers = append(headers, "supply_chain", "num_suppliers", "avg_supply_chain_len")
 	}
 	w.Write(headers)
 
@@ -169,6 +169,7 @@ func main() {
 			if args.MeasureSupplyChain && r2[i].entityID != "" {
 				var hasSupplyChain bool
 				var avgSupplyChainLen float64
+				suppliers := make(map[string]interface{})
 				// get supply chain data for supplier profile entity
 				supplyChainData, err := client.SupplyChain.UpstreamTradeTraversal(context.Background(), r2[i].entityID, nil)
 				if err != nil {
@@ -179,12 +180,16 @@ func main() {
 					var totalHops int
 					for _, supplyChain := range supplyChainData.Data {
 						totalHops += len(supplyChain.Path)
+						// get all unique entities
+						for _, paths := range supplyChain.Path {
+							suppliers[paths.Entity.Id] = nil
+						}
 					}
 					avgSupplyChainLen = float64(totalHops) / float64(len(supplyChainData.Data))
 				}
 				results = append(results, fmt.Sprint(hasSupplyChain))
 				if hasSupplyChain {
-					results = append(results, fmt.Sprintf("%.2f", avgSupplyChainLen))
+					results = append(results, fmt.Sprint(len(suppliers)), fmt.Sprintf("%.2f", avgSupplyChainLen))
 				}
 			}
 
