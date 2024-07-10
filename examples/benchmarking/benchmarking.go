@@ -108,6 +108,9 @@ func main() {
 		"corporate_type", "supplier_type", "search_type",
 		"corporate_strength", "supplier_strength",
 	}
+	if args.MeasureSupplyChain {
+		headers = append(headers, "supply_chain", "avg_supply_chain_len")
+	}
 	w.Write(headers)
 
 	// Process each row
@@ -162,6 +165,26 @@ func main() {
 				r1[i].entityType, r2[i].entityType, r3[i].entityType, // Type
 				r1[i].matchStrength, r2[i].matchStrength, // match strength
 			}
+
+			if args.MeasureSupplyChain && r2[i].entityID != "" {
+				var hasSupplyChain bool
+				var avgSupplyChainLen float64
+				// get supply chain data for supplier profile entity
+				supplyChainData, err := client.SupplyChain.UpstreamTradeTraversal(context.Background(), r2[i].entityID, nil)
+				if err != nil {
+					log.Fatalf("Error getting supply chain data. Error: %v", err)
+				}
+				if len(supplyChainData.Data) > 0 {
+					hasSupplyChain = true
+					var totalHops int
+					for _, supplyChain := range supplyChainData.Data {
+						totalHops += len(supplyChain.Path)
+					}
+					avgSupplyChainLen = float64(totalHops) / float64(len(supplyChainData.Data))
+				}
+				results = append(results, fmt.Sprint(hasSupplyChain), fmt.Sprint(avgSupplyChainLen))
+			}
+
 			err = w.Write(results)
 			if err != nil {
 				log.Fatalf("Error writing results. Error: %v", err)
