@@ -49,6 +49,14 @@ var args struct {
 	MeasureSupplyChain bool // set to true if you want to include supply chain metrics
 }
 
+type supplyChainInfo struct {
+	hasSupplyChain    bool
+	numSuppliers      int
+	avgSupplyChainLen float64
+}
+
+var supplyChainCache map[string]supplyChainInfo
+
 func main() {
 	// load ENV file if ENV vars are not set
 	if os.Getenv("CLIENT_ID") == "" || os.Getenv("CLIENT_SECRET") == "" {
@@ -109,7 +117,13 @@ func main() {
 		"corporate_strength", "supplier_strength",
 	}
 	if args.MeasureSupplyChain {
-		headers = append(headers, "supply_chain", "num_suppliers", "avg_supply_chain_len")
+		headers = append(headers,
+			"corporate_supply_chain", "corporate_suppliers_count", "corporate_avg_supply_chain_len",
+			"supplier_supply_chain", "supplier_suppliers_count", "supplier_avg_supply_chain_len",
+			"search_supply_chain", "search_suppliers_count", "search_avg_supply_chain_len",
+		)
+		// initialize cache
+		supplyChainCache = make(map[string]supplyChainInfo)
 	}
 	w.Write(headers)
 
@@ -166,32 +180,34 @@ func main() {
 				r1[i].matchStrength, r2[i].matchStrength, // match strength
 			}
 
-			if args.MeasureSupplyChain && r2[i].entityID != "" {
-				var hasSupplyChain bool
-				var avgSupplyChainLen float64
-				suppliers := make(map[string]interface{})
-				// get supply chain data for supplier profile entity
-				supplyChainData, err := client.SupplyChain.UpstreamTradeTraversal(context.Background(), r2[i].entityID, nil)
-				if err != nil {
-					log.Fatalf("Error getting supply chain data. Error: %v", err)
-				}
-				if len(supplyChainData.Data) > 0 {
-					hasSupplyChain = true
-					var totalHops int
-					for _, supplyChain := range supplyChainData.Data {
-						totalHops += len(supplyChain.Path)
-						// get all unique entities
-						suppliers[supplyChain.Target.Id] = nil
-						for _, paths := range supplyChain.Path {
-							suppliers[paths.Entity.Id] = nil
-						}
+			if args.MeasureSupplyChain {
+				for _, entityID := range []string{r1[i].entityID, r2[i].entityID, r3[i].entityID} {
+					if entityID == "" {
+						results = append(results, "", "", "")
+						continue
 					}
-					avgSupplyChainLen = float64(totalHops) / float64(len(supplyChainData.Data))
-				}
-				delete(suppliers, r2[i].entityID)
-				results = append(results, fmt.Sprint(hasSupplyChain))
-				if hasSupplyChain {
-					results = append(results, fmt.Sprint(len(suppliers)), fmt.Sprintf("%.2f", avgSupplyChainLen))
+
+					// use data from cache if exists
+					if cachedData, ok := supplyChainCache[entityID]; ok {
+						results = append(results, fmt.Sprint(cachedData.hasSupplyChain))
+						if cachedData.hasSupplyChain {
+							results = append(results, fmt.Sprint(cachedData.numSuppliers), fmt.Sprintf("%.2f", cachedData.avgSupplyChainLen))
+						}
+						continue
+					}
+
+					// calculate if not in cache
+					hasSupplyChain, numSuppliers, avgSupplyChainLen := getSupplyChainInfo(client, entityID)
+					results = append(results, fmt.Sprint(hasSupplyChain))
+					if hasSupplyChain {
+						results = append(results, fmt.Sprint(numSuppliers), fmt.Sprintf("%.2f", avgSupplyChainLen))
+					}
+					// add results to cache
+					supplyChainCache[entityID] = supplyChainInfo{
+						hasSupplyChain:    hasSupplyChain,
+						numSuppliers:      numSuppliers,
+						avgSupplyChainLen: avgSupplyChainLen,
+					}
 				}
 			}
 
@@ -201,6 +217,38 @@ func main() {
 			}
 		}
 	}
+}
+
+func getSupplyChainInfo(client *sdk.Connection, entityID string) (bool, int, float64) {
+	var hasSupplyChain bool
+	var avgSupplyChainLen float64
+	suppliers := make(map[string]interface{})
+
+	// get supply chain data for supplier profile entity
+	supplyChainData, err := client.SupplyChain.UpstreamTradeTraversal(context.Background(), entityID, nil)
+	if err != nil {
+		log.Fatalf("Error getting supply chain data. Error: %v", err)
+	}
+
+	// if there is a supply chain, gather metrics
+	if len(supplyChainData.Data) > 0 {
+		hasSupplyChain = true
+		var totalHops int
+		for _, supplyChain := range supplyChainData.Data {
+			totalHops += len(supplyChain.Path)
+			// get all unique entities
+			suppliers[supplyChain.Target.Id] = nil
+			for _, paths := range supplyChain.Path {
+				suppliers[paths.Entity.Id] = nil
+			}
+		}
+		avgSupplyChainLen = float64(totalHops) / float64(len(supplyChainData.Data))
+	}
+
+	// remove the entity from its suppliers so it isn't counted
+	delete(suppliers, entityID)
+
+	return hasSupplyChain, len(suppliers), avgSupplyChainLen
 }
 
 func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
