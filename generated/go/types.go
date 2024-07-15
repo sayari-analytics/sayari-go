@@ -5116,7 +5116,11 @@ const (
 	// Slovenian Company Registry ID Number
 	IdentifierTypeSvnCoRegNo IdentifierType = "svn_co_reg_no"
 	// Israeli Registrar of Companies company number
-	IdentifierTypeIsrCompanyNumber  IdentifierType = "isr_company_number"
+	IdentifierTypeIsrCompanyNumber IdentifierType = "isr_company_number"
+	// Unique Israel association registration number. Assigned to every association in the Israel Ministry of Justice Association and Public Benefit Company Registry.
+	IdentifierTypeIsrAssociationNumber IdentifierType = "isr_association_number"
+	// Unique Israel public benefit company registration number. Assigned to every public benefit company in the Israel Ministry of Justice Association and Public Benefit Company Registry.
+	IdentifierTypeIsrPbcNumber      IdentifierType = "isr_pbc_number"
 	IdentifierTypeRksBusinessNumber IdentifierType = "rks_business_number"
 	// A fiscal number from the Kosovo company registry
 	IdentifierTypeRksFiscalNumber IdentifierType = "rks_fiscal_number"
@@ -6294,6 +6298,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeSvnCoRegNo, nil
 	case "isr_company_number":
 		return IdentifierTypeIsrCompanyNumber, nil
+	case "isr_association_number":
+		return IdentifierTypeIsrAssociationNumber, nil
+	case "isr_pbc_number":
+		return IdentifierTypeIsrPbcNumber, nil
 	case "rks_business_number":
 		return IdentifierTypeRksBusinessNumber, nil
 	case "rks_fiscal_number":
