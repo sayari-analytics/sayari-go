@@ -268,13 +268,13 @@ func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
 	}
 
 	var fieldIdentifier string
-	if len(attributeFieldsMap[identifier]) > 0 {
-		fieldIdentifier = row[attributeFieldsMap[identifier][0]]
+	if val, ok := attributeFieldsMap[identifier]; ok {
+		fieldIdentifier = row[val[0]]
 	}
 
 	var fieldType string
-	if len(attributeFieldsMap[entityType]) > 0 {
-		fieldType = row[attributeFieldsMap[entityType][0]]
+	if val, ok := attributeFieldsMap[entityType]; ok {
+		fieldType = row[val[0]]
 	}
 	return []string{fieldName, fieldAddress, fieldCountry, fieldIdentifier, fieldType}
 }
