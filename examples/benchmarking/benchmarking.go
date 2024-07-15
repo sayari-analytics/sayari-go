@@ -252,9 +252,20 @@ func getSupplyChainInfo(client *sdk.Connection, entityID string) (bool, int, flo
 }
 
 func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
-	fieldName := row[attributeFieldsMap[name][0]]
-	fieldAddress := row[attributeFieldsMap[address][0]]
-	fieldCountry := row[attributeFieldsMap[country][0]]
+	var fieldName string
+	if val, ok := attributeFieldsMap[name]; ok {
+		fieldName = row[val[0]]
+	}
+
+	var fieldAddress string
+	if val, ok := attributeFieldsMap[address]; ok {
+		fieldAddress = row[val[0]]
+	}
+
+	var fieldCountry string
+	if val, ok := attributeFieldsMap[country]; ok {
+		fieldCountry = row[val[0]]
+	}
 
 	var fieldIdentifier string
 	if len(attributeFieldsMap[identifier]) > 0 {
