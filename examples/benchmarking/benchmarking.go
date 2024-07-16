@@ -50,9 +50,9 @@ var args struct {
 }
 
 type supplyChainInfo struct {
-	hasSupplyChain    bool
-	numSuppliers      int
-	avgSupplyChainLen float64
+	hasSupplyChain    string
+	numSuppliers      string
+	avgSupplyChainLen string
 }
 
 var supplyChainCache map[string]supplyChainInfo
@@ -189,19 +189,14 @@ func main() {
 
 					// use data from cache if exists
 					if cachedData, ok := supplyChainCache[entityID]; ok {
-						results = append(results, fmt.Sprint(cachedData.hasSupplyChain))
-						if cachedData.hasSupplyChain {
-							results = append(results, fmt.Sprint(cachedData.numSuppliers), fmt.Sprintf("%.2f", cachedData.avgSupplyChainLen))
-						}
+						results = append(results, cachedData.hasSupplyChain, cachedData.numSuppliers, cachedData.avgSupplyChainLen)
 						continue
 					}
 
 					// calculate if not in cache
 					hasSupplyChain, numSuppliers, avgSupplyChainLen := getSupplyChainInfo(client, entityID)
-					results = append(results, fmt.Sprint(hasSupplyChain))
-					if hasSupplyChain {
-						results = append(results, fmt.Sprint(numSuppliers), fmt.Sprintf("%.2f", avgSupplyChainLen))
-					}
+					results = append(results, hasSupplyChain, numSuppliers, avgSupplyChainLen)
+
 					// add results to cache
 					supplyChainCache[entityID] = supplyChainInfo{
 						hasSupplyChain:    hasSupplyChain,
@@ -219,7 +214,7 @@ func main() {
 	}
 }
 
-func getSupplyChainInfo(client *sdk.Connection, entityID string) (bool, int, float64) {
+func getSupplyChainInfo(client *sdk.Connection, entityID string) (string, string, string) {
 	var hasSupplyChain bool
 	var avgSupplyChainLen float64
 	suppliers := make(map[string]interface{})
@@ -247,8 +242,10 @@ func getSupplyChainInfo(client *sdk.Connection, entityID string) (bool, int, flo
 
 	// remove the entity from its suppliers so it isn't counted
 	delete(suppliers, entityID)
-
-	return hasSupplyChain, len(suppliers), avgSupplyChainLen
+	if hasSupplyChain {
+		return fmt.Sprint(hasSupplyChain), fmt.Sprint(len(suppliers)), fmt.Sprintf("%.2f", avgSupplyChainLen)
+	}
+	return fmt.Sprint(hasSupplyChain), "", ""
 }
 
 func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
