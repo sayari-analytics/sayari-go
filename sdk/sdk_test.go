@@ -191,10 +191,12 @@ func TestOwnershipTraversal(t *testing.T) {
 	randomString := generateRandomString(3)
 
 	// query until we get results
+	log.Println("Searching for entity: ", randomString)
 	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString})
 	assert.Nil(t, err)
 	if len(entitySearchResults.Data) == 0 {
 		TestOwnershipTraversal(t)
+		time.Sleep(time.Second)
 		return
 	}
 	assert.Greater(t, len(entitySearchResults.Data), 0)
@@ -208,6 +210,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	assert.Nil(t, err)
 	if len(traversal.Data) == 0 {
 		TestOwnershipTraversal(t)
+		time.Sleep(time.Second)
 		return
 	}
 	assert.Greater(t, len(traversal.Data), 0)
@@ -219,6 +222,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	assert.Nil(t, err)
 	if len(ubo.Data) == 0 {
 		TestOwnershipTraversal(t)
+		time.Sleep(time.Second)
 		return
 	}
 	assert.Greater(t, len(ubo.Data), 0)
@@ -249,6 +253,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
 	if shouldRetry(err) {
 		TestOwnershipTraversal(t)
+		time.Sleep(time.Second)
 	}
 	assert.Nil(t, err)
 	assert.Greater(t, len(shortestPath.Data[0].Path), 0)
