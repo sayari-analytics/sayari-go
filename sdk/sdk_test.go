@@ -252,7 +252,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
 	if shouldRetry(err) {
 		TestOwnershipTraversal(t)
-		time.Sleep(1)
+		time.Sleep(time.Second)
 	}
 	assert.Nil(t, err)
 	assert.Greater(t, len(shortestPath.Data[0].Path), 0)
