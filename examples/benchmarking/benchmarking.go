@@ -23,6 +23,7 @@ const (
 	dateOfBirth = "dateofbirth"
 	contact     = "contact"
 	entityType  = "type"
+	tag         = "tag"
 )
 
 type result struct {
@@ -42,6 +43,7 @@ var attributeFieldsMap = map[string]string{
 	dateOfBirth: "...",
 	contact:     "...",
 	entityType:  "Must be from the enum set",
+	tag:         "An arbitrary tag passed through to the output",
 }
 
 var args struct {
@@ -106,6 +108,9 @@ func main() {
 
 	// Map CSV
 	err = mapCSV(rows[0], attributeColMap)
+	if err != nil {
+		log.Fatalln("failed to map rows to attribute columns", err)
+	}
 
 	headers := []string{
 		"field_name", "field_address", "field_country", "field_identifier", "field_type", "result index",
@@ -116,6 +121,8 @@ func main() {
 		"corporate_type", "supplier_type", "search_type",
 		"corporate_strength", "supplier_strength",
 	}
+
+	// include supply chain metrics if desired
 	if args.MeasureSupplyChain {
 		headers = append(headers,
 			"corporate_supply_chain", "corporate_suppliers_count", "corporate_avg_supply_chain_len",
@@ -125,6 +132,14 @@ func main() {
 		// initialize cache
 		supplyChainCache = make(map[string]supplyChainInfo)
 	}
+
+	// include tag if provided
+	var includeTags bool
+	if _, ok := attributeColMap[tag]; ok {
+		includeTags = true
+		headers = append([]string{"tag"}, headers...)
+	}
+
 	w.Write(headers)
 
 	// Process each row
@@ -204,6 +219,11 @@ func main() {
 						avgSupplyChainLen: avgSupplyChainLen,
 					}
 				}
+			}
+
+			// include tag in result if desired
+			if includeTags {
+				results = append([]string{row[attributeColMap[tag][0]]}, results...)
 			}
 
 			err = w.Write(results)
