@@ -191,6 +191,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	randomString := generateRandomString(3)
 
 	// query until we get results
+	log.Println("Searching for entity: ", randomString)
 	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString})
 	assert.Nil(t, err)
 	if len(entitySearchResults.Data) == 0 {
