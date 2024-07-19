@@ -9,11 +9,11 @@ import (
 )
 
 type MetadataResponse struct {
-	// Usage information for each endpoint
+	// Currently deployed version of the application.
 	Version string `json:"version" url:"version"`
-	// The start date of the returned usage information.
+	// Currently deployed main data release.
 	MasterRelease string `json:"master_release" url:"master_release"`
-	// The end date of the returned usage information.
+	// Currently deployed watchlist release.
 	WatchlistRelease string    `json:"watchlist_release" url:"watchlist_release"`
 	User             *UserInfo `json:"user,omitempty" url:"user,omitempty"`
 

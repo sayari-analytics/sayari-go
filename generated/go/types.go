@@ -10423,9 +10423,12 @@ func (u *UsageInfo) String() string {
 }
 
 type UserInfo struct {
-	Id                string  `json:"id" url:"id"`
+	// Currently logged in user ID
+	Id string `json:"id" url:"id"`
+	// Name of the sayari organization tied to credentials
 	GroupDisplayNames *string `json:"groupDisplayNames,omitempty" url:"groupDisplayNames,omitempty"`
-	Roles             *string `json:"roles,omitempty" url:"roles,omitempty"`
+	// Licenses associated with the organization
+	Roles *string `json:"roles,omitempty" url:"roles,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
