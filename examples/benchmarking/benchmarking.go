@@ -4,15 +4,15 @@ import (
 	"context"
 	"encoding/csv"
 	"fmt"
+	arg "github.com/alexflint/go-arg"
+	"github.com/joho/godotenv"
 	sayari "github.com/sayari-analytics/sayari-go/generated/go"
 	"github.com/sayari-analytics/sayari-go/sdk"
 	"log"
 	"os"
 	"strings"
+	"sync"
 	"time"
-
-	arg "github.com/alexflint/go-arg"
-	"github.com/joho/godotenv"
 )
 
 const (
@@ -24,9 +24,11 @@ const (
 	contact     = "contact"
 	entityType  = "type"
 	tag         = "tag"
+
+	noHitMsg = "no-hit" // the string that is returned when a search yields no hits.
 )
 
-type result struct {
+type apiResult struct {
 	entityID      string
 	name          string
 	address       string
@@ -46,16 +48,29 @@ var attributeFieldsMap = map[string]string{
 	tag:         "An arbitrary tag passed through to the output",
 }
 
-var args struct {
-	MaxResults         int  // the maximum number of results to return for each search (defaults to 3)
-	MeasureSupplyChain bool // set to true if you want to include supply chain metrics
-	LogTimes           bool
-}
-
 type supplyChainInfo struct {
 	hasSupplyChain    string
 	numSuppliers      string
 	avgSupplyChainLen string
+}
+
+type Job struct {
+	rowNum int
+	row    []string
+}
+
+type Results struct {
+	rowNum int
+	output [][]string
+}
+
+var numWorkers = 7
+var maxResults = 3
+var args struct {
+	MaxResults         int  // the maximum number of results to return for each search (defaults to 3)
+	MeasureSupplyChain bool // set to true if you want to include supply chain metrics
+	LogTimes           bool
+	NumWorkers         int
 }
 
 var supplyChainCache map[string]supplyChainInfo
@@ -69,12 +84,15 @@ func main() {
 		}
 	}
 
+	// parse cmd line args (use --help to display)
 	arg.MustParse(&args)
-	if args.MaxResults == 0 {
-		log.Println("MaxResults not set, will use default of 3")
-		args.MaxResults = 3
-	} else {
-		log.Printf("MaxResults set to %v", args.MaxResults)
+	if args.MaxResults != 0 {
+		log.Println("Setting max results to ", args.MaxResults)
+		maxResults = args.MaxResults
+	}
+	if args.NumWorkers != 0 {
+		log.Println("Setting num workers to ", args.NumWorkers)
+		numWorkers = args.NumWorkers
 	}
 
 	// Use the base URL ENV var if provided
@@ -143,41 +161,129 @@ func main() {
 
 	w.Write(headers)
 
+	// setups workers
+	jobChan := make(chan Job, numWorkers*5)
+	resultChan := make(chan Results, numWorkers*5)
+	doneChan := make(chan bool)
+	for i := 0; i < numWorkers; i++ {
+		go processRows(i, client, jobChan, resultChan, doneChan, attributeColMap, includeTags)
+	}
+
+	// collate and write results
+	resultsDone := make(chan bool)
+	go handleResults(w, len(rows), resultChan, resultsDone)
+
 	// Process each row
 	for i, row := range rows {
-		log.Printf("Processing line %v of %v", i+1, len(rows))
-		rowStart := time.Now()
 		// skip first row
 		if i == 0 {
 			log.Println("Input Headers: ", row)
 			continue
 		}
 
-		fieldValues := getFieldInfo(attributeColMap, row)
+		jobChan <- Job{
+			rowNum: i,
+			row:    row,
+		}
+	}
+
+	// close job chan (workers will run until chan is drained)
+	close(jobChan)
+
+	// wait until all workers have responded done
+	for i := 0; i < numWorkers; i++ {
+		<-doneChan
+	}
+	log.Println("All workers done.")
+
+	<-resultsDone
+	log.Println("Done processing results")
+}
+
+type buffer struct {
+	sync.Mutex
+	data map[int]Results
+}
+
+func bufferResults(buffer *buffer, resultsChan chan Results) {
+	// make map for buffer
+	buffer.Lock()
+	buffer.data = make(map[int]Results)
+	buffer.Unlock()
+
+	// put results into buffer
+	for results := range resultsChan {
+		buffer.Lock()
+		buffer.data[results.rowNum] = results
+		buffer.Unlock()
+	}
+}
+
+func handleResults(w *csv.Writer, numResult int, resultsChan chan Results, doneChan chan bool) {
+	// read all results into a buffer
+	resultBuffer := new(buffer)
+	go bufferResults(resultBuffer, resultsChan)
+
+	// check the buffer periodically for the next result
+	ticker := time.NewTicker(200 * time.Millisecond)
+	rowNum := 1
+	for rowNum < numResult {
+		select {
+		case <-ticker.C:
+			resultBuffer.Lock()
+			rowResults, found := resultBuffer.data[rowNum]
+			resultBuffer.Unlock()
+			if found {
+				for _, result := range rowResults.output {
+					err := w.Write(result)
+					if err != nil {
+						log.Fatalf("Error writing output: %v", err)
+					}
+				}
+				w.Flush()
+				rowNum++
+			}
+		}
+	}
+	doneChan <- true
+}
+
+func processRows(workerID int, client *sdk.Connection, jobChan chan Job, resultsChan chan Results, doneChan chan bool,
+	attributeColMap map[string][]int, includeTags bool) {
+
+	log.Printf("Starting worker %d", workerID+1)
+
+	// step through job chan until it closes
+	for job := range jobChan {
+		log.Printf("Processing row %v", job.rowNum)
+
+		rowStart := time.Now()
+		jobResults := Results{rowNum: job.rowNum}
+		fieldValues := getFieldInfo(attributeColMap, job.row)
 
 		// Resolve corporate profile
-		_, resp1, err := resolveEntity(client, sayari.ProfileEnumCorporate, attributeColMap, row)
+		resp1, err := resolveEntity(client, sayari.ProfileEnumCorporate, attributeColMap, job.row)
 		if err != nil {
 			log.Fatalf("Error resolving entity w/ corporate profile. Error: %v", err)
 		}
 		r1 := getResolveData(resp1)
 
 		// Resolve supplies profile
-		_, resp2, err := resolveEntity(client, sayari.ProfileEnumSuppliers, attributeColMap, row)
+		resp2, err := resolveEntity(client, sayari.ProfileEnumSuppliers, attributeColMap, job.row)
 		if err != nil {
 			log.Fatalf("Error resolving entity w/ suppliers profile. Error: %v", err)
 		}
 		r2 := getResolveData(resp2)
 
 		// Search
-		_, resp3, err := searchEntity(client, attributeColMap, row)
+		resp3, err := searchEntity(client, attributeColMap, job.row)
 		if err != nil {
 			log.Fatalf("Error searching for entity. Error: %v", err)
 		}
 		r3 := getSearchData(resp3)
 
 		// loop through the results
-		for i := 0; i < args.MaxResults; i++ {
+		for i := 0; i < maxResults; i++ {
 			if i > 0 {
 				// if there are not second or third match, break
 				if len(r1[i].entityID) == 0 && len(r2[i].entityID) == 0 && len(r3[i].entityID) == 0 {
@@ -225,18 +331,19 @@ func main() {
 
 			// include tag in result if desired
 			if includeTags {
-				results = append([]string{row[attributeColMap[tag][0]]}, results...)
+				results = append([]string{job.row[attributeColMap[tag][0]]}, results...)
 			}
-
-			err = w.Write(results)
-			if err != nil {
-				log.Fatalf("Error writing results. Error: %v", err)
-			}
+			jobResults.output = append(jobResults.output, results)
 		}
+		resultsChan <- jobResults
 		if args.LogTimes {
 			log.Printf("\t completed: %v", time.Since(rowStart))
 		}
 	}
+
+	log.Printf("Worker %d done", workerID+1)
+	doneChan <- true
+	return
 }
 
 func getSupplyChainInfo(client *sdk.Connection, entityID string) (string, string, string) {
@@ -301,8 +408,8 @@ func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
 	return []string{fieldName, fieldAddress, fieldCountry, fieldIdentifier, fieldType}
 }
 
-func getResolveData(resp *sayari.ResolutionResponse) []result {
-	results := make([]result, args.MaxResults)
+func getResolveData(resp *sayari.ResolutionResponse) []apiResult {
+	results := make([]apiResult, maxResults)
 	if len(resp.Data) == 0 {
 		return results
 	}
@@ -327,8 +434,8 @@ func getResolveData(resp *sayari.ResolutionResponse) []result {
 	return results
 }
 
-func getSearchData(resp *sayari.EntitySearchResponse) []result {
-	results := make([]result, args.MaxResults)
+func getSearchData(resp *sayari.EntitySearchResponse) []apiResult {
+	results := make([]apiResult, maxResults)
 	if len(resp.Data) == 0 {
 		return results
 	}
@@ -385,7 +492,7 @@ func mapCSV(row []string, attributeColMap map[string][]int) error {
 	return nil
 }
 
-func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attributeColMap map[string][]int, row []string) (time.Duration, *sayari.ResolutionResponse, error) {
+func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attributeColMap map[string][]int, row []string) (*sayari.ResolutionResponse, error) {
 	var entityInfo sayari.Resolution
 	entityInfo.Profile = &profile
 
@@ -481,18 +588,16 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 		}
 	}
 
-	start := time.Now()
 	resp, err := client.Resolution.Resolution(context.Background(), &entityInfo)
-	duration := time.Since(start)
 	if err != nil {
 		log.Println("Error calling resolve function.")
-		return duration, nil, err
+		return nil, err
 	}
 
-	return duration, resp, nil
+	return resp, nil
 }
 
-func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row []string) (time.Duration, *sayari.EntitySearchResponse, error) {
+func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row []string) (*sayari.EntitySearchResponse, error) {
 	var entityInfo sayari.SearchEntity
 
 	entityInfo.Q = row[attributeColMap[name][0]]
@@ -515,12 +620,10 @@ func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row 
 	}
 	entityInfo.Filter = &filterList
 
-	start := time.Now()
 	resp, err := client.Search.SearchEntity(context.Background(), &entityInfo)
-	duration := time.Since(start)
 	if err != nil {
-		return duration, nil, err
+		return nil, err
 	}
 
-	return duration, resp, nil
+	return resp, nil
 }
