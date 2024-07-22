@@ -67,12 +67,14 @@ type Results struct {
 var numWorkers = 7
 var maxResults = 3
 var cloudflareRetry bool
+var runInDev bool
 var args struct {
 	MaxResults         int  // the maximum number of results to return for each search (defaults to 3)
 	MeasureSupplyChain bool // set to true if you want to include supply chain metrics
 	LogTimes           bool
 	NumWorkers         int
 	CloudflareRetry    bool // retry if we get a cloudflare error
+	Dev                bool // run against dev ENV (requires DEV_CLIENT_ID, DEV_CLIENT_SECRET, and DEV_BASE_URL)
 }
 
 var supplyChainCache map[string]supplyChainInfo
@@ -97,17 +99,32 @@ func main() {
 		numWorkers = args.NumWorkers
 	}
 	if args.CloudflareRetry {
+		log.Println("Cloudflare retry enabled")
 		cloudflareRetry = true
 	}
+	if args.Dev {
+		log.Println("Running against Dev")
+		runInDev = true
+	}
+
+	time.Sleep(time.Second)
 
 	// Use the base URL ENV var if provided
 	baseURL := sayari.Environments.Production
 	if os.Getenv("BASE_URL") != "" {
 		baseURL = os.Getenv("BASE_URL")
 	}
+	clientID := os.Getenv("CLIENT_ID")
+	clientSecret := os.Getenv("CLIENT_SECRET")
+
+	if runInDev {
+		baseURL = os.Getenv("DEV_BASE_URL")
+		clientID = os.Getenv("DEV_CLIENT_ID")
+		clientSecret = os.Getenv("DEV_CLIENT_SECRET")
+	}
 
 	// Create a client to auth against the API
-	client, err := sdk.ConnectTo(os.Getenv("CLIENT_ID"), os.Getenv("CLIENT_SECRET"), baseURL)
+	client, err := sdk.ConnectTo(clientID, clientSecret, baseURL)
 	if err != nil {
 		log.Fatalf("Error creating client. Error: %v", err)
 	}
@@ -348,7 +365,7 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 		}
 		resultsChan <- jobResults
 		if args.LogTimes {
-			log.Printf("\t completed: %v", time.Since(rowStart))
+			log.Printf("Processed row %v in %v", job.rowNum, time.Since(rowStart))
 		}
 	}
 
