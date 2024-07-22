@@ -353,6 +353,7 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 		r3 := getSearchData(resp3)
 
 		// loop through the results
+		var scErr bool // tracks if we get an error while looking up supply chain. If we do, we skip this row and write out the error
 		for i := 0; i < maxResults; i++ {
 			if i > 0 {
 				// if there are not second or third match, break
@@ -390,7 +391,17 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 					}
 
 					// calculate if not in cache
-					hasSupplyChain, numSuppliers, avgSupplyChainLen := getSupplyChainInfo(client, entityID)
+					hasSupplyChain, numSuppliers, avgSupplyChainLen, err := getSupplyChainInfo(client, entityID)
+					if err != nil {
+						log.Printf("Supply chain error encountered. Err: %v", err)
+						scErr = true
+						errChan <- JobErr{
+							rowNum: job.rowNum,
+							row:    job.row,
+							err:    err,
+						}
+						break
+					}
 					results = append(results, hasSupplyChain, numSuppliers, avgSupplyChainLen)
 
 					// add results to cache
@@ -410,6 +421,9 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 			}
 			jobResults.output = append(jobResults.output, results)
 		}
+		if scErr {
+			continue
+		}
 		resultsChan <- jobResults
 		if args.LogTimes {
 			log.Printf("Processed row %v in %v", job.rowNum, time.Since(rowStart))
@@ -421,15 +435,16 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 	return
 }
 
-func getSupplyChainInfo(client *sdk.Connection, entityID string) (string, string, string) {
+func getSupplyChainInfo(client *sdk.Connection, entityID string) (string, string, string, error) {
 	var hasSupplyChain bool
 	var avgSupplyChainLen float64
 	suppliers := make(map[string]interface{})
-
+	
 	// get supply chain data for supplier profile entity
 	supplyChainData, err := client.SupplyChain.UpstreamTradeTraversal(context.Background(), entityID, nil)
 	if err != nil {
-		log.Fatalf("Error getting supply chain data. Error: %v", err)
+		log.Printf("Error getting supply chain data. Error: %v", err)
+		return "", "", "", fmt.Errorf("error getting supply chain data. Err: %v", err)
 	}
 
 	// if there is a supply chain, gather metrics
@@ -447,12 +462,12 @@ func getSupplyChainInfo(client *sdk.Connection, entityID string) (string, string
 		avgSupplyChainLen = float64(totalHops) / float64(len(supplyChainData.Data))
 	}
 
-	// remove the entity from its suppliers so it isn't counted
+	// remove the entity from its suppliers so that it isn't counted
 	delete(suppliers, entityID)
 	if hasSupplyChain {
-		return fmt.Sprint(hasSupplyChain), fmt.Sprint(len(suppliers)), fmt.Sprintf("%.2f", avgSupplyChainLen)
+		return fmt.Sprint(hasSupplyChain), fmt.Sprint(len(suppliers)), fmt.Sprintf("%.2f", avgSupplyChainLen), nil
 	}
-	return fmt.Sprint(hasSupplyChain), "", ""
+	return fmt.Sprint(hasSupplyChain), "", "", nil
 }
 
 func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
@@ -598,7 +613,8 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 			}
 
 			if bothIdentifier == nil {
-				log.Fatalf("Failed to resolve entity. '%v' is not a valid strong or weak identifier type.", row[colNum])
+				log.Printf("Failed to resolve entity. '%v' is not a valid strong or weak identifier type.", row[colNum])
+				return nil, fmt.Errorf("failed to resolve entity. '%v' is not a valid strong or weak identifier type", row[colNum])
 			}
 
 			entityInfo.Identifier = append(entityInfo.Identifier, bothIdentifier)
