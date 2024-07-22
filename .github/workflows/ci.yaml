@@ -19,9 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@v6
         with:
-          args: -v --timeout 10m -E gofmt -E whitespace -E revive -E gosec -E goimports --skip-dirs='generated' --skip-dirs-use-default=false
+          args: -v --timeout 10m -E gofmt -E whitespace -E revive -E gosec -E goimports --exclude-dirs='generated' --exclude-dirs-use-default=false
 
   go-test:
     name: Test

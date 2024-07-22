@@ -26,6 +26,7 @@ func TestMain(m *testing.M) {
 }
 
 var api *Connection
+var limit = 2 // limit to speed things up
 
 func setup() {
 	// load ENV file if ENV vars are not set
@@ -53,7 +54,7 @@ func setup() {
 func TestSources(t *testing.T) {
 	// list sources
 	sources, err := api.Source.ListSources(context.Background(), &sayari.ListSources{})
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.GreaterOrEqual(t, len(sources.Data), 250, "There should be 250 sources as of 12/19/2023")
 }
 
@@ -63,7 +64,7 @@ func TestEntities(t *testing.T) {
 
 	// query until we get results
 	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString})
-	assert.Nil(t, err)
+	handleError(t, err)
 	// try until we get results
 	if len(entitySearchResults.Data) == 0 {
 		TestEntities(t)
@@ -73,7 +74,7 @@ func TestEntities(t *testing.T) {
 
 	// test the get version of this endpoint
 	entitySearchGETResults, err := api.Search.SearchEntityGet(context.Background(), &sayari.SearchEntityGet{Q: randomString})
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.Equal(t, len(entitySearchResults.Data), len(entitySearchGETResults.Data))
 	assert.Equal(t, entitySearchResults.Size.Count, entitySearchGETResults.Size.Count)
 	assert.Equal(t, entitySearchResults.Size.Qualifier, entitySearchGETResults.Size.Qualifier)
@@ -86,7 +87,7 @@ func TestEntities(t *testing.T) {
 
 	// Get entity summary
 	firstEntitySummary, err := api.Entity.EntitySummary(context.Background(), firstEntity.Id)
-	assert.Nil(t, err)
+	handleError(t, err)
 
 	// Summary should match search results
 	assert.Equal(t, firstEntitySummary.Id, firstEntity.Id)
@@ -106,7 +107,7 @@ func TestEntities(t *testing.T) {
 	// get entity details
 	firstEntityDetails, err := api.Entity.GetEntity(context.Background(), firstEntity.Id, &sayari.GetEntity{})
 	log.Println("GetEntity Err: ", err)
-	assert.Nil(t, err)
+	handleError(t, err)
 	// check all the same stuff we checked with summary
 	assert.Equal(t, firstEntityDetails.Id, firstEntity.Id)
 	assert.Equal(t, firstEntityDetails.Label, firstEntity.Label)
@@ -137,7 +138,7 @@ func TestResolution(t *testing.T) {
 
 	// query until we get results
 	resolution, err := api.Resolution.Resolution(context.Background(), &sayari.Resolution{Name: []*string{&randomString}})
-	assert.Nil(t, err)
+	handleError(t, err)
 	if len(resolution.Data) == 0 {
 		TestResolution(t)
 		return
@@ -155,7 +156,7 @@ func TestRecords(t *testing.T) {
 
 	// query until we get results
 	recordSearchResults, err := api.Search.SearchRecord(context.Background(), &sayari.SearchRecord{Q: randomString})
-	assert.Nil(t, err)
+	handleError(t, err)
 	if len(recordSearchResults.Data) == 0 {
 		TestRecords(t)
 		return
@@ -164,7 +165,7 @@ func TestRecords(t *testing.T) {
 
 	// test the get version of this endpoint
 	recordSearchGetResults, err := api.Search.SearchRecordGet(context.Background(), &sayari.SearchRecordGet{Q: randomString})
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.Equal(t, len(recordSearchResults.Data), len(recordSearchGetResults.Data))
 	assert.Equal(t, recordSearchResults.Size.Count, recordSearchGetResults.Size.Count)
 	assert.Equal(t, recordSearchResults.Size.Qualifier, recordSearchGetResults.Size.Qualifier)
@@ -176,7 +177,7 @@ func TestRecords(t *testing.T) {
 
 	// get record and compare with search result
 	record, err := api.Record.GetRecord(context.Background(), firstRecord.Id, &sayari.GetRecord{})
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.Equal(t, record.Label, firstRecord.Label)
 	assert.Equal(t, record.Source, firstRecord.Source)
 	assert.Equal(t, record.PublicationDate, firstRecord.PublicationDate)
@@ -191,10 +192,12 @@ func TestOwnershipTraversal(t *testing.T) {
 	randomString := generateRandomString(3)
 
 	// query until we get results
-	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString})
-	assert.Nil(t, err)
+	log.Println("Searching for entity: ", randomString)
+	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString, Limit: &limit})
+	handleError(t, err)
 	if len(entitySearchResults.Data) == 0 {
 		TestOwnershipTraversal(t)
+		time.Sleep(time.Second)
 		return
 	}
 	assert.Greater(t, len(entitySearchResults.Data), 0)
@@ -205,9 +208,10 @@ func TestOwnershipTraversal(t *testing.T) {
 	// do traversal
 	log.Println("Attempting Ownership traversal w/ entity: ", entity.Id)
 	traversal, err := api.Traversal.Ownership(context.Background(), entity.Id, &sayari.Ownership{})
-	assert.Nil(t, err)
+	handleError(t, err)
 	if len(traversal.Data) == 0 {
 		TestOwnershipTraversal(t)
+		time.Sleep(time.Second)
 		return
 	}
 	assert.Greater(t, len(traversal.Data), 0)
@@ -216,9 +220,10 @@ func TestOwnershipTraversal(t *testing.T) {
 	// do UBO traversal
 	log.Println("Attempting UBO traversal w/ entity: ", entity.Id)
 	ubo, err := api.Traversal.Ubo(context.Background(), entity.Id, &sayari.Ubo{})
-	assert.Nil(t, err)
+	handleError(t, err)
 	if len(ubo.Data) == 0 {
 		TestOwnershipTraversal(t)
+		time.Sleep(time.Second)
 		return
 	}
 	assert.Greater(t, len(ubo.Data), 0)
@@ -226,8 +231,8 @@ func TestOwnershipTraversal(t *testing.T) {
 
 	// do ownership traversal from ubo
 	log.Println("Attempting Ownership traversal w/ UBO entity: ", uboID)
-	downstream, err := api.Traversal.Ownership(context.Background(), uboID, &sayari.Ownership{})
-	assert.Nil(t, err)
+	downstream, err := api.Traversal.Ownership(context.Background(), uboID, &sayari.Ownership{Limit: &limit})
+	handleError(t, err)
 	assert.Greater(t, len(downstream.Data), 0)
 
 	/*
@@ -249,8 +254,9 @@ func TestOwnershipTraversal(t *testing.T) {
 	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
 	if shouldRetry(err) {
 		TestOwnershipTraversal(t)
+		time.Sleep(time.Second)
 	}
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.Greater(t, len(shortestPath.Data[0].Path), 0)
 
 	// TODO: figure out good test for watchlist traversal
@@ -260,11 +266,11 @@ func TestOwnershipTraversal(t *testing.T) {
 func TestEntityPagination(t *testing.T) {
 	searchTerm := "David Konigsberg"
 	info, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
-	assert.Nil(t, err)
+	handleError(t, err)
 
 	// Do paginated query
 	allEntities, err := api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(5)})
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.Equal(t, allEntities.Limit, info.Size.Count)
 
 	// Test requesting too many pages
@@ -276,32 +282,32 @@ func TestEntityPagination(t *testing.T) {
 	// Do paginated query for larger data set
 	searchTerm = "David John Smith"
 	info, err = api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
-	assert.Nil(t, err)
+	handleError(t, err)
 	allEntities, err = api.GetAllEntitySearchResults(context.Background(), &sayari.SearchEntity{Q: searchTerm})
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.Equal(t, info.Size.Count, allEntities.Limit)
 }
 
 func TestRecordPagination(t *testing.T) {
 	searchTerm := "David Konigsberg"
 	info, err := api.Search.SearchRecord(context.Background(), &sayari.SearchRecord{Q: searchTerm, Limit: sayari.Int(1)})
-	assert.Nil(t, err)
+	handleError(t, err)
 
 	// Do paginated query
 	allEntities, err := api.GetAllRecordSearchResults(context.Background(), &sayari.SearchRecord{Q: searchTerm})
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.Equal(t, allEntities.Limit, info.Size.Count)
 }
 
 func TestTraversalPagination(t *testing.T) {
 	searchTerm := "David Konigsberg"
 	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: searchTerm, Limit: sayari.Int(1)})
-	assert.Nil(t, err)
+	handleError(t, err)
 	entity := entitySearchResults.Data[0]
 
 	// Do paginated query
 	allTraversals, err := api.GetAllTraversalResults(context.Background(), entity.Id, &sayari.Traversal{Limit: sayari.Int(1)})
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.Greater(t, allTraversals.Limit, 1)
 }
 
@@ -312,7 +318,7 @@ func TestShipmentSearch(t *testing.T) {
 	randomString := generateRandomString(3)
 
 	shipments, err := api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{Q: randomString})
-	assert.Nil(t, err)
+	handleError(t, err)
 	// try until we get results
 	if len(shipments.Data) == 0 {
 		TestShipmentSearch(t)
@@ -329,7 +335,7 @@ func TestShipmentSearch(t *testing.T) {
 		Q:      buyerName,
 		Filter: &sayari.TradeFilterList{HsCode: []string{hsCode}, BuyerId: []string{buyerID}},
 	})
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.NotZero(t, len(shipments.Data))
 	for _, shipment := range shipments.Data {
 		// verify shipment matches on HS code
@@ -361,7 +367,7 @@ func TestSupplierSearch(t *testing.T) {
 	randomString := generateRandomString(3)
 
 	suppliers, err := api.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: randomString})
-	assert.Nil(t, err)
+	handleError(t, err)
 	// try until we get results
 	if len(suppliers.Data) == 0 {
 		TestSupplierSearch(t)
@@ -376,7 +382,7 @@ func TestBuyerSearch(t *testing.T) {
 	randomString := generateRandomString(3)
 
 	buyers, err := api.Trade.SearchBuyers(context.Background(), &sayari.SearchBuyers{Q: randomString})
-	assert.Nil(t, err)
+	handleError(t, err)
 	// try until we get results
 	if len(buyers.Data) == 0 {
 		TestBuyerSearch(t)
@@ -390,7 +396,7 @@ func TestBuyerSearch(t *testing.T) {
 func TestUsage(t *testing.T) {
 	if api.baseURL == sayari.Environments.Production {
 		usage, err := api.Info.GetUsage(context.Background(), &sayari.GetUsage{})
-		assert.Nil(t, err)
+		handleError(t, err)
 		assert.NotZero(t, usage.Usage.Entity, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.EntitySummary, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.Record, "all endpoints should show usage")
@@ -407,7 +413,7 @@ func TestHistory(t *testing.T) {
 	if shouldRetry(err) {
 		TestHistory(t)
 	}
-	assert.Nil(t, err)
+	handleError(t, err)
 	assert.Equal(t, history.Size, len(history.Events))
 }
 
@@ -459,4 +465,11 @@ func shouldRetry(err error) bool {
 		return true
 	}
 	return false
+}
+
+func handleError(t *testing.T, err error) {
+	assert.Nil(t, err)
+	if err != nil {
+		log.Println("Err: ", err)
+	}
 }
