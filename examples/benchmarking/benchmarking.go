@@ -64,6 +64,12 @@ type Results struct {
 	output [][]string
 }
 
+type JobErr struct {
+	rowNum int
+	row    []string
+	err    error
+}
+
 var numWorkers = 7
 var maxResults = 3
 var cloudflareRetry bool
@@ -191,14 +197,15 @@ func main() {
 	// setups workers
 	jobChan := make(chan Job, numWorkers*5)
 	resultChan := make(chan Results, numWorkers*5)
+	errChan := make(chan JobErr, numWorkers*5)
 	doneChan := make(chan bool)
 	for i := 0; i < numWorkers; i++ {
-		go processRows(i, client, jobChan, resultChan, doneChan, attributeColMap, includeTags)
+		go processRows(i, client, jobChan, resultChan, errChan, doneChan, attributeColMap, includeTags)
 	}
 
 	// collate and write results
 	resultsDone := make(chan bool)
-	go handleResults(w, len(rows), resultChan, resultsDone)
+	go handleResults(w, len(rows), resultChan, errChan, resultsDone)
 
 	// Process each row
 	for i, row := range rows {
@@ -232,24 +239,36 @@ type buffer struct {
 	data map[int]Results
 }
 
-func bufferResults(buffer *buffer, resultsChan chan Results) {
+func bufferResults(buffer *buffer, resultsChan chan Results, errChan chan JobErr) {
 	// make map for buffer
 	buffer.Lock()
 	buffer.data = make(map[int]Results)
 	buffer.Unlock()
 
 	// put results into buffer
-	for results := range resultsChan {
-		buffer.Lock()
-		buffer.data[results.rowNum] = results
-		buffer.Unlock()
+	for {
+		select {
+		case jobErr := <-errChan:
+			outputRow := append([]string{"ERROR", jobErr.err.Error()}, jobErr.row...)
+			buffer.Lock()
+			buffer.data[jobErr.rowNum] = Results{
+				rowNum: jobErr.rowNum,
+				output: [][]string{outputRow},
+			}
+			buffer.Unlock()
+			// TODO: write error rows out to separate file for reprocessing
+		case results := <-resultsChan:
+			buffer.Lock()
+			buffer.data[results.rowNum] = results
+			buffer.Unlock()
+		}
 	}
 }
 
-func handleResults(w *csv.Writer, numResult int, resultsChan chan Results, doneChan chan bool) {
+func handleResults(w *csv.Writer, numResult int, resultsChan chan Results, errChan chan JobErr, doneChan chan bool) {
 	// read all results into a buffer
 	resultBuffer := new(buffer)
-	go bufferResults(resultBuffer, resultsChan)
+	go bufferResults(resultBuffer, resultsChan, errChan)
 
 	// check the buffer periodically for the next result
 	ticker := time.NewTicker(200 * time.Millisecond)
@@ -281,7 +300,7 @@ func handleResults(w *csv.Writer, numResult int, resultsChan chan Results, doneC
 	doneChan <- true
 }
 
-func processRows(workerID int, client *sdk.Connection, jobChan chan Job, resultsChan chan Results, doneChan chan bool,
+func processRows(workerID int, client *sdk.Connection, jobChan chan Job, resultsChan chan Results, errChan chan JobErr, doneChan chan bool,
 	attributeColMap map[string][]int, includeTags bool) {
 
 	log.Printf("Starting worker %d", workerID+1)
@@ -297,21 +316,39 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 		// Resolve corporate profile
 		resp1, err := resolveEntity(client, sayari.ProfileEnumCorporate, attributeColMap, job.row)
 		if err != nil {
-			log.Fatalf("Error resolving entity w/ corporate profile. Error: %v", err)
+			log.Printf("Error resolving entity w/ corporate profile. Error: %v", err)
+			errChan <- JobErr{
+				rowNum: job.rowNum,
+				row:    job.row,
+				err:    err,
+			}
+			continue
 		}
 		r1 := getResolveData(resp1)
 
 		// Resolve supplies profile
 		resp2, err := resolveEntity(client, sayari.ProfileEnumSuppliers, attributeColMap, job.row)
 		if err != nil {
-			log.Fatalf("Error resolving entity w/ suppliers profile. Error: %v", err)
+			log.Printf("Error resolving entity w/ suppliers profile. Error: %v", err)
+			errChan <- JobErr{
+				rowNum: job.rowNum,
+				row:    job.row,
+				err:    err,
+			}
+			continue
 		}
 		r2 := getResolveData(resp2)
 
 		// Search
 		resp3, err := searchEntity(client, attributeColMap, job.row)
 		if err != nil {
-			log.Fatalf("Error searching for entity. Error: %v", err)
+			log.Printf("Error searching for entity. Error: %v", err)
+			errChan <- JobErr{
+				rowNum: job.rowNum,
+				row:    job.row,
+				err:    err,
+			}
+			continue
 		}
 		r3 := getSearchData(resp3)
 
@@ -576,7 +613,8 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 			}
 			country, err := sayari.NewCountryFromString(countryStr)
 			if err != nil {
-				log.Fatalf("Error getting country. Error: %v", err)
+				log.Printf("Error getting country. Error: %v", err)
+				return nil, err
 			}
 			entityInfo.Country = append(entityInfo.Country, &country)
 		}
@@ -620,7 +658,8 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 			}
 			entityType, err := sayari.NewEntitiesFromString(entityTypeStr)
 			if err != nil {
-				log.Fatalf("Error getting entity type. Error: %v", err)
+				log.Printf("Error getting entity type. Error: %v", err)
+				return nil, err
 			}
 			entityInfo.Type = append(entityInfo.Type, &entityType)
 		}
@@ -656,7 +695,8 @@ func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row 
 			}
 			country, err := sayari.NewCountryFromString(countryStr)
 			if err != nil {
-				log.Fatalf("Error getting country. Error: %v", err)
+				log.Printf("Error getting country. Error: %v", err)
+				return nil, err
 			}
 			filterList.Country = append(filterList.Country, country)
 		}
