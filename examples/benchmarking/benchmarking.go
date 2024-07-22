@@ -77,7 +77,12 @@ var args struct {
 	Dev                bool // run against dev ENV (requires DEV_CLIENT_ID, DEV_CLIENT_SECRET, and DEV_BASE_URL)
 }
 
-var supplyChainCache map[string]supplyChainInfo
+var scCache supplyChainCache
+
+type supplyChainCache struct {
+	sync.Mutex
+	data map[string]supplyChainInfo
+}
 
 func main() {
 	// load ENV file if ENV vars are not set
@@ -171,7 +176,7 @@ func main() {
 			"search_supply_chain", "search_suppliers_count", "search_avg_supply_chain_len",
 		)
 		// initialize cache
-		supplyChainCache = make(map[string]supplyChainInfo)
+		scCache.data = make(map[string]supplyChainInfo)
 	}
 
 	// include tag if provided
@@ -339,7 +344,10 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 					}
 
 					// use data from cache if exists
-					if cachedData, ok := supplyChainCache[entityID]; ok {
+					scCache.Lock()
+					cachedData, ok := scCache.data[entityID]
+					scCache.Unlock()
+					if ok {
 						results = append(results, cachedData.hasSupplyChain, cachedData.numSuppliers, cachedData.avgSupplyChainLen)
 						continue
 					}
@@ -349,11 +357,13 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 					results = append(results, hasSupplyChain, numSuppliers, avgSupplyChainLen)
 
 					// add results to cache
-					supplyChainCache[entityID] = supplyChainInfo{
+					scCache.Lock()
+					scCache.data[entityID] = supplyChainInfo{
 						hasSupplyChain:    hasSupplyChain,
 						numSuppliers:      numSuppliers,
 						avgSupplyChainLen: avgSupplyChainLen,
 					}
+					scCache.Unlock()
 				}
 			}
 
