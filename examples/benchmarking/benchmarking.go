@@ -66,11 +66,13 @@ type Results struct {
 
 var numWorkers = 7
 var maxResults = 3
+var cloudflareRetry bool
 var args struct {
 	MaxResults         int  // the maximum number of results to return for each search (defaults to 3)
 	MeasureSupplyChain bool // set to true if you want to include supply chain metrics
 	LogTimes           bool
 	NumWorkers         int
+	CloudflareRetry    bool // retry if we get a cloudflare error
 }
 
 var supplyChainCache map[string]supplyChainInfo
@@ -93,6 +95,9 @@ func main() {
 	if args.NumWorkers != 0 {
 		log.Println("Setting num workers to ", args.NumWorkers)
 		numWorkers = args.NumWorkers
+	}
+	if args.CloudflareRetry {
+		cloudflareRetry = true
 	}
 
 	// Use the base URL ENV var if provided
@@ -596,7 +601,12 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 
 	resp, err := client.Resolution.Resolution(context.Background(), &entityInfo)
 	if err != nil {
-		log.Println("Error calling resolve function.")
+		// got 400 cloudflare error, reattempt
+		if cloudflareRetry && strings.Contains(err.Error(), "cloudflare") {
+			log.Println("Got cloudflare error on resolve query, retrying in 1 min.")
+			time.Sleep(time.Minute)
+			return resolveEntity(client, profile, attributeColMap, row)
+		}
 		return nil, err
 	}
 
@@ -628,6 +638,12 @@ func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row 
 
 	resp, err := client.Search.SearchEntity(context.Background(), &entityInfo)
 	if err != nil {
+		// got 400 cloudflare error, reattempt
+		if cloudflareRetry && strings.Contains(err.Error(), "cloudflare") {
+			log.Println("Got cloudflare error on search query, retrying in 1 min.")
+			time.Sleep(time.Minute)
+			return searchEntity(client, attributeColMap, row)
+		}
 		return nil, err
 	}
 
