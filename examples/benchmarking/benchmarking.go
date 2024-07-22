@@ -49,6 +49,7 @@ var attributeFieldsMap = map[string]string{
 var args struct {
 	MaxResults         int  // the maximum number of results to return for each search (defaults to 3)
 	MeasureSupplyChain bool // set to true if you want to include supply chain metrics
+	LogTimes           bool
 }
 
 type supplyChainInfo struct {
@@ -145,6 +146,7 @@ func main() {
 	// Process each row
 	for i, row := range rows {
 		log.Printf("Processing line %v of %v", i+1, len(rows))
+		rowStart := time.Now()
 		// skip first row
 		if i == 0 {
 			log.Println("Input Headers: ", row)
@@ -230,6 +232,9 @@ func main() {
 			if err != nil {
 				log.Fatalf("Error writing results. Error: %v", err)
 			}
+		}
+		if args.LogTimes {
+			log.Printf("\t completed: %v", time.Since(rowStart))
 		}
 	}
 }
