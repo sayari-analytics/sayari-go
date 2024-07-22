@@ -240,6 +240,12 @@ func handleResults(w *csv.Writer, numResult int, resultsChan chan Results, doneC
 						log.Fatalf("Error writing output: %v", err)
 					}
 				}
+				// clean out item from map
+				resultBuffer.Lock()
+				delete(resultBuffer.data, rowNum)
+				resultBuffer.Unlock()
+
+				// write results and increment desired row
 				w.Flush()
 				rowNum++
 			}
