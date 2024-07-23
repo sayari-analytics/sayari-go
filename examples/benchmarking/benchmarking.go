@@ -25,7 +25,7 @@ const (
 	entityType  = "type"
 	tag         = "tag"
 
-	noHitMsg = "no-hit" // the string that is returned when a search yields no hits.
+	noHitMsg = "no-match" // the string that is returned when a search yields no hits.
 )
 
 type apiResult struct {
@@ -35,6 +35,7 @@ type apiResult struct {
 	entityCountry string
 	entityType    string
 	matchStrength string
+	hqName        string
 }
 
 var attributeFieldsMap = map[string]string{
@@ -172,6 +173,7 @@ func main() {
 		"corporate_country", "supplier_country", "search_country",
 		"corporate_type", "supplier_type", "search_type",
 		"corporate_strength", "supplier_strength",
+		"corporate_hq_name", "supplier_hq_name",
 	}
 
 	// include supply chain metrics if desired
@@ -372,6 +374,7 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 				r1[i].entityCountry, r2[i].entityCountry, r3[i].entityCountry, // Country
 				r1[i].entityType, r2[i].entityType, r3[i].entityType, // Type
 				r1[i].matchStrength, r2[i].matchStrength, // match strength
+				r1[i].hqName, r2[i].hqName, // hq_name
 			}
 
 			if args.MeasureSupplyChain {
@@ -439,7 +442,7 @@ func getSupplyChainInfo(client *sdk.Connection, entityID string) (string, string
 	var hasSupplyChain bool
 	var avgSupplyChainLen float64
 	suppliers := make(map[string]interface{})
-	
+
 	// get supply chain data for supplier profile entity
 	supplyChainData, err := client.SupplyChain.UpstreamTradeTraversal(context.Background(), entityID, nil)
 	if err != nil {
@@ -512,6 +515,17 @@ func getResolveData(resp *sayari.ResolutionResponse) []apiResult {
 		results[i].name = thisEntity.Label
 		results[i].entityType = fmt.Sprint(thisEntity.Type)
 		results[i].matchStrength = thisEntity.MatchStrength.Value
+
+		// if any of the explanations contain an HQ name match, return true
+		var hqName bool
+		if len(thisEntity.Explanation["name"]) > 0 {
+			for _, explanation := range thisEntity.Explanation["name"] {
+				if explanation.HighQualityMatchName != nil && *explanation.HighQualityMatchName {
+					hqName = true
+				}
+			}
+		}
+		results[i].hqName = fmt.Sprint(hqName)
 
 		if len(thisEntity.Addresses) > 0 {
 			results[i].address = thisEntity.Addresses[0]
