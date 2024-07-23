@@ -73,14 +73,14 @@ type JobErr struct {
 
 var numWorkers = 7
 var maxResults = 3
-var cloudflareRetry bool
+var retryOnError bool
 var runInDev bool
 var args struct {
 	MaxResults         int  // the maximum number of results to return for each search (defaults to 3)
 	MeasureSupplyChain bool // set to true if you want to include supply chain metrics
 	LogTimes           bool
 	NumWorkers         int
-	CloudflareRetry    bool // retry if we get a cloudflare error
+	RetryOnError       bool // retry if we get an error
 	Dev                bool // run against dev ENV (requires DEV_CLIENT_ID, DEV_CLIENT_SECRET, and DEV_BASE_URL)
 }
 
@@ -110,9 +110,9 @@ func main() {
 		log.Println("Setting num workers to ", args.NumWorkers)
 		numWorkers = args.NumWorkers
 	}
-	if args.CloudflareRetry {
+	if args.RetryOnError {
 		log.Println("Cloudflare retry enabled")
-		cloudflareRetry = true
+		retryOnError = true
 	}
 	if args.Dev {
 		log.Println("Running against Dev")
@@ -273,7 +273,7 @@ func handleResults(w *csv.Writer, numResult int, resultsChan chan Results, errCh
 	go bufferResults(resultBuffer, resultsChan, errChan)
 
 	// check the buffer periodically for the next result
-	ticker := time.NewTicker(200 * time.Millisecond)
+	ticker := time.NewTicker(100 * time.Millisecond)
 	rowNum := 1
 	for rowNum < numResult {
 		select {
@@ -379,8 +379,8 @@ func processRows(workerID int, client *sdk.Connection, jobChan chan Job, results
 
 			if args.MeasureSupplyChain {
 				for _, entityID := range []string{r1[i].entityID, r2[i].entityID, r3[i].entityID} {
-					if entityID == "" {
-						results = append(results, "", "", "")
+					if entityID == noHitMsg {
+						results = append(results, noHitMsg, noHitMsg, noHitMsg)
 						continue
 					}
 
@@ -446,6 +446,12 @@ func getSupplyChainInfo(client *sdk.Connection, entityID string) (string, string
 	// get supply chain data for supplier profile entity
 	supplyChainData, err := client.SupplyChain.UpstreamTradeTraversal(context.Background(), entityID, nil)
 	if err != nil {
+		// got error, reattempt
+		if retryOnError {
+			log.Printf("Got following error on supply chain for entity '%v', will retry in 15s.\nErr: %v", entityID, err)
+			time.Sleep(15 * time.Second)
+			return getSupplyChainInfo(client, entityID)
+		}
 		log.Printf("Error getting supply chain data. Error: %v", err)
 		return "", "", "", fmt.Errorf("error getting supply chain data. Err: %v", err)
 	}
@@ -504,6 +510,15 @@ func getFieldInfo(attributeFieldsMap map[string][]int, row []string) []string {
 func getResolveData(resp *sayari.ResolutionResponse) []apiResult {
 	results := make([]apiResult, maxResults)
 	if len(resp.Data) == 0 {
+		results[0] = apiResult{
+			entityID:      noHitMsg,
+			name:          noHitMsg,
+			address:       noHitMsg,
+			entityCountry: noHitMsg,
+			entityType:    noHitMsg,
+			matchStrength: noHitMsg,
+			hqName:        noHitMsg,
+		}
 		return results
 	}
 	for i := range results {
@@ -541,6 +556,13 @@ func getResolveData(resp *sayari.ResolutionResponse) []apiResult {
 func getSearchData(resp *sayari.EntitySearchResponse) []apiResult {
 	results := make([]apiResult, maxResults)
 	if len(resp.Data) == 0 {
+		results[0] = apiResult{
+			entityID:      noHitMsg,
+			name:          noHitMsg,
+			address:       noHitMsg,
+			entityCountry: noHitMsg,
+			entityType:    noHitMsg,
+		}
 		return results
 	}
 	for i := range results {
@@ -697,10 +719,10 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 
 	resp, err := client.Resolution.Resolution(context.Background(), &entityInfo)
 	if err != nil {
-		// got 400 cloudflare error, reattempt
-		if cloudflareRetry && strings.Contains(err.Error(), "cloudflare") {
-			log.Println("Got cloudflare error on resolve query, retrying in 1 min.")
-			time.Sleep(time.Minute)
+		// got error, reattempt
+		if retryOnError {
+			log.Printf("Got following error on resolve, will retry in 15s.\nErr: %v", err)
+			time.Sleep(15 * time.Second)
 			return resolveEntity(client, profile, attributeColMap, row)
 		}
 		return nil, err
@@ -735,10 +757,10 @@ func searchEntity(client *sdk.Connection, attributeColMap map[string][]int, row 
 
 	resp, err := client.Search.SearchEntity(context.Background(), &entityInfo)
 	if err != nil {
-		// got 400 cloudflare error, reattempt
-		if cloudflareRetry && strings.Contains(err.Error(), "cloudflare") {
-			log.Println("Got cloudflare error on search query, retrying in 1 min.")
-			time.Sleep(time.Minute)
+		// got error, reattempt
+		if retryOnError {
+			log.Printf("Got following error on search, will retry in 15s.\nErr: %v", err)
+			time.Sleep(15 * time.Second)
 			return searchEntity(client, attributeColMap, row)
 		}
 		return nil, err
