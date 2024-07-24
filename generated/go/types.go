@@ -10588,6 +10588,8 @@ type ProjectNotificationData struct {
 	Notifications []*Notification `json:"notifications,omitempty" url:"notifications,omitempty"`
 	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
 	CustomFields interface{} `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
+	// Aggregated risk notifications
+	RiskNotifications *ProjectNotificationRiskData `json:"risk_notifications,omitempty" url:"risk_notifications,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -10616,6 +10618,52 @@ func (p *ProjectNotificationData) UnmarshalJSON(data []byte) error {
 }
 
 func (p *ProjectNotificationData) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectNotificationRiskData struct {
+	// The list of fields added
+	Added []string `json:"added,omitempty" url:"added,omitempty"`
+	// The list of fields removed
+	Removed []string `json:"removed,omitempty" url:"removed,omitempty"`
+	// The date of the notification
+	Date string `json:"date" url:"date"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectNotificationRiskData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectNotificationRiskData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectNotificationRiskData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectNotificationRiskData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectNotificationRiskData) String() string {
 	if len(p._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
 			return value
