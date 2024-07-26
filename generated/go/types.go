@@ -4688,6 +4688,8 @@ const (
 	IdentifierTypeBfaRccmNumber IdentifierType = "bfa_rccm_number"
 	// USA Florida Broward County parcel ID number
 	IdentifierTypeFlPropFolio IdentifierType = "fl_prop_folio"
+	// Unique USA county land and property ID number. Assigned to every parcel and property registered with the Palm Beach County Property Appraiser’s Office.
+	IdentifierTypeUsaFlPbPcn IdentifierType = "usa_fl_pb_pcn"
 	// Qatar corporate registry ID number
 	IdentifierTypeQatQfcNumber IdentifierType = "qat_qfc_number"
 	// Greece tax ID number
@@ -5570,6 +5572,12 @@ const (
 	IdentifierTypeBelFsmaNameHash IdentifierType = "bel_fsma_name_hash"
 	// Curacao Registry Number. Unique Identifier issued by the Curacao Chamber of Commerce & Industry to the registered companies.
 	IdentifierTypeCuwRegNumber IdentifierType = "cuw_reg_number"
+	// Unique concatenation of bill of lading number and item number for shipments in Turkey.
+	IdentifierTypeTurShipmentId IdentifierType = "tur_shipment_id"
+	// Unique business Identification number. Assigned to every registered business in Bangladesh.
+	IdentifierTypeBdBin IdentifierType = "bd_bin"
+	// Unique registration number. Assigned to every company registered with the UAE National Economic Register.
+	IdentifierTypeAerNerNumber IdentifierType = "aer_ner_number"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -5864,6 +5872,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBfaRccmNumber, nil
 	case "fl_prop_folio":
 		return IdentifierTypeFlPropFolio, nil
+	case "usa_fl_pb_pcn":
+		return IdentifierTypeUsaFlPbPcn, nil
 	case "qat_qfc_number":
 		return IdentifierTypeQatQfcNumber, nil
 	case "grc_afm_number":
@@ -6756,6 +6766,12 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBelFsmaNameHash, nil
 	case "cuw_reg_number":
 		return IdentifierTypeCuwRegNumber, nil
+	case "tur_shipment_id":
+		return IdentifierTypeTurShipmentId, nil
+	case "bd_bin":
+		return IdentifierTypeBdBin, nil
+	case "aer_ner_number":
+		return IdentifierTypeAerNerNumber, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -9489,6 +9505,7 @@ const (
 	TagUflpaEntity                                Tag = "uflpa_entity"
 	TagSheffieldHallamUniversityForcedLaborEntity Tag = "sheffield_hallam_university_forced_labor_entity"
 	TagAspiUyghurForcedLaborReportEntity          Tag = "aspi_uyghur_forced_labor_report_entity"
+	TagBisBoycottRequesterList                    Tag = "bis_boycott_requester_list"
 )
 
 func NewTagFromString(s string) (Tag, error) {
@@ -9533,6 +9550,8 @@ func NewTagFromString(s string) (Tag, error) {
 		return TagSheffieldHallamUniversityForcedLaborEntity, nil
 	case "aspi_uyghur_forced_labor_report_entity":
 		return TagAspiUyghurForcedLaborReportEntity, nil
+	case "bis_boycott_requester_list":
+		return TagBisBoycottRequesterList, nil
 	}
 	var t Tag
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
