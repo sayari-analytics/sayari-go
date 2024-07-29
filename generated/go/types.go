@@ -5572,6 +5572,10 @@ const (
 	IdentifierTypeBelFsmaNameHash IdentifierType = "bel_fsma_name_hash"
 	// Curacao Registry Number. Unique Identifier issued by the Curacao Chamber of Commerce & Industry to the registered companies.
 	IdentifierTypeCuwRegNumber IdentifierType = "cuw_reg_number"
+	// A unique concatenation of bill of lading number, date of customs declaration and Russia customs sequence number.
+	IdentifierTypeRusDeclarationNumber IdentifierType = "rus_declaration_number"
+	// Russia Trade Internal Shipment ID
+	IdentifierTypeRuTradeInternalShipmentId IdentifierType = "ru_trade_internal_shipment_id"
 	// Unique concatenation of bill of lading number and item number for shipments in Turkey.
 	IdentifierTypeTurShipmentId IdentifierType = "tur_shipment_id"
 	// Unique business Identification number. Assigned to every registered business in Bangladesh.
@@ -6766,6 +6770,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBelFsmaNameHash, nil
 	case "cuw_reg_number":
 		return IdentifierTypeCuwRegNumber, nil
+	case "rus_declaration_number":
+		return IdentifierTypeRusDeclarationNumber, nil
+	case "ru_trade_internal_shipment_id":
+		return IdentifierTypeRuTradeInternalShipmentId, nil
 	case "tur_shipment_id":
 		return IdentifierTypeTurShipmentId, nil
 	case "bd_bin":
