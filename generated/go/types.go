@@ -5582,6 +5582,8 @@ const (
 	IdentifierTypeBdBin IdentifierType = "bd_bin"
 	// Unique registration number. Assigned to every company registered with the UAE National Economic Register.
 	IdentifierTypeAerNerNumber IdentifierType = "aer_ner_number"
+	// Belgium unique natural person ID number.
+	IdentifierTypeBelNationalRegisterNo IdentifierType = "bel_national_register_no"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6780,6 +6782,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBdBin, nil
 	case "aer_ner_number":
 		return IdentifierTypeAerNerNumber, nil
+	case "bel_national_register_no":
+		return IdentifierTypeBelNationalRegisterNo, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
