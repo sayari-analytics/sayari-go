@@ -8744,6 +8744,7 @@ const (
 	RiskPep                                                                      Risk = "pep"
 	RiskOwnedByEntityInExportControls                                            Risk = "owned_by_entity_in_export_controls"
 	RiskPsaForcedLaborAspiUyghur                                                 Risk = "psa_forced_labor_aspi_uyghur"
+	RiskBisBoycottRequesterList                                                  Risk = "bis_boycott_requester_list"
 	RiskEu50PercentRule                                                          Risk = "eu_50_percent_rule"
 	RiskForcedLaborXinjiangOperations                                            Risk = "forced_labor_xinjiang_operations"
 	RiskForcedLaborWroOriginSubtier                                              Risk = "forced_labor_wro_origin_subtier"
@@ -8775,6 +8776,7 @@ const (
 	RiskOwnerOfForcedLaborXinjiangEntity                                         Risk = "owner_of_forced_labor_xinjiang_entity"
 	RiskLawEnforcementAction                                                     Risk = "law_enforcement_action"
 	RiskOwnedBySoe                                                               Risk = "owned_by_soe"
+	RiskOwnedByMilitaryCivilFusion                                               Risk = "owned_by_military_civil_fusion"
 	RiskEntityLicensedWithFsbRf                                                  Risk = "entity_licensed_with_fsb_rf"
 	RiskPsaForcedLaborXinjiangRegistration                                       Risk = "psa_forced_labor_xinjiang_registration"
 	RiskForcedLaborSheffieldHallamUniversityReportsOriginDirect                  Risk = "forced_labor_sheffield_hallam_university_reports_origin_direct"
@@ -8783,6 +8785,7 @@ const (
 	RiskReputationalRiskCybercrime                                               Risk = "reputational_risk_cybercrime"
 	RiskPsaForcedLaborXinjiangOperations                                         Risk = "psa_forced_labor_xinjiang_operations"
 	RiskOwnerOfSoe                                                               Risk = "owner_of_soe"
+	RiskPsaBisBoycottRequesterList                                               Risk = "psa_bis_boycott_requester_list"
 	RiskForcedLaborAspiOriginDirect                                              Risk = "forced_labor_aspi_origin_direct"
 	RiskExportsBisHighPriorityItems                                              Risk = "exports_bis_high_priority_items"
 	RiskForcedLaborUflpaOriginSubtier                                            Risk = "forced_labor_uflpa_origin_subtier"
@@ -8915,6 +8918,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedByEntityInExportControls, nil
 	case "psa_forced_labor_aspi_uyghur":
 		return RiskPsaForcedLaborAspiUyghur, nil
+	case "bis_boycott_requester_list":
+		return RiskBisBoycottRequesterList, nil
 	case "eu_50_percent_rule":
 		return RiskEu50PercentRule, nil
 	case "forced_labor_xinjiang_operations":
@@ -8977,6 +8982,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskLawEnforcementAction, nil
 	case "owned_by_soe":
 		return RiskOwnedBySoe, nil
+	case "owned_by_military_civil_fusion":
+		return RiskOwnedByMilitaryCivilFusion, nil
 	case "entity_licensed_with_fsb_rf":
 		return RiskEntityLicensedWithFsbRf, nil
 	case "psa_forced_labor_xinjiang_registration":
@@ -8993,6 +9000,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaForcedLaborXinjiangOperations, nil
 	case "owner_of_soe":
 		return RiskOwnerOfSoe, nil
+	case "psa_bis_boycott_requester_list":
+		return RiskPsaBisBoycottRequesterList, nil
 	case "forced_labor_aspi_origin_direct":
 		return RiskForcedLaborAspiOriginDirect, nil
 	case "exports_bis_high_priority_items":
