@@ -197,7 +197,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	handleError(t, err)
 	if len(entitySearchResults.Data) == 0 {
 		TestOwnershipTraversal(t)
-		time.Sleep(time.Second)
+		time.Sleep(5 * time.Second)
 		return
 	}
 	assert.Greater(t, len(entitySearchResults.Data), 0)
@@ -211,7 +211,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	handleError(t, err)
 	if len(traversal.Data) == 0 {
 		TestOwnershipTraversal(t)
-		time.Sleep(time.Second)
+		time.Sleep(5 * time.Second)
 		return
 	}
 	assert.Greater(t, len(traversal.Data), 0)
@@ -223,7 +223,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	handleError(t, err)
 	if len(ubo.Data) == 0 {
 		TestOwnershipTraversal(t)
-		time.Sleep(time.Second)
+		time.Sleep(5 * time.Second)
 		return
 	}
 	assert.Greater(t, len(ubo.Data), 0)
