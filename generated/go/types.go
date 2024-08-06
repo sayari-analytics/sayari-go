@@ -5532,6 +5532,8 @@ const (
 	IdentifierTypeCnHurdInternalCompanyId IdentifierType = "cn_hurd_internal_company_id"
 	// Unique Hungary Tax ID. Issued to companies registered in Hungary.
 	IdentifierTypeHunTaxNumber IdentifierType = "hun_tax_number"
+	// Statistical Number for Hungarian companies issued by the Hungarian Central Statistical Office
+	IdentifierTypeHunKrsNumber IdentifierType = "hun_krs_number"
 	// Unique HUN registration number. Assigned to every legal entity registered with the Ministry of Justice of Hungary.
 	IdentifierTypeHunCompanyRegisterNumber IdentifierType = "hun_company_register_number"
 	// Unique TIN. Issued for individuals by Hungarian Tax Authorities.
@@ -6734,6 +6736,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCnHurdInternalCompanyId, nil
 	case "hun_tax_number":
 		return IdentifierTypeHunTaxNumber, nil
+	case "hun_krs_number":
+		return IdentifierTypeHunKrsNumber, nil
 	case "hun_company_register_number":
 		return IdentifierTypeHunCompanyRegisterNumber, nil
 	case "hun_person_tax_id":
