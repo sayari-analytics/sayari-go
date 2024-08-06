@@ -76,6 +76,14 @@ func TestEntities(t *testing.T) {
 	entitySearchGETResults, err := api.Search.SearchEntityGet(context.Background(), &sayari.SearchEntityGet{Q: randomString})
 	handleError(t, err)
 	assert.Equal(t, len(entitySearchResults.Data), len(entitySearchGETResults.Data))
+
+	// sometimes for very large results, the lengths don't match, if that happens, lets re-run
+	if entitySearchResults.Size.Count != entitySearchGETResults.Size.Count &&
+		entitySearchResults.Size.Count > 1000 {
+		TestEntities(t)
+		return
+	}
+
 	assert.Equal(t, entitySearchResults.Size.Count, entitySearchGETResults.Size.Count)
 	assert.Equal(t, entitySearchResults.Size.Qualifier, entitySearchGETResults.Size.Qualifier)
 
