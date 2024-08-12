@@ -4536,6 +4536,8 @@ const (
 	IdentifierTypeMkdEmbsNumber IdentifierType = "mkd_embs_number"
 	// North Macedonia corporate registry ID number
 	IdentifierTypeMkdEmbsBranchNumber IdentifierType = "mkd_embs_branch_number"
+	// North Macedonia unique identifier. Assigned to every North Macedonia Corporate Registry Announcement.
+	IdentifierTypeMkdArchiveNumber IdentifierType = "mkd_archive_number"
 	// Moldova legal person ID number
 	IdentifierTypeMdaIdnoNumber IdentifierType = "mda_idno_number"
 	// Uruguay tax ID number
@@ -5730,6 +5732,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeMkdEmbsNumber, nil
 	case "mkd_embs_branch_number":
 		return IdentifierTypeMkdEmbsBranchNumber, nil
+	case "mkd_archive_number":
+		return IdentifierTypeMkdArchiveNumber, nil
 	case "mda_idno_number":
 		return IdentifierTypeMdaIdnoNumber, nil
 	case "ury_ruc_number":
