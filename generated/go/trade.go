@@ -9,7 +9,7 @@ import (
 )
 
 type SearchBuyers struct {
-	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
+	// A limit on the number of objects to be returned with a range between 1 and 10000. Defaults to 100.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
@@ -22,7 +22,7 @@ type SearchBuyers struct {
 }
 
 type SearchShipments struct {
-	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
+	// A limit on the number of objects to be returned with a range between 1 and 10000. Defaults to 100.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
@@ -35,7 +35,7 @@ type SearchShipments struct {
 }
 
 type SearchSuppliers struct {
-	// A limit on the number of objects to be returned with a range between 1 and 100. Defaults to 100.
+	// A limit on the number of objects to be returned with a range between 1 and 10000. Defaults to 100.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
