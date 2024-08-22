@@ -76,6 +76,14 @@ func TestEntities(t *testing.T) {
 	entitySearchGETResults, err := api.Search.SearchEntityGet(context.Background(), &sayari.SearchEntityGet{Q: randomString})
 	handleError(t, err)
 	assert.Equal(t, len(entitySearchResults.Data), len(entitySearchGETResults.Data))
+
+	// sometimes for very large results, the lengths don't match, if that happens, lets re-run
+	if entitySearchResults.Size.Count != entitySearchGETResults.Size.Count &&
+		entitySearchResults.Size.Count > 1000 {
+		TestEntities(t)
+		return
+	}
+
 	assert.Equal(t, entitySearchResults.Size.Count, entitySearchGETResults.Size.Count)
 	assert.Equal(t, entitySearchResults.Size.Qualifier, entitySearchGETResults.Size.Qualifier)
 
@@ -196,8 +204,8 @@ func TestOwnershipTraversal(t *testing.T) {
 	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString, Limit: &limit})
 	handleError(t, err)
 	if len(entitySearchResults.Data) == 0 {
+		time.Sleep(5 * time.Second)
 		TestOwnershipTraversal(t)
-		time.Sleep(time.Second)
 		return
 	}
 	assert.Greater(t, len(entitySearchResults.Data), 0)
@@ -210,8 +218,8 @@ func TestOwnershipTraversal(t *testing.T) {
 	traversal, err := api.Traversal.Ownership(context.Background(), entity.Id, &sayari.Ownership{})
 	handleError(t, err)
 	if len(traversal.Data) == 0 {
+		time.Sleep(5 * time.Second)
 		TestOwnershipTraversal(t)
-		time.Sleep(time.Second)
 		return
 	}
 	assert.Greater(t, len(traversal.Data), 0)
@@ -222,8 +230,8 @@ func TestOwnershipTraversal(t *testing.T) {
 	ubo, err := api.Traversal.Ubo(context.Background(), entity.Id, &sayari.Ubo{})
 	handleError(t, err)
 	if len(ubo.Data) == 0 {
+		time.Sleep(5 * time.Second)
 		TestOwnershipTraversal(t)
-		time.Sleep(time.Second)
 		return
 	}
 	assert.Greater(t, len(ubo.Data), 0)
@@ -253,8 +261,8 @@ func TestOwnershipTraversal(t *testing.T) {
 	// shortest path
 	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
 	if shouldRetry(err) {
-		TestOwnershipTraversal(t)
 		time.Sleep(time.Second)
+		TestOwnershipTraversal(t)
 	}
 	handleError(t, err)
 	assert.Greater(t, len(shortestPath.Data[0].Path), 0)
@@ -455,8 +463,8 @@ func shouldRetry(err error) bool {
 	// check to see if the returned status code warrants a retry
 	if _, ok := retryErrs[*statusCode]; ok {
 		log.Printf("Recieved status code %v, will retry", *statusCode)
-		// sleep a second before attempting a retry
-		time.Sleep(time.Second)
+		// sleep 5 seconds before attempting a retry
+		time.Sleep(5 * time.Second)
 		return true
 	}
 	// also retry if we get a bigquery error

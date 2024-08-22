@@ -683,76 +683,76 @@ func (a *AttributeDetails) String() string {
 type Attributes string
 
 const (
-	AttributesIdentifier            Attributes = "identifier"
-	AttributesRiskIntelligence      Attributes = "risk_intelligence"
-	AttributesStatus                Attributes = "status"
-	AttributesAdditionalInformation Attributes = "additional_information"
-	AttributesPersonStatus          Attributes = "person_status"
-	AttributesGender                Attributes = "gender"
-	AttributesFinancials            Attributes = "financials"
 	AttributesAddress               Attributes = "address"
-	AttributesDateOfBirth           Attributes = "date_of_birth"
-	AttributesGeneric               Attributes = "generic"
-	AttributesMeasurement           Attributes = "measurement"
-	AttributesContact               Attributes = "contact"
-	AttributesMonetaryValue         Attributes = "monetary_value"
-	AttributesFinances              Attributes = "finances"
-	AttributesPosition              Attributes = "position"
+	AttributesShares                Attributes = "shares"
+	AttributesPersonStatus          Attributes = "person_status"
 	AttributesName                  Attributes = "name"
+	AttributesFinancials            Attributes = "financials"
+	AttributesRiskIntelligence      Attributes = "risk_intelligence"
+	AttributesGender                Attributes = "gender"
 	AttributesCompanyType           Attributes = "company_type"
-	AttributesBusinessPurpose       Attributes = "business_purpose"
-	AttributesCountry               Attributes = "country"
+	AttributesDateOfBirth           Attributes = "date_of_birth"
+	AttributesMeasurement           Attributes = "measurement"
+	AttributesGeneric               Attributes = "generic"
+	AttributesIdentifier            Attributes = "identifier"
+	AttributesStatus                Attributes = "status"
+	AttributesFinances              Attributes = "finances"
 	AttributesWeakIdentifier        Attributes = "weak_identifier"
 	AttributesTranslatedName        Attributes = "translated_name"
-	AttributesShares                Attributes = "shares"
+	AttributesContact               Attributes = "contact"
+	AttributesAdditionalInformation Attributes = "additional_information"
+	AttributesPosition              Attributes = "position"
+	AttributesMonetaryValue         Attributes = "monetary_value"
+	AttributesCountry               Attributes = "country"
+	AttributesBusinessPurpose       Attributes = "business_purpose"
 )
 
 func NewAttributesFromString(s string) (Attributes, error) {
 	switch s {
-	case "identifier":
-		return AttributesIdentifier, nil
-	case "risk_intelligence":
-		return AttributesRiskIntelligence, nil
-	case "status":
-		return AttributesStatus, nil
-	case "additional_information":
-		return AttributesAdditionalInformation, nil
-	case "person_status":
-		return AttributesPersonStatus, nil
-	case "gender":
-		return AttributesGender, nil
-	case "financials":
-		return AttributesFinancials, nil
 	case "address":
 		return AttributesAddress, nil
-	case "date_of_birth":
-		return AttributesDateOfBirth, nil
-	case "generic":
-		return AttributesGeneric, nil
-	case "measurement":
-		return AttributesMeasurement, nil
-	case "contact":
-		return AttributesContact, nil
-	case "monetary_value":
-		return AttributesMonetaryValue, nil
-	case "finances":
-		return AttributesFinances, nil
-	case "position":
-		return AttributesPosition, nil
+	case "shares":
+		return AttributesShares, nil
+	case "person_status":
+		return AttributesPersonStatus, nil
 	case "name":
 		return AttributesName, nil
+	case "financials":
+		return AttributesFinancials, nil
+	case "risk_intelligence":
+		return AttributesRiskIntelligence, nil
+	case "gender":
+		return AttributesGender, nil
 	case "company_type":
 		return AttributesCompanyType, nil
-	case "business_purpose":
-		return AttributesBusinessPurpose, nil
-	case "country":
-		return AttributesCountry, nil
+	case "date_of_birth":
+		return AttributesDateOfBirth, nil
+	case "measurement":
+		return AttributesMeasurement, nil
+	case "generic":
+		return AttributesGeneric, nil
+	case "identifier":
+		return AttributesIdentifier, nil
+	case "status":
+		return AttributesStatus, nil
+	case "finances":
+		return AttributesFinances, nil
 	case "weak_identifier":
 		return AttributesWeakIdentifier, nil
 	case "translated_name":
 		return AttributesTranslatedName, nil
-	case "shares":
-		return AttributesShares, nil
+	case "contact":
+		return AttributesContact, nil
+	case "additional_information":
+		return AttributesAdditionalInformation, nil
+	case "position":
+		return AttributesPosition, nil
+	case "monetary_value":
+		return AttributesMonetaryValue, nil
+	case "country":
+		return AttributesCountry, nil
+	case "business_purpose":
+		return AttributesBusinessPurpose, nil
 	}
 	var t Attributes
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -3562,58 +3562,58 @@ func (d *DateOfBirthProperties) String() string {
 type Entities string
 
 const (
-	// Land, real estate, real property, or personal property not categorized under another entity type
-	EntitiesProperty Entities = "property"
-	// A natural person (human being)
-	EntitiesPerson Entities = "person"
 	// An unknown placeholder entity. Rarely used. An unknown entity has insufficient information to be grouped by an existing entity type.
 	EntitiesUnknown Entities = "unknown"
 	// A legal entity or organization
 	EntitiesCompany Entities = "company"
-	// An airplane, helicopter, or other vehicle that travels by flight
-	EntitiesAircraft Entities = "aircraft"
+	// A natural person (human being)
+	EntitiesPerson Entities = "person"
 	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
 	EntitiesVessel Entities = "vessel"
-	// A generic placeholder entity. Rarely used. A generic entity typically does not fit any other entity type.
-	EntitiesGeneric Entities = "generic"
-	// A trademark, patent, copyright, or similar type of intangible property
-	EntitiesIntellectualProperty Entities = "intellectual_property"
-	// A discretely registered name used by a person or company not operating under its legal name. This includes doing-business-as (DBA) names, fictitious names, etc. in jurisdictions that treat them as registered objects distinct from the person/company using them.
-	EntitiesTradename Entities = "tradename"
-	// A civil or criminal legal case or similar type of proceeding
-	EntitiesLegalMatter Entities = "legal_matter"
 	// A shipment between two entities
 	EntitiesShipment Entities = "shipment"
+	// A trademark, patent, copyright, or similar type of intangible property
+	EntitiesIntellectualProperty Entities = "intellectual_property"
 	// A tradable financial asset
 	EntitiesSecurity Entities = "security"
+	// A generic placeholder entity. Rarely used. A generic entity typically does not fit any other entity type.
+	EntitiesGeneric Entities = "generic"
+	// A civil or criminal legal case or similar type of proceeding
+	EntitiesLegalMatter Entities = "legal_matter"
+	// A discretely registered name used by a person or company not operating under its legal name. This includes doing-business-as (DBA) names, fictitious names, etc. in jurisdictions that treat them as registered objects distinct from the person/company using them.
+	EntitiesTradename Entities = "tradename"
+	// Land, real estate, real property, or personal property not categorized under another entity type
+	EntitiesProperty Entities = "property"
+	// An airplane, helicopter, or other vehicle that travels by flight
+	EntitiesAircraft Entities = "aircraft"
 )
 
 func NewEntitiesFromString(s string) (Entities, error) {
 	switch s {
-	case "property":
-		return EntitiesProperty, nil
-	case "person":
-		return EntitiesPerson, nil
 	case "unknown":
 		return EntitiesUnknown, nil
 	case "company":
 		return EntitiesCompany, nil
-	case "aircraft":
-		return EntitiesAircraft, nil
+	case "person":
+		return EntitiesPerson, nil
 	case "vessel":
 		return EntitiesVessel, nil
-	case "generic":
-		return EntitiesGeneric, nil
-	case "intellectual_property":
-		return EntitiesIntellectualProperty, nil
-	case "tradename":
-		return EntitiesTradename, nil
-	case "legal_matter":
-		return EntitiesLegalMatter, nil
 	case "shipment":
 		return EntitiesShipment, nil
+	case "intellectual_property":
+		return EntitiesIntellectualProperty, nil
 	case "security":
 		return EntitiesSecurity, nil
+	case "generic":
+		return EntitiesGeneric, nil
+	case "legal_matter":
+		return EntitiesLegalMatter, nil
+	case "tradename":
+		return EntitiesTradename, nil
+	case "property":
+		return EntitiesProperty, nil
+	case "aircraft":
+		return EntitiesAircraft, nil
 	}
 	var t Entities
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -4536,6 +4536,8 @@ const (
 	IdentifierTypeMkdEmbsNumber IdentifierType = "mkd_embs_number"
 	// North Macedonia corporate registry ID number
 	IdentifierTypeMkdEmbsBranchNumber IdentifierType = "mkd_embs_branch_number"
+	// North Macedonia unique identifier. Assigned to every North Macedonia Corporate Registry Announcement.
+	IdentifierTypeMkdArchiveNumber IdentifierType = "mkd_archive_number"
 	// Moldova legal person ID number
 	IdentifierTypeMdaIdnoNumber IdentifierType = "mda_idno_number"
 	// Uruguay tax ID number
@@ -4688,6 +4690,8 @@ const (
 	IdentifierTypeBfaRccmNumber IdentifierType = "bfa_rccm_number"
 	// USA Florida Broward County parcel ID number
 	IdentifierTypeFlPropFolio IdentifierType = "fl_prop_folio"
+	// Unique USA county land and property ID number. Assigned to every parcel and property registered with the Palm Beach County Property Appraiser’s Office.
+	IdentifierTypeUsaFlPbPcn IdentifierType = "usa_fl_pb_pcn"
 	// Qatar corporate registry ID number
 	IdentifierTypeQatQfcNumber IdentifierType = "qat_qfc_number"
 	// Greece tax ID number
@@ -5158,6 +5162,10 @@ const (
 	IdentifierTypeCymCoNo IdentifierType = "cym_co_no"
 	// Guernsey Corporate Registry Number
 	IdentifierTypeGgyCorporateRegNumber IdentifierType = "ggy_corporate_reg_number"
+	// Unique Guernsey intellectual property ID number. Assigned to every trademark application submitted to the Guernsey Intellectual Property Office.
+	IdentifierTypeGgyTrademarkSubmissionRef IdentifierType = "ggy_trademark_submission_ref"
+	// Unique Guernsey intellectual property ID number. Assigned to every trademark registered with the Guernsey Intellectual Property Office.
+	IdentifierTypeGgyTrademarkNo IdentifierType = "ggy_trademark_no"
 	// Jersey Corporate Registry Number
 	IdentifierTypeJeyCorporateRegNumber IdentifierType = "jey_corporate_reg_number"
 	// Corp ID used in Cook Islands corporate registry
@@ -5530,6 +5538,8 @@ const (
 	IdentifierTypeCnHurdInternalCompanyId IdentifierType = "cn_hurd_internal_company_id"
 	// Unique Hungary Tax ID. Issued to companies registered in Hungary.
 	IdentifierTypeHunTaxNumber IdentifierType = "hun_tax_number"
+	// Statistical Number for Hungarian companies issued by the Hungarian Central Statistical Office
+	IdentifierTypeHunKrsNumber IdentifierType = "hun_krs_number"
 	// Unique HUN registration number. Assigned to every legal entity registered with the Ministry of Justice of Hungary.
 	IdentifierTypeHunCompanyRegisterNumber IdentifierType = "hun_company_register_number"
 	// Unique TIN. Issued for individuals by Hungarian Tax Authorities.
@@ -5570,6 +5580,20 @@ const (
 	IdentifierTypeBelFsmaNameHash IdentifierType = "bel_fsma_name_hash"
 	// Curacao Registry Number. Unique Identifier issued by the Curacao Chamber of Commerce & Industry to the registered companies.
 	IdentifierTypeCuwRegNumber IdentifierType = "cuw_reg_number"
+	// A unique concatenation of bill of lading number, date of customs declaration and Russia customs sequence number.
+	IdentifierTypeRusDeclarationNumber IdentifierType = "rus_declaration_number"
+	// Russia Trade Internal Shipment ID
+	IdentifierTypeRuTradeInternalShipmentId IdentifierType = "ru_trade_internal_shipment_id"
+	// Unique concatenation of bill of lading number and item number for shipments in Turkey.
+	IdentifierTypeTurShipmentId IdentifierType = "tur_shipment_id"
+	// Unique business Identification number. Assigned to every registered business in Bangladesh.
+	IdentifierTypeBdBin IdentifierType = "bd_bin"
+	// Unique registration number. Assigned to every company registered with the UAE National Economic Register.
+	IdentifierTypeAerNerNumber IdentifierType = "aer_ner_number"
+	// Taiwan Passport Number
+	IdentifierTypeTwnPassportNumber IdentifierType = "twn_passport_number"
+	// Belgium unique natural person ID number.
+	IdentifierTypeBelNationalRegisterNo IdentifierType = "bel_national_register_no"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -5708,6 +5732,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeMkdEmbsNumber, nil
 	case "mkd_embs_branch_number":
 		return IdentifierTypeMkdEmbsBranchNumber, nil
+	case "mkd_archive_number":
+		return IdentifierTypeMkdArchiveNumber, nil
 	case "mda_idno_number":
 		return IdentifierTypeMdaIdnoNumber, nil
 	case "ury_ruc_number":
@@ -5864,6 +5890,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBfaRccmNumber, nil
 	case "fl_prop_folio":
 		return IdentifierTypeFlPropFolio, nil
+	case "usa_fl_pb_pcn":
+		return IdentifierTypeUsaFlPbPcn, nil
 	case "qat_qfc_number":
 		return IdentifierTypeQatQfcNumber, nil
 	case "grc_afm_number":
@@ -6340,6 +6368,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCymCoNo, nil
 	case "ggy_corporate_reg_number":
 		return IdentifierTypeGgyCorporateRegNumber, nil
+	case "ggy_trademark_submission_ref":
+		return IdentifierTypeGgyTrademarkSubmissionRef, nil
+	case "ggy_trademark_no":
+		return IdentifierTypeGgyTrademarkNo, nil
 	case "jey_corporate_reg_number":
 		return IdentifierTypeJeyCorporateRegNumber, nil
 	case "cok_corp_reg_corpid":
@@ -6716,6 +6748,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCnHurdInternalCompanyId, nil
 	case "hun_tax_number":
 		return IdentifierTypeHunTaxNumber, nil
+	case "hun_krs_number":
+		return IdentifierTypeHunKrsNumber, nil
 	case "hun_company_register_number":
 		return IdentifierTypeHunCompanyRegisterNumber, nil
 	case "hun_person_tax_id":
@@ -6756,6 +6790,20 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBelFsmaNameHash, nil
 	case "cuw_reg_number":
 		return IdentifierTypeCuwRegNumber, nil
+	case "rus_declaration_number":
+		return IdentifierTypeRusDeclarationNumber, nil
+	case "ru_trade_internal_shipment_id":
+		return IdentifierTypeRuTradeInternalShipmentId, nil
+	case "tur_shipment_id":
+		return IdentifierTypeTurShipmentId, nil
+	case "bd_bin":
+		return IdentifierTypeBdBin, nil
+	case "aer_ner_number":
+		return IdentifierTypeAerNerNumber, nil
+	case "twn_passport_number":
+		return IdentifierTypeTwnPassportNumber, nil
+	case "bel_national_register_no":
+		return IdentifierTypeBelNationalRegisterNo, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -8354,114 +8402,58 @@ func (p *PositionProperties) String() string {
 type Relationships string
 
 const (
-	// Entities of which this entity is reported to be a Registered Agent, corporate secretary, or similar
-	RelationshipsRegisteredAgentOf Relationships = "registered_agent_of"
-	// Entities acting in a Registered Agent, corporate secretary, or similar role for this entity
-	RelationshipsHasRegisteredAgent Relationships = "has_registered_agent"
-	// Companies of which this entity is a Manager
-	RelationshipsManagerOf Relationships = "manager_of"
-	// Managers of this company
-	RelationshipsHasManager Relationships = "has_manager"
-	// Deprecated and converted to legal_representative_of
-	RelationshipsJudicialRepresentativeOf Relationships = "judicial_representative_of"
-	// Deprecated and converted to legal_representative_of
-	RelationshipsHasJudicialRepresentative Relationships = "has_judicial_representative"
-	// Legal Matters in which this entity is a litigant
-	RelationshipsPartyTo Relationships = "party_to"
-	// Litigants in this Legal Matter
-	RelationshipsHasParty Relationships = "has_party"
-	// Family members of this entity
-	RelationshipsFamilyOf Relationships = "family_of"
-	// Companies of which this entity is an employee
-	RelationshipsEmployeeOf Relationships = "employee_of"
-	// Employees of this company
-	RelationshipsHasEmployee Relationships = "has_employee"
 	// Companies of which this entity is a Director
 	RelationshipsDirectorOf Relationships = "director_of"
 	// Directors of this company
 	RelationshipsHasDirector Relationships = "has_director"
-	// The entity in charge of the transportation of goods
-	RelationshipsCarrierOf Relationships = "carrier_of"
-	// The shipment carrying the goods
-	RelationshipsHasCarrier Relationships = "has_carrier"
-	// Companies of which this entity is a CEO, Treasurer, etc.
-	RelationshipsOfficerOf Relationships = "officer_of"
-	// CEOs, Treasurers, etc. of this company
-	RelationshipsHasOfficer Relationships = "has_officer"
-	// Legal Matters to which this entity is tied in a professional capacity
-	RelationshipsLawyerIn Relationships = "lawyer_in"
-	// Lawyers tied to this Legal Matter in a professional capacity
-	RelationshipsHasLawyer Relationships = "has_lawyer"
-	// Securities this entity has issued
-	RelationshipsIssuerOf Relationships = "issuer_of"
-	// Companies that issued this security
-	RelationshipsHasIssuer Relationships = "has_issuer"
-	// Deprecated and converted to shareholder_of
-	RelationshipsSoleProprietorOf Relationships = "sole_proprietor_of"
-	// Deprecated and converted to shareholder_of
-	RelationshipsHasSoleProprietor Relationships = "has_sole_proprietor"
-	// Entities for which this entity works as a lawyer in a professional capacity
-	RelationshipsLawyerOf Relationships = "lawyer_of"
-	// Entities that legally founded this company
-	RelationshipsFounderOf Relationships = "founder_of"
-	// The source entity is reported to be the founder of a company
-	RelationshipsHasFounder Relationships = "has_founder"
-	// Shipments this entity received
-	RelationshipsReceiverOf Relationships = "receiver_of"
-	// The entity that received this shipment
-	RelationshipsReceivedBy Relationships = "received_by"
-	// Companies of which this entity is a liquidator
-	RelationshipsLiquidatorOf Relationships = "liquidator_of"
-	// Liquidators of this company
-	RelationshipsHasLiquidator Relationships = "has_liquidator"
-	// A placeholder relationship. Rarely used.
-	RelationshipsGeneric Relationships = "generic"
-	// Shipments this entity sent
-	RelationshipsShipperOf Relationships = "shipper_of"
-	// The entity that sent this shipment
-	RelationshipsShippedBy Relationships = "shipped_by"
-	// Deprecated and converted to legal_representative_of
-	RelationshipsJudidicalRepresentativeOf Relationships = "judidical_representative_of"
-	// Entities created by or legally derived from this entity
-	RelationshipsLegalPredecessorOf Relationships = "legal_predecessor_of"
-	// Entities from which this entity was created or legally derived
-	RelationshipsHasLegalPredecessor Relationships = "has_legal_predecessor"
-	// Entities from which this entity inherited legal personality
-	RelationshipsLegalSuccessorOf Relationships = "legal_successor_of"
-	// Successor entities to which this entity granted legal personality
-	RelationshipsHasLegalSuccessor Relationships = "has_legal_successor"
-	// Partnerships or similar types of companies of which this entity is a business partner with an ownership stake
-	RelationshipsPartnerOf Relationships = "partner_of"
-	// Business partners with an ownership stake in this company
-	RelationshipsHasPartner Relationships = "has_partner"
-	// Deprecated and converted to officer_of
-	RelationshipsExecutiveOf Relationships = "executive_of"
-	// Deprecated and converted to officer_of
-	RelationshipsHasExecutive Relationships = "has_executive"
-	// The entity who has sent a shipment
-	RelationshipsShipsTo Relationships = "ships_to"
-	// The entity that has received a shipment
-	RelationshipsReceivesFrom Relationships = "receives_from"
-	// Entities of which this entity is reported to be a supervisor, typically in East Asia
-	RelationshipsSupervisorOf Relationships = "supervisor_of"
-	// Supervisors of this company, typically in East Asia
-	RelationshipsHasSupervisor Relationships = "has_supervisor"
-	// Companies of which this entity is a direct owner
-	RelationshipsShareholderOf Relationships = "shareholder_of"
-	// Direct owners of this company
-	RelationshipsHasShareholder Relationships = "has_shareholder"
-	// Entities reported to be beneficially or indirectly owned by this entity
-	RelationshipsBeneficialOwnerOf Relationships = "beneficial_owner_of"
-	// Entities reported to beneficially or indirectly own this entity
-	RelationshipsHasBeneficialOwner Relationships = "has_beneficial_owner"
-	// Entities of which this entity is reported to be (or have acted as) a legal representative
-	RelationshipsLegalRepresentativeOf Relationships = "legal_representative_of"
-	// Entities reported to be (or have acted as) legal representatives of this entity
-	RelationshipsHasLegalRepresentative Relationships = "has_legal_representative"
 	// Deprecated and converted to officer_of (in jurisdictions where the secretary is a fairly important control figure) or registered_agent_of (in jurisdictions where the secretary is more of a clerical role)
 	RelationshipsSecretaryOf Relationships = "secretary_of"
 	// Deprecated and converted to officer_of (in jurisdictions where the secretary is a fairly important control figure) or registered_agent_of (in jurisdictions where the secretary is more of a clerical role)
 	RelationshipsHasSecretary Relationships = "has_secretary"
+	// Entities for which this entity works as a lawyer in a professional capacity
+	RelationshipsLawyerOf Relationships = "lawyer_of"
+	// Lawyers reported to work for this entity in a professional capacity
+	RelationshipsHasLawyer Relationships = "has_lawyer"
+	// Shipments that this entity were notified of upon their arrival at their destinations
+	RelationshipsNotifyPartyOf Relationships = "notify_party_of"
+	// Entity to be notified when this shipment arrives
+	RelationshipsHasNotifyParty Relationships = "has_notify_party"
+	// Deprecated and converted to legal_representative_of
+	RelationshipsJudidicalRepresentativeOf Relationships = "judidical_representative_of"
+	// Deprecated and converted to legal_representative_of
+	RelationshipsHasJudicialRepresentative Relationships = "has_judicial_representative"
+	// Non-corporate entities (trade name, security, intellectual property, etc.) directly owned by this entity
+	RelationshipsOwnerOf Relationships = "owner_of"
+	// Direct owners of this entity
+	RelationshipsHasOwner Relationships = "has_owner"
+	// Entities from which this entity inherited legal personality
+	RelationshipsLegalSuccessorOf Relationships = "legal_successor_of"
+	// Successor entities to which this entity granted legal personality
+	RelationshipsHasLegalSuccessor Relationships = "has_legal_successor"
+	// Legal Matters to which this entity is tied in a professional capacity
+	RelationshipsLawyerIn Relationships = "lawyer_in"
+	// Deprecated and converted to officer_of
+	RelationshipsExecutiveOf Relationships = "executive_of"
+	// Deprecated and converted to officer_of
+	RelationshipsHasExecutive Relationships = "has_executive"
+	// Entities of which this entity is reported to be a Registered Agent, corporate secretary, or similar
+	RelationshipsRegisteredAgentOf Relationships = "registered_agent_of"
+	// Entities acting in a Registered Agent, corporate secretary, or similar role for this entity
+	RelationshipsHasRegisteredAgent Relationships = "has_registered_agent"
+	// Partnerships or similar types of companies of which this entity is a business partner with an ownership stake
+	RelationshipsPartnerOf Relationships = "partner_of"
+	// Business partners with an ownership stake in this company
+	RelationshipsHasPartner Relationships = "has_partner"
+	// Entities reported to be beneficially or indirectly owned by this entity
+	RelationshipsBeneficialOwnerOf Relationships = "beneficial_owner_of"
+	// Entities reported to beneficially or indirectly own this entity
+	RelationshipsHasBeneficialOwner Relationships = "has_beneficial_owner"
+	// Companies audited by this entity
+	RelationshipsAuditorOf Relationships = "auditor_of"
+	// Auditors of this company
+	RelationshipsHasAuditor Relationships = "has_auditor"
+	// Deprecated and converted to legal_representative_of
+	RelationshipsJudicialRepresentativeOf Relationships = "judicial_representative_of"
 	// Deprecated and converted to linked_to
 	RelationshipsClientOf Relationships = "client_of"
 	// Deprecated and converted to linked_to
@@ -8470,145 +8462,145 @@ const (
 	RelationshipsMemberOfTheBoardOf Relationships = "member_of_the_board_of"
 	// Entities that are members of this entity's corporate or statutory body of oversight/control
 	RelationshipsHasMemberOfTheBoard Relationships = "has_member_of_the_board"
-	// Companies audited by this entity
-	RelationshipsAuditorOf Relationships = "auditor_of"
-	// Auditors of this company
-	RelationshipsHasAuditor Relationships = "has_auditor"
-	// Entities connected to this entity via a type of relationship that does not exist in the Graph ontology
-	RelationshipsLinkedTo Relationships = "linked_to"
-	// Parent companies of which this company is a branch
-	RelationshipsBranchOf Relationships = "branch_of"
-	// Branches of this company
-	RelationshipsHasBranch Relationships = "has_branch"
-	// Shipments that this entity were notified of upon their arrival at their destinations
-	RelationshipsNotifyPartyOf Relationships = "notify_party_of"
-	// Entity to be notified when this shipment arrives
-	RelationshipsHasNotifyParty Relationships = "has_notify_party"
-	// Non-corporate entities (trade name, security, intellectual property, etc.) directly owned by this entity
-	RelationshipsOwnerOf Relationships = "owner_of"
-	// Direct owners of this entity
-	RelationshipsHasOwner Relationships = "has_owner"
+	// Securities this entity has issued
+	RelationshipsIssuerOf Relationships = "issuer_of"
+	// Companies that issued this security
+	RelationshipsHasIssuer Relationships = "has_issuer"
+	// Entities of which this entity is reported to be a supervisor, typically in East Asia
+	RelationshipsSupervisorOf Relationships = "supervisor_of"
+	// Supervisors of this company, typically in East Asia
+	RelationshipsHasSupervisor Relationships = "has_supervisor"
+	// Shipments this entity sent
+	RelationshipsShipperOf Relationships = "shipper_of"
+	// The entity that sent this shipment
+	RelationshipsShippedBy Relationships = "shipped_by"
+	// Shipments this entity received
+	RelationshipsReceiverOf Relationships = "receiver_of"
+	// The entity that received this shipment
+	RelationshipsReceivedBy Relationships = "received_by"
+	// Entities that legally founded this company
+	RelationshipsFounderOf Relationships = "founder_of"
+	// The source entity is reported to be the founder of a company
+	RelationshipsHasFounder Relationships = "has_founder"
 	// Deprecated and converted to linked_to
 	RelationshipsAssociateOf Relationships = "associate_of"
 	// Deprecated and converted to linked_to
 	RelationshipsHasAssociate Relationships = "has_associate"
+	// Companies of which this entity is an employee
+	RelationshipsEmployeeOf Relationships = "employee_of"
+	// Employees of this company
+	RelationshipsHasEmployee Relationships = "has_employee"
+	// Entities of which this entity is reported to be (or have acted as) a legal representative
+	RelationshipsLegalRepresentativeOf Relationships = "legal_representative_of"
+	// Entities reported to be (or have acted as) legal representatives of this entity
+	RelationshipsHasLegalRepresentative Relationships = "has_legal_representative"
+	// Parent companies of which this company is a branch
+	RelationshipsBranchOf Relationships = "branch_of"
+	// Branches of this company
+	RelationshipsHasBranch Relationships = "has_branch"
+	// The entity who has sent a shipment
+	RelationshipsShipsTo Relationships = "ships_to"
+	// The entity that has received a shipment
+	RelationshipsReceivesFrom Relationships = "receives_from"
+	// A placeholder relationship. Rarely used.
+	RelationshipsGeneric Relationships = "generic"
+	// Companies of which this entity is a direct owner
+	RelationshipsShareholderOf Relationships = "shareholder_of"
+	// Direct owners of this company
+	RelationshipsHasShareholder Relationships = "has_shareholder"
+	// Deprecated and converted to shareholder_of
+	RelationshipsSoleProprietorOf Relationships = "sole_proprietor_of"
+	// Deprecated and converted to shareholder_of
+	RelationshipsHasSoleProprietor Relationships = "has_sole_proprietor"
+	// The entity in charge of the transportation of goods
+	RelationshipsCarrierOf Relationships = "carrier_of"
+	// The shipment carrying the goods
+	RelationshipsHasCarrier Relationships = "has_carrier"
+	// Legal Matters in which this entity is a litigant
+	RelationshipsPartyTo Relationships = "party_to"
+	// Litigants in this Legal Matter
+	RelationshipsHasParty Relationships = "has_party"
+	// Companies of which this entity is a liquidator
+	RelationshipsLiquidatorOf Relationships = "liquidator_of"
+	// Liquidators of this company
+	RelationshipsHasLiquidator Relationships = "has_liquidator"
 	// Companies that indirectly own this company and/or report it as a subsidiary
 	RelationshipsSubsidiaryOf Relationships = "subsidiary_of"
 	// Companies reported to be subsidiaries or indirectly owned by this company
-	RelationshipsHasSubsidiary  Relationships = "has_subsidiary"
+	RelationshipsHasSubsidiary Relationships = "has_subsidiary"
+	// Family members of this entity
+	RelationshipsFamilyOf Relationships = "family_of"
+	// Entities connected to this entity via a type of relationship that does not exist in the Graph ontology
+	RelationshipsLinkedTo Relationships = "linked_to"
+	// Entities created by or legally derived from this entity
+	RelationshipsLegalPredecessorOf Relationships = "legal_predecessor_of"
+	// Entities from which this entity was created or legally derived
+	RelationshipsHasLegalPredecessor Relationships = "has_legal_predecessor"
+	// Companies of which this entity is a CEO, Treasurer, etc.
+	RelationshipsOfficerOf Relationships = "officer_of"
+	// CEOs, Treasurers, etc. of this company
+	RelationshipsHasOfficer Relationships = "has_officer"
+	// Companies of which this entity is a Manager
+	RelationshipsManagerOf Relationships = "manager_of"
+	// Managers of this company
+	RelationshipsHasManager     Relationships = "has_manager"
 	RelationshipsPossiblySameAs Relationships = "possibly_same_as"
 )
 
 func NewRelationshipsFromString(s string) (Relationships, error) {
 	switch s {
-	case "registered_agent_of":
-		return RelationshipsRegisteredAgentOf, nil
-	case "has_registered_agent":
-		return RelationshipsHasRegisteredAgent, nil
-	case "manager_of":
-		return RelationshipsManagerOf, nil
-	case "has_manager":
-		return RelationshipsHasManager, nil
-	case "judicial_representative_of":
-		return RelationshipsJudicialRepresentativeOf, nil
-	case "has_judicial_representative":
-		return RelationshipsHasJudicialRepresentative, nil
-	case "party_to":
-		return RelationshipsPartyTo, nil
-	case "has_party":
-		return RelationshipsHasParty, nil
-	case "family_of":
-		return RelationshipsFamilyOf, nil
-	case "employee_of":
-		return RelationshipsEmployeeOf, nil
-	case "has_employee":
-		return RelationshipsHasEmployee, nil
 	case "director_of":
 		return RelationshipsDirectorOf, nil
 	case "has_director":
 		return RelationshipsHasDirector, nil
-	case "carrier_of":
-		return RelationshipsCarrierOf, nil
-	case "has_carrier":
-		return RelationshipsHasCarrier, nil
-	case "officer_of":
-		return RelationshipsOfficerOf, nil
-	case "has_officer":
-		return RelationshipsHasOfficer, nil
-	case "lawyer_in":
-		return RelationshipsLawyerIn, nil
-	case "has_lawyer":
-		return RelationshipsHasLawyer, nil
-	case "issuer_of":
-		return RelationshipsIssuerOf, nil
-	case "has_issuer":
-		return RelationshipsHasIssuer, nil
-	case "sole_proprietor_of":
-		return RelationshipsSoleProprietorOf, nil
-	case "has_sole_proprietor":
-		return RelationshipsHasSoleProprietor, nil
-	case "lawyer_of":
-		return RelationshipsLawyerOf, nil
-	case "founder_of":
-		return RelationshipsFounderOf, nil
-	case "has_founder":
-		return RelationshipsHasFounder, nil
-	case "receiver_of":
-		return RelationshipsReceiverOf, nil
-	case "received_by":
-		return RelationshipsReceivedBy, nil
-	case "liquidator_of":
-		return RelationshipsLiquidatorOf, nil
-	case "has_liquidator":
-		return RelationshipsHasLiquidator, nil
-	case "generic":
-		return RelationshipsGeneric, nil
-	case "shipper_of":
-		return RelationshipsShipperOf, nil
-	case "shipped_by":
-		return RelationshipsShippedBy, nil
-	case "judidical_representative_of":
-		return RelationshipsJudidicalRepresentativeOf, nil
-	case "legal_predecessor_of":
-		return RelationshipsLegalPredecessorOf, nil
-	case "has_legal_predecessor":
-		return RelationshipsHasLegalPredecessor, nil
-	case "legal_successor_of":
-		return RelationshipsLegalSuccessorOf, nil
-	case "has_legal_successor":
-		return RelationshipsHasLegalSuccessor, nil
-	case "partner_of":
-		return RelationshipsPartnerOf, nil
-	case "has_partner":
-		return RelationshipsHasPartner, nil
-	case "executive_of":
-		return RelationshipsExecutiveOf, nil
-	case "has_executive":
-		return RelationshipsHasExecutive, nil
-	case "ships_to":
-		return RelationshipsShipsTo, nil
-	case "receives_from":
-		return RelationshipsReceivesFrom, nil
-	case "supervisor_of":
-		return RelationshipsSupervisorOf, nil
-	case "has_supervisor":
-		return RelationshipsHasSupervisor, nil
-	case "shareholder_of":
-		return RelationshipsShareholderOf, nil
-	case "has_shareholder":
-		return RelationshipsHasShareholder, nil
-	case "beneficial_owner_of":
-		return RelationshipsBeneficialOwnerOf, nil
-	case "has_beneficial_owner":
-		return RelationshipsHasBeneficialOwner, nil
-	case "legal_representative_of":
-		return RelationshipsLegalRepresentativeOf, nil
-	case "has_legal_representative":
-		return RelationshipsHasLegalRepresentative, nil
 	case "secretary_of":
 		return RelationshipsSecretaryOf, nil
 	case "has_secretary":
 		return RelationshipsHasSecretary, nil
+	case "lawyer_of":
+		return RelationshipsLawyerOf, nil
+	case "has_lawyer":
+		return RelationshipsHasLawyer, nil
+	case "notify_party_of":
+		return RelationshipsNotifyPartyOf, nil
+	case "has_notify_party":
+		return RelationshipsHasNotifyParty, nil
+	case "judidical_representative_of":
+		return RelationshipsJudidicalRepresentativeOf, nil
+	case "has_judicial_representative":
+		return RelationshipsHasJudicialRepresentative, nil
+	case "owner_of":
+		return RelationshipsOwnerOf, nil
+	case "has_owner":
+		return RelationshipsHasOwner, nil
+	case "legal_successor_of":
+		return RelationshipsLegalSuccessorOf, nil
+	case "has_legal_successor":
+		return RelationshipsHasLegalSuccessor, nil
+	case "lawyer_in":
+		return RelationshipsLawyerIn, nil
+	case "executive_of":
+		return RelationshipsExecutiveOf, nil
+	case "has_executive":
+		return RelationshipsHasExecutive, nil
+	case "registered_agent_of":
+		return RelationshipsRegisteredAgentOf, nil
+	case "has_registered_agent":
+		return RelationshipsHasRegisteredAgent, nil
+	case "partner_of":
+		return RelationshipsPartnerOf, nil
+	case "has_partner":
+		return RelationshipsHasPartner, nil
+	case "beneficial_owner_of":
+		return RelationshipsBeneficialOwnerOf, nil
+	case "has_beneficial_owner":
+		return RelationshipsHasBeneficialOwner, nil
+	case "auditor_of":
+		return RelationshipsAuditorOf, nil
+	case "has_auditor":
+		return RelationshipsHasAuditor, nil
+	case "judicial_representative_of":
+		return RelationshipsJudicialRepresentativeOf, nil
 	case "client_of":
 		return RelationshipsClientOf, nil
 	case "has_client":
@@ -8617,32 +8609,88 @@ func NewRelationshipsFromString(s string) (Relationships, error) {
 		return RelationshipsMemberOfTheBoardOf, nil
 	case "has_member_of_the_board":
 		return RelationshipsHasMemberOfTheBoard, nil
-	case "auditor_of":
-		return RelationshipsAuditorOf, nil
-	case "has_auditor":
-		return RelationshipsHasAuditor, nil
-	case "linked_to":
-		return RelationshipsLinkedTo, nil
-	case "branch_of":
-		return RelationshipsBranchOf, nil
-	case "has_branch":
-		return RelationshipsHasBranch, nil
-	case "notify_party_of":
-		return RelationshipsNotifyPartyOf, nil
-	case "has_notify_party":
-		return RelationshipsHasNotifyParty, nil
-	case "owner_of":
-		return RelationshipsOwnerOf, nil
-	case "has_owner":
-		return RelationshipsHasOwner, nil
+	case "issuer_of":
+		return RelationshipsIssuerOf, nil
+	case "has_issuer":
+		return RelationshipsHasIssuer, nil
+	case "supervisor_of":
+		return RelationshipsSupervisorOf, nil
+	case "has_supervisor":
+		return RelationshipsHasSupervisor, nil
+	case "shipper_of":
+		return RelationshipsShipperOf, nil
+	case "shipped_by":
+		return RelationshipsShippedBy, nil
+	case "receiver_of":
+		return RelationshipsReceiverOf, nil
+	case "received_by":
+		return RelationshipsReceivedBy, nil
+	case "founder_of":
+		return RelationshipsFounderOf, nil
+	case "has_founder":
+		return RelationshipsHasFounder, nil
 	case "associate_of":
 		return RelationshipsAssociateOf, nil
 	case "has_associate":
 		return RelationshipsHasAssociate, nil
+	case "employee_of":
+		return RelationshipsEmployeeOf, nil
+	case "has_employee":
+		return RelationshipsHasEmployee, nil
+	case "legal_representative_of":
+		return RelationshipsLegalRepresentativeOf, nil
+	case "has_legal_representative":
+		return RelationshipsHasLegalRepresentative, nil
+	case "branch_of":
+		return RelationshipsBranchOf, nil
+	case "has_branch":
+		return RelationshipsHasBranch, nil
+	case "ships_to":
+		return RelationshipsShipsTo, nil
+	case "receives_from":
+		return RelationshipsReceivesFrom, nil
+	case "generic":
+		return RelationshipsGeneric, nil
+	case "shareholder_of":
+		return RelationshipsShareholderOf, nil
+	case "has_shareholder":
+		return RelationshipsHasShareholder, nil
+	case "sole_proprietor_of":
+		return RelationshipsSoleProprietorOf, nil
+	case "has_sole_proprietor":
+		return RelationshipsHasSoleProprietor, nil
+	case "carrier_of":
+		return RelationshipsCarrierOf, nil
+	case "has_carrier":
+		return RelationshipsHasCarrier, nil
+	case "party_to":
+		return RelationshipsPartyTo, nil
+	case "has_party":
+		return RelationshipsHasParty, nil
+	case "liquidator_of":
+		return RelationshipsLiquidatorOf, nil
+	case "has_liquidator":
+		return RelationshipsHasLiquidator, nil
 	case "subsidiary_of":
 		return RelationshipsSubsidiaryOf, nil
 	case "has_subsidiary":
 		return RelationshipsHasSubsidiary, nil
+	case "family_of":
+		return RelationshipsFamilyOf, nil
+	case "linked_to":
+		return RelationshipsLinkedTo, nil
+	case "legal_predecessor_of":
+		return RelationshipsLegalPredecessorOf, nil
+	case "has_legal_predecessor":
+		return RelationshipsHasLegalPredecessor, nil
+	case "officer_of":
+		return RelationshipsOfficerOf, nil
+	case "has_officer":
+		return RelationshipsHasOfficer, nil
+	case "manager_of":
+		return RelationshipsManagerOf, nil
+	case "has_manager":
+		return RelationshipsHasManager, nil
 	case "possibly_same_as":
 		return RelationshipsPossiblySameAs, nil
 	}
@@ -8716,6 +8764,7 @@ const (
 	RiskPep                                                                      Risk = "pep"
 	RiskOwnedByEntityInExportControls                                            Risk = "owned_by_entity_in_export_controls"
 	RiskPsaForcedLaborAspiUyghur                                                 Risk = "psa_forced_labor_aspi_uyghur"
+	RiskBisBoycottRequesterList                                                  Risk = "bis_boycott_requester_list"
 	RiskEu50PercentRule                                                          Risk = "eu_50_percent_rule"
 	RiskForcedLaborXinjiangOperations                                            Risk = "forced_labor_xinjiang_operations"
 	RiskForcedLaborWroOriginSubtier                                              Risk = "forced_labor_wro_origin_subtier"
@@ -8747,6 +8796,7 @@ const (
 	RiskOwnerOfForcedLaborXinjiangEntity                                         Risk = "owner_of_forced_labor_xinjiang_entity"
 	RiskLawEnforcementAction                                                     Risk = "law_enforcement_action"
 	RiskOwnedBySoe                                                               Risk = "owned_by_soe"
+	RiskOwnedByMilitaryCivilFusion                                               Risk = "owned_by_military_civil_fusion"
 	RiskEntityLicensedWithFsbRf                                                  Risk = "entity_licensed_with_fsb_rf"
 	RiskPsaForcedLaborXinjiangRegistration                                       Risk = "psa_forced_labor_xinjiang_registration"
 	RiskForcedLaborSheffieldHallamUniversityReportsOriginDirect                  Risk = "forced_labor_sheffield_hallam_university_reports_origin_direct"
@@ -8755,6 +8805,7 @@ const (
 	RiskReputationalRiskCybercrime                                               Risk = "reputational_risk_cybercrime"
 	RiskPsaForcedLaborXinjiangOperations                                         Risk = "psa_forced_labor_xinjiang_operations"
 	RiskOwnerOfSoe                                                               Risk = "owner_of_soe"
+	RiskPsaBisBoycottRequesterList                                               Risk = "psa_bis_boycott_requester_list"
 	RiskForcedLaborAspiOriginDirect                                              Risk = "forced_labor_aspi_origin_direct"
 	RiskExportsBisHighPriorityItems                                              Risk = "exports_bis_high_priority_items"
 	RiskForcedLaborUflpaOriginSubtier                                            Risk = "forced_labor_uflpa_origin_subtier"
@@ -8887,6 +8938,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedByEntityInExportControls, nil
 	case "psa_forced_labor_aspi_uyghur":
 		return RiskPsaForcedLaborAspiUyghur, nil
+	case "bis_boycott_requester_list":
+		return RiskBisBoycottRequesterList, nil
 	case "eu_50_percent_rule":
 		return RiskEu50PercentRule, nil
 	case "forced_labor_xinjiang_operations":
@@ -8949,6 +9002,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskLawEnforcementAction, nil
 	case "owned_by_soe":
 		return RiskOwnedBySoe, nil
+	case "owned_by_military_civil_fusion":
+		return RiskOwnedByMilitaryCivilFusion, nil
 	case "entity_licensed_with_fsb_rf":
 		return RiskEntityLicensedWithFsbRf, nil
 	case "psa_forced_labor_xinjiang_registration":
@@ -8965,6 +9020,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaForcedLaborXinjiangOperations, nil
 	case "owner_of_soe":
 		return RiskOwnerOfSoe, nil
+	case "psa_bis_boycott_requester_list":
+		return RiskPsaBisBoycottRequesterList, nil
 	case "forced_labor_aspi_origin_direct":
 		return RiskForcedLaborAspiOriginDirect, nil
 	case "exports_bis_high_priority_items":
@@ -9489,6 +9546,7 @@ const (
 	TagUflpaEntity                                Tag = "uflpa_entity"
 	TagSheffieldHallamUniversityForcedLaborEntity Tag = "sheffield_hallam_university_forced_labor_entity"
 	TagAspiUyghurForcedLaborReportEntity          Tag = "aspi_uyghur_forced_labor_report_entity"
+	TagBisBoycottRequesterList                    Tag = "bis_boycott_requester_list"
 )
 
 func NewTagFromString(s string) (Tag, error) {
@@ -9533,6 +9591,8 @@ func NewTagFromString(s string) (Tag, error) {
 		return TagSheffieldHallamUniversityForcedLaborEntity, nil
 	case "aspi_uyghur_forced_labor_report_entity":
 		return TagAspiUyghurForcedLaborReportEntity, nil
+	case "bis_boycott_requester_list":
+		return TagBisBoycottRequesterList, nil
 	}
 	var t Tag
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -11139,6 +11199,8 @@ type ProjectEntitiesAggs struct {
 	ShippedHsCodes       *HsCodeAgg    `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
 	ReceivedHsCodes      *HsCodeAgg    `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
 	MatchResults         []*BucketAgg  `json:"match_results,omitempty" url:"match_results,omitempty"`
+	CustomFields         []*BucketAgg  `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
+	CustomFieldsCount    *IntKeyValue  `json:"custom_fields_count,omitempty" url:"custom_fields_count,omitempty"`
 	Location             []*BucketAgg  `json:"location,omitempty" url:"location,omitempty"`
 	SourceType           []*BucketAgg  `json:"source_type,omitempty" url:"source_type,omitempty"`
 	Region               []*BucketAgg  `json:"region,omitempty" url:"region,omitempty"`
@@ -12421,7 +12483,6 @@ type CoreEntity struct {
 	ShipmentDeparture *ShipmentDeparture      `json:"shipment_departure,omitempty" url:"shipment_departure,omitempty"`
 	HsCode            *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
 	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
-	ShortLabel        *string                 `json:"short_label,omitempty" url:"short_label,omitempty"`
 	Identifiers       []*Identifier           `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
 	Addresses []string `json:"addresses,omitempty" url:"addresses,omitempty"`
@@ -14060,6 +14121,7 @@ type Shipment struct {
 	DepartureDate       *string                      `json:"departure_date,omitempty" url:"departure_date,omitempty"`
 	DepartureAddress    *ShipmentAddress             `json:"departure_address,omitempty" url:"departure_address,omitempty"`
 	ArrivalAddress      *ShipmentAddress             `json:"arrival_address,omitempty" url:"arrival_address,omitempty"`
+	ProductOrigin       []Country                    `json:"product_origin,omitempty" url:"product_origin,omitempty"`
 	MonetaryValue       []*MonetaryValue             `json:"monetary_value,omitempty" url:"monetary_value,omitempty"`
 	Weight              []*Weight                    `json:"weight,omitempty" url:"weight,omitempty"`
 	Identifier          []*ShipmentIdentifier        `json:"identifier,omitempty" url:"identifier,omitempty"`
