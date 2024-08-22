@@ -11199,6 +11199,8 @@ type ProjectEntitiesAggs struct {
 	ShippedHsCodes       *HsCodeAgg    `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
 	ReceivedHsCodes      *HsCodeAgg    `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
 	MatchResults         []*BucketAgg  `json:"match_results,omitempty" url:"match_results,omitempty"`
+	CustomFields         []*BucketAgg  `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
+	CustomFieldsCount    *IntKeyValue  `json:"custom_fields_count,omitempty" url:"custom_fields_count,omitempty"`
 	Location             []*BucketAgg  `json:"location,omitempty" url:"location,omitempty"`
 	SourceType           []*BucketAgg  `json:"source_type,omitempty" url:"source_type,omitempty"`
 	Region               []*BucketAgg  `json:"region,omitempty" url:"region,omitempty"`
@@ -12481,7 +12483,6 @@ type CoreEntity struct {
 	ShipmentDeparture *ShipmentDeparture      `json:"shipment_departure,omitempty" url:"shipment_departure,omitempty"`
 	HsCode            *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
 	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
-	ShortLabel        *string                 `json:"short_label,omitempty" url:"short_label,omitempty"`
 	Identifiers       []*Identifier           `json:"identifiers,omitempty" url:"identifiers,omitempty"`
 	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
 	Addresses []string `json:"addresses,omitempty" url:"addresses,omitempty"`
@@ -14120,6 +14121,7 @@ type Shipment struct {
 	DepartureDate       *string                      `json:"departure_date,omitempty" url:"departure_date,omitempty"`
 	DepartureAddress    *ShipmentAddress             `json:"departure_address,omitempty" url:"departure_address,omitempty"`
 	ArrivalAddress      *ShipmentAddress             `json:"arrival_address,omitempty" url:"arrival_address,omitempty"`
+	ProductOrigin       []Country                    `json:"product_origin,omitempty" url:"product_origin,omitempty"`
 	MonetaryValue       []*MonetaryValue             `json:"monetary_value,omitempty" url:"monetary_value,omitempty"`
 	Weight              []*Weight                    `json:"weight,omitempty" url:"weight,omitempty"`
 	Identifier          []*ShipmentIdentifier        `json:"identifier,omitempty" url:"identifier,omitempty"`
