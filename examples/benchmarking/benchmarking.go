@@ -83,6 +83,7 @@ var args struct {
 	RetryOnError       bool   // retry if we get an error
 	Dev                bool   // run against dev ENV (requires DEV_CLIENT_ID, DEV_CLIENT_SECRET, and DEV_BASE_URL)
 	Input              string // the path to the file being read (defaults to examples/benchmarking/input.csv)
+	NameMinPercentage  int    // the `name_min_percentage` to pass as a query param to the resolve endpoint
 }
 
 var scCache supplyChainCache
@@ -121,6 +122,9 @@ func main() {
 	}
 	if args.Input == "" {
 		args.Input = "examples/benchmarking/input.csv"
+	}
+	if args.NameMinPercentage != 0 {
+		log.Printf("Using a 'name_min_percentage' of %v", args.NameMinPercentage)
 	}
 
 	time.Sleep(time.Second)
@@ -719,6 +723,10 @@ func resolveEntity(client *sdk.Connection, profile sayari.ProfileEnum, attribute
 			}
 			entityInfo.Type = append(entityInfo.Type, &entityType)
 		}
+	}
+
+	if args.NameMinPercentage != 0 {
+		entityInfo.NameMinPercentage = &args.NameMinPercentage
 	}
 
 	resp, err := client.Resolution.Resolution(context.Background(), &entityInfo)
