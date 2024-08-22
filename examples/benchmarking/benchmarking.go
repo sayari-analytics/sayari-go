@@ -80,8 +80,9 @@ var args struct {
 	MeasureSupplyChain bool // set to true if you want to include supply chain metrics
 	LogTimes           bool
 	NumWorkers         int
-	RetryOnError       bool // retry if we get an error
-	Dev                bool // run against dev ENV (requires DEV_CLIENT_ID, DEV_CLIENT_SECRET, and DEV_BASE_URL)
+	RetryOnError       bool   // retry if we get an error
+	Dev                bool   // run against dev ENV (requires DEV_CLIENT_ID, DEV_CLIENT_SECRET, and DEV_BASE_URL)
+	Input              string // the path to the file being read (defaults to examples/benchmarking/input.csv)
 }
 
 var scCache supplyChainCache
@@ -118,6 +119,9 @@ func main() {
 		log.Println("Running against Dev")
 		runInDev = true
 	}
+	if args.Input == "" {
+		args.Input = "examples/benchmarking/input.csv"
+	}
 
 	time.Sleep(time.Second)
 
@@ -142,7 +146,7 @@ func main() {
 	}
 
 	// Load in CSV
-	rows, err := loadCSV("examples/benchmarking/input.csv")
+	rows, err := loadCSV(args.Input)
 	if err != nil {
 		log.Fatalf("Error loading CSV. Error: %v", err)
 	}
