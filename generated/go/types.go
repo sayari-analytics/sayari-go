@@ -5594,6 +5594,8 @@ const (
 	IdentifierTypeTwnPassportNumber IdentifierType = "twn_passport_number"
 	// Belgium unique natural person ID number.
 	IdentifierTypeBelNationalRegisterNo IdentifierType = "bel_national_register_no"
+	// ???
+	IdentifierTypeUkrFiuListNumber IdentifierType = "ukr_fiu_list_number"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6804,6 +6806,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeTwnPassportNumber, nil
 	case "bel_national_register_no":
 		return IdentifierTypeBelNationalRegisterNo, nil
+	case "ukr_fiu_list_number":
+		return IdentifierTypeUkrFiuListNumber, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
