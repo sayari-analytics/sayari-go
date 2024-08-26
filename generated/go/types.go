@@ -5294,6 +5294,10 @@ const (
 	IdentifierTypeUsaSamUeiNumber IdentifierType = "usa_sam_uei_number"
 	// Identifier for corporations and trademarks in US Virgin Islands
 	IdentifierTypeUsaUsviCorpNumber IdentifierType = "usa_usvi_corp_number"
+	// Nicaragua Trade Internal Shipment ID
+	IdentifierTypeNicTradeInternalShipmentId IdentifierType = "nic_trade_internal_shipment_id"
+	// Nicaragua RUC Number
+	IdentifierTypeNicRucNumber IdentifierType = "nic_ruc_number"
 	// Nicaragua Numero Unico
 	IdentifierTypeNicNumeroUnico         IdentifierType = "nic_numero_unico"
 	IdentifierTypeCriCedulaJuridica      IdentifierType = "cri_cedula_juridica"
@@ -5594,6 +5598,8 @@ const (
 	IdentifierTypeTwnPassportNumber IdentifierType = "twn_passport_number"
 	// Belgium unique natural person ID number.
 	IdentifierTypeBelNationalRegisterNo IdentifierType = "bel_national_register_no"
+	// Afghanistan Trade Internal Shipment ID
+	IdentifierTypeAfgTradeInternalShipmentId IdentifierType = "afg_trade_internal_shipment_id"
 	// ???
 	IdentifierTypeUkrFiuListNumber IdentifierType = "ukr_fiu_list_number"
 )
@@ -6502,6 +6508,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeUsaSamUeiNumber, nil
 	case "usa_usvi_corp_number":
 		return IdentifierTypeUsaUsviCorpNumber, nil
+	case "nic_trade_internal_shipment_id":
+		return IdentifierTypeNicTradeInternalShipmentId, nil
+	case "nic_ruc_number":
+		return IdentifierTypeNicRucNumber, nil
 	case "nic_numero_unico":
 		return IdentifierTypeNicNumeroUnico, nil
 	case "cri_cedula_juridica":
@@ -6806,6 +6816,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeTwnPassportNumber, nil
 	case "bel_national_register_no":
 		return IdentifierTypeBelNationalRegisterNo, nil
+	case "afg_trade_internal_shipment_id":
+		return IdentifierTypeAfgTradeInternalShipmentId, nil
 	case "ukr_fiu_list_number":
 		return IdentifierTypeUkrFiuListNumber, nil
 	}
@@ -7749,6 +7761,8 @@ const (
 	MonetaryValueContextCostInsuranceAndFreight MonetaryValueContext = "cost_insurance_and_freight"
 	// Indicates free on board (FOB) arrangement
 	MonetaryValueContextFreeOnBoard MonetaryValueContext = "free_on_board"
+	// Indicates value determined by customs authorities
+	MonetaryValueContextAssessedValue MonetaryValueContext = "assessed_value"
 )
 
 func NewMonetaryValueContextFromString(s string) (MonetaryValueContext, error) {
@@ -7757,6 +7771,8 @@ func NewMonetaryValueContextFromString(s string) (MonetaryValueContext, error) {
 		return MonetaryValueContextCostInsuranceAndFreight, nil
 	case "free_on_board":
 		return MonetaryValueContextFreeOnBoard, nil
+	case "assessed_value":
+		return MonetaryValueContextAssessedValue, nil
 	}
 	var t MonetaryValueContext
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
