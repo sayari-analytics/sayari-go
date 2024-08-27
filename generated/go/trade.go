@@ -201,8 +201,16 @@ type TradeFilterList struct {
 	SupplierRisk []Risk `json:"supplier_risk,omitempty" url:"supplier_risk,omitempty"`
 	// Buyer with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
 	BuyerCountry []Country `json:"buyer_country,omitempty" url:"buyer_country,omitempty"`
+	// Buyer city location
+	BuyerCity []string `json:"buyer_city,omitempty" url:"buyer_city,omitempty"`
+	// Buyer state location
+	BuyerState []string `json:"buyer_state,omitempty" url:"buyer_state,omitempty"`
 	// Supplier with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
 	SupplierCountry []Country `json:"supplier_country,omitempty" url:"supplier_country,omitempty"`
+	// Supplier city location
+	SupplierCity []string `json:"supplier_city,omitempty" url:"supplier_city,omitempty"`
+	// Supplier state location
+	SupplierState []string `json:"supplier_state,omitempty" url:"supplier_state,omitempty"`
 	// Shipment departs from a country with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
 	DepartureCountry []Country `json:"departure_country,omitempty" url:"departure_country,omitempty"`
 	// Shipment departs from a state that contains the provided state name.
@@ -219,6 +227,8 @@ type TradeFilterList struct {
 	HsCode []string `json:"hs_code,omitempty" url:"hs_code,omitempty"`
 	// The HS description contains the provided string.
 	HsDescription []string `json:"hs_description,omitempty" url:"hs_description,omitempty"`
+	// Product Origin with an exact match for the provided [country code](/sayari-library/ontology/enumerated-types#country).
+	ProductOrigin []Country `json:"product_origin,omitempty" url:"product_origin,omitempty"`
 	// The supplier purpose contains the provided string.
 	SupplierPurpose []string `json:"supplier_purpose,omitempty" url:"supplier_purpose,omitempty"`
 	// The buyer purpose contains the provided string.
@@ -229,6 +239,8 @@ type TradeFilterList struct {
 	DepartureDate []string `json:"departure_date,omitempty" url:"departure_date,omitempty"`
 	// The shipment identifier starts with the provided string.
 	ShipmentIdentifier []string `json:"shipment_identifier,omitempty" url:"shipment_identifier,omitempty"`
+	// Countries through which a shipment passes for the provided [country code](/sayari-library/ontology/enumerated-types#country).
+	TransitCountry []Country `json:"transit_country,omitempty" url:"transit_country,omitempty"`
 	// The shipment weight is within the provided range.
 	Weight []string `json:"weight,omitempty" url:"weight,omitempty"`
 	// An exact match for the provided sources.
