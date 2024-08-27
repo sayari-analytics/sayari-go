@@ -5600,7 +5600,7 @@ const (
 	IdentifierTypeBelNationalRegisterNo IdentifierType = "bel_national_register_no"
 	// Afghanistan Trade Internal Shipment ID
 	IdentifierTypeAfgTradeInternalShipmentId IdentifierType = "afg_trade_internal_shipment_id"
-	// ???
+	// Ukraine SFMS List Identifier. Reference number assigned to all entities listed under Ukraine SFMS List for Terrorism.
 	IdentifierTypeUkrFiuListNumber IdentifierType = "ukr_fiu_list_number"
 )
 
