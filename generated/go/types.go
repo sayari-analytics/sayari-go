@@ -11307,6 +11307,7 @@ func (p *ProjectEntity) UnmarshalJSON(data []byte) error {
 	type embed ProjectEntity
 	var unmarshaler = struct {
 		embed
+		Type string `json:"type"`
 	}{
 		embed: embed(*p),
 	}
@@ -11314,7 +11315,10 @@ func (p *ProjectEntity) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectEntity(unmarshaler.embed)
-	p.type_ = "entity"
+	if unmarshaler.Type != "entity" {
+		return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", p, "entity", unmarshaler.Type)
+	}
+	p.type_ = unmarshaler.Type
 
 	extraProperties, err := core.ExtractExtraProperties(data, *p, "type")
 	if err != nil {
@@ -11613,10 +11617,11 @@ func (t *TierCountKeys) UnmarshalJSON(data []byte) error {
 	}
 	var valueTotalCountStringLiteral string
 	if err := json.Unmarshal(data, &valueTotalCountStringLiteral); err == nil {
-		if valueTotalCountStringLiteral == "totalCount" {
-			t.totalCountStringLiteral = valueTotalCountStringLiteral
-			return nil
+		t.totalCountStringLiteral = valueTotalCountStringLiteral
+		if t.totalCountStringLiteral != "totalCount" {
+			return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", t, "totalCount", valueTotalCountStringLiteral)
 		}
+		return nil
 	}
 	return fmt.Errorf("%s cannot be deserialized as a %T", data, t)
 }
