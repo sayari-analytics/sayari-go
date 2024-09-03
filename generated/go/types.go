@@ -8731,6 +8731,7 @@ const (
 	RiskForcedLaborUflpaOriginSubtierProductBlueprint                            Risk = "forced_labor_uflpa_origin_subtier_product_blueprint"
 	RiskForcedLaborXinjiangGeospatial                                            Risk = "forced_labor_xinjiang_geospatial"
 	RiskEuHighRiskThird                                                          Risk = "eu_high_risk_third"
+	RiskUkSanctioned                                                             Risk = "uk_sanctioned"
 	RiskSheffieldHallamUniversityUsefulResources                                 Risk = "sheffield_hallam_university_useful_resources"
 	RiskExportsToEntityLicensedWithFsbRf                                         Risk = "exports_to_entity_licensed_with_fsb_rf"
 	RiskOwnerOfAspiForcedLaborEntity                                             Risk = "owner_of_aspi_forced_labor_entity"
@@ -8747,6 +8748,7 @@ const (
 	RiskOwnerOfSanctionedEntity                                                  Risk = "owner_of_sanctioned_entity"
 	RiskPsaRegulatoryAction                                                      Risk = "psa_regulatory_action"
 	RiskForcedLaborXinjiangContractors                                           Risk = "forced_labor_xinjiang_contractors"
+	RiskUk50PercentRule                                                          Risk = "uk_50_percent_rule"
 	RiskOwnedByXinjiangEntity                                                    Risk = "owned_by_xinjiang_entity"
 	RiskForcedLaborXinjiangOriginSubtier                                         Risk = "forced_labor_xinjiang_origin_subtier"
 	RiskPsaForcedLaborXinjiangName                                               Risk = "psa_forced_labor_xinjiang_name"
@@ -8852,6 +8854,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskForcedLaborXinjiangGeospatial, nil
 	case "eu_high_risk_third":
 		return RiskEuHighRiskThird, nil
+	case "uk_sanctioned":
+		return RiskUkSanctioned, nil
 	case "sheffield_hallam_university_useful_resources":
 		return RiskSheffieldHallamUniversityUsefulResources, nil
 	case "exports_to_entity_licensed_with_fsb_rf":
@@ -8884,6 +8888,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaRegulatoryAction, nil
 	case "forced_labor_xinjiang_contractors":
 		return RiskForcedLaborXinjiangContractors, nil
+	case "uk_50_percent_rule":
+		return RiskUk50PercentRule, nil
 	case "owned_by_xinjiang_entity":
 		return RiskOwnedByXinjiangEntity, nil
 	case "forced_labor_xinjiang_origin_subtier":
