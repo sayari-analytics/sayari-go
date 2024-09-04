@@ -15,12 +15,16 @@ type Resolution struct {
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Entity name
 	Name []*string `json:"-" url:"name,omitempty"`
-	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
-	Identifier []*BothIdentifierTypes `json:"-" url:"identifier,omitempty"`
+	// Entity address. For optimal matching results, it's recommended to concatenate the full address string (street, city, state, postal code).
+	Address []*string `json:"-" url:"address,omitempty"`
+	// Entity city that contains the provided city name.
+	City []*string `json:"-" url:"city,omitempty"`
+	// Entity state that contains the provided state name.
+	State []*string `json:"-" url:"state,omitempty"`
 	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
 	Country []*Country `json:"-" url:"country,omitempty"`
-	// Entity address
-	Address []*string `json:"-" url:"address,omitempty"`
+	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
+	Identifier []*BothIdentifierTypes `json:"-" url:"identifier,omitempty"`
 	// Entity date of birth
 	DateOfBirth []*string `json:"-" url:"date_of_birth,omitempty"`
 	// Entity contact
@@ -29,8 +33,10 @@ type Resolution struct {
 	Type []*Entities `json:"-" url:"type,omitempty"`
 	// Profile can be used to switch between search algorithms. The default profile `corporate` is optimized for accurate entity attribute matching and is ideal for business verification and matching entities with corporate data. The `suppliers` profile is optimized for matching entities with extensive trade data. Ideal for supply chain and trade-related use cases.
 	Profile *ProfileEnum `json:"-" url:"profile,omitempty"`
-	// Adding this param enable an alternative matching logic. It will set a minimum percentage of tokens needed to match with user input to be considered a "hit". Accepts integers from 0 to 100 inclusive.
+	// Adding this param enables an alternative matching logic. It will set a minimum percentage of tokens needed to match with user input to be considered a "hit". Accepts integers from 0 to 100 inclusive.
 	NameMinPercentage *int `json:"-" url:"name_min_percentage,omitempty"`
+	// Adding this param enables an alternative matching logic. It sets the minimum number of matching tokens the resolved hits need to have in common with the user input to be considered a "hit". Accepts non-negative integers.
+	NameMinTokens *int `json:"-" url:"name_min_tokens,omitempty"`
 }
 
 type ResolutionPost struct {
@@ -154,10 +160,14 @@ type ResolutionBody struct {
 	Name []string `json:"name,omitempty" url:"name,omitempty"`
 	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
 	Identifier []*BothIdentifierTypes `json:"identifier,omitempty" url:"identifier,omitempty"`
-	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
-	Country []Country `json:"country,omitempty" url:"country,omitempty"`
 	// Entity address
 	Address []string `json:"address,omitempty" url:"address,omitempty"`
+	// Entity city that contains the provided city name.
+	City *string `json:"city,omitempty" url:"city,omitempty"`
+	// Entity state that contains the provided state name.
+	State *string `json:"state,omitempty" url:"state,omitempty"`
+	// Entity country - must be ISO (3166) Trigram i.e., `USA`. See complete list [here](/sayari-library/ontology/enumerated-types#country)
+	Country []Country `json:"country,omitempty" url:"country,omitempty"`
 	// Entity date of birth
 	DateOfBirth []string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
 	// Entity contact
@@ -166,6 +176,10 @@ type ResolutionBody struct {
 	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
 	// Profile can be used to switch between search algorithms. The default profile `corporate` is optimized for accurate entity attribute matching and is ideal for business verification and matching entities with corporate data. The `suppliers` profile is optimized for matching entities with extensive trade data. Ideal for supply chain and trade-related use cases.
 	Profile *ProfileEnum `json:"profile,omitempty" url:"profile,omitempty"`
+	// Adding this param enables an alternative matching logic. It will set a minimum percentage of tokens needed to match with user input to be considered a "hit". Accepts integers from 0 to 100 inclusive.
+	NameMinPercentage *int `json:"name_min_percentage,omitempty" url:"name_min_percentage,omitempty"`
+	// Adding this param enables an alternative matching logic. It sets the minimum number of matching tokens the resolved hits need to have in common with the user input to be considered a "hit". Accepts non-negative integers.
+	NameMinTokens *int `json:"name_min_tokens,omitempty" url:"name_min_tokens,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
