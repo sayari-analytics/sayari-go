@@ -5602,6 +5602,8 @@ const (
 	IdentifierTypeAfgTradeInternalShipmentId IdentifierType = "afg_trade_internal_shipment_id"
 	// Ukraine SFMS List Identifier. Reference number assigned to all entities listed under Ukraine SFMS List for Terrorism.
 	IdentifierTypeUkrFiuListNumber IdentifierType = "ukr_fiu_list_number"
+	// Tanzania Registration Number. Unique identifier issued by the Tanzania Business Registration and Licensing Agency and assigned to the registered entities.
+	IdentifierTypeTzaBrelaRegNum IdentifierType = "tza_brela_reg_num"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6820,6 +6822,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeAfgTradeInternalShipmentId, nil
 	case "ukr_fiu_list_number":
 		return IdentifierTypeUkrFiuListNumber, nil
+	case "tza_brela_reg_num":
+		return IdentifierTypeTzaBrelaRegNum, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
