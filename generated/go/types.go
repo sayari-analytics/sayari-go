@@ -5602,12 +5602,18 @@ const (
 	IdentifierTypeAfgTradeInternalShipmentId IdentifierType = "afg_trade_internal_shipment_id"
 	// Ukraine SFMS List Identifier. Reference number assigned to all entities listed under Ukraine SFMS List for Terrorism.
 	IdentifierTypeUkrFiuListNumber IdentifierType = "ukr_fiu_list_number"
+	// Unique identification number assigned to every entity registered with the Bank of Spain.
+	IdentifierTypeEspBeCode IdentifierType = "esp_be_code"
+	// Spain TR Number
+	IdentifierTypeEspTrNumber IdentifierType = "esp_tr_number"
 	// Unique Jersey ID number. Assigned to every registered trademark.
 	IdentifierTypeJeyTrademarkRegNo IdentifierType = "jey_trademark_reg_no"
 	// Action number assigned by the Environment Agency to each enforcement action against offender pursuant to relevant legislation.
 	IdentifierTypeGbrEnforcementActionNum IdentifierType = "gbr_enforcement_action_num"
 	// Tanzania Registration Number. Unique identifier issued by the Tanzania Business Registration and Licensing Agency and assigned to the registered entities.
 	IdentifierTypeTzaBrelaRegNum IdentifierType = "tza_brela_reg_num"
+	// Unique India identifier code. Assigned to all entities listed on the India National Stock Exchange.
+	IdentifierTypeIndNseTickerCode IdentifierType = "ind_nse_ticker_code"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6826,12 +6832,18 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeAfgTradeInternalShipmentId, nil
 	case "ukr_fiu_list_number":
 		return IdentifierTypeUkrFiuListNumber, nil
+	case "esp_be_code":
+		return IdentifierTypeEspBeCode, nil
+	case "esp_tr_number":
+		return IdentifierTypeEspTrNumber, nil
 	case "jey_trademark_reg_no":
 		return IdentifierTypeJeyTrademarkRegNo, nil
 	case "gbr_enforcement_action_num":
 		return IdentifierTypeGbrEnforcementActionNum, nil
 	case "tza_brela_reg_num":
 		return IdentifierTypeTzaBrelaRegNum, nil
+	case "ind_nse_ticker_code":
+		return IdentifierTypeIndNseTickerCode, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
