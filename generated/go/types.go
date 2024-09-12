@@ -11897,7 +11897,7 @@ type ResolutionPersistedResponseFields struct {
 	// [Entity type](/sayari-library/ontology/entities)
 	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
 	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
-	CustomFieldName  *string `json:"custom_<field name>,omitempty" url:"custom_<field name>,omitempty"`
+	CustomFieldName  *string `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
 	CustomName       *string `json:"custom_name,omitempty" url:"custom_name,omitempty"`
 	CustomIdentifier *string `json:"custom_identifier,omitempty" url:"custom_identifier,omitempty"`
 
