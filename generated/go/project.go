@@ -322,7 +322,7 @@ type ProjectEntitiesFilter struct {
 	// Filter by a geographical bounding box. The value is a pipe-delimited set of four values representing the top, left, bottom, and right sides of the bounding box, in that order. The pipes should be URL-encoded as `%7C`. The top coordinate must greater than the bottom coordinate, and the left coordinate must be less than the right coordinate. A sample is `55.680357237879136|-71.53607290158526|41.10876347746233|-40.963927098414736`
 	Bounds *string `json:"bounds,omitempty" url:"bounds,omitempty"`
 	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
-	CustomFieldName []string `json:"custom_<field name>,omitempty" url:"custom_<field name>,omitempty"`
+	CustomFieldName []string `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -391,9 +391,9 @@ const (
 	// The label (display name) of the entity, descending.
 	SortFieldLabelDesc SortField = "-label"
 	// <Warning>This sorting option is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> One of the custom fields provided by the user, ascending.
-	SortFieldCustomFieldsAsc SortField = "custom_<field name>"
+	SortFieldCustomFieldsAsc SortField = "custom_{field name}"
 	// <Warning>This sorting option is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> One of the custom fields provided by the user, descending.
-	SortFieldCustomFieldsDesc SortField = "-custom_<field name>"
+	SortFieldCustomFieldsDesc SortField = "-custom_{field name}"
 	// The number of shipments the entity has received, ascending.
 	SortFieldReceiverOfAcc SortField = "receiver_of"
 	// The number of shipments the entity has received, descending.
@@ -434,9 +434,9 @@ func NewSortFieldFromString(s string) (SortField, error) {
 		return SortFieldLabelAsc, nil
 	case "-label":
 		return SortFieldLabelDesc, nil
-	case "custom_<field name>":
+	case "custom_{field name}":
 		return SortFieldCustomFieldsAsc, nil
-	case "-custom_<field name>":
+	case "-custom_{field name}":
 		return SortFieldCustomFieldsDesc, nil
 	case "receiver_of":
 		return SortFieldReceiverOfAcc, nil
