@@ -135,13 +135,15 @@ func (c *Client) ProjectNotifications(
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
-			URL:          endpointURL,
-			Method:       http.MethodGet,
-			MaxAttempts:  options.MaxAttempts,
-			Headers:      headers,
-			Client:       options.HTTPClient,
-			Response:     &response,
-			ErrorDecoder: errorDecoder,
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			MaxAttempts:     options.MaxAttempts,
+			Headers:         headers,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    errorDecoder,
 		},
 	); err != nil {
 		return nil, err
@@ -250,13 +252,15 @@ func (c *Client) ResourceNotifications(
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
-			URL:          endpointURL,
-			Method:       http.MethodGet,
-			MaxAttempts:  options.MaxAttempts,
-			Headers:      headers,
-			Client:       options.HTTPClient,
-			Response:     &response,
-			ErrorDecoder: errorDecoder,
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			MaxAttempts:     options.MaxAttempts,
+			Headers:         headers,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    errorDecoder,
 		},
 	); err != nil {
 		return nil, err
@@ -340,12 +344,14 @@ func (c *Client) DeleteProjectNotifications(
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
-			URL:          endpointURL,
-			Method:       http.MethodDelete,
-			MaxAttempts:  options.MaxAttempts,
-			Headers:      headers,
-			Client:       options.HTTPClient,
-			ErrorDecoder: errorDecoder,
+			URL:             endpointURL,
+			Method:          http.MethodDelete,
+			MaxAttempts:     options.MaxAttempts,
+			Headers:         headers,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			ErrorDecoder:    errorDecoder,
 		},
 	); err != nil {
 		return err
@@ -429,12 +435,14 @@ func (c *Client) DeleteEntityNotifications(
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
-			URL:          endpointURL,
-			Method:       http.MethodDelete,
-			MaxAttempts:  options.MaxAttempts,
-			Headers:      headers,
-			Client:       options.HTTPClient,
-			ErrorDecoder: errorDecoder,
+			URL:             endpointURL,
+			Method:          http.MethodDelete,
+			MaxAttempts:     options.MaxAttempts,
+			Headers:         headers,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			ErrorDecoder:    errorDecoder,
 		},
 	); err != nil {
 		return err
@@ -518,12 +526,14 @@ func (c *Client) DeleteResourceNotifications(
 	if err := c.caller.Call(
 		ctx,
 		&core.CallParams{
-			URL:          endpointURL,
-			Method:       http.MethodDelete,
-			MaxAttempts:  options.MaxAttempts,
-			Headers:      headers,
-			Client:       options.HTTPClient,
-			ErrorDecoder: errorDecoder,
+			URL:             endpointURL,
+			Method:          http.MethodDelete,
+			MaxAttempts:     options.MaxAttempts,
+			Headers:         headers,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			ErrorDecoder:    errorDecoder,
 		},
 	); err != nil {
 		return err
