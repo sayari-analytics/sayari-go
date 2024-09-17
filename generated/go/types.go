@@ -5614,6 +5614,8 @@ const (
 	IdentifierTypeTzaBrelaRegNum IdentifierType = "tza_brela_reg_num"
 	// Unique India identifier code. Assigned to all entities listed on the India National Stock Exchange.
 	IdentifierTypeIndNseTickerCode IdentifierType = "ind_nse_ticker_code"
+	// Penalty number assigned by the Quebec Ministry of the Environment, the Fight against Climate Change, Wildlife and Parks to each entity listed as offender in the Register of Administrative Monetary Penalties for non-compliance with environmental laws and regulations.
+	IdentifierTypeCanQcSapRegistryRefNum IdentifierType = "can_qc_sap_registry_ref_num"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6844,6 +6846,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeTzaBrelaRegNum, nil
 	case "ind_nse_ticker_code":
 		return IdentifierTypeIndNseTickerCode, nil
+	case "can_qc_sap_registry_ref_num":
+		return IdentifierTypeCanQcSapRegistryRefNum, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
