@@ -5614,6 +5614,8 @@ const (
 	IdentifierTypeTzaBrelaRegNum IdentifierType = "tza_brela_reg_num"
 	// Unique India identifier code. Assigned to all entities listed on the India National Stock Exchange.
 	IdentifierTypeIndNseTickerCode IdentifierType = "ind_nse_ticker_code"
+	// Unique Florida county land and property ID number. Assigned to every parcel registered with the Saint Lucie County Property Appraiser’s Office.
+	IdentifierTypeUsaFlSlPid IdentifierType = "usa_fl_sl_pid"
 	// Penalty number assigned by the Quebec Ministry of the Environment, the Fight against Climate Change, Wildlife and Parks to each entity listed as offender in the Register of Administrative Monetary Penalties for non-compliance with environmental laws and regulations.
 	IdentifierTypeCanQcSapRegistryRefNum IdentifierType = "can_qc_sap_registry_ref_num"
 )
@@ -6846,6 +6848,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeTzaBrelaRegNum, nil
 	case "ind_nse_ticker_code":
 		return IdentifierTypeIndNseTickerCode, nil
+	case "usa_fl_sl_pid":
+		return IdentifierTypeUsaFlSlPid, nil
 	case "can_qc_sap_registry_ref_num":
 		return IdentifierTypeCanQcSapRegistryRefNum, nil
 	}
