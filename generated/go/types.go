@@ -11813,13 +11813,14 @@ func (r *RecordReferences) String() string {
 }
 
 type MatchExplanation struct {
-	Matched               *string  `json:"matched,omitempty" url:"matched,omitempty"`
-	Uploaded              *string  `json:"uploaded,omitempty" url:"uploaded,omitempty"`
-	NameCustomTfIdfScore  *float64 `json:"name_custom_tf_idf_score,omitempty" url:"name_custom_tf_idf_score,omitempty"`
-	HighQualityMatchName  *bool    `json:"high_quality_match_name,omitempty" url:"high_quality_match_name,omitempty"`
-	IsDeletionRecommended *bool    `json:"is_deletion_recommended,omitempty" url:"is_deletion_recommended,omitempty"`
-	NCommonTermMatches    *int     `json:"n_common_term_matches,omitempty" url:"n_common_term_matches,omitempty"`
-	NUncommonTermMatches  *int     `json:"n_uncommon_term_matches,omitempty" url:"n_uncommon_term_matches,omitempty"`
+	Matched               *string       `json:"matched,omitempty" url:"matched,omitempty"`
+	Uploaded              *string       `json:"uploaded,omitempty" url:"uploaded,omitempty"`
+	NameCustomTfIdfScore  *float64      `json:"name_custom_tf_idf_score,omitempty" url:"name_custom_tf_idf_score,omitempty"`
+	HighQualityMatchName  *bool         `json:"high_quality_match_name,omitempty" url:"high_quality_match_name,omitempty"`
+	IsDeletionRecommended *bool         `json:"is_deletion_recommended,omitempty" url:"is_deletion_recommended,omitempty"`
+	NCommonTermMatches    *int          `json:"n_common_term_matches,omitempty" url:"n_common_term_matches,omitempty"`
+	NUncommonTermMatches  *int          `json:"n_uncommon_term_matches,omitempty" url:"n_uncommon_term_matches,omitempty"`
+	MatchQuality          *MatchQuality `json:"match_quality,omitempty" url:"match_quality,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -11857,6 +11858,32 @@ func (m *MatchExplanation) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", m)
+}
+
+// Represents the quality of the field match
+type MatchQuality string
+
+const (
+	MatchQualityHigh   MatchQuality = "high"
+	MatchQualityMedium MatchQuality = "medium"
+	MatchQualityLow    MatchQuality = "low"
+)
+
+func NewMatchQualityFromString(s string) (MatchQuality, error) {
+	switch s {
+	case "high":
+		return MatchQualityHigh, nil
+	case "medium":
+		return MatchQualityMedium, nil
+	case "low":
+		return MatchQualityLow, nil
+	}
+	var t MatchQuality
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (m MatchQuality) Ptr() *MatchQuality {
+	return &m
 }
 
 type MatchStrength struct {
