@@ -968,6 +968,8 @@ const (
 	BusinessPurposeStandardTol2008 BusinessPurposeStandard = "TOL2008"
 	// Abu Dhabi Global Market Activity Code
 	BusinessPurposeStandardAdgm BusinessPurposeStandard = "ADGM"
+	// India National Industrial Classification - 2008 (NIC-2008)
+	BusinessPurposeStandardNic2008 BusinessPurposeStandard = "NIC2008"
 )
 
 func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, error) {
@@ -1032,6 +1034,8 @@ func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, er
 		return BusinessPurposeStandardTol2008, nil
 	case "ADGM":
 		return BusinessPurposeStandardAdgm, nil
+	case "NIC2008":
+		return BusinessPurposeStandardNic2008, nil
 	}
 	var t BusinessPurposeStandard
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
