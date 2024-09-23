@@ -5624,6 +5624,18 @@ const (
 	IdentifierTypeUsaFlSlPid IdentifierType = "usa_fl_sl_pid"
 	// Penalty number assigned by the Quebec Ministry of the Environment, the Fight against Climate Change, Wildlife and Parks to each entity listed as offender in the Register of Administrative Monetary Penalties for non-compliance with environmental laws and regulations.
 	IdentifierTypeCanQcSapRegistryRefNum IdentifierType = "can_qc_sap_registry_ref_num"
+	// EU ESMA Sanctions List. Reference number assigned to all entities listed under the European Securities and Markets Authority (ESMA) Sanctions List.
+	IdentifierTypeXxxEuEsmaSanctionsId IdentifierType = "xxx_eu_esma_sanctions_id"
+	// Unique India ID number. Assigned to every legal entity included in the NITI Aayog Darpan database.
+	IdentifierTypeIndDarpanUid IdentifierType = "ind_darpan_uid"
+	// Unique India registration number. Assigned to every legal entity registered with the India Charity Commissioner.
+	IdentifierTypeIndCharityRegistrationNumber IdentifierType = "ind_charity_registration_number"
+	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Societies.
+	IdentifierTypeIndSocietyRegistrationNumber IdentifierType = "ind_society_registration_number"
+	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Companies.
+	IdentifierTypeIndCompanyRegistrationNumber IdentifierType = "ind_company_registration_number"
+	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Cooperative Societies
+	IdentifierTypeIndCoopsocRegistrationNumber IdentifierType = "ind_coopsoc_registration_number"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6860,6 +6872,18 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeUsaFlSlPid, nil
 	case "can_qc_sap_registry_ref_num":
 		return IdentifierTypeCanQcSapRegistryRefNum, nil
+	case "xxx_eu_esma_sanctions_id":
+		return IdentifierTypeXxxEuEsmaSanctionsId, nil
+	case "ind_darpan_uid":
+		return IdentifierTypeIndDarpanUid, nil
+	case "ind_charity_registration_number":
+		return IdentifierTypeIndCharityRegistrationNumber, nil
+	case "ind_society_registration_number":
+		return IdentifierTypeIndSocietyRegistrationNumber, nil
+	case "ind_company_registration_number":
+		return IdentifierTypeIndCompanyRegistrationNumber, nil
+	case "ind_coopsoc_registration_number":
+		return IdentifierTypeIndCoopsocRegistrationNumber, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -10223,6 +10247,8 @@ const (
 	WeakIdentifierTypeHunOptenId WeakIdentifierType = "hun_opten_id"
 	// Unique Ireland ID number. Assigned to every legal entity registered with Ireland Companies Registration Office.
 	WeakIdentifierTypeIrlRegistrationNo WeakIdentifierType = "irl_registration_no"
+	// USA Minnesota Secretary of State Filing Number
+	WeakIdentifierTypeUsaMnFilingNumber WeakIdentifierType = "usa_mn_filing_number"
 	// A temporary malformed type
 	WeakIdentifierTypeMalformedMmrPriorRegNo WeakIdentifierType = "malformed mmr_prior_reg_no"
 )
@@ -10441,6 +10467,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeHunOptenId, nil
 	case "irl_registration_no":
 		return WeakIdentifierTypeIrlRegistrationNo, nil
+	case "usa_mn_filing_number":
+		return WeakIdentifierTypeUsaMnFilingNumber, nil
 	case "malformed mmr_prior_reg_no":
 		return WeakIdentifierTypeMalformedMmrPriorRegNo, nil
 	}
