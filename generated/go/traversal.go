@@ -66,6 +66,7 @@ type Ownership struct {
 }
 
 type ShortestPath struct {
+	// A list of Sayari entity IDs specifying the source and target entities for the shortest path calculation. The list must contain exactly two entity IDs The first entity ID represents the source.The second entity ID represents the target.
 	Entities []string `json:"-" url:"entities"`
 }
 
