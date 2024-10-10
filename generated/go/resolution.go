@@ -31,12 +31,16 @@ type Resolution struct {
 	Contact []*string `json:"-" url:"contact,omitempty"`
 	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
 	Type []*Entities `json:"-" url:"type,omitempty"`
-	// Profile can be used to switch between search algorithms. The default profile `corporate` is optimized for accurate entity attribute matching and is ideal for business verification and matching entities with corporate data. The `suppliers` profile is optimized for matching entities with extensive trade data. Ideal for supply chain and trade-related use cases.
+	// Specifies the search algorithm to use. `corporate` (default) is optimized for accurate entity attribute matching, ideal for business verification. `suppliers` is tailored for matching entities with trade data, suitable for supply chain use cases. `search` mimics /search/entity behavior, best for name-only matches.
 	Profile *ProfileEnum `json:"-" url:"profile,omitempty"`
 	// Adding this param enables an alternative matching logic. It will set a minimum percentage of tokens needed to match with user input to be considered a "hit". Accepts integers from 0 to 100 inclusive.
 	NameMinPercentage *int `json:"-" url:"name_min_percentage,omitempty"`
 	// Adding this param enables an alternative matching logic. It sets the minimum number of matching tokens the resolved hits need to have in common with the user input to be considered a "hit". Accepts non-negative integers.
 	NameMinTokens *int `json:"-" url:"name_min_tokens,omitempty"`
+	// Specifies the minimum score required to pass, which controls the strictness of the matching threshold. The default value is 77, and tuned for general use-case accuracy. Increase the value for stricter matching, reduce to loosen.
+	MinimumScoreThreshold *int `json:"-" url:"minimum_score_threshold,omitempty"`
+	// Enables a name search fallback when either the corporate or supplier profiles fails to find a match. When invoked, the fallback will make a call similar to /search/entity on name only. By default set to true.
+	SearchFallback *bool `json:"-" url:"search_fallback,omitempty"`
 }
 
 type ResolutionPost struct {
@@ -57,27 +61,6 @@ func (r *ResolutionPost) UnmarshalJSON(data []byte) error {
 }
 
 func (r *ResolutionPost) MarshalJSON() ([]byte, error) {
-	return json.Marshal(r.Body)
-}
-
-type ResolutionPersisted struct {
-	// A limit on the number of objects to be returned with a range between 1 and 10 inclusive. Defaults to 10.
-	Limit *int `json:"-" url:"limit,omitempty"`
-	// Number of results to skip before returning response. Defaults to 0.
-	Offset *int            `json:"-" url:"offset,omitempty"`
-	Body   *ResolutionBody `json:"-" url:"-"`
-}
-
-func (r *ResolutionPersisted) UnmarshalJSON(data []byte) error {
-	body := new(ResolutionBody)
-	if err := json.Unmarshal(data, &body); err != nil {
-		return err
-	}
-	r.Body = body
-	return nil
-}
-
-func (r *ResolutionPersisted) MarshalJSON() ([]byte, error) {
 	return json.Marshal(r.Body)
 }
 
@@ -138,6 +121,7 @@ type ProfileEnum string
 const (
 	ProfileEnumCorporate ProfileEnum = "corporate"
 	ProfileEnumSuppliers ProfileEnum = "suppliers"
+	ProfileEnumSearch    ProfileEnum = "search"
 )
 
 func NewProfileEnumFromString(s string) (ProfileEnum, error) {
@@ -146,6 +130,8 @@ func NewProfileEnumFromString(s string) (ProfileEnum, error) {
 		return ProfileEnumCorporate, nil
 	case "suppliers":
 		return ProfileEnumSuppliers, nil
+	case "search":
+		return ProfileEnumSearch, nil
 	}
 	var t ProfileEnum
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -159,7 +145,7 @@ type ResolutionBody struct {
 	// Entity name
 	Name []string `json:"name,omitempty" url:"name,omitempty"`
 	// Entity identifier. Can be from either the [Identifier Type](/sayari-library/ontology/enumerated-types#identifier-type) or [Weak Identifier Type](/sayari-library/ontology/enumerated-types#weak-identifier-type) enums.
-	Identifier []*BothIdentifierTypes `json:"identifier,omitempty" url:"identifier,omitempty"`
+	Identifier *BothIdentifierTypes `json:"identifier,omitempty" url:"identifier,omitempty"`
 	// Entity address
 	Address []string `json:"address,omitempty" url:"address,omitempty"`
 	// Entity city that contains the provided city name.
@@ -174,12 +160,16 @@ type ResolutionBody struct {
 	Contact []string `json:"contact,omitempty" url:"contact,omitempty"`
 	// [Entity type](/sayari-library/ontology/entities). If multiple values are passed for any field, the endpoint will match entities with ANY of the values.
 	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
-	// Profile can be used to switch between search algorithms. The default profile `corporate` is optimized for accurate entity attribute matching and is ideal for business verification and matching entities with corporate data. The `suppliers` profile is optimized for matching entities with extensive trade data. Ideal for supply chain and trade-related use cases.
+	// Specifies the search algorithm to use. `corporate` (default) is optimized for accurate entity attribute matching, ideal for business verification. `suppliers` is tailored for matching entities with trade data, suitable for supply chain use cases. `search` mimics /search/entity behavior, best for name-only matches.
 	Profile *ProfileEnum `json:"profile,omitempty" url:"profile,omitempty"`
 	// Adding this param enables an alternative matching logic. It will set a minimum percentage of tokens needed to match with user input to be considered a "hit". Accepts integers from 0 to 100 inclusive.
 	NameMinPercentage *int `json:"name_min_percentage,omitempty" url:"name_min_percentage,omitempty"`
 	// Adding this param enables an alternative matching logic. It sets the minimum number of matching tokens the resolved hits need to have in common with the user input to be considered a "hit". Accepts non-negative integers.
 	NameMinTokens *int `json:"name_min_tokens,omitempty" url:"name_min_tokens,omitempty"`
+	// Specifies the minimum score required to pass, which controls the strictness of the matching threshold. The default value is 77, and tuned for general use-case accuracy. Increase the value for stricter matching, reduce to loosen.
+	MinimumScoreThreshold *int `json:"minimum_score_threshold,omitempty" url:"minimum_score_threshold,omitempty"`
+	// Enables a name search fallback when either the corporate or supplier profiles fails to find a match. When invoked, the fallback will make a call similar to /search/entity on name only. By default set to true.
+	SearchFallback *bool `json:"search_fallback,omitempty" url:"search_fallback,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -208,48 +198,6 @@ func (r *ResolutionBody) UnmarshalJSON(data []byte) error {
 }
 
 func (r *ResolutionBody) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(r); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", r)
-}
-
-type ResolutionPersistedResponse struct {
-	Fields *ResolutionPersistedResponseFields `json:"fields,omitempty" url:"fields,omitempty"`
-	Data   []*ResolutionPersistedResult       `json:"data,omitempty" url:"data,omitempty"`
-
-	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
-}
-
-func (r *ResolutionPersistedResponse) GetExtraProperties() map[string]interface{} {
-	return r.extraProperties
-}
-
-func (r *ResolutionPersistedResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler ResolutionPersistedResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*r = ResolutionPersistedResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
-	if err != nil {
-		return err
-	}
-	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (r *ResolutionPersistedResponse) String() string {
 	if len(r._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
 			return value

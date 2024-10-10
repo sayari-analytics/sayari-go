@@ -11841,14 +11841,13 @@ func (r *RecordReferences) String() string {
 }
 
 type MatchExplanation struct {
-	Matched               *string       `json:"matched,omitempty" url:"matched,omitempty"`
-	Uploaded              *string       `json:"uploaded,omitempty" url:"uploaded,omitempty"`
-	NameCustomTfIdfScore  *float64      `json:"name_custom_tf_idf_score,omitempty" url:"name_custom_tf_idf_score,omitempty"`
-	HighQualityMatchName  *bool         `json:"high_quality_match_name,omitempty" url:"high_quality_match_name,omitempty"`
-	IsDeletionRecommended *bool         `json:"is_deletion_recommended,omitempty" url:"is_deletion_recommended,omitempty"`
-	NCommonTermMatches    *int          `json:"n_common_term_matches,omitempty" url:"n_common_term_matches,omitempty"`
-	NUncommonTermMatches  *int          `json:"n_uncommon_term_matches,omitempty" url:"n_uncommon_term_matches,omitempty"`
-	MatchQuality          *MatchQuality `json:"match_quality,omitempty" url:"match_quality,omitempty"`
+	Matched              *string            `json:"matched,omitempty" url:"matched,omitempty"`
+	Uploaded             *string            `json:"uploaded,omitempty" url:"uploaded,omitempty"`
+	HighQualityMatchName *bool              `json:"high_quality_match_name,omitempty" url:"high_quality_match_name,omitempty"`
+	Scores               map[string]float64 `json:"scores,omitempty" url:"scores,omitempty"`
+	NCommonTermMatches   *int               `json:"n_common_term_matches,omitempty" url:"n_common_term_matches,omitempty"`
+	NUncommonTermMatches *int               `json:"n_uncommon_term_matches,omitempty" url:"n_uncommon_term_matches,omitempty"`
+	MatchQuality         *MatchQuality      `json:"match_quality,omitempty" url:"match_quality,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -11953,117 +11952,6 @@ func (m *MatchStrength) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", m)
-}
-
-type ResolutionPersistedResponseFields struct {
-	Name       []string `json:"name,omitempty" url:"name,omitempty"`
-	Identifier []string `json:"identifier,omitempty" url:"identifier,omitempty"`
-	Profile    *string  `json:"profile,omitempty" url:"profile,omitempty"`
-	// Entity country - must be ISO (3166) Trigram i.e., USA. See complete list [here](/sayari-library/ontology/enumerated-types#country)
-	Country []Country `json:"country,omitempty" url:"country,omitempty"`
-	// List of physical addresses associated with the entity.
-	Address     []string `json:"address,omitempty" url:"address,omitempty"`
-	DateOfBirth []string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
-	Contact     []string `json:"contact,omitempty" url:"contact,omitempty"`
-	// [Entity type](/sayari-library/ontology/entities)
-	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
-	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
-	CustomFieldName  *string `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
-	CustomName       *string `json:"custom_name,omitempty" url:"custom_name,omitempty"`
-	CustomIdentifier *string `json:"custom_identifier,omitempty" url:"custom_identifier,omitempty"`
-
-	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
-}
-
-func (r *ResolutionPersistedResponseFields) GetExtraProperties() map[string]interface{} {
-	return r.extraProperties
-}
-
-func (r *ResolutionPersistedResponseFields) UnmarshalJSON(data []byte) error {
-	type unmarshaler ResolutionPersistedResponseFields
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*r = ResolutionPersistedResponseFields(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
-	if err != nil {
-		return err
-	}
-	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (r *ResolutionPersistedResponseFields) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(r); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", r)
-}
-
-type ResolutionPersistedResult struct {
-	Profile             string                         `json:"profile" url:"profile"`
-	Score               float64                        `json:"score" url:"score"`
-	EntityId            string                         `json:"entity_id" url:"entity_id"`
-	Label               string                         `json:"label" url:"label"`
-	Type                Entities                       `json:"type" url:"type"`
-	Identifiers         []*Identifier                  `json:"identifiers,omitempty" url:"identifiers,omitempty"`
-	PsaId               *float64                       `json:"psa_id,omitempty" url:"psa_id,omitempty"`
-	Addresses           []string                       `json:"addresses,omitempty" url:"addresses,omitempty"`
-	Countries           []Country                      `json:"countries,omitempty" url:"countries,omitempty"`
-	Sources             []string                       `json:"sources,omitempty" url:"sources,omitempty"`
-	TypedMatchedQueries []string                       `json:"typed_matched_queries,omitempty" url:"typed_matched_queries,omitempty"`
-	MatchedQueries      []string                       `json:"matched_queries,omitempty" url:"matched_queries,omitempty"`
-	Highlight           map[string][]string            `json:"highlight,omitempty" url:"highlight,omitempty"`
-	Explanation         map[string][]*MatchExplanation `json:"explanation,omitempty" url:"explanation,omitempty"`
-	MatchStrength       *MatchStrength                 `json:"match_strength,omitempty" url:"match_strength,omitempty"`
-	SavedEntityId       string                         `json:"saved_entity_id" url:"saved_entity_id"`
-
-	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
-}
-
-func (r *ResolutionPersistedResult) GetExtraProperties() map[string]interface{} {
-	return r.extraProperties
-}
-
-func (r *ResolutionPersistedResult) UnmarshalJSON(data []byte) error {
-	type unmarshaler ResolutionPersistedResult
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*r = ResolutionPersistedResult(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
-	if err != nil {
-		return err
-	}
-	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (r *ResolutionPersistedResult) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(r); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", r)
 }
 
 type ResolutionResponseFields struct {
