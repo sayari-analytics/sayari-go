@@ -325,7 +325,7 @@ func TestShipmentSearch(t *testing.T) {
 	// search for shipments with a random string
 	randomString := generateRandomString(3)
 
-	shipments, err := api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{Q: randomString})
+	shipments, err := api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{Q: &randomString})
 	handleError(t, err)
 	// try until we get results
 	if len(shipments.Data) == 0 {
@@ -340,7 +340,7 @@ func TestShipmentSearch(t *testing.T) {
 	buyerID := "ZxL0IrGu9KNKx3NJjN0aeA"
 	hsCode := "600410"
 	shipments, err = api.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{
-		Q:      buyerName,
+		Q:      &buyerName,
 		Filter: &sayari.TradeFilterList{HsCode: []string{hsCode}, BuyerId: []string{buyerID}},
 	})
 	handleError(t, err)
@@ -374,7 +374,7 @@ func TestSupplierSearch(t *testing.T) {
 	// search for suppliers with a random string
 	randomString := generateRandomString(3)
 
-	suppliers, err := api.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: randomString})
+	suppliers, err := api.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: &randomString})
 	handleError(t, err)
 	// try until we get results
 	if len(suppliers.Data) == 0 {
@@ -389,7 +389,7 @@ func TestBuyerSearch(t *testing.T) {
 	// search for suppliers with a random string
 	randomString := generateRandomString(3)
 
-	buyers, err := api.Trade.SearchBuyers(context.Background(), &sayari.SearchBuyers{Q: randomString})
+	buyers, err := api.Trade.SearchBuyers(context.Background(), &sayari.SearchBuyers{Q: &randomString})
 	handleError(t, err)
 	// try until we get results
 	if len(buyers.Data) == 0 {
