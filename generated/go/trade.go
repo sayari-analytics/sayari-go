@@ -14,7 +14,7 @@ type SearchBuyers struct {
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q" url:"-"`
+	Q *string `json:"q,omitempty" url:"-"`
 	// Filters to be applied to search query to limit the result-set.
 	Filter *TradeFilterList `json:"filter,omitempty" url:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
@@ -27,7 +27,7 @@ type SearchShipments struct {
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q" url:"-"`
+	Q *string `json:"q,omitempty" url:"-"`
 	// Filters to be applied to search query to limit the result-set.
 	Filter *TradeFilterList `json:"filter,omitempty" url:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
@@ -40,7 +40,7 @@ type SearchSuppliers struct {
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
-	Q string `json:"q" url:"-"`
+	Q *string `json:"q,omitempty" url:"-"`
 	// Filters to be applied to search query to limit the result-set.
 	Filter *TradeFilterList `json:"filter,omitempty" url:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
