@@ -35,22 +35,24 @@ func main() {
 		log.Fatalf("Error: %v", err)
 	}
 
+	queryStr := "microcenter"
+
 	// Do Shipment search
-	shipments, err := client.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{Q: "microcenter"})
+	shipments, err := client.Trade.SearchShipments(context.Background(), &sayari.SearchShipments{Q: &queryStr})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
 	log.Printf("Found %v shipments", len(shipments.Data))
 
 	// Do supplier search
-	suppliers, err := client.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: "microcenter"})
+	suppliers, err := client.Trade.SearchSuppliers(context.Background(), &sayari.SearchSuppliers{Q: &queryStr})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
 	log.Printf("Found %v suppliers", len(suppliers.Data))
 
 	// Do buyer search
-	buyers, err := client.Trade.SearchBuyers(context.Background(), &sayari.SearchBuyers{Q: "microcenter"})
+	buyers, err := client.Trade.SearchBuyers(context.Background(), &sayari.SearchBuyers{Q: &queryStr})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
