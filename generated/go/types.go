@@ -683,76 +683,76 @@ func (a *AttributeDetails) String() string {
 type Attributes string
 
 const (
-	AttributesContact               Attributes = "contact"
-	AttributesName                  Attributes = "name"
-	AttributesCountry               Attributes = "country"
-	AttributesFinancials            Attributes = "financials"
-	AttributesDateOfBirth           Attributes = "date_of_birth"
-	AttributesShares                Attributes = "shares"
-	AttributesIdentifier            Attributes = "identifier"
-	AttributesMonetaryValue         Attributes = "monetary_value"
 	AttributesAdditionalInformation Attributes = "additional_information"
-	AttributesPosition              Attributes = "position"
-	AttributesGeneric               Attributes = "generic"
-	AttributesFinances              Attributes = "finances"
-	AttributesWeakIdentifier        Attributes = "weak_identifier"
-	AttributesPersonStatus          Attributes = "person_status"
-	AttributesGender                Attributes = "gender"
-	AttributesTranslatedName        Attributes = "translated_name"
-	AttributesRiskIntelligence      Attributes = "risk_intelligence"
-	AttributesBusinessPurpose       Attributes = "business_purpose"
-	AttributesMeasurement           Attributes = "measurement"
 	AttributesAddress               Attributes = "address"
-	AttributesStatus                Attributes = "status"
+	AttributesBusinessPurpose       Attributes = "business_purpose"
 	AttributesCompanyType           Attributes = "company_type"
+	AttributesContact               Attributes = "contact"
+	AttributesCountry               Attributes = "country"
+	AttributesDateOfBirth           Attributes = "date_of_birth"
+	AttributesFinances              Attributes = "finances"
+	AttributesFinancials            Attributes = "financials"
+	AttributesGender                Attributes = "gender"
+	AttributesGeneric               Attributes = "generic"
+	AttributesIdentifier            Attributes = "identifier"
+	AttributesMeasurement           Attributes = "measurement"
+	AttributesMonetaryValue         Attributes = "monetary_value"
+	AttributesName                  Attributes = "name"
+	AttributesPersonStatus          Attributes = "person_status"
+	AttributesPosition              Attributes = "position"
+	AttributesRiskIntelligence      Attributes = "risk_intelligence"
+	AttributesShares                Attributes = "shares"
+	AttributesStatus                Attributes = "status"
+	AttributesTranslatedName        Attributes = "translated_name"
+	AttributesWeakIdentifier        Attributes = "weak_identifier"
 )
 
 func NewAttributesFromString(s string) (Attributes, error) {
 	switch s {
-	case "contact":
-		return AttributesContact, nil
-	case "name":
-		return AttributesName, nil
-	case "country":
-		return AttributesCountry, nil
-	case "financials":
-		return AttributesFinancials, nil
-	case "date_of_birth":
-		return AttributesDateOfBirth, nil
-	case "shares":
-		return AttributesShares, nil
-	case "identifier":
-		return AttributesIdentifier, nil
-	case "monetary_value":
-		return AttributesMonetaryValue, nil
 	case "additional_information":
 		return AttributesAdditionalInformation, nil
-	case "position":
-		return AttributesPosition, nil
-	case "generic":
-		return AttributesGeneric, nil
-	case "finances":
-		return AttributesFinances, nil
-	case "weak_identifier":
-		return AttributesWeakIdentifier, nil
-	case "person_status":
-		return AttributesPersonStatus, nil
-	case "gender":
-		return AttributesGender, nil
-	case "translated_name":
-		return AttributesTranslatedName, nil
-	case "risk_intelligence":
-		return AttributesRiskIntelligence, nil
-	case "business_purpose":
-		return AttributesBusinessPurpose, nil
-	case "measurement":
-		return AttributesMeasurement, nil
 	case "address":
 		return AttributesAddress, nil
-	case "status":
-		return AttributesStatus, nil
+	case "business_purpose":
+		return AttributesBusinessPurpose, nil
 	case "company_type":
 		return AttributesCompanyType, nil
+	case "contact":
+		return AttributesContact, nil
+	case "country":
+		return AttributesCountry, nil
+	case "date_of_birth":
+		return AttributesDateOfBirth, nil
+	case "finances":
+		return AttributesFinances, nil
+	case "financials":
+		return AttributesFinancials, nil
+	case "gender":
+		return AttributesGender, nil
+	case "generic":
+		return AttributesGeneric, nil
+	case "identifier":
+		return AttributesIdentifier, nil
+	case "measurement":
+		return AttributesMeasurement, nil
+	case "monetary_value":
+		return AttributesMonetaryValue, nil
+	case "name":
+		return AttributesName, nil
+	case "person_status":
+		return AttributesPersonStatus, nil
+	case "position":
+		return AttributesPosition, nil
+	case "risk_intelligence":
+		return AttributesRiskIntelligence, nil
+	case "shares":
+		return AttributesShares, nil
+	case "status":
+		return AttributesStatus, nil
+	case "translated_name":
+		return AttributesTranslatedName, nil
+	case "weak_identifier":
+		return AttributesWeakIdentifier, nil
 	}
 	var t Attributes
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -3566,58 +3566,58 @@ func (d *DateOfBirthProperties) String() string {
 type Entities string
 
 const (
-	// A shipment between two entities
-	EntitiesShipment Entities = "shipment"
-	// An unknown placeholder entity. Rarely used. An unknown entity has insufficient information to be grouped by an existing entity type.
-	EntitiesUnknown Entities = "unknown"
 	// An airplane, helicopter, or other vehicle that travels by flight
 	EntitiesAircraft Entities = "aircraft"
-	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
-	EntitiesVessel Entities = "vessel"
-	// A tradable financial asset
-	EntitiesSecurity Entities = "security"
-	// A discretely registered name used by a person or company not operating under its legal name. This includes doing-business-as (DBA) names, fictitious names, etc. in jurisdictions that treat them as registered objects distinct from the person/company using them.
-	EntitiesTradename Entities = "tradename"
-	// A civil or criminal legal case or similar type of proceeding
-	EntitiesLegalMatter Entities = "legal_matter"
 	// A legal entity or organization
 	EntitiesCompany Entities = "company"
 	// A generic placeholder entity. Rarely used. A generic entity typically does not fit any other entity type.
 	EntitiesGeneric Entities = "generic"
-	// Land, real estate, real property, or personal property not categorized under another entity type
-	EntitiesProperty Entities = "property"
 	// A trademark, patent, copyright, or similar type of intangible property
 	EntitiesIntellectualProperty Entities = "intellectual_property"
+	// A civil or criminal legal case or similar type of proceeding
+	EntitiesLegalMatter Entities = "legal_matter"
 	// A natural person (human being)
 	EntitiesPerson Entities = "person"
+	// Land, real estate, real property, or personal property not categorized under another entity type
+	EntitiesProperty Entities = "property"
+	// A tradable financial asset
+	EntitiesSecurity Entities = "security"
+	// A shipment between two entities
+	EntitiesShipment Entities = "shipment"
+	// A discretely registered name used by a person or company not operating under its legal name. This includes doing-business-as (DBA) names, fictitious names, etc. in jurisdictions that treat them as registered objects distinct from the person/company using them.
+	EntitiesTradename Entities = "tradename"
+	// An unknown placeholder entity. Rarely used. An unknown entity has insufficient information to be grouped by an existing entity type.
+	EntitiesUnknown Entities = "unknown"
+	// A cargo ship, oil tanker, fishing trawler, or other type of watercraft
+	EntitiesVessel Entities = "vessel"
 )
 
 func NewEntitiesFromString(s string) (Entities, error) {
 	switch s {
-	case "shipment":
-		return EntitiesShipment, nil
-	case "unknown":
-		return EntitiesUnknown, nil
 	case "aircraft":
 		return EntitiesAircraft, nil
-	case "vessel":
-		return EntitiesVessel, nil
-	case "security":
-		return EntitiesSecurity, nil
-	case "tradename":
-		return EntitiesTradename, nil
-	case "legal_matter":
-		return EntitiesLegalMatter, nil
 	case "company":
 		return EntitiesCompany, nil
 	case "generic":
 		return EntitiesGeneric, nil
-	case "property":
-		return EntitiesProperty, nil
 	case "intellectual_property":
 		return EntitiesIntellectualProperty, nil
+	case "legal_matter":
+		return EntitiesLegalMatter, nil
 	case "person":
 		return EntitiesPerson, nil
+	case "property":
+		return EntitiesProperty, nil
+	case "security":
+		return EntitiesSecurity, nil
+	case "shipment":
+		return EntitiesShipment, nil
+	case "tradename":
+		return EntitiesTradename, nil
+	case "unknown":
+		return EntitiesUnknown, nil
+	case "vessel":
+		return EntitiesVessel, nil
 	}
 	var t Entities
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -8486,295 +8486,295 @@ func (p *PositionProperties) String() string {
 type Relationships string
 
 const (
-	// Entities connected to this entity via a type of relationship that does not exist in the Graph ontology
-	RelationshipsLinkedTo Relationships = "linked_to"
-	// Shipments this entity sent
-	RelationshipsShipperOf Relationships = "shipper_of"
-	// The entity that sent this shipment
-	RelationshipsShippedBy Relationships = "shipped_by"
-	// Entities from which this entity inherited legal personality
-	RelationshipsLegalSuccessorOf Relationships = "legal_successor_of"
-	// Successor entities to which this entity granted legal personality
-	RelationshipsHasLegalSuccessor Relationships = "has_legal_successor"
-	// Companies of which this entity is a direct owner
-	RelationshipsShareholderOf Relationships = "shareholder_of"
-	// Direct owners of this company
-	RelationshipsHasShareholder Relationships = "has_shareholder"
-	// Entities of which this entity is reported to be (or have acted as) a legal representative
-	RelationshipsLegalRepresentativeOf Relationships = "legal_representative_of"
-	// Entities reported to be (or have acted as) legal representatives of this entity
-	RelationshipsHasLegalRepresentative Relationships = "has_legal_representative"
-	// Legal Matters in which this entity is a litigant
-	RelationshipsPartyTo Relationships = "party_to"
-	// Litigants in this Legal Matter
-	RelationshipsHasParty Relationships = "has_party"
-	// Entities with a corporate or statutory body of oversight/control of which this entity is a member
-	RelationshipsMemberOfTheBoardOf Relationships = "member_of_the_board_of"
-	// Entities that are members of this entity's corporate or statutory body of oversight/control
-	RelationshipsHasMemberOfTheBoard Relationships = "has_member_of_the_board"
-	// Parent companies of which this company is a branch
-	RelationshipsBranchOf Relationships = "branch_of"
-	// Branches of this company
-	RelationshipsHasBranch Relationships = "has_branch"
-	// Deprecated and converted to legal_representative_of
-	RelationshipsJudidicalRepresentativeOf Relationships = "judidical_representative_of"
-	// Deprecated and converted to legal_representative_of
-	RelationshipsHasJudicialRepresentative Relationships = "has_judicial_representative"
-	// Entities of which this entity is reported to be a supervisor, typically in East Asia
-	RelationshipsSupervisorOf Relationships = "supervisor_of"
-	// Supervisors of this company, typically in East Asia
-	RelationshipsHasSupervisor Relationships = "has_supervisor"
-	// Companies of which this entity is a Director
-	RelationshipsDirectorOf Relationships = "director_of"
-	// Directors of this company
-	RelationshipsHasDirector Relationships = "has_director"
-	// Legal Matters to which this entity is tied in a professional capacity
-	RelationshipsLawyerIn Relationships = "lawyer_in"
-	// Lawyers tied to this Legal Matter in a professional capacity
-	RelationshipsHasLawyer Relationships = "has_lawyer"
 	// Deprecated and converted to linked_to
 	RelationshipsAssociateOf Relationships = "associate_of"
 	// Deprecated and converted to linked_to
 	RelationshipsHasAssociate Relationships = "has_associate"
-	// Securities this entity has issued
-	RelationshipsIssuerOf Relationships = "issuer_of"
-	// Companies that issued this security
-	RelationshipsHasIssuer Relationships = "has_issuer"
-	// Shipments that this entity were notified of upon their arrival at their destinations
-	RelationshipsNotifyPartyOf Relationships = "notify_party_of"
-	// Entity to be notified when this shipment arrives
-	RelationshipsHasNotifyParty Relationships = "has_notify_party"
-	// A placeholder relationship. Rarely used.
-	RelationshipsGeneric Relationships = "generic"
-	// Entities created by or legally derived from this entity
-	RelationshipsLegalPredecessorOf Relationships = "legal_predecessor_of"
-	// Entities from which this entity was created or legally derived
-	RelationshipsHasLegalPredecessor Relationships = "has_legal_predecessor"
-	// Entities that legally founded this company
-	RelationshipsFounderOf Relationships = "founder_of"
-	// The source entity is reported to be the founder of a company
-	RelationshipsHasFounder Relationships = "has_founder"
-	// Deprecated and converted to officer_of (in jurisdictions where the secretary is a fairly important control figure) or registered_agent_of (in jurisdictions where the secretary is more of a clerical role)
-	RelationshipsSecretaryOf Relationships = "secretary_of"
-	// Deprecated and converted to officer_of (in jurisdictions where the secretary is a fairly important control figure) or registered_agent_of (in jurisdictions where the secretary is more of a clerical role)
-	RelationshipsHasSecretary Relationships = "has_secretary"
+	// Companies audited by this entity
+	RelationshipsAuditorOf Relationships = "auditor_of"
+	// Auditors of this company
+	RelationshipsHasAuditor Relationships = "has_auditor"
 	// Entities reported to be beneficially or indirectly owned by this entity
 	RelationshipsBeneficialOwnerOf Relationships = "beneficial_owner_of"
 	// Entities reported to beneficially or indirectly own this entity
 	RelationshipsHasBeneficialOwner Relationships = "has_beneficial_owner"
-	// Partnerships or similar types of companies of which this entity is a business partner with an ownership stake
-	RelationshipsPartnerOf Relationships = "partner_of"
-	// Business partners with an ownership stake in this company
-	RelationshipsHasPartner Relationships = "has_partner"
-	// Entities for which this entity works as a lawyer in a professional capacity
-	RelationshipsLawyerOf Relationships = "lawyer_of"
-	// Companies of which this entity is a CEO, Treasurer, etc.
-	RelationshipsOfficerOf Relationships = "officer_of"
-	// CEOs, Treasurers, etc. of this company
-	RelationshipsHasOfficer Relationships = "has_officer"
-	// Companies of which this entity is an employee
-	RelationshipsEmployeeOf Relationships = "employee_of"
-	// Employees of this company
-	RelationshipsHasEmployee Relationships = "has_employee"
-	// Deprecated and converted to shareholder_of
-	RelationshipsSoleProprietorOf Relationships = "sole_proprietor_of"
-	// Deprecated and converted to shareholder_of
-	RelationshipsHasSoleProprietor Relationships = "has_sole_proprietor"
-	// Deprecated and converted to officer_of
-	RelationshipsExecutiveOf Relationships = "executive_of"
-	// Deprecated and converted to officer_of
-	RelationshipsHasExecutive Relationships = "has_executive"
-	// Deprecated and converted to linked_to
-	RelationshipsClientOf Relationships = "client_of"
-	// Deprecated and converted to linked_to
-	RelationshipsHasClient Relationships = "has_client"
+	// Parent companies of which this company is a branch
+	RelationshipsBranchOf Relationships = "branch_of"
+	// Branches of this company
+	RelationshipsHasBranch Relationships = "has_branch"
 	// The entity in charge of the transportation of goods
 	RelationshipsCarrierOf Relationships = "carrier_of"
 	// The shipment carrying the goods
 	RelationshipsHasCarrier Relationships = "has_carrier"
+	// Deprecated and converted to linked_to
+	RelationshipsClientOf Relationships = "client_of"
+	// Deprecated and converted to linked_to
+	RelationshipsHasClient Relationships = "has_client"
+	// Companies of which this entity is a Director
+	RelationshipsDirectorOf Relationships = "director_of"
+	// Directors of this company
+	RelationshipsHasDirector Relationships = "has_director"
+	// Companies of which this entity is an employee
+	RelationshipsEmployeeOf Relationships = "employee_of"
+	// Employees of this company
+	RelationshipsHasEmployee Relationships = "has_employee"
+	// Deprecated and converted to officer_of
+	RelationshipsExecutiveOf Relationships = "executive_of"
+	// Deprecated and converted to officer_of
+	RelationshipsHasExecutive Relationships = "has_executive"
 	// Family members of this entity
 	RelationshipsFamilyOf Relationships = "family_of"
-	// Non-corporate entities (trade name, security, intellectual property, etc.) directly owned by this entity
-	RelationshipsOwnerOf Relationships = "owner_of"
-	// Direct owners of this entity
-	RelationshipsHasOwner Relationships = "has_owner"
-	// The entity who has sent a shipment
-	RelationshipsShipsTo Relationships = "ships_to"
-	// The entity that has received a shipment
-	RelationshipsReceivesFrom Relationships = "receives_from"
-	// Entities of which this entity is reported to be a Registered Agent, corporate secretary, or similar
-	RelationshipsRegisteredAgentOf Relationships = "registered_agent_of"
-	// Entities acting in a Registered Agent, corporate secretary, or similar role for this entity
-	RelationshipsHasRegisteredAgent Relationships = "has_registered_agent"
-	// Companies of which this entity is a Manager
-	RelationshipsManagerOf Relationships = "manager_of"
-	// Managers of this company
-	RelationshipsHasManager Relationships = "has_manager"
-	// Companies that indirectly own this company and/or report it as a subsidiary
-	RelationshipsSubsidiaryOf Relationships = "subsidiary_of"
-	// Companies reported to be subsidiaries or indirectly owned by this company
-	RelationshipsHasSubsidiary Relationships = "has_subsidiary"
+	// Entities that legally founded this company
+	RelationshipsFounderOf Relationships = "founder_of"
+	// The source entity is reported to be the founder of a company
+	RelationshipsHasFounder Relationships = "has_founder"
+	// A placeholder relationship. Rarely used.
+	RelationshipsGeneric Relationships = "generic"
+	// Securities this entity has issued
+	RelationshipsIssuerOf Relationships = "issuer_of"
+	// Companies that issued this security
+	RelationshipsHasIssuer Relationships = "has_issuer"
+	// Deprecated and converted to legal_representative_of
+	RelationshipsJudicialRepresentativeOf Relationships = "judicial_representative_of"
+	// Deprecated and converted to legal_representative_of
+	RelationshipsHasJudicialRepresentative Relationships = "has_judicial_representative"
+	// Deprecated and converted to legal_representative_of
+	RelationshipsJudidicalRepresentativeOf Relationships = "judidical_representative_of"
+	// Legal Matters to which this entity is tied in a professional capacity
+	RelationshipsLawyerIn Relationships = "lawyer_in"
+	// Lawyers tied to this Legal Matter in a professional capacity
+	RelationshipsHasLawyer Relationships = "has_lawyer"
+	// Entities for which this entity works as a lawyer in a professional capacity
+	RelationshipsLawyerOf Relationships = "lawyer_of"
+	// Entities created by or legally derived from this entity
+	RelationshipsLegalPredecessorOf Relationships = "legal_predecessor_of"
+	// Entities from which this entity was created or legally derived
+	RelationshipsHasLegalPredecessor Relationships = "has_legal_predecessor"
+	// Entities of which this entity is reported to be (or have acted as) a legal representative
+	RelationshipsLegalRepresentativeOf Relationships = "legal_representative_of"
+	// Entities reported to be (or have acted as) legal representatives of this entity
+	RelationshipsHasLegalRepresentative Relationships = "has_legal_representative"
+	// Entities from which this entity inherited legal personality
+	RelationshipsLegalSuccessorOf Relationships = "legal_successor_of"
+	// Successor entities to which this entity granted legal personality
+	RelationshipsHasLegalSuccessor Relationships = "has_legal_successor"
+	// Entities connected to this entity via a type of relationship that does not exist in the Graph ontology
+	RelationshipsLinkedTo Relationships = "linked_to"
 	// Companies of which this entity is a liquidator
 	RelationshipsLiquidatorOf Relationships = "liquidator_of"
 	// Liquidators of this company
 	RelationshipsHasLiquidator Relationships = "has_liquidator"
-	// Deprecated and converted to legal_representative_of
-	RelationshipsJudicialRepresentativeOf Relationships = "judicial_representative_of"
+	// Companies of which this entity is a Manager
+	RelationshipsManagerOf Relationships = "manager_of"
+	// Managers of this company
+	RelationshipsHasManager Relationships = "has_manager"
+	// Entities with a corporate or statutory body of oversight/control of which this entity is a member
+	RelationshipsMemberOfTheBoardOf Relationships = "member_of_the_board_of"
+	// Entities that are members of this entity's corporate or statutory body of oversight/control
+	RelationshipsHasMemberOfTheBoard Relationships = "has_member_of_the_board"
+	// Shipments that this entity were notified of upon their arrival at their destinations
+	RelationshipsNotifyPartyOf Relationships = "notify_party_of"
+	// Entity to be notified when this shipment arrives
+	RelationshipsHasNotifyParty Relationships = "has_notify_party"
+	// Companies of which this entity is a CEO, Treasurer, etc.
+	RelationshipsOfficerOf Relationships = "officer_of"
+	// CEOs, Treasurers, etc. of this company
+	RelationshipsHasOfficer Relationships = "has_officer"
+	// Non-corporate entities (trade name, security, intellectual property, etc.) directly owned by this entity
+	RelationshipsOwnerOf Relationships = "owner_of"
+	// Direct owners of this entity
+	RelationshipsHasOwner Relationships = "has_owner"
+	// Partnerships or similar types of companies of which this entity is a business partner with an ownership stake
+	RelationshipsPartnerOf Relationships = "partner_of"
+	// Business partners with an ownership stake in this company
+	RelationshipsHasPartner Relationships = "has_partner"
+	// Legal Matters in which this entity is a litigant
+	RelationshipsPartyTo Relationships = "party_to"
+	// Litigants in this Legal Matter
+	RelationshipsHasParty Relationships = "has_party"
 	// Shipments this entity received
 	RelationshipsReceiverOf Relationships = "receiver_of"
 	// The entity that received this shipment
 	RelationshipsReceivedBy Relationships = "received_by"
-	// Companies audited by this entity
-	RelationshipsAuditorOf Relationships = "auditor_of"
-	// Auditors of this company
-	RelationshipsHasAuditor     Relationships = "has_auditor"
+	// Entities of which this entity is reported to be a Registered Agent, corporate secretary, or similar
+	RelationshipsRegisteredAgentOf Relationships = "registered_agent_of"
+	// Entities acting in a Registered Agent, corporate secretary, or similar role for this entity
+	RelationshipsHasRegisteredAgent Relationships = "has_registered_agent"
+	// Deprecated and converted to officer_of (in jurisdictions where the secretary is a fairly important control figure) or registered_agent_of (in jurisdictions where the secretary is more of a clerical role)
+	RelationshipsSecretaryOf Relationships = "secretary_of"
+	// Deprecated and converted to officer_of (in jurisdictions where the secretary is a fairly important control figure) or registered_agent_of (in jurisdictions where the secretary is more of a clerical role)
+	RelationshipsHasSecretary Relationships = "has_secretary"
+	// Companies of which this entity is a direct owner
+	RelationshipsShareholderOf Relationships = "shareholder_of"
+	// Direct owners of this company
+	RelationshipsHasShareholder Relationships = "has_shareholder"
+	// Shipments this entity sent
+	RelationshipsShipperOf Relationships = "shipper_of"
+	// The entity that sent this shipment
+	RelationshipsShippedBy Relationships = "shipped_by"
+	// The entity who has sent a shipment
+	RelationshipsShipsTo Relationships = "ships_to"
+	// The entity that has received a shipment
+	RelationshipsReceivesFrom Relationships = "receives_from"
+	// Deprecated and converted to shareholder_of
+	RelationshipsSoleProprietorOf Relationships = "sole_proprietor_of"
+	// Deprecated and converted to shareholder_of
+	RelationshipsHasSoleProprietor Relationships = "has_sole_proprietor"
+	// Companies that indirectly own this company and/or report it as a subsidiary
+	RelationshipsSubsidiaryOf Relationships = "subsidiary_of"
+	// Companies reported to be subsidiaries or indirectly owned by this company
+	RelationshipsHasSubsidiary Relationships = "has_subsidiary"
+	// Entities of which this entity is reported to be a supervisor, typically in East Asia
+	RelationshipsSupervisorOf Relationships = "supervisor_of"
+	// Supervisors of this company, typically in East Asia
+	RelationshipsHasSupervisor  Relationships = "has_supervisor"
 	RelationshipsPossiblySameAs Relationships = "possibly_same_as"
 )
 
 func NewRelationshipsFromString(s string) (Relationships, error) {
 	switch s {
-	case "linked_to":
-		return RelationshipsLinkedTo, nil
-	case "shipper_of":
-		return RelationshipsShipperOf, nil
-	case "shipped_by":
-		return RelationshipsShippedBy, nil
-	case "legal_successor_of":
-		return RelationshipsLegalSuccessorOf, nil
-	case "has_legal_successor":
-		return RelationshipsHasLegalSuccessor, nil
-	case "shareholder_of":
-		return RelationshipsShareholderOf, nil
-	case "has_shareholder":
-		return RelationshipsHasShareholder, nil
-	case "legal_representative_of":
-		return RelationshipsLegalRepresentativeOf, nil
-	case "has_legal_representative":
-		return RelationshipsHasLegalRepresentative, nil
-	case "party_to":
-		return RelationshipsPartyTo, nil
-	case "has_party":
-		return RelationshipsHasParty, nil
-	case "member_of_the_board_of":
-		return RelationshipsMemberOfTheBoardOf, nil
-	case "has_member_of_the_board":
-		return RelationshipsHasMemberOfTheBoard, nil
-	case "branch_of":
-		return RelationshipsBranchOf, nil
-	case "has_branch":
-		return RelationshipsHasBranch, nil
-	case "judidical_representative_of":
-		return RelationshipsJudidicalRepresentativeOf, nil
-	case "has_judicial_representative":
-		return RelationshipsHasJudicialRepresentative, nil
-	case "supervisor_of":
-		return RelationshipsSupervisorOf, nil
-	case "has_supervisor":
-		return RelationshipsHasSupervisor, nil
-	case "director_of":
-		return RelationshipsDirectorOf, nil
-	case "has_director":
-		return RelationshipsHasDirector, nil
-	case "lawyer_in":
-		return RelationshipsLawyerIn, nil
-	case "has_lawyer":
-		return RelationshipsHasLawyer, nil
 	case "associate_of":
 		return RelationshipsAssociateOf, nil
 	case "has_associate":
 		return RelationshipsHasAssociate, nil
-	case "issuer_of":
-		return RelationshipsIssuerOf, nil
-	case "has_issuer":
-		return RelationshipsHasIssuer, nil
-	case "notify_party_of":
-		return RelationshipsNotifyPartyOf, nil
-	case "has_notify_party":
-		return RelationshipsHasNotifyParty, nil
-	case "generic":
-		return RelationshipsGeneric, nil
-	case "legal_predecessor_of":
-		return RelationshipsLegalPredecessorOf, nil
-	case "has_legal_predecessor":
-		return RelationshipsHasLegalPredecessor, nil
-	case "founder_of":
-		return RelationshipsFounderOf, nil
-	case "has_founder":
-		return RelationshipsHasFounder, nil
-	case "secretary_of":
-		return RelationshipsSecretaryOf, nil
-	case "has_secretary":
-		return RelationshipsHasSecretary, nil
-	case "beneficial_owner_of":
-		return RelationshipsBeneficialOwnerOf, nil
-	case "has_beneficial_owner":
-		return RelationshipsHasBeneficialOwner, nil
-	case "partner_of":
-		return RelationshipsPartnerOf, nil
-	case "has_partner":
-		return RelationshipsHasPartner, nil
-	case "lawyer_of":
-		return RelationshipsLawyerOf, nil
-	case "officer_of":
-		return RelationshipsOfficerOf, nil
-	case "has_officer":
-		return RelationshipsHasOfficer, nil
-	case "employee_of":
-		return RelationshipsEmployeeOf, nil
-	case "has_employee":
-		return RelationshipsHasEmployee, nil
-	case "sole_proprietor_of":
-		return RelationshipsSoleProprietorOf, nil
-	case "has_sole_proprietor":
-		return RelationshipsHasSoleProprietor, nil
-	case "executive_of":
-		return RelationshipsExecutiveOf, nil
-	case "has_executive":
-		return RelationshipsHasExecutive, nil
-	case "client_of":
-		return RelationshipsClientOf, nil
-	case "has_client":
-		return RelationshipsHasClient, nil
-	case "carrier_of":
-		return RelationshipsCarrierOf, nil
-	case "has_carrier":
-		return RelationshipsHasCarrier, nil
-	case "family_of":
-		return RelationshipsFamilyOf, nil
-	case "owner_of":
-		return RelationshipsOwnerOf, nil
-	case "has_owner":
-		return RelationshipsHasOwner, nil
-	case "ships_to":
-		return RelationshipsShipsTo, nil
-	case "receives_from":
-		return RelationshipsReceivesFrom, nil
-	case "registered_agent_of":
-		return RelationshipsRegisteredAgentOf, nil
-	case "has_registered_agent":
-		return RelationshipsHasRegisteredAgent, nil
-	case "manager_of":
-		return RelationshipsManagerOf, nil
-	case "has_manager":
-		return RelationshipsHasManager, nil
-	case "subsidiary_of":
-		return RelationshipsSubsidiaryOf, nil
-	case "has_subsidiary":
-		return RelationshipsHasSubsidiary, nil
-	case "liquidator_of":
-		return RelationshipsLiquidatorOf, nil
-	case "has_liquidator":
-		return RelationshipsHasLiquidator, nil
-	case "judicial_representative_of":
-		return RelationshipsJudicialRepresentativeOf, nil
-	case "receiver_of":
-		return RelationshipsReceiverOf, nil
-	case "received_by":
-		return RelationshipsReceivedBy, nil
 	case "auditor_of":
 		return RelationshipsAuditorOf, nil
 	case "has_auditor":
 		return RelationshipsHasAuditor, nil
+	case "beneficial_owner_of":
+		return RelationshipsBeneficialOwnerOf, nil
+	case "has_beneficial_owner":
+		return RelationshipsHasBeneficialOwner, nil
+	case "branch_of":
+		return RelationshipsBranchOf, nil
+	case "has_branch":
+		return RelationshipsHasBranch, nil
+	case "carrier_of":
+		return RelationshipsCarrierOf, nil
+	case "has_carrier":
+		return RelationshipsHasCarrier, nil
+	case "client_of":
+		return RelationshipsClientOf, nil
+	case "has_client":
+		return RelationshipsHasClient, nil
+	case "director_of":
+		return RelationshipsDirectorOf, nil
+	case "has_director":
+		return RelationshipsHasDirector, nil
+	case "employee_of":
+		return RelationshipsEmployeeOf, nil
+	case "has_employee":
+		return RelationshipsHasEmployee, nil
+	case "executive_of":
+		return RelationshipsExecutiveOf, nil
+	case "has_executive":
+		return RelationshipsHasExecutive, nil
+	case "family_of":
+		return RelationshipsFamilyOf, nil
+	case "founder_of":
+		return RelationshipsFounderOf, nil
+	case "has_founder":
+		return RelationshipsHasFounder, nil
+	case "generic":
+		return RelationshipsGeneric, nil
+	case "issuer_of":
+		return RelationshipsIssuerOf, nil
+	case "has_issuer":
+		return RelationshipsHasIssuer, nil
+	case "judicial_representative_of":
+		return RelationshipsJudicialRepresentativeOf, nil
+	case "has_judicial_representative":
+		return RelationshipsHasJudicialRepresentative, nil
+	case "judidical_representative_of":
+		return RelationshipsJudidicalRepresentativeOf, nil
+	case "lawyer_in":
+		return RelationshipsLawyerIn, nil
+	case "has_lawyer":
+		return RelationshipsHasLawyer, nil
+	case "lawyer_of":
+		return RelationshipsLawyerOf, nil
+	case "legal_predecessor_of":
+		return RelationshipsLegalPredecessorOf, nil
+	case "has_legal_predecessor":
+		return RelationshipsHasLegalPredecessor, nil
+	case "legal_representative_of":
+		return RelationshipsLegalRepresentativeOf, nil
+	case "has_legal_representative":
+		return RelationshipsHasLegalRepresentative, nil
+	case "legal_successor_of":
+		return RelationshipsLegalSuccessorOf, nil
+	case "has_legal_successor":
+		return RelationshipsHasLegalSuccessor, nil
+	case "linked_to":
+		return RelationshipsLinkedTo, nil
+	case "liquidator_of":
+		return RelationshipsLiquidatorOf, nil
+	case "has_liquidator":
+		return RelationshipsHasLiquidator, nil
+	case "manager_of":
+		return RelationshipsManagerOf, nil
+	case "has_manager":
+		return RelationshipsHasManager, nil
+	case "member_of_the_board_of":
+		return RelationshipsMemberOfTheBoardOf, nil
+	case "has_member_of_the_board":
+		return RelationshipsHasMemberOfTheBoard, nil
+	case "notify_party_of":
+		return RelationshipsNotifyPartyOf, nil
+	case "has_notify_party":
+		return RelationshipsHasNotifyParty, nil
+	case "officer_of":
+		return RelationshipsOfficerOf, nil
+	case "has_officer":
+		return RelationshipsHasOfficer, nil
+	case "owner_of":
+		return RelationshipsOwnerOf, nil
+	case "has_owner":
+		return RelationshipsHasOwner, nil
+	case "partner_of":
+		return RelationshipsPartnerOf, nil
+	case "has_partner":
+		return RelationshipsHasPartner, nil
+	case "party_to":
+		return RelationshipsPartyTo, nil
+	case "has_party":
+		return RelationshipsHasParty, nil
+	case "receiver_of":
+		return RelationshipsReceiverOf, nil
+	case "received_by":
+		return RelationshipsReceivedBy, nil
+	case "registered_agent_of":
+		return RelationshipsRegisteredAgentOf, nil
+	case "has_registered_agent":
+		return RelationshipsHasRegisteredAgent, nil
+	case "secretary_of":
+		return RelationshipsSecretaryOf, nil
+	case "has_secretary":
+		return RelationshipsHasSecretary, nil
+	case "shareholder_of":
+		return RelationshipsShareholderOf, nil
+	case "has_shareholder":
+		return RelationshipsHasShareholder, nil
+	case "shipper_of":
+		return RelationshipsShipperOf, nil
+	case "shipped_by":
+		return RelationshipsShippedBy, nil
+	case "ships_to":
+		return RelationshipsShipsTo, nil
+	case "receives_from":
+		return RelationshipsReceivesFrom, nil
+	case "sole_proprietor_of":
+		return RelationshipsSoleProprietorOf, nil
+	case "has_sole_proprietor":
+		return RelationshipsHasSoleProprietor, nil
+	case "subsidiary_of":
+		return RelationshipsSubsidiaryOf, nil
+	case "has_subsidiary":
+		return RelationshipsHasSubsidiary, nil
+	case "supervisor_of":
+		return RelationshipsSupervisorOf, nil
+	case "has_supervisor":
+		return RelationshipsHasSupervisor, nil
 	case "possibly_same_as":
 		return RelationshipsPossiblySameAs, nil
 	}
@@ -8789,349 +8789,349 @@ func (r Relationships) Ptr() *Relationships {
 type Risk string
 
 const (
-	RiskSheffieldHallamUniversityForcedLaborEntity                               Risk = "sheffield_hallam_university_forced_labor_entity"
-	RiskForcedLaborXinjiangOriginDirect                                          Risk = "forced_labor_xinjiang_origin_direct"
-	RiskRegulatoryAction                                                         Risk = "regulatory_action"
-	RiskForcedLaborUflpaOriginSubtierProductBlueprint                            Risk = "forced_labor_uflpa_origin_subtier_product_blueprint"
-	RiskForcedLaborXinjiangGeospatial                                            Risk = "forced_labor_xinjiang_geospatial"
-	RiskEuHighRiskThird                                                          Risk = "eu_high_risk_third"
-	RiskUkSanctioned                                                             Risk = "uk_sanctioned"
-	RiskSheffieldHallamUniversityUsefulResources                                 Risk = "sheffield_hallam_university_useful_resources"
-	RiskExportsToEntityLicensedWithFsbRf                                         Risk = "exports_to_entity_licensed_with_fsb_rf"
-	RiskOwnerOfAspiForcedLaborEntity                                             Risk = "owner_of_aspi_forced_labor_entity"
-	RiskSanctioned                                                               Risk = "sanctioned"
-	RiskReputationalRiskFinancialCrime                                           Risk = "reputational_risk_financial_crime"
-	RiskCmicEntity                                                               Risk = "cmic_entity"
-	RiskPsaPep                                                                   Risk = "psa_pep"
-	RiskExportControls                                                           Risk = "export_controls"
-	RiskWroEntity                                                                Risk = "wro_entity"
-	RiskImportsBisHighPriorityItems                                              Risk = "imports_bis_high_priority_items"
-	RiskReputationalRiskBriberyAndCorruption                                     Risk = "reputational_risk_bribery_and_corruption"
-	RiskSanctionedAdjacent                                                       Risk = "sanctioned_adjacent"
-	RiskPsaExportControls                                                        Risk = "psa_export_controls"
-	RiskOwnerOfSanctionedEntity                                                  Risk = "owner_of_sanctioned_entity"
-	RiskPsaRegulatoryAction                                                      Risk = "psa_regulatory_action"
-	RiskForcedLaborXinjiangContractors                                           Risk = "forced_labor_xinjiang_contractors"
-	RiskUk50PercentRule                                                          Risk = "uk_50_percent_rule"
-	RiskOwnedByXinjiangEntity                                                    Risk = "owned_by_xinjiang_entity"
-	RiskForcedLaborXinjiangOriginSubtier                                         Risk = "forced_labor_xinjiang_origin_subtier"
-	RiskPsaForcedLaborXinjiangName                                               Risk = "psa_forced_labor_xinjiang_name"
-	RiskBaselAml                                                                 Risk = "basel_aml"
-	RiskAspiUyghurForcedLaborReportEntityAdjacent                                Risk = "aspi_uyghur_forced_labor_report_entity_adjacent"
-	RiskOwnedByCmicEntity                                                        Risk = "owned_by_cmic_entity"
-	RiskOfacSdn                                                                  Risk = "ofac_sdn"
-	RiskOwnedByBisMeuEntity                                                      Risk = "owned_by_bis_meu_entity"
-	RiskForcedLaborAspiOriginSubtierProductBlueprint                             Risk = "forced_labor_aspi_origin_subtier_product_blueprint"
-	RiskOwnedByForcedLaborXinjiangUflpa                                          Risk = "owned_by_forced_labor_xinjiang_uflpa"
-	RiskForcedLaborXinjiangUflpaAdjacent                                         Risk = "forced_labor_xinjiang_uflpa_adjacent"
-	RiskOwnedByWroEntity                                                         Risk = "owned_by_wro_entity"
-	RiskPsaMilitaryCivilFusion                                                   Risk = "psa_military_civil_fusion"
-	RiskForcedLaborAspiOriginSubtier                                             Risk = "forced_labor_aspi_origin_subtier"
-	RiskFormerWroEntity                                                          Risk = "former_wro_entity"
-	RiskForcedLaborWroOriginDirect                                               Risk = "forced_labor_wro_origin_direct"
-	RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity                 Risk = "owned_by_sheffield_hallam_university_reports_forced_labor_entity"
-	RiskEuSanctioned                                                             Risk = "eu_sanctioned"
 	RiskAspiUyghurForcedLaborReportEntity                                        Risk = "aspi_uyghur_forced_labor_report_entity"
-	RiskForcedLaborChinaKeywords                                                 Risk = "forced_labor_china_keywords"
-	RiskExportsBisHighPriorityItemsCriticalComponents                            Risk = "exports_bis_high_priority_items_critical_components"
-	RiskSoeAdjacent                                                              Risk = "soe_adjacent"
-	RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtierProductBlueprint Risk = "forced_labor_sheffield_hallam_university_reports_origin_subtier_product_blueprint"
-	RiskStateOwned                                                               Risk = "state_owned"
-	RiskPsaSheffieldHallamUniversityForcedLaborEntity                            Risk = "psa_sheffield_hallam_university_forced_labor_entity"
-	RiskExportControlsAdjacent                                                   Risk = "export_controls_adjacent"
-	RiskExportToSoe                                                              Risk = "export_to_soe"
-	RiskPsaSanctioned                                                            Risk = "psa_sanctioned"
-	RiskOfac50PercentRule                                                        Risk = "ofac_50_percent_rule"
-	RiskOwnerOfExportControlsEntity                                              Risk = "owner_of_export_controls_entity"
-	RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtier                 Risk = "forced_labor_sheffield_hallam_university_reports_origin_subtier"
-	RiskMeuListContractors                                                       Risk = "meu_list_contractors"
-	RiskForcedLaborXinjiangCottonEntity                                          Risk = "forced_labor_xinjiang_cotton_entity"
-	RiskOwnerOfForcedLaborXinjiangUflpa                                          Risk = "owner_of_forced_labor_xinjiang_uflpa"
-	RiskPep                                                                      Risk = "pep"
-	RiskOwnedByEntityInExportControls                                            Risk = "owned_by_entity_in_export_controls"
-	RiskPsaForcedLaborAspiUyghur                                                 Risk = "psa_forced_labor_aspi_uyghur"
+	RiskAspiUyghurForcedLaborReportEntityAdjacent                                Risk = "aspi_uyghur_forced_labor_report_entity_adjacent"
+	RiskBaselAml                                                                 Risk = "basel_aml"
 	RiskBisBoycottRequesterList                                                  Risk = "bis_boycott_requester_list"
-	RiskEu50PercentRule                                                          Risk = "eu_50_percent_rule"
-	RiskForcedLaborXinjiangOperations                                            Risk = "forced_labor_xinjiang_operations"
-	RiskForcedLaborWroOriginSubtier                                              Risk = "forced_labor_wro_origin_subtier"
-	RiskPsaForcedLaborXinjiangCottonEntity                                       Risk = "psa_forced_labor_xinjiang_cotton_entity"
-	RiskReputationalRiskOther                                                    Risk = "reputational_risk_other"
-	RiskExportToSanctioned                                                       Risk = "export_to_sanctioned"
-	RiskSheffieldHallamUniversityForcedLaborReportsEntityAdjacent                Risk = "sheffield_hallam_university_forced_labor_reports_entity_adjacent"
-	RiskFormerSoe                                                                Risk = "former_soe"
-	RiskReputationalRiskOrganizedCrime                                           Risk = "reputational_risk_organized_crime"
-	RiskReputationalRiskForcedLabor                                              Risk = "reputational_risk_forced_labor"
-	RiskImportsBisHighPriorityItemsCriticalComponents                            Risk = "imports_bis_high_priority_items_critical_components"
-	RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity                 Risk = "owner_of_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskCmicEntity                                                               Risk = "cmic_entity"
 	RiskCpiScore                                                                 Risk = "cpi_score"
-	RiskPsaSheffieldHallamUniversityUsefulResources                              Risk = "psa_sheffield_hallam_university_useful_resources"
-	RiskPsaWroEntity                                                             Risk = "psa_wro_entity"
-	RiskPsaEntityLicensedWithFsbRf                                               Risk = "psa_entity_licensed_with_fsb_rf"
-	RiskForcedLaborWroOriginSubtierProductBlueprint                              Risk = "forced_labor_wro_origin_subtier_product_blueprint"
-	RiskPsaForcedLaborXinjiangUflpa                                              Risk = "psa_forced_labor_xinjiang_uflpa"
-	RiskOwnerOfWroEntity                                                         Risk = "owner_of_wro_entity"
-	RiskMilitaryCivilFusion                                                      Risk = "military_civil_fusion"
-	RiskForcedLaborXinjiangRegistration                                          Risk = "forced_labor_xinjiang_registration"
-	RiskForcedLaborXinjiangName                                                  Risk = "forced_labor_xinjiang_name"
-	RiskOwnedByAspiForcedLaborEntity                                             Risk = "owned_by_aspi_forced_labor_entity"
-	RiskReputationalRiskTerrorism                                                Risk = "reputational_risk_terrorism"
-	RiskFormerlySanctioned                                                       Risk = "formerly_sanctioned"
-	RiskOwnedBySection1260HEntity                                                Risk = "owned_by_section_1260h_entity"
-	RiskSheffieldHallamUniversityForcedLaborReportsIntermediaryEntity            Risk = "sheffield_hallam_university_forced_labor_reports_intermediary_entity"
-	RiskPepAdjacent                                                              Risk = "pep_adjacent"
-	RiskOwnerOfForcedLaborXinjiangEntity                                         Risk = "owner_of_forced_labor_xinjiang_entity"
-	RiskLawEnforcementAction                                                     Risk = "law_enforcement_action"
-	RiskOwnedBySoe                                                               Risk = "owned_by_soe"
-	RiskOwnedByMilitaryCivilFusion                                               Risk = "owned_by_military_civil_fusion"
 	RiskEntityLicensedWithFsbRf                                                  Risk = "entity_licensed_with_fsb_rf"
-	RiskPsaForcedLaborXinjiangRegistration                                       Risk = "psa_forced_labor_xinjiang_registration"
-	RiskForcedLaborSheffieldHallamUniversityReportsOriginDirect                  Risk = "forced_labor_sheffield_hallam_university_reports_origin_direct"
-	RiskPsaForcedLaborXinjiangGeospatial                                         Risk = "psa_forced_labor_xinjiang_geospatial"
-	RiskWroEntityAdjacent                                                        Risk = "wro_entity_adjacent"
-	RiskReputationalRiskCybercrime                                               Risk = "reputational_risk_cybercrime"
-	RiskPsaForcedLaborXinjiangOperations                                         Risk = "psa_forced_labor_xinjiang_operations"
-	RiskOwnerOfSoe                                                               Risk = "owner_of_soe"
-	RiskPsaBisBoycottRequesterList                                               Risk = "psa_bis_boycott_requester_list"
-	RiskForcedLaborAspiOriginDirect                                              Risk = "forced_labor_aspi_origin_direct"
+	RiskEu50PercentRule                                                          Risk = "eu_50_percent_rule"
+	RiskEuHighRiskThird                                                          Risk = "eu_high_risk_third"
+	RiskEuSanctioned                                                             Risk = "eu_sanctioned"
+	RiskExportControls                                                           Risk = "export_controls"
+	RiskExportControlsAdjacent                                                   Risk = "export_controls_adjacent"
+	RiskExportToSanctioned                                                       Risk = "export_to_sanctioned"
+	RiskExportToSoe                                                              Risk = "export_to_soe"
 	RiskExportsBisHighPriorityItems                                              Risk = "exports_bis_high_priority_items"
-	RiskForcedLaborUflpaOriginSubtier                                            Risk = "forced_labor_uflpa_origin_subtier"
-	RiskOwnerOfRegulatoryActionEntity                                            Risk = "owner_of_regulatory_action_entity"
-	RiskPsaSheffieldHallamUniversityIntermediaryEntity                           Risk = "psa_sheffield_hallam_university_intermediary_entity"
-	RiskForcedLaborXinjiangUflpa                                                 Risk = "forced_labor_xinjiang_uflpa"
-	RiskPsaStateOwned                                                            Risk = "psa_state_owned"
+	RiskExportsBisHighPriorityItemsCriticalComponents                            Risk = "exports_bis_high_priority_items_critical_components"
+	RiskExportsToEntityLicensedWithFsbRf                                         Risk = "exports_to_entity_licensed_with_fsb_rf"
+	RiskForcedLaborAspiOriginDirect                                              Risk = "forced_labor_aspi_origin_direct"
+	RiskForcedLaborAspiOriginSubtier                                             Risk = "forced_labor_aspi_origin_subtier"
+	RiskForcedLaborAspiOriginSubtierProductBlueprint                             Risk = "forced_labor_aspi_origin_subtier_product_blueprint"
+	RiskForcedLaborChinaKeywords                                                 Risk = "forced_labor_china_keywords"
+	RiskForcedLaborSheffieldHallamUniversityReportsOriginDirect                  Risk = "forced_labor_sheffield_hallam_university_reports_origin_direct"
+	RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtier                 Risk = "forced_labor_sheffield_hallam_university_reports_origin_subtier"
+	RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtierProductBlueprint Risk = "forced_labor_sheffield_hallam_university_reports_origin_subtier_product_blueprint"
 	RiskForcedLaborUflpaOriginDirect                                             Risk = "forced_labor_uflpa_origin_direct"
+	RiskForcedLaborUflpaOriginSubtier                                            Risk = "forced_labor_uflpa_origin_subtier"
+	RiskForcedLaborUflpaOriginSubtierProductBlueprint                            Risk = "forced_labor_uflpa_origin_subtier_product_blueprint"
+	RiskForcedLaborWroOriginDirect                                               Risk = "forced_labor_wro_origin_direct"
+	RiskForcedLaborWroOriginSubtier                                              Risk = "forced_labor_wro_origin_subtier"
+	RiskForcedLaborWroOriginSubtierProductBlueprint                              Risk = "forced_labor_wro_origin_subtier_product_blueprint"
+	RiskForcedLaborXinjiangContractors                                           Risk = "forced_labor_xinjiang_contractors"
+	RiskForcedLaborXinjiangCottonEntity                                          Risk = "forced_labor_xinjiang_cotton_entity"
+	RiskForcedLaborXinjiangGeospatial                                            Risk = "forced_labor_xinjiang_geospatial"
+	RiskForcedLaborXinjiangName                                                  Risk = "forced_labor_xinjiang_name"
+	RiskForcedLaborXinjiangOperations                                            Risk = "forced_labor_xinjiang_operations"
+	RiskForcedLaborXinjiangOriginDirect                                          Risk = "forced_labor_xinjiang_origin_direct"
+	RiskForcedLaborXinjiangOriginSubtier                                         Risk = "forced_labor_xinjiang_origin_subtier"
 	RiskForcedLaborXinjiangOriginSubtierProductBlueprint                         Risk = "forced_labor_xinjiang_origin_subtier_product_blueprint"
+	RiskForcedLaborXinjiangRegistration                                          Risk = "forced_labor_xinjiang_registration"
+	RiskForcedLaborXinjiangUflpa                                                 Risk = "forced_labor_xinjiang_uflpa"
+	RiskForcedLaborXinjiangUflpaAdjacent                                         Risk = "forced_labor_xinjiang_uflpa_adjacent"
+	RiskFormerSoe                                                                Risk = "former_soe"
+	RiskFormerWroEntity                                                          Risk = "former_wro_entity"
+	RiskFormerlySanctioned                                                       Risk = "formerly_sanctioned"
+	RiskImportsBisHighPriorityItems                                              Risk = "imports_bis_high_priority_items"
+	RiskImportsBisHighPriorityItemsCriticalComponents                            Risk = "imports_bis_high_priority_items_critical_components"
+	RiskLawEnforcementAction                                                     Risk = "law_enforcement_action"
+	RiskMeuListContractors                                                       Risk = "meu_list_contractors"
+	RiskMilitaryCivilFusion                                                      Risk = "military_civil_fusion"
+	RiskOfac50PercentRule                                                        Risk = "ofac_50_percent_rule"
+	RiskOfacSdn                                                                  Risk = "ofac_sdn"
+	RiskOwnedByAspiForcedLaborEntity                                             Risk = "owned_by_aspi_forced_labor_entity"
+	RiskOwnedByBisMeuEntity                                                      Risk = "owned_by_bis_meu_entity"
+	RiskOwnedByCmicEntity                                                        Risk = "owned_by_cmic_entity"
+	RiskOwnedByEntityInExportControls                                            Risk = "owned_by_entity_in_export_controls"
+	RiskOwnedByForcedLaborXinjiangUflpa                                          Risk = "owned_by_forced_labor_xinjiang_uflpa"
+	RiskOwnedByMilitaryCivilFusion                                               Risk = "owned_by_military_civil_fusion"
 	RiskOwnedBySanctionedEntity                                                  Risk = "owned_by_sanctioned_entity"
+	RiskOwnedBySection1260HEntity                                                Risk = "owned_by_section_1260h_entity"
+	RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity                 Risk = "owned_by_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskOwnedBySoe                                                               Risk = "owned_by_soe"
+	RiskOwnedByWroEntity                                                         Risk = "owned_by_wro_entity"
+	RiskOwnedByXinjiangEntity                                                    Risk = "owned_by_xinjiang_entity"
+	RiskOwnerOfAspiForcedLaborEntity                                             Risk = "owner_of_aspi_forced_labor_entity"
+	RiskOwnerOfExportControlsEntity                                              Risk = "owner_of_export_controls_entity"
+	RiskOwnerOfForcedLaborXinjiangEntity                                         Risk = "owner_of_forced_labor_xinjiang_entity"
+	RiskOwnerOfForcedLaborXinjiangUflpa                                          Risk = "owner_of_forced_labor_xinjiang_uflpa"
+	RiskOwnerOfRegulatoryActionEntity                                            Risk = "owner_of_regulatory_action_entity"
+	RiskOwnerOfSanctionedEntity                                                  Risk = "owner_of_sanctioned_entity"
+	RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity                 Risk = "owner_of_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskOwnerOfSoe                                                               Risk = "owner_of_soe"
+	RiskOwnerOfWroEntity                                                         Risk = "owner_of_wro_entity"
+	RiskPep                                                                      Risk = "pep"
+	RiskPepAdjacent                                                              Risk = "pep_adjacent"
+	RiskPsaBisBoycottRequesterList                                               Risk = "psa_bis_boycott_requester_list"
+	RiskPsaEntityLicensedWithFsbRf                                               Risk = "psa_entity_licensed_with_fsb_rf"
+	RiskPsaExportControls                                                        Risk = "psa_export_controls"
+	RiskPsaForcedLaborAspiUyghur                                                 Risk = "psa_forced_labor_aspi_uyghur"
+	RiskPsaForcedLaborXinjiangCottonEntity                                       Risk = "psa_forced_labor_xinjiang_cotton_entity"
+	RiskPsaForcedLaborXinjiangGeospatial                                         Risk = "psa_forced_labor_xinjiang_geospatial"
+	RiskPsaForcedLaborXinjiangName                                               Risk = "psa_forced_labor_xinjiang_name"
+	RiskPsaForcedLaborXinjiangOperations                                         Risk = "psa_forced_labor_xinjiang_operations"
+	RiskPsaForcedLaborXinjiangRegistration                                       Risk = "psa_forced_labor_xinjiang_registration"
+	RiskPsaForcedLaborXinjiangUflpa                                              Risk = "psa_forced_labor_xinjiang_uflpa"
+	RiskPsaMilitaryCivilFusion                                                   Risk = "psa_military_civil_fusion"
+	RiskPsaPep                                                                   Risk = "psa_pep"
+	RiskPsaRegulatoryAction                                                      Risk = "psa_regulatory_action"
+	RiskPsaSanctioned                                                            Risk = "psa_sanctioned"
+	RiskPsaSheffieldHallamUniversityForcedLaborEntity                            Risk = "psa_sheffield_hallam_university_forced_labor_entity"
+	RiskPsaSheffieldHallamUniversityIntermediaryEntity                           Risk = "psa_sheffield_hallam_university_intermediary_entity"
+	RiskPsaSheffieldHallamUniversityUsefulResources                              Risk = "psa_sheffield_hallam_university_useful_resources"
+	RiskPsaStateOwned                                                            Risk = "psa_state_owned"
+	RiskPsaWroEntity                                                             Risk = "psa_wro_entity"
+	RiskRegulatoryAction                                                         Risk = "regulatory_action"
+	RiskReputationalRiskBriberyAndCorruption                                     Risk = "reputational_risk_bribery_and_corruption"
+	RiskReputationalRiskCybercrime                                               Risk = "reputational_risk_cybercrime"
+	RiskReputationalRiskFinancialCrime                                           Risk = "reputational_risk_financial_crime"
+	RiskReputationalRiskForcedLabor                                              Risk = "reputational_risk_forced_labor"
+	RiskReputationalRiskOrganizedCrime                                           Risk = "reputational_risk_organized_crime"
+	RiskReputationalRiskOther                                                    Risk = "reputational_risk_other"
+	RiskReputationalRiskTerrorism                                                Risk = "reputational_risk_terrorism"
+	RiskSanctioned                                                               Risk = "sanctioned"
+	RiskSanctionedAdjacent                                                       Risk = "sanctioned_adjacent"
+	RiskSheffieldHallamUniversityForcedLaborEntity                               Risk = "sheffield_hallam_university_forced_labor_entity"
+	RiskSheffieldHallamUniversityForcedLaborReportsEntityAdjacent                Risk = "sheffield_hallam_university_forced_labor_reports_entity_adjacent"
+	RiskSheffieldHallamUniversityForcedLaborReportsIntermediaryEntity            Risk = "sheffield_hallam_university_forced_labor_reports_intermediary_entity"
+	RiskSheffieldHallamUniversityUsefulResources                                 Risk = "sheffield_hallam_university_useful_resources"
+	RiskSoeAdjacent                                                              Risk = "soe_adjacent"
+	RiskStateOwned                                                               Risk = "state_owned"
+	RiskUk50PercentRule                                                          Risk = "uk_50_percent_rule"
+	RiskUkSanctioned                                                             Risk = "uk_sanctioned"
+	RiskWroEntity                                                                Risk = "wro_entity"
+	RiskWroEntityAdjacent                                                        Risk = "wro_entity_adjacent"
 )
 
 func NewRiskFromString(s string) (Risk, error) {
 	switch s {
-	case "sheffield_hallam_university_forced_labor_entity":
-		return RiskSheffieldHallamUniversityForcedLaborEntity, nil
-	case "forced_labor_xinjiang_origin_direct":
-		return RiskForcedLaborXinjiangOriginDirect, nil
-	case "regulatory_action":
-		return RiskRegulatoryAction, nil
-	case "forced_labor_uflpa_origin_subtier_product_blueprint":
-		return RiskForcedLaborUflpaOriginSubtierProductBlueprint, nil
-	case "forced_labor_xinjiang_geospatial":
-		return RiskForcedLaborXinjiangGeospatial, nil
-	case "eu_high_risk_third":
-		return RiskEuHighRiskThird, nil
-	case "uk_sanctioned":
-		return RiskUkSanctioned, nil
-	case "sheffield_hallam_university_useful_resources":
-		return RiskSheffieldHallamUniversityUsefulResources, nil
-	case "exports_to_entity_licensed_with_fsb_rf":
-		return RiskExportsToEntityLicensedWithFsbRf, nil
-	case "owner_of_aspi_forced_labor_entity":
-		return RiskOwnerOfAspiForcedLaborEntity, nil
-	case "sanctioned":
-		return RiskSanctioned, nil
-	case "reputational_risk_financial_crime":
-		return RiskReputationalRiskFinancialCrime, nil
-	case "cmic_entity":
-		return RiskCmicEntity, nil
-	case "psa_pep":
-		return RiskPsaPep, nil
-	case "export_controls":
-		return RiskExportControls, nil
-	case "wro_entity":
-		return RiskWroEntity, nil
-	case "imports_bis_high_priority_items":
-		return RiskImportsBisHighPriorityItems, nil
-	case "reputational_risk_bribery_and_corruption":
-		return RiskReputationalRiskBriberyAndCorruption, nil
-	case "sanctioned_adjacent":
-		return RiskSanctionedAdjacent, nil
-	case "psa_export_controls":
-		return RiskPsaExportControls, nil
-	case "owner_of_sanctioned_entity":
-		return RiskOwnerOfSanctionedEntity, nil
-	case "psa_regulatory_action":
-		return RiskPsaRegulatoryAction, nil
-	case "forced_labor_xinjiang_contractors":
-		return RiskForcedLaborXinjiangContractors, nil
-	case "uk_50_percent_rule":
-		return RiskUk50PercentRule, nil
-	case "owned_by_xinjiang_entity":
-		return RiskOwnedByXinjiangEntity, nil
-	case "forced_labor_xinjiang_origin_subtier":
-		return RiskForcedLaborXinjiangOriginSubtier, nil
-	case "psa_forced_labor_xinjiang_name":
-		return RiskPsaForcedLaborXinjiangName, nil
-	case "basel_aml":
-		return RiskBaselAml, nil
-	case "aspi_uyghur_forced_labor_report_entity_adjacent":
-		return RiskAspiUyghurForcedLaborReportEntityAdjacent, nil
-	case "owned_by_cmic_entity":
-		return RiskOwnedByCmicEntity, nil
-	case "ofac_sdn":
-		return RiskOfacSdn, nil
-	case "owned_by_bis_meu_entity":
-		return RiskOwnedByBisMeuEntity, nil
-	case "forced_labor_aspi_origin_subtier_product_blueprint":
-		return RiskForcedLaborAspiOriginSubtierProductBlueprint, nil
-	case "owned_by_forced_labor_xinjiang_uflpa":
-		return RiskOwnedByForcedLaborXinjiangUflpa, nil
-	case "forced_labor_xinjiang_uflpa_adjacent":
-		return RiskForcedLaborXinjiangUflpaAdjacent, nil
-	case "owned_by_wro_entity":
-		return RiskOwnedByWroEntity, nil
-	case "psa_military_civil_fusion":
-		return RiskPsaMilitaryCivilFusion, nil
-	case "forced_labor_aspi_origin_subtier":
-		return RiskForcedLaborAspiOriginSubtier, nil
-	case "former_wro_entity":
-		return RiskFormerWroEntity, nil
-	case "forced_labor_wro_origin_direct":
-		return RiskForcedLaborWroOriginDirect, nil
-	case "owned_by_sheffield_hallam_university_reports_forced_labor_entity":
-		return RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity, nil
-	case "eu_sanctioned":
-		return RiskEuSanctioned, nil
 	case "aspi_uyghur_forced_labor_report_entity":
 		return RiskAspiUyghurForcedLaborReportEntity, nil
-	case "forced_labor_china_keywords":
-		return RiskForcedLaborChinaKeywords, nil
-	case "exports_bis_high_priority_items_critical_components":
-		return RiskExportsBisHighPriorityItemsCriticalComponents, nil
-	case "soe_adjacent":
-		return RiskSoeAdjacent, nil
-	case "forced_labor_sheffield_hallam_university_reports_origin_subtier_product_blueprint":
-		return RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtierProductBlueprint, nil
-	case "state_owned":
-		return RiskStateOwned, nil
-	case "psa_sheffield_hallam_university_forced_labor_entity":
-		return RiskPsaSheffieldHallamUniversityForcedLaborEntity, nil
-	case "export_controls_adjacent":
-		return RiskExportControlsAdjacent, nil
-	case "export_to_soe":
-		return RiskExportToSoe, nil
-	case "psa_sanctioned":
-		return RiskPsaSanctioned, nil
-	case "ofac_50_percent_rule":
-		return RiskOfac50PercentRule, nil
-	case "owner_of_export_controls_entity":
-		return RiskOwnerOfExportControlsEntity, nil
-	case "forced_labor_sheffield_hallam_university_reports_origin_subtier":
-		return RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtier, nil
-	case "meu_list_contractors":
-		return RiskMeuListContractors, nil
-	case "forced_labor_xinjiang_cotton_entity":
-		return RiskForcedLaborXinjiangCottonEntity, nil
-	case "owner_of_forced_labor_xinjiang_uflpa":
-		return RiskOwnerOfForcedLaborXinjiangUflpa, nil
-	case "pep":
-		return RiskPep, nil
-	case "owned_by_entity_in_export_controls":
-		return RiskOwnedByEntityInExportControls, nil
-	case "psa_forced_labor_aspi_uyghur":
-		return RiskPsaForcedLaborAspiUyghur, nil
+	case "aspi_uyghur_forced_labor_report_entity_adjacent":
+		return RiskAspiUyghurForcedLaborReportEntityAdjacent, nil
+	case "basel_aml":
+		return RiskBaselAml, nil
 	case "bis_boycott_requester_list":
 		return RiskBisBoycottRequesterList, nil
-	case "eu_50_percent_rule":
-		return RiskEu50PercentRule, nil
-	case "forced_labor_xinjiang_operations":
-		return RiskForcedLaborXinjiangOperations, nil
-	case "forced_labor_wro_origin_subtier":
-		return RiskForcedLaborWroOriginSubtier, nil
-	case "psa_forced_labor_xinjiang_cotton_entity":
-		return RiskPsaForcedLaborXinjiangCottonEntity, nil
-	case "reputational_risk_other":
-		return RiskReputationalRiskOther, nil
-	case "export_to_sanctioned":
-		return RiskExportToSanctioned, nil
-	case "sheffield_hallam_university_forced_labor_reports_entity_adjacent":
-		return RiskSheffieldHallamUniversityForcedLaborReportsEntityAdjacent, nil
-	case "former_soe":
-		return RiskFormerSoe, nil
-	case "reputational_risk_organized_crime":
-		return RiskReputationalRiskOrganizedCrime, nil
-	case "reputational_risk_forced_labor":
-		return RiskReputationalRiskForcedLabor, nil
-	case "imports_bis_high_priority_items_critical_components":
-		return RiskImportsBisHighPriorityItemsCriticalComponents, nil
-	case "owner_of_sheffield_hallam_university_reports_forced_labor_entity":
-		return RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity, nil
+	case "cmic_entity":
+		return RiskCmicEntity, nil
 	case "cpi_score":
 		return RiskCpiScore, nil
-	case "psa_sheffield_hallam_university_useful_resources":
-		return RiskPsaSheffieldHallamUniversityUsefulResources, nil
-	case "psa_wro_entity":
-		return RiskPsaWroEntity, nil
-	case "psa_entity_licensed_with_fsb_rf":
-		return RiskPsaEntityLicensedWithFsbRf, nil
-	case "forced_labor_wro_origin_subtier_product_blueprint":
-		return RiskForcedLaborWroOriginSubtierProductBlueprint, nil
-	case "psa_forced_labor_xinjiang_uflpa":
-		return RiskPsaForcedLaborXinjiangUflpa, nil
-	case "owner_of_wro_entity":
-		return RiskOwnerOfWroEntity, nil
-	case "military_civil_fusion":
-		return RiskMilitaryCivilFusion, nil
-	case "forced_labor_xinjiang_registration":
-		return RiskForcedLaborXinjiangRegistration, nil
-	case "forced_labor_xinjiang_name":
-		return RiskForcedLaborXinjiangName, nil
-	case "owned_by_aspi_forced_labor_entity":
-		return RiskOwnedByAspiForcedLaborEntity, nil
-	case "reputational_risk_terrorism":
-		return RiskReputationalRiskTerrorism, nil
-	case "formerly_sanctioned":
-		return RiskFormerlySanctioned, nil
-	case "owned_by_section_1260h_entity":
-		return RiskOwnedBySection1260HEntity, nil
-	case "sheffield_hallam_university_forced_labor_reports_intermediary_entity":
-		return RiskSheffieldHallamUniversityForcedLaborReportsIntermediaryEntity, nil
-	case "pep_adjacent":
-		return RiskPepAdjacent, nil
-	case "owner_of_forced_labor_xinjiang_entity":
-		return RiskOwnerOfForcedLaborXinjiangEntity, nil
-	case "law_enforcement_action":
-		return RiskLawEnforcementAction, nil
-	case "owned_by_soe":
-		return RiskOwnedBySoe, nil
-	case "owned_by_military_civil_fusion":
-		return RiskOwnedByMilitaryCivilFusion, nil
 	case "entity_licensed_with_fsb_rf":
 		return RiskEntityLicensedWithFsbRf, nil
-	case "psa_forced_labor_xinjiang_registration":
-		return RiskPsaForcedLaborXinjiangRegistration, nil
-	case "forced_labor_sheffield_hallam_university_reports_origin_direct":
-		return RiskForcedLaborSheffieldHallamUniversityReportsOriginDirect, nil
-	case "psa_forced_labor_xinjiang_geospatial":
-		return RiskPsaForcedLaborXinjiangGeospatial, nil
-	case "wro_entity_adjacent":
-		return RiskWroEntityAdjacent, nil
-	case "reputational_risk_cybercrime":
-		return RiskReputationalRiskCybercrime, nil
-	case "psa_forced_labor_xinjiang_operations":
-		return RiskPsaForcedLaborXinjiangOperations, nil
-	case "owner_of_soe":
-		return RiskOwnerOfSoe, nil
-	case "psa_bis_boycott_requester_list":
-		return RiskPsaBisBoycottRequesterList, nil
-	case "forced_labor_aspi_origin_direct":
-		return RiskForcedLaborAspiOriginDirect, nil
+	case "eu_50_percent_rule":
+		return RiskEu50PercentRule, nil
+	case "eu_high_risk_third":
+		return RiskEuHighRiskThird, nil
+	case "eu_sanctioned":
+		return RiskEuSanctioned, nil
+	case "export_controls":
+		return RiskExportControls, nil
+	case "export_controls_adjacent":
+		return RiskExportControlsAdjacent, nil
+	case "export_to_sanctioned":
+		return RiskExportToSanctioned, nil
+	case "export_to_soe":
+		return RiskExportToSoe, nil
 	case "exports_bis_high_priority_items":
 		return RiskExportsBisHighPriorityItems, nil
-	case "forced_labor_uflpa_origin_subtier":
-		return RiskForcedLaborUflpaOriginSubtier, nil
-	case "owner_of_regulatory_action_entity":
-		return RiskOwnerOfRegulatoryActionEntity, nil
-	case "psa_sheffield_hallam_university_intermediary_entity":
-		return RiskPsaSheffieldHallamUniversityIntermediaryEntity, nil
-	case "forced_labor_xinjiang_uflpa":
-		return RiskForcedLaborXinjiangUflpa, nil
-	case "psa_state_owned":
-		return RiskPsaStateOwned, nil
+	case "exports_bis_high_priority_items_critical_components":
+		return RiskExportsBisHighPriorityItemsCriticalComponents, nil
+	case "exports_to_entity_licensed_with_fsb_rf":
+		return RiskExportsToEntityLicensedWithFsbRf, nil
+	case "forced_labor_aspi_origin_direct":
+		return RiskForcedLaborAspiOriginDirect, nil
+	case "forced_labor_aspi_origin_subtier":
+		return RiskForcedLaborAspiOriginSubtier, nil
+	case "forced_labor_aspi_origin_subtier_product_blueprint":
+		return RiskForcedLaborAspiOriginSubtierProductBlueprint, nil
+	case "forced_labor_china_keywords":
+		return RiskForcedLaborChinaKeywords, nil
+	case "forced_labor_sheffield_hallam_university_reports_origin_direct":
+		return RiskForcedLaborSheffieldHallamUniversityReportsOriginDirect, nil
+	case "forced_labor_sheffield_hallam_university_reports_origin_subtier":
+		return RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtier, nil
+	case "forced_labor_sheffield_hallam_university_reports_origin_subtier_product_blueprint":
+		return RiskForcedLaborSheffieldHallamUniversityReportsOriginSubtierProductBlueprint, nil
 	case "forced_labor_uflpa_origin_direct":
 		return RiskForcedLaborUflpaOriginDirect, nil
+	case "forced_labor_uflpa_origin_subtier":
+		return RiskForcedLaborUflpaOriginSubtier, nil
+	case "forced_labor_uflpa_origin_subtier_product_blueprint":
+		return RiskForcedLaborUflpaOriginSubtierProductBlueprint, nil
+	case "forced_labor_wro_origin_direct":
+		return RiskForcedLaborWroOriginDirect, nil
+	case "forced_labor_wro_origin_subtier":
+		return RiskForcedLaborWroOriginSubtier, nil
+	case "forced_labor_wro_origin_subtier_product_blueprint":
+		return RiskForcedLaborWroOriginSubtierProductBlueprint, nil
+	case "forced_labor_xinjiang_contractors":
+		return RiskForcedLaborXinjiangContractors, nil
+	case "forced_labor_xinjiang_cotton_entity":
+		return RiskForcedLaborXinjiangCottonEntity, nil
+	case "forced_labor_xinjiang_geospatial":
+		return RiskForcedLaborXinjiangGeospatial, nil
+	case "forced_labor_xinjiang_name":
+		return RiskForcedLaborXinjiangName, nil
+	case "forced_labor_xinjiang_operations":
+		return RiskForcedLaborXinjiangOperations, nil
+	case "forced_labor_xinjiang_origin_direct":
+		return RiskForcedLaborXinjiangOriginDirect, nil
+	case "forced_labor_xinjiang_origin_subtier":
+		return RiskForcedLaborXinjiangOriginSubtier, nil
 	case "forced_labor_xinjiang_origin_subtier_product_blueprint":
 		return RiskForcedLaborXinjiangOriginSubtierProductBlueprint, nil
+	case "forced_labor_xinjiang_registration":
+		return RiskForcedLaborXinjiangRegistration, nil
+	case "forced_labor_xinjiang_uflpa":
+		return RiskForcedLaborXinjiangUflpa, nil
+	case "forced_labor_xinjiang_uflpa_adjacent":
+		return RiskForcedLaborXinjiangUflpaAdjacent, nil
+	case "former_soe":
+		return RiskFormerSoe, nil
+	case "former_wro_entity":
+		return RiskFormerWroEntity, nil
+	case "formerly_sanctioned":
+		return RiskFormerlySanctioned, nil
+	case "imports_bis_high_priority_items":
+		return RiskImportsBisHighPriorityItems, nil
+	case "imports_bis_high_priority_items_critical_components":
+		return RiskImportsBisHighPriorityItemsCriticalComponents, nil
+	case "law_enforcement_action":
+		return RiskLawEnforcementAction, nil
+	case "meu_list_contractors":
+		return RiskMeuListContractors, nil
+	case "military_civil_fusion":
+		return RiskMilitaryCivilFusion, nil
+	case "ofac_50_percent_rule":
+		return RiskOfac50PercentRule, nil
+	case "ofac_sdn":
+		return RiskOfacSdn, nil
+	case "owned_by_aspi_forced_labor_entity":
+		return RiskOwnedByAspiForcedLaborEntity, nil
+	case "owned_by_bis_meu_entity":
+		return RiskOwnedByBisMeuEntity, nil
+	case "owned_by_cmic_entity":
+		return RiskOwnedByCmicEntity, nil
+	case "owned_by_entity_in_export_controls":
+		return RiskOwnedByEntityInExportControls, nil
+	case "owned_by_forced_labor_xinjiang_uflpa":
+		return RiskOwnedByForcedLaborXinjiangUflpa, nil
+	case "owned_by_military_civil_fusion":
+		return RiskOwnedByMilitaryCivilFusion, nil
 	case "owned_by_sanctioned_entity":
 		return RiskOwnedBySanctionedEntity, nil
+	case "owned_by_section_1260h_entity":
+		return RiskOwnedBySection1260HEntity, nil
+	case "owned_by_sheffield_hallam_university_reports_forced_labor_entity":
+		return RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity, nil
+	case "owned_by_soe":
+		return RiskOwnedBySoe, nil
+	case "owned_by_wro_entity":
+		return RiskOwnedByWroEntity, nil
+	case "owned_by_xinjiang_entity":
+		return RiskOwnedByXinjiangEntity, nil
+	case "owner_of_aspi_forced_labor_entity":
+		return RiskOwnerOfAspiForcedLaborEntity, nil
+	case "owner_of_export_controls_entity":
+		return RiskOwnerOfExportControlsEntity, nil
+	case "owner_of_forced_labor_xinjiang_entity":
+		return RiskOwnerOfForcedLaborXinjiangEntity, nil
+	case "owner_of_forced_labor_xinjiang_uflpa":
+		return RiskOwnerOfForcedLaborXinjiangUflpa, nil
+	case "owner_of_regulatory_action_entity":
+		return RiskOwnerOfRegulatoryActionEntity, nil
+	case "owner_of_sanctioned_entity":
+		return RiskOwnerOfSanctionedEntity, nil
+	case "owner_of_sheffield_hallam_university_reports_forced_labor_entity":
+		return RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity, nil
+	case "owner_of_soe":
+		return RiskOwnerOfSoe, nil
+	case "owner_of_wro_entity":
+		return RiskOwnerOfWroEntity, nil
+	case "pep":
+		return RiskPep, nil
+	case "pep_adjacent":
+		return RiskPepAdjacent, nil
+	case "psa_bis_boycott_requester_list":
+		return RiskPsaBisBoycottRequesterList, nil
+	case "psa_entity_licensed_with_fsb_rf":
+		return RiskPsaEntityLicensedWithFsbRf, nil
+	case "psa_export_controls":
+		return RiskPsaExportControls, nil
+	case "psa_forced_labor_aspi_uyghur":
+		return RiskPsaForcedLaborAspiUyghur, nil
+	case "psa_forced_labor_xinjiang_cotton_entity":
+		return RiskPsaForcedLaborXinjiangCottonEntity, nil
+	case "psa_forced_labor_xinjiang_geospatial":
+		return RiskPsaForcedLaborXinjiangGeospatial, nil
+	case "psa_forced_labor_xinjiang_name":
+		return RiskPsaForcedLaborXinjiangName, nil
+	case "psa_forced_labor_xinjiang_operations":
+		return RiskPsaForcedLaborXinjiangOperations, nil
+	case "psa_forced_labor_xinjiang_registration":
+		return RiskPsaForcedLaborXinjiangRegistration, nil
+	case "psa_forced_labor_xinjiang_uflpa":
+		return RiskPsaForcedLaborXinjiangUflpa, nil
+	case "psa_military_civil_fusion":
+		return RiskPsaMilitaryCivilFusion, nil
+	case "psa_pep":
+		return RiskPsaPep, nil
+	case "psa_regulatory_action":
+		return RiskPsaRegulatoryAction, nil
+	case "psa_sanctioned":
+		return RiskPsaSanctioned, nil
+	case "psa_sheffield_hallam_university_forced_labor_entity":
+		return RiskPsaSheffieldHallamUniversityForcedLaborEntity, nil
+	case "psa_sheffield_hallam_university_intermediary_entity":
+		return RiskPsaSheffieldHallamUniversityIntermediaryEntity, nil
+	case "psa_sheffield_hallam_university_useful_resources":
+		return RiskPsaSheffieldHallamUniversityUsefulResources, nil
+	case "psa_state_owned":
+		return RiskPsaStateOwned, nil
+	case "psa_wro_entity":
+		return RiskPsaWroEntity, nil
+	case "regulatory_action":
+		return RiskRegulatoryAction, nil
+	case "reputational_risk_bribery_and_corruption":
+		return RiskReputationalRiskBriberyAndCorruption, nil
+	case "reputational_risk_cybercrime":
+		return RiskReputationalRiskCybercrime, nil
+	case "reputational_risk_financial_crime":
+		return RiskReputationalRiskFinancialCrime, nil
+	case "reputational_risk_forced_labor":
+		return RiskReputationalRiskForcedLabor, nil
+	case "reputational_risk_organized_crime":
+		return RiskReputationalRiskOrganizedCrime, nil
+	case "reputational_risk_other":
+		return RiskReputationalRiskOther, nil
+	case "reputational_risk_terrorism":
+		return RiskReputationalRiskTerrorism, nil
+	case "sanctioned":
+		return RiskSanctioned, nil
+	case "sanctioned_adjacent":
+		return RiskSanctionedAdjacent, nil
+	case "sheffield_hallam_university_forced_labor_entity":
+		return RiskSheffieldHallamUniversityForcedLaborEntity, nil
+	case "sheffield_hallam_university_forced_labor_reports_entity_adjacent":
+		return RiskSheffieldHallamUniversityForcedLaborReportsEntityAdjacent, nil
+	case "sheffield_hallam_university_forced_labor_reports_intermediary_entity":
+		return RiskSheffieldHallamUniversityForcedLaborReportsIntermediaryEntity, nil
+	case "sheffield_hallam_university_useful_resources":
+		return RiskSheffieldHallamUniversityUsefulResources, nil
+	case "soe_adjacent":
+		return RiskSoeAdjacent, nil
+	case "state_owned":
+		return RiskStateOwned, nil
+	case "uk_50_percent_rule":
+		return RiskUk50PercentRule, nil
+	case "uk_sanctioned":
+		return RiskUkSanctioned, nil
+	case "wro_entity":
+		return RiskWroEntity, nil
+	case "wro_entity_adjacent":
+		return RiskWroEntityAdjacent, nil
 	}
 	var t Risk
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
