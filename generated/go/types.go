@@ -12206,11 +12206,13 @@ type SearchResults struct {
 	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
 	Attributes *AttributeDetails `json:"attributes,omitempty" url:"attributes,omitempty"`
 	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
-	Relationships  *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
-	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
-	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
-	Coordinates    []*Coordinates       `json:"coordinates,omitempty" url:"coordinates,omitempty"`
-	Matches        EntityMatches        `json:"matches,omitempty" url:"matches,omitempty"`
+	Relationships       *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
+	PossiblySameAs      *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
+	ReferencedBy        *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
+	AttributeCounts     interface{}          `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
+	UserAttributeCounts interface{}          `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
+	Coordinates         []*Coordinates       `json:"coordinates,omitempty" url:"coordinates,omitempty"`
+	Matches             EntityMatches        `json:"matches,omitempty" url:"matches,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -12697,9 +12699,11 @@ type EntityDetails struct {
 	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
 	Attributes *AttributeDetails `json:"attributes,omitempty" url:"attributes,omitempty"`
 	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
-	Relationships  *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
-	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
-	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
+	Relationships       *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
+	PossiblySameAs      *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
+	ReferencedBy        *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
+	AttributeCounts     interface{}          `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
+	UserAttributeCounts interface{}          `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -13998,48 +14002,6 @@ func (t *TradeTraversalProduct) String() string {
 	return fmt.Sprintf("%#v", t)
 }
 
-type BusinessPurpose struct {
-	Value *string `json:"value,omitempty" url:"value,omitempty"`
-	Code  *string `json:"code,omitempty" url:"code,omitempty"`
-
-	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
-}
-
-func (b *BusinessPurpose) GetExtraProperties() map[string]interface{} {
-	return b.extraProperties
-}
-
-func (b *BusinessPurpose) UnmarshalJSON(data []byte) error {
-	type unmarshaler BusinessPurpose
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*b = BusinessPurpose(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *b)
-	if err != nil {
-		return err
-	}
-	b.extraProperties = extraProperties
-
-	b._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (b *BusinessPurpose) String() string {
-	if len(b._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(b); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", b)
-}
-
 type DataSource struct {
 	// The unique identifier for a source in the database
 	Id    string `json:"id" url:"id"`
@@ -14135,6 +14097,10 @@ type Shipment struct {
 	DepartureDate       *string                      `json:"departure_date,omitempty" url:"departure_date,omitempty"`
 	DepartureAddress    *ShipmentAddress             `json:"departure_address,omitempty" url:"departure_address,omitempty"`
 	ArrivalAddress      *ShipmentAddress             `json:"arrival_address,omitempty" url:"arrival_address,omitempty"`
+	ArrivalCountry      []Country                    `json:"arrival_country,omitempty" url:"arrival_country,omitempty"`
+	DepartureCountry    []Country                    `json:"departure_country,omitempty" url:"departure_country,omitempty"`
+	TransitCountry      []Country                    `json:"transit_country,omitempty" url:"transit_country,omitempty"`
+	Countries           []Country                    `json:"countries,omitempty" url:"countries,omitempty"`
 	ProductOrigin       []Country                    `json:"product_origin,omitempty" url:"product_origin,omitempty"`
 	MonetaryValue       []*MonetaryValue             `json:"monetary_value,omitempty" url:"monetary_value,omitempty"`
 	Weight              []*Weight                    `json:"weight,omitempty" url:"weight,omitempty"`
@@ -14364,12 +14330,15 @@ func (s *ShipmentMetadata) String() string {
 type SourceOrDestinationEntity struct {
 	// Unique identifier of the entity
 	Id    string   `json:"id" url:"id"`
+	Type  string   `json:"type" url:"type"`
 	Names []string `json:"names,omitempty" url:"names,omitempty"`
 	// [Risks](/sayari-library/ontology/risk-factors)
 	Risks map[Risk]interface{} `json:"risks,omitempty" url:"risks,omitempty"`
-	// [Business Purpose](/sayari-library/ontology/enumerated-types#business-purpose-standard)
-	BusinessPurpose []*BusinessPurpose `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
-	// [Countries](/sayari-library/ontology/enumerated-types#country)
+	// [Business Purpose](/sayari-library/ontology/attributes#business-purpose)
+	BusinessPurpose []*BusinessPurposeProperties `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
+	// [Address](/sayari-library/ontology/attributes#address)
+	Address []interface{} `json:"address,omitempty" url:"address,omitempty"`
+	// [Country](/sayari-library/ontology/attributes#country)
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
 
 	extraProperties map[string]interface{}
@@ -14505,10 +14474,12 @@ type SupplierOrBuyer struct {
 	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
 	Attributes *AttributeDetails `json:"attributes,omitempty" url:"attributes,omitempty"`
 	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
-	Relationships  *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
-	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
-	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
-	Metadata       *SupplierMetadata    `json:"metadata,omitempty" url:"metadata,omitempty"`
+	Relationships       *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
+	PossiblySameAs      *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
+	ReferencedBy        *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
+	AttributeCounts     interface{}          `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
+	UserAttributeCounts interface{}          `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
+	Metadata            *SupplierMetadata    `json:"metadata,omitempty" url:"metadata,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
