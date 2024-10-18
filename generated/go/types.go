@@ -4476,6 +4476,8 @@ const (
 	IdentifierTypeIndDirectorIdNumber IdentifierType = "ind_director_id_number"
 	// A permanent account number (PAN) is a 10-digit alphanumeric tax ID issued by the Indian Income Tax Department.
 	IdentifierTypeIndPermanentAccountNumber IdentifierType = "ind_permanent_account_number"
+	// India tax identification number. Unique ID number assigned to every taxpayer by the Commercial Tax Department of each state.
+	IdentifierTypeIndTin IdentifierType = "ind_tin"
 	// A unique identification number assigned by the Registrar of Companies (ROC) in various states under the Indian Ministry of Corporate Affairs (MCA)
 	IdentifierTypeIndCorporateIdNumber IdentifierType = "ind_corporate_id_number"
 	// A Kazakh tax ID number
@@ -5704,6 +5706,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIndDirectorIdNumber, nil
 	case "ind_permanent_account_number":
 		return IdentifierTypeIndPermanentAccountNumber, nil
+	case "ind_tin":
+		return IdentifierTypeIndTin, nil
 	case "ind_corporate_id_number":
 		return IdentifierTypeIndCorporateIdNumber, nil
 	case "kaz_tin":
