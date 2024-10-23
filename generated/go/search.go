@@ -124,13 +124,20 @@ func (e *EntitySearchResponse) String() string {
 
 // Filter your search on the following attributes.
 type FilterList struct {
-	Source     []SourceId `json:"source,omitempty" url:"source,omitempty"`
-	Country    []Country  `json:"country,omitempty" url:"country,omitempty"`
-	State      []string   `json:"state,omitempty" url:"state,omitempty"`
-	City       []string   `json:"city,omitempty" url:"city,omitempty"`
+	// List of source IDs to filter by.
+	Source []SourceId `json:"source,omitempty" url:"source,omitempty"`
+	// List of countries to filter by.
+	Country []Country `json:"country,omitempty" url:"country,omitempty"`
+	// List of states or provinces to filter by.
+	State []string `json:"state,omitempty" url:"state,omitempty"`
+	// List of cities to filter by.
+	City []string `json:"city,omitempty" url:"city,omitempty"`
+	// List of entity types to filter by.
 	EntityType []Entities `json:"entity_type,omitempty" url:"entity_type,omitempty"`
-	Bounds     []string   `json:"bounds,omitempty" url:"bounds,omitempty"`
-	Risk       []Risk     `json:"risk,omitempty" url:"risk,omitempty"`
+	// Pipe-delimited bounding box coordinates (north,west,south,east). E.g., '"46.12|-76|45|-75"'.
+	Bounds []string `json:"bounds,omitempty" url:"bounds,omitempty"`
+	// List of risk factors to filter by.
+	Risk []Risk `json:"risk,omitempty" url:"risk,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
