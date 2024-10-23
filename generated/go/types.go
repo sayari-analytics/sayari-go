@@ -10253,6 +10253,8 @@ const (
 	WeakIdentifierTypeIrlRegistrationNo WeakIdentifierType = "irl_registration_no"
 	// USA Minnesota Secretary of State Filing Number
 	WeakIdentifierTypeUsaMnFilingNumber WeakIdentifierType = "usa_mn_filing_number"
+	// Internal registration number for entities that have registered with HM Revenue & Customs under respective regulations for money laundering supervision and guidance.
+	WeakIdentifierTypeMlrRegNum WeakIdentifierType = "mlr_reg_num"
 	// A temporary malformed type
 	WeakIdentifierTypeMalformedMmrPriorRegNo WeakIdentifierType = "malformed mmr_prior_reg_no"
 )
@@ -10473,6 +10475,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeIrlRegistrationNo, nil
 	case "usa_mn_filing_number":
 		return WeakIdentifierTypeUsaMnFilingNumber, nil
+	case "mlr_reg_num":
+		return WeakIdentifierTypeMlrRegNum, nil
 	case "malformed mmr_prior_reg_no":
 		return WeakIdentifierTypeMalformedMmrPriorRegNo, nil
 	}
