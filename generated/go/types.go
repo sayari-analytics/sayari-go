@@ -5626,6 +5626,10 @@ const (
 	IdentifierTypeUsaFlSlPid IdentifierType = "usa_fl_sl_pid"
 	// Penalty number assigned by the Quebec Ministry of the Environment, the Fight against Climate Change, Wildlife and Parks to each entity listed as offender in the Register of Administrative Monetary Penalties for non-compliance with environmental laws and regulations.
 	IdentifierTypeCanQcSapRegistryRefNum IdentifierType = "can_qc_sap_registry_ref_num"
+	// Izmir Chamber of Commerce registration number
+	IdentifierTypeTurIzmirCocRegNo IdentifierType = "tur_izmir_coc_reg_no"
+	// Turkey Trade Registry Number, Ticaret Sicil. Unique registration number for companies in Turkey.
+	IdentifierTypeTurTicaretSicilNo IdentifierType = "tur_ticaret_sicil_no"
 	// EU ESMA Sanctions List. Reference number assigned to all entities listed under the European Securities and Markets Authority (ESMA) Sanctions List.
 	IdentifierTypeXxxEuEsmaSanctionsId IdentifierType = "xxx_eu_esma_sanctions_id"
 	// Unique India ID number. Assigned to every legal entity included in the NITI Aayog Darpan database.
@@ -5636,8 +5640,10 @@ const (
 	IdentifierTypeIndSocietyRegistrationNumber IdentifierType = "ind_society_registration_number"
 	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Companies.
 	IdentifierTypeIndCompanyRegistrationNumber IdentifierType = "ind_company_registration_number"
-	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Cooperative Societies
+	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Cooperative Societies.
 	IdentifierTypeIndCoopsocRegistrationNumber IdentifierType = "ind_coopsoc_registration_number"
+	// Unique India intellectual property ID number. Assigned to every trademark application submitted to the Controller General of Patents, Designs and Trademarks of the Ministry of Commerce and Industry, Government of India.
+	IdentifierTypeIndTrademarkSubmissionRef IdentifierType = "ind_trademark_submission_ref"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6876,6 +6882,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeUsaFlSlPid, nil
 	case "can_qc_sap_registry_ref_num":
 		return IdentifierTypeCanQcSapRegistryRefNum, nil
+	case "tur_izmir_coc_reg_no":
+		return IdentifierTypeTurIzmirCocRegNo, nil
+	case "tur_ticaret_sicil_no":
+		return IdentifierTypeTurTicaretSicilNo, nil
 	case "xxx_eu_esma_sanctions_id":
 		return IdentifierTypeXxxEuEsmaSanctionsId, nil
 	case "ind_darpan_uid":
@@ -6888,6 +6898,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIndCompanyRegistrationNumber, nil
 	case "ind_coopsoc_registration_number":
 		return IdentifierTypeIndCoopsocRegistrationNumber, nil
+	case "ind_trademark_submission_ref":
+		return IdentifierTypeIndTrademarkSubmissionRef, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
