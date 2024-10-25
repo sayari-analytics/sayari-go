@@ -5640,8 +5640,10 @@ const (
 	IdentifierTypeIndSocietyRegistrationNumber IdentifierType = "ind_society_registration_number"
 	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Companies.
 	IdentifierTypeIndCompanyRegistrationNumber IdentifierType = "ind_company_registration_number"
-	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Cooperative Societies.
+	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Cooperative Societies
 	IdentifierTypeIndCoopsocRegistrationNumber IdentifierType = "ind_coopsoc_registration_number"
+	// Unique identifiers for each bank branch participating in India's National Electronic Funds Transfer (NEFT), Real Time Gross Settlement (RTGS), and Immediate Payment Service (IMPS) electronic funds transfer systems.
+	IdentifierTypeIndIfsc IdentifierType = "ind_ifsc"
 	// Unique India intellectual property ID number. Assigned to every trademark application submitted to the Controller General of Patents, Designs and Trademarks of the Ministry of Commerce and Industry, Government of India.
 	IdentifierTypeIndTrademarkSubmissionRef IdentifierType = "ind_trademark_submission_ref"
 )
@@ -6898,6 +6900,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIndCompanyRegistrationNumber, nil
 	case "ind_coopsoc_registration_number":
 		return IdentifierTypeIndCoopsocRegistrationNumber, nil
+	case "ind_ifsc":
+		return IdentifierTypeIndIfsc, nil
 	case "ind_trademark_submission_ref":
 		return IdentifierTypeIndTrademarkSubmissionRef, nil
 	}
@@ -10265,6 +10269,8 @@ const (
 	WeakIdentifierTypeIrlRegistrationNo WeakIdentifierType = "irl_registration_no"
 	// USA Minnesota Secretary of State Filing Number
 	WeakIdentifierTypeUsaMnFilingNumber WeakIdentifierType = "usa_mn_filing_number"
+	// Weak identifier. Assigned to entities registered with the Securities and Exchange Board of India.
+	WeakIdentifierTypeIndSebi WeakIdentifierType = "ind_sebi"
 	// Internal registration number for entities that have registered with HM Revenue & Customs under respective regulations for money laundering supervision and guidance.
 	WeakIdentifierTypeMlrRegNum WeakIdentifierType = "mlr_reg_num"
 	// A temporary malformed type
@@ -10487,6 +10493,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeIrlRegistrationNo, nil
 	case "usa_mn_filing_number":
 		return WeakIdentifierTypeUsaMnFilingNumber, nil
+	case "ind_sebi":
+		return WeakIdentifierTypeIndSebi, nil
 	case "mlr_reg_num":
 		return WeakIdentifierTypeMlrRegNum, nil
 	case "malformed mmr_prior_reg_no":
