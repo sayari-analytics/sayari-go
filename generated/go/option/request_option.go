@@ -3,10 +3,9 @@
 package option
 
 import (
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	http "net/http"
 	url "net/url"
-
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
 // RequestOption adapts the behavior of an indivdual request.

@@ -3,12 +3,11 @@
 package client
 
 import (
+	option "github.com/sayari-analytics/sayari-go/generated/go/option"
+	assert "github.com/stretchr/testify/assert"
 	http "net/http"
 	testing "testing"
 	time "time"
-
-	option "github.com/sayari-analytics/sayari-go/generated/go/option"
-	assert "github.com/stretchr/testify/assert"
 )
 
 func TestNewClient(t *testing.T) {

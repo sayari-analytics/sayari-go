@@ -5,9 +5,8 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	time "time"
-
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	time "time"
 )
 
 type GetEntity struct {

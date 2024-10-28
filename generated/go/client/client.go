@@ -3,8 +3,6 @@
 package client
 
 import (
-	http "net/http"
-
 	attributes "github.com/sayari-analytics/sayari-go/generated/go/attributes"
 	auth "github.com/sayari-analytics/sayari-go/generated/go/auth"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
@@ -22,6 +20,7 @@ import (
 	supplychain "github.com/sayari-analytics/sayari-go/generated/go/supplychain"
 	trade "github.com/sayari-analytics/sayari-go/generated/go/trade"
 	traversal "github.com/sayari-analytics/sayari-go/generated/go/traversal"
+	http "net/http"
 )
 
 type Client struct {
