@@ -4,6 +4,7 @@ package api
 
 import (
 	json "encoding/json"
+
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 

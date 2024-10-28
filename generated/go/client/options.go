@@ -3,8 +3,9 @@
 package client
 
 import (
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	http "net/http"
+
+	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
 // WithBaseURL sets the client's base URL, overriding the
