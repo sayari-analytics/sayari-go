@@ -41,6 +41,10 @@ type Resolution struct {
 	MinimumScoreThreshold *int `json:"-" url:"minimum_score_threshold,omitempty"`
 	// Enables a name search fallback when either the corporate or supplier profiles fails to find a match. When invoked, the fallback will make a call similar to /search/entity on name only. By default set to true.
 	SearchFallback *bool `json:"-" url:"search_fallback,omitempty"`
+	// Specifies the window of similar results returned in the match group. Increase for fewer multiple matches, decrease to open the aperture and allow for more matches. Default is .8
+	CutoffThreshold *int `json:"-" url:"cutoff_threshold,omitempty"`
+	// Bypasses the post-processing setps and re-ranking. Useful for debugging. By default set to false, set to true to enable.
+	SkipPostProcess *bool `json:"-" url:"skip_post_process,omitempty"`
 }
 
 type ResolutionPost struct {
@@ -170,6 +174,10 @@ type ResolutionBody struct {
 	MinimumScoreThreshold *int `json:"minimum_score_threshold,omitempty" url:"minimum_score_threshold,omitempty"`
 	// Enables a name search fallback when either the corporate or supplier profiles fails to find a match. When invoked, the fallback will make a call similar to /search/entity on name only. By default set to true.
 	SearchFallback *bool `json:"search_fallback,omitempty" url:"search_fallback,omitempty"`
+	// Specifies the window of similar results returned in the match group. Increase for fewer multiple matches, decrease to open the aperture and allow for more matches. Default is .8
+	CutoffThreshold *int `json:"cutoff_threshold,omitempty" url:"cutoff_threshold,omitempty"`
+	// Bypasses the post-processing setps and re-ranking. Useful for debugging. By default set to false, set to true to enable.
+	SkipPostProcess *bool `json:"skip_post_process,omitempty" url:"skip_post_process,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
