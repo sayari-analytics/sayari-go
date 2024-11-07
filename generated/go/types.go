@@ -11320,6 +11320,7 @@ type ProjectEntitiesAggs struct {
 	ShipmentCounts       []*BucketAgg  `json:"shipment_counts,omitempty" url:"shipment_counts,omitempty"`
 	ShippedHsCodes       *HsCodeAgg    `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
 	ReceivedHsCodes      *HsCodeAgg    `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
+	CombinedHsCodes      *HsCodeAgg    `json:"combined_hs_codes,omitempty" url:"combined_hs_codes,omitempty"`
 	MatchResults         []*BucketAgg  `json:"match_results,omitempty" url:"match_results,omitempty"`
 	CustomFields         []*BucketAgg  `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
 	CustomFieldsCount    *IntKeyValue  `json:"custom_fields_count,omitempty" url:"custom_fields_count,omitempty"`
@@ -11386,6 +11387,8 @@ type ProjectEntity struct {
 	ShippedHsCodes []string `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
 	// HS codes received by the entity.
 	ReceivedHsCodes []string `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
+	// HS codes shipped or received by the entity.
+	CombinedHsCodes []string `json:"combined_hs_codes,omitempty" url:"combined_hs_codes,omitempty"`
 	// Counts of sent and received shipments for this entity and its match group.
 	TradeCountInclMg *TradeCount            `json:"trade_count_incl_mg,omitempty" url:"trade_count_incl_mg,omitempty"`
 	Upstream         *ProjectEntityUpstream `json:"upstream,omitempty" url:"upstream,omitempty"`
@@ -11457,9 +11460,11 @@ func (p *ProjectEntity) String() string {
 }
 
 type ProjectEntityUpstream struct {
-	Risk      []Risk    `json:"risk,omitempty" url:"risk,omitempty"`
-	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
-	Entities  int       `json:"entities" url:"entities"`
+	Risk             []Risk              `json:"risk,omitempty" url:"risk,omitempty"`
+	Countries        []Country           `json:"countries,omitempty" url:"countries,omitempty"`
+	Entities         int                 `json:"entities" url:"entities"`
+	MatchHasUpstream map[string]bool     `json:"match_has_upstream,omitempty" url:"match_has_upstream,omitempty"`
+	MatchProducts    map[string][]string `json:"match_products,omitempty" url:"match_products,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
