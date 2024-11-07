@@ -540,8 +540,6 @@ type AddressType string
 const (
 	// The port to which a shipment is sent
 	AddressTypeArrival AddressType = "arrival"
-	// An address at which an entity conducts its operations
-	AddressTypeBusiness AddressType = "business"
 	// The port from which a shipment leaves
 	AddressTypeDeparture AddressType = "departure"
 	// An address at which an entity receives mail
@@ -550,14 +548,14 @@ const (
 	AddressTypePhysical AddressType = "physical"
 	// An address an entity has listed for its registration
 	AddressTypeRegistered AddressType = "registered"
+	// An address at which an entity conducts its operations
+	AddressTypeBusiness AddressType = "business"
 )
 
 func NewAddressTypeFromString(s string) (AddressType, error) {
 	switch s {
 	case "arrival":
 		return AddressTypeArrival, nil
-	case "business":
-		return AddressTypeBusiness, nil
 	case "departure":
 		return AddressTypeDeparture, nil
 	case "mailing":
@@ -566,6 +564,8 @@ func NewAddressTypeFromString(s string) (AddressType, error) {
 		return AddressTypePhysical, nil
 	case "registered":
 		return AddressTypeRegistered, nil
+	case "business":
+		return AddressTypeBusiness, nil
 	}
 	var t AddressType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -908,24 +908,8 @@ func (b *BusinessPurposeProperties) String() string {
 type BusinessPurposeStandard string
 
 const (
-	// Abu Dhabi Global Market Activity Code
-	BusinessPurposeStandardAdgm BusinessPurposeStandard = "ADGM"
-	// San Marino Codici ATECO
-	BusinessPurposeStandardAteco BusinessPurposeStandard = "ATECO"
-	// Code d'activité économique Quebec
-	BusinessPurposeStandardCae BusinessPurposeStandard = "CAE"
-	// Clasificatorul Activităţilor Din Economia Moldovei - Moldova Classification of Economic Activities, Rev. 2005
-	BusinessPurposeStandardCaem2005 BusinessPurposeStandard = "CAEM2005"
-	// Clasificador Nacional de Actividades Económicas(CNAE) - Cuba National Economic Activity Classifications, Rev. 2021
-	BusinessPurposeStandardCcnae2021 BusinessPurposeStandard = "CCNAE2021"
 	// Classificação Nacional de Atividades Econômicas - Brazil National Economic Activity Classification, Rev. 2.0
 	BusinessPurposeStandardCnae2 BusinessPurposeStandard = "CNAE2"
-	// European System of Accounts
-	BusinessPurposeStandardEsa2010 BusinessPurposeStandard = "ESA2010"
-	// Экономикалык Ишмердиктердин Тyрлөрүнүн Мамлекеттик Классификатору - Kyrgyz State Economic Activity Classification, Rev. 2011
-	BusinessPurposeStandardGced2011 BusinessPurposeStandard = "GCED2011"
-	// Harmonized System Codes (standardized numerical method of classifying traded products)
-	BusinessPurposeStandardHs BusinessPurposeStandard = "HS"
 	// International Standard Industrial Classification, Rev. 3
 	BusinessPurposeStandardIsic3 BusinessPurposeStandard = "ISIC3"
 	// International Standard Industrial Classification, Rev. 3.1
@@ -940,6 +924,14 @@ const (
 	BusinessPurposeStandardNace1 BusinessPurposeStandard = "NACE1"
 	// Nomenclature of Economic Activities, Rev. 2
 	BusinessPurposeStandardNace2 BusinessPurposeStandard = "NACE2"
+	// North American Industry Classification System, Rev. 2017
+	BusinessPurposeStandardNaics2017 BusinessPurposeStandard = "NAICS2017"
+	// Standardna klasifikacija dejavnosti - Slovenia Standard Classification of Activities, Rev. 2002
+	BusinessPurposeStandardSkd2002 BusinessPurposeStandard = "SKD2002"
+	// Standardna klasifikacija dejavnosti - Slovenia Standard Classification of Activities, Rev. 2008
+	BusinessPurposeStandardSkd2008 BusinessPurposeStandard = "SKD2008"
+	// การจัดประเภทมาตรฐานอุตสาหกรรมประเทศไทย ปี 2552 - Thailand Standard Industrial Classification, Rev. 2009
+	BusinessPurposeStandardTsic2552 BusinessPurposeStandard = "TSIC2552"
 	// Nomenclature des activités économiques - Belgium Nomenclature of Economic Activities, Rev. 2003
 	BusinessPurposeStandardNacebel2003 BusinessPurposeStandard = "NACEBEL2003"
 	// Nomenclature des activités économiques - Belgium Nomenclature of Economic Activities, Rev. 2008
@@ -948,50 +940,42 @@ const (
 	BusinessPurposeStandardNaf1 BusinessPurposeStandard = "NAF1"
 	// Nomenclature d'activités française - French Nomenclature of Economic Activities, Rev. 2
 	BusinessPurposeStandardNaf2 BusinessPurposeStandard = "NAF2"
-	// North American Industry Classification System, Rev. 2017
-	BusinessPurposeStandardNaics2017 BusinessPurposeStandard = "NAICS2017"
-	// India National Industrial Classification - 2008 (NIC-2008)
-	BusinessPurposeStandardNic2008 BusinessPurposeStandard = "NIC2008"
-	// Polska Klasyfikacja Działalności (PKD) - Polish Classification of Activities, Rev. 2007
-	BusinessPurposeStandardPkd2007 BusinessPurposeStandard = "PKD2007"
-	// De Standaard Bedrijfsindeling (SBI) - Netherlands Standard Company Classification, Rev. 2008
-	BusinessPurposeStandardSbi2008 BusinessPurposeStandard = "SBI2008"
+	// Экономикалык Ишмердиктердин Тyрлөрүнүн Мамлекеттик Классификатору - Kyrgyz State Economic Activity Classification, Rev. 2011
+	BusinessPurposeStandardGced2011 BusinessPurposeStandard = "GCED2011"
 	// Sistema de Clasificación Industrial de América del Norte - Mexico North American Industry Classification System, Rev. 2018
 	BusinessPurposeStandardScian2018 BusinessPurposeStandard = "SCIAN2018"
+	// Clasificador Nacional de Actividades Económicas(CNAE) - Cuba National Economic Activity Classifications, Rev. 2021
+	BusinessPurposeStandardCcnae2021 BusinessPurposeStandard = "CCNAE2021"
+	// Clasificatorul Activităţilor Din Economia Moldovei - Moldova Classification of Economic Activities, Rev. 2005
+	BusinessPurposeStandardCaem2005 BusinessPurposeStandard = "CAEM2005"
+	// De Standaard Bedrijfsindeling (SBI) - Netherlands Standard Company Classification, Rev. 2008
+	BusinessPurposeStandardSbi2008 BusinessPurposeStandard = "SBI2008"
+	// Harmonized System Codes (standardized numerical method of classifying traded products)
+	BusinessPurposeStandardHs BusinessPurposeStandard = "HS"
 	// Standard Industrial Classification (SIC) Code List (USA)
 	BusinessPurposeStandardSic BusinessPurposeStandard = "SIC"
-	// Standardna klasifikacija dejavnosti - Slovenia Standard Classification of Activities, Rev. 2002
-	BusinessPurposeStandardSkd2002 BusinessPurposeStandard = "SKD2002"
-	// Standardna klasifikacija dejavnosti - Slovenia Standard Classification of Activities, Rev. 2008
-	BusinessPurposeStandardSkd2008 BusinessPurposeStandard = "SKD2008"
 	// Singapore Standard Industrial Classification (national standard for classifying economic activities undertaken by economic units)
 	BusinessPurposeStandardSsic2020 BusinessPurposeStandard = "SSIC2020"
+	// Polska Klasyfikacja Działalności (PKD) - Polish Classification of Activities, Rev. 2007
+	BusinessPurposeStandardPkd2007 BusinessPurposeStandard = "PKD2007"
+	// European System of Accounts
+	BusinessPurposeStandardEsa2010 BusinessPurposeStandard = "ESA2010"
+	// San Marino Codici ATECO
+	BusinessPurposeStandardAteco BusinessPurposeStandard = "ATECO"
+	// Code d'activité économique Quebec
+	BusinessPurposeStandardCae BusinessPurposeStandard = "CAE"
 	// Finland Standard Industrial Classification TOL 2008
 	BusinessPurposeStandardTol2008 BusinessPurposeStandard = "TOL2008"
-	// การจัดประเภทมาตรฐานอุตสาหกรรมประเทศไทย ปี 2552 - Thailand Standard Industrial Classification, Rev. 2009
-	BusinessPurposeStandardTsic2552 BusinessPurposeStandard = "TSIC2552"
+	// Abu Dhabi Global Market Activity Code
+	BusinessPurposeStandardAdgm BusinessPurposeStandard = "ADGM"
+	// India National Industrial Classification - 2008 (NIC-2008)
+	BusinessPurposeStandardNic2008 BusinessPurposeStandard = "NIC2008"
 )
 
 func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, error) {
 	switch s {
-	case "ADGM":
-		return BusinessPurposeStandardAdgm, nil
-	case "ATECO":
-		return BusinessPurposeStandardAteco, nil
-	case "CAE":
-		return BusinessPurposeStandardCae, nil
-	case "CAEM2005":
-		return BusinessPurposeStandardCaem2005, nil
-	case "CCNAE2021":
-		return BusinessPurposeStandardCcnae2021, nil
 	case "CNAE2":
 		return BusinessPurposeStandardCnae2, nil
-	case "ESA2010":
-		return BusinessPurposeStandardEsa2010, nil
-	case "GCED2011":
-		return BusinessPurposeStandardGced2011, nil
-	case "HS":
-		return BusinessPurposeStandardHs, nil
 	case "ISIC3":
 		return BusinessPurposeStandardIsic3, nil
 	case "ISIC31":
@@ -1006,6 +990,14 @@ func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, er
 		return BusinessPurposeStandardNace1, nil
 	case "NACE2":
 		return BusinessPurposeStandardNace2, nil
+	case "NAICS2017":
+		return BusinessPurposeStandardNaics2017, nil
+	case "SKD2002":
+		return BusinessPurposeStandardSkd2002, nil
+	case "SKD2008":
+		return BusinessPurposeStandardSkd2008, nil
+	case "TSIC2552":
+		return BusinessPurposeStandardTsic2552, nil
 	case "NACEBEL2003":
 		return BusinessPurposeStandardNacebel2003, nil
 	case "NACEBEL2008":
@@ -1014,28 +1006,36 @@ func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, er
 		return BusinessPurposeStandardNaf1, nil
 	case "NAF2":
 		return BusinessPurposeStandardNaf2, nil
-	case "NAICS2017":
-		return BusinessPurposeStandardNaics2017, nil
-	case "NIC2008":
-		return BusinessPurposeStandardNic2008, nil
-	case "PKD2007":
-		return BusinessPurposeStandardPkd2007, nil
-	case "SBI2008":
-		return BusinessPurposeStandardSbi2008, nil
+	case "GCED2011":
+		return BusinessPurposeStandardGced2011, nil
 	case "SCIAN2018":
 		return BusinessPurposeStandardScian2018, nil
+	case "CCNAE2021":
+		return BusinessPurposeStandardCcnae2021, nil
+	case "CAEM2005":
+		return BusinessPurposeStandardCaem2005, nil
+	case "SBI2008":
+		return BusinessPurposeStandardSbi2008, nil
+	case "HS":
+		return BusinessPurposeStandardHs, nil
 	case "SIC":
 		return BusinessPurposeStandardSic, nil
-	case "SKD2002":
-		return BusinessPurposeStandardSkd2002, nil
-	case "SKD2008":
-		return BusinessPurposeStandardSkd2008, nil
 	case "SSIC2020":
 		return BusinessPurposeStandardSsic2020, nil
+	case "PKD2007":
+		return BusinessPurposeStandardPkd2007, nil
+	case "ESA2010":
+		return BusinessPurposeStandardEsa2010, nil
+	case "ATECO":
+		return BusinessPurposeStandardAteco, nil
+	case "CAE":
+		return BusinessPurposeStandardCae, nil
 	case "TOL2008":
 		return BusinessPurposeStandardTol2008, nil
-	case "TSIC2552":
-		return BusinessPurposeStandardTsic2552, nil
+	case "ADGM":
+		return BusinessPurposeStandardAdgm, nil
+	case "NIC2008":
+		return BusinessPurposeStandardNic2008, nil
 	}
 	var t BusinessPurposeStandard
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -1049,65 +1049,65 @@ func (b BusinessPurposeStandard) Ptr() *BusinessPurposeStandard {
 type CompanyStatus string
 
 const (
+	CompanyStatusSeized              CompanyStatus = "seized"
+	CompanyStatusInReceivership      CompanyStatus = "in_receivership"
+	CompanyStatusRegistrationRevoked CompanyStatus = "registration_revoked"
+	CompanyStatusOpening             CompanyStatus = "opening"
+	CompanyStatusDissolved           CompanyStatus = "dissolved"
 	// e.g., "Active", "Operating," "In good standing"
 	CompanyStatusActive CompanyStatus = "active"
+	// e.g., "Inactive", "Administratively dissolved". Used when the company still exists but is not operating normally.
+	CompanyStatusInactive CompanyStatus = "inactive"
 	// e.g., "Closed", "Struck from the register", "Registration canceled". Used when the company no longer legally exists.
 	CompanyStatusClosed CompanyStatus = "closed"
 	// e.g., "In liquidation", "Dissolved". Used when the company is on track to close.
-	CompanyStatusClosing   CompanyStatus = "closing"
-	CompanyStatusDissolved CompanyStatus = "dissolved"
-	// e.g., "Expanded", "Barred". Used when a broker has been involved in one or more disclosure events involving certain final criminal matters, regulatory actions, civil judgment proceedings, or arbitrations or civil litigations.
-	CompanyStatusExpanded CompanyStatus = "expanded"
-	// e.g., "Expired", "Inactive". Used when the business license is no longer active and up to date.
-	CompanyStatusExpired        CompanyStatus = "expired"
-	CompanyStatusInReceivership CompanyStatus = "in_receivership"
-	// e.g., "Inactive", "Administratively dissolved". Used when the company still exists but is not operating normally.
-	CompanyStatusInactive CompanyStatus = "inactive"
+	CompanyStatusClosing CompanyStatus = "closing"
+	// e.g., "Registration date"
+	CompanyStatusRegistered CompanyStatus = "registered"
 	// e.g., "Date of incorporation"
 	CompanyStatusIncorporated CompanyStatus = "incorporated"
-	CompanyStatusOpening      CompanyStatus = "opening"
-	// e.g., "Registration date"
-	CompanyStatusRegistered          CompanyStatus = "registered"
-	CompanyStatusRegistrationRevoked CompanyStatus = "registration_revoked"
-	CompanyStatusSeized              CompanyStatus = "seized"
-	// e.g., "Terminated", "Closed". Used when the licensing organization terminates a business license, barring the individual and/or company from performing business activities with the association of the organization.
-	CompanyStatusTerminated CompanyStatus = "terminated"
 	// e.g., "In receivership", "Bankruptcy trustee appointed", "Seized". Used when an exernal party is granted legal/operational control over the company, typically to steer it through a bankruptcy or winding-up process.
 	CompanyStatusUnderExternalControl CompanyStatus = "under_external_control"
+	// e.g., "Expired", "Inactive". Used when the business license is no longer active and up to date.
+	CompanyStatusExpired CompanyStatus = "expired"
+	// e.g., "Expanded", "Barred". Used when a broker has been involved in one or more disclosure events involving certain final criminal matters, regulatory actions, civil judgment proceedings, or arbitrations or civil litigations.
+	CompanyStatusExpanded CompanyStatus = "expanded"
+	// e.g., "Terminated", "Closed". Used when the licensing organization terminates a business license, barring the individual and/or company from performing business activities with the association of the organization.
+	CompanyStatusTerminated CompanyStatus = "terminated"
 )
 
 func NewCompanyStatusFromString(s string) (CompanyStatus, error) {
 	switch s {
+	case "seized":
+		return CompanyStatusSeized, nil
+	case "in_receivership":
+		return CompanyStatusInReceivership, nil
+	case "registration_revoked":
+		return CompanyStatusRegistrationRevoked, nil
+	case "opening":
+		return CompanyStatusOpening, nil
+	case "dissolved":
+		return CompanyStatusDissolved, nil
 	case "active":
 		return CompanyStatusActive, nil
+	case "inactive":
+		return CompanyStatusInactive, nil
 	case "closed":
 		return CompanyStatusClosed, nil
 	case "closing":
 		return CompanyStatusClosing, nil
-	case "dissolved":
-		return CompanyStatusDissolved, nil
-	case "expanded":
-		return CompanyStatusExpanded, nil
-	case "expired":
-		return CompanyStatusExpired, nil
-	case "in_receivership":
-		return CompanyStatusInReceivership, nil
-	case "inactive":
-		return CompanyStatusInactive, nil
-	case "incorporated":
-		return CompanyStatusIncorporated, nil
-	case "opening":
-		return CompanyStatusOpening, nil
 	case "registered":
 		return CompanyStatusRegistered, nil
-	case "registration_revoked":
-		return CompanyStatusRegistrationRevoked, nil
-	case "seized":
-		return CompanyStatusSeized, nil
-	case "terminated":
-		return CompanyStatusTerminated, nil
+	case "incorporated":
+		return CompanyStatusIncorporated, nil
 	case "under_external_control":
 		return CompanyStatusUnderExternalControl, nil
+	case "expired":
+		return CompanyStatusExpired, nil
+	case "expanded":
+		return CompanyStatusExpanded, nil
+	case "terminated":
+		return CompanyStatusTerminated, nil
 	}
 	var t CompanyStatus
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -1398,24 +1398,24 @@ func (c *ContactProperties) String() string {
 type ContactType string
 
 const (
-	// An email address
-	ContactTypeEmail ContactType = "email"
-	// A fax number
-	ContactTypeFax ContactType = "fax"
 	// Any kind of phone number
 	ContactTypePhoneNumber ContactType = "phone_number"
+	// A fax number
+	ContactTypeFax ContactType = "fax"
+	// An email address
+	ContactTypeEmail ContactType = "email"
 	// A URL
 	ContactTypeUrl ContactType = "url"
 )
 
 func NewContactTypeFromString(s string) (ContactType, error) {
 	switch s {
-	case "email":
-		return ContactTypeEmail, nil
-	case "fax":
-		return ContactTypeFax, nil
 	case "phone_number":
 		return ContactTypePhoneNumber, nil
+	case "fax":
+		return ContactTypeFax, nil
+	case "email":
+		return ContactTypeEmail, nil
 	case "url":
 		return ContactTypeUrl, nil
 	}
@@ -1471,8 +1471,6 @@ const (
 	CountryBel Country = "BEL"
 	// Benin
 	CountryBen Country = "BEN"
-	// Caribbean Netherlands
-	CountryBes Country = "BES"
 	// Burkina Faso
 	CountryBfa Country = "BFA"
 	// Bangladesh
@@ -1487,6 +1485,8 @@ const (
 	CountryBih Country = "BIH"
 	// Saint Barthélemy
 	CountryBlm Country = "BLM"
+	// Saint Helena, Ascension and Tristan da Cunha
+	CountryShn Country = "SHN"
 	// Belarus
 	CountryBlr Country = "BLR"
 	// Belize
@@ -1495,6 +1495,8 @@ const (
 	CountryBmu Country = "BMU"
 	// Bolivia
 	CountryBol Country = "BOL"
+	// Caribbean Netherlands
+	CountryBes Country = "BES"
 	// Brazil
 	CountryBra Country = "BRA"
 	// Barbados
@@ -1677,6 +1679,8 @@ const (
 	CountryKna Country = "KNA"
 	// South Korea
 	CountryKor Country = "KOR"
+	// Kosovo
+	CountryUnk Country = "UNK"
 	// Kuwait
 	CountryKwt Country = "KWT"
 	// Laos
@@ -1807,8 +1811,6 @@ const (
 	CountryQat Country = "QAT"
 	// Réunion
 	CountryReu Country = "REU"
-	// Kosovo
-	CountryRks Country = "RKS"
 	// Romania
 	CountryRou Country = "ROU"
 	// Russia
@@ -1825,8 +1827,6 @@ const (
 	CountrySgp Country = "SGP"
 	// South Georgia
 	CountrySgs Country = "SGS"
-	// Saint Helena, Ascension and Tristan da Cunha
-	CountryShn Country = "SHN"
 	// Svalbard and Jan Mayen
 	CountrySjm Country = "SJM"
 	// Solomon Islands
@@ -1899,8 +1899,6 @@ const (
 	CountryUkr Country = "UKR"
 	// United States Minor Outlying Islands
 	CountryUmi Country = "UMI"
-	// Kosovo
-	CountryUnk Country = "UNK"
 	// Uruguay
 	CountryUry Country = "URY"
 	// United States
@@ -1925,8 +1923,6 @@ const (
 	CountryWlf Country = "WLF"
 	// Samoa
 	CountryWsm Country = "WSM"
-	// International
-	CountryXxx Country = "XXX"
 	// Yemen
 	CountryYem Country = "YEM"
 	// South Africa
@@ -1935,6 +1931,10 @@ const (
 	CountryZmb Country = "ZMB"
 	// Zimbabwe
 	CountryZwe Country = "ZWE"
+	// International
+	CountryXxx Country = "XXX"
+	// Kosovo
+	CountryRks Country = "RKS"
 )
 
 func NewCountryFromString(s string) (Country, error) {
@@ -1979,8 +1979,6 @@ func NewCountryFromString(s string) (Country, error) {
 		return CountryBel, nil
 	case "BEN":
 		return CountryBen, nil
-	case "BES":
-		return CountryBes, nil
 	case "BFA":
 		return CountryBfa, nil
 	case "BGD":
@@ -1995,6 +1993,8 @@ func NewCountryFromString(s string) (Country, error) {
 		return CountryBih, nil
 	case "BLM":
 		return CountryBlm, nil
+	case "SHN":
+		return CountryShn, nil
 	case "BLR":
 		return CountryBlr, nil
 	case "BLZ":
@@ -2003,6 +2003,8 @@ func NewCountryFromString(s string) (Country, error) {
 		return CountryBmu, nil
 	case "BOL":
 		return CountryBol, nil
+	case "BES":
+		return CountryBes, nil
 	case "BRA":
 		return CountryBra, nil
 	case "BRB":
@@ -2185,6 +2187,8 @@ func NewCountryFromString(s string) (Country, error) {
 		return CountryKna, nil
 	case "KOR":
 		return CountryKor, nil
+	case "UNK":
+		return CountryUnk, nil
 	case "KWT":
 		return CountryKwt, nil
 	case "LAO":
@@ -2315,8 +2319,6 @@ func NewCountryFromString(s string) (Country, error) {
 		return CountryQat, nil
 	case "REU":
 		return CountryReu, nil
-	case "RKS":
-		return CountryRks, nil
 	case "ROU":
 		return CountryRou, nil
 	case "RUS":
@@ -2333,8 +2335,6 @@ func NewCountryFromString(s string) (Country, error) {
 		return CountrySgp, nil
 	case "SGS":
 		return CountrySgs, nil
-	case "SHN":
-		return CountryShn, nil
 	case "SJM":
 		return CountrySjm, nil
 	case "SLB":
@@ -2407,8 +2407,6 @@ func NewCountryFromString(s string) (Country, error) {
 		return CountryUkr, nil
 	case "UMI":
 		return CountryUmi, nil
-	case "UNK":
-		return CountryUnk, nil
 	case "URY":
 		return CountryUry, nil
 	case "USA":
@@ -2433,8 +2431,6 @@ func NewCountryFromString(s string) (Country, error) {
 		return CountryWlf, nil
 	case "WSM":
 		return CountryWsm, nil
-	case "XXX":
-		return CountryXxx, nil
 	case "YEM":
 		return CountryYem, nil
 	case "ZAF":
@@ -2443,6 +2439,10 @@ func NewCountryFromString(s string) (Country, error) {
 		return CountryZmb, nil
 	case "ZWE":
 		return CountryZwe, nil
+	case "XXX":
+		return CountryXxx, nil
+	case "RKS":
+		return CountryRks, nil
 	}
 	var t Country
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -2456,62 +2456,62 @@ func (c Country) Ptr() *Country {
 type CountryContext string
 
 const (
-	// The entity is the principal entity in a record originating from this country
-	CountryContextActivityIn CountryContext = "activity_in"
-	// The country of an entity address
-	CountryContextAddress CountryContext = "address"
 	// The reported citizenship of a person
 	CountryContextCitizenship CountryContext = "citizenship"
-	// e.g., "Country of incorporation", "Jurisdiction of formation", "Organized under the laws of". A company can operate in multiple countries, but can only have one domicile at a time.
-	CountryContextDomicile CountryContext = "domicile"
 	// Rarely used. Converted to "domicile".
 	CountryContextIncorporation CountryContext = "incorporation"
-	// The entity is mentioned in a record originating from this country
-	CountryContextMentionedIn CountryContext = "mentioned_in"
-	// The reported nationality of a person
-	CountryContextNationality CountryContext = "nationality"
-	// The country of origin of a product
-	CountryContextProductOrigin CountryContext = "product_origin"
 	// The reported country of residence of a person
 	CountryContextResidence CountryContext = "residence"
-	// The country of the consignee/recipient of a shipment
-	CountryContextShipmentArrival CountryContext = "shipment_arrival"
-	// The country a shipment starts in
-	CountryContextShipmentDeparture CountryContext = "shipment_departure"
-	// Any country a shipment moves through between its departure and arrival
-	CountryContextShipmentTransit CountryContext = "shipment_transit"
+	// The reported nationality of a person
+	CountryContextNationality CountryContext = "nationality"
+	// The country of an entity address
+	CountryContextAddress CountryContext = "address"
 	// The flag state of a vessel. Often changes over time.
 	CountryContextVesselFlag CountryContext = "vessel_flag"
+	// e.g., "Country of incorporation", "Jurisdiction of formation", "Organized under the laws of". A company can operate in multiple countries, but can only have one domicile at a time.
+	CountryContextDomicile CountryContext = "domicile"
+	// The country a shipment starts in
+	CountryContextShipmentDeparture CountryContext = "shipment_departure"
+	// The country of the consignee/recipient of a shipment
+	CountryContextShipmentArrival CountryContext = "shipment_arrival"
+	// Any country a shipment moves through between its departure and arrival
+	CountryContextShipmentTransit CountryContext = "shipment_transit"
+	// The entity is the principal entity in a record originating from this country
+	CountryContextActivityIn CountryContext = "activity_in"
+	// The entity is mentioned in a record originating from this country
+	CountryContextMentionedIn CountryContext = "mentioned_in"
+	// The country of origin of a product
+	CountryContextProductOrigin CountryContext = "product_origin"
 )
 
 func NewCountryContextFromString(s string) (CountryContext, error) {
 	switch s {
-	case "activity_in":
-		return CountryContextActivityIn, nil
-	case "address":
-		return CountryContextAddress, nil
 	case "citizenship":
 		return CountryContextCitizenship, nil
-	case "domicile":
-		return CountryContextDomicile, nil
 	case "incorporation":
 		return CountryContextIncorporation, nil
-	case "mentioned_in":
-		return CountryContextMentionedIn, nil
-	case "nationality":
-		return CountryContextNationality, nil
-	case "product_origin":
-		return CountryContextProductOrigin, nil
 	case "residence":
 		return CountryContextResidence, nil
-	case "shipment_arrival":
-		return CountryContextShipmentArrival, nil
-	case "shipment_departure":
-		return CountryContextShipmentDeparture, nil
-	case "shipment_transit":
-		return CountryContextShipmentTransit, nil
+	case "nationality":
+		return CountryContextNationality, nil
+	case "address":
+		return CountryContextAddress, nil
 	case "vessel_flag":
 		return CountryContextVesselFlag, nil
+	case "domicile":
+		return CountryContextDomicile, nil
+	case "shipment_departure":
+		return CountryContextShipmentDeparture, nil
+	case "shipment_arrival":
+		return CountryContextShipmentArrival, nil
+	case "shipment_transit":
+		return CountryContextShipmentTransit, nil
+	case "activity_in":
+		return CountryContextActivityIn, nil
+	case "mentioned_in":
+		return CountryContextMentionedIn, nil
+	case "product_origin":
+		return CountryContextProductOrigin, nil
 	}
 	var t CountryContext
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -2667,342 +2667,344 @@ func (c *CountryProperties) String() string {
 type Currency string
 
 const (
-	// UAE Dirham/784/2
-	CurrencyAed Currency = "AED"
 	// Afghani/971/2
 	CurrencyAfn Currency = "AFN"
+	// Euro/978/2
+	CurrencyEur Currency = "EUR"
 	// Lek/008/2
 	CurrencyAll Currency = "ALL"
-	// Armenian Dram/051/2
-	CurrencyAmd Currency = "AMD"
-	// Netherlands Antillean Guilder/532/2
-	CurrencyAng Currency = "ANG"
+	// Algerian Dinar/012/2
+	CurrencyDzd Currency = "DZD"
+	// US Dollar/840/2
+	CurrencyUsd Currency = "USD"
 	// Kwanza/973/2
 	CurrencyAoa Currency = "AOA"
+	// East Caribbean Dollar/951/2
+	CurrencyXcd Currency = "XCD"
 	// Argentine Peso/032/2
 	CurrencyArs Currency = "ARS"
-	// Australian Dollar/036/2
-	CurrencyAud Currency = "AUD"
+	// Armenian Dram/051/2
+	CurrencyAmd Currency = "AMD"
 	// Aruban Florin/533/2
 	CurrencyAwg Currency = "AWG"
+	// Australian Dollar/036/2
+	CurrencyAud Currency = "AUD"
 	// Azerbaijan Manat/944/2
 	CurrencyAzn Currency = "AZN"
-	// Convertible Mark/977/2
-	CurrencyBam Currency = "BAM"
-	// Barbados Dollar/052/2
-	CurrencyBbd Currency = "BBD"
-	// Taka/050/2
-	CurrencyBdt Currency = "BDT"
-	// Belgian Franc
-	CurrencyBef Currency = "BEF"
-	// Bulgarian Lev/975/2
-	CurrencyBgn Currency = "BGN"
-	// Bahraini Dinar/048/3
-	CurrencyBhd Currency = "BHD"
-	// Burundi Franc/108/0
-	CurrencyBif Currency = "BIF"
-	// Bermudian Dollar/060/2
-	CurrencyBmd Currency = "BMD"
-	// Brunei Dollar/096/2
-	CurrencyBnd Currency = "BND"
-	// Boliviano/068/2
-	CurrencyBob Currency = "BOB"
-	// Mvdol/984/2
-	CurrencyBov Currency = "BOV"
-	// Brazilian Real/986/2
-	CurrencyBrl Currency = "BRL"
 	// Bahamian Dollar/044/2
 	CurrencyBsd Currency = "BSD"
-	// Ngultrum/064/2
-	CurrencyBtn Currency = "BTN"
-	// Pula/072/2
-	CurrencyBwp Currency = "BWP"
+	// Bahraini Dinar/048/3
+	CurrencyBhd Currency = "BHD"
+	// Taka/050/2
+	CurrencyBdt Currency = "BDT"
+	// Barbados Dollar/052/2
+	CurrencyBbd Currency = "BBD"
 	// Belarusian Ruble/933/2
 	CurrencyByn Currency = "BYN"
 	// Belize Dollar/084/2
 	CurrencyBzd Currency = "BZD"
+	// CFA Franc BCEAO/952/0
+	CurrencyXof Currency = "XOF"
+	// Bermudian Dollar/060/2
+	CurrencyBmd Currency = "BMD"
+	// Indian Rupee/356/2
+	CurrencyInr Currency = "INR"
+	// Ngultrum/064/2
+	CurrencyBtn Currency = "BTN"
+	// Boliviano/068/2
+	CurrencyBob Currency = "BOB"
+	// Mvdol/984/2
+	CurrencyBov Currency = "BOV"
+	// Convertible Mark/977/2
+	CurrencyBam Currency = "BAM"
+	// Pula/072/2
+	CurrencyBwp Currency = "BWP"
+	// Norwegian Krone/578/2
+	CurrencyNok Currency = "NOK"
+	// Brazilian Real/986/2
+	CurrencyBrl Currency = "BRL"
+	// Brunei Dollar/096/2
+	CurrencyBnd Currency = "BND"
+	// Bulgarian Lev/975/2
+	CurrencyBgn Currency = "BGN"
+	// Burundi Franc/108/0
+	CurrencyBif Currency = "BIF"
+	// Cabo Verde Escudo/132/2
+	CurrencyCve Currency = "CVE"
+	// Riel/116/2
+	CurrencyKhr Currency = "KHR"
+	// CFA Franc BEAC/950/0
+	CurrencyXaf Currency = "XAF"
 	// Canadian Dollar/124/2
 	CurrencyCad Currency = "CAD"
-	// Congolese Franc/976/2
-	CurrencyCdf Currency = "CDF"
-	// WIR Euro/947/2
-	CurrencyChe Currency = "CHE"
-	// Swiss Franc/756/2
-	CurrencyChf Currency = "CHF"
-	// WIR Franc/948/2
-	CurrencyChw Currency = "CHW"
-	// Unidad de Fomento/990/4
-	CurrencyClf Currency = "CLF"
+	// Cayman Islands Dollar/136/2
+	CurrencyKyd Currency = "KYD"
 	// Chilean Peso/152/0
 	CurrencyClp Currency = "CLP"
+	// Unidad de Fomento/990/4
+	CurrencyClf Currency = "CLF"
 	// Yuan Renminbi/156/2
 	CurrencyCny Currency = "CNY"
 	// Colombian Peso/170/2
 	CurrencyCop Currency = "COP"
 	// Unidad de Valor Real/970/2
 	CurrencyCou Currency = "COU"
+	// Comorian Franc /174/0
+	CurrencyKmf Currency = "KMF"
+	// Congolese Franc/976/2
+	CurrencyCdf Currency = "CDF"
+	// New Zealand Dollar/554/2
+	CurrencyNzd Currency = "NZD"
 	// Costa Rican Colon/188/2
 	CurrencyCrc Currency = "CRC"
-	// Peso Convertible/931/2
-	CurrencyCuc Currency = "CUC"
+	// Kuna/191/2
+	CurrencyHrk Currency = "HRK"
 	// Cuban Peso/192/2
 	CurrencyCup Currency = "CUP"
-	// Cabo Verde Escudo/132/2
-	CurrencyCve Currency = "CVE"
+	// Peso Convertible/931/2
+	CurrencyCuc Currency = "CUC"
+	// Netherlands Antillean Guilder/532/2
+	CurrencyAng Currency = "ANG"
 	// Czech Koruna/203/2
 	CurrencyCzk Currency = "CZK"
-	// Djibouti Franc/262/0
-	CurrencyDjf Currency = "DJF"
 	// Danish Krone/208/2
 	CurrencyDkk Currency = "DKK"
+	// Djibouti Franc/262/0
+	CurrencyDjf Currency = "DJF"
 	// Dominican Peso/214/2
 	CurrencyDop Currency = "DOP"
-	// Algerian Dinar/012/2
-	CurrencyDzd Currency = "DZD"
 	// Egyptian Pound/818/2
 	CurrencyEgp Currency = "EGP"
+	// El Salvador Colon/222/2
+	CurrencySvc Currency = "SVC"
 	// Nakfa/232/2
 	CurrencyErn Currency = "ERN"
 	// Ethiopian Birr/230/2
 	CurrencyEtb Currency = "ETB"
-	// Euro/978/2
-	CurrencyEur Currency = "EUR"
-	// Fiji Dollar/242/2
-	CurrencyFjd Currency = "FJD"
 	// Falkland Islands Pound/238/2
 	CurrencyFkp Currency = "FKP"
-	// Pound Sterling/826/2
-	CurrencyGbp Currency = "GBP"
+	// Fiji Dollar/242/2
+	CurrencyFjd Currency = "FJD"
+	// CFP Franc/953/0
+	CurrencyXpf Currency = "XPF"
+	// Dalasi/270/2
+	CurrencyGmd Currency = "GMD"
 	// Lari/981/2
 	CurrencyGel Currency = "GEL"
 	// Ghana Cedi/936/2
 	CurrencyGhs Currency = "GHS"
 	// Gibraltar Pound/292/2
 	CurrencyGip Currency = "GIP"
-	// Dalasi/270/2
-	CurrencyGmd Currency = "GMD"
-	// Guinean Franc/324/0
-	CurrencyGnf Currency = "GNF"
 	// Quetzal/320/2
 	CurrencyGtq Currency = "GTQ"
+	// Pound Sterling/826/2
+	CurrencyGbp Currency = "GBP"
+	// Guinean Franc/324/0
+	CurrencyGnf Currency = "GNF"
 	// Guyana Dollar/328/2
 	CurrencyGyd Currency = "GYD"
-	// Hong Kong Dollar/344/2
-	CurrencyHkd Currency = "HKD"
-	// Lempira/340/2
-	CurrencyHnl Currency = "HNL"
-	// Kuna/191/2
-	CurrencyHrk Currency = "HRK"
 	// Gourde/332/2
 	CurrencyHtg Currency = "HTG"
+	// Lempira/340/2
+	CurrencyHnl Currency = "HNL"
+	// Hong Kong Dollar/344/2
+	CurrencyHkd Currency = "HKD"
 	// Forint/348/2
 	CurrencyHuf Currency = "HUF"
-	// Rupiah/360/2
-	CurrencyIdr Currency = "IDR"
-	// New Israeli Sheqel/376/2
-	CurrencyIls Currency = "ILS"
-	// Indian Rupee/356/2
-	CurrencyInr Currency = "INR"
-	// Iraqi Dinar/368/3
-	CurrencyIqd Currency = "IQD"
-	// Iranian Rial/364/2
-	CurrencyIrr Currency = "IRR"
 	// Iceland Krona/352/0
 	CurrencyIsk Currency = "ISK"
-	// Italian Lira
-	CurrencyItl Currency = "ITL"
+	// Rupiah/360/2
+	CurrencyIdr Currency = "IDR"
+	// SDR (Special Drawing Right)/960/N.A.
+	CurrencyXdr Currency = "XDR"
+	// Iranian Rial/364/2
+	CurrencyIrr Currency = "IRR"
+	// Iraqi Dinar/368/3
+	CurrencyIqd Currency = "IQD"
+	// New Israeli Sheqel/376/2
+	CurrencyIls Currency = "ILS"
 	// Jamaican Dollar/388/2
 	CurrencyJmd Currency = "JMD"
-	// Jordanian Dinar/400/3
-	CurrencyJod Currency = "JOD"
 	// Yen/392/0
 	CurrencyJpy Currency = "JPY"
+	// Jordanian Dinar/400/3
+	CurrencyJod Currency = "JOD"
+	// Tenge/398/2
+	CurrencyKzt Currency = "KZT"
 	// Kenyan Shilling/404/2
 	CurrencyKes Currency = "KES"
-	// Som/417/2
-	CurrencyKgs Currency = "KGS"
-	// Riel/116/2
-	CurrencyKhr Currency = "KHR"
-	// Comorian Franc /174/0
-	CurrencyKmf Currency = "KMF"
 	// North Korean Won/408/2
 	CurrencyKpw Currency = "KPW"
 	// Won/410/0
 	CurrencyKrw Currency = "KRW"
 	// Kuwaiti Dinar/414/3
 	CurrencyKwd Currency = "KWD"
-	// Cayman Islands Dollar/136/2
-	CurrencyKyd Currency = "KYD"
-	// Tenge/398/2
-	CurrencyKzt Currency = "KZT"
+	// Som/417/2
+	CurrencyKgs Currency = "KGS"
 	// Lao Kip/418/2
 	CurrencyLak Currency = "LAK"
 	// Lebanese Pound/422/2
 	CurrencyLbp Currency = "LBP"
-	// Sri Lanka Rupee/144/2
-	CurrencyLkr Currency = "LKR"
-	// Liberian Dollar/430/2
-	CurrencyLrd Currency = "LRD"
 	// Loti/426/2
 	CurrencyLsl Currency = "LSL"
-	// Latvian Lat; Learn more [here](https://en.wikipedia.org/wiki/Latvian_lats)
-	CurrencyLvl Currency = "LVL"
+	// Rand/710/2
+	CurrencyZar Currency = "ZAR"
+	// Liberian Dollar/430/2
+	CurrencyLrd Currency = "LRD"
 	// Libyan Dinar/434/3
 	CurrencyLyd Currency = "LYD"
-	// Moroccan Dirham/504/2
-	CurrencyMad Currency = "MAD"
-	// Moldovan Leu/498/2
-	CurrencyMdl Currency = "MDL"
-	// Malagasy Ariary/969/2
-	CurrencyMga Currency = "MGA"
-	// Denar/807/2
-	CurrencyMkd Currency = "MKD"
-	// Kyat/104/2
-	CurrencyMmk Currency = "MMK"
-	// Tugrik/496/2
-	CurrencyMnt Currency = "MNT"
+	// Swiss Franc/756/2
+	CurrencyChf Currency = "CHF"
 	// Pataca/446/2
 	CurrencyMop Currency = "MOP"
-	// Mauritanian Ouguiya
-	CurrencyMro Currency = "MRO"
+	// Denar/807/2
+	CurrencyMkd Currency = "MKD"
+	// Malagasy Ariary/969/2
+	CurrencyMga Currency = "MGA"
+	// Malawi Kwacha/454/2
+	CurrencyMwk Currency = "MWK"
+	// Malaysian Ringgit/458/2
+	CurrencyMyr Currency = "MYR"
+	// Rufiyaa/462/2
+	CurrencyMvr Currency = "MVR"
 	// Ouguiya/929/2
 	CurrencyMru Currency = "MRU"
 	// Mauritius Rupee/480/2
 	CurrencyMur Currency = "MUR"
-	// Rufiyaa/462/2
-	CurrencyMvr Currency = "MVR"
-	// Malawi Kwacha/454/2
-	CurrencyMwk Currency = "MWK"
+	// ADB Unit of Account/965/N.A.
+	CurrencyXua Currency = "XUA"
 	// Mexican Peso/484/2
 	CurrencyMxn Currency = "MXN"
 	// Mexican Unidad de Inversion (UDI)/979/2
 	CurrencyMxv Currency = "MXV"
-	// Malaysian Ringgit/458/2
-	CurrencyMyr Currency = "MYR"
+	// Moldovan Leu/498/2
+	CurrencyMdl Currency = "MDL"
+	// Tugrik/496/2
+	CurrencyMnt Currency = "MNT"
+	// Moroccan Dirham/504/2
+	CurrencyMad Currency = "MAD"
 	// Mozambique Metical/943/2
 	CurrencyMzn Currency = "MZN"
+	// Kyat/104/2
+	CurrencyMmk Currency = "MMK"
 	// Namibia Dollar/516/2
 	CurrencyNad Currency = "NAD"
-	// Naira/566/2
-	CurrencyNgn Currency = "NGN"
-	// Cordoba Oro/558/2
-	CurrencyNio Currency = "NIO"
-	// Dutch Guilder
-	CurrencyNlg Currency = "NLG"
-	// Norwegian Krone/578/2
-	CurrencyNok Currency = "NOK"
 	// Nepalese Rupee/524/2
 	CurrencyNpr Currency = "NPR"
-	// New Zealand Dollar/554/2
-	CurrencyNzd Currency = "NZD"
+	// Cordoba Oro/558/2
+	CurrencyNio Currency = "NIO"
+	// Naira/566/2
+	CurrencyNgn Currency = "NGN"
 	// Rial Omani/512/3
 	CurrencyOmr Currency = "OMR"
-	// Balboa/590/2
-	CurrencyPab Currency = "PAB"
-	// Sol/604/2
-	CurrencyPen Currency = "PEN"
-	// Kina/598/2
-	CurrencyPgk Currency = "PGK"
-	// Philippine Peso/608/2
-	CurrencyPhp Currency = "PHP"
 	// Pakistan Rupee/586/2
 	CurrencyPkr Currency = "PKR"
-	// Zloty/985/2
-	CurrencyPln Currency = "PLN"
+	// Balboa/590/2
+	CurrencyPab Currency = "PAB"
+	// Kina/598/2
+	CurrencyPgk Currency = "PGK"
 	// Guarani/600/0
 	CurrencyPyg Currency = "PYG"
+	// Sol/604/2
+	CurrencyPen Currency = "PEN"
+	// Philippine Peso/608/2
+	CurrencyPhp Currency = "PHP"
+	// Zloty/985/2
+	CurrencyPln Currency = "PLN"
 	// Qatari Rial/634/2
 	CurrencyQar Currency = "QAR"
 	// Romanian Leu/946/2
 	CurrencyRon Currency = "RON"
-	// Serbian Dinar/941/2
-	CurrencyRsd Currency = "RSD"
 	// Russian Ruble/643/2
 	CurrencyRub Currency = "RUB"
 	// Rwanda Franc/646/0
 	CurrencyRwf Currency = "RWF"
-	// Saudi Riyal/682/2
-	CurrencySar Currency = "SAR"
-	// Solomon Islands Dollar/090/2
-	CurrencySbd Currency = "SBD"
-	// Seychelles Rupee/690/2
-	CurrencyScr Currency = "SCR"
-	// Sudanese Pound/938/2
-	CurrencySdg Currency = "SDG"
-	// Swedish Krona/752/2
-	CurrencySek Currency = "SEK"
-	// Singapore Dollar/702/2
-	CurrencySgd Currency = "SGD"
 	// Saint Helena Pound/654/2
 	CurrencyShp Currency = "SHP"
-	// Slovak Koruna
-	CurrencySkk Currency = "SKK"
-	// Leone/694/2
-	CurrencySll Currency = "SLL"
-	// Somali Shilling/706/2
-	CurrencySos Currency = "SOS"
-	// Surinam Dollar/968/2
-	CurrencySrd Currency = "SRD"
-	// South Sudanese Pound/728/2
-	CurrencySsp Currency = "SSP"
+	// Tala/882/2
+	CurrencyWst Currency = "WST"
 	// Dobra/930/2
 	CurrencyStn Currency = "STN"
-	// El Salvador Colon/222/2
-	CurrencySvc Currency = "SVC"
-	// Syrian Pound/760/2
-	CurrencySyp Currency = "SYP"
+	// Saudi Riyal/682/2
+	CurrencySar Currency = "SAR"
+	// Serbian Dinar/941/2
+	CurrencyRsd Currency = "RSD"
+	// Seychelles Rupee/690/2
+	CurrencyScr Currency = "SCR"
+	// Leone/694/2
+	CurrencySll Currency = "SLL"
+	// Singapore Dollar/702/2
+	CurrencySgd Currency = "SGD"
+	// Sucre/994/N.A.
+	CurrencyXsu Currency = "XSU"
+	// Solomon Islands Dollar/090/2
+	CurrencySbd Currency = "SBD"
+	// Somali Shilling/706/2
+	CurrencySos Currency = "SOS"
+	// South Sudanese Pound/728/2
+	CurrencySsp Currency = "SSP"
+	// Sri Lanka Rupee/144/2
+	CurrencyLkr Currency = "LKR"
+	// Sudanese Pound/938/2
+	CurrencySdg Currency = "SDG"
+	// Surinam Dollar/968/2
+	CurrencySrd Currency = "SRD"
 	// Lilangeni/748/2
 	CurrencySzl Currency = "SZL"
-	// Baht/764/2
-	CurrencyThb Currency = "THB"
-	// Somoni/972/2
-	CurrencyTjs Currency = "TJS"
-	// Turkmenistan New Manat/934/2
-	CurrencyTmt Currency = "TMT"
-	// Tunisian Dinar/788/3
-	CurrencyTnd Currency = "TND"
-	// Pa’anga/776/2
-	CurrencyTop Currency = "TOP"
-	// Turkish Lira/949/2
-	CurrencyTry Currency = "TRY"
-	// Trinidad and Tobago Dollar/780/2
-	CurrencyTtd Currency = "TTD"
+	// Swedish Krona/752/2
+	CurrencySek Currency = "SEK"
+	// WIR Euro/947/2
+	CurrencyChe Currency = "CHE"
+	// WIR Franc/948/2
+	CurrencyChw Currency = "CHW"
+	// Syrian Pound/760/2
+	CurrencySyp Currency = "SYP"
 	// New Taiwan Dollar/901/2
 	CurrencyTwd Currency = "TWD"
+	// Somoni/972/2
+	CurrencyTjs Currency = "TJS"
 	// Tanzanian Shilling/834/2
 	CurrencyTzs Currency = "TZS"
-	// Hryvnia/980/2
-	CurrencyUah Currency = "UAH"
+	// Baht/764/2
+	CurrencyThb Currency = "THB"
+	// Pa’anga/776/2
+	CurrencyTop Currency = "TOP"
+	// Trinidad and Tobago Dollar/780/2
+	CurrencyTtd Currency = "TTD"
+	// Tunisian Dinar/788/3
+	CurrencyTnd Currency = "TND"
+	// Turkish Lira/949/2
+	CurrencyTry Currency = "TRY"
+	// Turkmenistan New Manat/934/2
+	CurrencyTmt Currency = "TMT"
 	// Uganda Shilling/800/0
 	CurrencyUgx Currency = "UGX"
-	// Ukrainian Hryvnia
-	CurrencyUkh Currency = "UKH"
-	// US Dollar/840/2
-	CurrencyUsd Currency = "USD"
+	// Hryvnia/980/2
+	CurrencyUah Currency = "UAH"
+	// UAE Dirham/784/2
+	CurrencyAed Currency = "AED"
 	// US Dollar (Next day)/997/2
 	CurrencyUsn Currency = "USN"
-	// Uruguay Peso en Unidades Indexadas (UI)/940/0
-	CurrencyUyi Currency = "UYI"
 	// Peso Uruguayo/858/2
 	CurrencyUyu Currency = "UYU"
+	// Uruguay Peso en Unidades Indexadas (UI)/940/0
+	CurrencyUyi Currency = "UYI"
 	// Unidad Previsional/927/4
 	CurrencyUyw Currency = "UYW"
 	// Uzbekistan Sum/860/2
 	CurrencyUzs Currency = "UZS"
+	// Vatu/548/0
+	CurrencyVuv Currency = "VUV"
 	// Bolívar Soberano/928/2
 	CurrencyVes Currency = "VES"
 	// Dong/704/0
 	CurrencyVnd Currency = "VND"
-	// Vatu/548/0
-	CurrencyVuv Currency = "VUV"
-	// Tala/882/2
-	CurrencyWst Currency = "WST"
-	// CFA Franc BEAC/950/0
-	CurrencyXaf Currency = "XAF"
-	// Silver/961/N.A.
-	CurrencyXag Currency = "XAG"
-	// Gold/959/N.A.
-	CurrencyXau Currency = "XAU"
+	// Yemeni Rial/886/2
+	CurrencyYer Currency = "YER"
+	// Zambian Kwacha/967/2
+	CurrencyZmw Currency = "ZMW"
+	// Zimbabwe Dollar/932/2
+	CurrencyZwl Currency = "ZWL"
 	// Bond Markets Unit European Composite Unit (EURCO)/955/N.A.
 	CurrencyXba Currency = "XBA"
 	// Bond Markets Unit European Monetary Unit (E.M.U.-6)/956/N.A.
@@ -3011,374 +3013,374 @@ const (
 	CurrencyXbc Currency = "XBC"
 	// Bond Markets Unit European Unit of Account 17 (E.U.A.-17)/958/N.A.
 	CurrencyXbd Currency = "XBD"
-	// East Caribbean Dollar/951/2
-	CurrencyXcd Currency = "XCD"
-	// SDR (Special Drawing Right)/960/N.A.
-	CurrencyXdr Currency = "XDR"
-	// CFA Franc BCEAO/952/0
-	CurrencyXof Currency = "XOF"
-	// Palladium/964/N.A.
-	CurrencyXpd Currency = "XPD"
-	// CFP Franc/953/0
-	CurrencyXpf Currency = "XPF"
-	// Platinum/962/N.A.
-	CurrencyXpt Currency = "XPT"
-	// Sucre/994/N.A.
-	CurrencyXsu Currency = "XSU"
 	// Codes specifically reserved for testing purposes/963/N.A.
 	CurrencyXts Currency = "XTS"
-	// ADB Unit of Account/965/N.A.
-	CurrencyXua Currency = "XUA"
 	// The code assigned to transactions where no currency is involved/999/N.A.
 	CurrencyXxx Currency = "XXX"
-	// Yemeni Rial/886/2
-	CurrencyYer Currency = "YER"
-	// Rand/710/2
-	CurrencyZar Currency = "ZAR"
-	// Zambian Kwacha/967/2
-	CurrencyZmw Currency = "ZMW"
-	// Zimbabwe Dollar/932/2
-	CurrencyZwl Currency = "ZWL"
+	// Gold/959/N.A.
+	CurrencyXau Currency = "XAU"
+	// Palladium/964/N.A.
+	CurrencyXpd Currency = "XPD"
+	// Platinum/962/N.A.
+	CurrencyXpt Currency = "XPT"
+	// Silver/961/N.A.
+	CurrencyXag Currency = "XAG"
+	// Latvian Lat; Learn more [here](https://en.wikipedia.org/wiki/Latvian_lats)
+	CurrencyLvl Currency = "LVL"
+	// Slovak Koruna
+	CurrencySkk Currency = "SKK"
+	// Italian Lira
+	CurrencyItl Currency = "ITL"
+	// Dutch Guilder
+	CurrencyNlg Currency = "NLG"
+	// Belgian Franc
+	CurrencyBef Currency = "BEF"
+	// Mauritanian Ouguiya
+	CurrencyMro Currency = "MRO"
+	// Ukrainian Hryvnia
+	CurrencyUkh Currency = "UKH"
 )
 
 func NewCurrencyFromString(s string) (Currency, error) {
 	switch s {
-	case "AED":
-		return CurrencyAed, nil
 	case "AFN":
 		return CurrencyAfn, nil
+	case "EUR":
+		return CurrencyEur, nil
 	case "ALL":
 		return CurrencyAll, nil
-	case "AMD":
-		return CurrencyAmd, nil
-	case "ANG":
-		return CurrencyAng, nil
+	case "DZD":
+		return CurrencyDzd, nil
+	case "USD":
+		return CurrencyUsd, nil
 	case "AOA":
 		return CurrencyAoa, nil
+	case "XCD":
+		return CurrencyXcd, nil
 	case "ARS":
 		return CurrencyArs, nil
-	case "AUD":
-		return CurrencyAud, nil
+	case "AMD":
+		return CurrencyAmd, nil
 	case "AWG":
 		return CurrencyAwg, nil
+	case "AUD":
+		return CurrencyAud, nil
 	case "AZN":
 		return CurrencyAzn, nil
-	case "BAM":
-		return CurrencyBam, nil
-	case "BBD":
-		return CurrencyBbd, nil
-	case "BDT":
-		return CurrencyBdt, nil
-	case "BEF":
-		return CurrencyBef, nil
-	case "BGN":
-		return CurrencyBgn, nil
-	case "BHD":
-		return CurrencyBhd, nil
-	case "BIF":
-		return CurrencyBif, nil
-	case "BMD":
-		return CurrencyBmd, nil
-	case "BND":
-		return CurrencyBnd, nil
-	case "BOB":
-		return CurrencyBob, nil
-	case "BOV":
-		return CurrencyBov, nil
-	case "BRL":
-		return CurrencyBrl, nil
 	case "BSD":
 		return CurrencyBsd, nil
-	case "BTN":
-		return CurrencyBtn, nil
-	case "BWP":
-		return CurrencyBwp, nil
+	case "BHD":
+		return CurrencyBhd, nil
+	case "BDT":
+		return CurrencyBdt, nil
+	case "BBD":
+		return CurrencyBbd, nil
 	case "BYN":
 		return CurrencyByn, nil
 	case "BZD":
 		return CurrencyBzd, nil
+	case "XOF":
+		return CurrencyXof, nil
+	case "BMD":
+		return CurrencyBmd, nil
+	case "INR":
+		return CurrencyInr, nil
+	case "BTN":
+		return CurrencyBtn, nil
+	case "BOB":
+		return CurrencyBob, nil
+	case "BOV":
+		return CurrencyBov, nil
+	case "BAM":
+		return CurrencyBam, nil
+	case "BWP":
+		return CurrencyBwp, nil
+	case "NOK":
+		return CurrencyNok, nil
+	case "BRL":
+		return CurrencyBrl, nil
+	case "BND":
+		return CurrencyBnd, nil
+	case "BGN":
+		return CurrencyBgn, nil
+	case "BIF":
+		return CurrencyBif, nil
+	case "CVE":
+		return CurrencyCve, nil
+	case "KHR":
+		return CurrencyKhr, nil
+	case "XAF":
+		return CurrencyXaf, nil
 	case "CAD":
 		return CurrencyCad, nil
-	case "CDF":
-		return CurrencyCdf, nil
-	case "CHE":
-		return CurrencyChe, nil
-	case "CHF":
-		return CurrencyChf, nil
-	case "CHW":
-		return CurrencyChw, nil
-	case "CLF":
-		return CurrencyClf, nil
+	case "KYD":
+		return CurrencyKyd, nil
 	case "CLP":
 		return CurrencyClp, nil
+	case "CLF":
+		return CurrencyClf, nil
 	case "CNY":
 		return CurrencyCny, nil
 	case "COP":
 		return CurrencyCop, nil
 	case "COU":
 		return CurrencyCou, nil
+	case "KMF":
+		return CurrencyKmf, nil
+	case "CDF":
+		return CurrencyCdf, nil
+	case "NZD":
+		return CurrencyNzd, nil
 	case "CRC":
 		return CurrencyCrc, nil
-	case "CUC":
-		return CurrencyCuc, nil
+	case "HRK":
+		return CurrencyHrk, nil
 	case "CUP":
 		return CurrencyCup, nil
-	case "CVE":
-		return CurrencyCve, nil
+	case "CUC":
+		return CurrencyCuc, nil
+	case "ANG":
+		return CurrencyAng, nil
 	case "CZK":
 		return CurrencyCzk, nil
-	case "DJF":
-		return CurrencyDjf, nil
 	case "DKK":
 		return CurrencyDkk, nil
+	case "DJF":
+		return CurrencyDjf, nil
 	case "DOP":
 		return CurrencyDop, nil
-	case "DZD":
-		return CurrencyDzd, nil
 	case "EGP":
 		return CurrencyEgp, nil
+	case "SVC":
+		return CurrencySvc, nil
 	case "ERN":
 		return CurrencyErn, nil
 	case "ETB":
 		return CurrencyEtb, nil
-	case "EUR":
-		return CurrencyEur, nil
-	case "FJD":
-		return CurrencyFjd, nil
 	case "FKP":
 		return CurrencyFkp, nil
-	case "GBP":
-		return CurrencyGbp, nil
+	case "FJD":
+		return CurrencyFjd, nil
+	case "XPF":
+		return CurrencyXpf, nil
+	case "GMD":
+		return CurrencyGmd, nil
 	case "GEL":
 		return CurrencyGel, nil
 	case "GHS":
 		return CurrencyGhs, nil
 	case "GIP":
 		return CurrencyGip, nil
-	case "GMD":
-		return CurrencyGmd, nil
-	case "GNF":
-		return CurrencyGnf, nil
 	case "GTQ":
 		return CurrencyGtq, nil
+	case "GBP":
+		return CurrencyGbp, nil
+	case "GNF":
+		return CurrencyGnf, nil
 	case "GYD":
 		return CurrencyGyd, nil
-	case "HKD":
-		return CurrencyHkd, nil
-	case "HNL":
-		return CurrencyHnl, nil
-	case "HRK":
-		return CurrencyHrk, nil
 	case "HTG":
 		return CurrencyHtg, nil
+	case "HNL":
+		return CurrencyHnl, nil
+	case "HKD":
+		return CurrencyHkd, nil
 	case "HUF":
 		return CurrencyHuf, nil
-	case "IDR":
-		return CurrencyIdr, nil
-	case "ILS":
-		return CurrencyIls, nil
-	case "INR":
-		return CurrencyInr, nil
-	case "IQD":
-		return CurrencyIqd, nil
-	case "IRR":
-		return CurrencyIrr, nil
 	case "ISK":
 		return CurrencyIsk, nil
-	case "ITL":
-		return CurrencyItl, nil
+	case "IDR":
+		return CurrencyIdr, nil
+	case "XDR":
+		return CurrencyXdr, nil
+	case "IRR":
+		return CurrencyIrr, nil
+	case "IQD":
+		return CurrencyIqd, nil
+	case "ILS":
+		return CurrencyIls, nil
 	case "JMD":
 		return CurrencyJmd, nil
-	case "JOD":
-		return CurrencyJod, nil
 	case "JPY":
 		return CurrencyJpy, nil
+	case "JOD":
+		return CurrencyJod, nil
+	case "KZT":
+		return CurrencyKzt, nil
 	case "KES":
 		return CurrencyKes, nil
-	case "KGS":
-		return CurrencyKgs, nil
-	case "KHR":
-		return CurrencyKhr, nil
-	case "KMF":
-		return CurrencyKmf, nil
 	case "KPW":
 		return CurrencyKpw, nil
 	case "KRW":
 		return CurrencyKrw, nil
 	case "KWD":
 		return CurrencyKwd, nil
-	case "KYD":
-		return CurrencyKyd, nil
-	case "KZT":
-		return CurrencyKzt, nil
+	case "KGS":
+		return CurrencyKgs, nil
 	case "LAK":
 		return CurrencyLak, nil
 	case "LBP":
 		return CurrencyLbp, nil
-	case "LKR":
-		return CurrencyLkr, nil
-	case "LRD":
-		return CurrencyLrd, nil
 	case "LSL":
 		return CurrencyLsl, nil
-	case "LVL":
-		return CurrencyLvl, nil
+	case "ZAR":
+		return CurrencyZar, nil
+	case "LRD":
+		return CurrencyLrd, nil
 	case "LYD":
 		return CurrencyLyd, nil
-	case "MAD":
-		return CurrencyMad, nil
-	case "MDL":
-		return CurrencyMdl, nil
-	case "MGA":
-		return CurrencyMga, nil
-	case "MKD":
-		return CurrencyMkd, nil
-	case "MMK":
-		return CurrencyMmk, nil
-	case "MNT":
-		return CurrencyMnt, nil
+	case "CHF":
+		return CurrencyChf, nil
 	case "MOP":
 		return CurrencyMop, nil
-	case "MRO":
-		return CurrencyMro, nil
+	case "MKD":
+		return CurrencyMkd, nil
+	case "MGA":
+		return CurrencyMga, nil
+	case "MWK":
+		return CurrencyMwk, nil
+	case "MYR":
+		return CurrencyMyr, nil
+	case "MVR":
+		return CurrencyMvr, nil
 	case "MRU":
 		return CurrencyMru, nil
 	case "MUR":
 		return CurrencyMur, nil
-	case "MVR":
-		return CurrencyMvr, nil
-	case "MWK":
-		return CurrencyMwk, nil
+	case "XUA":
+		return CurrencyXua, nil
 	case "MXN":
 		return CurrencyMxn, nil
 	case "MXV":
 		return CurrencyMxv, nil
-	case "MYR":
-		return CurrencyMyr, nil
+	case "MDL":
+		return CurrencyMdl, nil
+	case "MNT":
+		return CurrencyMnt, nil
+	case "MAD":
+		return CurrencyMad, nil
 	case "MZN":
 		return CurrencyMzn, nil
+	case "MMK":
+		return CurrencyMmk, nil
 	case "NAD":
 		return CurrencyNad, nil
-	case "NGN":
-		return CurrencyNgn, nil
-	case "NIO":
-		return CurrencyNio, nil
-	case "NLG":
-		return CurrencyNlg, nil
-	case "NOK":
-		return CurrencyNok, nil
 	case "NPR":
 		return CurrencyNpr, nil
-	case "NZD":
-		return CurrencyNzd, nil
+	case "NIO":
+		return CurrencyNio, nil
+	case "NGN":
+		return CurrencyNgn, nil
 	case "OMR":
 		return CurrencyOmr, nil
-	case "PAB":
-		return CurrencyPab, nil
-	case "PEN":
-		return CurrencyPen, nil
-	case "PGK":
-		return CurrencyPgk, nil
-	case "PHP":
-		return CurrencyPhp, nil
 	case "PKR":
 		return CurrencyPkr, nil
-	case "PLN":
-		return CurrencyPln, nil
+	case "PAB":
+		return CurrencyPab, nil
+	case "PGK":
+		return CurrencyPgk, nil
 	case "PYG":
 		return CurrencyPyg, nil
+	case "PEN":
+		return CurrencyPen, nil
+	case "PHP":
+		return CurrencyPhp, nil
+	case "PLN":
+		return CurrencyPln, nil
 	case "QAR":
 		return CurrencyQar, nil
 	case "RON":
 		return CurrencyRon, nil
-	case "RSD":
-		return CurrencyRsd, nil
 	case "RUB":
 		return CurrencyRub, nil
 	case "RWF":
 		return CurrencyRwf, nil
-	case "SAR":
-		return CurrencySar, nil
-	case "SBD":
-		return CurrencySbd, nil
-	case "SCR":
-		return CurrencyScr, nil
-	case "SDG":
-		return CurrencySdg, nil
-	case "SEK":
-		return CurrencySek, nil
-	case "SGD":
-		return CurrencySgd, nil
 	case "SHP":
 		return CurrencyShp, nil
-	case "SKK":
-		return CurrencySkk, nil
-	case "SLL":
-		return CurrencySll, nil
-	case "SOS":
-		return CurrencySos, nil
-	case "SRD":
-		return CurrencySrd, nil
-	case "SSP":
-		return CurrencySsp, nil
+	case "WST":
+		return CurrencyWst, nil
 	case "STN":
 		return CurrencyStn, nil
-	case "SVC":
-		return CurrencySvc, nil
-	case "SYP":
-		return CurrencySyp, nil
+	case "SAR":
+		return CurrencySar, nil
+	case "RSD":
+		return CurrencyRsd, nil
+	case "SCR":
+		return CurrencyScr, nil
+	case "SLL":
+		return CurrencySll, nil
+	case "SGD":
+		return CurrencySgd, nil
+	case "XSU":
+		return CurrencyXsu, nil
+	case "SBD":
+		return CurrencySbd, nil
+	case "SOS":
+		return CurrencySos, nil
+	case "SSP":
+		return CurrencySsp, nil
+	case "LKR":
+		return CurrencyLkr, nil
+	case "SDG":
+		return CurrencySdg, nil
+	case "SRD":
+		return CurrencySrd, nil
 	case "SZL":
 		return CurrencySzl, nil
-	case "THB":
-		return CurrencyThb, nil
-	case "TJS":
-		return CurrencyTjs, nil
-	case "TMT":
-		return CurrencyTmt, nil
-	case "TND":
-		return CurrencyTnd, nil
-	case "TOP":
-		return CurrencyTop, nil
-	case "TRY":
-		return CurrencyTry, nil
-	case "TTD":
-		return CurrencyTtd, nil
+	case "SEK":
+		return CurrencySek, nil
+	case "CHE":
+		return CurrencyChe, nil
+	case "CHW":
+		return CurrencyChw, nil
+	case "SYP":
+		return CurrencySyp, nil
 	case "TWD":
 		return CurrencyTwd, nil
+	case "TJS":
+		return CurrencyTjs, nil
 	case "TZS":
 		return CurrencyTzs, nil
-	case "UAH":
-		return CurrencyUah, nil
+	case "THB":
+		return CurrencyThb, nil
+	case "TOP":
+		return CurrencyTop, nil
+	case "TTD":
+		return CurrencyTtd, nil
+	case "TND":
+		return CurrencyTnd, nil
+	case "TRY":
+		return CurrencyTry, nil
+	case "TMT":
+		return CurrencyTmt, nil
 	case "UGX":
 		return CurrencyUgx, nil
-	case "UKH":
-		return CurrencyUkh, nil
-	case "USD":
-		return CurrencyUsd, nil
+	case "UAH":
+		return CurrencyUah, nil
+	case "AED":
+		return CurrencyAed, nil
 	case "USN":
 		return CurrencyUsn, nil
-	case "UYI":
-		return CurrencyUyi, nil
 	case "UYU":
 		return CurrencyUyu, nil
+	case "UYI":
+		return CurrencyUyi, nil
 	case "UYW":
 		return CurrencyUyw, nil
 	case "UZS":
 		return CurrencyUzs, nil
+	case "VUV":
+		return CurrencyVuv, nil
 	case "VES":
 		return CurrencyVes, nil
 	case "VND":
 		return CurrencyVnd, nil
-	case "VUV":
-		return CurrencyVuv, nil
-	case "WST":
-		return CurrencyWst, nil
-	case "XAF":
-		return CurrencyXaf, nil
-	case "XAG":
-		return CurrencyXag, nil
-	case "XAU":
-		return CurrencyXau, nil
+	case "YER":
+		return CurrencyYer, nil
+	case "ZMW":
+		return CurrencyZmw, nil
+	case "ZWL":
+		return CurrencyZwl, nil
 	case "XBA":
 		return CurrencyXba, nil
 	case "XBB":
@@ -3387,34 +3389,32 @@ func NewCurrencyFromString(s string) (Currency, error) {
 		return CurrencyXbc, nil
 	case "XBD":
 		return CurrencyXbd, nil
-	case "XCD":
-		return CurrencyXcd, nil
-	case "XDR":
-		return CurrencyXdr, nil
-	case "XOF":
-		return CurrencyXof, nil
-	case "XPD":
-		return CurrencyXpd, nil
-	case "XPF":
-		return CurrencyXpf, nil
-	case "XPT":
-		return CurrencyXpt, nil
-	case "XSU":
-		return CurrencyXsu, nil
 	case "XTS":
 		return CurrencyXts, nil
-	case "XUA":
-		return CurrencyXua, nil
 	case "XXX":
 		return CurrencyXxx, nil
-	case "YER":
-		return CurrencyYer, nil
-	case "ZAR":
-		return CurrencyZar, nil
-	case "ZMW":
-		return CurrencyZmw, nil
-	case "ZWL":
-		return CurrencyZwl, nil
+	case "XAU":
+		return CurrencyXau, nil
+	case "XPD":
+		return CurrencyXpd, nil
+	case "XPT":
+		return CurrencyXpt, nil
+	case "XAG":
+		return CurrencyXag, nil
+	case "LVL":
+		return CurrencyLvl, nil
+	case "SKK":
+		return CurrencySkk, nil
+	case "ITL":
+		return CurrencyItl, nil
+	case "NLG":
+		return CurrencyNlg, nil
+	case "BEF":
+		return CurrencyBef, nil
+	case "MRO":
+		return CurrencyMro, nil
+	case "UKH":
+		return CurrencyUkh, nil
 	}
 	var t Currency
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -3631,32 +3631,32 @@ func (e Entities) Ptr() *Entities {
 type FinanceType string
 
 const (
-	// The maximum amount of share capital a company is allowed to issue under its legal statutes
-	FinanceTypeAuthorizedCapital FinanceType = "authorized_capital"
-	// Cumulative monetary value of the share capital for which one or more shareholders have paid a given company
-	FinanceTypePaidUpCapital FinanceType = "paid_up_capital"
-	// Cumulative monetary value of the share capital of a given company
-	FinanceTypeRegisteredCapital FinanceType = "registered_capital"
-	// Cumulative monetary value of one or more company shares, typically either held by a shareholder or issued by the company
-	FinanceTypeShareAmount FinanceType = "share_amount"
 	// Percentage ownership of a given company's share capital, represented as a value from 0-100
 	FinanceTypeSharePercentage FinanceType = "share_percentage"
+	// Cumulative monetary value of one or more company shares, typically either held by a shareholder or issued by the company
+	FinanceTypeShareAmount FinanceType = "share_amount"
+	// Cumulative monetary value of the share capital of a given company
+	FinanceTypeRegisteredCapital FinanceType = "registered_capital"
+	// Cumulative monetary value of the share capital for which one or more shareholders have paid a given company
+	FinanceTypePaidUpCapital FinanceType = "paid_up_capital"
+	// The maximum amount of share capital a company is allowed to issue under its legal statutes
+	FinanceTypeAuthorizedCapital FinanceType = "authorized_capital"
 	// Cumulative monetary value of the share capital held by shareholders of a given company
 	FinanceTypeSubscribedCapital FinanceType = "subscribed_capital"
 )
 
 func NewFinanceTypeFromString(s string) (FinanceType, error) {
 	switch s {
-	case "authorized_capital":
-		return FinanceTypeAuthorizedCapital, nil
-	case "paid_up_capital":
-		return FinanceTypePaidUpCapital, nil
-	case "registered_capital":
-		return FinanceTypeRegisteredCapital, nil
-	case "share_amount":
-		return FinanceTypeShareAmount, nil
 	case "share_percentage":
 		return FinanceTypeSharePercentage, nil
+	case "share_amount":
+		return FinanceTypeShareAmount, nil
+	case "registered_capital":
+		return FinanceTypeRegisteredCapital, nil
+	case "paid_up_capital":
+		return FinanceTypePaidUpCapital, nil
+	case "authorized_capital":
+		return FinanceTypeAuthorizedCapital, nil
 	case "subscribed_capital":
 		return FinanceTypeSubscribedCapital, nil
 	}
@@ -3968,20 +3968,20 @@ func (f *FinancialsProperties) String() string {
 type Gender string
 
 const (
-	// Refers to a female person
-	GenderFemale Gender = "female"
 	// Refers to a male person
 	GenderMale Gender = "male"
+	// Refers to a female person
+	GenderFemale Gender = "female"
 	// Indicates a gender other than male or female
 	GenderOther Gender = "other"
 )
 
 func NewGenderFromString(s string) (Gender, error) {
 	switch s {
-	case "female":
-		return GenderFemale, nil
 	case "male":
 		return GenderMale, nil
+	case "female":
+		return GenderFemale, nil
 	case "other":
 		return GenderOther, nil
 	}
@@ -4414,2496 +4414,2496 @@ func (i *IdentifierProperties) String() string {
 type IdentifierType string
 
 const (
-	// Primary license number of free zone establishment in Dubai
-	IdentifierTypeAerFreeZoneLicense IdentifierType = "aer_free_zone_license"
-	// Registration number for Dubai free zone
-	IdentifierTypeAerFreeZoneRegNo IdentifierType = "aer_free_zone_reg_no"
-	// Unique registration number. Assigned to every company registered with the UAE National Economic Register.
-	IdentifierTypeAerNerNumber IdentifierType = "aer_ner_number"
-	// Afghanistan natural and legal person business license ID code
-	IdentifierTypeAfgBusinessLicense IdentifierType = "afg_business_license"
-	// Afghanistan passport number
-	IdentifierTypeAfgPassport IdentifierType = "afg_passport"
-	// Afghanistan Trade Internal Shipment ID
-	IdentifierTypeAfgTradeInternalShipmentId IdentifierType = "afg_trade_internal_shipment_id"
-	// Afghanistan tax ID number
-	IdentifierTypeAfghanTinNumber IdentifierType = "afghan_tin_number"
-	// Angola company registration number
-	IdentifierTypeAgoMatriculaNumber IdentifierType = "ago_matricula_number"
-	// Angola taxpayer number
-	IdentifierTypeAgoNifNumber          IdentifierType = "ago_nif_number"
-	IdentifierTypeAlbRegistrationNumber IdentifierType = "alb_registration_number"
-	// Albania tax ID number
-	IdentifierTypeAlbTaxId IdentifierType = "alb_tax_id"
-	// Unique Canada province ID number. Assigned to every legal entity in the Alberta Corporate Registry.
-	IdentifierTypeAlbertaCorporationNumber IdentifierType = "alberta_corporation_number"
-	// Authoritative legal entity identifier (ALEI), a government-issued registration number that is standardized according to [ISO 8000](https://en.wikipedia.org/wiki/ISO_8000)
-	IdentifierTypeAlei IdentifierType = "alei"
-	// Dubai International Financial Centre registration number
-	IdentifierTypeAreDifcRegNo IdentifierType = "are_difc_reg_no"
-	// Case number for Dubai land cases
-	IdentifierTypeAreDubaiLandCaseNo IdentifierType = "are_dubai_land_case_no"
-	// Abu Dhabi Registration Authority Number
-	IdentifierTypeAreRegAuthNumber IdentifierType = "are_reg_auth_number"
-	// Argentina natural person ID number
-	IdentifierTypeArgCdiNumber IdentifierType = "arg_cdi_number"
-	// Argentina social security ID number
-	IdentifierTypeArgCuilNumber IdentifierType = "arg_cuil_number"
-	// Argentina tax ID number
-	IdentifierTypeArgCuitNumber IdentifierType = "arg_cuit_number"
-	// Argentina natural person ID number
-	IdentifierTypeArgDniNumber IdentifierType = "arg_dni_number"
-	// Argentina corporate registry ID number
-	IdentifierTypeArgIgjNumber IdentifierType = "arg_igj_number"
-	// Unique identifier for Argentinian imports and exports
-	IdentifierTypeArgImportExportId IdentifierType = "arg_import_export_id"
-	// Argentina female natural person ID number
-	IdentifierTypeArgLibCivicaNumber IdentifierType = "arg_lib_civica_number"
-	// Argentina male natural person ID number
-	IdentifierTypeArgLibEnrolamientoNumber IdentifierType = "arg_lib_enrolamiento_number"
-	// Single tax identification code in Argentina for any individual that initiates an economic activity (missing control digit)
-	IdentifierTypeArgPartialCuit IdentifierType = "arg_partial_cuit"
-	// Armenian enterprise code
-	IdentifierTypeArmEnterpriseCode IdentifierType = "arm_enterprise_code"
-	// Armernian passport number
-	IdentifierTypeArmPassportNumber IdentifierType = "arm_passport_number"
-	// Armenian regsitration number
-	IdentifierTypeArmRegistrationNo IdentifierType = "arm_registration_no"
-	// Armenian VAT ID number
-	IdentifierTypeArmVatNo IdentifierType = "arm_vat_no"
-	// Aruba chamber of commerce ID code
-	IdentifierTypeArubaChamberOfCommerceId IdentifierType = "aruba_chamber_of_commerce_id"
-	// Antigua and Barbuda Business Registry Internal ID
-	IdentifierTypeAtgBusinessRegistryInternalId IdentifierType = "atg_business_registry_internal_id"
-	// Australian identifying number allocated to a financial adviser
-	IdentifierTypeAusAdvNumber IdentifierType = "aus_adv_number"
-	// Australian financial services licence number
-	IdentifierTypeAusAfsLicenceNumber IdentifierType = "aus_afs_licence_number"
-	// Australian financial services authorized representative number
-	IdentifierTypeAusAfsRepNumber IdentifierType = "aus_afs_rep_number"
-	// Australia business registry ID number
-	IdentifierTypeAusBusinessNumber IdentifierType = "aus_business_number"
-	// Australia corporate registry ID number
-	IdentifierTypeAusCompanyNumber IdentifierType = "aus_company_number"
-	// Australia Consolidated Sanctions Reference ID
-	IdentifierTypeAusConsolidatedSanctionsReference IdentifierType = "aus_consolidated_sanctions_reference"
-	// Australian credit licensee number
-	IdentifierTypeAusCreditLicenceNumber IdentifierType = "aus_credit_licence_number"
-	// Australian identifying number allocated to a credit representative
-	IdentifierTypeAusCreditRepNumber IdentifierType = "aus_credit_rep_number"
-	// Austrian Company Register Number
-	IdentifierTypeAutFirmenbuchNo IdentifierType = "aut_firmenbuch_no"
-	// Azerbaijan TIN. Unique number assigned to taxpayers registered with Azerbaijan State Tax Service.
-	IdentifierTypeAzeTinNumber IdentifierType = "aze_tin_number"
-	// Unique business Identification number. Assigned to every registered business in Bangladesh.
-	IdentifierTypeBdBin IdentifierType = "bd_bin"
-	// Belgium Enterprise Number
-	IdentifierTypeBelEnterpriseNumber IdentifierType = "bel_enterprise_number"
-	// Belgium Establishment Number
-	IdentifierTypeBelEstablishmentNumber IdentifierType = "bel_establishment_number"
-	// Hex digest of FSMA entity name
-	IdentifierTypeBelFsmaNameHash IdentifierType = "bel_fsma_name_hash"
-	// Belgium unique natural person ID number.
-	IdentifierTypeBelNationalRegisterNo IdentifierType = "bel_national_register_no"
-	// Burkina Faso tax ID number
-	IdentifierTypeBfaEntityId IdentifierType = "bfa_entity_id"
-	// OHADA corporate registry ID number
-	IdentifierTypeBfaRccmNumber IdentifierType = "bfa_rccm_number"
-	// A hashed representation of a Bulgarian citizenship number
-	IdentifierTypeBgrEgnHashed IdentifierType = "bgr_egn_hashed"
-	// Unique Identification Code for all legal and other entities engaged in business activities in Bulgaria
-	IdentifierTypeBgrUic IdentifierType = "bgr_uic"
-	// A Bahraini CR Number
-	IdentifierTypeBhCrNumber IdentifierType = "bh_cr_number"
-	// A Bahraini CR Number combined with a Bahraini branch number
-	IdentifierTypeBhCrNumberAndBranch IdentifierType = "bh_cr_number_and_branch"
-	// Bahamas Tax Identification Number
-	IdentifierTypeBhsTin           IdentifierType = "bhs_tin"
-	IdentifierTypeBihCustomsNumber IdentifierType = "bih_customs_number"
-	// Bosnia and Herzegovina legal person ID number
-	IdentifierTypeBihJibNumber IdentifierType = "bih_jib_number"
-	// Bosnia and Herzegovina corporate registry ID number
-	IdentifierTypeBihMbsNumber IdentifierType = "bih_mbs_number"
-	// Bill of lading number for trade data
-	IdentifierTypeBillOfLading IdentifierType = "bill_of_lading"
-	// Unique digital currency address
-	IdentifierTypeBitcoinAddress IdentifierType = "bitcoin_address"
-	// Belarus Registration Number
-	IdentifierTypeBlrRegistrationNumber IdentifierType = "blr_registration_number"
-	// Belize Companies & Corporate Affairs Registry (BCCAR) registration number
-	IdentifierTypeBlzBccarRegNo IdentifierType = "blz_bccar_reg_no"
-	// Bermuda Registrar of Companies Number
-	IdentifierTypeBmuRegistrarOfCompaniesNumber IdentifierType = "bmu_registrar_of_companies_number"
-	// Bermuda corporate registry ID number
-	IdentifierTypeBmuRegistrationNumber IdentifierType = "bmu_registration_number"
-	// Bolivia Matricula Number
-	IdentifierTypeBolMatricula IdentifierType = "bol_matricula"
-	// Bolivia Matricula Number (old format)
-	IdentifierTypeBolOldMatricula IdentifierType = "bol_old_matricula"
-	// Brazil litigation case ID number
-	IdentifierTypeBraCaseNumber IdentifierType = "bra_case_number"
-	// Brazilian corporate ID number
-	IdentifierTypeBraCnpj IdentifierType = "bra_cnpj"
-	// Brazil federal public servant agency unit ID code
-	IdentifierTypeBraCodigoDaUnidadeOrganizacional IdentifierType = "bra_codigo_da_unidade_organizacional"
-	// Brazil natural person tax ID number
-	IdentifierTypeBraCpfNumber IdentifierType = "bra_cpf_number"
-	// Brazil natural person ID number
-	IdentifierTypeBraRgNumber IdentifierType = "bra_rg_number"
-	// Brazil federal public servant internal ID number
-	IdentifierTypeBraServidorPortal IdentifierType = "bra_servidor_portal"
-	// Brazil Shipment Number
-	IdentifierTypeBraShipmentNumber IdentifierType = "bra_shipment_number"
-	// Unique Identification Number. Registration number assigned to companies by the Companies and Intellectual Property Authority.
-	IdentifierTypeBwaUinRegNumber IdentifierType = "bwa_uin_reg_number"
-	// Belize International Corporate Affairs Registry (BICAR) registration number
-	IdentifierTypeBzeBicarRegNo IdentifierType = "bze_bicar_reg_no"
-	// USA California business registry ID number
-	IdentifierTypeCaCorporateIdNum IdentifierType = "ca_corporate_id_num"
-	// USA California business registry ID number
-	IdentifierTypeCaLpFileNum IdentifierType = "ca_lp_file_num"
-	// Central African Republic Passport Number
-	IdentifierTypeCafPassport IdentifierType = "caf_passport"
-	// The Commercial and Government Entity (CAGE) code is a five-character ID assigned by the US Department of Defense's Defense Logistics Agency (DLA) to refer to a facility at a specific location (includes government suppliers, agencies, and other organizations). CAGE codes for entities outside the USA are called NATO Commercial and Government Entity (NCAGE) codes and are part of the NATO Codification System (NCS). Learn more [here](https://fawiki.fws.gov/display/SAM/Commercial+And+Government+Entity+%28CAGE%29+Code+Information).
-	IdentifierTypeCage IdentifierType = "cage"
-	// Unique Canada province ID number. Assigned to every legal entity in the British Columbia Corporate Registry.
-	IdentifierTypeCanBcCompanyRegistrationId IdentifierType = "can_bc_company_registration_id"
-	// British Columbia Extraprovincial Company Registration ID
-	IdentifierTypeCanBcExtraprovincialRegistrationId IdentifierType = "can_bc_extraprovincial_registration_id"
-	// British Columbia Registration Number
-	IdentifierTypeCanBcRegistrationNumber IdentifierType = "can_bc_registration_number"
-	// The Canada Revenue Agency (CRA) business number is a nine-digit tax ID assigned to organizations to help them engage with federal and provincial government programs. Learn more [here](https://www.liveabout.com/what-is-the-canada-revenue-agency-cra-business-number-2947322).
-	IdentifierTypeCanBusinessNumber IdentifierType = "can_business_number"
-	// Canada federal corporate registry ID number
-	IdentifierTypeCanCorporationNumber IdentifierType = "can_corporation_number"
-	// Canada tax reporting ID code
-	IdentifierTypeCanCraProgramAccountNumber IdentifierType = "can_cra_program_account_number"
-	// Hex digest of Data Axle Infogroup ID
-	IdentifierTypeCanDataAxleHash IdentifierType = "can_data_axle_hash"
-	// Unique Canada ID number. Assigned to every trademark application.
-	IdentifierTypeCanIpoTrademarkApplicationNo IdentifierType = "can_ipo_trademark_application_no"
-	// Unique Canada province ID number. Assigned to every legal entity registered with the Manitoba Companies Office.
-	IdentifierTypeCanMbRegistry IdentifierType = "can_mb_registry"
-	// Unique Canada province ID number. Assigned to every legal entity registered with the New Brunswick Corporate Affairs Registry.
-	IdentifierTypeCanNewBrunswickReferenceNumber IdentifierType = "can_new_brunswick_reference_number"
-	// Company number for Canada NL Corporate Registry
-	IdentifierTypeCanNlCorporateRegistry IdentifierType = "can_nl_corporate_registry"
-	// Unique Canada ID number. Assigned to every entity registered with Canadian Securities Administrators National Registration Database.
-	IdentifierTypeCanNrd IdentifierType = "can_nrd"
-	// Unique internal ID number assigned to individuals. Assigned to every individual registered with Canadian Securities Administrators National Registration Database.
-	IdentifierTypeCanNrdIndividualId IdentifierType = "can_nrd_individual_id"
-	// Unique Canada province ID number. Assigned to every entity in the Nova Scotia Corporate Registry.
-	IdentifierTypeCanNsCorporateRegistry IdentifierType = "can_ns_corporate_registry"
-	// Unique Canada province ID number. Assigned to every entity registered with the Prince Edward Island Corporate Registry.
-	IdentifierTypeCanPeRegistrationNumber IdentifierType = "can_pe_registration_number"
-	// Penalty number assigned by the Quebec Ministry of the Environment, the Fight against Climate Change, Wildlife and Parks to each entity listed as offender in the Register of Administrative Monetary Penalties for non-compliance with environmental laws and regulations.
-	IdentifierTypeCanQcSapRegistryRefNum IdentifierType = "can_qc_sap_registry_ref_num"
-	// Unique Canada ID number. Assigned to every registered trademark.
-	IdentifierTypeCanTmRegistrationNo IdentifierType = "can_tm_registration_no"
-	// CCS Vessel Registration Number
-	IdentifierTypeCcsRegistration IdentifierType = "ccs_registration"
-	IdentifierTypeCheChIdNumber   IdentifierType = "che_ch_id_number"
-	// Swiss SECO Sanction Number
-	IdentifierTypeCheSecoSanctionNumber IdentifierType = "che_seco_sanction_number"
-	// Switzerland business registry ID number
-	IdentifierTypeCheUidNumber IdentifierType = "che_uid_number"
-	// China Vessel Inspection Registration Number
-	IdentifierTypeChinaVesselInspectionRegistration IdentifierType = "china_vessel_inspection_registration"
-	// China Vessel Registration Number
-	IdentifierTypeChinaVesselRegistration IdentifierType = "china_vessel_registration"
-	// Chile tax ID Number
-	IdentifierTypeChlCedulaNumber IdentifierType = "chl_cedula_number"
-	// Unique identifier for imports and exports in Chile
-	IdentifierTypeChlImportExportControlId IdentifierType = "chl_import_export_control_id"
-	// Unique identifier for Chilean imports
-	IdentifierTypeChlImportManifestNumber IdentifierType = "chl_import_manifest_number"
-	// Unique identifier for Chilean importers and exporters
-	IdentifierTypeChlImporterExporterId IdentifierType = "chl_importer_exporter_id"
-	// Internal identifier for shareholders from CHN cninfo data
-	IdentifierTypeChnCninfoInternalShareholderId IdentifierType = "chn_cninfo_internal_shareholder_id"
-	// China CNIPA Trademark
-	IdentifierTypeChnCnipaTm IdentifierType = "chn_cnipa_tm"
-	// China Securities Regulatory Commission Code / 证券代码
-	IdentifierTypeChnCsrcNo IdentifierType = "chn_csrc_no"
-	// China customs import and export registration code
-	IdentifierTypeChnCustomsRegistrationCode IdentifierType = "chn_customs_registration_code"
-	// Unique customs registration number. Assigned to all entities registered with China General Administration of Customs.
-	IdentifierTypeChnCustomsRegistrationNo IdentifierType = "chn_customs_registration_no"
-	// China Passport Number
-	IdentifierTypeChnPassport IdentifierType = "chn_passport"
-	// China Resident Identity Number
-	IdentifierTypeChnResidentIdNumber IdentifierType = "chn_resident_id_number"
-	// Company code from Shanghai Stock Exchange
-	IdentifierTypeChnShanghaiStockExchangeCompanyCode IdentifierType = "chn_shanghai_stock_exchange_company_code"
-	// Company SEC code from Shenzen stock exchange
-	IdentifierTypeChnShenzenSecCode IdentifierType = "chn_shenzen_sec_code"
-	// Cameroon Tax Registration Number. Unique number assigned to taxpayers in Cameroon and issued by the Directorate General of Tax.
-	IdentifierTypeCmNuiTaxRegNum IdentifierType = "cm_nui_tax_reg_num"
-	// Unique Hong Kong tax ID number. Assigned to every company registered with the Hong Kong Business Registration Office.
-	IdentifierTypeCnHkBrNumber IdentifierType = "cn_hk_br_number"
-	// A Hong Kong CR Number
-	IdentifierTypeCnHkCrNumber IdentifierType = "cn_hk_cr_number"
-	// A Hong Kong document filing number used by ICRIS
-	IdentifierTypeCnHkFilingNumber IdentifierType = "cn_hk_filing_number"
-	// Unique internal company ID number. Assigned to every company in China Xinjiang Department of Housing and Urban-Rural Development Company Database
-	IdentifierTypeCnHurdInternalCompanyId IdentifierType = "cn_hurd_internal_company_id"
-	// China customs code for import and export. May include China USCC; China OC; U.S. SSN; or U.S. EIN.
-	IdentifierTypeCnImportexportCode IdentifierType = "cn_importexport_code"
-	// A Chinese company organization code
-	IdentifierTypeCnOrganizationCode IdentifierType = "cn_organization_code"
-	// Part of a Qichacha URL, used to uniquely identify people within the site
-	IdentifierTypeCnQichachaInternalId IdentifierType = "cn_qichacha_internal_id"
-	// A Chinese company registration number
-	IdentifierTypeCnRegistrationNumber IdentifierType = "cn_registration_number"
-	// China tax ID number
-	IdentifierTypeCnTaxIdentificationNumber IdentifierType = "cn_tax_identification_number"
 	// Internal ID that can be used to link related companies within source
 	IdentifierTypeCnTianyanchaCompanyId IdentifierType = "cn_tianyancha_company_id"
 	// Internal ID that can be used to link related people within source
 	IdentifierTypeCnTianyanchaHumanId IdentifierType = "cn_tianyancha_human_id"
 	// A Chinese Unified Social Credit Code
 	IdentifierTypeCnUnifiedSocialCreditCode IdentifierType = "cn_unified_social_credit_code"
-	// Democratic Republic of the Congo Passport Number
-	IdentifierTypeCodPassport IdentifierType = "cod_passport"
-	// Democratic Republic of the Congo RCCM Number
-	IdentifierTypeCodRccmNumber IdentifierType = "cod_rccm_number"
-	// Democratic Republic of the Congo RCCM OHADA Number
-	IdentifierTypeCodRccmOhadaNumber IdentifierType = "cod_rccm_ohada_number"
-	// Corp ID used in Cook Islands corporate registry
-	IdentifierTypeCokCorpRegCorpid IdentifierType = "cok_corp_reg_corpid"
-	// Corp ID used for officers in Cook Islands corporate registry
-	IdentifierTypeCokCorpRegCorpofficerid IdentifierType = "cok_corp_reg_corpofficerid"
-	// Registration number from Cook Islands corporate registry
-	IdentifierTypeCokCorpRegNumber IdentifierType = "cok_corp_reg_number"
-	// Colombian cedula number
-	IdentifierTypeColCedulaNo IdentifierType = "col_cedula_no"
-	// Unique number assigned by the DIAN for each import/export form
-	IdentifierTypeColDianNumeroFormulario IdentifierType = "col_dian_numero_formulario"
-	// Colombian tax identification number
-	IdentifierTypeColNitNo IdentifierType = "col_nit_no"
-	// Colombia Número Único de Registro
-	IdentifierTypeColNur IdentifierType = "col_nur"
-	// Colombian SECOP internal ID
-	IdentifierTypeColSecopNo             IdentifierType = "col_secop_no"
-	IdentifierTypeCriCedulaCitizenPerson IdentifierType = "cri_cedula_citizen_person"
-	IdentifierTypeCriCedulaForeignPerson IdentifierType = "cri_cedula_foreign_person"
-	IdentifierTypeCriCedulaJuridica      IdentifierType = "cri_cedula_juridica"
-	// Costa Rica natural person ID number
-	IdentifierTypeCriCedulaNumber IdentifierType = "cri_cedula_number"
-	// Internal ID for Costa Rica comexport data (exporter number)
-	IdentifierTypeCriExp IdentifierType = "cri_exp"
-	// Internal ID for Costa Rica comexport data (importer number)
-	IdentifierTypeCriImp IdentifierType = "cri_imp"
-	// Internal ID for Costa Rica comexport data (shipping operation number)
-	IdentifierTypeCriOpNo IdentifierType = "cri_op_no"
-	// Cuba corporate registry ID number
-	IdentifierTypeCubCod IdentifierType = "cub_cod"
-	// Curacao Registry Number. Unique Identifier issued by the Curacao Chamber of Commerce & Industry to the registered companies.
-	IdentifierTypeCuwRegNumber IdentifierType = "cuw_reg_number"
-	// Company number from Cayman Islands Gazette
-	IdentifierTypeCymCoNo IdentifierType = "cym_co_no"
-	// Cyprus ID Card
-	IdentifierTypeCypIdCard IdentifierType = "cyp_id_card"
-	// Entity ID from Cyprus infocredit
-	IdentifierTypeCypInfocreditEntityId IdentifierType = "cyp_infocredit_entity_id"
-	// Cyprus Passport
-	IdentifierTypeCypPassport IdentifierType = "cyp_passport"
-	// Cypriot corporate registration number. Prefix corresponds to company type code.
-	IdentifierTypeCypRegNo IdentifierType = "cyp_reg_no"
-	// Cyprus SSN
-	IdentifierTypeCypSsn IdentifierType = "cyp_ssn"
-	// Czechia commercial registry ID number
-	IdentifierTypeCzeFileNumber IdentifierType = "cze_file_number"
-	// Czechia legal person ID number
-	IdentifierTypeCzeIcoNumber IdentifierType = "cze_ico_number"
-	// Korean DART Central Identity Key
-	IdentifierTypeDartCik IdentifierType = "dart_cik"
-	// Dash address
-	IdentifierTypeDashAddress IdentifierType = "dash_address"
-	// Germany BaFin-ID
-	IdentifierTypeDeuBafinId IdentifierType = "deu_bafin_id"
-	// Germany commercial registry ID number concatenated with registry district court XJustiz ID code
-	IdentifierTypeDeuRegisternummer IdentifierType = "deu_registernummer"
-	// Djibouti corporate registry ID number
-	IdentifierTypeDjiRcsNumber IdentifierType = "dji_rcs_number"
-	// Dominica Business Registry Internal ID
-	IdentifierTypeDmaBusinessRegistryInternalId IdentifierType = "dma_business_registry_internal_id"
-	// Denmark business registration number; learn more [here](https://erhvervsstyrelsen.dk/cvr-numre-p-numre-og-se-numre)
-	IdentifierTypeDnkCvr IdentifierType = "dnk_cvr"
-	// Internal ID for Denmark Virk
-	IdentifierTypeDnkEntity IdentifierType = "dnk_entity"
-	// Denmark business branch number
-	IdentifierTypeDnkProductionUnitNo IdentifierType = "dnk_production_unit_no"
-	// Dominican Republic ONAPI registry number
-	IdentifierTypeDomOnapiNum IdentifierType = "dom_onapi_num"
-	// Dominican Republic tax ID number
-	IdentifierTypeDomRnc IdentifierType = "dom_rnc"
-	// Unique global ID code. Assigned by Dun & Bradstreet.
-	IdentifierTypeDunsNumber IdentifierType = "duns_number"
-	// Ecuador Branch ID
-	IdentifierTypeEcuBranchId IdentifierType = "ecu_branch_id"
-	// [Ecuador cedula](https://www.jybaro.com/blog/cedula-de-identidad-ecuatoriana/)
-	IdentifierTypeEcuCedulaNumber IdentifierType = "ecu_cedula_number"
-	// Ecuador corporate registry ID number
-	IdentifierTypeEcuCompanyId IdentifierType = "ecu_company_id"
-	// Ecuador Exporter ID
-	IdentifierTypeEcuExporterId IdentifierType = "ecu_exporter_id"
-	// Ecuador Importer ID
-	IdentifierTypeEcuImporterId IdentifierType = "ecu_importer_id"
-	// Ecuador tax ID number
-	IdentifierTypeEcuRucNumber IdentifierType = "ecu_ruc_number"
-	// Ecuador Shipment Reference Number
-	IdentifierTypeEcuShipmentRefNo IdentifierType = "ecu_shipment_ref_no"
-	// Unique identification number assigned to every entity registered with the Bank of Spain.
-	IdentifierTypeEspBeCode IdentifierType = "esp_be_code"
-	// Value taken from datos registrales section used to identify companies in the Borme. Not an official identifier.
-	IdentifierTypeEspBormeRegId IdentifierType = "esp_borme_reg_id"
-	// Spain Internal Employee Number
-	IdentifierTypeEspInternalEmployeeNumber IdentifierType = "esp_internal_employee_number"
-	// Spain NIF Number
-	IdentifierTypeEspNif IdentifierType = "esp_nif"
-	// Spain TR Number
-	IdentifierTypeEspTrNumber IdentifierType = "esp_tr_number"
-	// Estonian Business Registry Code
-	IdentifierTypeEstBusinessRegCode IdentifierType = "est_business_reg_code"
-	// Estonian Personal Identification Code
-	IdentifierTypeEstPersonalId IdentifierType = "est_personal_id"
-	// Ethereum address
-	IdentifierTypeEthereumAddress IdentifierType = "ethereum_address"
-	// Unique EU Financial Sanctions Database ID number. Assigned to every entity in the EU Financial Sanctions Database.
-	IdentifierTypeEuFsdId IdentifierType = "eu_fsd_id"
-	// EU European Commission sanctions list ID number
-	IdentifierTypeEuSanctionRn IdentifierType = "eu_sanction_rn"
-	IdentifierTypeEuid         IdentifierType = "euid"
-	// Finnish Business ID
-	IdentifierTypeFinBusinessId IdentifierType = "fin_business_id"
-	// USA Florida Broward County parcel ID number
-	IdentifierTypeFlPropFolio IdentifierType = "fl_prop_folio"
-	// USA Florida Miami-Dade County real property parcel ID number
-	IdentifierTypeFlPropFolioDade IdentifierType = "fl_prop_folio_dade"
-	// Unique reference number assigned to every entity in the France National Asset Freeze Register.
-	IdentifierTypeFraAssetFreezeId IdentifierType = "fra_asset_freeze_id"
-	// Unique France ID number. Assigned to every legal entity registered with National Registry of Associations.
-	IdentifierTypeFraRna IdentifierType = "fra_rna"
-	// France business directory ID number
-	IdentifierTypeFraSiren IdentifierType = "fra_siren"
-	// France legal person establishment ID number
-	IdentifierTypeFraSiret IdentifierType = "fra_siret"
-	// Skráseting Føroya Registration Number. Assigned to legal entities registered with the Company Registry of the Faroe Islands.
-	IdentifierTypeFroRegNum IdentifierType = "fro_reg_num"
-	// Unique UK charity ID number. Assigned to every charity registered with the Charity Commission for England and Wales.
-	IdentifierTypeGbrCharityNo IdentifierType = "gbr_charity_no"
-	// United Kingdom Confirmation Statement Company Number
-	IdentifierTypeGbrCompanyNumber IdentifierType = "gbr_company_number"
-	// Action number assigned by the Environment Agency to each enforcement action against offender pursuant to relevant legislation.
-	IdentifierTypeGbrEnforcementActionNum IdentifierType = "gbr_enforcement_action_num"
-	// Unique UK government organization ID number. Assigned to government organizations in the UK.
-	IdentifierTypeGbrGoNo IdentifierType = "gbr_go_no"
-	// UK HM Treasury OFSI sanctions list ID number
-	IdentifierTypeGbrHmTreasurySanctionGroupId IdentifierType = "gbr_hm_treasury_sanction_group_id"
-	// Unique UK ID number. Assigned to every registered trademark.
-	IdentifierTypeGbrIpoTrademarkRegNo IdentifierType = "gbr_ipo_trademark_reg_no"
-	// Unique UK internal ID number. Assigned to every trustee registered with the Charity Commission for England and Wales.
-	IdentifierTypeGbrTrusteeId IdentifierType = "gbr_trustee_id"
-	// UK Sanctions List Unique ID
-	IdentifierTypeGbrUkSanctionsId IdentifierType = "gbr_uk_sanctions_id"
-	// United Kingdom VAT Number
-	IdentifierTypeGbrVatNo IdentifierType = "gbr_vat_no"
-	// Identification code from Georgian MyGov companies
-	IdentifierTypeGeoIdentificationCode IdentifierType = "geo_identification_code"
-	// Legal code from Georgian MyGov companies
-	IdentifierTypeGeoLegalCode IdentifierType = "geo_legal_code"
-	// Personal number from Georgian MyGov companies
-	IdentifierTypeGeoPersonalNumber IdentifierType = "geo_personal_number"
-	// Georgian state registration number
-	IdentifierTypeGeoStateRegistrationNumber IdentifierType = "geo_state_registration_number"
-	// Guernsey Corporate Registry Number
-	IdentifierTypeGgyCorporateRegNumber IdentifierType = "ggy_corporate_reg_number"
-	// Unique Guernsey intellectual property ID number. Assigned to every trademark registered with the Guernsey Intellectual Property Office.
-	IdentifierTypeGgyTrademarkNo IdentifierType = "ggy_trademark_no"
-	// Unique Guernsey intellectual property ID number. Assigned to every trademark application submitted to the Guernsey Intellectual Property Office.
-	IdentifierTypeGgyTrademarkSubmissionRef IdentifierType = "ggy_trademark_submission_ref"
-	// Gibraltar Corporate Registration Number
-	IdentifierTypeGibCorpRegNumber IdentifierType = "gib_corp_reg_number"
-	// Global Trade Internal Shipment ID
-	IdentifierTypeGlobalTradeInternalShipmentId IdentifierType = "global_trade_internal_shipment_id"
-	// Greece tax ID number
-	IdentifierTypeGrcAfmNumber IdentifierType = "grc_afm_number"
-	// General Electronic Commercial Registry (G.E.MI.) number for all legal forms of businesses in Greece
-	IdentifierTypeGrcGemiNumber IdentifierType = "grc_gemi_number"
-	// Greece tax ID number
-	IdentifierTypeGrcVatNumber IdentifierType = "grc_vat_number"
-	// Guatemala natural person ID number
-	IdentifierTypeGtmCuiNumber IdentifierType = "gtm_cui_number"
-	// Guatemala tax ID number
-	IdentifierTypeGtmNitNumber IdentifierType = "gtm_nit_number"
-	// Hong Kong Stock Exchange Code
-	IdentifierTypeHkgStockCode IdentifierType = "hkg_stock_code"
-	// Honduras Cortes commercial registry ID number
-	IdentifierTypeHndCocCompanyRegistrationNumber IdentifierType = "hnd_coc_company_registration_number"
-	// Honduras Tegucigalpa Matricula
-	IdentifierTypeHndTegucigalpaMatricula IdentifierType = "hnd_tegucigalpa_matricula"
-	// Hong Kong case ID number
-	IdentifierTypeHongKongCaseNumber IdentifierType = "hong_kong_case_number"
-	// Croatia corporate registry ID number
-	IdentifierTypeHrMbs IdentifierType = "hr_mbs"
-	// Croatia natural and legal person ID number
-	IdentifierTypeHrOib IdentifierType = "hr_oib"
-	// Unique HUN registration number. Assigned to every legal entity registered with the Ministry of Justice of Hungary.
-	IdentifierTypeHunCompanyRegisterNumber IdentifierType = "hun_company_register_number"
-	// Statistical Number for Hungarian companies issued by the Hungarian Central Statistical Office
-	IdentifierTypeHunKrsNumber IdentifierType = "hun_krs_number"
-	// Unique TIN. Issued for individuals by Hungarian Tax Authorities.
-	IdentifierTypeHunPersonTaxId IdentifierType = "hun_person_tax_id"
-	// Unique Hungary Tax ID. Issued to companies registered in Hungary.
-	IdentifierTypeHunTaxNumber IdentifierType = "hun_tax_number"
-	// Unique ID number. Assigned to individual bank accounts for use in cross-border financial transactions.
-	IdentifierTypeIban IdentifierType = "iban"
-	// ICIJ Offshore Database Internal ID
-	IdentifierTypeIcijOffshoreInternalId IdentifierType = "icij_offshore_internal_id"
-	// ICIJ Offshore Database Node ID
-	IdentifierTypeIcijOffshoreNodeId IdentifierType = "icij_offshore_node_id"
-	// Indonesian tax ID aka NPWP Number; learn more [here](https://wiki.scn.sap.com/wiki/display/CRM/Indonesia)
-	IdentifierTypeIdnTaxId IdentifierType = "idn_tax_id"
-	// Unique identifier used for companies in Indonesia UBO data
-	IdentifierTypeIdnTransactionNumber IdentifierType = "idn_transaction_number"
-	// Unique identifier used for owners in Indonesia UBO data
-	IdentifierTypeIdnUboOwnerId IdentifierType = "idn_ubo_owner_id"
-	// IHS Owner Code
-	IdentifierTypeIhsOwnerCode IdentifierType = "ihs_owner_code"
-	// Isle of Man Company Number
-	IdentifierTypeImnCompanyNumber IdentifierType = "imn_company_number"
-	// Unique global ID number. Assigned to ships, registered ship owners, and management companies.
-	IdentifierTypeImoNo IdentifierType = "imo_no"
-	// Unique India registration number. Assigned to every legal entity registered with the India Charity Commissioner.
-	IdentifierTypeIndCharityRegistrationNumber IdentifierType = "ind_charity_registration_number"
-	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Companies.
-	IdentifierTypeIndCompanyRegistrationNumber IdentifierType = "ind_company_registration_number"
-	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Cooperative Societies
-	IdentifierTypeIndCoopsocRegistrationNumber IdentifierType = "ind_coopsoc_registration_number"
-	// A unique identification number assigned by the Registrar of Companies (ROC) in various states under the Indian Ministry of Corporate Affairs (MCA)
-	IdentifierTypeIndCorporateIdNumber IdentifierType = "ind_corporate_id_number"
-	// Unique India ID number. Assigned to every legal entity included in the NITI Aayog Darpan database.
-	IdentifierTypeIndDarpanUid IdentifierType = "ind_darpan_uid"
-	// A unique eight-digit identification number that is required for any existing or proposed director of a company in India
-	IdentifierTypeIndDirectorIdNumber IdentifierType = "ind_director_id_number"
-	// India foreign company registration number
-	IdentifierTypeIndFcrn IdentifierType = "ind_fcrn"
-	// Unique identifiers for each bank branch participating in India's National Electronic Funds Transfer (NEFT), Real Time Gross Settlement (RTGS), and Immediate Payment Service (IMPS) electronic funds transfer systems.
-	IdentifierTypeIndIfsc IdentifierType = "ind_ifsc"
-	// India limited liability partnership ID number
-	IdentifierTypeIndLlpin IdentifierType = "ind_llpin"
-	// Unique India identifier code. Assigned to all entities listed on the India National Stock Exchange.
-	IdentifierTypeIndNseTickerCode IdentifierType = "ind_nse_ticker_code"
-	// A permanent account number (PAN) is a 10-digit alphanumeric tax ID issued by the Indian Income Tax Department.
-	IdentifierTypeIndPermanentAccountNumber IdentifierType = "ind_permanent_account_number"
-	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Societies.
-	IdentifierTypeIndSocietyRegistrationNumber IdentifierType = "ind_society_registration_number"
-	// India tax identification number. Unique ID number assigned to every taxpayer by the Commercial Tax Department of each state.
-	IdentifierTypeIndTin IdentifierType = "ind_tin"
-	// Unique India intellectual property ID number. Assigned to every trademark application submitted to the Controller General of Patents, Designs and Trademarks of the Ministry of Commerce and Industry, Government of India.
-	IdentifierTypeIndTrademarkSubmissionRef IdentifierType = "ind_trademark_submission_ref"
-	// Unique global ID number. Assigned to ships, registered ship owners, and management companies.
-	IdentifierTypeIntMaritimeOrgId IdentifierType = "int_maritime_org_id"
-	// Hex digest of data that should be used for resolution (e.g., name=Sayari&registration_date=2000-01-01)
-	IdentifierTypeInternalMd5 IdentifierType = "internal_md5"
-	// Iraqi Stock Exchange Symbol
-	IdentifierTypeIraqiStockExchangeSymbol IdentifierType = "iraqi_stock_exchange_symbol"
-	// Registered Charity Number (RCN). Unique Identifier issued by the Charities Regulator to the registered charitable organizations awarded with charitable status.
-	IdentifierTypeIrlRcn IdentifierType = "irl_rcn"
-	// Unique Ireland ID number. Assigned to every legal entity registered with Ireland Companies Registration Office.
-	IdentifierTypeIrlRegistrationNo IdentifierType = "irl_registration_no"
-	// Iran Tehran chamber of commerce internal ID number
-	IdentifierTypeIrnCocInternalId       IdentifierType = "irn_coc_internal_id"
-	IdentifierTypeIrnCocInternalIdCardno IdentifierType = "irn_coc_internal_id_cardno"
-	// Iran natural and legal person ID number
-	IdentifierTypeIrnNationalId IdentifierType = "irn_national_id"
-	// Iran natural person ID number
-	IdentifierTypeIrnNationalNumber IdentifierType = "irn_national_number"
-	// Iran passport number
-	IdentifierTypeIrnPassport IdentifierType = "irn_passport"
-	// Iraq voter ID number
-	IdentifierTypeIrqVoterId IdentifierType = "irq_voter_id"
-	// Unique global ID code. Assigned to every security issuance for use facilitating the trading, clearing, and settlement of securities transactions.
-	IdentifierTypeIsin IdentifierType = "isin"
-	// Iceland natural and legal person ID number
-	IdentifierTypeIslTinNumber IdentifierType = "isl_tin_number"
-	// Iceland VAT identification number. Assigned to legal entities registered with Tax Administration.
-	IdentifierTypeIslVatNum IdentifierType = "isl_vat_num"
-	// Unique Israel association registration number. Assigned to every association in the Israel Ministry of Justice Association and Public Benefit Company Registry.
-	IdentifierTypeIsrAssociationNumber IdentifierType = "isr_association_number"
-	// Israeli Registrar of Companies company number
-	IdentifierTypeIsrCompanyNumber IdentifierType = "isr_company_number"
-	// Unique Israel public benefit company registration number. Assigned to every public benefit company in the Israel Ministry of Justice Association and Public Benefit Company Registry.
-	IdentifierTypeIsrPbcNumber IdentifierType = "isr_pbc_number"
-	// Italy tax ID code
-	IdentifierTypeItaFiscalCode IdentifierType = "ita_fiscal_code"
-	// Italy Economic and Administrative Repertory Number
-	IdentifierTypeItaReaNumber IdentifierType = "ita_rea_number"
-	// Italy VAT number
-	IdentifierTypeItaVatNumber IdentifierType = "ita_vat_number"
-	// Unique Jamaica company registration number. Assigned to every company in the Jamaica Corporate Registry.
-	IdentifierTypeJamCompanyId IdentifierType = "jam_company_id"
-	// Jersey Corporate Registry Number
-	IdentifierTypeJeyCorporateRegNumber IdentifierType = "jey_corporate_reg_number"
-	// Unique Jersey ID number. Assigned to every registered trademark.
-	IdentifierTypeJeyTrademarkRegNo IdentifierType = "jey_trademark_reg_no"
-	// Deprecated; use weak ID jor_sol_prop_institution_number
-	IdentifierTypeJoInstitutionNumber IdentifierType = "jo_institution_number"
+	// A Chinese company registration number
+	IdentifierTypeCnRegistrationNumber IdentifierType = "cn_registration_number"
+	// A Chinese company organization code
+	IdentifierTypeCnOrganizationCode IdentifierType = "cn_organization_code"
+	// Part of a Qichacha URL, used to uniquely identify people within the site
+	IdentifierTypeCnQichachaInternalId IdentifierType = "cn_qichacha_internal_id"
+	// A Hong Kong CR Number
+	IdentifierTypeCnHkCrNumber IdentifierType = "cn_hk_cr_number"
+	// A Hong Kong document filing number used by ICRIS
+	IdentifierTypeCnHkFilingNumber IdentifierType = "cn_hk_filing_number"
+	// A Bahraini CR Number
+	IdentifierTypeBhCrNumber IdentifierType = "bh_cr_number"
+	// A Bahraini CR Number combined with a Bahraini branch number
+	IdentifierTypeBhCrNumberAndBranch IdentifierType = "bh_cr_number_and_branch"
 	// Deprecated; use jo_national_institution_number
 	IdentifierTypeJoInternalId IdentifierType = "jo_internal_id"
 	// A Jordanian National Institution Number
 	IdentifierTypeJoNationalInstitutionNumber IdentifierType = "jo_national_institution_number"
-	// Deprecated; use jo_national_institution_number
-	IdentifierTypeJorIdNo IdentifierType = "jor_id_no"
-	// Jordan voter ID number
-	IdentifierTypeJorVoterCardNo IdentifierType = "jor_voter_card_no"
-	// Deprecated; use weak identifier jordan_company_no
-	IdentifierTypeJordanCompanyNo IdentifierType = "jordan_company_no"
-	// Japanese corporate number. Learn more [here](https://en.wikipedia.org/wiki/Corporate_Number).
-	IdentifierTypeJpnCorporateNo IdentifierType = "jpn_corporate_no"
-	// Company code from EDINET
-	IdentifierTypeJpnEdinetCode IdentifierType = "jpn_edinet_code"
-	// A 12-digit Kazakh business identification number
-	IdentifierTypeKazBin IdentifierType = "kaz_bin"
-	// A nine-digit Kazakh identifier
-	IdentifierTypeKazIdentifier  IdentifierType = "kaz_identifier"
-	IdentifierTypeKazOkpoNum     IdentifierType = "kaz_okpo_num"
-	IdentifierTypeKazStateRegNum IdentifierType = "kaz_state_reg_num"
-	// A Kazakh tax ID number
-	IdentifierTypeKazTin IdentifierType = "kaz_tin"
-	// Kenya Person ID Number
-	IdentifierTypeKenPersonalId IdentifierType = "ken_personal_id"
-	// Kyrgyzstan company registration number
-	IdentifierTypeKgzRegNumber IdentifierType = "kgz_reg_number"
-	// Cambodia tax ID number
-	IdentifierTypeKhmTinNumber IdentifierType = "khm_tin_number"
-	// Korean TIN for businesses
-	IdentifierTypeKorBusinessTin IdentifierType = "kor_business_tin"
-	// Korean corporate registration number
-	IdentifierTypeKorCorporateRegistrationNumber IdentifierType = "kor_corporate_registration_number"
-	// Ticker number for the Korean Stock Exchange
-	IdentifierTypeKrxTickerCode IdentifierType = "krx_ticker_code"
-	// Kuwait passport number
-	IdentifierTypeKwtPassport IdentifierType = "kwt_passport"
-	// Laos corporate registry ID number
-	IdentifierTypeLaoEnterpriseNumber IdentifierType = "lao_enterprise_number"
-	// Lebanon natural person ID number
-	IdentifierTypeLbnNationalId IdentifierType = "lbn_national_id"
-	// Libya passport number
-	IdentifierTypeLbyPassport IdentifierType = "lby_passport"
-	// St. Lucia Business Registry Internal ID
-	IdentifierTypeLcaBusinessRegistryInternalId IdentifierType = "lca_business_registry_internal_id"
-	// Unique global ID code. Assigned to legal entities participating in financial transactions.
-	IdentifierTypeLei IdentifierType = "lei"
-	// Liechtenstein corporate registry ID number
-	IdentifierTypeLiePublicRegNo IdentifierType = "lie_public_reg_no"
-	// Unique digital currency address
-	IdentifierTypeLitecoinAddress IdentifierType = "litecoin_address"
-	// Entity ID from Lloyd's Maritime Data
-	IdentifierTypeLloydsInternalEntityId IdentifierType = "lloyds_internal_entity_id"
-	// Vessel ID from Lloyd's Maritime Data
-	IdentifierTypeLloydsInternalVesselId IdentifierType = "lloyds_internal_vessel_id"
-	// Liberia Tax Identification Number. Unique number assigned to taxpayers in Liberia and issued by the Liberia Revenue Authority.
-	IdentifierTypeLrTin IdentifierType = "lr_tin"
-	// Lesotho corporate registry ID number
-	IdentifierTypeLsoCorpregId IdentifierType = "lso_corpreg_id"
-	// Lithuanian Company Registration Code
-	IdentifierTypeLtuCompanyRegistrationCode IdentifierType = "ltu_company_registration_code"
-	// Luxembourg corporate registry ID number
-	IdentifierTypeLuxRcsNumber IdentifierType = "lux_rcs_number"
-	// Latvian Insolvency Proceedings ID Number
-	IdentifierTypeLvaInsolvencyProceedingId IdentifierType = "lva_insolvency_proceeding_id"
-	// Latvia natural person ID number
-	IdentifierTypeLvaPersonalCode IdentifierType = "lva_personal_code"
-	// Latvia corporate registry ID number
-	IdentifierTypeLvaRegNumber IdentifierType = "lva_reg_number"
-	// Identifier taken from document URL to resolve cases. Is slightly different for HTML vs PDF documents.
-	IdentifierTypeMacRaemCaseUrlId IdentifierType = "mac_raem_case_url_id"
-	// Macao corporate registry ID number
-	IdentifierTypeMacRegistrationNo IdentifierType = "mac_registration_no"
-	// Seems to be tied to accounting/auditing firms
-	IdentifierTypeMaltaAccountancyRegistrationId IdentifierType = "malta_accountancy_registration_id"
+	// Deprecated; use weak ID jor_sol_prop_institution_number
+	IdentifierTypeJoInstitutionNumber IdentifierType = "jo_institution_number"
 	// A Malta company number
 	IdentifierTypeMaltaCompanyNumber IdentifierType = "malta_company_number"
 	// A number linked to a Maltese national ID card
 	IdentifierTypeMaltaNationalId IdentifierType = "malta_national_id"
-	// Morocco Passport Number
-	IdentifierTypeMarPassport       IdentifierType = "mar_passport"
-	IdentifierTypeMatoGrossoLegalId IdentifierType = "mato_grosso_legal_id"
-	// Monaco Statistical Identification Number. Unique identifier assigned by the Institute of Statistics and Economic Studies (Monaco Statistics) for entities with economic activity in Monaco.
-	IdentifierTypeMcoNis IdentifierType = "mco_nis"
-	// Monaco RCI Trade Register Number. Unique number assigned to entities with activities in Monaco registered with the Directory of Trade and Industry Directory.
-	IdentifierTypeMcoRciNumber IdentifierType = "mco_rci_number"
-	// Moldova legal person ID number
-	IdentifierTypeMdaIdnoNumber IdentifierType = "mda_idno_number"
-	// Madagascar tax ID number
-	IdentifierTypeMdgNifNumber IdentifierType = "mdg_nif_number"
-	// Madagascar corporate registry ID number
-	IdentifierTypeMdgRcsNumber  IdentifierType = "mdg_rcs_number"
-	IdentifierTypeMdgStatNumber IdentifierType = "mdg_stat_number"
-	// Maldives corporate registration number
-	IdentifierTypeMdvRegistrationNumber IdentifierType = "mdv_registration_number"
-	// Unique Registration Code in the Federal Register of Civil Society Organizations
-	IdentifierTypeMexCluni IdentifierType = "mex_cluni"
-	// Mexico DENUE Unique ID
-	IdentifierTypeMexDenueClee IdentifierType = "mex_denue_clee"
-	// Internal ID from Mexican open contracts data
-	IdentifierTypeMexOpenContractsInternalId IdentifierType = "mex_open_contracts_internal_id"
-	// Simple 1-up identifier from the Registro Nacional de Inversiones Extranjeras
-	IdentifierTypeMexRnie IdentifierType = "mex_rnie"
-	// Mexico Shipment Number
-	IdentifierTypeMexShipmentNumber IdentifierType = "mex_shipment_number"
-	// Mexican trademark number
-	IdentifierTypeMexTmNo IdentifierType = "mex_tm_no"
-	// North Macedonia unique identifier. Assigned to every North Macedonia Corporate Registry Announcement.
-	IdentifierTypeMkdArchiveNumber IdentifierType = "mkd_archive_number"
-	// North Macedonia corporate registry ID number
-	IdentifierTypeMkdEmbsBranchNumber IdentifierType = "mkd_embs_branch_number"
-	// North Macedonia corporate registry ID number
-	IdentifierTypeMkdEmbsNumber IdentifierType = "mkd_embs_number"
-	// Myanmar corporate registry ID for companies
-	IdentifierTypeMmrCorpId IdentifierType = "mmr_corp_id"
-	// Myanmar corporate registry ID for officers
-	IdentifierTypeMmrOfficerId IdentifierType = "mmr_officer_id"
-	// Myanmar Personal Identification Number
-	IdentifierTypeMmrPersonalIdNo IdentifierType = "mmr_personal_id_no"
-	// Myanmar Prior Registration Number
-	IdentifierTypeMmrPriorRegNo IdentifierType = "mmr_prior_reg_no"
-	// Myanmar Registration Number
-	IdentifierTypeMmrRegNo IdentifierType = "mmr_reg_no"
-	// Montenegro tax ID number
-	IdentifierTypeMnePib IdentifierType = "mne_pib"
-	// Montenegro real property registry internal ID number
-	IdentifierTypeMnePropertyUid IdentifierType = "mne_property_uid"
-	// Registration number from the Montenegro corporate registry
-	IdentifierTypeMneRegNumber IdentifierType = "mne_reg_number"
-	// Registration number from the Mongolian corporate registry
-	IdentifierTypeMngRegNumber IdentifierType = "mng_reg_number"
-	// Montana Secretary of State Business Entity Number
-	IdentifierTypeMontanaSosInternalEntityId IdentifierType = "montana_sos_internal_entity_id"
-	// Mozambique foreign resident ID number
-	IdentifierTypeMozDireNo IdentifierType = "moz_dire_no"
-	// Mozambique natural person ID number
-	IdentifierTypeMozIdNumber IdentifierType = "moz_id_number"
-	// Mozambique corporate registry ID number
-	IdentifierTypeMozNuelNo IdentifierType = "moz_nuel_no"
-	// Mozambique legal person tax ID number
-	IdentifierTypeMozNuitCo IdentifierType = "moz_nuit_co"
-	// Mozambique natural person tax ID number
-	IdentifierTypeMozNuitPerson IdentifierType = "moz_nuit_person"
-	// Mozambique passport number
-	IdentifierTypeMozPassport IdentifierType = "moz_passport"
-	// Mozambique voter ID number
-	IdentifierTypeMozVoterNo IdentifierType = "moz_voter_no"
-	// Mauritius Company File No.
-	IdentifierTypeMusFileNo IdentifierType = "mus_file_no"
-	// Mauritius business registration number
-	IdentifierTypeMusRegId IdentifierType = "mus_reg_id"
-	// Malawi Tax Payer Identification Number. Unique number assigned to taxpayers in Malawi and issued by the Malawi Revenue Authority.
-	IdentifierTypeMwTpinTaxRegNum IdentifierType = "mw_tpin_tax_reg_num"
-	// A unique identity code for citizens and residents of Mexico
-	IdentifierTypeMxCurp       IdentifierType = "mx_curp"
-	IdentifierTypeMxOfficeFme  IdentifierType = "mx_office_fme"
-	IdentifierTypeMxRfcCompany IdentifierType = "mx_rfc_company"
-	// A tax ID issued by the Mexican Tax Administration Service
-	IdentifierTypeMxRfcPerson IdentifierType = "mx_rfc_person"
-	// Malaysia corporate registry ID number
-	IdentifierTypeMysCompanyRegNo IdentifierType = "mys_company_reg_no"
-	// Malaysia natural person ID number
-	IdentifierTypeMysIdCardNo IdentifierType = "mys_id_card_no"
-	// NG-Check entity internal ID number
-	IdentifierTypeNgCheckInternalId IdentifierType = "ng_check_internal_id"
-	// Nigerian Corporate Registry Internal ID
-	IdentifierTypeNgaCrpRegInternalId IdentifierType = "nga_crp_reg_internal_id"
-	// Nigerian Driver's License No.
-	IdentifierTypeNgaDrivers IdentifierType = "nga_drivers"
-	// Nigerian National Identification Number
-	IdentifierTypeNgaNin IdentifierType = "nga_nin"
-	// Nigeria corporate registry ID code
-	IdentifierTypeNgaRegistrationNumber IdentifierType = "nga_registration_number"
-	// Nigerian Corporate Registry Registration Serial No.
-	IdentifierTypeNgaRegistrationSn IdentifierType = "nga_registration_sn"
-	// Nigerian Tax ID number
-	IdentifierTypeNgaTaxId IdentifierType = "nga_tax_id"
-	// Nicaragua Numero Unico
-	IdentifierTypeNicNumeroUnico IdentifierType = "nic_numero_unico"
-	// Nicaragua RUC Number
-	IdentifierTypeNicRucNumber IdentifierType = "nic_ruc_number"
-	// Nicaragua Trade Internal Shipment ID
-	IdentifierTypeNicTradeInternalShipmentId IdentifierType = "nic_trade_internal_shipment_id"
-	// Senegal tax ID number
-	IdentifierTypeNineaNo IdentifierType = "ninea_no"
-	// Dutch Chamber of Commerce Branch/Location Number
-	IdentifierTypeNldKvkBranchNumber IdentifierType = "nld_kvk_branch_number"
-	// Dutch Chamber of Commerce Number
-	IdentifierTypeNldKvkNumber IdentifierType = "nld_kvk_number"
-	// Norway Organisasjonsnummer
-	IdentifierTypeNorOrgNo IdentifierType = "nor_org_no"
-	// Nepali Company Registration No. from National Information Technology Center
-	IdentifierTypeNplCoRegNo IdentifierType = "npl_co_reg_no"
-	// USA New York City real property parcel ID number
-	IdentifierTypeNycBbl IdentifierType = "nyc_bbl"
-	// USA New York New York City real property registry ID number
-	IdentifierTypeNycCrfn IdentifierType = "nyc_crfn"
-	// New Zealand corporate registry ID number
-	IdentifierTypeNzlCoNo IdentifierType = "nzl_co_no"
-	// New Zealand business registry ID number
-	IdentifierTypeNzlNzbn IdentifierType = "nzl_nzbn"
-	// Unique identifier assigned to every entity in the New Zealand Russia Sanctions Register.
-	IdentifierTypeNzlRussiaSanctionsUid IdentifierType = "nzl_russia_sanctions_uid"
-	// Oman Passport Number
-	IdentifierTypeOmnPassport IdentifierType = "omn_passport"
-	// Unique Canada provincial ID number. Assigned to every business registered with Ontario Ministry of Consumer and Business Services.
-	IdentifierTypeOnBusinessIdNumber IdentifierType = "on_business_id_number"
-	// Unique Canada province ID number. Assigned to every legal entity in the Ontario Business Registry.
-	IdentifierTypeOntarioCorporationNumber IdentifierType = "ontario_corporation_number"
-	// Unique Pakistan National Taxpayer Number for Companies and Associations of Persons
-	IdentifierTypePakCoNtn IdentifierType = "pak_co_ntn"
-	// Pakistan EGM ID
-	IdentifierTypePakEgmId IdentifierType = "pak_egm_id"
-	// Unique Pakistan National Taxpayer Number for Individuals (equivalent to Computerized National Identity Card number)
-	IdentifierTypePakIndNtn IdentifierType = "pak_ind_ntn"
-	// Pakistan NGO Registration Number
-	IdentifierTypePakNgoRegNo IdentifierType = "pak_ngo_reg_no"
-	// Pakistan passport number
-	IdentifierTypePakPassport IdentifierType = "pak_passport"
-	// Panama natural person ID number
-	IdentifierTypePanCedulaNumber IdentifierType = "pan_cedula_number"
-	// Declaration number for import and export shipments in Panama
-	IdentifierTypePanDeclarationNumber IdentifierType = "pan_declaration_number"
-	// Panama corporate registry ID number
-	IdentifierTypePanFolioFichaId IdentifierType = "pan_folio_ficha_id"
-	// Unique identifier for Panamanian importers and exporters
-	IdentifierTypePanImporterExporterId IdentifierType = "pan_importer_exporter_id"
-	// Panadata Internal ID
-	IdentifierTypePanadataInternalId IdentifierType = "panadata_internal_id"
-	// Panadata Internal SID
-	IdentifierTypePanadataInternalSid IdentifierType = "panadata_internal_sid"
-	// Peru foreign resident ID number
-	IdentifierTypePerCarneDeExtranjeria IdentifierType = "per_carne_de_extranjeria"
-	// Peru natural person ID number
-	IdentifierTypePerDniNo IdentifierType = "per_dni_no"
-	// Peru tax ID number
-	IdentifierTypePerRucNo IdentifierType = "per_ruc_no"
-	// Philippines business registry ID number
-	IdentifierTypePhlBnn IdentifierType = "phl_bnn"
-	// Philippines securities issuer internal ID number
-	IdentifierTypePhlPseId IdentifierType = "phl_pse_id"
-	// Philippines business registry ID number
-	IdentifierTypePhlSecId IdentifierType = "phl_sec_id"
-	// Philippines tax ID number
-	IdentifierTypePhlTin IdentifierType = "phl_tin"
-	// Papua New Guinea business registry ID number
-	IdentifierTypePngIpaRegId IdentifierType = "png_ipa_reg_id"
-	// The National Court Register, or Krajowy Rejestr Sądowy (KRS), number in Poland
-	IdentifierTypePolKrsNumber IdentifierType = "pol_krs_number"
-	// Tax identification number from Poland
-	IdentifierTypePolNipNumber IdentifierType = "pol_nip_number"
-	// The register REGON fulfils the function of the national official Register of National Economy Entities
-	IdentifierTypePolRegonNumber IdentifierType = "pol_regon_number"
-	// Person identifier from Poland Rejestr data
-	IdentifierTypePolRejestrPersonId IdentifierType = "pol_rejestr_person_id"
-	// North Korea-China trade data ID code
-	IdentifierTypePrkEntityId IdentifierType = "prk_entity_id"
-	// North Korea-China trade internal ID number
-	IdentifierTypePrkInternalTradeId IdentifierType = "prk_internal_trade_id"
-	// North Korea Passport Number
-	IdentifierTypePrkPassport       IdentifierType = "prk_passport"
-	IdentifierTypePrkRegistrationId IdentifierType = "prk_registration_id"
-	// North Korea Shipment ID
-	IdentifierTypePrkShipmentId IdentifierType = "prk_shipment_id"
-	// Portuguese Trust Number
-	IdentifierTypePrtTrustNumber IdentifierType = "prt_trust_number"
-	// Portuguese VAT Number
-	IdentifierTypePrtVatNumber IdentifierType = "prt_vat_number"
-	// Paraguay natural person ID number
-	IdentifierTypePryCedulaNumber IdentifierType = "pry_cedula_number"
-	// Paraguay tax ID number
-	IdentifierTypePryOldRucNumber IdentifierType = "pry_old_ruc_number"
-	// Paraguay tax ID number
-	IdentifierTypePryRucNumber IdentifierType = "pry_ruc_number"
-	// Paraguay Shipment Number
-	IdentifierTypePryShipmentNumber IdentifierType = "pry_shipment_number"
-	// Paraguay Company Tax ID
-	IdentifierTypePryTaxId IdentifierType = "pry_tax_id"
-	// Palestine registration ID
-	IdentifierTypePseRegistrationId IdentifierType = "pse_registration_id"
-	// Qatar corporate registry ID number
-	IdentifierTypeQatCrNumber IdentifierType = "qat_cr_number"
-	// Qatar corporate registry ID number
-	IdentifierTypeQatQfcNumber IdentifierType = "qat_qfc_number"
-	// Unique Canada province ID number. Assigned to every legal entity in the Quebec Enterprise Register.
-	IdentifierTypeQuebecEnterpriseNumber IdentifierType = "quebec_enterprise_number"
-	// OHADA corporate registry ID number
-	IdentifierTypeRccmNo              IdentifierType = "rccm_no"
-	IdentifierTypeRioDeJaneiroLegalId IdentifierType = "rio_de_janeiro_legal_id"
-	IdentifierTypeRksBusinessNumber   IdentifierType = "rks_business_number"
-	// A fiscal number from the Kosovo company registry
-	IdentifierTypeRksFiscalNumber IdentifierType = "rks_fiscal_number"
-	// Kosovo registration number
-	IdentifierTypeRksRegistrationNumber IdentifierType = "rks_registration_number"
-	// Romania tax ID number
-	IdentifierTypeRouCompanyRegistrationCode IdentifierType = "rou_company_registration_code"
-	// Romanian tax identification number for companies
-	IdentifierTypeRouCompanyTin IdentifierType = "rou_company_tin"
-	// Romania natural person ID number
-	IdentifierTypeRouIdentityCard IdentifierType = "rou_identity_card"
-	// Romania natural person ID number
-	IdentifierTypeRouPersonalIdNumber IdentifierType = "rou_personal_id_number"
-	// A Russian tax ID. Individuals get a 12-digit number; companies get 10 digits.
-	IdentifierTypeRuInn IdentifierType = "ru_inn"
-	// A Russian company registration number with 12 digits
-	IdentifierTypeRuOgrn IdentifierType = "ru_ogrn"
-	// Russia vessel registry ID number
-	IdentifierTypeRuShipRegisterId IdentifierType = "ru_ship_register_id"
-	// Russia Trade Internal Shipment ID
-	IdentifierTypeRuTradeInternalShipmentId IdentifierType = "ru_trade_internal_shipment_id"
-	// Russia Bank Identification Code
-	IdentifierTypeRusBikCode IdentifierType = "rus_bik_code"
-	// A unique concatenation of bill of lading number, date of customs declaration and Russia customs sequence number.
-	IdentifierTypeRusDeclarationNumber IdentifierType = "rus_declaration_number"
-	// Russia securities ID code
-	IdentifierTypeRusMicexCode IdentifierType = "rus_micex_code"
-	// Russia passport number
-	IdentifierTypeRusPassport IdentifierType = "rus_passport"
-	// Russian Tourist Object Serial number in the Federal list
-	IdentifierTypeRusTouristObj IdentifierType = "rus_tourist_obj"
-	// Unique Canada province ID number. Assigned to every legal entity in the Saskatchewan Corporate Registry.
-	IdentifierTypeSaskatchewanRegistryNumber IdentifierType = "saskatchewan_registry_number"
-	// UID used to merge entities internally
-	IdentifierTypeSayariInternalIdentifier IdentifierType = "sayari_internal_identifier"
-	// Singapore Passport Number
-	IdentifierTypeSgpPassport IdentifierType = "sgp_passport"
-	// The UEN is a standard, unique identification number for a registered entity in Singapore. It is comparable to the NRIC number, which is an ID number for Singapore citizens.
-	IdentifierTypeSgpUnqiueEntityNumber IdentifierType = "sgp_unqiue_entity_number"
-	// Mexico corporate registry internal ID number
-	IdentifierTypeSigerInternalId IdentifierType = "siger_internal_id"
-	// El Salvador commercial registry ID number
-	IdentifierTypeSlvCommercialRegNumber IdentifierType = "slv_commercial_reg_number"
-	// El Salvador corporate registry ID number
-	IdentifierTypeSlvMcas IdentifierType = "slv_mcas"
-	// El Salvador tax ID number
-	IdentifierTypeSlvNumeroIdentificacionTributaria IdentifierType = "slv_numero_identificacion_tributaria"
-	// El Salvador natural person ID number
-	IdentifierTypeSlvUidNumber IdentifierType = "slv_uid_number"
-	// San Marino Economic Operator Code
-	IdentifierTypeSmrEconomicOperatorCode IdentifierType = "smr_economic_operator_code"
-	// Somalian UBI Number
-	IdentifierTypeSomUbi IdentifierType = "som_ubi"
-	// Enterprise number for South African companies
-	IdentifierTypeSouthAfricaEnterpriseNumber IdentifierType = "south_africa_enterprise_number"
-	// South African passport number
-	IdentifierTypeSouthAfricaPassportNumber IdentifierType = "south_africa_passport_number"
-	// Unique Serbia ID number. Assigned to every entity registered with the Serbia Business Register Agency's Register of Beneficial Owners.
-	IdentifierTypeSrbBeneficialOwnerId IdentifierType = "srb_beneficial_owner_id"
-	// Serbia branch ID
-	IdentifierTypeSrbBranchId IdentifierType = "srb_branch_id"
-	// Serbia company registration number (matični broj)
-	IdentifierTypeSrbMbNumber IdentifierType = "srb_mb_number"
-	// Serbia tax ID number
-	IdentifierTypeSrbPibNumber IdentifierType = "srb_pib_number"
-	// South Sudan Passport Number
-	IdentifierTypeSsdPassport IdentifierType = "ssd_passport"
-	// Stock market ticker
-	IdentifierTypeStockTicker IdentifierType = "stock_ticker"
-	// Slovakia legal person ID number
-	IdentifierTypeSvkIcoNumber IdentifierType = "svk_ico_number"
-	// ZAPST number used for shareholders and partners in Slovenia Corporate Registry
-	IdentifierTypeSvnAjpesZapstNumber IdentifierType = "svn_ajpes_zapst_number"
-	// Slovenian Company Registry ID Number
-	IdentifierTypeSvnCoRegNo IdentifierType = "svn_co_reg_no"
-	// Slovenian VAT number
-	IdentifierTypeSvnVatNumber IdentifierType = "svn_vat_number"
-	// Sweden FI Identification Number
-	IdentifierTypeSweFiId IdentifierType = "swe_fi_id"
-	// Sweden Organisationsnummer. May have "-" separating last three digits.
-	IdentifierTypeSweOrgNo IdentifierType = "swe_org_no"
-	// Swedish personal identity number (Personnummer)
-	IdentifierTypeSwePerIdNo IdentifierType = "swe_per_id_no"
-	// Swedish Organisationnummer with two-digit prefix
-	IdentifierTypeSweTaxNumber IdentifierType = "swe_tax_number"
-	// Unique global ID code. Assigned to financial and non-financial institutions for use addressing messages, routing business transactions, and identifying business parties.
-	IdentifierTypeSwiftBicCode IdentifierType = "swift_bic_code"
-	// Unique Syria ID number. Assigned to every legal entity registered with the Syria Ministry of Economy and Foreign Trade.
-	IdentifierTypeSyriaCommercialRegisterNumber IdentifierType = "syria_commercial_register_number"
-	// Thailand corporate registry ID number
-	IdentifierTypeThaRegistrationNo IdentifierType = "tha_registration_no"
-	// Tajikistan EIN (RYIAM) number. Unique number assigned to taxpayers in Tajikistan.
-	IdentifierTypeTjkEinNumber IdentifierType = "tjk_ein_number"
-	// Tajikistan TIN. Unique number assigned to taxpayers registered with Tajikistan Tax Authorities.
-	IdentifierTypeTjkTinNumber IdentifierType = "tjk_tin_number"
-	// Unique identifier for Tokyo Stock Exchange companies
-	IdentifierTypeTokyoStockExchangeNo IdentifierType = "tokyo_stock_exchange_no"
-	// Trinbagonian Business Number
-	IdentifierTypeTtoBizNumber IdentifierType = "tto_biz_number"
-	// Tunisia passport number
-	IdentifierTypeTunPassport IdentifierType = "tun_passport"
-	// Istanbul Chamber of Commerce registration number
-	IdentifierTypeTurIstanbulCocRegNo IdentifierType = "tur_istanbul_coc_reg_no"
-	// Izmir Chamber of Commerce registration number
-	IdentifierTypeTurIzmirCocRegNo IdentifierType = "tur_izmir_coc_reg_no"
-	// Turkish Central Registry Number System (MERSIS) number
-	IdentifierTypeTurMersisNumber IdentifierType = "tur_mersis_number"
-	// Unique concatenation of bill of lading number and item number for shipments in Turkey.
-	IdentifierTypeTurShipmentId IdentifierType = "tur_shipment_id"
-	// Turkish Tax Identifier
-	IdentifierTypeTurTaxId IdentifierType = "tur_tax_id"
-	// Turkey Trade Registry Number, Ticaret Sicil. Unique registration number for companies in Turkey.
-	IdentifierTypeTurTicaretSicilNo IdentifierType = "tur_ticaret_sicil_no"
-	// Establishment permit case number for Taiwanese factories
-	IdentifierTypeTwnFactoryEstablishmentPermitCaseNumber IdentifierType = "twn_factory_establishment_permit_case_number"
-	// Registration number for Taiwanese factories
-	IdentifierTypeTwnFactoryRegistrationNumber IdentifierType = "twn_factory_registration_number"
-	// Taiwan Passport Number
-	IdentifierTypeTwnPassportNumber IdentifierType = "twn_passport_number"
-	// Taiwan tax ID number
-	IdentifierTypeTwnUnifiedNumber IdentifierType = "twn_unified_number"
-	// USA Texas corporate registry ID number
-	IdentifierTypeTxCorpFileNum IdentifierType = "tx_corp_file_num"
-	// USA Texas corporate registry ID number
-	IdentifierTypeTxEntityFilingNum IdentifierType = "tx_entity_filing_num"
-	// USA Texas land segment ID number
-	IdentifierTypeTxLandId IdentifierType = "tx_land_id"
-	// USA Texas Bexar County property owner ID number
-	IdentifierTypeTxPacsId IdentifierType = "tx_pacs_id"
-	// USA Texas Bexar County property ID number
-	IdentifierTypeTxPropId IdentifierType = "tx_prop_id"
-	// USA Texas tax ID number
-	IdentifierTypeTxTaxId IdentifierType = "tx_tax_id"
-	// Tanzania Registration Number. Unique identifier issued by the Tanzania Business Registration and Licensing Agency and assigned to the registered entities.
-	IdentifierTypeTzaBrelaRegNum IdentifierType = "tza_brela_reg_num"
+	// Seems to be tied to accounting/auditing firms
+	IdentifierTypeMaltaAccountancyRegistrationId IdentifierType = "malta_accountancy_registration_id"
 	// A UK company registration number. The pattern was sourced from the snapshot file documentation provided to us. When the first two characters are not digits, they have a special meaning.
 	IdentifierTypeUkCompanyNumber IdentifierType = "uk_company_number"
 	// Unique UK ID number. Assigned to every firm in the FCA financial services registry.
 	IdentifierTypeUkFirmReferenceNumber IdentifierType = "uk_firm_reference_number"
 	// Internal person ID
 	IdentifierTypeUkPersonNumber IdentifierType = "uk_person_number"
-	// Title number for a property in the UK
-	IdentifierTypeUkTitleNumber IdentifierType = "uk_title_number"
-	// Ukraine SFMS List Identifier. Reference number assigned to all entities listed under Ukraine SFMS List for Terrorism.
-	IdentifierTypeUkrFiuListNumber IdentifierType = "ukr_fiu_list_number"
-	IdentifierTypeUkrMojId         IdentifierType = "ukr_moj_id"
-	// Ukrainian Registration Number
-	IdentifierTypeUkrRegNum IdentifierType = "ukr_reg_num"
-	// Ukraine NAZK sanctions company internal ID
-	IdentifierTypeUkrSanctionsNazkCompanyInternalId IdentifierType = "ukr_sanctions_nazk_company_internal_id"
-	// Ukraine NAZK sanctions person internal ID
-	IdentifierTypeUkrSanctionsNazkPersonInternalId IdentifierType = "ukr_sanctions_nazk_person_internal_id"
-	// UN Security Council sanctions list ID code
-	IdentifierTypeUnSanctionPrn IdentifierType = "un_sanction_prn"
-	// Uruguay tax ID number
-	IdentifierTypeUryRucNumber IdentifierType = "ury_ruc_number"
-	// USA Alaskan Secretary of State entity number
-	IdentifierTypeUsaAkEntityNo IdentifierType = "usa_ak_entity_no"
-	// USA Alabama Secretary of State Business Entity ID
-	IdentifierTypeUsaAlSosId IdentifierType = "usa_al_sos_id"
-	// USA Arkansas Secretary of State Filing No.
-	IdentifierTypeUsaArFilingNo IdentifierType = "usa_ar_filing_no"
-	// USA Arizona Corporate Registry Entity Number
-	IdentifierTypeUsaAzCorpRegEntityNum IdentifierType = "usa_az_corp_reg_entity_num"
-	// Central Registration Depository (CRD) number from the Financial Industry Regulatory Authority (FINRA) in the USA. The CRD number is a company/person identifier.
-	IdentifierTypeUsaCentralRegistrationDepositoryNumber IdentifierType = "usa_central_registration_depository_number"
-	// Common Government-wide Accounting Classification (CGAC) agency code assigned by the US Treasury
-	IdentifierTypeUsaCgacAgencyCode IdentifierType = "usa_cgac_agency_code"
-	// USA Colorado Secretary of State registration number
-	IdentifierTypeUsaCoRegNo                              IdentifierType = "usa_co_reg_no"
-	IdentifierTypeUsaConsolidatedScreeningListSyntheticId IdentifierType = "usa_consolidated_screening_list_synthetic_id"
-	// CorpWatch Database ID
-	IdentifierTypeUsaCorpwatchId IdentifierType = "usa_corpwatch_id"
-	// USA Connecticut Business ID
-	IdentifierTypeUsaCtBusinessId IdentifierType = "usa_ct_business_id"
-	// USA Connecticut Internal ID
-	IdentifierTypeUsaCtInternalId IdentifierType = "usa_ct_internal_id"
-	// Committee on Uniform Securities Identification Procedures (CUSIP) number. Identifies a North American financial security.
-	IdentifierTypeUsaCusipNumber IdentifierType = "usa_cusip_number"
-	// USA Washington, D.C. CorpOnline entity number
-	IdentifierTypeUsaDcEntityNo IdentifierType = "usa_dc_entity_no"
-	// USA Washington, D.C. corporate registry file number
-	IdentifierTypeUsaDcFileNo IdentifierType = "usa_dc_file_no"
-	// USA Delaware File Number
-	IdentifierTypeUsaDeFileNumber IdentifierType = "usa_de_file_number"
-	// USA Delaware Registered Agent ID
-	IdentifierTypeUsaDeRegisteredAgentId IdentifierType = "usa_de_registered_agent_id"
+	// A tax ID issued by the Mexican Tax Administration Service
+	IdentifierTypeMxRfcPerson IdentifierType = "mx_rfc_person"
+	// A unique identity code for citizens and residents of Mexico
+	IdentifierTypeMxCurp       IdentifierType = "mx_curp"
+	IdentifierTypeMxRfcCompany IdentifierType = "mx_rfc_company"
+	IdentifierTypeMxOfficeFme  IdentifierType = "mx_office_fme"
+	// A Russian tax ID. Individuals get a 12-digit number; companies get 10 digits.
+	IdentifierTypeRuInn IdentifierType = "ru_inn"
+	// A Russian company registration number with 12 digits
+	IdentifierTypeRuOgrn IdentifierType = "ru_ogrn"
+	// Internal company ID
+	IdentifierTypeVenSarenInternalEmployerNumber IdentifierType = "ven_saren_internal_employer_number"
+	// Brazilian corporate ID number
+	IdentifierTypeBraCnpj IdentifierType = "bra_cnpj"
+	// Venezuelan tax ID for companies and individuals
+	IdentifierTypeVenRif IdentifierType = "ven_rif"
+	// A Venezuelan national ID number for individuals
+	IdentifierTypeVenCedulaNumber IdentifierType = "ven_cedula_number"
+	// Maldives corporate registration number
+	IdentifierTypeMdvRegistrationNumber IdentifierType = "mdv_registration_number"
+	// A unique eight-digit identification number that is required for any existing or proposed director of a company in India
+	IdentifierTypeIndDirectorIdNumber IdentifierType = "ind_director_id_number"
+	// A permanent account number (PAN) is a 10-digit alphanumeric tax ID issued by the Indian Income Tax Department.
+	IdentifierTypeIndPermanentAccountNumber IdentifierType = "ind_permanent_account_number"
+	// India tax identification number. Unique ID number assigned to every taxpayer by the Commercial Tax Department of each state.
+	IdentifierTypeIndTin IdentifierType = "ind_tin"
+	// A unique identification number assigned by the Registrar of Companies (ROC) in various states under the Indian Ministry of Corporate Affairs (MCA)
+	IdentifierTypeIndCorporateIdNumber IdentifierType = "ind_corporate_id_number"
+	// A Kazakh tax ID number
+	IdentifierTypeKazTin IdentifierType = "kaz_tin"
+	// A 12-digit Kazakh business identification number
+	IdentifierTypeKazBin         IdentifierType = "kaz_bin"
+	IdentifierTypeKazStateRegNum IdentifierType = "kaz_state_reg_num"
+	IdentifierTypeKazOkpoNum     IdentifierType = "kaz_okpo_num"
+	// A nine-digit Kazakh identifier
+	IdentifierTypeKazIdentifier IdentifierType = "kaz_identifier"
+	// Kosovo registration number
+	IdentifierTypeRksRegistrationNumber IdentifierType = "rks_registration_number"
+	// General Electronic Commercial Registry (G.E.MI.) number for all legal forms of businesses in Greece
+	IdentifierTypeGrcGemiNumber IdentifierType = "grc_gemi_number"
+	// A certificate number for the National Registry of Contractors in Venezuela
+	IdentifierTypeVenRncNumber IdentifierType = "ven_rnc_number"
+	// A Virginia State Corporation Commission entity number
+	IdentifierTypeUsaVaRegId IdentifierType = "usa_va_reg_id"
+	IdentifierTypeUsaNyRegId IdentifierType = "usa_ny_reg_id"
 	// USA IRS employer ID number
 	IdentifierTypeUsaFeiNumber IdentifierType = "usa_fei_number"
+	IdentifierTypeUkrMojId     IdentifierType = "ukr_moj_id"
+	// Mauritius business registration number
+	IdentifierTypeMusRegId IdentifierType = "mus_reg_id"
+	// Title number for a property in the UK
+	IdentifierTypeUkTitleNumber IdentifierType = "uk_title_number"
+	// Registration number from the Mongolian corporate registry
+	IdentifierTypeMngRegNumber IdentifierType = "mng_reg_number"
+	// Registration number from the Montenegro corporate registry
+	IdentifierTypeMneRegNumber IdentifierType = "mne_reg_number"
+	// Kyrgyzstan company registration number
+	IdentifierTypeKgzRegNumber IdentifierType = "kgz_reg_number"
+	// China customs code for import and export. May include China USCC; China OC; U.S. SSN; or U.S. EIN.
+	IdentifierTypeCnImportexportCode IdentifierType = "cn_importexport_code"
+	// North Korea-China trade data ID code
+	IdentifierTypePrkEntityId       IdentifierType = "prk_entity_id"
+	IdentifierTypePrkRegistrationId IdentifierType = "prk_registration_id"
+	// Former Yugoslav republic natural person ID number
+	IdentifierTypeYugoslavMasterCitizenNum IdentifierType = "yugoslav_master_citizen_num"
+	// Burkina Faso tax ID number
+	IdentifierTypeBfaEntityId IdentifierType = "bfa_entity_id"
+	// Afghanistan tax ID number
+	IdentifierTypeAfghanTinNumber IdentifierType = "afghan_tin_number"
+	// Afghanistan natural and legal person business license ID code
+	IdentifierTypeAfgBusinessLicense IdentifierType = "afg_business_license"
+	// Madagascar tax ID number
+	IdentifierTypeMdgNifNumber  IdentifierType = "mdg_nif_number"
+	IdentifierTypeMdgStatNumber IdentifierType = "mdg_stat_number"
+	// Madagascar corporate registry ID number
+	IdentifierTypeMdgRcsNumber IdentifierType = "mdg_rcs_number"
+	// Latvia natural person ID number
+	IdentifierTypeLvaPersonalCode IdentifierType = "lva_personal_code"
+	// Unique ID number. Assigned to individual bank accounts for use in cross-border financial transactions.
+	IdentifierTypeIban IdentifierType = "iban"
+	// Latvia corporate registry ID number
+	IdentifierTypeLvaRegNumber IdentifierType = "lva_reg_number"
+	// Taiwan tax ID number
+	IdentifierTypeTwnUnifiedNumber IdentifierType = "twn_unified_number"
+	// Luxembourg corporate registry ID number
+	IdentifierTypeLuxRcsNumber IdentifierType = "lux_rcs_number"
+	// North Macedonia corporate registry ID number
+	IdentifierTypeMkdEmbsNumber IdentifierType = "mkd_embs_number"
+	// North Macedonia corporate registry ID number
+	IdentifierTypeMkdEmbsBranchNumber IdentifierType = "mkd_embs_branch_number"
+	// North Macedonia unique identifier. Assigned to every North Macedonia Corporate Registry Announcement.
+	IdentifierTypeMkdArchiveNumber IdentifierType = "mkd_archive_number"
+	// Moldova legal person ID number
+	IdentifierTypeMdaIdnoNumber IdentifierType = "mda_idno_number"
+	// Uruguay tax ID number
+	IdentifierTypeUryRucNumber IdentifierType = "ury_ruc_number"
+	// Switzerland business registry ID number
+	IdentifierTypeCheUidNumber IdentifierType = "che_uid_number"
+	// El Salvador commercial registry ID number
+	IdentifierTypeSlvCommercialRegNumber IdentifierType = "slv_commercial_reg_number"
+	// El Salvador natural person ID number
+	IdentifierTypeSlvUidNumber      IdentifierType = "slv_uid_number"
+	IdentifierTypeMatoGrossoLegalId IdentifierType = "mato_grosso_legal_id"
+	// Unique global ID code. Assigned to legal entities participating in financial transactions.
+	IdentifierTypeLei IdentifierType = "lei"
+	// Value-added tax ID number
+	IdentifierTypeVat IdentifierType = "vat"
+	// Italy tax ID code
+	IdentifierTypeItaFiscalCode IdentifierType = "ita_fiscal_code"
+	// Italy VAT number
+	IdentifierTypeItaVatNumber        IdentifierType = "ita_vat_number"
+	IdentifierTypeRioDeJaneiroLegalId IdentifierType = "rio_de_janeiro_legal_id"
+	// Iceland natural and legal person ID number
+	IdentifierTypeIslTinNumber IdentifierType = "isl_tin_number"
+	// Laos corporate registry ID number
+	IdentifierTypeLaoEnterpriseNumber IdentifierType = "lao_enterprise_number"
+	// Slovakia legal person ID number
+	IdentifierTypeSvkIcoNumber IdentifierType = "svk_ico_number"
+	// Cambodia tax ID number
+	IdentifierTypeKhmTinNumber IdentifierType = "khm_tin_number"
+	// Czechia legal person ID number
+	IdentifierTypeCzeIcoNumber IdentifierType = "cze_ico_number"
+	// Iran natural and legal person ID number
+	IdentifierTypeIrnNationalId IdentifierType = "irn_national_id"
+	// Ecuador tax ID number
+	IdentifierTypeEcuRucNumber IdentifierType = "ecu_ruc_number"
+	// Greece tax ID number
+	IdentifierTypeGrcVatNumber IdentifierType = "grc_vat_number"
+	// Canada federal corporate registry ID number
+	IdentifierTypeCanCorporationNumber IdentifierType = "can_corporation_number"
+	// Canada tax reporting ID code
+	IdentifierTypeCanCraProgramAccountNumber IdentifierType = "can_cra_program_account_number"
+	// Montenegro tax ID number
+	IdentifierTypeMnePib IdentifierType = "mne_pib"
+	// Chile tax ID Number
+	IdentifierTypeChlCedulaNumber IdentifierType = "chl_cedula_number"
+	// Brazil litigation case ID number
+	IdentifierTypeBraCaseNumber IdentifierType = "bra_case_number"
+	// India limited liability partnership ID number
+	IdentifierTypeIndLlpin IdentifierType = "ind_llpin"
+	// India foreign company registration number
+	IdentifierTypeIndFcrn IdentifierType = "ind_fcrn"
+	// Bermuda corporate registry ID number
+	IdentifierTypeBmuRegistrationNumber IdentifierType = "bmu_registration_number"
+	// Brazil natural person tax ID number
+	IdentifierTypeBraCpfNumber IdentifierType = "bra_cpf_number"
+	// Iran natural person ID number
+	IdentifierTypeIrnNationalNumber IdentifierType = "irn_national_number"
+	// China customs import and export registration code
+	IdentifierTypeChnCustomsRegistrationCode IdentifierType = "chn_customs_registration_code"
+	// Liechtenstein corporate registry ID number
+	IdentifierTypeLiePublicRegNo IdentifierType = "lie_public_reg_no"
+	// China tax ID number
+	IdentifierTypeCnTaxIdentificationNumber IdentifierType = "cn_tax_identification_number"
+	// Macao corporate registry ID number
+	IdentifierTypeMacRegistrationNo IdentifierType = "mac_registration_no"
+	// Mexico corporate registry internal ID number
+	IdentifierTypeSigerInternalId IdentifierType = "siger_internal_id"
+	// Lebanon natural person ID number
+	IdentifierTypeLbnNationalId IdentifierType = "lbn_national_id"
+	// Unique global ID number. Assigned to ships, registered ship owners, and management companies.
+	IdentifierTypeIntMaritimeOrgId IdentifierType = "int_maritime_org_id"
+	// Russia vessel registry ID number
+	IdentifierTypeRuShipRegisterId IdentifierType = "ru_ship_register_id"
+	// UID used to merge entities internally
+	IdentifierTypeSayariInternalIdentifier IdentifierType = "sayari_internal_identifier"
+	// Aruba chamber of commerce ID code
+	IdentifierTypeArubaChamberOfCommerceId IdentifierType = "aruba_chamber_of_commerce_id"
+	// Unique global ID number. Assigned to ships, registered ship owners, and management companies.
+	IdentifierTypeImoNo IdentifierType = "imo_no"
+	// British Virgin Islands corporate registry ID number
+	IdentifierTypeVgbCompanyNumber IdentifierType = "vgb_company_number"
+	// Yemen chamber of commerce ID number
+	IdentifierTypeYemCocRegistrationNumber IdentifierType = "yem_coc_registration_number"
+	// Malaysia natural person ID number
+	IdentifierTypeMysIdCardNo IdentifierType = "mys_id_card_no"
+	// Malaysia corporate registry ID number
+	IdentifierTypeMysCompanyRegNo IdentifierType = "mys_company_reg_no"
+	// Paraguay tax ID number
+	IdentifierTypePryRucNumber IdentifierType = "pry_ruc_number"
+	// Paraguay natural person ID number
+	IdentifierTypePryCedulaNumber IdentifierType = "pry_cedula_number"
+	// Paraguay tax ID number
+	IdentifierTypePryOldRucNumber IdentifierType = "pry_old_ruc_number"
+	// OHADA corporate registry ID number
+	IdentifierTypeRccmNo IdentifierType = "rccm_no"
+	// Brazil natural person ID number
+	IdentifierTypeBraRgNumber IdentifierType = "bra_rg_number"
+	// Senegal tax ID number
+	IdentifierTypeNineaNo IdentifierType = "ninea_no"
+	// Albania tax ID number
+	IdentifierTypeAlbTaxId              IdentifierType = "alb_tax_id"
+	IdentifierTypeAlbRegistrationNumber IdentifierType = "alb_registration_number"
+	// Argentina corporate registry ID number
+	IdentifierTypeArgIgjNumber IdentifierType = "arg_igj_number"
+	// Argentina natural person ID number
+	IdentifierTypeArgDniNumber IdentifierType = "arg_dni_number"
+	// Argentina tax ID number
+	IdentifierTypeArgCuitNumber IdentifierType = "arg_cuit_number"
+	// Argentina social security ID number
+	IdentifierTypeArgCuilNumber IdentifierType = "arg_cuil_number"
+	// Argentina natural person ID number
+	IdentifierTypeArgCdiNumber IdentifierType = "arg_cdi_number"
+	// Bosnia and Herzegovina corporate registry ID number
+	IdentifierTypeBihMbsNumber IdentifierType = "bih_mbs_number"
+	// Bosnia and Herzegovina legal person ID number
+	IdentifierTypeBihJibNumber     IdentifierType = "bih_jib_number"
+	IdentifierTypeBihCustomsNumber IdentifierType = "bih_customs_number"
+	// USA Puerto Rico corporate registry ID number
+	IdentifierTypeUsaPuertoRicoRegisterNumber IdentifierType = "usa_puerto_rico_register_number"
+	// Djibouti corporate registry ID number
+	IdentifierTypeDjiRcsNumber IdentifierType = "dji_rcs_number"
+	// Costa Rica natural person ID number
+	IdentifierTypeCriCedulaNumber IdentifierType = "cri_cedula_number"
+	// Mozambique natural person ID number
+	IdentifierTypeMozIdNumber IdentifierType = "moz_id_number"
+	// Mozambique natural person tax ID number
+	IdentifierTypeMozNuitPerson IdentifierType = "moz_nuit_person"
+	// Mozambique legal person tax ID number
+	IdentifierTypeMozNuitCo IdentifierType = "moz_nuit_co"
+	// Mozambique passport number
+	IdentifierTypeMozPassport IdentifierType = "moz_passport"
+	// Mozambique foreign resident ID number
+	IdentifierTypeMozDireNo IdentifierType = "moz_dire_no"
+	// Mozambique voter ID number
+	IdentifierTypeMozVoterNo IdentifierType = "moz_voter_no"
+	// Mozambique corporate registry ID number
+	IdentifierTypeMozNuelNo IdentifierType = "moz_nuel_no"
+	// Iraq voter ID number
+	IdentifierTypeIrqVoterId IdentifierType = "irq_voter_id"
+	// Jordan voter ID number
+	IdentifierTypeJorVoterCardNo IdentifierType = "jor_voter_card_no"
+	// Deprecated; use jo_national_institution_number
+	IdentifierTypeJorIdNo IdentifierType = "jor_id_no"
+	// Peru tax ID number
+	IdentifierTypePerRucNo IdentifierType = "per_ruc_no"
+	// Ecuador corporate registry ID number
+	IdentifierTypeEcuCompanyId IdentifierType = "ecu_company_id"
+	// USA New York corporate registry ID number
+	IdentifierTypeUsaNyDosId IdentifierType = "usa_ny_dos_id"
+	// OHADA corporate registry ID number
+	IdentifierTypeBfaRccmNumber IdentifierType = "bfa_rccm_number"
+	// USA Florida Broward County parcel ID number
+	IdentifierTypeFlPropFolio IdentifierType = "fl_prop_folio"
+	// Unique USA county land and property ID number. Assigned to every parcel and property registered with the Palm Beach County Property Appraiser’s Office.
+	IdentifierTypeUsaFlPbPcn IdentifierType = "usa_fl_pb_pcn"
+	// Qatar corporate registry ID number
+	IdentifierTypeQatQfcNumber IdentifierType = "qat_qfc_number"
+	// Greece tax ID number
+	IdentifierTypeGrcAfmNumber IdentifierType = "grc_afm_number"
+	// Vietnam tax ID number
+	IdentifierTypeVnmEnterpriseCode IdentifierType = "vnm_enterprise_code"
+	// Thailand corporate registry ID number
+	IdentifierTypeThaRegistrationNo IdentifierType = "tha_registration_no"
+	// Vietnam natural person ID number
+	IdentifierTypeVnmCitizenshipNo IdentifierType = "vnm_citizenship_no"
+	// Vietnam natural person ID number
+	IdentifierTypeVnmPersonIdNo IdentifierType = "vnm_person_id_no"
+	// Argentina female natural person ID number
+	IdentifierTypeArgLibCivicaNumber IdentifierType = "arg_lib_civica_number"
+	// Argentina male natural person ID number
+	IdentifierTypeArgLibEnrolamientoNumber IdentifierType = "arg_lib_enrolamiento_number"
+	// New Zealand business registry ID number
+	IdentifierTypeNzlNzbn IdentifierType = "nzl_nzbn"
+	// New Zealand corporate registry ID number
+	IdentifierTypeNzlCoNo IdentifierType = "nzl_co_no"
+	// USA Treasury sanctions list ID number
+	IdentifierTypeUsaOfacSdnNumber IdentifierType = "usa_ofac_sdn_number"
+	// Unique global ID code. Assigned to financial and non-financial institutions for use addressing messages, routing business transactions, and identifying business parties.
+	IdentifierTypeSwiftBicCode IdentifierType = "swift_bic_code"
+	// Unique global ID code. Assigned by Dun & Bradstreet.
+	IdentifierTypeDunsNumber IdentifierType = "duns_number"
+	// Unique digital currency address
+	IdentifierTypeBitcoinAddress IdentifierType = "bitcoin_address"
+	// Unique digital currency address
+	IdentifierTypeLitecoinAddress IdentifierType = "litecoin_address"
+	// Russia securities ID code
+	IdentifierTypeRusMicexCode IdentifierType = "rus_micex_code"
+	// USA Texas Bexar County property ID number
+	IdentifierTypeTxPropId IdentifierType = "tx_prop_id"
+	// USA Texas Bexar County property owner ID number
+	IdentifierTypeTxPacsId IdentifierType = "tx_pacs_id"
+	// USA Texas land segment ID number
+	IdentifierTypeTxLandId IdentifierType = "tx_land_id"
+	// Papua New Guinea business registry ID number
+	IdentifierTypePngIpaRegId IdentifierType = "png_ipa_reg_id"
+	// Guatemala tax ID number
+	IdentifierTypeGtmNitNumber IdentifierType = "gtm_nit_number"
+	// Guatemala natural person ID number
+	IdentifierTypeGtmCuiNumber IdentifierType = "gtm_cui_number"
+	// Dominican Republic tax ID number
+	IdentifierTypeDomRnc IdentifierType = "dom_rnc"
+	// Qatar corporate registry ID number
+	IdentifierTypeQatCrNumber IdentifierType = "qat_cr_number"
+	// Unique global ID code. Assigned to every security issuance for use facilitating the trading, clearing, and settlement of securities transactions.
+	IdentifierTypeIsin IdentifierType = "isin"
 	// USA Florida corporate registry ID code
 	IdentifierTypeUsaFlDocumentNo IdentifierType = "usa_fl_document_no"
 	// USA Florida corporate registry ID code
 	IdentifierTypeUsaFlFicNameRegNo IdentifierType = "usa_fl_fic_name_reg_no"
-	// Unique Florida county land and property ID number. Assigned to every parcel registered with the Martin County Property Appraiser’s Office.
-	IdentifierTypeUsaFlMartinPid IdentifierType = "usa_fl_martin_pid"
-	// Unique USA county land and property ID number. Assigned to every parcel and property registered with the Palm Beach County Property Appraiser’s Office.
-	IdentifierTypeUsaFlPbPcn IdentifierType = "usa_fl_pb_pcn"
+	// Brazil federal public servant internal ID number
+	IdentifierTypeBraServidorPortal IdentifierType = "bra_servidor_portal"
+	// Brazil federal public servant agency unit ID code
+	IdentifierTypeBraCodigoDaUnidadeOrganizacional IdentifierType = "bra_codigo_da_unidade_organizacional"
+	// USA SEC disclosure filer ID number
+	IdentifierTypeUsaSecCikNumber IdentifierType = "usa_sec_cik_number"
+	// Croatia corporate registry ID number
+	IdentifierTypeHrMbs IdentifierType = "hr_mbs"
+	// Croatia natural and legal person ID number
+	IdentifierTypeHrOib IdentifierType = "hr_oib"
+	// El Salvador tax ID number
+	IdentifierTypeSlvNumeroIdentificacionTributaria IdentifierType = "slv_numero_identificacion_tributaria"
+	// El Salvador corporate registry ID number
+	IdentifierTypeSlvMcas IdentifierType = "slv_mcas"
+	// Australia corporate registry ID number
+	IdentifierTypeAusCompanyNumber IdentifierType = "aus_company_number"
+	// Australia business registry ID number
+	IdentifierTypeAusBusinessNumber IdentifierType = "aus_business_number"
+	// Germany commercial registry ID number concatenated with registry district court XJustiz ID code
+	IdentifierTypeDeuRegisternummer IdentifierType = "deu_registernummer"
+	// USA IRS employer ID number
+	IdentifierTypeUsaIrsEin IdentifierType = "usa_irs_ein"
+	// Hong Kong case ID number
+	IdentifierTypeHongKongCaseNumber IdentifierType = "hong_kong_case_number"
+	// Iran Tehran chamber of commerce internal ID number
+	IdentifierTypeIrnCocInternalId IdentifierType = "irn_coc_internal_id"
+	// Panama corporate registry ID number
+	IdentifierTypePanFolioFichaId IdentifierType = "pan_folio_ficha_id"
+	// Panama natural person ID number
+	IdentifierTypePanCedulaNumber IdentifierType = "pan_cedula_number"
+	// Cedar Rose entity internal ID number
+	IdentifierTypeXxxCedarRoseUid IdentifierType = "xxx_cedar_rose_uid"
+	// OHADA corporate registry ID number
+	IdentifierTypeXxxRccm IdentifierType = "xxx_rccm"
+	// Vietnam business registry internal ID number
+	IdentifierTypeVnmDichvuthongtinInternalId IdentifierType = "vnm_dichvuthongtin_internal_id"
+	// Sayari Intel entity internal ID number
+	IdentifierTypeXxxIntelInternalId IdentifierType = "xxx_intel_internal_id"
+	// USA Washington business registry ID number
+	IdentifierTypeUsaWashingtonStateUbi IdentifierType = "usa_washington_state_ubi"
+	// Nigeria corporate registry ID code
+	IdentifierTypeNgaRegistrationNumber IdentifierType = "nga_registration_number"
+	// NG-Check entity internal ID number
+	IdentifierTypeNgCheckInternalId IdentifierType = "ng_check_internal_id"
+	// USA New York City real property parcel ID number
+	IdentifierTypeNycBbl IdentifierType = "nyc_bbl"
+	// USA New York New York City real property registry ID number
+	IdentifierTypeNycCrfn IdentifierType = "nyc_crfn"
+	// USA Texas corporate registry ID number
+	IdentifierTypeTxCorpFileNum IdentifierType = "tx_corp_file_num"
+	// USA Texas tax ID number
+	IdentifierTypeTxTaxId IdentifierType = "tx_tax_id"
+	// USA Georgia business registry internal ID number
+	IdentifierTypeUsaGaBusinessId IdentifierType = "usa_ga_business_id"
+	// Philippines securities issuer internal ID number
+	IdentifierTypePhlPseId IdentifierType = "phl_pse_id"
+	// Philippines business registry ID number
+	IdentifierTypePhlSecId IdentifierType = "phl_sec_id"
+	// Philippines tax ID number
+	IdentifierTypePhlTin IdentifierType = "phl_tin"
+	// Afghanistan passport number
+	IdentifierTypeAfgPassport IdentifierType = "afg_passport"
+	// Iran passport number
+	IdentifierTypeIrnPassport IdentifierType = "irn_passport"
+	// Kuwait passport number
+	IdentifierTypeKwtPassport IdentifierType = "kwt_passport"
+	// Libya passport number
+	IdentifierTypeLbyPassport IdentifierType = "lby_passport"
+	// Pakistan passport number
+	IdentifierTypePakPassport IdentifierType = "pak_passport"
+	// Russia passport number
+	IdentifierTypeRusPassport IdentifierType = "rus_passport"
+	// Tunisia passport number
+	IdentifierTypeTunPassport IdentifierType = "tun_passport"
+	// Yemen passport number
+	IdentifierTypeYemPassport IdentifierType = "yem_passport"
+	// UN Security Council sanctions list ID code
+	IdentifierTypeUnSanctionPrn IdentifierType = "un_sanction_prn"
+	// EU European Commission sanctions list ID number
+	IdentifierTypeEuSanctionRn IdentifierType = "eu_sanction_rn"
+	// USA California business registry ID number
+	IdentifierTypeCaLpFileNum IdentifierType = "ca_lp_file_num"
+	// USA Texas corporate registry ID number
+	IdentifierTypeTxEntityFilingNum IdentifierType = "tx_entity_filing_num"
+	// USA social security ID number
+	IdentifierTypeUsaSocialSecurityNumber IdentifierType = "usa_social_security_number"
+	// USA Wyoming business registry ID number
+	IdentifierTypeUsaWyPartyId IdentifierType = "usa_wy_party_id"
+	// USA Wyoming business registry ID number
+	IdentifierTypeUsaWyFilingId IdentifierType = "usa_wy_filing_id"
+	// WY internal filing ID (primary key)
+	IdentifierTypeUsaWyInternalFilingId IdentifierType = "usa_wy_internal_filing_id"
+	// Unique USA state ID number. Assigned to every legal entity registered with Wyoming Secretary of State.
+	IdentifierTypeUsaWyFilingNum IdentifierType = "usa_wy_filing_num"
+	// USA Oregon business registry ID number
+	IdentifierTypeUsaOrRegno IdentifierType = "usa_or_regno"
+	// USA Nevada corporate registry ID code
+	IdentifierTypeUsaNvCorpno IdentifierType = "usa_nv_corpno"
+	// USA Nevada business registry ID code
+	IdentifierTypeUsaNvBizid IdentifierType = "usa_nv_bizid"
+	// North Korea-China trade internal ID number
+	IdentifierTypePrkInternalTradeId IdentifierType = "prk_internal_trade_id"
+	// Lesotho corporate registry ID number
+	IdentifierTypeLsoCorpregId IdentifierType = "lso_corpreg_id"
+	// Uzbekistan tax ID number
+	IdentifierTypeUzbTinNumber IdentifierType = "uzb_tin_number"
+	// USA California business registry ID number
+	IdentifierTypeCaCorporateIdNum IdentifierType = "ca_corporate_id_num"
+	// UK HM Treasury OFSI sanctions list ID number
+	IdentifierTypeGbrHmTreasurySanctionGroupId IdentifierType = "gbr_hm_treasury_sanction_group_id"
+	// Unique UK ID number. Assigned to every registered trademark.
+	IdentifierTypeGbrIpoTrademarkRegNo IdentifierType = "gbr_ipo_trademark_reg_no"
+	// USA Georgia business registry ID number
+	IdentifierTypeUsaGaControlNo IdentifierType = "usa_ga_control_no"
+	// Honduras Cortes commercial registry ID number
+	IdentifierTypeHndCocCompanyRegistrationNumber IdentifierType = "hnd_coc_company_registration_number"
+	// Montenegro real property registry internal ID number
+	IdentifierTypeMnePropertyUid IdentifierType = "mne_property_uid"
+	// Philippines business registry ID number
+	IdentifierTypePhlBnn IdentifierType = "phl_bnn"
+	// Romania tax ID number
+	IdentifierTypeRouCompanyRegistrationCode IdentifierType = "rou_company_registration_code"
+	// Romania natural person ID number
+	IdentifierTypeRouIdentityCard IdentifierType = "rou_identity_card"
+	// Romania natural person ID number
+	IdentifierTypeRouPersonalIdNumber IdentifierType = "rou_personal_id_number"
+	// Cuba corporate registry ID number
+	IdentifierTypeCubCod IdentifierType = "cub_cod"
+	// USA Florida Miami-Dade County real property parcel ID number
+	IdentifierTypeFlPropFolioDade IdentifierType = "fl_prop_folio_dade"
+	// Peru natural person ID number
+	IdentifierTypePerDniNo IdentifierType = "per_dni_no"
+	// Peru foreign resident ID number
+	IdentifierTypePerCarneDeExtranjeria IdentifierType = "per_carne_de_extranjeria"
+	// France business directory ID number
+	IdentifierTypeFraSiren IdentifierType = "fra_siren"
+	// France legal person establishment ID number
+	IdentifierTypeFraSiret IdentifierType = "fra_siret"
+	// Unique France ID number. Assigned to every legal entity registered with National Registry of Associations.
+	IdentifierTypeFraRna IdentifierType = "fra_rna"
+	// Skráseting Føroya Registration Number. Assigned to legal entities registered with the Company Registry of the Faroe Islands.
+	IdentifierTypeFroRegNum IdentifierType = "fro_reg_num"
+	// Czechia commercial registry ID number
+	IdentifierTypeCzeFileNumber IdentifierType = "cze_file_number"
+	// Value taken from datos registrales section used to identify companies in the Borme. Not an official identifier.
+	IdentifierTypeEspBormeRegId IdentifierType = "esp_borme_reg_id"
+	// Mexican trademark number
+	IdentifierTypeMexTmNo IdentifierType = "mex_tm_no"
+	// Mauritius Company File No.
+	IdentifierTypeMusFileNo IdentifierType = "mus_file_no"
+	// Colombian tax identification number
+	IdentifierTypeColNitNo IdentifierType = "col_nit_no"
+	// Japanese corporate number. Learn more [here](https://en.wikipedia.org/wiki/Corporate_Number).
+	IdentifierTypeJpnCorporateNo IdentifierType = "jpn_corporate_no"
+	// Common Government-wide Accounting Classification (CGAC) agency code assigned by the US Treasury
+	IdentifierTypeUsaCgacAgencyCode IdentifierType = "usa_cgac_agency_code"
+	// Identifier for a US government agency
+	IdentifierTypeUsaGovtAgencyId IdentifierType = "usa_govt_agency_id"
+	// Identifier for a US government agency office
+	IdentifierTypeUsaGovtOfficeId IdentifierType = "usa_govt_office_id"
+	// Colombian cedula number
+	IdentifierTypeColCedulaNo IdentifierType = "col_cedula_no"
+	// Colombian SECOP internal ID
+	IdentifierTypeColSecopNo IdentifierType = "col_secop_no"
+	// Deprecated; use weak identifier jordan_company_no
+	IdentifierTypeJordanCompanyNo IdentifierType = "jordan_company_no"
+	// Denmark business registration number; learn more [here](https://erhvervsstyrelsen.dk/cvr-numre-p-numre-og-se-numre)
+	IdentifierTypeDnkCvr IdentifierType = "dnk_cvr"
+	// Denmark business branch number
+	IdentifierTypeDnkProductionUnitNo IdentifierType = "dnk_production_unit_no"
+	// Internal ID for Denmark Virk
+	IdentifierTypeDnkEntity IdentifierType = "dnk_entity"
+	// Norway Organisasjonsnummer
+	IdentifierTypeNorOrgNo IdentifierType = "nor_org_no"
+	// Sweden Organisationsnummer. May have "-" separating last three digits.
+	IdentifierTypeSweOrgNo IdentifierType = "swe_org_no"
+	// USA Colorado Secretary of State registration number
+	IdentifierTypeUsaCoRegNo IdentifierType = "usa_co_reg_no"
+	// USA Iowa Secretary of State corporation number
+	IdentifierTypeUsaIaCorpNo IdentifierType = "usa_ia_corp_no"
+	// The UEN is a standard, unique identification number for a registered entity in Singapore. It is comparable to the NRIC number, which is an ID number for Singapore citizens.
+	IdentifierTypeSgpUnqiueEntityNumber IdentifierType = "sgp_unqiue_entity_number"
+	// USA Alaskan Secretary of State entity number
+	IdentifierTypeUsaAkEntityNo IdentifierType = "usa_ak_entity_no"
+	// USA Ohio business charter number
+	IdentifierTypeUsaOhCharterNum IdentifierType = "usa_oh_charter_num"
+	// Istanbul Chamber of Commerce registration number
+	IdentifierTypeTurIstanbulCocRegNo IdentifierType = "tur_istanbul_coc_reg_no"
+	// Turkish Central Registry Number System (MERSIS) number
+	IdentifierTypeTurMersisNumber IdentifierType = "tur_mersis_number"
+	IdentifierTypeCheChIdNumber   IdentifierType = "che_ch_id_number"
+	// Dubai International Financial Centre registration number
+	IdentifierTypeAreDifcRegNo IdentifierType = "are_difc_reg_no"
+	// Indonesian tax ID aka NPWP Number; learn more [here](https://wiki.scn.sap.com/wiki/display/CRM/Indonesia)
+	IdentifierTypeIdnTaxId IdentifierType = "idn_tax_id"
+	// USA Vermont Business ID
+	IdentifierTypeUsaVtBizId IdentifierType = "usa_vt_biz_id"
+	// USA West Virginia Corporate Registry ID
+	IdentifierTypeUsaWvRegId IdentifierType = "usa_wv_reg_id"
+	// USA Mississippi Business ID
+	IdentifierTypeUsaMsBizId IdentifierType = "usa_ms_biz_id"
+	// USA Idaho Business Control Number
+	IdentifierTypeUsaIdControlNo IdentifierType = "usa_id_control_no"
+	// USA Idaho Registered Agent ID
+	IdentifierTypeUsaIdPartyId           IdentifierType = "usa_id_party_id"
+	IdentifierTypeIrnCocInternalIdCardno IdentifierType = "irn_coc_internal_id_cardno"
+	// USA Arizona Corporate Registry Entity Number
+	IdentifierTypeUsaAzCorpRegEntityNum IdentifierType = "usa_az_corp_reg_entity_num"
+	// USA Oklahoma Business Filing Number
+	IdentifierTypeUsaOkFilingNo IdentifierType = "usa_ok_filing_no"
+	// USA Tennessee Business Control Number
+	IdentifierTypeUsaTnControlNo IdentifierType = "usa_tn_control_no"
+	// USA Tennessee Registered Agent ID
+	IdentifierTypeUsaTnPartyId IdentifierType = "usa_tn_party_id"
+	// USA Kansas Business ID
+	IdentifierTypeUsaKsBizId IdentifierType = "usa_ks_biz_id"
+	// Identifier made from File Number and File Suffix in Hawaii, USA, corporate registry
+	IdentifierTypeUsaHiCorporateRegistryId IdentifierType = "usa_hi_corporate_registry_id"
+	// Identifier for officers in Hawaii, USA, corporate registry
+	IdentifierTypeUsaHiCorporateRegistryPersonId IdentifierType = "usa_hi_corporate_registry_person_id"
+	// The National Court Register, or Krajowy Rejestr Sądowy (KRS), number in Poland
+	IdentifierTypePolKrsNumber IdentifierType = "pol_krs_number"
+	// The register REGON fulfils the function of the national official Register of National Economy Entities
+	IdentifierTypePolRegonNumber IdentifierType = "pol_regon_number"
+	// Tax identification number from Poland
+	IdentifierTypePolNipNumber IdentifierType = "pol_nip_number"
+	// Person identifier from Poland Rejestr data
+	IdentifierTypePolRejestrPersonId IdentifierType = "pol_rejestr_person_id"
+	// Armenian VAT ID number
+	IdentifierTypeArmVatNo IdentifierType = "arm_vat_no"
+	// Armenian enterprise code
+	IdentifierTypeArmEnterpriseCode IdentifierType = "arm_enterprise_code"
+	// Armenian regsitration number
+	IdentifierTypeArmRegistrationNo IdentifierType = "arm_registration_no"
+	// USA Maine corporate ID
+	IdentifierTypeUsaMeCorpId IdentifierType = "usa_me_corp_id"
+	// Cypriot corporate registration number. Prefix corresponds to company type code.
+	IdentifierTypeCypRegNo IdentifierType = "cyp_reg_no"
+	// USA North Dakota Secretary of State control ID
+	IdentifierTypeUsaNdControlId IdentifierType = "usa_nd_control_id"
+	// USA Michigan corporate ID
+	IdentifierTypeUsaMiCorpId IdentifierType = "usa_mi_corp_id"
+	// USA Michigan corporate ID (old format)
+	IdentifierTypeUsaMiCorpIdOld IdentifierType = "usa_mi_corp_id_old"
+	// USA Hawaii Certificate Number
+	IdentifierTypeUsaHiTradeNameCert IdentifierType = "usa_hi_trade_name_cert"
+	// USA Washington, D.C. CorpOnline entity number
+	IdentifierTypeUsaDcEntityNo                           IdentifierType = "usa_dc_entity_no"
+	IdentifierTypeUsaVaOldRegId                           IdentifierType = "usa_va_old_reg_id"
+	IdentifierTypeUsaConsolidatedScreeningListSyntheticId IdentifierType = "usa_consolidated_screening_list_synthetic_id"
+	// USA Arkansas Secretary of State Filing No.
+	IdentifierTypeUsaArFilingNo IdentifierType = "usa_ar_filing_no"
+	// USA North Carolina SOS corporations UID
+	IdentifierTypeUsaNcInternalId IdentifierType = "usa_nc_internal_id"
+	// USA Nebraska corporate registry account number
+	IdentifierTypeUsaNeAcctNo IdentifierType = "usa_ne_acct_no"
+	// USA Nebraska registered agent ID number
+	IdentifierTypeUsaNeAgentId IdentifierType = "usa_ne_agent_id"
+	// USA New Mexico Secretary of State business number
+	IdentifierTypeUsaNmBusinessNo IdentifierType = "usa_nm_business_no"
+	// USA New Mexico Secretary of State License ID
+	IdentifierTypeUsaNmLicenseId IdentifierType = "usa_nm_license_id"
+	// USA Washington, D.C. corporate registry file number
+	IdentifierTypeUsaDcFileNo IdentifierType = "usa_dc_file_no"
+	// USA Rhode Island filing entity identification number
+	IdentifierTypeUsaRiFeiNo IdentifierType = "usa_ri_fei_no"
+	// Hex digest of data that should be used for resolution (e.g., name=Sayari&registration_date=2000-01-01)
+	IdentifierTypeInternalMd5 IdentifierType = "internal_md5"
+	// Autoincrement corporation ID from the Missouri Corporate Registry
+	IdentifierTypeUsaMoCorpId IdentifierType = "usa_mo_corp_id"
+	// USA Wisconsin Department of Financial Institutions ID
+	IdentifierTypeUsaWiDfiId IdentifierType = "usa_wi_dfi_id"
+	// Identification code from Georgian MyGov companies
+	IdentifierTypeGeoIdentificationCode IdentifierType = "geo_identification_code"
+	// Personal number from Georgian MyGov companies
+	IdentifierTypeGeoPersonalNumber IdentifierType = "geo_personal_number"
+	// Georgian state registration number
+	IdentifierTypeGeoStateRegistrationNumber IdentifierType = "geo_state_registration_number"
+	// Identifier taken from document URL to resolve cases. Is slightly different for HTML vs PDF documents.
+	IdentifierTypeMacRaemCaseUrlId IdentifierType = "mac_raem_case_url_id"
+	// Romanian tax identification number for companies
+	IdentifierTypeRouCompanyTin IdentifierType = "rou_company_tin"
+	// USA Maryland Department of Assessments and Taxation Business ID with prefix
+	IdentifierTypeUsaMdDptTax IdentifierType = "usa_md_dpt_tax"
+	// USA South Dakota Corporate ID
+	IdentifierTypeUsaSdCorpId IdentifierType = "usa_sd_corp_id"
+	// Honduras Tegucigalpa Matricula
+	IdentifierTypeHndTegucigalpaMatricula IdentifierType = "hnd_tegucigalpa_matricula"
 	// Identifier for Florida, USA, property parcels. A concatenation of county code and parcel ID.
 	IdentifierTypeUsaFlPropertyId IdentifierType = "usa_fl_property_id"
 	// Code unique to every parcel within the real property file. Used in Florida, USA.
 	IdentifierTypeUsaFlPropertyMpId IdentifierType = "usa_fl_property_mp_id"
 	// Code assigned to each parcel based on a statewide parcel coding system. Used in Florida, USA.
 	IdentifierTypeUsaFlPropertyStateParId IdentifierType = "usa_fl_property_state_par_id"
-	// Unique Florida county land and property ID number. Assigned to every parcel registered with the Saint Lucie County Property Appraiser’s Office.
-	IdentifierTypeUsaFlSlPid IdentifierType = "usa_fl_sl_pid"
-	// USA Georgia business registry internal ID number
-	IdentifierTypeUsaGaBusinessId IdentifierType = "usa_ga_business_id"
-	// USA Georgia business registry ID number
-	IdentifierTypeUsaGaControlNo IdentifierType = "usa_ga_control_no"
-	// Identifier for a US government agency
-	IdentifierTypeUsaGovtAgencyId IdentifierType = "usa_govt_agency_id"
-	// Identifier for a US government agency office
-	IdentifierTypeUsaGovtOfficeId IdentifierType = "usa_govt_office_id"
-	// Identifier made from File Number and File Suffix in Hawaii, USA, corporate registry
-	IdentifierTypeUsaHiCorporateRegistryId IdentifierType = "usa_hi_corporate_registry_id"
-	// Identifier for officers in Hawaii, USA, corporate registry
-	IdentifierTypeUsaHiCorporateRegistryPersonId IdentifierType = "usa_hi_corporate_registry_person_id"
-	// USA Hawaii Certificate Number
-	IdentifierTypeUsaHiTradeNameCert IdentifierType = "usa_hi_trade_name_cert"
-	// USA Iowa Secretary of State corporation number
-	IdentifierTypeUsaIaCorpNo IdentifierType = "usa_ia_corp_no"
-	// USA Idaho Business Control Number
-	IdentifierTypeUsaIdControlNo IdentifierType = "usa_id_control_no"
-	// USA Idaho Registered Agent ID
-	IdentifierTypeUsaIdPartyId IdentifierType = "usa_id_party_id"
-	// Account number for businesses on the Chicago, Illinois, business license registry
-	IdentifierTypeUsaIlChicagoAccountNumber IdentifierType = "usa_il_chicago_account_number"
-	// USA Illinois Secretary of State File Number
-	IdentifierTypeUsaIlFileNumber IdentifierType = "usa_il_file_number"
-	// Business ID from Indiana, USA, corporate registry
-	IdentifierTypeUsaInBizNo IdentifierType = "usa_in_biz_no"
-	// USA IRS employer ID number
-	IdentifierTypeUsaIrsEin IdentifierType = "usa_irs_ein"
-	// Global Intermediary Identification Number (GIIN). Unique Identifier issued by the IRS to financial institutions, branches, direct reporting non-financial foreign entities, and sponsored entities.
-	IdentifierTypeUsaIrsGiin IdentifierType = "usa_irs_giin"
-	// USA Kansas Business ID
-	IdentifierTypeUsaKsBizId IdentifierType = "usa_ks_biz_id"
-	// USA state of Kentucky organization number assigned to businesses
-	IdentifierTypeUsaKyOrgNo IdentifierType = "usa_ky_org_no"
-	// USA Louisiana Secretary of State Business Entity Number
-	IdentifierTypeUsaLaSosId IdentifierType = "usa_la_sos_id"
-	// USA Massachusetts Secretary of State Company ID
-	IdentifierTypeUsaMassSosCompanyId IdentifierType = "usa_mass_sos_company_id"
-	// USA Maryland Department of Assessments and Taxation Business ID with prefix
-	IdentifierTypeUsaMdDptTax IdentifierType = "usa_md_dpt_tax"
-	// USA Maine corporate ID
-	IdentifierTypeUsaMeCorpId IdentifierType = "usa_me_corp_id"
-	// USA Michigan corporate ID
-	IdentifierTypeUsaMiCorpId IdentifierType = "usa_mi_corp_id"
-	// USA Michigan corporate ID (old format)
-	IdentifierTypeUsaMiCorpIdOld IdentifierType = "usa_mi_corp_id_old"
-	// USA Minnesota Secretary of State Filing Number
-	IdentifierTypeUsaMnFilingNumber IdentifierType = "usa_mn_filing_number"
-	// USA Minnesota Secretary of State Unique ID
-	IdentifierTypeUsaMnMasterId IdentifierType = "usa_mn_master_id"
-	// Autoincrement corporation ID from the Missouri Corporate Registry
-	IdentifierTypeUsaMoCorpId IdentifierType = "usa_mo_corp_id"
-	// USA Mississippi Business ID
-	IdentifierTypeUsaMsBizId IdentifierType = "usa_ms_biz_id"
-	// USA North Carolina SOS corporations UID
-	IdentifierTypeUsaNcInternalId IdentifierType = "usa_nc_internal_id"
-	// USA North Dakota Secretary of State control ID
-	IdentifierTypeUsaNdControlId IdentifierType = "usa_nd_control_id"
-	// USA Nebraska corporate registry account number
-	IdentifierTypeUsaNeAcctNo IdentifierType = "usa_ne_acct_no"
-	// USA Nebraska registered agent ID number
-	IdentifierTypeUsaNeAgentId IdentifierType = "usa_ne_agent_id"
-	// USA New Hampshire Business ID
-	IdentifierTypeUsaNhBusinessId IdentifierType = "usa_nh_business_id"
-	// USA New Jersey Department of Treasury Business ID
-	IdentifierTypeUsaNjBusinessId IdentifierType = "usa_nj_business_id"
-	// USA New Mexico Secretary of State business number
-	IdentifierTypeUsaNmBusinessNo IdentifierType = "usa_nm_business_no"
-	// USA New Mexico Secretary of State License ID
-	IdentifierTypeUsaNmLicenseId IdentifierType = "usa_nm_license_id"
-	// The National Provider Identifier (NPI) is a unique number for health care providers in the United States.
-	IdentifierTypeUsaNpiNumber IdentifierType = "usa_npi_number"
-	// USA Nevada business registry ID code
-	IdentifierTypeUsaNvBizid IdentifierType = "usa_nv_bizid"
-	// USA Nevada corporate registry ID code
-	IdentifierTypeUsaNvCorpno IdentifierType = "usa_nv_corpno"
-	// USA New York corporate registry ID number
-	IdentifierTypeUsaNyDosId IdentifierType = "usa_ny_dos_id"
-	IdentifierTypeUsaNyRegId IdentifierType = "usa_ny_reg_id"
-	// USA Treasury sanctions list ID number
-	IdentifierTypeUsaOfacSdnNumber IdentifierType = "usa_ofac_sdn_number"
-	// USA Ohio business charter number
-	IdentifierTypeUsaOhCharterNum IdentifierType = "usa_oh_charter_num"
-	// USA Oklahoma Business Filing Number
-	IdentifierTypeUsaOkFilingNo IdentifierType = "usa_ok_filing_no"
-	// USA Oregon business registry ID number
-	IdentifierTypeUsaOrRegno IdentifierType = "usa_or_regno"
-	// USA OTI Organization Number
-	IdentifierTypeUsaOtiId IdentifierType = "usa_oti_id"
+	// Unique Registration Code in the Federal Register of Civil Society Organizations
+	IdentifierTypeMexCluni IdentifierType = "mex_cluni"
 	// USA Pennsylvania Department of State Business Entity ID Number
 	IdentifierTypeUsaPaCorporateRegistryId IdentifierType = "usa_pa_corporate_registry_id"
-	// USA Puerto Rico corporate registry ID number
-	IdentifierTypeUsaPuertoRicoRegisterNumber IdentifierType = "usa_puerto_rico_register_number"
-	// USA Rhode Island filing entity identification number
-	IdentifierTypeUsaRiFeiNo             IdentifierType = "usa_ri_fei_no"
-	IdentifierTypeUsaSamExclusionsNumber IdentifierType = "usa_sam_exclusions_number"
-	// Unique Entity Identifier (SAM)
-	IdentifierTypeUsaSamUeiNumber IdentifierType = "usa_sam_uei_number"
-	// USA South Carolina Secretary of State Corporation ID
-	IdentifierTypeUsaScCorpId IdentifierType = "usa_sc_corp_id"
-	// USA South Dakota Corporate ID
-	IdentifierTypeUsaSdCorpId IdentifierType = "usa_sd_corp_id"
-	// USA SEC disclosure filer ID number
-	IdentifierTypeUsaSecCikNumber IdentifierType = "usa_sec_cik_number"
+	// Unique Pakistan National Taxpayer Number for Individuals (equivalent to Computerized National Identity Card number)
+	IdentifierTypePakIndNtn IdentifierType = "pak_ind_ntn"
+	// Unique Pakistan National Taxpayer Number for Companies and Associations of Persons
+	IdentifierTypePakCoNtn IdentifierType = "pak_co_ntn"
+	// Simple 1-up identifier from the Registro Nacional de Inversiones Extranjeras
+	IdentifierTypeMexRnie IdentifierType = "mex_rnie"
+	// Pakistan NGO Registration Number
+	IdentifierTypePakNgoRegNo IdentifierType = "pak_ngo_reg_no"
+	// Iraqi Stock Exchange Symbol
+	IdentifierTypeIraqiStockExchangeSymbol IdentifierType = "iraqi_stock_exchange_symbol"
+	// Unique Identification Code for all legal and other entities engaged in business activities in Bulgaria
+	IdentifierTypeBgrUic IdentifierType = "bgr_uic"
+	// A hashed representation of a Bulgarian citizenship number
+	IdentifierTypeBgrEgnHashed IdentifierType = "bgr_egn_hashed"
+	// Enterprise number for South African companies
+	IdentifierTypeSouthAfricaEnterpriseNumber IdentifierType = "south_africa_enterprise_number"
+	// South African passport number
+	IdentifierTypeSouthAfricaPassportNumber IdentifierType = "south_africa_passport_number"
+	// Dutch Chamber of Commerce Number
+	IdentifierTypeNldKvkNumber IdentifierType = "nld_kvk_number"
+	// Dutch Chamber of Commerce Branch/Location Number
+	IdentifierTypeNldKvkBranchNumber IdentifierType = "nld_kvk_branch_number"
+	// Central Registration Depository (CRD) number from the Financial Industry Regulatory Authority (FINRA) in the USA. The CRD number is a company/person identifier.
+	IdentifierTypeUsaCentralRegistrationDepositoryNumber IdentifierType = "usa_central_registration_depository_number"
 	// One format variation of the SEC file number associated with bdSECNumber in USA/finra_barred_relats
 	IdentifierTypeUsaSecFileNumberBd IdentifierType = "usa_sec_file_number_bd"
+	// China CNIPA Trademark
+	IdentifierTypeChnCnipaTm IdentifierType = "chn_cnipa_tm"
+	// Cyprus Passport
+	IdentifierTypeCypPassport IdentifierType = "cyp_passport"
+	// Entity ID from Cyprus infocredit
+	IdentifierTypeCypInfocreditEntityId IdentifierType = "cyp_infocredit_entity_id"
+	// Cyprus ID Card
+	IdentifierTypeCypIdCard IdentifierType = "cyp_id_card"
+	// Cyprus SSN
+	IdentifierTypeCypSsn IdentifierType = "cyp_ssn"
+	// Austrian Company Register Number
+	IdentifierTypeAutFirmenbuchNo IdentifierType = "aut_firmenbuch_no"
+	// Swedish personal identity number (Personnummer)
+	IdentifierTypeSwePerIdNo IdentifierType = "swe_per_id_no"
+	// Company code from Shanghai Stock Exchange
+	IdentifierTypeChnShanghaiStockExchangeCompanyCode IdentifierType = "chn_shanghai_stock_exchange_company_code"
 	// One format variation of the SEC file number associated with iaSECNumber in USA/finra_barred_relats
 	IdentifierTypeUsaSecFileNumberIa IdentifierType = "usa_sec_file_number_ia"
+	// Company SEC code from Shenzen stock exchange
+	IdentifierTypeChnShenzenSecCode IdentifierType = "chn_shenzen_sec_code"
+	// USA Connecticut Business ID
+	IdentifierTypeUsaCtBusinessId IdentifierType = "usa_ct_business_id"
+	// [Ecuador cedula](https://www.jybaro.com/blog/cedula-de-identidad-ecuatoriana/)
+	IdentifierTypeEcuCedulaNumber IdentifierType = "ecu_cedula_number"
+	// Hong Kong Stock Exchange Code
+	IdentifierTypeHkgStockCode IdentifierType = "hkg_stock_code"
+	// Unique Canada province ID number. Assigned to every legal entity in the British Columbia Corporate Registry.
+	IdentifierTypeCanBcCompanyRegistrationId IdentifierType = "can_bc_company_registration_id"
+	// British Columbia Extraprovincial Company Registration ID
+	IdentifierTypeCanBcExtraprovincialRegistrationId IdentifierType = "can_bc_extraprovincial_registration_id"
+	// Unique Canada ID number. Assigned to every trademark application.
+	IdentifierTypeCanIpoTrademarkApplicationNo IdentifierType = "can_ipo_trademark_application_no"
+	// Lithuanian Company Registration Code
+	IdentifierTypeLtuCompanyRegistrationCode IdentifierType = "ltu_company_registration_code"
 	// SEC private fund ID
 	IdentifierTypeUsaSecPrivateFund IdentifierType = "usa_sec_private_fund"
-	// USA social security ID number
-	IdentifierTypeUsaSocialSecurityNumber IdentifierType = "usa_social_security_number"
-	// USA Tennessee Business Control Number
-	IdentifierTypeUsaTnControlNo IdentifierType = "usa_tn_control_no"
-	// USA Tennessee Registered Agent ID
-	IdentifierTypeUsaTnPartyId IdentifierType = "usa_tn_party_id"
-	// A Unique Physician Identification Number (UPIN) is a unique six-character alphanumeric identifier for health care providers in the United States that was discontinued in June 2007.
-	IdentifierTypeUsaUpinNumber IdentifierType = "usa_upin_number"
-	// Unique USA ID number. Assigned to every foreign trademark application.
-	IdentifierTypeUsaUsptoForeignApplicationNo IdentifierType = "usa_uspto_foreign_application_no"
-	// Unique USA ID number. Assigned to every registered foreign trademark.
-	IdentifierTypeUsaUsptoForeignRegNo IdentifierType = "usa_uspto_foreign_reg_no"
-	// Unique USA ID number. Assigned to every registered trademark.
-	IdentifierTypeUsaUsptoRegNo IdentifierType = "usa_uspto_reg_no"
-	// Unique USA ID number. Assigned to every trademark application.
-	IdentifierTypeUsaUsptoSerialNumber IdentifierType = "usa_uspto_serial_number"
-	// Identifier for corporations and trademarks in US Virgin Islands
-	IdentifierTypeUsaUsviCorpNumber IdentifierType = "usa_usvi_corp_number"
-	IdentifierTypeUsaVaOldRegId     IdentifierType = "usa_va_old_reg_id"
-	// A Virginia State Corporation Commission entity number
-	IdentifierTypeUsaVaRegId IdentifierType = "usa_va_reg_id"
-	// USA Vermont Business ID
-	IdentifierTypeUsaVtBizId IdentifierType = "usa_vt_biz_id"
-	// USA Washington business registry ID number
-	IdentifierTypeUsaWashingtonStateUbi IdentifierType = "usa_washington_state_ubi"
-	// USA Wisconsin Department of Financial Institutions ID
-	IdentifierTypeUsaWiDfiId IdentifierType = "usa_wi_dfi_id"
-	// USA West Virginia Corporate Registry ID
-	IdentifierTypeUsaWvRegId IdentifierType = "usa_wv_reg_id"
-	// USA Wyoming business registry ID number
-	IdentifierTypeUsaWyFilingId IdentifierType = "usa_wy_filing_id"
-	// Unique USA state ID number. Assigned to every legal entity registered with Wyoming Secretary of State.
-	IdentifierTypeUsaWyFilingNum IdentifierType = "usa_wy_filing_num"
-	// WY internal filing ID (primary key)
-	IdentifierTypeUsaWyInternalFilingId IdentifierType = "usa_wy_internal_filing_id"
-	// USA Wyoming business registry ID number
-	IdentifierTypeUsaWyPartyId IdentifierType = "usa_wy_party_id"
-	// Utah Secretary of State Business Entity Number
-	IdentifierTypeUtahCorporateRegistryInternalEntityNumber IdentifierType = "utah_corporate_registry_internal_entity_number"
-	// Uzbekistan tax ID number
-	IdentifierTypeUzbTinNumber IdentifierType = "uzb_tin_number"
-	// Validatis identification number
-	IdentifierTypeValidatisNumber IdentifierType = "validatis_number"
-	// Value-added tax ID number
-	IdentifierTypeVat IdentifierType = "vat"
-	// A Venezuelan national ID number for individuals
-	IdentifierTypeVenCedulaNumber IdentifierType = "ven_cedula_number"
-	// Venezuelan tax ID for companies and individuals
-	IdentifierTypeVenRif IdentifierType = "ven_rif"
-	// A certificate number for the National Registry of Contractors in Venezuela
-	IdentifierTypeVenRncNumber IdentifierType = "ven_rnc_number"
-	// Internal company ID
-	IdentifierTypeVenSarenInternalEmployerNumber IdentifierType = "ven_saren_internal_employer_number"
-	// British Virgin Islands corporate registry ID number
-	IdentifierTypeVgbCompanyNumber IdentifierType = "vgb_company_number"
-	// Vietnam natural person ID number
-	IdentifierTypeVnmCitizenshipNo IdentifierType = "vnm_citizenship_no"
-	// Vietnam business registry internal ID number
-	IdentifierTypeVnmDichvuthongtinInternalId IdentifierType = "vnm_dichvuthongtin_internal_id"
-	// Vietnam tax ID number
-	IdentifierTypeVnmEnterpriseCode IdentifierType = "vnm_enterprise_code"
-	// Vietnam natural person ID number
-	IdentifierTypeVnmPersonIdNo IdentifierType = "vnm_person_id_no"
+	// Latvian Insolvency Proceedings ID Number
+	IdentifierTypeLvaInsolvencyProceedingId IdentifierType = "lva_insolvency_proceeding_id"
+	// Internal identifier for shareholders from CHN cninfo data
+	IdentifierTypeChnCninfoInternalShareholderId IdentifierType = "chn_cninfo_internal_shareholder_id"
+	IdentifierTypeEuid                           IdentifierType = "euid"
+	// Finnish Business ID
+	IdentifierTypeFinBusinessId IdentifierType = "fin_business_id"
+	// Estonian Business Registry Code
+	IdentifierTypeEstBusinessRegCode IdentifierType = "est_business_reg_code"
+	// Committee on Uniform Securities Identification Procedures (CUSIP) number. Identifies a North American financial security.
+	IdentifierTypeUsaCusipNumber IdentifierType = "usa_cusip_number"
+	// Slovenian Company Registry ID Number
+	IdentifierTypeSvnCoRegNo IdentifierType = "svn_co_reg_no"
+	// Israeli Registrar of Companies company number
+	IdentifierTypeIsrCompanyNumber IdentifierType = "isr_company_number"
+	// Unique Israel association registration number. Assigned to every association in the Israel Ministry of Justice Association and Public Benefit Company Registry.
+	IdentifierTypeIsrAssociationNumber IdentifierType = "isr_association_number"
+	// Unique Israel public benefit company registration number. Assigned to every public benefit company in the Israel Ministry of Justice Association and Public Benefit Company Registry.
+	IdentifierTypeIsrPbcNumber      IdentifierType = "isr_pbc_number"
+	IdentifierTypeRksBusinessNumber IdentifierType = "rks_business_number"
+	// A fiscal number from the Kosovo company registry
+	IdentifierTypeRksFiscalNumber IdentifierType = "rks_fiscal_number"
+	// Company code from EDINET
+	IdentifierTypeJpnEdinetCode IdentifierType = "jpn_edinet_code"
+	// Belgium Enterprise Number
+	IdentifierTypeBelEnterpriseNumber IdentifierType = "bel_enterprise_number"
+	// Belgium Establishment Number
+	IdentifierTypeBelEstablishmentNumber IdentifierType = "bel_establishment_number"
+	// Australian financial services licence number
+	IdentifierTypeAusAfsLicenceNumber IdentifierType = "aus_afs_licence_number"
+	// Australian financial services authorized representative number
+	IdentifierTypeAusAfsRepNumber IdentifierType = "aus_afs_rep_number"
+	// Australian identifying number allocated to a financial adviser
+	IdentifierTypeAusAdvNumber IdentifierType = "aus_adv_number"
+	// Australian credit licensee number
+	IdentifierTypeAusCreditLicenceNumber IdentifierType = "aus_credit_licence_number"
+	// Australian identifying number allocated to a credit representative
+	IdentifierTypeAusCreditRepNumber IdentifierType = "aus_credit_rep_number"
+	// Korean DART Central Identity Key
+	IdentifierTypeDartCik IdentifierType = "dart_cik"
+	// Ticker number for the Korean Stock Exchange
+	IdentifierTypeKrxTickerCode IdentifierType = "krx_ticker_code"
+	// Korean corporate registration number
+	IdentifierTypeKorCorporateRegistrationNumber IdentifierType = "kor_corporate_registration_number"
+	// Korean TIN for businesses
+	IdentifierTypeKorBusinessTin IdentifierType = "kor_business_tin"
+	// Estonian Personal Identification Code
+	IdentifierTypeEstPersonalId IdentifierType = "est_personal_id"
+	// Belize International Corporate Affairs Registry (BICAR) registration number
+	IdentifierTypeBzeBicarRegNo IdentifierType = "bze_bicar_reg_no"
+	// Account number for businesses on the Chicago, Illinois, business license registry
+	IdentifierTypeUsaIlChicagoAccountNumber IdentifierType = "usa_il_chicago_account_number"
+	// Company number from Cayman Islands Gazette
+	IdentifierTypeCymCoNo IdentifierType = "cym_co_no"
+	// Guernsey Corporate Registry Number
+	IdentifierTypeGgyCorporateRegNumber IdentifierType = "ggy_corporate_reg_number"
+	// Unique Guernsey intellectual property ID number. Assigned to every trademark application submitted to the Guernsey Intellectual Property Office.
+	IdentifierTypeGgyTrademarkSubmissionRef IdentifierType = "ggy_trademark_submission_ref"
+	// Unique Guernsey intellectual property ID number. Assigned to every trademark registered with the Guernsey Intellectual Property Office.
+	IdentifierTypeGgyTrademarkNo IdentifierType = "ggy_trademark_no"
+	// Jersey Corporate Registry Number
+	IdentifierTypeJeyCorporateRegNumber IdentifierType = "jey_corporate_reg_number"
+	// Corp ID used in Cook Islands corporate registry
+	IdentifierTypeCokCorpRegCorpid IdentifierType = "cok_corp_reg_corpid"
+	// Corp ID used for officers in Cook Islands corporate registry
+	IdentifierTypeCokCorpRegCorpofficerid IdentifierType = "cok_corp_reg_corpofficerid"
+	// Registration number from Cook Islands corporate registry
+	IdentifierTypeCokCorpRegNumber IdentifierType = "cok_corp_reg_number"
+	// Internal ID from Mexican open contracts data
+	IdentifierTypeMexOpenContractsInternalId IdentifierType = "mex_open_contracts_internal_id"
+	// Gibraltar Corporate Registration Number
+	IdentifierTypeGibCorpRegNumber IdentifierType = "gib_corp_reg_number"
+	// Dominican Republic ONAPI registry number
+	IdentifierTypeDomOnapiNum IdentifierType = "dom_onapi_num"
+	// Russian Tourist Object Serial number in the Federal list
+	IdentifierTypeRusTouristObj IdentifierType = "rus_tourist_obj"
+	// Bill of lading number for trade data
+	IdentifierTypeBillOfLading IdentifierType = "bill_of_lading"
+	// Registration number for Taiwanese factories
+	IdentifierTypeTwnFactoryRegistrationNumber IdentifierType = "twn_factory_registration_number"
+	// Establishment permit case number for Taiwanese factories
+	IdentifierTypeTwnFactoryEstablishmentPermitCaseNumber IdentifierType = "twn_factory_establishment_permit_case_number"
+	// Kenya Person ID Number
+	IdentifierTypeKenPersonalId IdentifierType = "ken_personal_id"
+	// Unique number assigned by the DIAN for each import/export form
+	IdentifierTypeColDianNumeroFormulario IdentifierType = "col_dian_numero_formulario"
 	// Vanuatu Corporate Registry Number
 	IdentifierTypeVutCorpRegNumber IdentifierType = "vut_corp_reg_number"
-	// Unique USA ID number. Assigned to every foreign trademark application.
-	IdentifierTypeWipoIntlRefNo IdentifierType = "wipo_intl_ref_no"
-	// Unique USA ID number. Assigned to every registered foreign trademark.
-	IdentifierTypeWipoIntlRegNo IdentifierType = "wipo_intl_reg_no"
+	// Legal code from Georgian MyGov companies
+	IdentifierTypeGeoLegalCode IdentifierType = "geo_legal_code"
+	// Myanmar corporate registry ID for companies
+	IdentifierTypeMmrCorpId IdentifierType = "mmr_corp_id"
+	// Myanmar Registration Number
+	IdentifierTypeMmrRegNo IdentifierType = "mmr_reg_no"
+	// Myanmar Prior Registration Number
+	IdentifierTypeMmrPriorRegNo IdentifierType = "mmr_prior_reg_no"
+	// Myanmar corporate registry ID for officers
+	IdentifierTypeMmrOfficerId IdentifierType = "mmr_officer_id"
+	// Armernian passport number
+	IdentifierTypeArmPassportNumber IdentifierType = "arm_passport_number"
+	// Ukrainian Registration Number
+	IdentifierTypeUkrRegNum IdentifierType = "ukr_reg_num"
+	// Validatis identification number
+	IdentifierTypeValidatisNumber IdentifierType = "validatis_number"
+	// Case number for Dubai land cases
+	IdentifierTypeAreDubaiLandCaseNo IdentifierType = "are_dubai_land_case_no"
+	// Angola company registration number
+	IdentifierTypeAgoMatriculaNumber IdentifierType = "ago_matricula_number"
+	// Angola taxpayer number
+	IdentifierTypeAgoNifNumber IdentifierType = "ago_nif_number"
+	// Myanmar Personal Identification Number
+	IdentifierTypeMmrPersonalIdNo IdentifierType = "mmr_personal_id_no"
+	// Belarus Registration Number
+	IdentifierTypeBlrRegistrationNumber IdentifierType = "blr_registration_number"
+	// Primary license number of free zone establishment in Dubai
+	IdentifierTypeAerFreeZoneLicense IdentifierType = "aer_free_zone_license"
+	// Registration number for Dubai free zone
+	IdentifierTypeAerFreeZoneRegNo IdentifierType = "aer_free_zone_reg_no"
+	// Company number for Canada NL Corporate Registry
+	IdentifierTypeCanNlCorporateRegistry IdentifierType = "can_nl_corporate_registry"
+	// Hex digest of Data Axle Infogroup ID
+	IdentifierTypeCanDataAxleHash IdentifierType = "can_data_axle_hash"
+	// ZAPST number used for shareholders and partners in Slovenia Corporate Registry
+	IdentifierTypeSvnAjpesZapstNumber IdentifierType = "svn_ajpes_zapst_number"
+	// CorpWatch Database ID
+	IdentifierTypeUsaCorpwatchId IdentifierType = "usa_corpwatch_id"
+	// USA Delaware File Number
+	IdentifierTypeUsaDeFileNumber IdentifierType = "usa_de_file_number"
+	// Isle of Man Company Number
+	IdentifierTypeImnCompanyNumber IdentifierType = "imn_company_number"
+	// Slovenian VAT number
+	IdentifierTypeSvnVatNumber IdentifierType = "svn_vat_number"
 	// Acuris Unique ID
 	IdentifierTypeXxxAcurisId IdentifierType = "xxx_acuris_id"
-	// Cedar Rose entity internal ID number
-	IdentifierTypeXxxCedarRoseUid IdentifierType = "xxx_cedar_rose_uid"
+	// Pakistan EGM ID
+	IdentifierTypePakEgmId IdentifierType = "pak_egm_id"
+	// USA Delaware Registered Agent ID
+	IdentifierTypeUsaDeRegisteredAgentId IdentifierType = "usa_de_registered_agent_id"
+	// ICIJ Offshore Database Internal ID
+	IdentifierTypeIcijOffshoreInternalId IdentifierType = "icij_offshore_internal_id"
+	// ICIJ Offshore Database Node ID
+	IdentifierTypeIcijOffshoreNodeId IdentifierType = "icij_offshore_node_id"
+	// Ecuador Branch ID
+	IdentifierTypeEcuBranchId IdentifierType = "ecu_branch_id"
+	// Palestine registration ID
+	IdentifierTypePseRegistrationId IdentifierType = "pse_registration_id"
+	// Serbia company registration number (matični broj)
+	IdentifierTypeSrbMbNumber IdentifierType = "srb_mb_number"
+	// Serbia tax ID number
+	IdentifierTypeSrbPibNumber IdentifierType = "srb_pib_number"
+	// Serbia branch ID
+	IdentifierTypeSrbBranchId IdentifierType = "srb_branch_id"
+	// Russia Bank Identification Code
+	IdentifierTypeRusBikCode IdentifierType = "rus_bik_code"
+	// Panadata Internal ID
+	IdentifierTypePanadataInternalId IdentifierType = "panadata_internal_id"
+	// San Marino Economic Operator Code
+	IdentifierTypeSmrEconomicOperatorCode IdentifierType = "smr_economic_operator_code"
+	// USA Connecticut Internal ID
+	IdentifierTypeUsaCtInternalId IdentifierType = "usa_ct_internal_id"
+	// Authoritative legal entity identifier (ALEI), a government-issued registration number that is standardized according to [ISO 8000](https://en.wikipedia.org/wiki/ISO_8000)
+	IdentifierTypeAlei IdentifierType = "alei"
+	// Unique Canada province ID number. Assigned to every entity in the Nova Scotia Corporate Registry.
+	IdentifierTypeCanNsCorporateRegistry IdentifierType = "can_ns_corporate_registry"
+	// Somalian UBI Number
+	IdentifierTypeSomUbi IdentifierType = "som_ubi"
+	// Bahamas Tax Identification Number
+	IdentifierTypeBhsTin IdentifierType = "bhs_tin"
+	// Italy Economic and Administrative Repertory Number
+	IdentifierTypeItaReaNumber IdentifierType = "ita_rea_number"
+	// Mexico DENUE Unique ID
+	IdentifierTypeMexDenueClee IdentifierType = "mex_denue_clee"
+	// IHS Owner Code
+	IdentifierTypeIhsOwnerCode IdentifierType = "ihs_owner_code"
+	// Australia Consolidated Sanctions Reference ID
+	IdentifierTypeAusConsolidatedSanctionsReference IdentifierType = "aus_consolidated_sanctions_reference"
+	// Swiss SECO Sanction Number
+	IdentifierTypeCheSecoSanctionNumber IdentifierType = "che_seco_sanction_number"
+	// United Kingdom VAT Number
+	IdentifierTypeGbrVatNo IdentifierType = "gbr_vat_no"
+	// United Kingdom Confirmation Statement Company Number
+	IdentifierTypeGbrCompanyNumber IdentifierType = "gbr_company_number"
+	// Spain NIF Number
+	IdentifierTypeEspNif IdentifierType = "esp_nif"
+	// Unique Entity Identifier (SAM)
+	IdentifierTypeUsaSamUeiNumber IdentifierType = "usa_sam_uei_number"
+	// Identifier for corporations and trademarks in US Virgin Islands
+	IdentifierTypeUsaUsviCorpNumber IdentifierType = "usa_usvi_corp_number"
+	// Nicaragua Trade Internal Shipment ID
+	IdentifierTypeNicTradeInternalShipmentId IdentifierType = "nic_trade_internal_shipment_id"
+	// Nicaragua RUC Number
+	IdentifierTypeNicRucNumber IdentifierType = "nic_ruc_number"
+	// Nicaragua Numero Unico
+	IdentifierTypeNicNumeroUnico         IdentifierType = "nic_numero_unico"
+	IdentifierTypeCriCedulaJuridica      IdentifierType = "cri_cedula_juridica"
+	IdentifierTypeCriCedulaCitizenPerson IdentifierType = "cri_cedula_citizen_person"
+	IdentifierTypeCriCedulaForeignPerson IdentifierType = "cri_cedula_foreign_person"
+	// Bolivia Matricula Number
+	IdentifierTypeBolMatricula IdentifierType = "bol_matricula"
+	// Bolivia Matricula Number (old format)
+	IdentifierTypeBolOldMatricula IdentifierType = "bol_old_matricula"
+	// Nigerian Corporate Registry Internal ID
+	IdentifierTypeNgaCrpRegInternalId IdentifierType = "nga_crp_reg_internal_id"
+	// Nigerian Corporate Registry Registration Serial No.
+	IdentifierTypeNgaRegistrationSn IdentifierType = "nga_registration_sn"
+	// Nigerian National Identification Number
+	IdentifierTypeNgaNin IdentifierType = "nga_nin"
+	// Nigerian Driver's License No.
+	IdentifierTypeNgaDrivers IdentifierType = "nga_drivers"
+	// Nigerian Tax ID number
+	IdentifierTypeNgaTaxId IdentifierType = "nga_tax_id"
+	// Dominica Business Registry Internal ID
+	IdentifierTypeDmaBusinessRegistryInternalId IdentifierType = "dma_business_registry_internal_id"
+	// The Commercial and Government Entity (CAGE) code is a five-character ID assigned by the US Department of Defense's Defense Logistics Agency (DLA) to refer to a facility at a specific location (includes government suppliers, agencies, and other organizations). CAGE codes for entities outside the USA are called NATO Commercial and Government Entity (NCAGE) codes and are part of the NATO Codification System (NCS). Learn more [here](https://fawiki.fws.gov/display/SAM/Commercial+And+Government+Entity+%28CAGE%29+Code+Information).
+	IdentifierTypeCage IdentifierType = "cage"
+	// Antigua and Barbuda Business Registry Internal ID
+	IdentifierTypeAtgBusinessRegistryInternalId IdentifierType = "atg_business_registry_internal_id"
+	// St. Lucia Business Registry Internal ID
+	IdentifierTypeLcaBusinessRegistryInternalId IdentifierType = "lca_business_registry_internal_id"
+	// Portuguese Trust Number
+	IdentifierTypePrtTrustNumber IdentifierType = "prt_trust_number"
+	// Portuguese VAT Number
+	IdentifierTypePrtVatNumber IdentifierType = "prt_vat_number"
+	// Morocco Passport Number
+	IdentifierTypeMarPassport IdentifierType = "mar_passport"
+	// Democratic Republic of the Congo Passport Number
+	IdentifierTypeCodPassport IdentifierType = "cod_passport"
+	// North Korea Passport Number
+	IdentifierTypePrkPassport IdentifierType = "prk_passport"
+	// Singapore Passport Number
+	IdentifierTypeSgpPassport IdentifierType = "sgp_passport"
+	// China Passport Number
+	IdentifierTypeChnPassport IdentifierType = "chn_passport"
+	// Oman Passport Number
+	IdentifierTypeOmnPassport IdentifierType = "omn_passport"
+	// Central African Republic Passport Number
+	IdentifierTypeCafPassport IdentifierType = "caf_passport"
+	// South Sudan Passport Number
+	IdentifierTypeSsdPassport IdentifierType = "ssd_passport"
+	// Trinbagonian Business Number
+	IdentifierTypeTtoBizNumber IdentifierType = "tto_biz_number"
+	// Turkish Tax Identifier
+	IdentifierTypeTurTaxId IdentifierType = "tur_tax_id"
+	// Bermuda Registrar of Companies Number
+	IdentifierTypeBmuRegistrarOfCompaniesNumber IdentifierType = "bmu_registrar_of_companies_number"
+	// Democratic Republic of the Congo RCCM Number
+	IdentifierTypeCodRccmNumber IdentifierType = "cod_rccm_number"
+	// Democratic Republic of the Congo RCCM OHADA Number
+	IdentifierTypeCodRccmOhadaNumber IdentifierType = "cod_rccm_ohada_number"
+	// Abu Dhabi Registration Authority Number
+	IdentifierTypeAreRegAuthNumber IdentifierType = "are_reg_auth_number"
+	// North Korea Shipment ID
+	IdentifierTypePrkShipmentId IdentifierType = "prk_shipment_id"
+	// Ecuador Importer ID
+	IdentifierTypeEcuImporterId IdentifierType = "ecu_importer_id"
+	// Ecuador Exporter ID
+	IdentifierTypeEcuExporterId IdentifierType = "ecu_exporter_id"
+	// Ecuador Shipment Reference Number
+	IdentifierTypeEcuShipmentRefNo IdentifierType = "ecu_shipment_ref_no"
 	// Unique identifier for entities in CRB Monitor data
 	IdentifierTypeXxxCrbMonitorEntityId IdentifierType = "xxx_crb_monitor_entity_id"
 	// Unique identifier for issuers in EDI Global data
 	IdentifierTypeXxxEdiGlobalIssuerId IdentifierType = "xxx_edi_global_issuer_id"
 	// Unique identifier for securities in EDI Global data
 	IdentifierTypeXxxEdiGlobalSecurityId IdentifierType = "xxx_edi_global_security_id"
-	// EU ESMA Sanctions List. Reference number assigned to all entities listed under the European Securities and Markets Authority (ESMA) Sanctions List.
-	IdentifierTypeXxxEuEsmaSanctionsId IdentifierType = "xxx_eu_esma_sanctions_id"
-	// Sayari Intel entity internal ID number
-	IdentifierTypeXxxIntelInternalId IdentifierType = "xxx_intel_internal_id"
-	// OHADA corporate registry ID number
-	IdentifierTypeXxxRccm IdentifierType = "xxx_rccm"
-	// Yemen chamber of commerce ID number
-	IdentifierTypeYemCocRegistrationNumber IdentifierType = "yem_coc_registration_number"
-	// Yemen passport number
-	IdentifierTypeYemPassport IdentifierType = "yem_passport"
-	// Former Yugoslav republic natural person ID number
-	IdentifierTypeYugoslavMasterCitizenNum IdentifierType = "yugoslav_master_citizen_num"
+	// Unique identifier for imports and exports in Chile
+	IdentifierTypeChlImportExportControlId IdentifierType = "chl_import_export_control_id"
+	// Unique identifier for Chilean imports
+	IdentifierTypeChlImportManifestNumber IdentifierType = "chl_import_manifest_number"
+	// Unique identifier for Chilean importers and exporters
+	IdentifierTypeChlImporterExporterId IdentifierType = "chl_importer_exporter_id"
+	// Unique identifier for Argentinian imports and exports
+	IdentifierTypeArgImportExportId IdentifierType = "arg_import_export_id"
+	// Single tax identification code in Argentina for any individual that initiates an economic activity (missing control digit)
+	IdentifierTypeArgPartialCuit IdentifierType = "arg_partial_cuit"
+	// Unique identifier for Panamanian importers and exporters
+	IdentifierTypePanImporterExporterId IdentifierType = "pan_importer_exporter_id"
+	// Declaration number for import and export shipments in Panama
+	IdentifierTypePanDeclarationNumber IdentifierType = "pan_declaration_number"
+	// Mexico Shipment Number
+	IdentifierTypeMexShipmentNumber IdentifierType = "mex_shipment_number"
+	// Internal ID for Costa Rica comexport data (exporter number)
+	IdentifierTypeCriExp IdentifierType = "cri_exp"
+	// Internal ID for Costa Rica comexport data (importer number)
+	IdentifierTypeCriImp IdentifierType = "cri_imp"
+	// Internal ID for Costa Rica comexport data (shipping operation number)
+	IdentifierTypeCriOpNo IdentifierType = "cri_op_no"
+	// Colombia Número Único de Registro
+	IdentifierTypeColNur IdentifierType = "col_nur"
+	// Nepali Company Registration No. from National Information Technology Center
+	IdentifierTypeNplCoRegNo             IdentifierType = "npl_co_reg_no"
+	IdentifierTypeUsaSamExclusionsNumber IdentifierType = "usa_sam_exclusions_number"
+	// The National Provider Identifier (NPI) is a unique number for health care providers in the United States.
+	IdentifierTypeUsaNpiNumber IdentifierType = "usa_npi_number"
+	// A Unique Physician Identification Number (UPIN) is a unique six-character alphanumeric identifier for health care providers in the United States that was discontinued in June 2007.
+	IdentifierTypeUsaUpinNumber IdentifierType = "usa_upin_number"
+	// British Columbia Registration Number
+	IdentifierTypeCanBcRegistrationNumber IdentifierType = "can_bc_registration_number"
+	// The Canada Revenue Agency (CRA) business number is a nine-digit tax ID assigned to organizations to help them engage with federal and provincial government programs. Learn more [here](https://www.liveabout.com/what-is-the-canada-revenue-agency-cra-business-number-2947322).
+	IdentifierTypeCanBusinessNumber IdentifierType = "can_business_number"
+	// China Securities Regulatory Commission Code / 证券代码
+	IdentifierTypeChnCsrcNo IdentifierType = "chn_csrc_no"
+	// USA Minnesota Secretary of State Unique ID
+	IdentifierTypeUsaMnMasterId IdentifierType = "usa_mn_master_id"
+	// USA Minnesota Secretary of State Filing Number
+	IdentifierTypeUsaMnFilingNumber IdentifierType = "usa_mn_filing_number"
+	// Business ID from Indiana, USA, corporate registry
+	IdentifierTypeUsaInBizNo IdentifierType = "usa_in_biz_no"
+	// Vessel ID from Lloyd's Maritime Data
+	IdentifierTypeLloydsInternalVesselId IdentifierType = "lloyds_internal_vessel_id"
+	// Entity ID from Lloyd's Maritime Data
+	IdentifierTypeLloydsInternalEntityId IdentifierType = "lloyds_internal_entity_id"
+	// USA New Hampshire Business ID
+	IdentifierTypeUsaNhBusinessId IdentifierType = "usa_nh_business_id"
+	// UK Sanctions List Unique ID
+	IdentifierTypeGbrUkSanctionsId IdentifierType = "gbr_uk_sanctions_id"
+	// Montana Secretary of State Business Entity Number
+	IdentifierTypeMontanaSosInternalEntityId IdentifierType = "montana_sos_internal_entity_id"
+	// USA Massachusetts Secretary of State Company ID
+	IdentifierTypeUsaMassSosCompanyId IdentifierType = "usa_mass_sos_company_id"
+	// China Resident Identity Number
+	IdentifierTypeChnResidentIdNumber IdentifierType = "chn_resident_id_number"
+	// USA New Jersey Department of Treasury Business ID
+	IdentifierTypeUsaNjBusinessId IdentifierType = "usa_nj_business_id"
+	// Utah Secretary of State Business Entity Number
+	IdentifierTypeUtahCorporateRegistryInternalEntityNumber IdentifierType = "utah_corporate_registry_internal_entity_number"
+	// USA Louisiana Secretary of State Business Entity Number
+	IdentifierTypeUsaLaSosId IdentifierType = "usa_la_sos_id"
+	// USA Alabama Secretary of State Business Entity ID
+	IdentifierTypeUsaAlSosId IdentifierType = "usa_al_sos_id"
+	// USA South Carolina Secretary of State Corporation ID
+	IdentifierTypeUsaScCorpId IdentifierType = "usa_sc_corp_id"
+	// USA state of Kentucky organization number assigned to businesses
+	IdentifierTypeUsaKyOrgNo IdentifierType = "usa_ky_org_no"
+	// USA Illinois Secretary of State File Number
+	IdentifierTypeUsaIlFileNumber IdentifierType = "usa_il_file_number"
+	// Unique identifier used for companies in Indonesia UBO data
+	IdentifierTypeIdnTransactionNumber IdentifierType = "idn_transaction_number"
+	// Unique identifier used for owners in Indonesia UBO data
+	IdentifierTypeIdnUboOwnerId IdentifierType = "idn_ubo_owner_id"
+	// Swedish Organisationnummer with two-digit prefix
+	IdentifierTypeSweTaxNumber IdentifierType = "swe_tax_number"
+	// Panadata Internal SID
+	IdentifierTypePanadataInternalSid IdentifierType = "panadata_internal_sid"
+	// Paraguay Company Tax ID
+	IdentifierTypePryTaxId IdentifierType = "pry_tax_id"
+	// Paraguay Shipment Number
+	IdentifierTypePryShipmentNumber IdentifierType = "pry_shipment_number"
+	// Unique identifier for Tokyo Stock Exchange companies
+	IdentifierTypeTokyoStockExchangeNo IdentifierType = "tokyo_stock_exchange_no"
+	// Sweden FI Identification Number
+	IdentifierTypeSweFiId IdentifierType = "swe_fi_id"
+	// Germany BaFin-ID
+	IdentifierTypeDeuBafinId IdentifierType = "deu_bafin_id"
+	// Global Trade Internal Shipment ID
+	IdentifierTypeGlobalTradeInternalShipmentId IdentifierType = "global_trade_internal_shipment_id"
+	// China Vessel Inspection Registration Number
+	IdentifierTypeChinaVesselInspectionRegistration IdentifierType = "china_vessel_inspection_registration"
+	// China Vessel Registration Number
+	IdentifierTypeChinaVesselRegistration IdentifierType = "china_vessel_registration"
+	// CCS Vessel Registration Number
+	IdentifierTypeCcsRegistration IdentifierType = "ccs_registration"
+	// USA OTI Organization Number
+	IdentifierTypeUsaOtiId IdentifierType = "usa_oti_id"
+	// Stock market ticker
+	IdentifierTypeStockTicker IdentifierType = "stock_ticker"
+	// Unique Canada province ID number. Assigned to every legal entity registered with the Manitoba Companies Office.
+	IdentifierTypeCanMbRegistry IdentifierType = "can_mb_registry"
+	// Unique Canada province ID number. Assigned to every legal entity in the Quebec Enterprise Register.
+	IdentifierTypeQuebecEnterpriseNumber IdentifierType = "quebec_enterprise_number"
+	// Unique Canada province ID number. Assigned to every legal entity in the Ontario Business Registry.
+	IdentifierTypeOntarioCorporationNumber IdentifierType = "ontario_corporation_number"
+	// Unique Canada province ID number. Assigned to every legal entity in the Saskatchewan Corporate Registry.
+	IdentifierTypeSaskatchewanRegistryNumber IdentifierType = "saskatchewan_registry_number"
+	// Unique Canada province ID number. Assigned to every legal entity in the Alberta Corporate Registry.
+	IdentifierTypeAlbertaCorporationNumber IdentifierType = "alberta_corporation_number"
+	// Brazil Shipment Number
+	IdentifierTypeBraShipmentNumber IdentifierType = "bra_shipment_number"
+	// Ukraine NAZK sanctions company internal ID
+	IdentifierTypeUkrSanctionsNazkCompanyInternalId IdentifierType = "ukr_sanctions_nazk_company_internal_id"
+	// Ukraine NAZK sanctions person internal ID
+	IdentifierTypeUkrSanctionsNazkPersonInternalId IdentifierType = "ukr_sanctions_nazk_person_internal_id"
+	// Ethereum address
+	IdentifierTypeEthereumAddress IdentifierType = "ethereum_address"
+	// Dash address
+	IdentifierTypeDashAddress IdentifierType = "dash_address"
 	// Zcash address
 	IdentifierTypeZcashAddress IdentifierType = "zcash_address"
+	// Unique USA ID number. Assigned to every trademark application.
+	IdentifierTypeUsaUsptoSerialNumber IdentifierType = "usa_uspto_serial_number"
+	// Unique USA ID number. Assigned to every registered trademark.
+	IdentifierTypeUsaUsptoRegNo IdentifierType = "usa_uspto_reg_no"
+	// Unique USA ID number. Assigned to every foreign trademark application.
+	IdentifierTypeUsaUsptoForeignApplicationNo IdentifierType = "usa_uspto_foreign_application_no"
+	// Unique USA ID number. Assigned to every registered foreign trademark.
+	IdentifierTypeUsaUsptoForeignRegNo IdentifierType = "usa_uspto_foreign_reg_no"
+	// Unique USA ID number. Assigned to every registered foreign trademark.
+	IdentifierTypeWipoIntlRegNo IdentifierType = "wipo_intl_reg_no"
+	// Unique USA ID number. Assigned to every foreign trademark application.
+	IdentifierTypeWipoIntlRefNo IdentifierType = "wipo_intl_ref_no"
+	// Unique UK charity ID number. Assigned to every charity registered with the Charity Commission for England and Wales.
+	IdentifierTypeGbrCharityNo IdentifierType = "gbr_charity_no"
+	// Unique UK internal ID number. Assigned to every trustee registered with the Charity Commission for England and Wales.
+	IdentifierTypeGbrTrusteeId IdentifierType = "gbr_trustee_id"
+	// Unique UK government organization ID number. Assigned to government organizations in the UK.
+	IdentifierTypeGbrGoNo IdentifierType = "gbr_go_no"
+	// Unique Ireland ID number. Assigned to every legal entity registered with Ireland Companies Registration Office.
+	IdentifierTypeIrlRegistrationNo IdentifierType = "irl_registration_no"
+	// Registered Charity Number (RCN). Unique Identifier issued by the Charities Regulator to the registered charitable organizations awarded with charitable status.
+	IdentifierTypeIrlRcn IdentifierType = "irl_rcn"
+	// Belize Companies & Corporate Affairs Registry (BCCAR) registration number
+	IdentifierTypeBlzBccarRegNo IdentifierType = "blz_bccar_reg_no"
+	// Unique customs registration number. Assigned to all entities registered with China General Administration of Customs.
+	IdentifierTypeChnCustomsRegistrationNo IdentifierType = "chn_customs_registration_no"
+	// Iceland VAT identification number. Assigned to legal entities registered with Tax Administration.
+	IdentifierTypeIslVatNum IdentifierType = "isl_vat_num"
+	// Unique Canada ID number. Assigned to every registered trademark.
+	IdentifierTypeCanTmRegistrationNo IdentifierType = "can_tm_registration_no"
+	// Azerbaijan TIN. Unique number assigned to taxpayers registered with Azerbaijan State Tax Service.
+	IdentifierTypeAzeTinNumber IdentifierType = "aze_tin_number"
+	// Tajikistan TIN. Unique number assigned to taxpayers registered with Tajikistan Tax Authorities.
+	IdentifierTypeTjkTinNumber IdentifierType = "tjk_tin_number"
+	// Tajikistan EIN (RYIAM) number. Unique number assigned to taxpayers in Tajikistan.
+	IdentifierTypeTjkEinNumber IdentifierType = "tjk_ein_number"
+	// Monaco RCI Trade Register Number. Unique number assigned to entities with activities in Monaco registered with the Directory of Trade and Industry Directory.
+	IdentifierTypeMcoRciNumber IdentifierType = "mco_rci_number"
+	// Monaco Statistical Identification Number. Unique identifier assigned by the Institute of Statistics and Economic Studies (Monaco Statistics) for entities with economic activity in Monaco.
+	IdentifierTypeMcoNis IdentifierType = "mco_nis"
+	// Unique Canada provincial ID number. Assigned to every business registered with Ontario Ministry of Consumer and Business Services.
+	IdentifierTypeOnBusinessIdNumber IdentifierType = "on_business_id_number"
+	// Unique Syria ID number. Assigned to every legal entity registered with the Syria Ministry of Economy and Foreign Trade.
+	IdentifierTypeSyriaCommercialRegisterNumber IdentifierType = "syria_commercial_register_number"
+	// Unique internal company ID number. Assigned to every company in China Xinjiang Department of Housing and Urban-Rural Development Company Database
+	IdentifierTypeCnHurdInternalCompanyId IdentifierType = "cn_hurd_internal_company_id"
+	// Unique Hungary Tax ID. Issued to companies registered in Hungary.
+	IdentifierTypeHunTaxNumber IdentifierType = "hun_tax_number"
+	// Statistical Number for Hungarian companies issued by the Hungarian Central Statistical Office
+	IdentifierTypeHunKrsNumber IdentifierType = "hun_krs_number"
+	// Unique HUN registration number. Assigned to every legal entity registered with the Ministry of Justice of Hungary.
+	IdentifierTypeHunCompanyRegisterNumber IdentifierType = "hun_company_register_number"
+	// Unique TIN. Issued for individuals by Hungarian Tax Authorities.
+	IdentifierTypeHunPersonTaxId IdentifierType = "hun_person_tax_id"
+	// Malawi Tax Payer Identification Number. Unique number assigned to taxpayers in Malawi and issued by the Malawi Revenue Authority.
+	IdentifierTypeMwTpinTaxRegNum IdentifierType = "mw_tpin_tax_reg_num"
+	// Liberia Tax Identification Number. Unique number assigned to taxpayers in Liberia and issued by the Liberia Revenue Authority.
+	IdentifierTypeLrTin IdentifierType = "lr_tin"
+	// Cameroon Tax Registration Number. Unique number assigned to taxpayers in Cameroon and issued by the Directorate General of Tax.
+	IdentifierTypeCmNuiTaxRegNum IdentifierType = "cm_nui_tax_reg_num"
+	// Unique EU Financial Sanctions Database ID number. Assigned to every entity in the EU Financial Sanctions Database.
+	IdentifierTypeEuFsdId IdentifierType = "eu_fsd_id"
+	// Unique Hong Kong tax ID number. Assigned to every company registered with the Hong Kong Business Registration Office.
+	IdentifierTypeCnHkBrNumber IdentifierType = "cn_hk_br_number"
+	// Unique Identification Number. Registration number assigned to companies by the Companies and Intellectual Property Authority.
+	IdentifierTypeBwaUinRegNumber IdentifierType = "bwa_uin_reg_number"
+	// Unique Canada ID number. Assigned to every entity registered with Canadian Securities Administrators National Registration Database.
+	IdentifierTypeCanNrd IdentifierType = "can_nrd"
+	// Global Intermediary Identification Number (GIIN). Unique Identifier issued by the IRS to financial institutions, branches, direct reporting non-financial foreign entities, and sponsored entities.
+	IdentifierTypeUsaIrsGiin IdentifierType = "usa_irs_giin"
+	// Unique internal ID number assigned to individuals. Assigned to every individual registered with Canadian Securities Administrators National Registration Database.
+	IdentifierTypeCanNrdIndividualId IdentifierType = "can_nrd_individual_id"
+	// Unique Jamaica company registration number. Assigned to every company in the Jamaica Corporate Registry.
+	IdentifierTypeJamCompanyId IdentifierType = "jam_company_id"
+	// Spain Internal Employee Number
+	IdentifierTypeEspInternalEmployeeNumber IdentifierType = "esp_internal_employee_number"
+	// Unique identifier assigned to every entity in the New Zealand Russia Sanctions Register.
+	IdentifierTypeNzlRussiaSanctionsUid IdentifierType = "nzl_russia_sanctions_uid"
+	// Unique Canada province ID number. Assigned to every legal entity registered with the New Brunswick Corporate Affairs Registry.
+	IdentifierTypeCanNewBrunswickReferenceNumber IdentifierType = "can_new_brunswick_reference_number"
+	// Unique reference number assigned to every entity in the France National Asset Freeze Register.
+	IdentifierTypeFraAssetFreezeId IdentifierType = "fra_asset_freeze_id"
+	// Unique Serbia ID number. Assigned to every entity registered with the Serbia Business Register Agency's Register of Beneficial Owners.
+	IdentifierTypeSrbBeneficialOwnerId IdentifierType = "srb_beneficial_owner_id"
+	// Unique Canada province ID number. Assigned to every entity registered with the Prince Edward Island Corporate Registry.
+	IdentifierTypeCanPeRegistrationNumber IdentifierType = "can_pe_registration_number"
+	// Hex digest of FSMA entity name
+	IdentifierTypeBelFsmaNameHash IdentifierType = "bel_fsma_name_hash"
+	// Curacao Registry Number. Unique Identifier issued by the Curacao Chamber of Commerce & Industry to the registered companies.
+	IdentifierTypeCuwRegNumber IdentifierType = "cuw_reg_number"
+	// A unique concatenation of bill of lading number, date of customs declaration and Russia customs sequence number.
+	IdentifierTypeRusDeclarationNumber IdentifierType = "rus_declaration_number"
+	// Russia Trade Internal Shipment ID
+	IdentifierTypeRuTradeInternalShipmentId IdentifierType = "ru_trade_internal_shipment_id"
+	// Unique concatenation of bill of lading number and item number for shipments in Turkey.
+	IdentifierTypeTurShipmentId IdentifierType = "tur_shipment_id"
+	// Unique business Identification number. Assigned to every registered business in Bangladesh.
+	IdentifierTypeBdBin IdentifierType = "bd_bin"
+	// Unique registration number. Assigned to every company registered with the UAE National Economic Register.
+	IdentifierTypeAerNerNumber IdentifierType = "aer_ner_number"
+	// Taiwan Passport Number
+	IdentifierTypeTwnPassportNumber IdentifierType = "twn_passport_number"
+	// Belgium unique natural person ID number.
+	IdentifierTypeBelNationalRegisterNo IdentifierType = "bel_national_register_no"
+	// Afghanistan Trade Internal Shipment ID
+	IdentifierTypeAfgTradeInternalShipmentId IdentifierType = "afg_trade_internal_shipment_id"
+	// Ukraine SFMS List Identifier. Reference number assigned to all entities listed under Ukraine SFMS List for Terrorism.
+	IdentifierTypeUkrFiuListNumber IdentifierType = "ukr_fiu_list_number"
+	// Unique identification number assigned to every entity registered with the Bank of Spain.
+	IdentifierTypeEspBeCode IdentifierType = "esp_be_code"
+	// Spain TR Number
+	IdentifierTypeEspTrNumber IdentifierType = "esp_tr_number"
+	// Unique Jersey ID number. Assigned to every registered trademark.
+	IdentifierTypeJeyTrademarkRegNo IdentifierType = "jey_trademark_reg_no"
+	// Action number assigned by the Environment Agency to each enforcement action against offender pursuant to relevant legislation.
+	IdentifierTypeGbrEnforcementActionNum IdentifierType = "gbr_enforcement_action_num"
+	// Tanzania Registration Number. Unique identifier issued by the Tanzania Business Registration and Licensing Agency and assigned to the registered entities.
+	IdentifierTypeTzaBrelaRegNum IdentifierType = "tza_brela_reg_num"
+	// Unique India identifier code. Assigned to all entities listed on the India National Stock Exchange.
+	IdentifierTypeIndNseTickerCode IdentifierType = "ind_nse_ticker_code"
+	// Unique Florida county land and property ID number. Assigned to every parcel registered with the Martin County Property Appraiser’s Office.
+	IdentifierTypeUsaFlMartinPid IdentifierType = "usa_fl_martin_pid"
+	// Unique Florida county land and property ID number. Assigned to every parcel registered with the Saint Lucie County Property Appraiser’s Office.
+	IdentifierTypeUsaFlSlPid IdentifierType = "usa_fl_sl_pid"
+	// Penalty number assigned by the Quebec Ministry of the Environment, the Fight against Climate Change, Wildlife and Parks to each entity listed as offender in the Register of Administrative Monetary Penalties for non-compliance with environmental laws and regulations.
+	IdentifierTypeCanQcSapRegistryRefNum IdentifierType = "can_qc_sap_registry_ref_num"
+	// Izmir Chamber of Commerce registration number
+	IdentifierTypeTurIzmirCocRegNo IdentifierType = "tur_izmir_coc_reg_no"
+	// Turkey Trade Registry Number, Ticaret Sicil. Unique registration number for companies in Turkey.
+	IdentifierTypeTurTicaretSicilNo IdentifierType = "tur_ticaret_sicil_no"
+	// EU ESMA Sanctions List. Reference number assigned to all entities listed under the European Securities and Markets Authority (ESMA) Sanctions List.
+	IdentifierTypeXxxEuEsmaSanctionsId IdentifierType = "xxx_eu_esma_sanctions_id"
+	// Unique India ID number. Assigned to every legal entity included in the NITI Aayog Darpan database.
+	IdentifierTypeIndDarpanUid IdentifierType = "ind_darpan_uid"
+	// Unique India registration number. Assigned to every legal entity registered with the India Charity Commissioner.
+	IdentifierTypeIndCharityRegistrationNumber IdentifierType = "ind_charity_registration_number"
+	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Societies.
+	IdentifierTypeIndSocietyRegistrationNumber IdentifierType = "ind_society_registration_number"
+	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Companies.
+	IdentifierTypeIndCompanyRegistrationNumber IdentifierType = "ind_company_registration_number"
+	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Cooperative Societies
+	IdentifierTypeIndCoopsocRegistrationNumber IdentifierType = "ind_coopsoc_registration_number"
+	// Unique identifiers for each bank branch participating in India's National Electronic Funds Transfer (NEFT), Real Time Gross Settlement (RTGS), and Immediate Payment Service (IMPS) electronic funds transfer systems.
+	IdentifierTypeIndIfsc IdentifierType = "ind_ifsc"
+	// Unique India intellectual property ID number. Assigned to every trademark application submitted to the Controller General of Patents, Designs and Trademarks of the Ministry of Commerce and Industry, Government of India.
+	IdentifierTypeIndTrademarkSubmissionRef IdentifierType = "ind_trademark_submission_ref"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 	switch s {
-	case "aer_free_zone_license":
-		return IdentifierTypeAerFreeZoneLicense, nil
-	case "aer_free_zone_reg_no":
-		return IdentifierTypeAerFreeZoneRegNo, nil
-	case "aer_ner_number":
-		return IdentifierTypeAerNerNumber, nil
-	case "afg_business_license":
-		return IdentifierTypeAfgBusinessLicense, nil
-	case "afg_passport":
-		return IdentifierTypeAfgPassport, nil
-	case "afg_trade_internal_shipment_id":
-		return IdentifierTypeAfgTradeInternalShipmentId, nil
-	case "afghan_tin_number":
-		return IdentifierTypeAfghanTinNumber, nil
-	case "ago_matricula_number":
-		return IdentifierTypeAgoMatriculaNumber, nil
-	case "ago_nif_number":
-		return IdentifierTypeAgoNifNumber, nil
-	case "alb_registration_number":
-		return IdentifierTypeAlbRegistrationNumber, nil
-	case "alb_tax_id":
-		return IdentifierTypeAlbTaxId, nil
-	case "alberta_corporation_number":
-		return IdentifierTypeAlbertaCorporationNumber, nil
-	case "alei":
-		return IdentifierTypeAlei, nil
-	case "are_difc_reg_no":
-		return IdentifierTypeAreDifcRegNo, nil
-	case "are_dubai_land_case_no":
-		return IdentifierTypeAreDubaiLandCaseNo, nil
-	case "are_reg_auth_number":
-		return IdentifierTypeAreRegAuthNumber, nil
-	case "arg_cdi_number":
-		return IdentifierTypeArgCdiNumber, nil
-	case "arg_cuil_number":
-		return IdentifierTypeArgCuilNumber, nil
-	case "arg_cuit_number":
-		return IdentifierTypeArgCuitNumber, nil
-	case "arg_dni_number":
-		return IdentifierTypeArgDniNumber, nil
-	case "arg_igj_number":
-		return IdentifierTypeArgIgjNumber, nil
-	case "arg_import_export_id":
-		return IdentifierTypeArgImportExportId, nil
-	case "arg_lib_civica_number":
-		return IdentifierTypeArgLibCivicaNumber, nil
-	case "arg_lib_enrolamiento_number":
-		return IdentifierTypeArgLibEnrolamientoNumber, nil
-	case "arg_partial_cuit":
-		return IdentifierTypeArgPartialCuit, nil
-	case "arm_enterprise_code":
-		return IdentifierTypeArmEnterpriseCode, nil
-	case "arm_passport_number":
-		return IdentifierTypeArmPassportNumber, nil
-	case "arm_registration_no":
-		return IdentifierTypeArmRegistrationNo, nil
-	case "arm_vat_no":
-		return IdentifierTypeArmVatNo, nil
-	case "aruba_chamber_of_commerce_id":
-		return IdentifierTypeArubaChamberOfCommerceId, nil
-	case "atg_business_registry_internal_id":
-		return IdentifierTypeAtgBusinessRegistryInternalId, nil
-	case "aus_adv_number":
-		return IdentifierTypeAusAdvNumber, nil
-	case "aus_afs_licence_number":
-		return IdentifierTypeAusAfsLicenceNumber, nil
-	case "aus_afs_rep_number":
-		return IdentifierTypeAusAfsRepNumber, nil
-	case "aus_business_number":
-		return IdentifierTypeAusBusinessNumber, nil
-	case "aus_company_number":
-		return IdentifierTypeAusCompanyNumber, nil
-	case "aus_consolidated_sanctions_reference":
-		return IdentifierTypeAusConsolidatedSanctionsReference, nil
-	case "aus_credit_licence_number":
-		return IdentifierTypeAusCreditLicenceNumber, nil
-	case "aus_credit_rep_number":
-		return IdentifierTypeAusCreditRepNumber, nil
-	case "aut_firmenbuch_no":
-		return IdentifierTypeAutFirmenbuchNo, nil
-	case "aze_tin_number":
-		return IdentifierTypeAzeTinNumber, nil
-	case "bd_bin":
-		return IdentifierTypeBdBin, nil
-	case "bel_enterprise_number":
-		return IdentifierTypeBelEnterpriseNumber, nil
-	case "bel_establishment_number":
-		return IdentifierTypeBelEstablishmentNumber, nil
-	case "bel_fsma_name_hash":
-		return IdentifierTypeBelFsmaNameHash, nil
-	case "bel_national_register_no":
-		return IdentifierTypeBelNationalRegisterNo, nil
-	case "bfa_entity_id":
-		return IdentifierTypeBfaEntityId, nil
-	case "bfa_rccm_number":
-		return IdentifierTypeBfaRccmNumber, nil
-	case "bgr_egn_hashed":
-		return IdentifierTypeBgrEgnHashed, nil
-	case "bgr_uic":
-		return IdentifierTypeBgrUic, nil
-	case "bh_cr_number":
-		return IdentifierTypeBhCrNumber, nil
-	case "bh_cr_number_and_branch":
-		return IdentifierTypeBhCrNumberAndBranch, nil
-	case "bhs_tin":
-		return IdentifierTypeBhsTin, nil
-	case "bih_customs_number":
-		return IdentifierTypeBihCustomsNumber, nil
-	case "bih_jib_number":
-		return IdentifierTypeBihJibNumber, nil
-	case "bih_mbs_number":
-		return IdentifierTypeBihMbsNumber, nil
-	case "bill_of_lading":
-		return IdentifierTypeBillOfLading, nil
-	case "bitcoin_address":
-		return IdentifierTypeBitcoinAddress, nil
-	case "blr_registration_number":
-		return IdentifierTypeBlrRegistrationNumber, nil
-	case "blz_bccar_reg_no":
-		return IdentifierTypeBlzBccarRegNo, nil
-	case "bmu_registrar_of_companies_number":
-		return IdentifierTypeBmuRegistrarOfCompaniesNumber, nil
-	case "bmu_registration_number":
-		return IdentifierTypeBmuRegistrationNumber, nil
-	case "bol_matricula":
-		return IdentifierTypeBolMatricula, nil
-	case "bol_old_matricula":
-		return IdentifierTypeBolOldMatricula, nil
-	case "bra_case_number":
-		return IdentifierTypeBraCaseNumber, nil
-	case "bra_cnpj":
-		return IdentifierTypeBraCnpj, nil
-	case "bra_codigo_da_unidade_organizacional":
-		return IdentifierTypeBraCodigoDaUnidadeOrganizacional, nil
-	case "bra_cpf_number":
-		return IdentifierTypeBraCpfNumber, nil
-	case "bra_rg_number":
-		return IdentifierTypeBraRgNumber, nil
-	case "bra_servidor_portal":
-		return IdentifierTypeBraServidorPortal, nil
-	case "bra_shipment_number":
-		return IdentifierTypeBraShipmentNumber, nil
-	case "bwa_uin_reg_number":
-		return IdentifierTypeBwaUinRegNumber, nil
-	case "bze_bicar_reg_no":
-		return IdentifierTypeBzeBicarRegNo, nil
-	case "ca_corporate_id_num":
-		return IdentifierTypeCaCorporateIdNum, nil
-	case "ca_lp_file_num":
-		return IdentifierTypeCaLpFileNum, nil
-	case "caf_passport":
-		return IdentifierTypeCafPassport, nil
-	case "cage":
-		return IdentifierTypeCage, nil
-	case "can_bc_company_registration_id":
-		return IdentifierTypeCanBcCompanyRegistrationId, nil
-	case "can_bc_extraprovincial_registration_id":
-		return IdentifierTypeCanBcExtraprovincialRegistrationId, nil
-	case "can_bc_registration_number":
-		return IdentifierTypeCanBcRegistrationNumber, nil
-	case "can_business_number":
-		return IdentifierTypeCanBusinessNumber, nil
-	case "can_corporation_number":
-		return IdentifierTypeCanCorporationNumber, nil
-	case "can_cra_program_account_number":
-		return IdentifierTypeCanCraProgramAccountNumber, nil
-	case "can_data_axle_hash":
-		return IdentifierTypeCanDataAxleHash, nil
-	case "can_ipo_trademark_application_no":
-		return IdentifierTypeCanIpoTrademarkApplicationNo, nil
-	case "can_mb_registry":
-		return IdentifierTypeCanMbRegistry, nil
-	case "can_new_brunswick_reference_number":
-		return IdentifierTypeCanNewBrunswickReferenceNumber, nil
-	case "can_nl_corporate_registry":
-		return IdentifierTypeCanNlCorporateRegistry, nil
-	case "can_nrd":
-		return IdentifierTypeCanNrd, nil
-	case "can_nrd_individual_id":
-		return IdentifierTypeCanNrdIndividualId, nil
-	case "can_ns_corporate_registry":
-		return IdentifierTypeCanNsCorporateRegistry, nil
-	case "can_pe_registration_number":
-		return IdentifierTypeCanPeRegistrationNumber, nil
-	case "can_qc_sap_registry_ref_num":
-		return IdentifierTypeCanQcSapRegistryRefNum, nil
-	case "can_tm_registration_no":
-		return IdentifierTypeCanTmRegistrationNo, nil
-	case "ccs_registration":
-		return IdentifierTypeCcsRegistration, nil
-	case "che_ch_id_number":
-		return IdentifierTypeCheChIdNumber, nil
-	case "che_seco_sanction_number":
-		return IdentifierTypeCheSecoSanctionNumber, nil
-	case "che_uid_number":
-		return IdentifierTypeCheUidNumber, nil
-	case "china_vessel_inspection_registration":
-		return IdentifierTypeChinaVesselInspectionRegistration, nil
-	case "china_vessel_registration":
-		return IdentifierTypeChinaVesselRegistration, nil
-	case "chl_cedula_number":
-		return IdentifierTypeChlCedulaNumber, nil
-	case "chl_import_export_control_id":
-		return IdentifierTypeChlImportExportControlId, nil
-	case "chl_import_manifest_number":
-		return IdentifierTypeChlImportManifestNumber, nil
-	case "chl_importer_exporter_id":
-		return IdentifierTypeChlImporterExporterId, nil
-	case "chn_cninfo_internal_shareholder_id":
-		return IdentifierTypeChnCninfoInternalShareholderId, nil
-	case "chn_cnipa_tm":
-		return IdentifierTypeChnCnipaTm, nil
-	case "chn_csrc_no":
-		return IdentifierTypeChnCsrcNo, nil
-	case "chn_customs_registration_code":
-		return IdentifierTypeChnCustomsRegistrationCode, nil
-	case "chn_customs_registration_no":
-		return IdentifierTypeChnCustomsRegistrationNo, nil
-	case "chn_passport":
-		return IdentifierTypeChnPassport, nil
-	case "chn_resident_id_number":
-		return IdentifierTypeChnResidentIdNumber, nil
-	case "chn_shanghai_stock_exchange_company_code":
-		return IdentifierTypeChnShanghaiStockExchangeCompanyCode, nil
-	case "chn_shenzen_sec_code":
-		return IdentifierTypeChnShenzenSecCode, nil
-	case "cm_nui_tax_reg_num":
-		return IdentifierTypeCmNuiTaxRegNum, nil
-	case "cn_hk_br_number":
-		return IdentifierTypeCnHkBrNumber, nil
-	case "cn_hk_cr_number":
-		return IdentifierTypeCnHkCrNumber, nil
-	case "cn_hk_filing_number":
-		return IdentifierTypeCnHkFilingNumber, nil
-	case "cn_hurd_internal_company_id":
-		return IdentifierTypeCnHurdInternalCompanyId, nil
-	case "cn_importexport_code":
-		return IdentifierTypeCnImportexportCode, nil
-	case "cn_organization_code":
-		return IdentifierTypeCnOrganizationCode, nil
-	case "cn_qichacha_internal_id":
-		return IdentifierTypeCnQichachaInternalId, nil
-	case "cn_registration_number":
-		return IdentifierTypeCnRegistrationNumber, nil
-	case "cn_tax_identification_number":
-		return IdentifierTypeCnTaxIdentificationNumber, nil
 	case "cn_tianyancha_company_id":
 		return IdentifierTypeCnTianyanchaCompanyId, nil
 	case "cn_tianyancha_human_id":
 		return IdentifierTypeCnTianyanchaHumanId, nil
 	case "cn_unified_social_credit_code":
 		return IdentifierTypeCnUnifiedSocialCreditCode, nil
-	case "cod_passport":
-		return IdentifierTypeCodPassport, nil
-	case "cod_rccm_number":
-		return IdentifierTypeCodRccmNumber, nil
-	case "cod_rccm_ohada_number":
-		return IdentifierTypeCodRccmOhadaNumber, nil
-	case "cok_corp_reg_corpid":
-		return IdentifierTypeCokCorpRegCorpid, nil
-	case "cok_corp_reg_corpofficerid":
-		return IdentifierTypeCokCorpRegCorpofficerid, nil
-	case "cok_corp_reg_number":
-		return IdentifierTypeCokCorpRegNumber, nil
-	case "col_cedula_no":
-		return IdentifierTypeColCedulaNo, nil
-	case "col_dian_numero_formulario":
-		return IdentifierTypeColDianNumeroFormulario, nil
-	case "col_nit_no":
-		return IdentifierTypeColNitNo, nil
-	case "col_nur":
-		return IdentifierTypeColNur, nil
-	case "col_secop_no":
-		return IdentifierTypeColSecopNo, nil
-	case "cri_cedula_citizen_person":
-		return IdentifierTypeCriCedulaCitizenPerson, nil
-	case "cri_cedula_foreign_person":
-		return IdentifierTypeCriCedulaForeignPerson, nil
-	case "cri_cedula_juridica":
-		return IdentifierTypeCriCedulaJuridica, nil
-	case "cri_cedula_number":
-		return IdentifierTypeCriCedulaNumber, nil
-	case "cri_exp":
-		return IdentifierTypeCriExp, nil
-	case "cri_imp":
-		return IdentifierTypeCriImp, nil
-	case "cri_op_no":
-		return IdentifierTypeCriOpNo, nil
-	case "cub_cod":
-		return IdentifierTypeCubCod, nil
-	case "cuw_reg_number":
-		return IdentifierTypeCuwRegNumber, nil
-	case "cym_co_no":
-		return IdentifierTypeCymCoNo, nil
-	case "cyp_id_card":
-		return IdentifierTypeCypIdCard, nil
-	case "cyp_infocredit_entity_id":
-		return IdentifierTypeCypInfocreditEntityId, nil
-	case "cyp_passport":
-		return IdentifierTypeCypPassport, nil
-	case "cyp_reg_no":
-		return IdentifierTypeCypRegNo, nil
-	case "cyp_ssn":
-		return IdentifierTypeCypSsn, nil
-	case "cze_file_number":
-		return IdentifierTypeCzeFileNumber, nil
-	case "cze_ico_number":
-		return IdentifierTypeCzeIcoNumber, nil
-	case "dart_cik":
-		return IdentifierTypeDartCik, nil
-	case "dash_address":
-		return IdentifierTypeDashAddress, nil
-	case "deu_bafin_id":
-		return IdentifierTypeDeuBafinId, nil
-	case "deu_registernummer":
-		return IdentifierTypeDeuRegisternummer, nil
-	case "dji_rcs_number":
-		return IdentifierTypeDjiRcsNumber, nil
-	case "dma_business_registry_internal_id":
-		return IdentifierTypeDmaBusinessRegistryInternalId, nil
-	case "dnk_cvr":
-		return IdentifierTypeDnkCvr, nil
-	case "dnk_entity":
-		return IdentifierTypeDnkEntity, nil
-	case "dnk_production_unit_no":
-		return IdentifierTypeDnkProductionUnitNo, nil
-	case "dom_onapi_num":
-		return IdentifierTypeDomOnapiNum, nil
-	case "dom_rnc":
-		return IdentifierTypeDomRnc, nil
-	case "duns_number":
-		return IdentifierTypeDunsNumber, nil
-	case "ecu_branch_id":
-		return IdentifierTypeEcuBranchId, nil
-	case "ecu_cedula_number":
-		return IdentifierTypeEcuCedulaNumber, nil
-	case "ecu_company_id":
-		return IdentifierTypeEcuCompanyId, nil
-	case "ecu_exporter_id":
-		return IdentifierTypeEcuExporterId, nil
-	case "ecu_importer_id":
-		return IdentifierTypeEcuImporterId, nil
-	case "ecu_ruc_number":
-		return IdentifierTypeEcuRucNumber, nil
-	case "ecu_shipment_ref_no":
-		return IdentifierTypeEcuShipmentRefNo, nil
-	case "esp_be_code":
-		return IdentifierTypeEspBeCode, nil
-	case "esp_borme_reg_id":
-		return IdentifierTypeEspBormeRegId, nil
-	case "esp_internal_employee_number":
-		return IdentifierTypeEspInternalEmployeeNumber, nil
-	case "esp_nif":
-		return IdentifierTypeEspNif, nil
-	case "esp_tr_number":
-		return IdentifierTypeEspTrNumber, nil
-	case "est_business_reg_code":
-		return IdentifierTypeEstBusinessRegCode, nil
-	case "est_personal_id":
-		return IdentifierTypeEstPersonalId, nil
-	case "ethereum_address":
-		return IdentifierTypeEthereumAddress, nil
-	case "eu_fsd_id":
-		return IdentifierTypeEuFsdId, nil
-	case "eu_sanction_rn":
-		return IdentifierTypeEuSanctionRn, nil
-	case "euid":
-		return IdentifierTypeEuid, nil
-	case "fin_business_id":
-		return IdentifierTypeFinBusinessId, nil
-	case "fl_prop_folio":
-		return IdentifierTypeFlPropFolio, nil
-	case "fl_prop_folio_dade":
-		return IdentifierTypeFlPropFolioDade, nil
-	case "fra_asset_freeze_id":
-		return IdentifierTypeFraAssetFreezeId, nil
-	case "fra_rna":
-		return IdentifierTypeFraRna, nil
-	case "fra_siren":
-		return IdentifierTypeFraSiren, nil
-	case "fra_siret":
-		return IdentifierTypeFraSiret, nil
-	case "fro_reg_num":
-		return IdentifierTypeFroRegNum, nil
-	case "gbr_charity_no":
-		return IdentifierTypeGbrCharityNo, nil
-	case "gbr_company_number":
-		return IdentifierTypeGbrCompanyNumber, nil
-	case "gbr_enforcement_action_num":
-		return IdentifierTypeGbrEnforcementActionNum, nil
-	case "gbr_go_no":
-		return IdentifierTypeGbrGoNo, nil
-	case "gbr_hm_treasury_sanction_group_id":
-		return IdentifierTypeGbrHmTreasurySanctionGroupId, nil
-	case "gbr_ipo_trademark_reg_no":
-		return IdentifierTypeGbrIpoTrademarkRegNo, nil
-	case "gbr_trustee_id":
-		return IdentifierTypeGbrTrusteeId, nil
-	case "gbr_uk_sanctions_id":
-		return IdentifierTypeGbrUkSanctionsId, nil
-	case "gbr_vat_no":
-		return IdentifierTypeGbrVatNo, nil
-	case "geo_identification_code":
-		return IdentifierTypeGeoIdentificationCode, nil
-	case "geo_legal_code":
-		return IdentifierTypeGeoLegalCode, nil
-	case "geo_personal_number":
-		return IdentifierTypeGeoPersonalNumber, nil
-	case "geo_state_registration_number":
-		return IdentifierTypeGeoStateRegistrationNumber, nil
-	case "ggy_corporate_reg_number":
-		return IdentifierTypeGgyCorporateRegNumber, nil
-	case "ggy_trademark_no":
-		return IdentifierTypeGgyTrademarkNo, nil
-	case "ggy_trademark_submission_ref":
-		return IdentifierTypeGgyTrademarkSubmissionRef, nil
-	case "gib_corp_reg_number":
-		return IdentifierTypeGibCorpRegNumber, nil
-	case "global_trade_internal_shipment_id":
-		return IdentifierTypeGlobalTradeInternalShipmentId, nil
-	case "grc_afm_number":
-		return IdentifierTypeGrcAfmNumber, nil
-	case "grc_gemi_number":
-		return IdentifierTypeGrcGemiNumber, nil
-	case "grc_vat_number":
-		return IdentifierTypeGrcVatNumber, nil
-	case "gtm_cui_number":
-		return IdentifierTypeGtmCuiNumber, nil
-	case "gtm_nit_number":
-		return IdentifierTypeGtmNitNumber, nil
-	case "hkg_stock_code":
-		return IdentifierTypeHkgStockCode, nil
-	case "hnd_coc_company_registration_number":
-		return IdentifierTypeHndCocCompanyRegistrationNumber, nil
-	case "hnd_tegucigalpa_matricula":
-		return IdentifierTypeHndTegucigalpaMatricula, nil
-	case "hong_kong_case_number":
-		return IdentifierTypeHongKongCaseNumber, nil
-	case "hr_mbs":
-		return IdentifierTypeHrMbs, nil
-	case "hr_oib":
-		return IdentifierTypeHrOib, nil
-	case "hun_company_register_number":
-		return IdentifierTypeHunCompanyRegisterNumber, nil
-	case "hun_krs_number":
-		return IdentifierTypeHunKrsNumber, nil
-	case "hun_person_tax_id":
-		return IdentifierTypeHunPersonTaxId, nil
-	case "hun_tax_number":
-		return IdentifierTypeHunTaxNumber, nil
-	case "iban":
-		return IdentifierTypeIban, nil
-	case "icij_offshore_internal_id":
-		return IdentifierTypeIcijOffshoreInternalId, nil
-	case "icij_offshore_node_id":
-		return IdentifierTypeIcijOffshoreNodeId, nil
-	case "idn_tax_id":
-		return IdentifierTypeIdnTaxId, nil
-	case "idn_transaction_number":
-		return IdentifierTypeIdnTransactionNumber, nil
-	case "idn_ubo_owner_id":
-		return IdentifierTypeIdnUboOwnerId, nil
-	case "ihs_owner_code":
-		return IdentifierTypeIhsOwnerCode, nil
-	case "imn_company_number":
-		return IdentifierTypeImnCompanyNumber, nil
-	case "imo_no":
-		return IdentifierTypeImoNo, nil
-	case "ind_charity_registration_number":
-		return IdentifierTypeIndCharityRegistrationNumber, nil
-	case "ind_company_registration_number":
-		return IdentifierTypeIndCompanyRegistrationNumber, nil
-	case "ind_coopsoc_registration_number":
-		return IdentifierTypeIndCoopsocRegistrationNumber, nil
-	case "ind_corporate_id_number":
-		return IdentifierTypeIndCorporateIdNumber, nil
-	case "ind_darpan_uid":
-		return IdentifierTypeIndDarpanUid, nil
-	case "ind_director_id_number":
-		return IdentifierTypeIndDirectorIdNumber, nil
-	case "ind_fcrn":
-		return IdentifierTypeIndFcrn, nil
-	case "ind_ifsc":
-		return IdentifierTypeIndIfsc, nil
-	case "ind_llpin":
-		return IdentifierTypeIndLlpin, nil
-	case "ind_nse_ticker_code":
-		return IdentifierTypeIndNseTickerCode, nil
-	case "ind_permanent_account_number":
-		return IdentifierTypeIndPermanentAccountNumber, nil
-	case "ind_society_registration_number":
-		return IdentifierTypeIndSocietyRegistrationNumber, nil
-	case "ind_tin":
-		return IdentifierTypeIndTin, nil
-	case "ind_trademark_submission_ref":
-		return IdentifierTypeIndTrademarkSubmissionRef, nil
-	case "int_maritime_org_id":
-		return IdentifierTypeIntMaritimeOrgId, nil
-	case "internal_md5":
-		return IdentifierTypeInternalMd5, nil
-	case "iraqi_stock_exchange_symbol":
-		return IdentifierTypeIraqiStockExchangeSymbol, nil
-	case "irl_rcn":
-		return IdentifierTypeIrlRcn, nil
-	case "irl_registration_no":
-		return IdentifierTypeIrlRegistrationNo, nil
-	case "irn_coc_internal_id":
-		return IdentifierTypeIrnCocInternalId, nil
-	case "irn_coc_internal_id_cardno":
-		return IdentifierTypeIrnCocInternalIdCardno, nil
-	case "irn_national_id":
-		return IdentifierTypeIrnNationalId, nil
-	case "irn_national_number":
-		return IdentifierTypeIrnNationalNumber, nil
-	case "irn_passport":
-		return IdentifierTypeIrnPassport, nil
-	case "irq_voter_id":
-		return IdentifierTypeIrqVoterId, nil
-	case "isin":
-		return IdentifierTypeIsin, nil
-	case "isl_tin_number":
-		return IdentifierTypeIslTinNumber, nil
-	case "isl_vat_num":
-		return IdentifierTypeIslVatNum, nil
-	case "isr_association_number":
-		return IdentifierTypeIsrAssociationNumber, nil
-	case "isr_company_number":
-		return IdentifierTypeIsrCompanyNumber, nil
-	case "isr_pbc_number":
-		return IdentifierTypeIsrPbcNumber, nil
-	case "ita_fiscal_code":
-		return IdentifierTypeItaFiscalCode, nil
-	case "ita_rea_number":
-		return IdentifierTypeItaReaNumber, nil
-	case "ita_vat_number":
-		return IdentifierTypeItaVatNumber, nil
-	case "jam_company_id":
-		return IdentifierTypeJamCompanyId, nil
-	case "jey_corporate_reg_number":
-		return IdentifierTypeJeyCorporateRegNumber, nil
-	case "jey_trademark_reg_no":
-		return IdentifierTypeJeyTrademarkRegNo, nil
-	case "jo_institution_number":
-		return IdentifierTypeJoInstitutionNumber, nil
+	case "cn_registration_number":
+		return IdentifierTypeCnRegistrationNumber, nil
+	case "cn_organization_code":
+		return IdentifierTypeCnOrganizationCode, nil
+	case "cn_qichacha_internal_id":
+		return IdentifierTypeCnQichachaInternalId, nil
+	case "cn_hk_cr_number":
+		return IdentifierTypeCnHkCrNumber, nil
+	case "cn_hk_filing_number":
+		return IdentifierTypeCnHkFilingNumber, nil
+	case "bh_cr_number":
+		return IdentifierTypeBhCrNumber, nil
+	case "bh_cr_number_and_branch":
+		return IdentifierTypeBhCrNumberAndBranch, nil
 	case "jo_internal_id":
 		return IdentifierTypeJoInternalId, nil
 	case "jo_national_institution_number":
 		return IdentifierTypeJoNationalInstitutionNumber, nil
-	case "jor_id_no":
-		return IdentifierTypeJorIdNo, nil
-	case "jor_voter_card_no":
-		return IdentifierTypeJorVoterCardNo, nil
-	case "jordan_company_no":
-		return IdentifierTypeJordanCompanyNo, nil
-	case "jpn_corporate_no":
-		return IdentifierTypeJpnCorporateNo, nil
-	case "jpn_edinet_code":
-		return IdentifierTypeJpnEdinetCode, nil
-	case "kaz_bin":
-		return IdentifierTypeKazBin, nil
-	case "kaz_identifier":
-		return IdentifierTypeKazIdentifier, nil
-	case "kaz_okpo_num":
-		return IdentifierTypeKazOkpoNum, nil
-	case "kaz_state_reg_num":
-		return IdentifierTypeKazStateRegNum, nil
-	case "kaz_tin":
-		return IdentifierTypeKazTin, nil
-	case "ken_personal_id":
-		return IdentifierTypeKenPersonalId, nil
-	case "kgz_reg_number":
-		return IdentifierTypeKgzRegNumber, nil
-	case "khm_tin_number":
-		return IdentifierTypeKhmTinNumber, nil
-	case "kor_business_tin":
-		return IdentifierTypeKorBusinessTin, nil
-	case "kor_corporate_registration_number":
-		return IdentifierTypeKorCorporateRegistrationNumber, nil
-	case "krx_ticker_code":
-		return IdentifierTypeKrxTickerCode, nil
-	case "kwt_passport":
-		return IdentifierTypeKwtPassport, nil
-	case "lao_enterprise_number":
-		return IdentifierTypeLaoEnterpriseNumber, nil
-	case "lbn_national_id":
-		return IdentifierTypeLbnNationalId, nil
-	case "lby_passport":
-		return IdentifierTypeLbyPassport, nil
-	case "lca_business_registry_internal_id":
-		return IdentifierTypeLcaBusinessRegistryInternalId, nil
-	case "lei":
-		return IdentifierTypeLei, nil
-	case "lie_public_reg_no":
-		return IdentifierTypeLiePublicRegNo, nil
-	case "litecoin_address":
-		return IdentifierTypeLitecoinAddress, nil
-	case "lloyds_internal_entity_id":
-		return IdentifierTypeLloydsInternalEntityId, nil
-	case "lloyds_internal_vessel_id":
-		return IdentifierTypeLloydsInternalVesselId, nil
-	case "lr_tin":
-		return IdentifierTypeLrTin, nil
-	case "lso_corpreg_id":
-		return IdentifierTypeLsoCorpregId, nil
-	case "ltu_company_registration_code":
-		return IdentifierTypeLtuCompanyRegistrationCode, nil
-	case "lux_rcs_number":
-		return IdentifierTypeLuxRcsNumber, nil
-	case "lva_insolvency_proceeding_id":
-		return IdentifierTypeLvaInsolvencyProceedingId, nil
-	case "lva_personal_code":
-		return IdentifierTypeLvaPersonalCode, nil
-	case "lva_reg_number":
-		return IdentifierTypeLvaRegNumber, nil
-	case "mac_raem_case_url_id":
-		return IdentifierTypeMacRaemCaseUrlId, nil
-	case "mac_registration_no":
-		return IdentifierTypeMacRegistrationNo, nil
-	case "malta_accountancy_registration_id":
-		return IdentifierTypeMaltaAccountancyRegistrationId, nil
+	case "jo_institution_number":
+		return IdentifierTypeJoInstitutionNumber, nil
 	case "malta_company_number":
 		return IdentifierTypeMaltaCompanyNumber, nil
 	case "malta_national_id":
 		return IdentifierTypeMaltaNationalId, nil
-	case "mar_passport":
-		return IdentifierTypeMarPassport, nil
-	case "mato_grosso_legal_id":
-		return IdentifierTypeMatoGrossoLegalId, nil
-	case "mco_nis":
-		return IdentifierTypeMcoNis, nil
-	case "mco_rci_number":
-		return IdentifierTypeMcoRciNumber, nil
-	case "mda_idno_number":
-		return IdentifierTypeMdaIdnoNumber, nil
-	case "mdg_nif_number":
-		return IdentifierTypeMdgNifNumber, nil
-	case "mdg_rcs_number":
-		return IdentifierTypeMdgRcsNumber, nil
-	case "mdg_stat_number":
-		return IdentifierTypeMdgStatNumber, nil
-	case "mdv_registration_number":
-		return IdentifierTypeMdvRegistrationNumber, nil
-	case "mex_cluni":
-		return IdentifierTypeMexCluni, nil
-	case "mex_denue_clee":
-		return IdentifierTypeMexDenueClee, nil
-	case "mex_open_contracts_internal_id":
-		return IdentifierTypeMexOpenContractsInternalId, nil
-	case "mex_rnie":
-		return IdentifierTypeMexRnie, nil
-	case "mex_shipment_number":
-		return IdentifierTypeMexShipmentNumber, nil
-	case "mex_tm_no":
-		return IdentifierTypeMexTmNo, nil
-	case "mkd_archive_number":
-		return IdentifierTypeMkdArchiveNumber, nil
-	case "mkd_embs_branch_number":
-		return IdentifierTypeMkdEmbsBranchNumber, nil
-	case "mkd_embs_number":
-		return IdentifierTypeMkdEmbsNumber, nil
-	case "mmr_corp_id":
-		return IdentifierTypeMmrCorpId, nil
-	case "mmr_officer_id":
-		return IdentifierTypeMmrOfficerId, nil
-	case "mmr_personal_id_no":
-		return IdentifierTypeMmrPersonalIdNo, nil
-	case "mmr_prior_reg_no":
-		return IdentifierTypeMmrPriorRegNo, nil
-	case "mmr_reg_no":
-		return IdentifierTypeMmrRegNo, nil
-	case "mne_pib":
-		return IdentifierTypeMnePib, nil
-	case "mne_property_uid":
-		return IdentifierTypeMnePropertyUid, nil
-	case "mne_reg_number":
-		return IdentifierTypeMneRegNumber, nil
-	case "mng_reg_number":
-		return IdentifierTypeMngRegNumber, nil
-	case "montana_sos_internal_entity_id":
-		return IdentifierTypeMontanaSosInternalEntityId, nil
-	case "moz_dire_no":
-		return IdentifierTypeMozDireNo, nil
-	case "moz_id_number":
-		return IdentifierTypeMozIdNumber, nil
-	case "moz_nuel_no":
-		return IdentifierTypeMozNuelNo, nil
-	case "moz_nuit_co":
-		return IdentifierTypeMozNuitCo, nil
-	case "moz_nuit_person":
-		return IdentifierTypeMozNuitPerson, nil
-	case "moz_passport":
-		return IdentifierTypeMozPassport, nil
-	case "moz_voter_no":
-		return IdentifierTypeMozVoterNo, nil
-	case "mus_file_no":
-		return IdentifierTypeMusFileNo, nil
-	case "mus_reg_id":
-		return IdentifierTypeMusRegId, nil
-	case "mw_tpin_tax_reg_num":
-		return IdentifierTypeMwTpinTaxRegNum, nil
-	case "mx_curp":
-		return IdentifierTypeMxCurp, nil
-	case "mx_office_fme":
-		return IdentifierTypeMxOfficeFme, nil
-	case "mx_rfc_company":
-		return IdentifierTypeMxRfcCompany, nil
-	case "mx_rfc_person":
-		return IdentifierTypeMxRfcPerson, nil
-	case "mys_company_reg_no":
-		return IdentifierTypeMysCompanyRegNo, nil
-	case "mys_id_card_no":
-		return IdentifierTypeMysIdCardNo, nil
-	case "ng_check_internal_id":
-		return IdentifierTypeNgCheckInternalId, nil
-	case "nga_crp_reg_internal_id":
-		return IdentifierTypeNgaCrpRegInternalId, nil
-	case "nga_drivers":
-		return IdentifierTypeNgaDrivers, nil
-	case "nga_nin":
-		return IdentifierTypeNgaNin, nil
-	case "nga_registration_number":
-		return IdentifierTypeNgaRegistrationNumber, nil
-	case "nga_registration_sn":
-		return IdentifierTypeNgaRegistrationSn, nil
-	case "nga_tax_id":
-		return IdentifierTypeNgaTaxId, nil
-	case "nic_numero_unico":
-		return IdentifierTypeNicNumeroUnico, nil
-	case "nic_ruc_number":
-		return IdentifierTypeNicRucNumber, nil
-	case "nic_trade_internal_shipment_id":
-		return IdentifierTypeNicTradeInternalShipmentId, nil
-	case "ninea_no":
-		return IdentifierTypeNineaNo, nil
-	case "nld_kvk_branch_number":
-		return IdentifierTypeNldKvkBranchNumber, nil
-	case "nld_kvk_number":
-		return IdentifierTypeNldKvkNumber, nil
-	case "nor_org_no":
-		return IdentifierTypeNorOrgNo, nil
-	case "npl_co_reg_no":
-		return IdentifierTypeNplCoRegNo, nil
-	case "nyc_bbl":
-		return IdentifierTypeNycBbl, nil
-	case "nyc_crfn":
-		return IdentifierTypeNycCrfn, nil
-	case "nzl_co_no":
-		return IdentifierTypeNzlCoNo, nil
-	case "nzl_nzbn":
-		return IdentifierTypeNzlNzbn, nil
-	case "nzl_russia_sanctions_uid":
-		return IdentifierTypeNzlRussiaSanctionsUid, nil
-	case "omn_passport":
-		return IdentifierTypeOmnPassport, nil
-	case "on_business_id_number":
-		return IdentifierTypeOnBusinessIdNumber, nil
-	case "ontario_corporation_number":
-		return IdentifierTypeOntarioCorporationNumber, nil
-	case "pak_co_ntn":
-		return IdentifierTypePakCoNtn, nil
-	case "pak_egm_id":
-		return IdentifierTypePakEgmId, nil
-	case "pak_ind_ntn":
-		return IdentifierTypePakIndNtn, nil
-	case "pak_ngo_reg_no":
-		return IdentifierTypePakNgoRegNo, nil
-	case "pak_passport":
-		return IdentifierTypePakPassport, nil
-	case "pan_cedula_number":
-		return IdentifierTypePanCedulaNumber, nil
-	case "pan_declaration_number":
-		return IdentifierTypePanDeclarationNumber, nil
-	case "pan_folio_ficha_id":
-		return IdentifierTypePanFolioFichaId, nil
-	case "pan_importer_exporter_id":
-		return IdentifierTypePanImporterExporterId, nil
-	case "panadata_internal_id":
-		return IdentifierTypePanadataInternalId, nil
-	case "panadata_internal_sid":
-		return IdentifierTypePanadataInternalSid, nil
-	case "per_carne_de_extranjeria":
-		return IdentifierTypePerCarneDeExtranjeria, nil
-	case "per_dni_no":
-		return IdentifierTypePerDniNo, nil
-	case "per_ruc_no":
-		return IdentifierTypePerRucNo, nil
-	case "phl_bnn":
-		return IdentifierTypePhlBnn, nil
-	case "phl_pse_id":
-		return IdentifierTypePhlPseId, nil
-	case "phl_sec_id":
-		return IdentifierTypePhlSecId, nil
-	case "phl_tin":
-		return IdentifierTypePhlTin, nil
-	case "png_ipa_reg_id":
-		return IdentifierTypePngIpaRegId, nil
-	case "pol_krs_number":
-		return IdentifierTypePolKrsNumber, nil
-	case "pol_nip_number":
-		return IdentifierTypePolNipNumber, nil
-	case "pol_regon_number":
-		return IdentifierTypePolRegonNumber, nil
-	case "pol_rejestr_person_id":
-		return IdentifierTypePolRejestrPersonId, nil
-	case "prk_entity_id":
-		return IdentifierTypePrkEntityId, nil
-	case "prk_internal_trade_id":
-		return IdentifierTypePrkInternalTradeId, nil
-	case "prk_passport":
-		return IdentifierTypePrkPassport, nil
-	case "prk_registration_id":
-		return IdentifierTypePrkRegistrationId, nil
-	case "prk_shipment_id":
-		return IdentifierTypePrkShipmentId, nil
-	case "prt_trust_number":
-		return IdentifierTypePrtTrustNumber, nil
-	case "prt_vat_number":
-		return IdentifierTypePrtVatNumber, nil
-	case "pry_cedula_number":
-		return IdentifierTypePryCedulaNumber, nil
-	case "pry_old_ruc_number":
-		return IdentifierTypePryOldRucNumber, nil
-	case "pry_ruc_number":
-		return IdentifierTypePryRucNumber, nil
-	case "pry_shipment_number":
-		return IdentifierTypePryShipmentNumber, nil
-	case "pry_tax_id":
-		return IdentifierTypePryTaxId, nil
-	case "pse_registration_id":
-		return IdentifierTypePseRegistrationId, nil
-	case "qat_cr_number":
-		return IdentifierTypeQatCrNumber, nil
-	case "qat_qfc_number":
-		return IdentifierTypeQatQfcNumber, nil
-	case "quebec_enterprise_number":
-		return IdentifierTypeQuebecEnterpriseNumber, nil
-	case "rccm_no":
-		return IdentifierTypeRccmNo, nil
-	case "rio_de_janeiro_legal_id":
-		return IdentifierTypeRioDeJaneiroLegalId, nil
-	case "rks_business_number":
-		return IdentifierTypeRksBusinessNumber, nil
-	case "rks_fiscal_number":
-		return IdentifierTypeRksFiscalNumber, nil
-	case "rks_registration_number":
-		return IdentifierTypeRksRegistrationNumber, nil
-	case "rou_company_registration_code":
-		return IdentifierTypeRouCompanyRegistrationCode, nil
-	case "rou_company_tin":
-		return IdentifierTypeRouCompanyTin, nil
-	case "rou_identity_card":
-		return IdentifierTypeRouIdentityCard, nil
-	case "rou_personal_id_number":
-		return IdentifierTypeRouPersonalIdNumber, nil
-	case "ru_inn":
-		return IdentifierTypeRuInn, nil
-	case "ru_ogrn":
-		return IdentifierTypeRuOgrn, nil
-	case "ru_ship_register_id":
-		return IdentifierTypeRuShipRegisterId, nil
-	case "ru_trade_internal_shipment_id":
-		return IdentifierTypeRuTradeInternalShipmentId, nil
-	case "rus_bik_code":
-		return IdentifierTypeRusBikCode, nil
-	case "rus_declaration_number":
-		return IdentifierTypeRusDeclarationNumber, nil
-	case "rus_micex_code":
-		return IdentifierTypeRusMicexCode, nil
-	case "rus_passport":
-		return IdentifierTypeRusPassport, nil
-	case "rus_tourist_obj":
-		return IdentifierTypeRusTouristObj, nil
-	case "saskatchewan_registry_number":
-		return IdentifierTypeSaskatchewanRegistryNumber, nil
-	case "sayari_internal_identifier":
-		return IdentifierTypeSayariInternalIdentifier, nil
-	case "sgp_passport":
-		return IdentifierTypeSgpPassport, nil
-	case "sgp_unqiue_entity_number":
-		return IdentifierTypeSgpUnqiueEntityNumber, nil
-	case "siger_internal_id":
-		return IdentifierTypeSigerInternalId, nil
-	case "slv_commercial_reg_number":
-		return IdentifierTypeSlvCommercialRegNumber, nil
-	case "slv_mcas":
-		return IdentifierTypeSlvMcas, nil
-	case "slv_numero_identificacion_tributaria":
-		return IdentifierTypeSlvNumeroIdentificacionTributaria, nil
-	case "slv_uid_number":
-		return IdentifierTypeSlvUidNumber, nil
-	case "smr_economic_operator_code":
-		return IdentifierTypeSmrEconomicOperatorCode, nil
-	case "som_ubi":
-		return IdentifierTypeSomUbi, nil
-	case "south_africa_enterprise_number":
-		return IdentifierTypeSouthAfricaEnterpriseNumber, nil
-	case "south_africa_passport_number":
-		return IdentifierTypeSouthAfricaPassportNumber, nil
-	case "srb_beneficial_owner_id":
-		return IdentifierTypeSrbBeneficialOwnerId, nil
-	case "srb_branch_id":
-		return IdentifierTypeSrbBranchId, nil
-	case "srb_mb_number":
-		return IdentifierTypeSrbMbNumber, nil
-	case "srb_pib_number":
-		return IdentifierTypeSrbPibNumber, nil
-	case "ssd_passport":
-		return IdentifierTypeSsdPassport, nil
-	case "stock_ticker":
-		return IdentifierTypeStockTicker, nil
-	case "svk_ico_number":
-		return IdentifierTypeSvkIcoNumber, nil
-	case "svn_ajpes_zapst_number":
-		return IdentifierTypeSvnAjpesZapstNumber, nil
-	case "svn_co_reg_no":
-		return IdentifierTypeSvnCoRegNo, nil
-	case "svn_vat_number":
-		return IdentifierTypeSvnVatNumber, nil
-	case "swe_fi_id":
-		return IdentifierTypeSweFiId, nil
-	case "swe_org_no":
-		return IdentifierTypeSweOrgNo, nil
-	case "swe_per_id_no":
-		return IdentifierTypeSwePerIdNo, nil
-	case "swe_tax_number":
-		return IdentifierTypeSweTaxNumber, nil
-	case "swift_bic_code":
-		return IdentifierTypeSwiftBicCode, nil
-	case "syria_commercial_register_number":
-		return IdentifierTypeSyriaCommercialRegisterNumber, nil
-	case "tha_registration_no":
-		return IdentifierTypeThaRegistrationNo, nil
-	case "tjk_ein_number":
-		return IdentifierTypeTjkEinNumber, nil
-	case "tjk_tin_number":
-		return IdentifierTypeTjkTinNumber, nil
-	case "tokyo_stock_exchange_no":
-		return IdentifierTypeTokyoStockExchangeNo, nil
-	case "tto_biz_number":
-		return IdentifierTypeTtoBizNumber, nil
-	case "tun_passport":
-		return IdentifierTypeTunPassport, nil
-	case "tur_istanbul_coc_reg_no":
-		return IdentifierTypeTurIstanbulCocRegNo, nil
-	case "tur_izmir_coc_reg_no":
-		return IdentifierTypeTurIzmirCocRegNo, nil
-	case "tur_mersis_number":
-		return IdentifierTypeTurMersisNumber, nil
-	case "tur_shipment_id":
-		return IdentifierTypeTurShipmentId, nil
-	case "tur_tax_id":
-		return IdentifierTypeTurTaxId, nil
-	case "tur_ticaret_sicil_no":
-		return IdentifierTypeTurTicaretSicilNo, nil
-	case "twn_factory_establishment_permit_case_number":
-		return IdentifierTypeTwnFactoryEstablishmentPermitCaseNumber, nil
-	case "twn_factory_registration_number":
-		return IdentifierTypeTwnFactoryRegistrationNumber, nil
-	case "twn_passport_number":
-		return IdentifierTypeTwnPassportNumber, nil
-	case "twn_unified_number":
-		return IdentifierTypeTwnUnifiedNumber, nil
-	case "tx_corp_file_num":
-		return IdentifierTypeTxCorpFileNum, nil
-	case "tx_entity_filing_num":
-		return IdentifierTypeTxEntityFilingNum, nil
-	case "tx_land_id":
-		return IdentifierTypeTxLandId, nil
-	case "tx_pacs_id":
-		return IdentifierTypeTxPacsId, nil
-	case "tx_prop_id":
-		return IdentifierTypeTxPropId, nil
-	case "tx_tax_id":
-		return IdentifierTypeTxTaxId, nil
-	case "tza_brela_reg_num":
-		return IdentifierTypeTzaBrelaRegNum, nil
+	case "malta_accountancy_registration_id":
+		return IdentifierTypeMaltaAccountancyRegistrationId, nil
 	case "uk_company_number":
 		return IdentifierTypeUkCompanyNumber, nil
 	case "uk_firm_reference_number":
 		return IdentifierTypeUkFirmReferenceNumber, nil
 	case "uk_person_number":
 		return IdentifierTypeUkPersonNumber, nil
-	case "uk_title_number":
-		return IdentifierTypeUkTitleNumber, nil
-	case "ukr_fiu_list_number":
-		return IdentifierTypeUkrFiuListNumber, nil
-	case "ukr_moj_id":
-		return IdentifierTypeUkrMojId, nil
-	case "ukr_reg_num":
-		return IdentifierTypeUkrRegNum, nil
-	case "ukr_sanctions_nazk_company_internal_id":
-		return IdentifierTypeUkrSanctionsNazkCompanyInternalId, nil
-	case "ukr_sanctions_nazk_person_internal_id":
-		return IdentifierTypeUkrSanctionsNazkPersonInternalId, nil
-	case "un_sanction_prn":
-		return IdentifierTypeUnSanctionPrn, nil
-	case "ury_ruc_number":
-		return IdentifierTypeUryRucNumber, nil
-	case "usa_ak_entity_no":
-		return IdentifierTypeUsaAkEntityNo, nil
-	case "usa_al_sos_id":
-		return IdentifierTypeUsaAlSosId, nil
-	case "usa_ar_filing_no":
-		return IdentifierTypeUsaArFilingNo, nil
-	case "usa_az_corp_reg_entity_num":
-		return IdentifierTypeUsaAzCorpRegEntityNum, nil
-	case "usa_central_registration_depository_number":
-		return IdentifierTypeUsaCentralRegistrationDepositoryNumber, nil
-	case "usa_cgac_agency_code":
-		return IdentifierTypeUsaCgacAgencyCode, nil
-	case "usa_co_reg_no":
-		return IdentifierTypeUsaCoRegNo, nil
-	case "usa_consolidated_screening_list_synthetic_id":
-		return IdentifierTypeUsaConsolidatedScreeningListSyntheticId, nil
-	case "usa_corpwatch_id":
-		return IdentifierTypeUsaCorpwatchId, nil
-	case "usa_ct_business_id":
-		return IdentifierTypeUsaCtBusinessId, nil
-	case "usa_ct_internal_id":
-		return IdentifierTypeUsaCtInternalId, nil
-	case "usa_cusip_number":
-		return IdentifierTypeUsaCusipNumber, nil
-	case "usa_dc_entity_no":
-		return IdentifierTypeUsaDcEntityNo, nil
-	case "usa_dc_file_no":
-		return IdentifierTypeUsaDcFileNo, nil
-	case "usa_de_file_number":
-		return IdentifierTypeUsaDeFileNumber, nil
-	case "usa_de_registered_agent_id":
-		return IdentifierTypeUsaDeRegisteredAgentId, nil
+	case "mx_rfc_person":
+		return IdentifierTypeMxRfcPerson, nil
+	case "mx_curp":
+		return IdentifierTypeMxCurp, nil
+	case "mx_rfc_company":
+		return IdentifierTypeMxRfcCompany, nil
+	case "mx_office_fme":
+		return IdentifierTypeMxOfficeFme, nil
+	case "ru_inn":
+		return IdentifierTypeRuInn, nil
+	case "ru_ogrn":
+		return IdentifierTypeRuOgrn, nil
+	case "ven_saren_internal_employer_number":
+		return IdentifierTypeVenSarenInternalEmployerNumber, nil
+	case "bra_cnpj":
+		return IdentifierTypeBraCnpj, nil
+	case "ven_rif":
+		return IdentifierTypeVenRif, nil
+	case "ven_cedula_number":
+		return IdentifierTypeVenCedulaNumber, nil
+	case "mdv_registration_number":
+		return IdentifierTypeMdvRegistrationNumber, nil
+	case "ind_director_id_number":
+		return IdentifierTypeIndDirectorIdNumber, nil
+	case "ind_permanent_account_number":
+		return IdentifierTypeIndPermanentAccountNumber, nil
+	case "ind_tin":
+		return IdentifierTypeIndTin, nil
+	case "ind_corporate_id_number":
+		return IdentifierTypeIndCorporateIdNumber, nil
+	case "kaz_tin":
+		return IdentifierTypeKazTin, nil
+	case "kaz_bin":
+		return IdentifierTypeKazBin, nil
+	case "kaz_state_reg_num":
+		return IdentifierTypeKazStateRegNum, nil
+	case "kaz_okpo_num":
+		return IdentifierTypeKazOkpoNum, nil
+	case "kaz_identifier":
+		return IdentifierTypeKazIdentifier, nil
+	case "rks_registration_number":
+		return IdentifierTypeRksRegistrationNumber, nil
+	case "grc_gemi_number":
+		return IdentifierTypeGrcGemiNumber, nil
+	case "ven_rnc_number":
+		return IdentifierTypeVenRncNumber, nil
+	case "usa_va_reg_id":
+		return IdentifierTypeUsaVaRegId, nil
+	case "usa_ny_reg_id":
+		return IdentifierTypeUsaNyRegId, nil
 	case "usa_fei_number":
 		return IdentifierTypeUsaFeiNumber, nil
+	case "ukr_moj_id":
+		return IdentifierTypeUkrMojId, nil
+	case "mus_reg_id":
+		return IdentifierTypeMusRegId, nil
+	case "uk_title_number":
+		return IdentifierTypeUkTitleNumber, nil
+	case "mng_reg_number":
+		return IdentifierTypeMngRegNumber, nil
+	case "mne_reg_number":
+		return IdentifierTypeMneRegNumber, nil
+	case "kgz_reg_number":
+		return IdentifierTypeKgzRegNumber, nil
+	case "cn_importexport_code":
+		return IdentifierTypeCnImportexportCode, nil
+	case "prk_entity_id":
+		return IdentifierTypePrkEntityId, nil
+	case "prk_registration_id":
+		return IdentifierTypePrkRegistrationId, nil
+	case "yugoslav_master_citizen_num":
+		return IdentifierTypeYugoslavMasterCitizenNum, nil
+	case "bfa_entity_id":
+		return IdentifierTypeBfaEntityId, nil
+	case "afghan_tin_number":
+		return IdentifierTypeAfghanTinNumber, nil
+	case "afg_business_license":
+		return IdentifierTypeAfgBusinessLicense, nil
+	case "mdg_nif_number":
+		return IdentifierTypeMdgNifNumber, nil
+	case "mdg_stat_number":
+		return IdentifierTypeMdgStatNumber, nil
+	case "mdg_rcs_number":
+		return IdentifierTypeMdgRcsNumber, nil
+	case "lva_personal_code":
+		return IdentifierTypeLvaPersonalCode, nil
+	case "iban":
+		return IdentifierTypeIban, nil
+	case "lva_reg_number":
+		return IdentifierTypeLvaRegNumber, nil
+	case "twn_unified_number":
+		return IdentifierTypeTwnUnifiedNumber, nil
+	case "lux_rcs_number":
+		return IdentifierTypeLuxRcsNumber, nil
+	case "mkd_embs_number":
+		return IdentifierTypeMkdEmbsNumber, nil
+	case "mkd_embs_branch_number":
+		return IdentifierTypeMkdEmbsBranchNumber, nil
+	case "mkd_archive_number":
+		return IdentifierTypeMkdArchiveNumber, nil
+	case "mda_idno_number":
+		return IdentifierTypeMdaIdnoNumber, nil
+	case "ury_ruc_number":
+		return IdentifierTypeUryRucNumber, nil
+	case "che_uid_number":
+		return IdentifierTypeCheUidNumber, nil
+	case "slv_commercial_reg_number":
+		return IdentifierTypeSlvCommercialRegNumber, nil
+	case "slv_uid_number":
+		return IdentifierTypeSlvUidNumber, nil
+	case "mato_grosso_legal_id":
+		return IdentifierTypeMatoGrossoLegalId, nil
+	case "lei":
+		return IdentifierTypeLei, nil
+	case "vat":
+		return IdentifierTypeVat, nil
+	case "ita_fiscal_code":
+		return IdentifierTypeItaFiscalCode, nil
+	case "ita_vat_number":
+		return IdentifierTypeItaVatNumber, nil
+	case "rio_de_janeiro_legal_id":
+		return IdentifierTypeRioDeJaneiroLegalId, nil
+	case "isl_tin_number":
+		return IdentifierTypeIslTinNumber, nil
+	case "lao_enterprise_number":
+		return IdentifierTypeLaoEnterpriseNumber, nil
+	case "svk_ico_number":
+		return IdentifierTypeSvkIcoNumber, nil
+	case "khm_tin_number":
+		return IdentifierTypeKhmTinNumber, nil
+	case "cze_ico_number":
+		return IdentifierTypeCzeIcoNumber, nil
+	case "irn_national_id":
+		return IdentifierTypeIrnNationalId, nil
+	case "ecu_ruc_number":
+		return IdentifierTypeEcuRucNumber, nil
+	case "grc_vat_number":
+		return IdentifierTypeGrcVatNumber, nil
+	case "can_corporation_number":
+		return IdentifierTypeCanCorporationNumber, nil
+	case "can_cra_program_account_number":
+		return IdentifierTypeCanCraProgramAccountNumber, nil
+	case "mne_pib":
+		return IdentifierTypeMnePib, nil
+	case "chl_cedula_number":
+		return IdentifierTypeChlCedulaNumber, nil
+	case "bra_case_number":
+		return IdentifierTypeBraCaseNumber, nil
+	case "ind_llpin":
+		return IdentifierTypeIndLlpin, nil
+	case "ind_fcrn":
+		return IdentifierTypeIndFcrn, nil
+	case "bmu_registration_number":
+		return IdentifierTypeBmuRegistrationNumber, nil
+	case "bra_cpf_number":
+		return IdentifierTypeBraCpfNumber, nil
+	case "irn_national_number":
+		return IdentifierTypeIrnNationalNumber, nil
+	case "chn_customs_registration_code":
+		return IdentifierTypeChnCustomsRegistrationCode, nil
+	case "lie_public_reg_no":
+		return IdentifierTypeLiePublicRegNo, nil
+	case "cn_tax_identification_number":
+		return IdentifierTypeCnTaxIdentificationNumber, nil
+	case "mac_registration_no":
+		return IdentifierTypeMacRegistrationNo, nil
+	case "siger_internal_id":
+		return IdentifierTypeSigerInternalId, nil
+	case "lbn_national_id":
+		return IdentifierTypeLbnNationalId, nil
+	case "int_maritime_org_id":
+		return IdentifierTypeIntMaritimeOrgId, nil
+	case "ru_ship_register_id":
+		return IdentifierTypeRuShipRegisterId, nil
+	case "sayari_internal_identifier":
+		return IdentifierTypeSayariInternalIdentifier, nil
+	case "aruba_chamber_of_commerce_id":
+		return IdentifierTypeArubaChamberOfCommerceId, nil
+	case "imo_no":
+		return IdentifierTypeImoNo, nil
+	case "vgb_company_number":
+		return IdentifierTypeVgbCompanyNumber, nil
+	case "yem_coc_registration_number":
+		return IdentifierTypeYemCocRegistrationNumber, nil
+	case "mys_id_card_no":
+		return IdentifierTypeMysIdCardNo, nil
+	case "mys_company_reg_no":
+		return IdentifierTypeMysCompanyRegNo, nil
+	case "pry_ruc_number":
+		return IdentifierTypePryRucNumber, nil
+	case "pry_cedula_number":
+		return IdentifierTypePryCedulaNumber, nil
+	case "pry_old_ruc_number":
+		return IdentifierTypePryOldRucNumber, nil
+	case "rccm_no":
+		return IdentifierTypeRccmNo, nil
+	case "bra_rg_number":
+		return IdentifierTypeBraRgNumber, nil
+	case "ninea_no":
+		return IdentifierTypeNineaNo, nil
+	case "alb_tax_id":
+		return IdentifierTypeAlbTaxId, nil
+	case "alb_registration_number":
+		return IdentifierTypeAlbRegistrationNumber, nil
+	case "arg_igj_number":
+		return IdentifierTypeArgIgjNumber, nil
+	case "arg_dni_number":
+		return IdentifierTypeArgDniNumber, nil
+	case "arg_cuit_number":
+		return IdentifierTypeArgCuitNumber, nil
+	case "arg_cuil_number":
+		return IdentifierTypeArgCuilNumber, nil
+	case "arg_cdi_number":
+		return IdentifierTypeArgCdiNumber, nil
+	case "bih_mbs_number":
+		return IdentifierTypeBihMbsNumber, nil
+	case "bih_jib_number":
+		return IdentifierTypeBihJibNumber, nil
+	case "bih_customs_number":
+		return IdentifierTypeBihCustomsNumber, nil
+	case "usa_puerto_rico_register_number":
+		return IdentifierTypeUsaPuertoRicoRegisterNumber, nil
+	case "dji_rcs_number":
+		return IdentifierTypeDjiRcsNumber, nil
+	case "cri_cedula_number":
+		return IdentifierTypeCriCedulaNumber, nil
+	case "moz_id_number":
+		return IdentifierTypeMozIdNumber, nil
+	case "moz_nuit_person":
+		return IdentifierTypeMozNuitPerson, nil
+	case "moz_nuit_co":
+		return IdentifierTypeMozNuitCo, nil
+	case "moz_passport":
+		return IdentifierTypeMozPassport, nil
+	case "moz_dire_no":
+		return IdentifierTypeMozDireNo, nil
+	case "moz_voter_no":
+		return IdentifierTypeMozVoterNo, nil
+	case "moz_nuel_no":
+		return IdentifierTypeMozNuelNo, nil
+	case "irq_voter_id":
+		return IdentifierTypeIrqVoterId, nil
+	case "jor_voter_card_no":
+		return IdentifierTypeJorVoterCardNo, nil
+	case "jor_id_no":
+		return IdentifierTypeJorIdNo, nil
+	case "per_ruc_no":
+		return IdentifierTypePerRucNo, nil
+	case "ecu_company_id":
+		return IdentifierTypeEcuCompanyId, nil
+	case "usa_ny_dos_id":
+		return IdentifierTypeUsaNyDosId, nil
+	case "bfa_rccm_number":
+		return IdentifierTypeBfaRccmNumber, nil
+	case "fl_prop_folio":
+		return IdentifierTypeFlPropFolio, nil
+	case "usa_fl_pb_pcn":
+		return IdentifierTypeUsaFlPbPcn, nil
+	case "qat_qfc_number":
+		return IdentifierTypeQatQfcNumber, nil
+	case "grc_afm_number":
+		return IdentifierTypeGrcAfmNumber, nil
+	case "vnm_enterprise_code":
+		return IdentifierTypeVnmEnterpriseCode, nil
+	case "tha_registration_no":
+		return IdentifierTypeThaRegistrationNo, nil
+	case "vnm_citizenship_no":
+		return IdentifierTypeVnmCitizenshipNo, nil
+	case "vnm_person_id_no":
+		return IdentifierTypeVnmPersonIdNo, nil
+	case "arg_lib_civica_number":
+		return IdentifierTypeArgLibCivicaNumber, nil
+	case "arg_lib_enrolamiento_number":
+		return IdentifierTypeArgLibEnrolamientoNumber, nil
+	case "nzl_nzbn":
+		return IdentifierTypeNzlNzbn, nil
+	case "nzl_co_no":
+		return IdentifierTypeNzlCoNo, nil
+	case "usa_ofac_sdn_number":
+		return IdentifierTypeUsaOfacSdnNumber, nil
+	case "swift_bic_code":
+		return IdentifierTypeSwiftBicCode, nil
+	case "duns_number":
+		return IdentifierTypeDunsNumber, nil
+	case "bitcoin_address":
+		return IdentifierTypeBitcoinAddress, nil
+	case "litecoin_address":
+		return IdentifierTypeLitecoinAddress, nil
+	case "rus_micex_code":
+		return IdentifierTypeRusMicexCode, nil
+	case "tx_prop_id":
+		return IdentifierTypeTxPropId, nil
+	case "tx_pacs_id":
+		return IdentifierTypeTxPacsId, nil
+	case "tx_land_id":
+		return IdentifierTypeTxLandId, nil
+	case "png_ipa_reg_id":
+		return IdentifierTypePngIpaRegId, nil
+	case "gtm_nit_number":
+		return IdentifierTypeGtmNitNumber, nil
+	case "gtm_cui_number":
+		return IdentifierTypeGtmCuiNumber, nil
+	case "dom_rnc":
+		return IdentifierTypeDomRnc, nil
+	case "qat_cr_number":
+		return IdentifierTypeQatCrNumber, nil
+	case "isin":
+		return IdentifierTypeIsin, nil
 	case "usa_fl_document_no":
 		return IdentifierTypeUsaFlDocumentNo, nil
 	case "usa_fl_fic_name_reg_no":
 		return IdentifierTypeUsaFlFicNameRegNo, nil
-	case "usa_fl_martin_pid":
-		return IdentifierTypeUsaFlMartinPid, nil
-	case "usa_fl_pb_pcn":
-		return IdentifierTypeUsaFlPbPcn, nil
+	case "bra_servidor_portal":
+		return IdentifierTypeBraServidorPortal, nil
+	case "bra_codigo_da_unidade_organizacional":
+		return IdentifierTypeBraCodigoDaUnidadeOrganizacional, nil
+	case "usa_sec_cik_number":
+		return IdentifierTypeUsaSecCikNumber, nil
+	case "hr_mbs":
+		return IdentifierTypeHrMbs, nil
+	case "hr_oib":
+		return IdentifierTypeHrOib, nil
+	case "slv_numero_identificacion_tributaria":
+		return IdentifierTypeSlvNumeroIdentificacionTributaria, nil
+	case "slv_mcas":
+		return IdentifierTypeSlvMcas, nil
+	case "aus_company_number":
+		return IdentifierTypeAusCompanyNumber, nil
+	case "aus_business_number":
+		return IdentifierTypeAusBusinessNumber, nil
+	case "deu_registernummer":
+		return IdentifierTypeDeuRegisternummer, nil
+	case "usa_irs_ein":
+		return IdentifierTypeUsaIrsEin, nil
+	case "hong_kong_case_number":
+		return IdentifierTypeHongKongCaseNumber, nil
+	case "irn_coc_internal_id":
+		return IdentifierTypeIrnCocInternalId, nil
+	case "pan_folio_ficha_id":
+		return IdentifierTypePanFolioFichaId, nil
+	case "pan_cedula_number":
+		return IdentifierTypePanCedulaNumber, nil
+	case "xxx_cedar_rose_uid":
+		return IdentifierTypeXxxCedarRoseUid, nil
+	case "xxx_rccm":
+		return IdentifierTypeXxxRccm, nil
+	case "vnm_dichvuthongtin_internal_id":
+		return IdentifierTypeVnmDichvuthongtinInternalId, nil
+	case "xxx_intel_internal_id":
+		return IdentifierTypeXxxIntelInternalId, nil
+	case "usa_washington_state_ubi":
+		return IdentifierTypeUsaWashingtonStateUbi, nil
+	case "nga_registration_number":
+		return IdentifierTypeNgaRegistrationNumber, nil
+	case "ng_check_internal_id":
+		return IdentifierTypeNgCheckInternalId, nil
+	case "nyc_bbl":
+		return IdentifierTypeNycBbl, nil
+	case "nyc_crfn":
+		return IdentifierTypeNycCrfn, nil
+	case "tx_corp_file_num":
+		return IdentifierTypeTxCorpFileNum, nil
+	case "tx_tax_id":
+		return IdentifierTypeTxTaxId, nil
+	case "usa_ga_business_id":
+		return IdentifierTypeUsaGaBusinessId, nil
+	case "phl_pse_id":
+		return IdentifierTypePhlPseId, nil
+	case "phl_sec_id":
+		return IdentifierTypePhlSecId, nil
+	case "phl_tin":
+		return IdentifierTypePhlTin, nil
+	case "afg_passport":
+		return IdentifierTypeAfgPassport, nil
+	case "irn_passport":
+		return IdentifierTypeIrnPassport, nil
+	case "kwt_passport":
+		return IdentifierTypeKwtPassport, nil
+	case "lby_passport":
+		return IdentifierTypeLbyPassport, nil
+	case "pak_passport":
+		return IdentifierTypePakPassport, nil
+	case "rus_passport":
+		return IdentifierTypeRusPassport, nil
+	case "tun_passport":
+		return IdentifierTypeTunPassport, nil
+	case "yem_passport":
+		return IdentifierTypeYemPassport, nil
+	case "un_sanction_prn":
+		return IdentifierTypeUnSanctionPrn, nil
+	case "eu_sanction_rn":
+		return IdentifierTypeEuSanctionRn, nil
+	case "ca_lp_file_num":
+		return IdentifierTypeCaLpFileNum, nil
+	case "tx_entity_filing_num":
+		return IdentifierTypeTxEntityFilingNum, nil
+	case "usa_social_security_number":
+		return IdentifierTypeUsaSocialSecurityNumber, nil
+	case "usa_wy_party_id":
+		return IdentifierTypeUsaWyPartyId, nil
+	case "usa_wy_filing_id":
+		return IdentifierTypeUsaWyFilingId, nil
+	case "usa_wy_internal_filing_id":
+		return IdentifierTypeUsaWyInternalFilingId, nil
+	case "usa_wy_filing_num":
+		return IdentifierTypeUsaWyFilingNum, nil
+	case "usa_or_regno":
+		return IdentifierTypeUsaOrRegno, nil
+	case "usa_nv_corpno":
+		return IdentifierTypeUsaNvCorpno, nil
+	case "usa_nv_bizid":
+		return IdentifierTypeUsaNvBizid, nil
+	case "prk_internal_trade_id":
+		return IdentifierTypePrkInternalTradeId, nil
+	case "lso_corpreg_id":
+		return IdentifierTypeLsoCorpregId, nil
+	case "uzb_tin_number":
+		return IdentifierTypeUzbTinNumber, nil
+	case "ca_corporate_id_num":
+		return IdentifierTypeCaCorporateIdNum, nil
+	case "gbr_hm_treasury_sanction_group_id":
+		return IdentifierTypeGbrHmTreasurySanctionGroupId, nil
+	case "gbr_ipo_trademark_reg_no":
+		return IdentifierTypeGbrIpoTrademarkRegNo, nil
+	case "usa_ga_control_no":
+		return IdentifierTypeUsaGaControlNo, nil
+	case "hnd_coc_company_registration_number":
+		return IdentifierTypeHndCocCompanyRegistrationNumber, nil
+	case "mne_property_uid":
+		return IdentifierTypeMnePropertyUid, nil
+	case "phl_bnn":
+		return IdentifierTypePhlBnn, nil
+	case "rou_company_registration_code":
+		return IdentifierTypeRouCompanyRegistrationCode, nil
+	case "rou_identity_card":
+		return IdentifierTypeRouIdentityCard, nil
+	case "rou_personal_id_number":
+		return IdentifierTypeRouPersonalIdNumber, nil
+	case "cub_cod":
+		return IdentifierTypeCubCod, nil
+	case "fl_prop_folio_dade":
+		return IdentifierTypeFlPropFolioDade, nil
+	case "per_dni_no":
+		return IdentifierTypePerDniNo, nil
+	case "per_carne_de_extranjeria":
+		return IdentifierTypePerCarneDeExtranjeria, nil
+	case "fra_siren":
+		return IdentifierTypeFraSiren, nil
+	case "fra_siret":
+		return IdentifierTypeFraSiret, nil
+	case "fra_rna":
+		return IdentifierTypeFraRna, nil
+	case "fro_reg_num":
+		return IdentifierTypeFroRegNum, nil
+	case "cze_file_number":
+		return IdentifierTypeCzeFileNumber, nil
+	case "esp_borme_reg_id":
+		return IdentifierTypeEspBormeRegId, nil
+	case "mex_tm_no":
+		return IdentifierTypeMexTmNo, nil
+	case "mus_file_no":
+		return IdentifierTypeMusFileNo, nil
+	case "col_nit_no":
+		return IdentifierTypeColNitNo, nil
+	case "jpn_corporate_no":
+		return IdentifierTypeJpnCorporateNo, nil
+	case "usa_cgac_agency_code":
+		return IdentifierTypeUsaCgacAgencyCode, nil
+	case "usa_govt_agency_id":
+		return IdentifierTypeUsaGovtAgencyId, nil
+	case "usa_govt_office_id":
+		return IdentifierTypeUsaGovtOfficeId, nil
+	case "col_cedula_no":
+		return IdentifierTypeColCedulaNo, nil
+	case "col_secop_no":
+		return IdentifierTypeColSecopNo, nil
+	case "jordan_company_no":
+		return IdentifierTypeJordanCompanyNo, nil
+	case "dnk_cvr":
+		return IdentifierTypeDnkCvr, nil
+	case "dnk_production_unit_no":
+		return IdentifierTypeDnkProductionUnitNo, nil
+	case "dnk_entity":
+		return IdentifierTypeDnkEntity, nil
+	case "nor_org_no":
+		return IdentifierTypeNorOrgNo, nil
+	case "swe_org_no":
+		return IdentifierTypeSweOrgNo, nil
+	case "usa_co_reg_no":
+		return IdentifierTypeUsaCoRegNo, nil
+	case "usa_ia_corp_no":
+		return IdentifierTypeUsaIaCorpNo, nil
+	case "sgp_unqiue_entity_number":
+		return IdentifierTypeSgpUnqiueEntityNumber, nil
+	case "usa_ak_entity_no":
+		return IdentifierTypeUsaAkEntityNo, nil
+	case "usa_oh_charter_num":
+		return IdentifierTypeUsaOhCharterNum, nil
+	case "tur_istanbul_coc_reg_no":
+		return IdentifierTypeTurIstanbulCocRegNo, nil
+	case "tur_mersis_number":
+		return IdentifierTypeTurMersisNumber, nil
+	case "che_ch_id_number":
+		return IdentifierTypeCheChIdNumber, nil
+	case "are_difc_reg_no":
+		return IdentifierTypeAreDifcRegNo, nil
+	case "idn_tax_id":
+		return IdentifierTypeIdnTaxId, nil
+	case "usa_vt_biz_id":
+		return IdentifierTypeUsaVtBizId, nil
+	case "usa_wv_reg_id":
+		return IdentifierTypeUsaWvRegId, nil
+	case "usa_ms_biz_id":
+		return IdentifierTypeUsaMsBizId, nil
+	case "usa_id_control_no":
+		return IdentifierTypeUsaIdControlNo, nil
+	case "usa_id_party_id":
+		return IdentifierTypeUsaIdPartyId, nil
+	case "irn_coc_internal_id_cardno":
+		return IdentifierTypeIrnCocInternalIdCardno, nil
+	case "usa_az_corp_reg_entity_num":
+		return IdentifierTypeUsaAzCorpRegEntityNum, nil
+	case "usa_ok_filing_no":
+		return IdentifierTypeUsaOkFilingNo, nil
+	case "usa_tn_control_no":
+		return IdentifierTypeUsaTnControlNo, nil
+	case "usa_tn_party_id":
+		return IdentifierTypeUsaTnPartyId, nil
+	case "usa_ks_biz_id":
+		return IdentifierTypeUsaKsBizId, nil
+	case "usa_hi_corporate_registry_id":
+		return IdentifierTypeUsaHiCorporateRegistryId, nil
+	case "usa_hi_corporate_registry_person_id":
+		return IdentifierTypeUsaHiCorporateRegistryPersonId, nil
+	case "pol_krs_number":
+		return IdentifierTypePolKrsNumber, nil
+	case "pol_regon_number":
+		return IdentifierTypePolRegonNumber, nil
+	case "pol_nip_number":
+		return IdentifierTypePolNipNumber, nil
+	case "pol_rejestr_person_id":
+		return IdentifierTypePolRejestrPersonId, nil
+	case "arm_vat_no":
+		return IdentifierTypeArmVatNo, nil
+	case "arm_enterprise_code":
+		return IdentifierTypeArmEnterpriseCode, nil
+	case "arm_registration_no":
+		return IdentifierTypeArmRegistrationNo, nil
+	case "usa_me_corp_id":
+		return IdentifierTypeUsaMeCorpId, nil
+	case "cyp_reg_no":
+		return IdentifierTypeCypRegNo, nil
+	case "usa_nd_control_id":
+		return IdentifierTypeUsaNdControlId, nil
+	case "usa_mi_corp_id":
+		return IdentifierTypeUsaMiCorpId, nil
+	case "usa_mi_corp_id_old":
+		return IdentifierTypeUsaMiCorpIdOld, nil
+	case "usa_hi_trade_name_cert":
+		return IdentifierTypeUsaHiTradeNameCert, nil
+	case "usa_dc_entity_no":
+		return IdentifierTypeUsaDcEntityNo, nil
+	case "usa_va_old_reg_id":
+		return IdentifierTypeUsaVaOldRegId, nil
+	case "usa_consolidated_screening_list_synthetic_id":
+		return IdentifierTypeUsaConsolidatedScreeningListSyntheticId, nil
+	case "usa_ar_filing_no":
+		return IdentifierTypeUsaArFilingNo, nil
+	case "usa_nc_internal_id":
+		return IdentifierTypeUsaNcInternalId, nil
+	case "usa_ne_acct_no":
+		return IdentifierTypeUsaNeAcctNo, nil
+	case "usa_ne_agent_id":
+		return IdentifierTypeUsaNeAgentId, nil
+	case "usa_nm_business_no":
+		return IdentifierTypeUsaNmBusinessNo, nil
+	case "usa_nm_license_id":
+		return IdentifierTypeUsaNmLicenseId, nil
+	case "usa_dc_file_no":
+		return IdentifierTypeUsaDcFileNo, nil
+	case "usa_ri_fei_no":
+		return IdentifierTypeUsaRiFeiNo, nil
+	case "internal_md5":
+		return IdentifierTypeInternalMd5, nil
+	case "usa_mo_corp_id":
+		return IdentifierTypeUsaMoCorpId, nil
+	case "usa_wi_dfi_id":
+		return IdentifierTypeUsaWiDfiId, nil
+	case "geo_identification_code":
+		return IdentifierTypeGeoIdentificationCode, nil
+	case "geo_personal_number":
+		return IdentifierTypeGeoPersonalNumber, nil
+	case "geo_state_registration_number":
+		return IdentifierTypeGeoStateRegistrationNumber, nil
+	case "mac_raem_case_url_id":
+		return IdentifierTypeMacRaemCaseUrlId, nil
+	case "rou_company_tin":
+		return IdentifierTypeRouCompanyTin, nil
+	case "usa_md_dpt_tax":
+		return IdentifierTypeUsaMdDptTax, nil
+	case "usa_sd_corp_id":
+		return IdentifierTypeUsaSdCorpId, nil
+	case "hnd_tegucigalpa_matricula":
+		return IdentifierTypeHndTegucigalpaMatricula, nil
 	case "usa_fl_property_id":
 		return IdentifierTypeUsaFlPropertyId, nil
 	case "usa_fl_property_mp_id":
 		return IdentifierTypeUsaFlPropertyMpId, nil
 	case "usa_fl_property_state_par_id":
 		return IdentifierTypeUsaFlPropertyStateParId, nil
-	case "usa_fl_sl_pid":
-		return IdentifierTypeUsaFlSlPid, nil
-	case "usa_ga_business_id":
-		return IdentifierTypeUsaGaBusinessId, nil
-	case "usa_ga_control_no":
-		return IdentifierTypeUsaGaControlNo, nil
-	case "usa_govt_agency_id":
-		return IdentifierTypeUsaGovtAgencyId, nil
-	case "usa_govt_office_id":
-		return IdentifierTypeUsaGovtOfficeId, nil
-	case "usa_hi_corporate_registry_id":
-		return IdentifierTypeUsaHiCorporateRegistryId, nil
-	case "usa_hi_corporate_registry_person_id":
-		return IdentifierTypeUsaHiCorporateRegistryPersonId, nil
-	case "usa_hi_trade_name_cert":
-		return IdentifierTypeUsaHiTradeNameCert, nil
-	case "usa_ia_corp_no":
-		return IdentifierTypeUsaIaCorpNo, nil
-	case "usa_id_control_no":
-		return IdentifierTypeUsaIdControlNo, nil
-	case "usa_id_party_id":
-		return IdentifierTypeUsaIdPartyId, nil
-	case "usa_il_chicago_account_number":
-		return IdentifierTypeUsaIlChicagoAccountNumber, nil
-	case "usa_il_file_number":
-		return IdentifierTypeUsaIlFileNumber, nil
-	case "usa_in_biz_no":
-		return IdentifierTypeUsaInBizNo, nil
-	case "usa_irs_ein":
-		return IdentifierTypeUsaIrsEin, nil
-	case "usa_irs_giin":
-		return IdentifierTypeUsaIrsGiin, nil
-	case "usa_ks_biz_id":
-		return IdentifierTypeUsaKsBizId, nil
-	case "usa_ky_org_no":
-		return IdentifierTypeUsaKyOrgNo, nil
-	case "usa_la_sos_id":
-		return IdentifierTypeUsaLaSosId, nil
-	case "usa_mass_sos_company_id":
-		return IdentifierTypeUsaMassSosCompanyId, nil
-	case "usa_md_dpt_tax":
-		return IdentifierTypeUsaMdDptTax, nil
-	case "usa_me_corp_id":
-		return IdentifierTypeUsaMeCorpId, nil
-	case "usa_mi_corp_id":
-		return IdentifierTypeUsaMiCorpId, nil
-	case "usa_mi_corp_id_old":
-		return IdentifierTypeUsaMiCorpIdOld, nil
-	case "usa_mn_filing_number":
-		return IdentifierTypeUsaMnFilingNumber, nil
-	case "usa_mn_master_id":
-		return IdentifierTypeUsaMnMasterId, nil
-	case "usa_mo_corp_id":
-		return IdentifierTypeUsaMoCorpId, nil
-	case "usa_ms_biz_id":
-		return IdentifierTypeUsaMsBizId, nil
-	case "usa_nc_internal_id":
-		return IdentifierTypeUsaNcInternalId, nil
-	case "usa_nd_control_id":
-		return IdentifierTypeUsaNdControlId, nil
-	case "usa_ne_acct_no":
-		return IdentifierTypeUsaNeAcctNo, nil
-	case "usa_ne_agent_id":
-		return IdentifierTypeUsaNeAgentId, nil
-	case "usa_nh_business_id":
-		return IdentifierTypeUsaNhBusinessId, nil
-	case "usa_nj_business_id":
-		return IdentifierTypeUsaNjBusinessId, nil
-	case "usa_nm_business_no":
-		return IdentifierTypeUsaNmBusinessNo, nil
-	case "usa_nm_license_id":
-		return IdentifierTypeUsaNmLicenseId, nil
-	case "usa_npi_number":
-		return IdentifierTypeUsaNpiNumber, nil
-	case "usa_nv_bizid":
-		return IdentifierTypeUsaNvBizid, nil
-	case "usa_nv_corpno":
-		return IdentifierTypeUsaNvCorpno, nil
-	case "usa_ny_dos_id":
-		return IdentifierTypeUsaNyDosId, nil
-	case "usa_ny_reg_id":
-		return IdentifierTypeUsaNyRegId, nil
-	case "usa_ofac_sdn_number":
-		return IdentifierTypeUsaOfacSdnNumber, nil
-	case "usa_oh_charter_num":
-		return IdentifierTypeUsaOhCharterNum, nil
-	case "usa_ok_filing_no":
-		return IdentifierTypeUsaOkFilingNo, nil
-	case "usa_or_regno":
-		return IdentifierTypeUsaOrRegno, nil
-	case "usa_oti_id":
-		return IdentifierTypeUsaOtiId, nil
+	case "mex_cluni":
+		return IdentifierTypeMexCluni, nil
 	case "usa_pa_corporate_registry_id":
 		return IdentifierTypeUsaPaCorporateRegistryId, nil
-	case "usa_puerto_rico_register_number":
-		return IdentifierTypeUsaPuertoRicoRegisterNumber, nil
-	case "usa_ri_fei_no":
-		return IdentifierTypeUsaRiFeiNo, nil
-	case "usa_sam_exclusions_number":
-		return IdentifierTypeUsaSamExclusionsNumber, nil
-	case "usa_sam_uei_number":
-		return IdentifierTypeUsaSamUeiNumber, nil
-	case "usa_sc_corp_id":
-		return IdentifierTypeUsaScCorpId, nil
-	case "usa_sd_corp_id":
-		return IdentifierTypeUsaSdCorpId, nil
-	case "usa_sec_cik_number":
-		return IdentifierTypeUsaSecCikNumber, nil
+	case "pak_ind_ntn":
+		return IdentifierTypePakIndNtn, nil
+	case "pak_co_ntn":
+		return IdentifierTypePakCoNtn, nil
+	case "mex_rnie":
+		return IdentifierTypeMexRnie, nil
+	case "pak_ngo_reg_no":
+		return IdentifierTypePakNgoRegNo, nil
+	case "iraqi_stock_exchange_symbol":
+		return IdentifierTypeIraqiStockExchangeSymbol, nil
+	case "bgr_uic":
+		return IdentifierTypeBgrUic, nil
+	case "bgr_egn_hashed":
+		return IdentifierTypeBgrEgnHashed, nil
+	case "south_africa_enterprise_number":
+		return IdentifierTypeSouthAfricaEnterpriseNumber, nil
+	case "south_africa_passport_number":
+		return IdentifierTypeSouthAfricaPassportNumber, nil
+	case "nld_kvk_number":
+		return IdentifierTypeNldKvkNumber, nil
+	case "nld_kvk_branch_number":
+		return IdentifierTypeNldKvkBranchNumber, nil
+	case "usa_central_registration_depository_number":
+		return IdentifierTypeUsaCentralRegistrationDepositoryNumber, nil
 	case "usa_sec_file_number_bd":
 		return IdentifierTypeUsaSecFileNumberBd, nil
+	case "chn_cnipa_tm":
+		return IdentifierTypeChnCnipaTm, nil
+	case "cyp_passport":
+		return IdentifierTypeCypPassport, nil
+	case "cyp_infocredit_entity_id":
+		return IdentifierTypeCypInfocreditEntityId, nil
+	case "cyp_id_card":
+		return IdentifierTypeCypIdCard, nil
+	case "cyp_ssn":
+		return IdentifierTypeCypSsn, nil
+	case "aut_firmenbuch_no":
+		return IdentifierTypeAutFirmenbuchNo, nil
+	case "swe_per_id_no":
+		return IdentifierTypeSwePerIdNo, nil
+	case "chn_shanghai_stock_exchange_company_code":
+		return IdentifierTypeChnShanghaiStockExchangeCompanyCode, nil
 	case "usa_sec_file_number_ia":
 		return IdentifierTypeUsaSecFileNumberIa, nil
+	case "chn_shenzen_sec_code":
+		return IdentifierTypeChnShenzenSecCode, nil
+	case "usa_ct_business_id":
+		return IdentifierTypeUsaCtBusinessId, nil
+	case "ecu_cedula_number":
+		return IdentifierTypeEcuCedulaNumber, nil
+	case "hkg_stock_code":
+		return IdentifierTypeHkgStockCode, nil
+	case "can_bc_company_registration_id":
+		return IdentifierTypeCanBcCompanyRegistrationId, nil
+	case "can_bc_extraprovincial_registration_id":
+		return IdentifierTypeCanBcExtraprovincialRegistrationId, nil
+	case "can_ipo_trademark_application_no":
+		return IdentifierTypeCanIpoTrademarkApplicationNo, nil
+	case "ltu_company_registration_code":
+		return IdentifierTypeLtuCompanyRegistrationCode, nil
 	case "usa_sec_private_fund":
 		return IdentifierTypeUsaSecPrivateFund, nil
-	case "usa_social_security_number":
-		return IdentifierTypeUsaSocialSecurityNumber, nil
-	case "usa_tn_control_no":
-		return IdentifierTypeUsaTnControlNo, nil
-	case "usa_tn_party_id":
-		return IdentifierTypeUsaTnPartyId, nil
-	case "usa_upin_number":
-		return IdentifierTypeUsaUpinNumber, nil
-	case "usa_uspto_foreign_application_no":
-		return IdentifierTypeUsaUsptoForeignApplicationNo, nil
-	case "usa_uspto_foreign_reg_no":
-		return IdentifierTypeUsaUsptoForeignRegNo, nil
-	case "usa_uspto_reg_no":
-		return IdentifierTypeUsaUsptoRegNo, nil
-	case "usa_uspto_serial_number":
-		return IdentifierTypeUsaUsptoSerialNumber, nil
-	case "usa_usvi_corp_number":
-		return IdentifierTypeUsaUsviCorpNumber, nil
-	case "usa_va_old_reg_id":
-		return IdentifierTypeUsaVaOldRegId, nil
-	case "usa_va_reg_id":
-		return IdentifierTypeUsaVaRegId, nil
-	case "usa_vt_biz_id":
-		return IdentifierTypeUsaVtBizId, nil
-	case "usa_washington_state_ubi":
-		return IdentifierTypeUsaWashingtonStateUbi, nil
-	case "usa_wi_dfi_id":
-		return IdentifierTypeUsaWiDfiId, nil
-	case "usa_wv_reg_id":
-		return IdentifierTypeUsaWvRegId, nil
-	case "usa_wy_filing_id":
-		return IdentifierTypeUsaWyFilingId, nil
-	case "usa_wy_filing_num":
-		return IdentifierTypeUsaWyFilingNum, nil
-	case "usa_wy_internal_filing_id":
-		return IdentifierTypeUsaWyInternalFilingId, nil
-	case "usa_wy_party_id":
-		return IdentifierTypeUsaWyPartyId, nil
-	case "utah_corporate_registry_internal_entity_number":
-		return IdentifierTypeUtahCorporateRegistryInternalEntityNumber, nil
-	case "uzb_tin_number":
-		return IdentifierTypeUzbTinNumber, nil
-	case "validatis_number":
-		return IdentifierTypeValidatisNumber, nil
-	case "vat":
-		return IdentifierTypeVat, nil
-	case "ven_cedula_number":
-		return IdentifierTypeVenCedulaNumber, nil
-	case "ven_rif":
-		return IdentifierTypeVenRif, nil
-	case "ven_rnc_number":
-		return IdentifierTypeVenRncNumber, nil
-	case "ven_saren_internal_employer_number":
-		return IdentifierTypeVenSarenInternalEmployerNumber, nil
-	case "vgb_company_number":
-		return IdentifierTypeVgbCompanyNumber, nil
-	case "vnm_citizenship_no":
-		return IdentifierTypeVnmCitizenshipNo, nil
-	case "vnm_dichvuthongtin_internal_id":
-		return IdentifierTypeVnmDichvuthongtinInternalId, nil
-	case "vnm_enterprise_code":
-		return IdentifierTypeVnmEnterpriseCode, nil
-	case "vnm_person_id_no":
-		return IdentifierTypeVnmPersonIdNo, nil
+	case "lva_insolvency_proceeding_id":
+		return IdentifierTypeLvaInsolvencyProceedingId, nil
+	case "chn_cninfo_internal_shareholder_id":
+		return IdentifierTypeChnCninfoInternalShareholderId, nil
+	case "euid":
+		return IdentifierTypeEuid, nil
+	case "fin_business_id":
+		return IdentifierTypeFinBusinessId, nil
+	case "est_business_reg_code":
+		return IdentifierTypeEstBusinessRegCode, nil
+	case "usa_cusip_number":
+		return IdentifierTypeUsaCusipNumber, nil
+	case "svn_co_reg_no":
+		return IdentifierTypeSvnCoRegNo, nil
+	case "isr_company_number":
+		return IdentifierTypeIsrCompanyNumber, nil
+	case "isr_association_number":
+		return IdentifierTypeIsrAssociationNumber, nil
+	case "isr_pbc_number":
+		return IdentifierTypeIsrPbcNumber, nil
+	case "rks_business_number":
+		return IdentifierTypeRksBusinessNumber, nil
+	case "rks_fiscal_number":
+		return IdentifierTypeRksFiscalNumber, nil
+	case "jpn_edinet_code":
+		return IdentifierTypeJpnEdinetCode, nil
+	case "bel_enterprise_number":
+		return IdentifierTypeBelEnterpriseNumber, nil
+	case "bel_establishment_number":
+		return IdentifierTypeBelEstablishmentNumber, nil
+	case "aus_afs_licence_number":
+		return IdentifierTypeAusAfsLicenceNumber, nil
+	case "aus_afs_rep_number":
+		return IdentifierTypeAusAfsRepNumber, nil
+	case "aus_adv_number":
+		return IdentifierTypeAusAdvNumber, nil
+	case "aus_credit_licence_number":
+		return IdentifierTypeAusCreditLicenceNumber, nil
+	case "aus_credit_rep_number":
+		return IdentifierTypeAusCreditRepNumber, nil
+	case "dart_cik":
+		return IdentifierTypeDartCik, nil
+	case "krx_ticker_code":
+		return IdentifierTypeKrxTickerCode, nil
+	case "kor_corporate_registration_number":
+		return IdentifierTypeKorCorporateRegistrationNumber, nil
+	case "kor_business_tin":
+		return IdentifierTypeKorBusinessTin, nil
+	case "est_personal_id":
+		return IdentifierTypeEstPersonalId, nil
+	case "bze_bicar_reg_no":
+		return IdentifierTypeBzeBicarRegNo, nil
+	case "usa_il_chicago_account_number":
+		return IdentifierTypeUsaIlChicagoAccountNumber, nil
+	case "cym_co_no":
+		return IdentifierTypeCymCoNo, nil
+	case "ggy_corporate_reg_number":
+		return IdentifierTypeGgyCorporateRegNumber, nil
+	case "ggy_trademark_submission_ref":
+		return IdentifierTypeGgyTrademarkSubmissionRef, nil
+	case "ggy_trademark_no":
+		return IdentifierTypeGgyTrademarkNo, nil
+	case "jey_corporate_reg_number":
+		return IdentifierTypeJeyCorporateRegNumber, nil
+	case "cok_corp_reg_corpid":
+		return IdentifierTypeCokCorpRegCorpid, nil
+	case "cok_corp_reg_corpofficerid":
+		return IdentifierTypeCokCorpRegCorpofficerid, nil
+	case "cok_corp_reg_number":
+		return IdentifierTypeCokCorpRegNumber, nil
+	case "mex_open_contracts_internal_id":
+		return IdentifierTypeMexOpenContractsInternalId, nil
+	case "gib_corp_reg_number":
+		return IdentifierTypeGibCorpRegNumber, nil
+	case "dom_onapi_num":
+		return IdentifierTypeDomOnapiNum, nil
+	case "rus_tourist_obj":
+		return IdentifierTypeRusTouristObj, nil
+	case "bill_of_lading":
+		return IdentifierTypeBillOfLading, nil
+	case "twn_factory_registration_number":
+		return IdentifierTypeTwnFactoryRegistrationNumber, nil
+	case "twn_factory_establishment_permit_case_number":
+		return IdentifierTypeTwnFactoryEstablishmentPermitCaseNumber, nil
+	case "ken_personal_id":
+		return IdentifierTypeKenPersonalId, nil
+	case "col_dian_numero_formulario":
+		return IdentifierTypeColDianNumeroFormulario, nil
 	case "vut_corp_reg_number":
 		return IdentifierTypeVutCorpRegNumber, nil
-	case "wipo_intl_ref_no":
-		return IdentifierTypeWipoIntlRefNo, nil
-	case "wipo_intl_reg_no":
-		return IdentifierTypeWipoIntlRegNo, nil
+	case "geo_legal_code":
+		return IdentifierTypeGeoLegalCode, nil
+	case "mmr_corp_id":
+		return IdentifierTypeMmrCorpId, nil
+	case "mmr_reg_no":
+		return IdentifierTypeMmrRegNo, nil
+	case "mmr_prior_reg_no":
+		return IdentifierTypeMmrPriorRegNo, nil
+	case "mmr_officer_id":
+		return IdentifierTypeMmrOfficerId, nil
+	case "arm_passport_number":
+		return IdentifierTypeArmPassportNumber, nil
+	case "ukr_reg_num":
+		return IdentifierTypeUkrRegNum, nil
+	case "validatis_number":
+		return IdentifierTypeValidatisNumber, nil
+	case "are_dubai_land_case_no":
+		return IdentifierTypeAreDubaiLandCaseNo, nil
+	case "ago_matricula_number":
+		return IdentifierTypeAgoMatriculaNumber, nil
+	case "ago_nif_number":
+		return IdentifierTypeAgoNifNumber, nil
+	case "mmr_personal_id_no":
+		return IdentifierTypeMmrPersonalIdNo, nil
+	case "blr_registration_number":
+		return IdentifierTypeBlrRegistrationNumber, nil
+	case "aer_free_zone_license":
+		return IdentifierTypeAerFreeZoneLicense, nil
+	case "aer_free_zone_reg_no":
+		return IdentifierTypeAerFreeZoneRegNo, nil
+	case "can_nl_corporate_registry":
+		return IdentifierTypeCanNlCorporateRegistry, nil
+	case "can_data_axle_hash":
+		return IdentifierTypeCanDataAxleHash, nil
+	case "svn_ajpes_zapst_number":
+		return IdentifierTypeSvnAjpesZapstNumber, nil
+	case "usa_corpwatch_id":
+		return IdentifierTypeUsaCorpwatchId, nil
+	case "usa_de_file_number":
+		return IdentifierTypeUsaDeFileNumber, nil
+	case "imn_company_number":
+		return IdentifierTypeImnCompanyNumber, nil
+	case "svn_vat_number":
+		return IdentifierTypeSvnVatNumber, nil
 	case "xxx_acuris_id":
 		return IdentifierTypeXxxAcurisId, nil
-	case "xxx_cedar_rose_uid":
-		return IdentifierTypeXxxCedarRoseUid, nil
+	case "pak_egm_id":
+		return IdentifierTypePakEgmId, nil
+	case "usa_de_registered_agent_id":
+		return IdentifierTypeUsaDeRegisteredAgentId, nil
+	case "icij_offshore_internal_id":
+		return IdentifierTypeIcijOffshoreInternalId, nil
+	case "icij_offshore_node_id":
+		return IdentifierTypeIcijOffshoreNodeId, nil
+	case "ecu_branch_id":
+		return IdentifierTypeEcuBranchId, nil
+	case "pse_registration_id":
+		return IdentifierTypePseRegistrationId, nil
+	case "srb_mb_number":
+		return IdentifierTypeSrbMbNumber, nil
+	case "srb_pib_number":
+		return IdentifierTypeSrbPibNumber, nil
+	case "srb_branch_id":
+		return IdentifierTypeSrbBranchId, nil
+	case "rus_bik_code":
+		return IdentifierTypeRusBikCode, nil
+	case "panadata_internal_id":
+		return IdentifierTypePanadataInternalId, nil
+	case "smr_economic_operator_code":
+		return IdentifierTypeSmrEconomicOperatorCode, nil
+	case "usa_ct_internal_id":
+		return IdentifierTypeUsaCtInternalId, nil
+	case "alei":
+		return IdentifierTypeAlei, nil
+	case "can_ns_corporate_registry":
+		return IdentifierTypeCanNsCorporateRegistry, nil
+	case "som_ubi":
+		return IdentifierTypeSomUbi, nil
+	case "bhs_tin":
+		return IdentifierTypeBhsTin, nil
+	case "ita_rea_number":
+		return IdentifierTypeItaReaNumber, nil
+	case "mex_denue_clee":
+		return IdentifierTypeMexDenueClee, nil
+	case "ihs_owner_code":
+		return IdentifierTypeIhsOwnerCode, nil
+	case "aus_consolidated_sanctions_reference":
+		return IdentifierTypeAusConsolidatedSanctionsReference, nil
+	case "che_seco_sanction_number":
+		return IdentifierTypeCheSecoSanctionNumber, nil
+	case "gbr_vat_no":
+		return IdentifierTypeGbrVatNo, nil
+	case "gbr_company_number":
+		return IdentifierTypeGbrCompanyNumber, nil
+	case "esp_nif":
+		return IdentifierTypeEspNif, nil
+	case "usa_sam_uei_number":
+		return IdentifierTypeUsaSamUeiNumber, nil
+	case "usa_usvi_corp_number":
+		return IdentifierTypeUsaUsviCorpNumber, nil
+	case "nic_trade_internal_shipment_id":
+		return IdentifierTypeNicTradeInternalShipmentId, nil
+	case "nic_ruc_number":
+		return IdentifierTypeNicRucNumber, nil
+	case "nic_numero_unico":
+		return IdentifierTypeNicNumeroUnico, nil
+	case "cri_cedula_juridica":
+		return IdentifierTypeCriCedulaJuridica, nil
+	case "cri_cedula_citizen_person":
+		return IdentifierTypeCriCedulaCitizenPerson, nil
+	case "cri_cedula_foreign_person":
+		return IdentifierTypeCriCedulaForeignPerson, nil
+	case "bol_matricula":
+		return IdentifierTypeBolMatricula, nil
+	case "bol_old_matricula":
+		return IdentifierTypeBolOldMatricula, nil
+	case "nga_crp_reg_internal_id":
+		return IdentifierTypeNgaCrpRegInternalId, nil
+	case "nga_registration_sn":
+		return IdentifierTypeNgaRegistrationSn, nil
+	case "nga_nin":
+		return IdentifierTypeNgaNin, nil
+	case "nga_drivers":
+		return IdentifierTypeNgaDrivers, nil
+	case "nga_tax_id":
+		return IdentifierTypeNgaTaxId, nil
+	case "dma_business_registry_internal_id":
+		return IdentifierTypeDmaBusinessRegistryInternalId, nil
+	case "cage":
+		return IdentifierTypeCage, nil
+	case "atg_business_registry_internal_id":
+		return IdentifierTypeAtgBusinessRegistryInternalId, nil
+	case "lca_business_registry_internal_id":
+		return IdentifierTypeLcaBusinessRegistryInternalId, nil
+	case "prt_trust_number":
+		return IdentifierTypePrtTrustNumber, nil
+	case "prt_vat_number":
+		return IdentifierTypePrtVatNumber, nil
+	case "mar_passport":
+		return IdentifierTypeMarPassport, nil
+	case "cod_passport":
+		return IdentifierTypeCodPassport, nil
+	case "prk_passport":
+		return IdentifierTypePrkPassport, nil
+	case "sgp_passport":
+		return IdentifierTypeSgpPassport, nil
+	case "chn_passport":
+		return IdentifierTypeChnPassport, nil
+	case "omn_passport":
+		return IdentifierTypeOmnPassport, nil
+	case "caf_passport":
+		return IdentifierTypeCafPassport, nil
+	case "ssd_passport":
+		return IdentifierTypeSsdPassport, nil
+	case "tto_biz_number":
+		return IdentifierTypeTtoBizNumber, nil
+	case "tur_tax_id":
+		return IdentifierTypeTurTaxId, nil
+	case "bmu_registrar_of_companies_number":
+		return IdentifierTypeBmuRegistrarOfCompaniesNumber, nil
+	case "cod_rccm_number":
+		return IdentifierTypeCodRccmNumber, nil
+	case "cod_rccm_ohada_number":
+		return IdentifierTypeCodRccmOhadaNumber, nil
+	case "are_reg_auth_number":
+		return IdentifierTypeAreRegAuthNumber, nil
+	case "prk_shipment_id":
+		return IdentifierTypePrkShipmentId, nil
+	case "ecu_importer_id":
+		return IdentifierTypeEcuImporterId, nil
+	case "ecu_exporter_id":
+		return IdentifierTypeEcuExporterId, nil
+	case "ecu_shipment_ref_no":
+		return IdentifierTypeEcuShipmentRefNo, nil
 	case "xxx_crb_monitor_entity_id":
 		return IdentifierTypeXxxCrbMonitorEntityId, nil
 	case "xxx_edi_global_issuer_id":
 		return IdentifierTypeXxxEdiGlobalIssuerId, nil
 	case "xxx_edi_global_security_id":
 		return IdentifierTypeXxxEdiGlobalSecurityId, nil
-	case "xxx_eu_esma_sanctions_id":
-		return IdentifierTypeXxxEuEsmaSanctionsId, nil
-	case "xxx_intel_internal_id":
-		return IdentifierTypeXxxIntelInternalId, nil
-	case "xxx_rccm":
-		return IdentifierTypeXxxRccm, nil
-	case "yem_coc_registration_number":
-		return IdentifierTypeYemCocRegistrationNumber, nil
-	case "yem_passport":
-		return IdentifierTypeYemPassport, nil
-	case "yugoslav_master_citizen_num":
-		return IdentifierTypeYugoslavMasterCitizenNum, nil
+	case "chl_import_export_control_id":
+		return IdentifierTypeChlImportExportControlId, nil
+	case "chl_import_manifest_number":
+		return IdentifierTypeChlImportManifestNumber, nil
+	case "chl_importer_exporter_id":
+		return IdentifierTypeChlImporterExporterId, nil
+	case "arg_import_export_id":
+		return IdentifierTypeArgImportExportId, nil
+	case "arg_partial_cuit":
+		return IdentifierTypeArgPartialCuit, nil
+	case "pan_importer_exporter_id":
+		return IdentifierTypePanImporterExporterId, nil
+	case "pan_declaration_number":
+		return IdentifierTypePanDeclarationNumber, nil
+	case "mex_shipment_number":
+		return IdentifierTypeMexShipmentNumber, nil
+	case "cri_exp":
+		return IdentifierTypeCriExp, nil
+	case "cri_imp":
+		return IdentifierTypeCriImp, nil
+	case "cri_op_no":
+		return IdentifierTypeCriOpNo, nil
+	case "col_nur":
+		return IdentifierTypeColNur, nil
+	case "npl_co_reg_no":
+		return IdentifierTypeNplCoRegNo, nil
+	case "usa_sam_exclusions_number":
+		return IdentifierTypeUsaSamExclusionsNumber, nil
+	case "usa_npi_number":
+		return IdentifierTypeUsaNpiNumber, nil
+	case "usa_upin_number":
+		return IdentifierTypeUsaUpinNumber, nil
+	case "can_bc_registration_number":
+		return IdentifierTypeCanBcRegistrationNumber, nil
+	case "can_business_number":
+		return IdentifierTypeCanBusinessNumber, nil
+	case "chn_csrc_no":
+		return IdentifierTypeChnCsrcNo, nil
+	case "usa_mn_master_id":
+		return IdentifierTypeUsaMnMasterId, nil
+	case "usa_mn_filing_number":
+		return IdentifierTypeUsaMnFilingNumber, nil
+	case "usa_in_biz_no":
+		return IdentifierTypeUsaInBizNo, nil
+	case "lloyds_internal_vessel_id":
+		return IdentifierTypeLloydsInternalVesselId, nil
+	case "lloyds_internal_entity_id":
+		return IdentifierTypeLloydsInternalEntityId, nil
+	case "usa_nh_business_id":
+		return IdentifierTypeUsaNhBusinessId, nil
+	case "gbr_uk_sanctions_id":
+		return IdentifierTypeGbrUkSanctionsId, nil
+	case "montana_sos_internal_entity_id":
+		return IdentifierTypeMontanaSosInternalEntityId, nil
+	case "usa_mass_sos_company_id":
+		return IdentifierTypeUsaMassSosCompanyId, nil
+	case "chn_resident_id_number":
+		return IdentifierTypeChnResidentIdNumber, nil
+	case "usa_nj_business_id":
+		return IdentifierTypeUsaNjBusinessId, nil
+	case "utah_corporate_registry_internal_entity_number":
+		return IdentifierTypeUtahCorporateRegistryInternalEntityNumber, nil
+	case "usa_la_sos_id":
+		return IdentifierTypeUsaLaSosId, nil
+	case "usa_al_sos_id":
+		return IdentifierTypeUsaAlSosId, nil
+	case "usa_sc_corp_id":
+		return IdentifierTypeUsaScCorpId, nil
+	case "usa_ky_org_no":
+		return IdentifierTypeUsaKyOrgNo, nil
+	case "usa_il_file_number":
+		return IdentifierTypeUsaIlFileNumber, nil
+	case "idn_transaction_number":
+		return IdentifierTypeIdnTransactionNumber, nil
+	case "idn_ubo_owner_id":
+		return IdentifierTypeIdnUboOwnerId, nil
+	case "swe_tax_number":
+		return IdentifierTypeSweTaxNumber, nil
+	case "panadata_internal_sid":
+		return IdentifierTypePanadataInternalSid, nil
+	case "pry_tax_id":
+		return IdentifierTypePryTaxId, nil
+	case "pry_shipment_number":
+		return IdentifierTypePryShipmentNumber, nil
+	case "tokyo_stock_exchange_no":
+		return IdentifierTypeTokyoStockExchangeNo, nil
+	case "swe_fi_id":
+		return IdentifierTypeSweFiId, nil
+	case "deu_bafin_id":
+		return IdentifierTypeDeuBafinId, nil
+	case "global_trade_internal_shipment_id":
+		return IdentifierTypeGlobalTradeInternalShipmentId, nil
+	case "china_vessel_inspection_registration":
+		return IdentifierTypeChinaVesselInspectionRegistration, nil
+	case "china_vessel_registration":
+		return IdentifierTypeChinaVesselRegistration, nil
+	case "ccs_registration":
+		return IdentifierTypeCcsRegistration, nil
+	case "usa_oti_id":
+		return IdentifierTypeUsaOtiId, nil
+	case "stock_ticker":
+		return IdentifierTypeStockTicker, nil
+	case "can_mb_registry":
+		return IdentifierTypeCanMbRegistry, nil
+	case "quebec_enterprise_number":
+		return IdentifierTypeQuebecEnterpriseNumber, nil
+	case "ontario_corporation_number":
+		return IdentifierTypeOntarioCorporationNumber, nil
+	case "saskatchewan_registry_number":
+		return IdentifierTypeSaskatchewanRegistryNumber, nil
+	case "alberta_corporation_number":
+		return IdentifierTypeAlbertaCorporationNumber, nil
+	case "bra_shipment_number":
+		return IdentifierTypeBraShipmentNumber, nil
+	case "ukr_sanctions_nazk_company_internal_id":
+		return IdentifierTypeUkrSanctionsNazkCompanyInternalId, nil
+	case "ukr_sanctions_nazk_person_internal_id":
+		return IdentifierTypeUkrSanctionsNazkPersonInternalId, nil
+	case "ethereum_address":
+		return IdentifierTypeEthereumAddress, nil
+	case "dash_address":
+		return IdentifierTypeDashAddress, nil
 	case "zcash_address":
 		return IdentifierTypeZcashAddress, nil
+	case "usa_uspto_serial_number":
+		return IdentifierTypeUsaUsptoSerialNumber, nil
+	case "usa_uspto_reg_no":
+		return IdentifierTypeUsaUsptoRegNo, nil
+	case "usa_uspto_foreign_application_no":
+		return IdentifierTypeUsaUsptoForeignApplicationNo, nil
+	case "usa_uspto_foreign_reg_no":
+		return IdentifierTypeUsaUsptoForeignRegNo, nil
+	case "wipo_intl_reg_no":
+		return IdentifierTypeWipoIntlRegNo, nil
+	case "wipo_intl_ref_no":
+		return IdentifierTypeWipoIntlRefNo, nil
+	case "gbr_charity_no":
+		return IdentifierTypeGbrCharityNo, nil
+	case "gbr_trustee_id":
+		return IdentifierTypeGbrTrusteeId, nil
+	case "gbr_go_no":
+		return IdentifierTypeGbrGoNo, nil
+	case "irl_registration_no":
+		return IdentifierTypeIrlRegistrationNo, nil
+	case "irl_rcn":
+		return IdentifierTypeIrlRcn, nil
+	case "blz_bccar_reg_no":
+		return IdentifierTypeBlzBccarRegNo, nil
+	case "chn_customs_registration_no":
+		return IdentifierTypeChnCustomsRegistrationNo, nil
+	case "isl_vat_num":
+		return IdentifierTypeIslVatNum, nil
+	case "can_tm_registration_no":
+		return IdentifierTypeCanTmRegistrationNo, nil
+	case "aze_tin_number":
+		return IdentifierTypeAzeTinNumber, nil
+	case "tjk_tin_number":
+		return IdentifierTypeTjkTinNumber, nil
+	case "tjk_ein_number":
+		return IdentifierTypeTjkEinNumber, nil
+	case "mco_rci_number":
+		return IdentifierTypeMcoRciNumber, nil
+	case "mco_nis":
+		return IdentifierTypeMcoNis, nil
+	case "on_business_id_number":
+		return IdentifierTypeOnBusinessIdNumber, nil
+	case "syria_commercial_register_number":
+		return IdentifierTypeSyriaCommercialRegisterNumber, nil
+	case "cn_hurd_internal_company_id":
+		return IdentifierTypeCnHurdInternalCompanyId, nil
+	case "hun_tax_number":
+		return IdentifierTypeHunTaxNumber, nil
+	case "hun_krs_number":
+		return IdentifierTypeHunKrsNumber, nil
+	case "hun_company_register_number":
+		return IdentifierTypeHunCompanyRegisterNumber, nil
+	case "hun_person_tax_id":
+		return IdentifierTypeHunPersonTaxId, nil
+	case "mw_tpin_tax_reg_num":
+		return IdentifierTypeMwTpinTaxRegNum, nil
+	case "lr_tin":
+		return IdentifierTypeLrTin, nil
+	case "cm_nui_tax_reg_num":
+		return IdentifierTypeCmNuiTaxRegNum, nil
+	case "eu_fsd_id":
+		return IdentifierTypeEuFsdId, nil
+	case "cn_hk_br_number":
+		return IdentifierTypeCnHkBrNumber, nil
+	case "bwa_uin_reg_number":
+		return IdentifierTypeBwaUinRegNumber, nil
+	case "can_nrd":
+		return IdentifierTypeCanNrd, nil
+	case "usa_irs_giin":
+		return IdentifierTypeUsaIrsGiin, nil
+	case "can_nrd_individual_id":
+		return IdentifierTypeCanNrdIndividualId, nil
+	case "jam_company_id":
+		return IdentifierTypeJamCompanyId, nil
+	case "esp_internal_employee_number":
+		return IdentifierTypeEspInternalEmployeeNumber, nil
+	case "nzl_russia_sanctions_uid":
+		return IdentifierTypeNzlRussiaSanctionsUid, nil
+	case "can_new_brunswick_reference_number":
+		return IdentifierTypeCanNewBrunswickReferenceNumber, nil
+	case "fra_asset_freeze_id":
+		return IdentifierTypeFraAssetFreezeId, nil
+	case "srb_beneficial_owner_id":
+		return IdentifierTypeSrbBeneficialOwnerId, nil
+	case "can_pe_registration_number":
+		return IdentifierTypeCanPeRegistrationNumber, nil
+	case "bel_fsma_name_hash":
+		return IdentifierTypeBelFsmaNameHash, nil
+	case "cuw_reg_number":
+		return IdentifierTypeCuwRegNumber, nil
+	case "rus_declaration_number":
+		return IdentifierTypeRusDeclarationNumber, nil
+	case "ru_trade_internal_shipment_id":
+		return IdentifierTypeRuTradeInternalShipmentId, nil
+	case "tur_shipment_id":
+		return IdentifierTypeTurShipmentId, nil
+	case "bd_bin":
+		return IdentifierTypeBdBin, nil
+	case "aer_ner_number":
+		return IdentifierTypeAerNerNumber, nil
+	case "twn_passport_number":
+		return IdentifierTypeTwnPassportNumber, nil
+	case "bel_national_register_no":
+		return IdentifierTypeBelNationalRegisterNo, nil
+	case "afg_trade_internal_shipment_id":
+		return IdentifierTypeAfgTradeInternalShipmentId, nil
+	case "ukr_fiu_list_number":
+		return IdentifierTypeUkrFiuListNumber, nil
+	case "esp_be_code":
+		return IdentifierTypeEspBeCode, nil
+	case "esp_tr_number":
+		return IdentifierTypeEspTrNumber, nil
+	case "jey_trademark_reg_no":
+		return IdentifierTypeJeyTrademarkRegNo, nil
+	case "gbr_enforcement_action_num":
+		return IdentifierTypeGbrEnforcementActionNum, nil
+	case "tza_brela_reg_num":
+		return IdentifierTypeTzaBrelaRegNum, nil
+	case "ind_nse_ticker_code":
+		return IdentifierTypeIndNseTickerCode, nil
+	case "usa_fl_martin_pid":
+		return IdentifierTypeUsaFlMartinPid, nil
+	case "usa_fl_sl_pid":
+		return IdentifierTypeUsaFlSlPid, nil
+	case "can_qc_sap_registry_ref_num":
+		return IdentifierTypeCanQcSapRegistryRefNum, nil
+	case "tur_izmir_coc_reg_no":
+		return IdentifierTypeTurIzmirCocRegNo, nil
+	case "tur_ticaret_sicil_no":
+		return IdentifierTypeTurTicaretSicilNo, nil
+	case "xxx_eu_esma_sanctions_id":
+		return IdentifierTypeXxxEuEsmaSanctionsId, nil
+	case "ind_darpan_uid":
+		return IdentifierTypeIndDarpanUid, nil
+	case "ind_charity_registration_number":
+		return IdentifierTypeIndCharityRegistrationNumber, nil
+	case "ind_society_registration_number":
+		return IdentifierTypeIndSocietyRegistrationNumber, nil
+	case "ind_company_registration_number":
+		return IdentifierTypeIndCompanyRegistrationNumber, nil
+	case "ind_coopsoc_registration_number":
+		return IdentifierTypeIndCoopsocRegistrationNumber, nil
+	case "ind_ifsc":
+		return IdentifierTypeIndIfsc, nil
+	case "ind_trademark_submission_ref":
+		return IdentifierTypeIndTrademarkSubmissionRef, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -6921,340 +6921,340 @@ const (
 	LanguageAa Language = "aa"
 	// Abkhazian
 	LanguageAb Language = "ab"
-	// Avestan
-	LanguageAe Language = "ae"
 	// Afrikaans
 	LanguageAf Language = "af"
 	// Akan
 	LanguageAk Language = "ak"
+	// Albanian
+	LanguageSq Language = "sq"
 	// Amharic
 	LanguageAm Language = "am"
-	// Aragonese
-	LanguageAn Language = "an"
 	// Arabic
 	LanguageAr Language = "ar"
+	// Aragonese
+	LanguageAn Language = "an"
+	// Armenian
+	LanguageHy Language = "hy"
 	// Assamese
 	LanguageAs Language = "as"
 	// Avaric
 	LanguageAv Language = "av"
+	// Avestan
+	LanguageAe Language = "ae"
 	// Aymara
 	LanguageAy Language = "ay"
 	// Azerbaijani
 	LanguageAz Language = "az"
 	// Bashkir
 	LanguageBa Language = "ba"
+	// Bambara
+	LanguageBm Language = "bm"
+	// Basque
+	LanguageEu Language = "eu"
 	// Belarusian
 	LanguageBe Language = "be"
-	// Bulgarian
-	LanguageBg Language = "bg"
+	// Bengali
+	LanguageBn Language = "bn"
 	// Bihari languages
 	LanguageBh Language = "bh"
 	// Bislama
 	LanguageBi Language = "bi"
-	// Bambara
-	LanguageBm Language = "bm"
-	// Bengali
-	LanguageBn Language = "bn"
-	// Tibetan
-	LanguageBo Language = "bo"
-	// Breton
-	LanguageBr Language = "br"
 	// Bosnian
 	LanguageBs Language = "bs"
+	// Breton
+	LanguageBr Language = "br"
+	// Bulgarian
+	LanguageBg Language = "bg"
+	// Burmese
+	LanguageMy Language = "my"
 	// Catalan; Valencian
 	LanguageCa Language = "ca"
-	// Chechen
-	LanguageCe Language = "ce"
 	// Chamorro
 	LanguageCh Language = "ch"
+	// Chechen
+	LanguageCe Language = "ce"
+	// Chinese
+	LanguageZh Language = "zh"
+	// Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic
+	LanguageCu Language = "cu"
+	// Chuvash
+	LanguageCv Language = "cv"
+	// Cornish
+	LanguageKw Language = "kw"
 	// Corsican
 	LanguageCo Language = "co"
 	// Cree
 	LanguageCr Language = "cr"
 	// Czech
 	LanguageCs Language = "cs"
-	// Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic
-	LanguageCu Language = "cu"
-	// Chuvash
-	LanguageCv Language = "cv"
-	// Welsh
-	LanguageCy Language = "cy"
 	// Danish
 	LanguageDa Language = "da"
-	// German
-	LanguageDe Language = "de"
 	// Divehi; Dhivehi; Maldivian
 	LanguageDv Language = "dv"
+	// Dutch; Flemish
+	LanguageNl Language = "nl"
 	// Dzongkha
 	LanguageDz Language = "dz"
-	// Ewe
-	LanguageEe Language = "ee"
-	// Greek, Modern (1453-)
-	LanguageEl Language = "el"
 	// English
 	LanguageEn Language = "en"
 	// Esperanto
 	LanguageEo Language = "eo"
-	// Spanish; Castilian
-	LanguageEs Language = "es"
 	// Estonian
 	LanguageEt Language = "et"
-	// Basque
-	LanguageEu Language = "eu"
-	// Persian
-	LanguageFa Language = "fa"
-	// Fulah
-	LanguageFf Language = "ff"
-	// Finnish
-	LanguageFi Language = "fi"
-	// Fijian
-	LanguageFj Language = "fj"
+	// Ewe
+	LanguageEe Language = "ee"
 	// Faroese
 	LanguageFo Language = "fo"
+	// Fijian
+	LanguageFj Language = "fj"
+	// Finnish
+	LanguageFi Language = "fi"
 	// French
 	LanguageFr Language = "fr"
 	// Western Frisian
 	LanguageFy Language = "fy"
-	// Irish
-	LanguageGa Language = "ga"
+	// Fulah
+	LanguageFf Language = "ff"
+	// Georgian
+	LanguageKa Language = "ka"
+	// German
+	LanguageDe Language = "de"
 	// Gaelic; Scottish Gaelic
 	LanguageGd Language = "gd"
+	// Irish
+	LanguageGa Language = "ga"
 	// Galician
 	LanguageGl Language = "gl"
+	// Manx
+	LanguageGv Language = "gv"
+	// Greek, Modern (1453-)
+	LanguageEl Language = "el"
 	// Guarani
 	LanguageGn Language = "gn"
 	// Gujarati
 	LanguageGu Language = "gu"
-	// Manx
-	LanguageGv Language = "gv"
+	// Haitian; Haitian Creole
+	LanguageHt Language = "ht"
 	// Hausa
 	LanguageHa Language = "ha"
 	// Hebrew
 	LanguageHe Language = "he"
+	// Herero
+	LanguageHz Language = "hz"
 	// Hindi
 	LanguageHi Language = "hi"
 	// Hiri Motu
 	LanguageHo Language = "ho"
 	// Croatian
 	LanguageHr Language = "hr"
-	// Haitian; Haitian Creole
-	LanguageHt Language = "ht"
 	// Hungarian
 	LanguageHu Language = "hu"
-	// Armenian
-	LanguageHy Language = "hy"
-	// Herero
-	LanguageHz Language = "hz"
+	// Igbo
+	LanguageIg Language = "ig"
+	// Icelandic
+	LanguageIs Language = "is"
+	// Ido
+	LanguageIo Language = "io"
+	// Sichuan Yi; Nuosu
+	LanguageIi Language = "ii"
+	// Inuktitut
+	LanguageIu Language = "iu"
+	// Interlingue; Occidental
+	LanguageIe Language = "ie"
 	// Interlingua (International Auxiliary Language Association)
 	LanguageIa Language = "ia"
 	// Indonesian
 	LanguageId Language = "id"
-	// Interlingue; Occidental
-	LanguageIe Language = "ie"
-	// Igbo
-	LanguageIg Language = "ig"
-	// Sichuan Yi; Nuosu
-	LanguageIi Language = "ii"
 	// Inupiaq
 	LanguageIk Language = "ik"
-	// Ido
-	LanguageIo Language = "io"
-	// Icelandic
-	LanguageIs Language = "is"
 	// Italian
 	LanguageIt Language = "it"
-	// Inuktitut
-	LanguageIu Language = "iu"
-	// Japanese
-	LanguageJa Language = "ja"
 	// Javanese
 	LanguageJv Language = "jv"
-	// Georgian
-	LanguageKa Language = "ka"
-	// Kongo
-	LanguageKg Language = "kg"
-	// Kikuyu; Gikuyu
-	LanguageKi Language = "ki"
-	// Kuanyama; Kwanyama
-	LanguageKj Language = "kj"
-	// Kazakh
-	LanguageKk Language = "kk"
+	// Japanese
+	LanguageJa Language = "ja"
 	// Kalaallisut; Greenlandic
 	LanguageKl Language = "kl"
-	// Central Khmer
-	LanguageKm Language = "km"
 	// Kannada
 	LanguageKn Language = "kn"
-	// Korean
-	LanguageKo Language = "ko"
-	// Kanuri
-	LanguageKr Language = "kr"
 	// Kashmiri
 	LanguageKs Language = "ks"
-	// Kurdish
-	LanguageKu Language = "ku"
-	// Komi
-	LanguageKv Language = "kv"
-	// Cornish
-	LanguageKw Language = "kw"
+	// Kanuri
+	LanguageKr Language = "kr"
+	// Kazakh
+	LanguageKk Language = "kk"
+	// Central Khmer
+	LanguageKm Language = "km"
+	// Kikuyu; Gikuyu
+	LanguageKi Language = "ki"
+	// Kinyarwanda
+	LanguageRw Language = "rw"
 	// Kirghiz; Kyrgyz
 	LanguageKy Language = "ky"
+	// Komi
+	LanguageKv Language = "kv"
+	// Kongo
+	LanguageKg Language = "kg"
+	// Korean
+	LanguageKo Language = "ko"
+	// Kuanyama; Kwanyama
+	LanguageKj Language = "kj"
+	// Kurdish
+	LanguageKu Language = "ku"
+	// Lao
+	LanguageLo Language = "lo"
 	// Latin
 	LanguageLa Language = "la"
-	// Luxembourgish; Letzeburgesch
-	LanguageLb Language = "lb"
-	// Ganda
-	LanguageLg Language = "lg"
+	// Latvian
+	LanguageLv Language = "lv"
 	// Limburgan; Limburger; Limburgish
 	LanguageLi Language = "li"
 	// Lingala
 	LanguageLn Language = "ln"
-	// Lao
-	LanguageLo Language = "lo"
 	// Lithuanian
 	LanguageLt Language = "lt"
+	// Luxembourgish; Letzeburgesch
+	LanguageLb Language = "lb"
 	// Luba-Katanga
 	LanguageLu Language = "lu"
-	// Latvian
-	LanguageLv Language = "lv"
-	// Malagasy
-	LanguageMg Language = "mg"
-	// Marshallese
-	LanguageMh Language = "mh"
-	// Maori
-	LanguageMi Language = "mi"
+	// Ganda
+	LanguageLg Language = "lg"
 	// Macedonian
 	LanguageMk Language = "mk"
+	// Marshallese
+	LanguageMh Language = "mh"
 	// Malayalam
 	LanguageMl Language = "ml"
-	// Mongolian
-	LanguageMn Language = "mn"
+	// Maori
+	LanguageMi Language = "mi"
 	// Marathi
 	LanguageMr Language = "mr"
 	// Malay
 	LanguageMs Language = "ms"
+	// Malagasy
+	LanguageMg Language = "mg"
 	// Maltese
 	LanguageMt Language = "mt"
-	// Burmese
-	LanguageMy Language = "my"
+	// Mongolian
+	LanguageMn Language = "mn"
 	// Nauru
 	LanguageNa Language = "na"
-	// Bokmål, Norwegian; Norwegian Bokmål
-	LanguageNb Language = "nb"
-	// Ndebele, North; North Ndebele
-	LanguageNd Language = "nd"
-	// Nepali
-	LanguageNe Language = "ne"
-	// Ndonga
-	LanguageNg Language = "ng"
-	// Dutch; Flemish
-	LanguageNl Language = "nl"
-	// Norwegian Nynorsk; Nynorsk, Norwegian
-	LanguageNn Language = "nn"
-	// Norwegian
-	LanguageNo Language = "no"
-	// Ndebele, South; South Ndebele
-	LanguageNr Language = "nr"
 	// Navajo; Navaho
 	LanguageNv Language = "nv"
+	// Ndebele, South; South Ndebele
+	LanguageNr Language = "nr"
+	// Ndebele, North; North Ndebele
+	LanguageNd Language = "nd"
+	// Ndonga
+	LanguageNg Language = "ng"
+	// Nepali
+	LanguageNe Language = "ne"
+	// Norwegian Nynorsk; Nynorsk, Norwegian
+	LanguageNn Language = "nn"
+	// Bokmål, Norwegian; Norwegian Bokmål
+	LanguageNb Language = "nb"
+	// Norwegian
+	LanguageNo Language = "no"
 	// Chichewa; Chewa; Nyanja
 	LanguageNy Language = "ny"
 	// Occitan (post 1500); Provençal
 	LanguageOc Language = "oc"
 	// Ojibwa
 	LanguageOj Language = "oj"
-	// Oromo
-	LanguageOm Language = "om"
 	// Oriya
 	LanguageOr Language = "or"
+	// Oromo
+	LanguageOm Language = "om"
 	// Ossetian; Ossetic
 	LanguageOs Language = "os"
 	// Panjabi; Punjabi
 	LanguagePa Language = "pa"
+	// Persian
+	LanguageFa Language = "fa"
 	// Pali
 	LanguagePi Language = "pi"
 	// Polish
 	LanguagePl Language = "pl"
-	// Pushto; Pashto
-	LanguagePs Language = "ps"
 	// Portuguese
 	LanguagePt Language = "pt"
+	// Pushto; Pashto
+	LanguagePs Language = "ps"
 	// Quechua
 	LanguageQu Language = "qu"
 	// Romansh
 	LanguageRm Language = "rm"
-	// Rundi
-	LanguageRn Language = "rn"
 	// Romanian; Moldavian; Moldovan
 	LanguageRo Language = "ro"
+	// Rundi
+	LanguageRn Language = "rn"
 	// Russian
 	LanguageRu Language = "ru"
-	// Kinyarwanda
-	LanguageRw Language = "rw"
-	// Sanskrit
-	LanguageSa Language = "sa"
-	// Sardinian
-	LanguageSc Language = "sc"
-	// Sindhi
-	LanguageSd Language = "sd"
-	// Northern Sami
-	LanguageSe Language = "se"
 	// Sango
 	LanguageSg Language = "sg"
+	// Sanskrit
+	LanguageSa Language = "sa"
 	// Sinhala; Sinhalese
 	LanguageSi Language = "si"
 	// Slovak
 	LanguageSk Language = "sk"
 	// Slovenian
 	LanguageSl Language = "sl"
+	// Northern Sami
+	LanguageSe Language = "se"
 	// Samoan
 	LanguageSm Language = "sm"
 	// Shona
 	LanguageSn Language = "sn"
+	// Sindhi
+	LanguageSd Language = "sd"
 	// Somali
 	LanguageSo Language = "so"
-	// Albanian
-	LanguageSq Language = "sq"
+	// Sotho, Southern
+	LanguageSt Language = "st"
+	// Spanish; Castilian
+	LanguageEs Language = "es"
+	// Sardinian
+	LanguageSc Language = "sc"
 	// Serbian
 	LanguageSr Language = "sr"
 	// Swati
 	LanguageSs Language = "ss"
-	// Sotho, Southern
-	LanguageSt Language = "st"
 	// Sundanese
 	LanguageSu Language = "su"
-	// Swedish
-	LanguageSv Language = "sv"
 	// Swahili
 	LanguageSw Language = "sw"
+	// Swedish
+	LanguageSv Language = "sv"
+	// Tahitian
+	LanguageTy Language = "ty"
 	// Tamil
 	LanguageTa Language = "ta"
+	// Tatar
+	LanguageTt Language = "tt"
 	// Telugu
 	LanguageTe Language = "te"
 	// Tajik
 	LanguageTg Language = "tg"
-	// Thai
-	LanguageTh Language = "th"
-	// Tigrinya
-	LanguageTi Language = "ti"
-	// Turkmen
-	LanguageTk Language = "tk"
 	// Tagalog
 	LanguageTl Language = "tl"
-	// Tswana
-	LanguageTn Language = "tn"
+	// Thai
+	LanguageTh Language = "th"
+	// Tibetan
+	LanguageBo Language = "bo"
+	// Tigrinya
+	LanguageTi Language = "ti"
 	// Tonga (Tonga Islands)
 	LanguageTo Language = "to"
-	// Turkish
-	LanguageTr Language = "tr"
+	// Tswana
+	LanguageTn Language = "tn"
 	// Tsonga
 	LanguageTs Language = "ts"
-	// Tatar
-	LanguageTt Language = "tt"
+	// Turkmen
+	LanguageTk Language = "tk"
+	// Turkish
+	LanguageTr Language = "tr"
 	// Twi
 	LanguageTw Language = "tw"
-	// Tahitian
-	LanguageTy Language = "ty"
 	// Uighur; Uyghur
 	LanguageUg Language = "ug"
 	// Ukrainian
@@ -7269,6 +7269,8 @@ const (
 	LanguageVi Language = "vi"
 	// Volapük
 	LanguageVo Language = "vo"
+	// Welsh
+	LanguageCy Language = "cy"
 	// Walloon
 	LanguageWa Language = "wa"
 	// Wolof
@@ -7281,8 +7283,6 @@ const (
 	LanguageYo Language = "yo"
 	// Zhuang; Chuang
 	LanguageZa Language = "za"
-	// Chinese
-	LanguageZh Language = "zh"
 	// Zulu
 	LanguageZu Language = "zu"
 )
@@ -7293,340 +7293,340 @@ func NewLanguageFromString(s string) (Language, error) {
 		return LanguageAa, nil
 	case "ab":
 		return LanguageAb, nil
-	case "ae":
-		return LanguageAe, nil
 	case "af":
 		return LanguageAf, nil
 	case "ak":
 		return LanguageAk, nil
+	case "sq":
+		return LanguageSq, nil
 	case "am":
 		return LanguageAm, nil
-	case "an":
-		return LanguageAn, nil
 	case "ar":
 		return LanguageAr, nil
+	case "an":
+		return LanguageAn, nil
+	case "hy":
+		return LanguageHy, nil
 	case "as":
 		return LanguageAs, nil
 	case "av":
 		return LanguageAv, nil
+	case "ae":
+		return LanguageAe, nil
 	case "ay":
 		return LanguageAy, nil
 	case "az":
 		return LanguageAz, nil
 	case "ba":
 		return LanguageBa, nil
+	case "bm":
+		return LanguageBm, nil
+	case "eu":
+		return LanguageEu, nil
 	case "be":
 		return LanguageBe, nil
-	case "bg":
-		return LanguageBg, nil
+	case "bn":
+		return LanguageBn, nil
 	case "bh":
 		return LanguageBh, nil
 	case "bi":
 		return LanguageBi, nil
-	case "bm":
-		return LanguageBm, nil
-	case "bn":
-		return LanguageBn, nil
-	case "bo":
-		return LanguageBo, nil
-	case "br":
-		return LanguageBr, nil
 	case "bs":
 		return LanguageBs, nil
+	case "br":
+		return LanguageBr, nil
+	case "bg":
+		return LanguageBg, nil
+	case "my":
+		return LanguageMy, nil
 	case "ca":
 		return LanguageCa, nil
-	case "ce":
-		return LanguageCe, nil
 	case "ch":
 		return LanguageCh, nil
+	case "ce":
+		return LanguageCe, nil
+	case "zh":
+		return LanguageZh, nil
+	case "cu":
+		return LanguageCu, nil
+	case "cv":
+		return LanguageCv, nil
+	case "kw":
+		return LanguageKw, nil
 	case "co":
 		return LanguageCo, nil
 	case "cr":
 		return LanguageCr, nil
 	case "cs":
 		return LanguageCs, nil
-	case "cu":
-		return LanguageCu, nil
-	case "cv":
-		return LanguageCv, nil
-	case "cy":
-		return LanguageCy, nil
 	case "da":
 		return LanguageDa, nil
-	case "de":
-		return LanguageDe, nil
 	case "dv":
 		return LanguageDv, nil
+	case "nl":
+		return LanguageNl, nil
 	case "dz":
 		return LanguageDz, nil
-	case "ee":
-		return LanguageEe, nil
-	case "el":
-		return LanguageEl, nil
 	case "en":
 		return LanguageEn, nil
 	case "eo":
 		return LanguageEo, nil
-	case "es":
-		return LanguageEs, nil
 	case "et":
 		return LanguageEt, nil
-	case "eu":
-		return LanguageEu, nil
-	case "fa":
-		return LanguageFa, nil
-	case "ff":
-		return LanguageFf, nil
-	case "fi":
-		return LanguageFi, nil
-	case "fj":
-		return LanguageFj, nil
+	case "ee":
+		return LanguageEe, nil
 	case "fo":
 		return LanguageFo, nil
+	case "fj":
+		return LanguageFj, nil
+	case "fi":
+		return LanguageFi, nil
 	case "fr":
 		return LanguageFr, nil
 	case "fy":
 		return LanguageFy, nil
-	case "ga":
-		return LanguageGa, nil
+	case "ff":
+		return LanguageFf, nil
+	case "ka":
+		return LanguageKa, nil
+	case "de":
+		return LanguageDe, nil
 	case "gd":
 		return LanguageGd, nil
+	case "ga":
+		return LanguageGa, nil
 	case "gl":
 		return LanguageGl, nil
+	case "gv":
+		return LanguageGv, nil
+	case "el":
+		return LanguageEl, nil
 	case "gn":
 		return LanguageGn, nil
 	case "gu":
 		return LanguageGu, nil
-	case "gv":
-		return LanguageGv, nil
+	case "ht":
+		return LanguageHt, nil
 	case "ha":
 		return LanguageHa, nil
 	case "he":
 		return LanguageHe, nil
+	case "hz":
+		return LanguageHz, nil
 	case "hi":
 		return LanguageHi, nil
 	case "ho":
 		return LanguageHo, nil
 	case "hr":
 		return LanguageHr, nil
-	case "ht":
-		return LanguageHt, nil
 	case "hu":
 		return LanguageHu, nil
-	case "hy":
-		return LanguageHy, nil
-	case "hz":
-		return LanguageHz, nil
+	case "ig":
+		return LanguageIg, nil
+	case "is":
+		return LanguageIs, nil
+	case "io":
+		return LanguageIo, nil
+	case "ii":
+		return LanguageIi, nil
+	case "iu":
+		return LanguageIu, nil
+	case "ie":
+		return LanguageIe, nil
 	case "ia":
 		return LanguageIa, nil
 	case "id":
 		return LanguageId, nil
-	case "ie":
-		return LanguageIe, nil
-	case "ig":
-		return LanguageIg, nil
-	case "ii":
-		return LanguageIi, nil
 	case "ik":
 		return LanguageIk, nil
-	case "io":
-		return LanguageIo, nil
-	case "is":
-		return LanguageIs, nil
 	case "it":
 		return LanguageIt, nil
-	case "iu":
-		return LanguageIu, nil
-	case "ja":
-		return LanguageJa, nil
 	case "jv":
 		return LanguageJv, nil
-	case "ka":
-		return LanguageKa, nil
-	case "kg":
-		return LanguageKg, nil
-	case "ki":
-		return LanguageKi, nil
-	case "kj":
-		return LanguageKj, nil
-	case "kk":
-		return LanguageKk, nil
+	case "ja":
+		return LanguageJa, nil
 	case "kl":
 		return LanguageKl, nil
-	case "km":
-		return LanguageKm, nil
 	case "kn":
 		return LanguageKn, nil
-	case "ko":
-		return LanguageKo, nil
-	case "kr":
-		return LanguageKr, nil
 	case "ks":
 		return LanguageKs, nil
-	case "ku":
-		return LanguageKu, nil
-	case "kv":
-		return LanguageKv, nil
-	case "kw":
-		return LanguageKw, nil
+	case "kr":
+		return LanguageKr, nil
+	case "kk":
+		return LanguageKk, nil
+	case "km":
+		return LanguageKm, nil
+	case "ki":
+		return LanguageKi, nil
+	case "rw":
+		return LanguageRw, nil
 	case "ky":
 		return LanguageKy, nil
+	case "kv":
+		return LanguageKv, nil
+	case "kg":
+		return LanguageKg, nil
+	case "ko":
+		return LanguageKo, nil
+	case "kj":
+		return LanguageKj, nil
+	case "ku":
+		return LanguageKu, nil
+	case "lo":
+		return LanguageLo, nil
 	case "la":
 		return LanguageLa, nil
-	case "lb":
-		return LanguageLb, nil
-	case "lg":
-		return LanguageLg, nil
+	case "lv":
+		return LanguageLv, nil
 	case "li":
 		return LanguageLi, nil
 	case "ln":
 		return LanguageLn, nil
-	case "lo":
-		return LanguageLo, nil
 	case "lt":
 		return LanguageLt, nil
+	case "lb":
+		return LanguageLb, nil
 	case "lu":
 		return LanguageLu, nil
-	case "lv":
-		return LanguageLv, nil
-	case "mg":
-		return LanguageMg, nil
-	case "mh":
-		return LanguageMh, nil
-	case "mi":
-		return LanguageMi, nil
+	case "lg":
+		return LanguageLg, nil
 	case "mk":
 		return LanguageMk, nil
+	case "mh":
+		return LanguageMh, nil
 	case "ml":
 		return LanguageMl, nil
-	case "mn":
-		return LanguageMn, nil
+	case "mi":
+		return LanguageMi, nil
 	case "mr":
 		return LanguageMr, nil
 	case "ms":
 		return LanguageMs, nil
+	case "mg":
+		return LanguageMg, nil
 	case "mt":
 		return LanguageMt, nil
-	case "my":
-		return LanguageMy, nil
+	case "mn":
+		return LanguageMn, nil
 	case "na":
 		return LanguageNa, nil
-	case "nb":
-		return LanguageNb, nil
-	case "nd":
-		return LanguageNd, nil
-	case "ne":
-		return LanguageNe, nil
-	case "ng":
-		return LanguageNg, nil
-	case "nl":
-		return LanguageNl, nil
-	case "nn":
-		return LanguageNn, nil
-	case "no":
-		return LanguageNo, nil
-	case "nr":
-		return LanguageNr, nil
 	case "nv":
 		return LanguageNv, nil
+	case "nr":
+		return LanguageNr, nil
+	case "nd":
+		return LanguageNd, nil
+	case "ng":
+		return LanguageNg, nil
+	case "ne":
+		return LanguageNe, nil
+	case "nn":
+		return LanguageNn, nil
+	case "nb":
+		return LanguageNb, nil
+	case "no":
+		return LanguageNo, nil
 	case "ny":
 		return LanguageNy, nil
 	case "oc":
 		return LanguageOc, nil
 	case "oj":
 		return LanguageOj, nil
-	case "om":
-		return LanguageOm, nil
 	case "or":
 		return LanguageOr, nil
+	case "om":
+		return LanguageOm, nil
 	case "os":
 		return LanguageOs, nil
 	case "pa":
 		return LanguagePa, nil
+	case "fa":
+		return LanguageFa, nil
 	case "pi":
 		return LanguagePi, nil
 	case "pl":
 		return LanguagePl, nil
-	case "ps":
-		return LanguagePs, nil
 	case "pt":
 		return LanguagePt, nil
+	case "ps":
+		return LanguagePs, nil
 	case "qu":
 		return LanguageQu, nil
 	case "rm":
 		return LanguageRm, nil
-	case "rn":
-		return LanguageRn, nil
 	case "ro":
 		return LanguageRo, nil
+	case "rn":
+		return LanguageRn, nil
 	case "ru":
 		return LanguageRu, nil
-	case "rw":
-		return LanguageRw, nil
-	case "sa":
-		return LanguageSa, nil
-	case "sc":
-		return LanguageSc, nil
-	case "sd":
-		return LanguageSd, nil
-	case "se":
-		return LanguageSe, nil
 	case "sg":
 		return LanguageSg, nil
+	case "sa":
+		return LanguageSa, nil
 	case "si":
 		return LanguageSi, nil
 	case "sk":
 		return LanguageSk, nil
 	case "sl":
 		return LanguageSl, nil
+	case "se":
+		return LanguageSe, nil
 	case "sm":
 		return LanguageSm, nil
 	case "sn":
 		return LanguageSn, nil
+	case "sd":
+		return LanguageSd, nil
 	case "so":
 		return LanguageSo, nil
-	case "sq":
-		return LanguageSq, nil
+	case "st":
+		return LanguageSt, nil
+	case "es":
+		return LanguageEs, nil
+	case "sc":
+		return LanguageSc, nil
 	case "sr":
 		return LanguageSr, nil
 	case "ss":
 		return LanguageSs, nil
-	case "st":
-		return LanguageSt, nil
 	case "su":
 		return LanguageSu, nil
-	case "sv":
-		return LanguageSv, nil
 	case "sw":
 		return LanguageSw, nil
+	case "sv":
+		return LanguageSv, nil
+	case "ty":
+		return LanguageTy, nil
 	case "ta":
 		return LanguageTa, nil
+	case "tt":
+		return LanguageTt, nil
 	case "te":
 		return LanguageTe, nil
 	case "tg":
 		return LanguageTg, nil
-	case "th":
-		return LanguageTh, nil
-	case "ti":
-		return LanguageTi, nil
-	case "tk":
-		return LanguageTk, nil
 	case "tl":
 		return LanguageTl, nil
-	case "tn":
-		return LanguageTn, nil
+	case "th":
+		return LanguageTh, nil
+	case "bo":
+		return LanguageBo, nil
+	case "ti":
+		return LanguageTi, nil
 	case "to":
 		return LanguageTo, nil
-	case "tr":
-		return LanguageTr, nil
+	case "tn":
+		return LanguageTn, nil
 	case "ts":
 		return LanguageTs, nil
-	case "tt":
-		return LanguageTt, nil
+	case "tk":
+		return LanguageTk, nil
+	case "tr":
+		return LanguageTr, nil
 	case "tw":
 		return LanguageTw, nil
-	case "ty":
-		return LanguageTy, nil
 	case "ug":
 		return LanguageUg, nil
 	case "uk":
@@ -7641,6 +7641,8 @@ func NewLanguageFromString(s string) (Language, error) {
 		return LanguageVi, nil
 	case "vo":
 		return LanguageVo, nil
+	case "cy":
+		return LanguageCy, nil
 	case "wa":
 		return LanguageWa, nil
 	case "wo":
@@ -7653,8 +7655,6 @@ func NewLanguageFromString(s string) (Language, error) {
 		return LanguageYo, nil
 	case "za":
 		return LanguageZa, nil
-	case "zh":
-		return LanguageZh, nil
 	case "zu":
 		return LanguageZu, nil
 	}
@@ -7841,22 +7841,22 @@ func (m MeasurementType) Ptr() *MeasurementType {
 type MonetaryValueContext string
 
 const (
-	// Indicates value determined by customs authorities
-	MonetaryValueContextAssessedValue MonetaryValueContext = "assessed_value"
 	// Indicates cost, insurance, and freight (CIF) arrangement
 	MonetaryValueContextCostInsuranceAndFreight MonetaryValueContext = "cost_insurance_and_freight"
 	// Indicates free on board (FOB) arrangement
 	MonetaryValueContextFreeOnBoard MonetaryValueContext = "free_on_board"
+	// Indicates value determined by customs authorities
+	MonetaryValueContextAssessedValue MonetaryValueContext = "assessed_value"
 )
 
 func NewMonetaryValueContextFromString(s string) (MonetaryValueContext, error) {
 	switch s {
-	case "assessed_value":
-		return MonetaryValueContextAssessedValue, nil
 	case "cost_insurance_and_freight":
 		return MonetaryValueContextCostInsuranceAndFreight, nil
 	case "free_on_board":
 		return MonetaryValueContextFreeOnBoard, nil
+	case "assessed_value":
+		return MonetaryValueContextAssessedValue, nil
 	}
 	var t MonetaryValueContext
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -8012,38 +8012,38 @@ func (m *MonetaryValueProperties) String() string {
 type NameContext string
 
 const (
-	// An alternative, former, or otherwise non-primary name
-	NameContextAlias NameContext = "alias"
-	// A family name (i.e., last name)
-	NameContextFamily NameContext = "family"
-	// A given name (i.e., first name, middle name)
-	NameContextGiven NameContext = "given"
-	// A machine translation of a name
-	NameContextMachineTranslation NameContext = "machine_translation"
 	// The main name, full name, or "best name" for an entity
 	NameContextPrimary NameContext = "primary"
-	// A discretely registered name used by a person or company not operating under its legal name
-	NameContextTradeName NameContext = "trade_name"
+	// A given name (i.e., first name, middle name)
+	NameContextGiven NameContext = "given"
+	// A family name (i.e., last name)
+	NameContextFamily NameContext = "family"
+	// An alternative, former, or otherwise non-primary name
+	NameContextAlias NameContext = "alias"
+	// A machine translation of a name
+	NameContextMachineTranslation NameContext = "machine_translation"
 	// A machine transliteration of a name using a specific system (e.g., Pinyin, ISO, UNGEGN)
 	NameContextTransliteration NameContext = "transliteration"
+	// A discretely registered name used by a person or company not operating under its legal name
+	NameContextTradeName NameContext = "trade_name"
 )
 
 func NewNameContextFromString(s string) (NameContext, error) {
 	switch s {
-	case "alias":
-		return NameContextAlias, nil
-	case "family":
-		return NameContextFamily, nil
-	case "given":
-		return NameContextGiven, nil
-	case "machine_translation":
-		return NameContextMachineTranslation, nil
 	case "primary":
 		return NameContextPrimary, nil
-	case "trade_name":
-		return NameContextTradeName, nil
+	case "given":
+		return NameContextGiven, nil
+	case "family":
+		return NameContextFamily, nil
+	case "alias":
+		return NameContextAlias, nil
+	case "machine_translation":
+		return NameContextMachineTranslation, nil
 	case "transliteration":
 		return NameContextTransliteration, nil
+	case "trade_name":
+		return NameContextTradeName, nil
 	}
 	var t NameContext
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -9459,28 +9459,28 @@ type StatusContext string
 const (
 	// e.g., "Broker", "Intermediary". An individual who acts as an intermediary for trading, lending, and investing purposes.
 	StatusContextBrokerLicense StatusContext = "broker_license"
-	// e.g., "Partnership". A basic form of partnership under common law. A company entity, typically unincorporated, comprised of two or more partners who agree to share in all assets, profits, and liabilities of a business.
-	StatusContextGeneralPartnershipStatus StatusContext = "general_partnership_status"
 	// e.g., "Investment Advisor". An individual who provides investment advice and/or securities analysis services for a fee.
 	StatusContextInvestmentAdvisorLicense StatusContext = "investment_advisor_license"
-	// e.g., "LLP", "Limited-Liability Limited Partnership". A partnership in which some or all partners have limited liabilities. Each partner's liabilities are limited to the amount they contribute to the business.
-	StatusContextLimitedLiabilityPartnershipStatus StatusContext = "limited_liability_partnership_status"
 	// e.g., "Sole proprietor", "Sole proprietorship", "Individual entrepreneurship", "Sole trader".
 	StatusContextSoleProprietorshipStatus StatusContext = "sole_proprietorship_status"
+	// e.g., "Partnership". A basic form of partnership under common law. A company entity, typically unincorporated, comprised of two or more partners who agree to share in all assets, profits, and liabilities of a business.
+	StatusContextGeneralPartnershipStatus StatusContext = "general_partnership_status"
+	// e.g., "LLP", "Limited-Liability Limited Partnership". A partnership in which some or all partners have limited liabilities. Each partner's liabilities are limited to the amount they contribute to the business.
+	StatusContextLimitedLiabilityPartnershipStatus StatusContext = "limited_liability_partnership_status"
 )
 
 func NewStatusContextFromString(s string) (StatusContext, error) {
 	switch s {
 	case "broker_license":
 		return StatusContextBrokerLicense, nil
-	case "general_partnership_status":
-		return StatusContextGeneralPartnershipStatus, nil
 	case "investment_advisor_license":
 		return StatusContextInvestmentAdvisorLicense, nil
-	case "limited_liability_partnership_status":
-		return StatusContextLimitedLiabilityPartnershipStatus, nil
 	case "sole_proprietorship_status":
 		return StatusContextSoleProprietorshipStatus, nil
+	case "general_partnership_status":
+		return StatusContextGeneralPartnershipStatus, nil
+	case "limited_liability_partnership_status":
+		return StatusContextLimitedLiabilityPartnershipStatus, nil
 	}
 	var t StatusContext
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -9636,73 +9636,73 @@ func (s *StatusProperties) String() string {
 type Tag string
 
 const (
-	TagAspiUyghurForcedLaborReportEntity          Tag = "aspi_uyghur_forced_labor_report_entity"
-	TagBisBoycottRequesterList                    Tag = "bis_boycott_requester_list"
+	TagPep                                        Tag = "pep"
+	TagStateOwned                                 Tag = "state_owned"
+	TagFormerSoe                                  Tag = "former_soe"
+	TagSanctioned                                 Tag = "sanctioned"
+	TagFormerlySanctioned                         Tag = "formerly_sanctioned"
+	TagReputationalRiskTerrorism                  Tag = "reputational_risk_terrorism"
+	TagReputationalRiskOrganizedCrime             Tag = "reputational_risk_organized_crime"
+	TagReputationalRiskFinancialCrime             Tag = "reputational_risk_financial_crime"
+	TagReputationalRiskBriberyAndCorruption       Tag = "reputational_risk_bribery_and_corruption"
+	TagReputationalRiskOther                      Tag = "reputational_risk_other"
+	TagReputationalRiskCybercrime                 Tag = "reputational_risk_cybercrime"
+	TagReputationalRiskModernSlavery              Tag = "reputational_risk_modern_slavery"
+	TagRegulatoryAction                           Tag = "regulatory_action"
+	TagLawEnforcementAction                       Tag = "law_enforcement_action"
 	TagExportControls                             Tag = "export_controls"
 	TagForcedLaborXinjiangContractors             Tag = "forced_labor_xinjiang_contractors"
-	TagFormerSoe                                  Tag = "former_soe"
-	TagFormerlySanctioned                         Tag = "formerly_sanctioned"
-	TagLawEnforcementAction                       Tag = "law_enforcement_action"
-	TagPep                                        Tag = "pep"
-	TagRegulatoryAction                           Tag = "regulatory_action"
-	TagReputationalRiskBriberyAndCorruption       Tag = "reputational_risk_bribery_and_corruption"
-	TagReputationalRiskCybercrime                 Tag = "reputational_risk_cybercrime"
-	TagReputationalRiskFinancialCrime             Tag = "reputational_risk_financial_crime"
-	TagReputationalRiskModernSlavery              Tag = "reputational_risk_modern_slavery"
-	TagReputationalRiskOrganizedCrime             Tag = "reputational_risk_organized_crime"
-	TagReputationalRiskOther                      Tag = "reputational_risk_other"
-	TagReputationalRiskTerrorism                  Tag = "reputational_risk_terrorism"
-	TagSanctioned                                 Tag = "sanctioned"
-	TagSheffieldHallamUniversityForcedLaborEntity Tag = "sheffield_hallam_university_forced_labor_entity"
-	TagStateOwned                                 Tag = "state_owned"
-	TagUflpaEntity                                Tag = "uflpa_entity"
 	TagWroEntity                                  Tag = "wro_entity"
+	TagUflpaEntity                                Tag = "uflpa_entity"
+	TagSheffieldHallamUniversityForcedLaborEntity Tag = "sheffield_hallam_university_forced_labor_entity"
+	TagAspiUyghurForcedLaborReportEntity          Tag = "aspi_uyghur_forced_labor_report_entity"
+	TagBisBoycottRequesterList                    Tag = "bis_boycott_requester_list"
 )
 
 func NewTagFromString(s string) (Tag, error) {
 	switch s {
-	case "aspi_uyghur_forced_labor_report_entity":
-		return TagAspiUyghurForcedLaborReportEntity, nil
-	case "bis_boycott_requester_list":
-		return TagBisBoycottRequesterList, nil
+	case "pep":
+		return TagPep, nil
+	case "state_owned":
+		return TagStateOwned, nil
+	case "former_soe":
+		return TagFormerSoe, nil
+	case "sanctioned":
+		return TagSanctioned, nil
+	case "formerly_sanctioned":
+		return TagFormerlySanctioned, nil
+	case "reputational_risk_terrorism":
+		return TagReputationalRiskTerrorism, nil
+	case "reputational_risk_organized_crime":
+		return TagReputationalRiskOrganizedCrime, nil
+	case "reputational_risk_financial_crime":
+		return TagReputationalRiskFinancialCrime, nil
+	case "reputational_risk_bribery_and_corruption":
+		return TagReputationalRiskBriberyAndCorruption, nil
+	case "reputational_risk_other":
+		return TagReputationalRiskOther, nil
+	case "reputational_risk_cybercrime":
+		return TagReputationalRiskCybercrime, nil
+	case "reputational_risk_modern_slavery":
+		return TagReputationalRiskModernSlavery, nil
+	case "regulatory_action":
+		return TagRegulatoryAction, nil
+	case "law_enforcement_action":
+		return TagLawEnforcementAction, nil
 	case "export_controls":
 		return TagExportControls, nil
 	case "forced_labor_xinjiang_contractors":
 		return TagForcedLaborXinjiangContractors, nil
-	case "former_soe":
-		return TagFormerSoe, nil
-	case "formerly_sanctioned":
-		return TagFormerlySanctioned, nil
-	case "law_enforcement_action":
-		return TagLawEnforcementAction, nil
-	case "pep":
-		return TagPep, nil
-	case "regulatory_action":
-		return TagRegulatoryAction, nil
-	case "reputational_risk_bribery_and_corruption":
-		return TagReputationalRiskBriberyAndCorruption, nil
-	case "reputational_risk_cybercrime":
-		return TagReputationalRiskCybercrime, nil
-	case "reputational_risk_financial_crime":
-		return TagReputationalRiskFinancialCrime, nil
-	case "reputational_risk_modern_slavery":
-		return TagReputationalRiskModernSlavery, nil
-	case "reputational_risk_organized_crime":
-		return TagReputationalRiskOrganizedCrime, nil
-	case "reputational_risk_other":
-		return TagReputationalRiskOther, nil
-	case "reputational_risk_terrorism":
-		return TagReputationalRiskTerrorism, nil
-	case "sanctioned":
-		return TagSanctioned, nil
-	case "sheffield_hallam_university_forced_labor_entity":
-		return TagSheffieldHallamUniversityForcedLaborEntity, nil
-	case "state_owned":
-		return TagStateOwned, nil
-	case "uflpa_entity":
-		return TagUflpaEntity, nil
 	case "wro_entity":
 		return TagWroEntity, nil
+	case "uflpa_entity":
+		return TagUflpaEntity, nil
+	case "sheffield_hallam_university_forced_labor_entity":
+		return TagSheffieldHallamUniversityForcedLaborEntity, nil
+	case "aspi_uyghur_forced_labor_report_entity":
+		return TagAspiUyghurForcedLaborReportEntity, nil
+	case "bis_boycott_requester_list":
+		return TagBisBoycottRequesterList, nil
 	}
 	var t Tag
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -9858,22 +9858,22 @@ func (t *TranslatedNameProperties) String() string {
 type TranslationContext string
 
 const (
-	// A translation made using Google Translate API
-	TranslationContextGoogleTranslate TranslationContext = "google_translate"
-	// A Pinyin transliteration
-	TranslationContextPinyin TranslationContext = "pinyin"
 	// A translation made using a Sayari machine learning model
 	TranslationContextSayariMachineTranslation TranslationContext = "sayari_machine_translation"
+	// A Pinyin transliteration
+	TranslationContextPinyin TranslationContext = "pinyin"
+	// A translation made using Google Translate API
+	TranslationContextGoogleTranslate TranslationContext = "google_translate"
 )
 
 func NewTranslationContextFromString(s string) (TranslationContext, error) {
 	switch s {
-	case "google_translate":
-		return TranslationContextGoogleTranslate, nil
-	case "pinyin":
-		return TranslationContextPinyin, nil
 	case "sayari_machine_translation":
 		return TranslationContextSayariMachineTranslation, nil
+	case "pinyin":
+		return TranslationContextPinyin, nil
+	case "google_translate":
+		return TranslationContextGoogleTranslate, nil
 	}
 	var t TranslationContext
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -9887,20 +9887,20 @@ func (t TranslationContext) Ptr() *TranslationContext {
 type Unit string
 
 const (
-	// Indicates kilograms (kg)
-	UnitKilogram Unit = "kilogram"
 	// Indicates meters (m)
 	UnitMetre Unit = "metre"
+	// Indicates kilograms (kg)
+	UnitKilogram Unit = "kilogram"
 	// Used to show the number of units of a product
 	UnitUnit Unit = "unit"
 )
 
 func NewUnitFromString(s string) (Unit, error) {
 	switch s {
-	case "kilogram":
-		return UnitKilogram, nil
 	case "metre":
 		return UnitMetre, nil
+	case "kilogram":
+		return UnitKilogram, nil
 	case "unit":
 		return UnitUnit, nil
 	}
@@ -10056,447 +10056,447 @@ func (w *WeakIdentifierProperties) String() string {
 type WeakIdentifierType string
 
 const (
-	// Unique company ID from Inspección General de Justicia in Argentina
-	WeakIdentifierTypeArgIgjNumber WeakIdentifierType = "arg_igj_number"
-	// Unique identifier for Argentinian imports and exports
-	WeakIdentifierTypeArgImportExportId WeakIdentifierType = "arg_import_export_id"
-	// Antigua and Barbuda Business Registry Entity Number
-	WeakIdentifierTypeAtgCorporateRegistryEntityNum WeakIdentifierType = "atg_corporate_registry_entity_num"
-	// Weak AUS state registration number. Registration number assigned when legal entity is originally registered by the Australian State.
-	WeakIdentifierTypeAusStateRegNumber WeakIdentifierType = "aus_state_reg_number"
-	// Austrian Company Register Number (no longer used)
-	WeakIdentifierTypeAutFormerCrNo WeakIdentifierType = "aut_former_cr_no"
-	// Austrian National Bank ID Number
-	WeakIdentifierTypeAutNatlBankNo WeakIdentifierType = "aut_natl_bank_no"
-	// Bosnia and Herzegovina business register registration number
-	WeakIdentifierTypeBihMbsNumber WeakIdentifierType = "bih_mbs_number"
-	// Bill of lading number for trade data
-	WeakIdentifierTypeBillOfLading WeakIdentifierType = "bill_of_lading"
-	// Bermuda registration number
-	WeakIdentifierTypeBmuRegistrationNumber WeakIdentifierType = "bmu_registration_number"
+	// A string that is thought to be an ID number, but whose type is unknown
+	WeakIdentifierTypeUnknown WeakIdentifierType = "unknown"
+	// Partial Mexican RFC
+	WeakIdentifierTypeMxPartialRfcPerson WeakIdentifierType = "mx_partial_rfc_person"
+	// Russia OKTMO (Russian Classification of Territories of Municipal Formations)
+	WeakIdentifierTypeRuOktmo WeakIdentifierType = "ru_oktmo"
+	// Russian KPP, or tax registration event code
+	WeakIdentifierTypeRuKpp WeakIdentifierType = "ru_kpp"
+	// A unique identifier that is reissued when a company dissolves. Applies to Russian companies.
+	WeakIdentifierTypeRuOkpo WeakIdentifierType = "ru_okpo"
+	// A passport number whose country of origin is not known
+	WeakIdentifierTypeUnknownPassport WeakIdentifierType = "unknown_passport"
+	// An identifier from the Kosovo company registry
+	WeakIdentifierTypeRksKtaNumber WeakIdentifierType = "rks_kta_number"
 	// Individual taxpayer registry identification in Brazil. Learn more [here](https://en.wikipedia.org/wiki/Cadastro_de_Pessoas_F%C3%ADsicas)
 	WeakIdentifierTypeBraPartialCpf WeakIdentifierType = "bra_partial_cpf"
-	// Brazilian Lawyer Identification number
-	WeakIdentifierTypeBrazilianOab WeakIdentifierType = "brazilian_oab"
-	// China Classification Society Ship Class Number
-	WeakIdentifierTypeCcsShipClassNumber WeakIdentifierType = "ccs_ship_class_number"
-	// CVE number in Chile Santiago Gazette
-	WeakIdentifierTypeChlSantiagoGazetteCve WeakIdentifierType = "chl_santiago_gazette_cve"
-	// Internal identifier for legal persons from CHN cninfo data
-	WeakIdentifierTypeChnCninfoLegalPersonId WeakIdentifierType = "chn_cninfo_legal_person_id"
-	// Chinese customs registration code. Downgraded to weak identifier.
-	WeakIdentifierTypeChnCustomsRegistrationCode WeakIdentifierType = "chn_customs_registration_code"
-	// Part of a Qichacha URL, used to uniquely identify people within the site
-	WeakIdentifierTypeCnQccInternalId WeakIdentifierType = "cn_qcc_internal_id"
-	// National identification number for enterprises and associations (Senegal)
-	WeakIdentifierTypeCofiCode WeakIdentifierType = "cofi_code"
-	// Bill of lading number for Colombian trade data
-	WeakIdentifierTypeColBillOfLading WeakIdentifierType = "col_bill_of_lading"
-	// Matricula mercantil number, which is non-unique across different chambers of commerce
-	WeakIdentifierTypeColMatriculaMercantil WeakIdentifierType = "col_matricula_mercantil"
-	// Colombian SECOP internal ID
-	WeakIdentifierTypeColSecopNo WeakIdentifierType = "col_secop_no"
-	// Internal ID for Costa Rica comexport data (shipping operation number)
-	WeakIdentifierTypeCriOpNo WeakIdentifierType = "cri_op_no"
-	// Czechia file number from MOJ registry
-	WeakIdentifierTypeCzeFileNumber WeakIdentifierType = "cze_file_number"
-	// The company number given to each company listed in Handelsregister, the German Commercial Register. It is not unique unless combined with the district court XJustiz ID, which this weak identifier does not contain because in some cases it is not provided.
-	WeakIdentifierTypeDeuRegisternummer WeakIdentifierType = "deu_registernummer"
-	// Dominica Business Registry Entity Number
-	WeakIdentifierTypeDmaCorporateRegistryEntityNum WeakIdentifierType = "dma_corporate_registry_entity_num"
-	// UK entity ID number assigned to entities registered in the UK Government Grants Information System
-	WeakIdentifierTypeGbrGrantInfoNumber WeakIdentifierType = "gbr_grant_info_number"
-	// Georgian state registration number
-	WeakIdentifierTypeGeoStateRegistrationNumber WeakIdentifierType = "geo_state_registration_number"
-	// Notary office number for notaries in Honduras Tegucigalpa source
-	WeakIdentifierTypeHndTegucigalpaNotary WeakIdentifierType = "hnd_tegucigalpa_notary"
-	// Internal ID for Hungarian companies by Opten Ltd
-	WeakIdentifierTypeHunOptenId WeakIdentifierType = "hun_opten_id"
-	// Weak identifier. Assigned to entities registered with the Securities and Exchange Board of India.
-	WeakIdentifierTypeIndSebi WeakIdentifierType = "ind_sebi"
-	// Unique Ireland ID number. Assigned to every legal entity registered with Ireland Companies Registration Office.
-	WeakIdentifierTypeIrlRegistrationNo WeakIdentifierType = "irl_registration_no"
-	// Iranian registration number
-	WeakIdentifierTypeIrnRegNumber WeakIdentifierType = "irn_reg_number"
-	// Iraq Provision Card No.
-	WeakIdentifierTypeIrqProvisionCard WeakIdentifierType = "irq_provision_card"
+	// Identification number for Venezuelan comisarios
+	WeakIdentifierTypeVenColegiadoNumber WeakIdentifierType = "ven_colegiado_number"
+	// Panama Folio No.
+	WeakIdentifierTypePanFolio WeakIdentifierType = "pan_folio"
+	// A unique identifier that is reissued when a company dissolves. Applies to Kyrgyz companies.
+	WeakIdentifierTypeKgzOkpo WeakIdentifierType = "kgz_okpo"
+	// Kyrgyzstan INN
+	WeakIdentifierTypeKgzInn                WeakIdentifierType = "kgz_inn"
+	WeakIdentifierTypeLbnRegistrationNumber WeakIdentifierType = "lbn_registration_number"
 	// Number in registry per EBR
 	WeakIdentifierTypeItaEbrRegNumber WeakIdentifierType = "ita_ebr_reg_number"
 	// EBR short search code
 	WeakIdentifierTypeItaEbrShortSearchCode WeakIdentifierType = "ita_ebr_short_search_code"
-	// Weak identifier found in sole proprietor source
-	WeakIdentifierTypeJorSolPropInstitutionNumber WeakIdentifierType = "jor_sol_prop_institution_number"
-	// Company number from Jordan corporate registry
-	WeakIdentifierTypeJordanCompanyNo WeakIdentifierType = "jordan_company_no"
-	// Japan Ministry of Land, Infrastructure, Transport and Tourism permit number
-	WeakIdentifierTypeJpnPermitNo WeakIdentifierType = "jpn_permit_no"
-	// Kyrgyzstan INN
-	WeakIdentifierTypeKgzInn WeakIdentifierType = "kgz_inn"
-	// A unique identifier that is reissued when a company dissolves. Applies to Kyrgyz companies.
-	WeakIdentifierTypeKgzOkpo WeakIdentifierType = "kgz_okpo"
-	// Cambodia tax identification number
-	WeakIdentifierTypeKhmTinNumber WeakIdentifierType = "khm_tin_number"
-	// Lebanese family number
-	WeakIdentifierTypeLbnFamilyNumber       WeakIdentifierType = "lbn_family_number"
-	WeakIdentifierTypeLbnRegistrationNumber WeakIdentifierType = "lbn_registration_number"
-	// St. Lucia Business Registry Entity Number
-	WeakIdentifierTypeLcaCorporateRegistryEntityNum WeakIdentifierType = "lca_corporate_registry_entity_num"
-	// Latvian Court Case ID Number
-	WeakIdentifierTypeLvaCourtCaseId WeakIdentifierType = "lva_court_case_id"
-	// Latvian Personal ID Number (last 5 digits masked)
-	WeakIdentifierTypeLvaPersonIdMasked WeakIdentifierType = "lva_person_id_masked"
-	// Case number for legal matters from Macao Tribunais da RAEM Judgments
-	WeakIdentifierTypeMacRaemCaseNumber WeakIdentifierType = "mac_raem_case_number"
+	// CVE number in Chile Santiago Gazette
+	WeakIdentifierTypeChlSantiagoGazetteCve WeakIdentifierType = "chl_santiago_gazette_cve"
+	// Bermuda registration number
+	WeakIdentifierTypeBmuRegistrationNumber WeakIdentifierType = "bmu_registration_number"
+	// Brazilian Lawyer Identification number
+	WeakIdentifierTypeBrazilianOab WeakIdentifierType = "brazilian_oab"
+	// Iranian registration number
+	WeakIdentifierTypeIrnRegNumber WeakIdentifierType = "irn_reg_number"
+	// Mexican FME
+	WeakIdentifierTypeMxFme WeakIdentifierType = "mx_fme"
+	// Learn more [here](https://www.wikidata.org/wiki/Property:P3125)
+	WeakIdentifierTypeUkrEdrpou WeakIdentifierType = "ukr_edrpou"
+	// Label for various license numbers extracted from EGRUL (Russia Federal Tax Registry) documents
+	WeakIdentifierTypeRuLicenseNumber WeakIdentifierType = "ru_license_number"
 	// Unique call sign for vessels
 	WeakIdentifierTypeMaritimeCallSign WeakIdentifierType = "maritime_call_sign"
-	// Maritime Mobile Service Identity number. Learn more [here](https://en.wikipedia.org/wiki/Maritime_Mobile_Service_Identity)
-	WeakIdentifierTypeMaritimeMobileServiceIdentity WeakIdentifierType = "maritime_mobile_service_identity"
-	// Mobile Home HUD Number
-	WeakIdentifierTypeMblHmHudNum WeakIdentifierType = "mbl_hm_hud_num"
+	// Registration numbers for North Korean ships
+	WeakIdentifierTypePrkShipRegNo WeakIdentifierType = "prk_ship_reg_no"
+	// National identification number for enterprises and associations (Senegal)
+	WeakIdentifierTypeCofiCode WeakIdentifierType = "cofi_code"
+	// Foreign entity accreditation number
+	WeakIdentifierTypeRuNza WeakIdentifierType = "ru_nza"
+	// Unique company ID from Inspección General de Justicia in Argentina
+	WeakIdentifierTypeArgIgjNumber WeakIdentifierType = "arg_igj_number"
+	// Brazil Litigation Case No.
+	WeakIdentifierTypeUnknownBraCaseNumber WeakIdentifierType = "unknown_bra_case_number"
+	// Iraq Provision Card No.
+	WeakIdentifierTypeIrqProvisionCard WeakIdentifierType = "irq_provision_card"
 	// Mobile Home Serial Number
 	WeakIdentifierTypeMblHmSn WeakIdentifierType = "mbl_hm_sn"
+	// Mobile Home HUD Number
+	WeakIdentifierTypeMblHmHudNum WeakIdentifierType = "mbl_hm_hud_num"
 	// Mobile Home Title Number
 	WeakIdentifierTypeMblHmTitleNum WeakIdentifierType = "mbl_hm_title_num"
-	// A tax identifier number (NIF) in Madagascar.
-	WeakIdentifierTypeMdgNifNumber WeakIdentifierType = "mdg_nif_number"
-	// A tax identifier number (RCS) in Madagascar.
-	WeakIdentifierTypeMdgRcsNumber WeakIdentifierType = "mdg_rcs_number"
 	// Time stamp unique to each politician's filing on Declaranet
 	WeakIdentifierTypeMexDeclaranetAcuse WeakIdentifierType = "mex_declaranet_acuse"
+	// The company number given to each company listed in Handelsregister, the German Commercial Register. It is not unique unless combined with the district court XJustiz ID, which this weak identifier does not contain because in some cases it is not provided.
+	WeakIdentifierTypeDeuRegisternummer WeakIdentifierType = "deu_registernummer"
+	// A national ID number whose country of origin is not known
+	WeakIdentifierTypeUnknownNationalIdNum WeakIdentifierType = "unknown_national_id_num"
+	// A civil registration number whose country of origin is not known
+	WeakIdentifierTypeUnknownCivilRegNum WeakIdentifierType = "unknown_civil_reg_num"
+	// A residency number whose country of origin is not known
+	WeakIdentifierTypeUnknownResidencyNum WeakIdentifierType = "unknown_residency_num"
+	// A folio ID Number whose country of origin is not known
+	WeakIdentifierTypeUnknownFolioIdNum WeakIdentifierType = "unknown_folio_id_num"
+	// A commercial registration number of unknown origin
+	WeakIdentifierTypeUnknownCommercialRegisterId WeakIdentifierType = "unknown_commercial_register_id"
+	// A chamber of commerce number of unknown origin
+	WeakIdentifierTypeUnknownChamberOfCommerceId WeakIdentifierType = "unknown_chamber_of_commerce_id"
+	// A license number of unknown origin
+	WeakIdentifierTypeUnknownLicenseNum WeakIdentifierType = "unknown_license_num"
+	// An industrial license number of unknown origin
+	WeakIdentifierTypeUnknownIndustrialLicenseNum WeakIdentifierType = "unknown_industrial_license_num"
+	// Czechia file number from MOJ registry
+	WeakIdentifierTypeCzeFileNumber WeakIdentifierType = "cze_file_number"
 	// Mexican trademark application number
 	WeakIdentifierTypeMexTmAppNo WeakIdentifierType = "mex_tm_app_no"
 	// Mexican trademark registration number
 	WeakIdentifierTypeMexTmRegNo WeakIdentifierType = "mex_tm_reg_no"
-	// Internal registration number for entities that have registered with HM Revenue & Customs under respective regulations for money laundering supervision and guidance.
-	WeakIdentifierTypeMlrRegNum WeakIdentifierType = "mlr_reg_num"
-	// Mexican FME
-	WeakIdentifierTypeMxFme WeakIdentifierType = "mx_fme"
-	// Partial Mexican RFC
-	WeakIdentifierTypeMxPartialRfcPerson WeakIdentifierType = "mx_partial_rfc_person"
-	// Pakistan CNIC family number
-	WeakIdentifierTypePakCnicFamilyNo WeakIdentifierType = "pak_cnic_family_no"
-	// Old Pakistan company code
-	WeakIdentifierTypePakOldCompanyCode WeakIdentifierType = "pak_old_company_code"
-	// Panama Folio No.
-	WeakIdentifierTypePanFolio WeakIdentifierType = "pan_folio"
-	// Panama IBC RUC
-	WeakIdentifierTypePanIbcRuc WeakIdentifierType = "pan_ibc_ruc"
-	// An identification card or passport document for people in Venezuela
-	WeakIdentifierTypePartialVenCedula WeakIdentifierType = "partial_ven_cedula"
-	// Tax identification number from Poland
-	WeakIdentifierTypePolNipNumber WeakIdentifierType = "pol_nip_number"
-	// The register REGON serves as the national official Register of National Economy Entities.
-	WeakIdentifierTypePolRegonNumber WeakIdentifierType = "pol_regon_number"
-	// North Korea-China trade internal ID number
-	WeakIdentifierTypePrkInternalTradeId WeakIdentifierType = "prk_internal_trade_id"
-	// Registration numbers for North Korean ships
-	WeakIdentifierTypePrkShipRegNo WeakIdentifierType = "prk_ship_reg_no"
-	// Paraguay Shipment Number
-	WeakIdentifierTypePryShipmentNumber WeakIdentifierType = "pry_shipment_number"
-	// Kosovo Business No.
-	WeakIdentifierTypeRksBusinessNumber WeakIdentifierType = "rks_business_number"
-	// A fiscal number from the Kosovo company registry
-	WeakIdentifierTypeRksFiscalNumber WeakIdentifierType = "rks_fiscal_number"
-	// An identifier from the Kosovo company registry
-	WeakIdentifierTypeRksKtaNumber WeakIdentifierType = "rks_kta_number"
-	// Romanian Commercial Register ID (concatenated from jud_com, nr_com, and an_com from ROU/taxpayers)
-	WeakIdentifierTypeRouCommercialRegisterId WeakIdentifierType = "rou_commercial_register_id"
-	// Russian KPP, or tax registration event code
-	WeakIdentifierTypeRuKpp WeakIdentifierType = "ru_kpp"
-	// Label for various license numbers extracted from EGRUL (Russia Federal Tax Registry) documents
-	WeakIdentifierTypeRuLicenseNumber WeakIdentifierType = "ru_license_number"
-	// Foreign entity accreditation number
-	WeakIdentifierTypeRuNza WeakIdentifierType = "ru_nza"
-	// A unique identifier that is reissued when a company dissolves. Applies to Russian companies.
-	WeakIdentifierTypeRuOkpo WeakIdentifierType = "ru_okpo"
-	// Russia OKTMO (Russian Classification of Territories of Municipal Formations)
-	WeakIdentifierTypeRuOktmo WeakIdentifierType = "ru_oktmo"
-	// Russia Central Bank ID
-	WeakIdentifierTypeRusCbrId WeakIdentifierType = "rus_cbr_id"
-	// Partial South African ID number for individuals
-	WeakIdentifierTypeSouthAfricaPartialIdNumber WeakIdentifierType = "south_africa_partial_id_number"
-	// Turkey municipal trade registry ID number. Assigned by municipal chambers of commerce in Turkey.
-	WeakIdentifierTypeTurOfficeRegistrationNumber WeakIdentifierType = "tur_office_registration_number"
-	// Partial Turkish Central Registry Number System (MERSIS) number
-	WeakIdentifierTypeTurPartialMersisNumber WeakIdentifierType = "tur_partial_mersis_number"
-	// Bexar Appraisal District GEO ID
-	WeakIdentifierTypeTxBexarPropertyGeoId WeakIdentifierType = "tx_bexar_property_geo_id"
-	// Learn more [here](https://www.wikidata.org/wiki/Property:P3125)
-	WeakIdentifierTypeUkrEdrpou WeakIdentifierType = "ukr_edrpou"
-	// A string that is thought to be an ID number, but whose type is unknown
-	WeakIdentifierTypeUnknown WeakIdentifierType = "unknown"
-	// Brazil Litigation Case No.
-	WeakIdentifierTypeUnknownBraCaseNumber WeakIdentifierType = "unknown_bra_case_number"
-	// A chamber of commerce number of unknown origin
-	WeakIdentifierTypeUnknownChamberOfCommerceId WeakIdentifierType = "unknown_chamber_of_commerce_id"
-	// A civil registration number whose country of origin is not known
-	WeakIdentifierTypeUnknownCivilRegNum WeakIdentifierType = "unknown_civil_reg_num"
-	// A commercial registration number of unknown origin
-	WeakIdentifierTypeUnknownCommercialRegisterId WeakIdentifierType = "unknown_commercial_register_id"
-	// A folio ID Number whose country of origin is not known
-	WeakIdentifierTypeUnknownFolioIdNum WeakIdentifierType = "unknown_folio_id_num"
-	// An industrial license number of unknown origin
-	WeakIdentifierTypeUnknownIndustrialLicenseNum WeakIdentifierType = "unknown_industrial_license_num"
-	// A license number of unknown origin
-	WeakIdentifierTypeUnknownLicenseNum WeakIdentifierType = "unknown_license_num"
-	// A national ID number whose country of origin is not known
-	WeakIdentifierTypeUnknownNationalIdNum WeakIdentifierType = "unknown_national_id_num"
-	// A passport number whose country of origin is not known
-	WeakIdentifierTypeUnknownPassport WeakIdentifierType = "unknown_passport"
-	// A residency number whose country of origin is not known
-	WeakIdentifierTypeUnknownResidencyNum WeakIdentifierType = "unknown_residency_num"
-	// USA Customs and Border Protection Withhold Release Order ID
-	WeakIdentifierTypeUsaCbpWroId WeakIdentifierType = "usa_cbp_wro_id"
-	// Former USA/IRS FEI/EIN Number
-	WeakIdentifierTypeUsaFormerFein WeakIdentifierType = "usa_former_fein"
-	// Ticker symbol for securities without exchange information
-	WeakIdentifierTypeUsaGenericTicker WeakIdentifierType = "usa_generic_ticker"
-	// Site number of business registered in Chicago, Illinois, business license registry (unique to account number)
-	WeakIdentifierTypeUsaIlChicagoSiteNumber WeakIdentifierType = "usa_il_chicago_site_number"
-	// Identifier for shipment transactions
-	WeakIdentifierTypeUsaImportsSystemIdentityId WeakIdentifierType = "usa_imports_system_identity_id"
-	// USA Minnesota Secretary of State Filing Number
-	WeakIdentifierTypeUsaMnFilingNumber WeakIdentifierType = "usa_mn_filing_number"
-	// Corporation Number from USA Missouri Corporate Registry. Used on SOS search.
-	WeakIdentifierTypeUsaMoCorpNumber WeakIdentifierType = "usa_mo_corp_number"
-	// Entity ID from USA Missouri Corporate Registry
-	WeakIdentifierTypeUsaMoEntityId WeakIdentifierType = "usa_mo_entity_id"
+	// Company number from Jordan corporate registry
+	WeakIdentifierTypeJordanCompanyNo WeakIdentifierType = "jordan_company_no"
+	// Part of a Qichacha URL, used to uniquely identify people within the site
+	WeakIdentifierTypeCnQccInternalId WeakIdentifierType = "cn_qcc_internal_id"
+	// Weak identifier found in sole proprietor source
+	WeakIdentifierTypeJorSolPropInstitutionNumber WeakIdentifierType = "jor_sol_prop_institution_number"
 	// USA North Carolina SOS corporation number
 	WeakIdentifierTypeUsaNcCorpNo WeakIdentifierType = "usa_nc_corp_no"
 	// USA New Mexico Secretary of State License ID
 	WeakIdentifierTypeUsaNmLicenseId WeakIdentifierType = "usa_nm_license_id"
+	// Cambodia tax identification number
+	WeakIdentifierTypeKhmTinNumber WeakIdentifierType = "khm_tin_number"
+	// Entity ID from USA Missouri Corporate Registry
+	WeakIdentifierTypeUsaMoEntityId WeakIdentifierType = "usa_mo_entity_id"
+	// Corporation Number from USA Missouri Corporate Registry. Used on SOS search.
+	WeakIdentifierTypeUsaMoCorpNumber WeakIdentifierType = "usa_mo_corp_number"
+	// Case number for legal matters from Macao Tribunais da RAEM Judgments
+	WeakIdentifierTypeMacRaemCaseNumber WeakIdentifierType = "mac_raem_case_number"
+	// Notary office number for notaries in Honduras Tegucigalpa source
+	WeakIdentifierTypeHndTegucigalpaNotary WeakIdentifierType = "hnd_tegucigalpa_notary"
+	// Lebanese family number
+	WeakIdentifierTypeLbnFamilyNumber WeakIdentifierType = "lbn_family_number"
+	// Bexar Appraisal District GEO ID
+	WeakIdentifierTypeTxBexarPropertyGeoId WeakIdentifierType = "tx_bexar_property_geo_id"
+	// Pakistan CNIC family number
+	WeakIdentifierTypePakCnicFamilyNo WeakIdentifierType = "pak_cnic_family_no"
+	// Romanian Commercial Register ID (concatenated from jud_com, nr_com, and an_com from ROU/taxpayers)
+	WeakIdentifierTypeRouCommercialRegisterId WeakIdentifierType = "rou_commercial_register_id"
+	// Partial South African ID number for individuals
+	WeakIdentifierTypeSouthAfricaPartialIdNumber WeakIdentifierType = "south_africa_partial_id_number"
+	// North Korea-China trade internal ID number
+	WeakIdentifierTypePrkInternalTradeId WeakIdentifierType = "prk_internal_trade_id"
+	// Chinese customs registration code. Downgraded to weak identifier.
+	WeakIdentifierTypeChnCustomsRegistrationCode WeakIdentifierType = "chn_customs_registration_code"
+	// Austrian Company Register Number (no longer used)
+	WeakIdentifierTypeAutFormerCrNo WeakIdentifierType = "aut_former_cr_no"
+	// Austrian National Bank ID Number
+	WeakIdentifierTypeAutNatlBankNo WeakIdentifierType = "aut_natl_bank_no"
+	// Latvian Personal ID Number (last 5 digits masked)
+	WeakIdentifierTypeLvaPersonIdMasked WeakIdentifierType = "lva_person_id_masked"
+	// Latvian Court Case ID Number
+	WeakIdentifierTypeLvaCourtCaseId WeakIdentifierType = "lva_court_case_id"
+	// Internal identifier for legal persons from CHN cninfo data
+	WeakIdentifierTypeChnCninfoLegalPersonId WeakIdentifierType = "chn_cninfo_legal_person_id"
+	// Kosovo Business No.
+	WeakIdentifierTypeRksBusinessNumber WeakIdentifierType = "rks_business_number"
+	// A fiscal number from the Kosovo company registry
+	WeakIdentifierTypeRksFiscalNumber WeakIdentifierType = "rks_fiscal_number"
+	// A tax identifier number (NIF) in Madagascar.
+	WeakIdentifierTypeMdgNifNumber WeakIdentifierType = "mdg_nif_number"
+	// A tax identifier number (RCS) in Madagascar.
+	WeakIdentifierTypeMdgRcsNumber WeakIdentifierType = "mdg_rcs_number"
 	// Value-added tax ID number
 	WeakIdentifierTypeVat WeakIdentifierType = "vat"
-	// Identification number for Venezuelan comisarios
-	WeakIdentifierTypeVenColegiadoNumber WeakIdentifierType = "ven_colegiado_number"
-	// Manifiesto number for Venezuelan shipments
-	WeakIdentifierTypeVenManifiestoNumber WeakIdentifierType = "ven_manifiesto_number"
+	// Site number of business registered in Chicago, Illinois, business license registry (unique to account number)
+	WeakIdentifierTypeUsaIlChicagoSiteNumber WeakIdentifierType = "usa_il_chicago_site_number"
+	// Ticker symbol for securities without exchange information
+	WeakIdentifierTypeUsaGenericTicker WeakIdentifierType = "usa_generic_ticker"
 	// A certificate number for the National Registry of Contractors in Venezuela
 	WeakIdentifierTypeVenRncNumber WeakIdentifierType = "ven_rnc_number"
+	// Identifier for shipment transactions
+	WeakIdentifierTypeUsaImportsSystemIdentityId WeakIdentifierType = "usa_imports_system_identity_id"
+	// Bill of lading number for Colombian trade data
+	WeakIdentifierTypeColBillOfLading WeakIdentifierType = "col_bill_of_lading"
+	// Colombian SECOP internal ID
+	WeakIdentifierTypeColSecopNo WeakIdentifierType = "col_secop_no"
+	// The register REGON serves as the national official Register of National Economy Entities.
+	WeakIdentifierTypePolRegonNumber WeakIdentifierType = "pol_regon_number"
+	// Tax identification number from Poland
+	WeakIdentifierTypePolNipNumber WeakIdentifierType = "pol_nip_number"
+	// Bill of lading number for trade data
+	WeakIdentifierTypeBillOfLading WeakIdentifierType = "bill_of_lading"
+	// Panama IBC RUC
+	WeakIdentifierTypePanIbcRuc WeakIdentifierType = "pan_ibc_ruc"
+	// Old Pakistan company code
+	WeakIdentifierTypePakOldCompanyCode WeakIdentifierType = "pak_old_company_code"
+	// Japan Ministry of Land, Infrastructure, Transport and Tourism permit number
+	WeakIdentifierTypeJpnPermitNo WeakIdentifierType = "jpn_permit_no"
+	// Dominica Business Registry Entity Number
+	WeakIdentifierTypeDmaCorporateRegistryEntityNum WeakIdentifierType = "dma_corporate_registry_entity_num"
+	// Antigua and Barbuda Business Registry Entity Number
+	WeakIdentifierTypeAtgCorporateRegistryEntityNum WeakIdentifierType = "atg_corporate_registry_entity_num"
+	// St. Lucia Business Registry Entity Number
+	WeakIdentifierTypeLcaCorporateRegistryEntityNum WeakIdentifierType = "lca_corporate_registry_entity_num"
+	// Manifiesto number for Venezuelan shipments
+	WeakIdentifierTypeVenManifiestoNumber WeakIdentifierType = "ven_manifiesto_number"
+	// Matricula mercantil number, which is non-unique across different chambers of commerce
+	WeakIdentifierTypeColMatriculaMercantil WeakIdentifierType = "col_matricula_mercantil"
+	// Maritime Mobile Service Identity number. Learn more [here](https://en.wikipedia.org/wiki/Maritime_Mobile_Service_Identity)
+	WeakIdentifierTypeMaritimeMobileServiceIdentity WeakIdentifierType = "maritime_mobile_service_identity"
+	// Former USA/IRS FEI/EIN Number
+	WeakIdentifierTypeUsaFormerFein WeakIdentifierType = "usa_former_fein"
+	// USA Customs and Border Protection Withhold Release Order ID
+	WeakIdentifierTypeUsaCbpWroId WeakIdentifierType = "usa_cbp_wro_id"
+	// China Classification Society Ship Class Number
+	WeakIdentifierTypeCcsShipClassNumber WeakIdentifierType = "ccs_ship_class_number"
+	// Partial Turkish Central Registry Number System (MERSIS) number
+	WeakIdentifierTypeTurPartialMersisNumber WeakIdentifierType = "tur_partial_mersis_number"
+	// Turkey municipal trade registry ID number. Assigned by municipal chambers of commerce in Turkey.
+	WeakIdentifierTypeTurOfficeRegistrationNumber WeakIdentifierType = "tur_office_registration_number"
+	// An identification card or passport document for people in Venezuela
+	WeakIdentifierTypePartialVenCedula WeakIdentifierType = "partial_ven_cedula"
+	// Russia Central Bank ID
+	WeakIdentifierTypeRusCbrId WeakIdentifierType = "rus_cbr_id"
+	// Georgian state registration number
+	WeakIdentifierTypeGeoStateRegistrationNumber WeakIdentifierType = "geo_state_registration_number"
+	// Bosnia and Herzegovina business register registration number
+	WeakIdentifierTypeBihMbsNumber WeakIdentifierType = "bih_mbs_number"
+	// UK entity ID number assigned to entities registered in the UK Government Grants Information System
+	WeakIdentifierTypeGbrGrantInfoNumber WeakIdentifierType = "gbr_grant_info_number"
+	// Paraguay Shipment Number
+	WeakIdentifierTypePryShipmentNumber WeakIdentifierType = "pry_shipment_number"
+	// Unique identifier for Argentinian imports and exports
+	WeakIdentifierTypeArgImportExportId WeakIdentifierType = "arg_import_export_id"
+	// Internal ID for Costa Rica comexport data (shipping operation number)
+	WeakIdentifierTypeCriOpNo WeakIdentifierType = "cri_op_no"
+	// Weak AUS state registration number. Registration number assigned when legal entity is originally registered by the Australian State.
+	WeakIdentifierTypeAusStateRegNumber WeakIdentifierType = "aus_state_reg_number"
+	// Internal ID for Hungarian companies by Opten Ltd
+	WeakIdentifierTypeHunOptenId WeakIdentifierType = "hun_opten_id"
+	// Unique Ireland ID number. Assigned to every legal entity registered with Ireland Companies Registration Office.
+	WeakIdentifierTypeIrlRegistrationNo WeakIdentifierType = "irl_registration_no"
+	// USA Minnesota Secretary of State Filing Number
+	WeakIdentifierTypeUsaMnFilingNumber WeakIdentifierType = "usa_mn_filing_number"
+	// Weak identifier. Assigned to entities registered with the Securities and Exchange Board of India.
+	WeakIdentifierTypeIndSebi WeakIdentifierType = "ind_sebi"
+	// Internal registration number for entities that have registered with HM Revenue & Customs under respective regulations for money laundering supervision and guidance.
+	WeakIdentifierTypeMlrRegNum WeakIdentifierType = "mlr_reg_num"
 	// A temporary malformed type
 	WeakIdentifierTypeMalformedMmrPriorRegNo WeakIdentifierType = "malformed mmr_prior_reg_no"
 )
 
 func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 	switch s {
-	case "arg_igj_number":
-		return WeakIdentifierTypeArgIgjNumber, nil
-	case "arg_import_export_id":
-		return WeakIdentifierTypeArgImportExportId, nil
-	case "atg_corporate_registry_entity_num":
-		return WeakIdentifierTypeAtgCorporateRegistryEntityNum, nil
-	case "aus_state_reg_number":
-		return WeakIdentifierTypeAusStateRegNumber, nil
-	case "aut_former_cr_no":
-		return WeakIdentifierTypeAutFormerCrNo, nil
-	case "aut_natl_bank_no":
-		return WeakIdentifierTypeAutNatlBankNo, nil
-	case "bih_mbs_number":
-		return WeakIdentifierTypeBihMbsNumber, nil
-	case "bill_of_lading":
-		return WeakIdentifierTypeBillOfLading, nil
-	case "bmu_registration_number":
-		return WeakIdentifierTypeBmuRegistrationNumber, nil
+	case "unknown":
+		return WeakIdentifierTypeUnknown, nil
+	case "mx_partial_rfc_person":
+		return WeakIdentifierTypeMxPartialRfcPerson, nil
+	case "ru_oktmo":
+		return WeakIdentifierTypeRuOktmo, nil
+	case "ru_kpp":
+		return WeakIdentifierTypeRuKpp, nil
+	case "ru_okpo":
+		return WeakIdentifierTypeRuOkpo, nil
+	case "unknown_passport":
+		return WeakIdentifierTypeUnknownPassport, nil
+	case "rks_kta_number":
+		return WeakIdentifierTypeRksKtaNumber, nil
 	case "bra_partial_cpf":
 		return WeakIdentifierTypeBraPartialCpf, nil
-	case "brazilian_oab":
-		return WeakIdentifierTypeBrazilianOab, nil
-	case "ccs_ship_class_number":
-		return WeakIdentifierTypeCcsShipClassNumber, nil
-	case "chl_santiago_gazette_cve":
-		return WeakIdentifierTypeChlSantiagoGazetteCve, nil
-	case "chn_cninfo_legal_person_id":
-		return WeakIdentifierTypeChnCninfoLegalPersonId, nil
-	case "chn_customs_registration_code":
-		return WeakIdentifierTypeChnCustomsRegistrationCode, nil
-	case "cn_qcc_internal_id":
-		return WeakIdentifierTypeCnQccInternalId, nil
-	case "cofi_code":
-		return WeakIdentifierTypeCofiCode, nil
-	case "col_bill_of_lading":
-		return WeakIdentifierTypeColBillOfLading, nil
-	case "col_matricula_mercantil":
-		return WeakIdentifierTypeColMatriculaMercantil, nil
-	case "col_secop_no":
-		return WeakIdentifierTypeColSecopNo, nil
-	case "cri_op_no":
-		return WeakIdentifierTypeCriOpNo, nil
-	case "cze_file_number":
-		return WeakIdentifierTypeCzeFileNumber, nil
-	case "deu_registernummer":
-		return WeakIdentifierTypeDeuRegisternummer, nil
-	case "dma_corporate_registry_entity_num":
-		return WeakIdentifierTypeDmaCorporateRegistryEntityNum, nil
-	case "gbr_grant_info_number":
-		return WeakIdentifierTypeGbrGrantInfoNumber, nil
-	case "geo_state_registration_number":
-		return WeakIdentifierTypeGeoStateRegistrationNumber, nil
-	case "hnd_tegucigalpa_notary":
-		return WeakIdentifierTypeHndTegucigalpaNotary, nil
-	case "hun_opten_id":
-		return WeakIdentifierTypeHunOptenId, nil
-	case "ind_sebi":
-		return WeakIdentifierTypeIndSebi, nil
-	case "irl_registration_no":
-		return WeakIdentifierTypeIrlRegistrationNo, nil
-	case "irn_reg_number":
-		return WeakIdentifierTypeIrnRegNumber, nil
-	case "irq_provision_card":
-		return WeakIdentifierTypeIrqProvisionCard, nil
+	case "ven_colegiado_number":
+		return WeakIdentifierTypeVenColegiadoNumber, nil
+	case "pan_folio":
+		return WeakIdentifierTypePanFolio, nil
+	case "kgz_okpo":
+		return WeakIdentifierTypeKgzOkpo, nil
+	case "kgz_inn":
+		return WeakIdentifierTypeKgzInn, nil
+	case "lbn_registration_number":
+		return WeakIdentifierTypeLbnRegistrationNumber, nil
 	case "ita_ebr_reg_number":
 		return WeakIdentifierTypeItaEbrRegNumber, nil
 	case "ita_ebr_short_search_code":
 		return WeakIdentifierTypeItaEbrShortSearchCode, nil
-	case "jor_sol_prop_institution_number":
-		return WeakIdentifierTypeJorSolPropInstitutionNumber, nil
-	case "jordan_company_no":
-		return WeakIdentifierTypeJordanCompanyNo, nil
-	case "jpn_permit_no":
-		return WeakIdentifierTypeJpnPermitNo, nil
-	case "kgz_inn":
-		return WeakIdentifierTypeKgzInn, nil
-	case "kgz_okpo":
-		return WeakIdentifierTypeKgzOkpo, nil
-	case "khm_tin_number":
-		return WeakIdentifierTypeKhmTinNumber, nil
-	case "lbn_family_number":
-		return WeakIdentifierTypeLbnFamilyNumber, nil
-	case "lbn_registration_number":
-		return WeakIdentifierTypeLbnRegistrationNumber, nil
-	case "lca_corporate_registry_entity_num":
-		return WeakIdentifierTypeLcaCorporateRegistryEntityNum, nil
-	case "lva_court_case_id":
-		return WeakIdentifierTypeLvaCourtCaseId, nil
-	case "lva_person_id_masked":
-		return WeakIdentifierTypeLvaPersonIdMasked, nil
-	case "mac_raem_case_number":
-		return WeakIdentifierTypeMacRaemCaseNumber, nil
+	case "chl_santiago_gazette_cve":
+		return WeakIdentifierTypeChlSantiagoGazetteCve, nil
+	case "bmu_registration_number":
+		return WeakIdentifierTypeBmuRegistrationNumber, nil
+	case "brazilian_oab":
+		return WeakIdentifierTypeBrazilianOab, nil
+	case "irn_reg_number":
+		return WeakIdentifierTypeIrnRegNumber, nil
+	case "mx_fme":
+		return WeakIdentifierTypeMxFme, nil
+	case "ukr_edrpou":
+		return WeakIdentifierTypeUkrEdrpou, nil
+	case "ru_license_number":
+		return WeakIdentifierTypeRuLicenseNumber, nil
 	case "maritime_call_sign":
 		return WeakIdentifierTypeMaritimeCallSign, nil
-	case "maritime_mobile_service_identity":
-		return WeakIdentifierTypeMaritimeMobileServiceIdentity, nil
-	case "mbl_hm_hud_num":
-		return WeakIdentifierTypeMblHmHudNum, nil
+	case "prk_ship_reg_no":
+		return WeakIdentifierTypePrkShipRegNo, nil
+	case "cofi_code":
+		return WeakIdentifierTypeCofiCode, nil
+	case "ru_nza":
+		return WeakIdentifierTypeRuNza, nil
+	case "arg_igj_number":
+		return WeakIdentifierTypeArgIgjNumber, nil
+	case "unknown_bra_case_number":
+		return WeakIdentifierTypeUnknownBraCaseNumber, nil
+	case "irq_provision_card":
+		return WeakIdentifierTypeIrqProvisionCard, nil
 	case "mbl_hm_sn":
 		return WeakIdentifierTypeMblHmSn, nil
+	case "mbl_hm_hud_num":
+		return WeakIdentifierTypeMblHmHudNum, nil
 	case "mbl_hm_title_num":
 		return WeakIdentifierTypeMblHmTitleNum, nil
-	case "mdg_nif_number":
-		return WeakIdentifierTypeMdgNifNumber, nil
-	case "mdg_rcs_number":
-		return WeakIdentifierTypeMdgRcsNumber, nil
 	case "mex_declaranet_acuse":
 		return WeakIdentifierTypeMexDeclaranetAcuse, nil
+	case "deu_registernummer":
+		return WeakIdentifierTypeDeuRegisternummer, nil
+	case "unknown_national_id_num":
+		return WeakIdentifierTypeUnknownNationalIdNum, nil
+	case "unknown_civil_reg_num":
+		return WeakIdentifierTypeUnknownCivilRegNum, nil
+	case "unknown_residency_num":
+		return WeakIdentifierTypeUnknownResidencyNum, nil
+	case "unknown_folio_id_num":
+		return WeakIdentifierTypeUnknownFolioIdNum, nil
+	case "unknown_commercial_register_id":
+		return WeakIdentifierTypeUnknownCommercialRegisterId, nil
+	case "unknown_chamber_of_commerce_id":
+		return WeakIdentifierTypeUnknownChamberOfCommerceId, nil
+	case "unknown_license_num":
+		return WeakIdentifierTypeUnknownLicenseNum, nil
+	case "unknown_industrial_license_num":
+		return WeakIdentifierTypeUnknownIndustrialLicenseNum, nil
+	case "cze_file_number":
+		return WeakIdentifierTypeCzeFileNumber, nil
 	case "mex_tm_app_no":
 		return WeakIdentifierTypeMexTmAppNo, nil
 	case "mex_tm_reg_no":
 		return WeakIdentifierTypeMexTmRegNo, nil
-	case "mlr_reg_num":
-		return WeakIdentifierTypeMlrRegNum, nil
-	case "mx_fme":
-		return WeakIdentifierTypeMxFme, nil
-	case "mx_partial_rfc_person":
-		return WeakIdentifierTypeMxPartialRfcPerson, nil
-	case "pak_cnic_family_no":
-		return WeakIdentifierTypePakCnicFamilyNo, nil
-	case "pak_old_company_code":
-		return WeakIdentifierTypePakOldCompanyCode, nil
-	case "pan_folio":
-		return WeakIdentifierTypePanFolio, nil
-	case "pan_ibc_ruc":
-		return WeakIdentifierTypePanIbcRuc, nil
-	case "partial_ven_cedula":
-		return WeakIdentifierTypePartialVenCedula, nil
-	case "pol_nip_number":
-		return WeakIdentifierTypePolNipNumber, nil
-	case "pol_regon_number":
-		return WeakIdentifierTypePolRegonNumber, nil
-	case "prk_internal_trade_id":
-		return WeakIdentifierTypePrkInternalTradeId, nil
-	case "prk_ship_reg_no":
-		return WeakIdentifierTypePrkShipRegNo, nil
-	case "pry_shipment_number":
-		return WeakIdentifierTypePryShipmentNumber, nil
-	case "rks_business_number":
-		return WeakIdentifierTypeRksBusinessNumber, nil
-	case "rks_fiscal_number":
-		return WeakIdentifierTypeRksFiscalNumber, nil
-	case "rks_kta_number":
-		return WeakIdentifierTypeRksKtaNumber, nil
-	case "rou_commercial_register_id":
-		return WeakIdentifierTypeRouCommercialRegisterId, nil
-	case "ru_kpp":
-		return WeakIdentifierTypeRuKpp, nil
-	case "ru_license_number":
-		return WeakIdentifierTypeRuLicenseNumber, nil
-	case "ru_nza":
-		return WeakIdentifierTypeRuNza, nil
-	case "ru_okpo":
-		return WeakIdentifierTypeRuOkpo, nil
-	case "ru_oktmo":
-		return WeakIdentifierTypeRuOktmo, nil
-	case "rus_cbr_id":
-		return WeakIdentifierTypeRusCbrId, nil
-	case "south_africa_partial_id_number":
-		return WeakIdentifierTypeSouthAfricaPartialIdNumber, nil
-	case "tur_office_registration_number":
-		return WeakIdentifierTypeTurOfficeRegistrationNumber, nil
-	case "tur_partial_mersis_number":
-		return WeakIdentifierTypeTurPartialMersisNumber, nil
-	case "tx_bexar_property_geo_id":
-		return WeakIdentifierTypeTxBexarPropertyGeoId, nil
-	case "ukr_edrpou":
-		return WeakIdentifierTypeUkrEdrpou, nil
-	case "unknown":
-		return WeakIdentifierTypeUnknown, nil
-	case "unknown_bra_case_number":
-		return WeakIdentifierTypeUnknownBraCaseNumber, nil
-	case "unknown_chamber_of_commerce_id":
-		return WeakIdentifierTypeUnknownChamberOfCommerceId, nil
-	case "unknown_civil_reg_num":
-		return WeakIdentifierTypeUnknownCivilRegNum, nil
-	case "unknown_commercial_register_id":
-		return WeakIdentifierTypeUnknownCommercialRegisterId, nil
-	case "unknown_folio_id_num":
-		return WeakIdentifierTypeUnknownFolioIdNum, nil
-	case "unknown_industrial_license_num":
-		return WeakIdentifierTypeUnknownIndustrialLicenseNum, nil
-	case "unknown_license_num":
-		return WeakIdentifierTypeUnknownLicenseNum, nil
-	case "unknown_national_id_num":
-		return WeakIdentifierTypeUnknownNationalIdNum, nil
-	case "unknown_passport":
-		return WeakIdentifierTypeUnknownPassport, nil
-	case "unknown_residency_num":
-		return WeakIdentifierTypeUnknownResidencyNum, nil
-	case "usa_cbp_wro_id":
-		return WeakIdentifierTypeUsaCbpWroId, nil
-	case "usa_former_fein":
-		return WeakIdentifierTypeUsaFormerFein, nil
-	case "usa_generic_ticker":
-		return WeakIdentifierTypeUsaGenericTicker, nil
-	case "usa_il_chicago_site_number":
-		return WeakIdentifierTypeUsaIlChicagoSiteNumber, nil
-	case "usa_imports_system_identity_id":
-		return WeakIdentifierTypeUsaImportsSystemIdentityId, nil
-	case "usa_mn_filing_number":
-		return WeakIdentifierTypeUsaMnFilingNumber, nil
-	case "usa_mo_corp_number":
-		return WeakIdentifierTypeUsaMoCorpNumber, nil
-	case "usa_mo_entity_id":
-		return WeakIdentifierTypeUsaMoEntityId, nil
+	case "jordan_company_no":
+		return WeakIdentifierTypeJordanCompanyNo, nil
+	case "cn_qcc_internal_id":
+		return WeakIdentifierTypeCnQccInternalId, nil
+	case "jor_sol_prop_institution_number":
+		return WeakIdentifierTypeJorSolPropInstitutionNumber, nil
 	case "usa_nc_corp_no":
 		return WeakIdentifierTypeUsaNcCorpNo, nil
 	case "usa_nm_license_id":
 		return WeakIdentifierTypeUsaNmLicenseId, nil
+	case "khm_tin_number":
+		return WeakIdentifierTypeKhmTinNumber, nil
+	case "usa_mo_entity_id":
+		return WeakIdentifierTypeUsaMoEntityId, nil
+	case "usa_mo_corp_number":
+		return WeakIdentifierTypeUsaMoCorpNumber, nil
+	case "mac_raem_case_number":
+		return WeakIdentifierTypeMacRaemCaseNumber, nil
+	case "hnd_tegucigalpa_notary":
+		return WeakIdentifierTypeHndTegucigalpaNotary, nil
+	case "lbn_family_number":
+		return WeakIdentifierTypeLbnFamilyNumber, nil
+	case "tx_bexar_property_geo_id":
+		return WeakIdentifierTypeTxBexarPropertyGeoId, nil
+	case "pak_cnic_family_no":
+		return WeakIdentifierTypePakCnicFamilyNo, nil
+	case "rou_commercial_register_id":
+		return WeakIdentifierTypeRouCommercialRegisterId, nil
+	case "south_africa_partial_id_number":
+		return WeakIdentifierTypeSouthAfricaPartialIdNumber, nil
+	case "prk_internal_trade_id":
+		return WeakIdentifierTypePrkInternalTradeId, nil
+	case "chn_customs_registration_code":
+		return WeakIdentifierTypeChnCustomsRegistrationCode, nil
+	case "aut_former_cr_no":
+		return WeakIdentifierTypeAutFormerCrNo, nil
+	case "aut_natl_bank_no":
+		return WeakIdentifierTypeAutNatlBankNo, nil
+	case "lva_person_id_masked":
+		return WeakIdentifierTypeLvaPersonIdMasked, nil
+	case "lva_court_case_id":
+		return WeakIdentifierTypeLvaCourtCaseId, nil
+	case "chn_cninfo_legal_person_id":
+		return WeakIdentifierTypeChnCninfoLegalPersonId, nil
+	case "rks_business_number":
+		return WeakIdentifierTypeRksBusinessNumber, nil
+	case "rks_fiscal_number":
+		return WeakIdentifierTypeRksFiscalNumber, nil
+	case "mdg_nif_number":
+		return WeakIdentifierTypeMdgNifNumber, nil
+	case "mdg_rcs_number":
+		return WeakIdentifierTypeMdgRcsNumber, nil
 	case "vat":
 		return WeakIdentifierTypeVat, nil
-	case "ven_colegiado_number":
-		return WeakIdentifierTypeVenColegiadoNumber, nil
-	case "ven_manifiesto_number":
-		return WeakIdentifierTypeVenManifiestoNumber, nil
+	case "usa_il_chicago_site_number":
+		return WeakIdentifierTypeUsaIlChicagoSiteNumber, nil
+	case "usa_generic_ticker":
+		return WeakIdentifierTypeUsaGenericTicker, nil
 	case "ven_rnc_number":
 		return WeakIdentifierTypeVenRncNumber, nil
+	case "usa_imports_system_identity_id":
+		return WeakIdentifierTypeUsaImportsSystemIdentityId, nil
+	case "col_bill_of_lading":
+		return WeakIdentifierTypeColBillOfLading, nil
+	case "col_secop_no":
+		return WeakIdentifierTypeColSecopNo, nil
+	case "pol_regon_number":
+		return WeakIdentifierTypePolRegonNumber, nil
+	case "pol_nip_number":
+		return WeakIdentifierTypePolNipNumber, nil
+	case "bill_of_lading":
+		return WeakIdentifierTypeBillOfLading, nil
+	case "pan_ibc_ruc":
+		return WeakIdentifierTypePanIbcRuc, nil
+	case "pak_old_company_code":
+		return WeakIdentifierTypePakOldCompanyCode, nil
+	case "jpn_permit_no":
+		return WeakIdentifierTypeJpnPermitNo, nil
+	case "dma_corporate_registry_entity_num":
+		return WeakIdentifierTypeDmaCorporateRegistryEntityNum, nil
+	case "atg_corporate_registry_entity_num":
+		return WeakIdentifierTypeAtgCorporateRegistryEntityNum, nil
+	case "lca_corporate_registry_entity_num":
+		return WeakIdentifierTypeLcaCorporateRegistryEntityNum, nil
+	case "ven_manifiesto_number":
+		return WeakIdentifierTypeVenManifiestoNumber, nil
+	case "col_matricula_mercantil":
+		return WeakIdentifierTypeColMatriculaMercantil, nil
+	case "maritime_mobile_service_identity":
+		return WeakIdentifierTypeMaritimeMobileServiceIdentity, nil
+	case "usa_former_fein":
+		return WeakIdentifierTypeUsaFormerFein, nil
+	case "usa_cbp_wro_id":
+		return WeakIdentifierTypeUsaCbpWroId, nil
+	case "ccs_ship_class_number":
+		return WeakIdentifierTypeCcsShipClassNumber, nil
+	case "tur_partial_mersis_number":
+		return WeakIdentifierTypeTurPartialMersisNumber, nil
+	case "tur_office_registration_number":
+		return WeakIdentifierTypeTurOfficeRegistrationNumber, nil
+	case "partial_ven_cedula":
+		return WeakIdentifierTypePartialVenCedula, nil
+	case "rus_cbr_id":
+		return WeakIdentifierTypeRusCbrId, nil
+	case "geo_state_registration_number":
+		return WeakIdentifierTypeGeoStateRegistrationNumber, nil
+	case "bih_mbs_number":
+		return WeakIdentifierTypeBihMbsNumber, nil
+	case "gbr_grant_info_number":
+		return WeakIdentifierTypeGbrGrantInfoNumber, nil
+	case "pry_shipment_number":
+		return WeakIdentifierTypePryShipmentNumber, nil
+	case "arg_import_export_id":
+		return WeakIdentifierTypeArgImportExportId, nil
+	case "cri_op_no":
+		return WeakIdentifierTypeCriOpNo, nil
+	case "aus_state_reg_number":
+		return WeakIdentifierTypeAusStateRegNumber, nil
+	case "hun_opten_id":
+		return WeakIdentifierTypeHunOptenId, nil
+	case "irl_registration_no":
+		return WeakIdentifierTypeIrlRegistrationNo, nil
+	case "usa_mn_filing_number":
+		return WeakIdentifierTypeUsaMnFilingNumber, nil
+	case "ind_sebi":
+		return WeakIdentifierTypeIndSebi, nil
+	case "mlr_reg_num":
+		return WeakIdentifierTypeMlrRegNum, nil
 	case "malformed mmr_prior_reg_no":
 		return WeakIdentifierTypeMalformedMmrPriorRegNo, nil
 	}
