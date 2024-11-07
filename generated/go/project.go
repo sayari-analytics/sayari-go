@@ -27,6 +27,8 @@ type GetProjectEntities struct {
 	ReceivedHsCodes []*string `json:"-" url:"received_hs_codes,omitempty"`
 	// Only return entities that shipped the specified HS code(s).
 	ShippedHsCodes []*string `json:"-" url:"shipped_hs_codes,omitempty"`
+	// Only return entities that have shipped or received the specified HS code(s).
+	CombinedHsCodes []*string `json:"-" url:"combined_hs_codes,omitempty"`
 	// The language code to translate the entity labels to. Defaults to the user's preferred language.
 	Translation *string    `json:"-" url:"translation,omitempty"`
 	Sort        *SortField `json:"-" url:"sort,omitempty"`
@@ -289,7 +291,7 @@ func (g *GetProjectsResponse) String() string {
 	return fmt.Sprintf("%#v", g)
 }
 
-// Aggregations for entities in a project. Possible values are - hit_count Cardinality of unique entities. - country Count of entities per country. - upstream_country Count of entities per upstream country. - upstream_country_tiers Count of entities per upstream country, by tier. - upstream_risk Count of entities per upstream risk factor. - upstream_risk_tiers Count of entities per upstream risk factor, by tier. - source Count of entities per source. - business_purpose Count of entities per business purpose. - receiver_of Total number of shipments received by entities. - shipper_of Total number of shipments shipped by entities. - received_hs_codes Count of entities and shipments received per HS code. - shipped_hs_codes Count of entities and shipments shipped per HS code. - location Count of entities per grid cell within the specified `bounds` filter. Each cell corresponds to a [map tile](https://en.wikipedia.org/wiki/Tiled_web_map) as used by many online map sites. Each cell is labeled using a "{zoom}/{x}/{y}" format, where zoom is an automatically-selected precision. To use this aggregation, both `filters=bounds` and `geo_facets=true` query parameters must be provided. - <risk> where <risk> is a [risk factor](/sayari-library/ontology/risk-factors) ID. Count of entities per risk factor.
+// Aggregations for entities in a project. Possible values are - hit_count Cardinality of unique entities. - country Count of entities per country. - upstream_country Count of entities per upstream country. - upstream_country_tiers Count of entities per upstream country, by tier. - upstream_risk Count of entities per upstream risk factor. - upstream_risk_tiers Count of entities per upstream risk factor, by tier. - source Count of entities per source. - business_purpose Count of entities per business purpose. - receiver_of Total number of shipments received by entities. - shipper_of Total number of shipments shipped by entities. - received_hs_codes Count of entities and shipments received per HS code. - shipped_hs_codes Count of entities and shipments shipped per HS code. - combined_hs_codes Count of entities and shipments shipped or received per HS code. - location Count of entities per grid cell within the specified `bounds` filter. Each cell corresponds to a [map tile](https://en.wikipedia.org/wiki/Tiled_web_map) as used by many online map sites. Each cell is labeled using a "{zoom}/{x}/{y}" format, where zoom is an automatically-selected precision. To use this aggregation, both `filters=bounds` and `geo_facets=true` query parameters must be provided. - <risk> where <risk> is a [risk factor](/sayari-library/ontology/risk-factors) ID. Count of entities per risk factor.
 type ProjectEntitiesAggsDefinition = string
 
 type ProjectEntitiesFilter struct {
