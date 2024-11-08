@@ -144,7 +144,11 @@ type EntitySummaryResponse struct {
 	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
 	AttributeCount map[Attributes]int `json:"attribute_count,omitempty" url:"attribute_count,omitempty"`
 	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
-	UserAttributeCount       map[Attributes]int      `json:"user_attribute_count,omitempty" url:"user_attribute_count,omitempty"`
+	UserAttributeCount map[Attributes]int `json:"user_attribute_count,omitempty" url:"user_attribute_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCounts map[Attributes]int `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCounts      map[Attributes]int      `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
 	RelatedEntitiesCount     int                     `json:"related_entities_count" url:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
@@ -161,11 +165,9 @@ type EntitySummaryResponse struct {
 	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
 	Attributes *AttributeDetails `json:"attributes,omitempty" url:"attributes,omitempty"`
 	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
-	Relationships       *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
-	PossiblySameAs      *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
-	ReferencedBy        *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
-	AttributeCounts     interface{}          `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
-	UserAttributeCounts interface{}          `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
+	Relationships  *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
+	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
+	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -241,7 +243,11 @@ type GetEntityResponse struct {
 	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
 	AttributeCount map[Attributes]int `json:"attribute_count,omitempty" url:"attribute_count,omitempty"`
 	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
-	UserAttributeCount       map[Attributes]int      `json:"user_attribute_count,omitempty" url:"user_attribute_count,omitempty"`
+	UserAttributeCount map[Attributes]int `json:"user_attribute_count,omitempty" url:"user_attribute_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCounts map[Attributes]int `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCounts      map[Attributes]int      `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
 	RelatedEntitiesCount     int                     `json:"related_entities_count" url:"related_entities_count"`
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
@@ -258,11 +264,9 @@ type GetEntityResponse struct {
 	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
 	Attributes *AttributeDetails `json:"attributes,omitempty" url:"attributes,omitempty"`
 	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
-	Relationships       *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
-	PossiblySameAs      *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
-	ReferencedBy        *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
-	AttributeCounts     interface{}          `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
-	UserAttributeCounts interface{}          `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
+	Relationships  *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
+	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
+	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
