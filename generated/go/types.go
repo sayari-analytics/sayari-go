@@ -8814,6 +8814,9 @@ const (
 	RiskBaselAml                                                                 Risk = "basel_aml"
 	RiskBisBoycottRequesterList                                                  Risk = "bis_boycott_requester_list"
 	RiskCmicEntity                                                               Risk = "cmic_entity"
+	RiskControlledByEuSanctioned                                                 Risk = "controlled_by_eu_sanctioned"
+	RiskControlledByOfacSdn                                                      Risk = "controlled_by_ofac_sdn"
+	RiskControlledByUkSanctioned                                                 Risk = "controlled_by_uk_sanctioned"
 	RiskCpiScore                                                                 Risk = "cpi_score"
 	RiskEntityLicensedWithFsbRf                                                  Risk = "entity_licensed_with_fsb_rf"
 	RiskEu50PercentRule                                                          Risk = "eu_50_percent_rule"
@@ -8858,6 +8861,7 @@ const (
 	RiskLawEnforcementAction                                                     Risk = "law_enforcement_action"
 	RiskMeuListContractors                                                       Risk = "meu_list_contractors"
 	RiskMilitaryCivilFusion                                                      Risk = "military_civil_fusion"
+	RiskMilitaryCivilFusion50PercentRule                                         Risk = "military_civil_fusion_50_percent_rule"
 	RiskOfac50PercentRule                                                        Risk = "ofac_50_percent_rule"
 	RiskOfacSdn                                                                  Risk = "ofac_sdn"
 	RiskOwnedByAspiForcedLaborEntity                                             Risk = "owned_by_aspi_forced_labor_entity"
@@ -8936,6 +8940,12 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskBisBoycottRequesterList, nil
 	case "cmic_entity":
 		return RiskCmicEntity, nil
+	case "controlled_by_eu_sanctioned":
+		return RiskControlledByEuSanctioned, nil
+	case "controlled_by_ofac_sdn":
+		return RiskControlledByOfacSdn, nil
+	case "controlled_by_uk_sanctioned":
+		return RiskControlledByUkSanctioned, nil
 	case "cpi_score":
 		return RiskCpiScore, nil
 	case "entity_licensed_with_fsb_rf":
@@ -9024,6 +9034,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskMeuListContractors, nil
 	case "military_civil_fusion":
 		return RiskMilitaryCivilFusion, nil
+	case "military_civil_fusion_50_percent_rule":
+		return RiskMilitaryCivilFusion50PercentRule, nil
 	case "ofac_50_percent_rule":
 		return RiskOfac50PercentRule, nil
 	case "ofac_sdn":
@@ -11702,14 +11714,16 @@ type TierCountAgg = map[string]TierCount
 type TierCountKeys struct {
 	UpstreamTiers           UpstreamTiers
 	totalCountStringLiteral string
+
+	typ string
 }
 
 func NewTierCountKeysFromUpstreamTiers(value UpstreamTiers) *TierCountKeys {
-	return &TierCountKeys{UpstreamTiers: value}
+	return &TierCountKeys{typ: "UpstreamTiers", UpstreamTiers: value}
 }
 
 func NewTierCountKeysWithTotalCountStringLiteral() *TierCountKeys {
-	return &TierCountKeys{totalCountStringLiteral: "totalCount"}
+	return &TierCountKeys{typ: "totalCountStringLiteral", totalCountStringLiteral: "totalCount"}
 }
 
 func (t *TierCountKeys) TotalCountStringLiteral() string {
@@ -11719,11 +11733,13 @@ func (t *TierCountKeys) TotalCountStringLiteral() string {
 func (t *TierCountKeys) UnmarshalJSON(data []byte) error {
 	var valueUpstreamTiers UpstreamTiers
 	if err := json.Unmarshal(data, &valueUpstreamTiers); err == nil {
+		t.typ = "UpstreamTiers"
 		t.UpstreamTiers = valueUpstreamTiers
 		return nil
 	}
 	var valueTotalCountStringLiteral string
 	if err := json.Unmarshal(data, &valueTotalCountStringLiteral); err == nil {
+		t.typ = "totalCountStringLiteral"
 		t.totalCountStringLiteral = valueTotalCountStringLiteral
 		if t.totalCountStringLiteral != "totalCount" {
 			return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", t, "totalCount", valueTotalCountStringLiteral)
@@ -11734,10 +11750,10 @@ func (t *TierCountKeys) UnmarshalJSON(data []byte) error {
 }
 
 func (t TierCountKeys) MarshalJSON() ([]byte, error) {
-	if t.UpstreamTiers != "" {
+	if t.typ == "UpstreamTiers" || t.UpstreamTiers != "" {
 		return json.Marshal(t.UpstreamTiers)
 	}
-	if t.totalCountStringLiteral != "" {
+	if t.typ == "totalCountStringLiteral" || t.totalCountStringLiteral != "" {
 		return json.Marshal("totalCount")
 	}
 	return nil, fmt.Errorf("type %T does not include a non-empty union type", t)
@@ -11749,10 +11765,10 @@ type TierCountKeysVisitor interface {
 }
 
 func (t *TierCountKeys) Accept(visitor TierCountKeysVisitor) error {
-	if t.UpstreamTiers != "" {
+	if t.typ == "UpstreamTiers" || t.UpstreamTiers != "" {
 		return visitor.VisitUpstreamTiers(t.UpstreamTiers)
 	}
-	if t.totalCountStringLiteral != "" {
+	if t.typ == "totalCountStringLiteral" || t.totalCountStringLiteral != "" {
 		return visitor.VisitTotalCountStringLiteral(t.totalCountStringLiteral)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", t)
@@ -13583,33 +13599,38 @@ type RiskValue struct {
 	String  string
 	Double  float64
 	Boolean bool
+
+	typ string
 }
 
 func NewRiskValueFromString(value string) *RiskValue {
-	return &RiskValue{String: value}
+	return &RiskValue{typ: "String", String: value}
 }
 
 func NewRiskValueFromDouble(value float64) *RiskValue {
-	return &RiskValue{Double: value}
+	return &RiskValue{typ: "Double", Double: value}
 }
 
 func NewRiskValueFromBoolean(value bool) *RiskValue {
-	return &RiskValue{Boolean: value}
+	return &RiskValue{typ: "Boolean", Boolean: value}
 }
 
 func (r *RiskValue) UnmarshalJSON(data []byte) error {
 	var valueString string
 	if err := json.Unmarshal(data, &valueString); err == nil {
+		r.typ = "String"
 		r.String = valueString
 		return nil
 	}
 	var valueDouble float64
 	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		r.typ = "Double"
 		r.Double = valueDouble
 		return nil
 	}
 	var valueBoolean bool
 	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		r.typ = "Boolean"
 		r.Boolean = valueBoolean
 		return nil
 	}
@@ -13617,13 +13638,13 @@ func (r *RiskValue) UnmarshalJSON(data []byte) error {
 }
 
 func (r RiskValue) MarshalJSON() ([]byte, error) {
-	if r.String != "" {
+	if r.typ == "String" || r.String != "" {
 		return json.Marshal(r.String)
 	}
-	if r.Double != 0 {
+	if r.typ == "Double" || r.Double != 0 {
 		return json.Marshal(r.Double)
 	}
-	if r.Boolean != false {
+	if r.typ == "Boolean" || r.Boolean != false {
 		return json.Marshal(r.Boolean)
 	}
 	return nil, fmt.Errorf("type %T does not include a non-empty union type", r)
@@ -13636,13 +13657,13 @@ type RiskValueVisitor interface {
 }
 
 func (r *RiskValue) Accept(visitor RiskValueVisitor) error {
-	if r.String != "" {
+	if r.typ == "String" || r.String != "" {
 		return visitor.VisitString(r.String)
 	}
-	if r.Double != 0 {
+	if r.typ == "Double" || r.Double != 0 {
 		return visitor.VisitDouble(r.Double)
 	}
-	if r.Boolean != false {
+	if r.typ == "Boolean" || r.Boolean != false {
 		return visitor.VisitBoolean(r.Boolean)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", r)
