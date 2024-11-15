@@ -34,7 +34,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// Retrieve an entity from the database based on the ID
+// <Note>To retrieve a L1 Due Dilligence PDF Report. Include 'Accept: application/pdf' in request headers.</Note> Retrieve an entity profile from the database based on the entity ID. This endpoint returns the full profile, entity_summary returns the same payload minus relationships.
 func (c *Client) GetEntity(
 	ctx context.Context,
 	// Unique identifier of the entity
@@ -137,7 +137,7 @@ func (c *Client) GetEntity(
 	return response, nil
 }
 
-// The Entity Summary endpoint returns a smaller entity payload
+// The Entity Summary endpoint returns a similar payload, minus relationships.
 func (c *Client) EntitySummary(
 	ctx context.Context,
 	// Unique identifier of the entity
