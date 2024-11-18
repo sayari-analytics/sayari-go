@@ -4902,6 +4902,8 @@ const (
 	IdentifierTypeMexTmNo IdentifierType = "mex_tm_no"
 	// Mauritius Company File No.
 	IdentifierTypeMusFileNo IdentifierType = "mus_file_no"
+	// Mexico Yucatan parcel ID number. Assigned to every parcel and property registered by the Government of the State of Yucatan.
+	IdentifierTypeMexYucatanFolio IdentifierType = "mex_yucatan_folio"
 	// Colombian tax identification number
 	IdentifierTypeColNitNo IdentifierType = "col_nit_no"
 	// Japanese corporate number. Learn more [here](https://en.wikipedia.org/wiki/Corporate_Number).
@@ -5646,6 +5648,8 @@ const (
 	IdentifierTypeIndIfsc IdentifierType = "ind_ifsc"
 	// Unique India intellectual property ID number. Assigned to every trademark application submitted to the Controller General of Patents, Designs and Trademarks of the Ministry of Commerce and Industry, Government of India.
 	IdentifierTypeIndTrademarkSubmissionRef IdentifierType = "ind_trademark_submission_ref"
+	// Indonesia Trade Internal Shipment ID
+	IdentifierTypeIdnTradeInternalShipmentId IdentifierType = "idn_trade_internal_shipment_id"
 )
 
 func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
@@ -6150,6 +6154,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeMexTmNo, nil
 	case "mus_file_no":
 		return IdentifierTypeMusFileNo, nil
+	case "mex_yucatan_folio":
+		return IdentifierTypeMexYucatanFolio, nil
 	case "col_nit_no":
 		return IdentifierTypeColNitNo, nil
 	case "jpn_corporate_no":
@@ -6904,6 +6910,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIndIfsc, nil
 	case "ind_trademark_submission_ref":
 		return IdentifierTypeIndTrademarkSubmissionRef, nil
+	case "idn_trade_internal_shipment_id":
+		return IdentifierTypeIdnTradeInternalShipmentId, nil
 	}
 	var t IdentifierType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -8814,6 +8822,7 @@ const (
 	RiskBaselAml                                                                 Risk = "basel_aml"
 	RiskBisBoycottRequesterList                                                  Risk = "bis_boycott_requester_list"
 	RiskCmicEntity                                                               Risk = "cmic_entity"
+	RiskCmicEntity50PercentRule                                                  Risk = "cmic_entity_50_percent_rule"
 	RiskControlledByEuSanctioned                                                 Risk = "controlled_by_eu_sanctioned"
 	RiskControlledByOfacSdn                                                      Risk = "controlled_by_ofac_sdn"
 	RiskControlledByUkSanctioned                                                 Risk = "controlled_by_uk_sanctioned"
@@ -8821,9 +8830,18 @@ const (
 	RiskEntityLicensedWithFsbRf                                                  Risk = "entity_licensed_with_fsb_rf"
 	RiskEu50PercentRule                                                          Risk = "eu_50_percent_rule"
 	RiskEuHighRiskThird                                                          Risk = "eu_high_risk_third"
+	RiskEuMinorityOwnership                                                      Risk = "eu_minority_ownership"
 	RiskEuSanctioned                                                             Risk = "eu_sanctioned"
 	RiskExportControls                                                           Risk = "export_controls"
 	RiskExportControlsAdjacent                                                   Risk = "export_controls_adjacent"
+	RiskExportControlsBisEntity                                                  Risk = "export_controls_bis_entity"
+	RiskExportControlsBisEntity50PercentRule                                     Risk = "export_controls_bis_entity_50_percent_rule"
+	RiskExportControlsBisMeu                                                     Risk = "export_controls_bis_meu"
+	RiskExportControlsBisMeu50PercentRule                                        Risk = "export_controls_bis_meu_50_percent_rule"
+	RiskExportControlsSection1260H                                               Risk = "export_controls_section_1260h"
+	RiskExportControlsSection1260H50PercentRule                                  Risk = "export_controls_section_1260h_50_percent_rule"
+	RiskExportControlsUnverifiedList                                             Risk = "export_controls_unverified_list"
+	RiskExportControlsUnverifiedList50PercentRule                                Risk = "export_controls_unverified_list_50_percent_rule"
 	RiskExportToSanctioned                                                       Risk = "export_to_sanctioned"
 	RiskExportToSoe                                                              Risk = "export_to_soe"
 	RiskExportsBisHighPriorityItems                                              Risk = "exports_bis_high_priority_items"
@@ -8863,6 +8881,7 @@ const (
 	RiskMilitaryCivilFusion                                                      Risk = "military_civil_fusion"
 	RiskMilitaryCivilFusion50PercentRule                                         Risk = "military_civil_fusion_50_percent_rule"
 	RiskOfac50PercentRule                                                        Risk = "ofac_50_percent_rule"
+	RiskOfacMinorityOwnership                                                    Risk = "ofac_minority_ownership"
 	RiskOfacSdn                                                                  Risk = "ofac_sdn"
 	RiskOwnedByAspiForcedLaborEntity                                             Risk = "owned_by_aspi_forced_labor_entity"
 	RiskOwnedByBisMeuEntity                                                      Risk = "owned_by_bis_meu_entity"
@@ -8923,6 +8942,7 @@ const (
 	RiskSoeAdjacent                                                              Risk = "soe_adjacent"
 	RiskStateOwned                                                               Risk = "state_owned"
 	RiskUk50PercentRule                                                          Risk = "uk_50_percent_rule"
+	RiskUkMinorityOwnership                                                      Risk = "uk_minority_ownership"
 	RiskUkSanctioned                                                             Risk = "uk_sanctioned"
 	RiskWroEntity                                                                Risk = "wro_entity"
 	RiskWroEntityAdjacent                                                        Risk = "wro_entity_adjacent"
@@ -8940,6 +8960,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskBisBoycottRequesterList, nil
 	case "cmic_entity":
 		return RiskCmicEntity, nil
+	case "cmic_entity_50_percent_rule":
+		return RiskCmicEntity50PercentRule, nil
 	case "controlled_by_eu_sanctioned":
 		return RiskControlledByEuSanctioned, nil
 	case "controlled_by_ofac_sdn":
@@ -8954,12 +8976,30 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskEu50PercentRule, nil
 	case "eu_high_risk_third":
 		return RiskEuHighRiskThird, nil
+	case "eu_minority_ownership":
+		return RiskEuMinorityOwnership, nil
 	case "eu_sanctioned":
 		return RiskEuSanctioned, nil
 	case "export_controls":
 		return RiskExportControls, nil
 	case "export_controls_adjacent":
 		return RiskExportControlsAdjacent, nil
+	case "export_controls_bis_entity":
+		return RiskExportControlsBisEntity, nil
+	case "export_controls_bis_entity_50_percent_rule":
+		return RiskExportControlsBisEntity50PercentRule, nil
+	case "export_controls_bis_meu":
+		return RiskExportControlsBisMeu, nil
+	case "export_controls_bis_meu_50_percent_rule":
+		return RiskExportControlsBisMeu50PercentRule, nil
+	case "export_controls_section_1260h":
+		return RiskExportControlsSection1260H, nil
+	case "export_controls_section_1260h_50_percent_rule":
+		return RiskExportControlsSection1260H50PercentRule, nil
+	case "export_controls_unverified_list":
+		return RiskExportControlsUnverifiedList, nil
+	case "export_controls_unverified_list_50_percent_rule":
+		return RiskExportControlsUnverifiedList50PercentRule, nil
 	case "export_to_sanctioned":
 		return RiskExportToSanctioned, nil
 	case "export_to_soe":
@@ -9038,6 +9078,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskMilitaryCivilFusion50PercentRule, nil
 	case "ofac_50_percent_rule":
 		return RiskOfac50PercentRule, nil
+	case "ofac_minority_ownership":
+		return RiskOfacMinorityOwnership, nil
 	case "ofac_sdn":
 		return RiskOfacSdn, nil
 	case "owned_by_aspi_forced_labor_entity":
@@ -9158,6 +9200,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskStateOwned, nil
 	case "uk_50_percent_rule":
 		return RiskUk50PercentRule, nil
+	case "uk_minority_ownership":
+		return RiskUkMinorityOwnership, nil
 	case "uk_sanctioned":
 		return RiskUkSanctioned, nil
 	case "wro_entity":
