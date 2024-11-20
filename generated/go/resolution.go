@@ -43,6 +43,8 @@ type Resolution struct {
 	SearchFallback *bool `json:"-" url:"search_fallback,omitempty"`
 	// Specifies the window of similar results returned in the match group. Increase for fewer multiple matches, decrease to open the aperture and allow for more matches. Default is .8
 	CutoffThreshold *int `json:"-" url:"cutoff_threshold,omitempty"`
+	// Specifies the maximum number of entity candidates considered during search. Default is 50. Higher values increase match pool size but also increase latency.
+	CandidatePoolSize *int `json:"-" url:"candidate_pool_size,omitempty"`
 	// Bypasses the post-processing setps and re-ranking. Useful for debugging. By default set to false, set to true to enable.
 	SkipPostProcess *bool `json:"-" url:"skip_post_process,omitempty"`
 }
@@ -180,6 +182,8 @@ type ResolutionBody struct {
 	SearchFallback *bool `json:"search_fallback,omitempty" url:"search_fallback,omitempty"`
 	// Specifies the window of similar results returned in the match group. Increase for fewer multiple matches, decrease to open the aperture and allow for more matches. Default is .8
 	CutoffThreshold *int `json:"cutoff_threshold,omitempty" url:"cutoff_threshold,omitempty"`
+	// Specifies the maximum number of entity candidates considered during search. Default is 50. Higher values increase match pool size but also increase latency.
+	CandidatePoolSize *int `json:"candidate_pool_size,omitempty" url:"candidate_pool_size,omitempty"`
 	// Bypasses the post-processing setps and re-ranking. Useful for debugging. By default set to false, set to true to enable.
 	SkipPostProcess *bool `json:"skip_post_process,omitempty" url:"skip_post_process,omitempty"`
 
