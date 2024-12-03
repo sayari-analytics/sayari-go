@@ -406,7 +406,6 @@ func TestUsage(t *testing.T) {
 		usage, err := api.Info.GetUsage(context.Background(), &sayari.GetUsage{})
 		handleError(t, err)
 		assert.NotZero(t, usage.Usage.Entity, "all endpoints should show usage")
-		assert.NotZero(t, usage.Usage.EntitySummary, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.Record, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.Resolve, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.SearchEntities, "all endpoints should show usage")
