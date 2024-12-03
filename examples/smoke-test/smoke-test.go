@@ -167,7 +167,7 @@ func main() {
 		if err != nil {
 			log.Fatalf("Error: %v", err)
 		}
-		log.Printf("Entity summary usage: %v", *usage.Usage.EntitySummary)
+		log.Printf("Entity summary usage: %v", *usage.Usage.Entity)
 	}
 
 	// Check history
