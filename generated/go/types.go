@@ -10624,12 +10624,13 @@ func (h *HistoryInfo) String() string {
 
 type UsageInfo struct {
 	Entity         *int `json:"entity,omitempty" url:"entity,omitempty"`
-	EntitySummary  *int `json:"entity_summary,omitempty" url:"entity_summary,omitempty"`
 	Record         *int `json:"record,omitempty" url:"record,omitempty"`
 	Resolve        *int `json:"resolve,omitempty" url:"resolve,omitempty"`
+	Search         *int `json:"search,omitempty" url:"search,omitempty"`
 	SearchEntities *int `json:"search_entities,omitempty" url:"search_entities,omitempty"`
 	SearchRecords  *int `json:"search_records,omitempty" url:"search_records,omitempty"`
 	SearchTrade    *int `json:"search_trade,omitempty" url:"search_trade,omitempty"`
+	TradeTraversal *int `json:"trade_traversal,omitempty" url:"trade_traversal,omitempty"`
 	Traversal      *int `json:"traversal,omitempty" url:"traversal,omitempty"`
 
 	extraProperties map[string]interface{}
