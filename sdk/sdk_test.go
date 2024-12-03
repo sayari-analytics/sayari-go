@@ -408,9 +408,11 @@ func TestUsage(t *testing.T) {
 		assert.NotZero(t, usage.Usage.Entity, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.Record, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.Resolve, "all endpoints should show usage")
+		assert.NotZero(t, usage.Usage.Search, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.SearchEntities, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.SearchRecords, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.SearchTrade, "all endpoints should show usage")
+		assert.NotZero(t, usage.Usage.TradeTraversal, "all endpoints should show usage")
 		assert.NotZero(t, usage.Usage.Traversal, "all endpoints should show usage")
 	}
 }
