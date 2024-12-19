@@ -70,6 +70,27 @@ func (r *ResolutionPost) MarshalJSON() ([]byte, error) {
 	return json.Marshal(r.Body)
 }
 
+type ResolutionPersisted struct {
+	// A limit on the number of objects to be returned with a range between 1 and 10 inclusive. Defaults to 10.
+	Limit *int `json:"-" url:"limit,omitempty"`
+	// Number of results to skip before returning response. Defaults to 0.
+	Offset *int            `json:"-" url:"offset,omitempty"`
+	Body   *ResolutionBody `json:"-" url:"-"`
+}
+
+func (r *ResolutionPersisted) UnmarshalJSON(data []byte) error {
+	body := new(ResolutionBody)
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	r.Body = body
+	return nil
+}
+
+func (r *ResolutionPersisted) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.Body)
+}
+
 type BothIdentifierTypes struct {
 	IdentifierType     IdentifierType
 	WeakIdentifierType WeakIdentifierType
@@ -132,6 +153,7 @@ const (
 	ProfileEnumCorporate ProfileEnum = "corporate"
 	ProfileEnumSuppliers ProfileEnum = "suppliers"
 	ProfileEnumSearch    ProfileEnum = "search"
+	ProfileEnumScreen    ProfileEnum = "screen"
 )
 
 func NewProfileEnumFromString(s string) (ProfileEnum, error) {
@@ -142,6 +164,8 @@ func NewProfileEnumFromString(s string) (ProfileEnum, error) {
 		return ProfileEnumSuppliers, nil
 	case "search":
 		return ProfileEnumSearch, nil
+	case "screen":
+		return ProfileEnumScreen, nil
 	}
 	var t ProfileEnum
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -176,6 +200,8 @@ type ResolutionBody struct {
 	NameMinPercentage *int `json:"name_min_percentage,omitempty" url:"name_min_percentage,omitempty"`
 	// Adding this param enables an alternative matching logic. It sets the minimum number of matching tokens the resolved hits need to have in common with the user input to be considered a "hit". Accepts non-negative integers.
 	NameMinTokens *int `json:"name_min_tokens,omitempty" url:"name_min_tokens,omitempty"`
+	// An array of tag labels to associate with each resolved entity
+	Tags []string `json:"tags,omitempty" url:"tags,omitempty"`
 	// Specifies the minimum score required to pass, which controls the strictness of the matching threshold. The default value is 77, and tuned for general use-case accuracy. Increase the value for stricter matching, reduce to loosen.
 	MinimumScoreThreshold *int `json:"minimum_score_threshold,omitempty" url:"minimum_score_threshold,omitempty"`
 	// Enables a name search fallback when either the corporate or supplier profiles fails to find a match. When invoked, the fallback will make a call similar to /search/entity on name only. By default set to false.
@@ -225,6 +251,48 @@ func (r *ResolutionBody) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
+type ResolutionPersistedResponse struct {
+	Fields *ResolutionPersistedResponseFields `json:"fields,omitempty" url:"fields,omitempty"`
+	Data   []*ResolutionPersistedResult       `json:"data,omitempty" url:"data,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionPersistedResponse) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionPersistedResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionPersistedResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionPersistedResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionPersistedResponse) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
 type ResolutionResponse struct {
 	Fields *ResolutionResponseFields `json:"fields,omitempty" url:"fields,omitempty"`
 	Data   []*ResolutionResult       `json:"data,omitempty" url:"data,omitempty"`
@@ -256,6 +324,91 @@ func (r *ResolutionResponse) UnmarshalJSON(data []byte) error {
 }
 
 func (r *ResolutionResponse) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+type ResolutionUploadBody struct {
+	Filename string            `json:"filename" url:"filename"`
+	Data     []*ResolutionBody `json:"data,omitempty" url:"data,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionUploadBody) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionUploadBody) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionUploadBody
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionUploadBody(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionUploadBody) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+type ResolutionUploadResponse struct {
+	File     string `json:"file" url:"file"`
+	Uploaded string `json:"uploaded" url:"uploaded"`
+	Count    int    `json:"count" url:"count"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionUploadResponse) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionUploadResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionUploadResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionUploadResponse(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionUploadResponse) String() string {
 	if len(r._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
 			return value
