@@ -93,6 +93,241 @@ func (b *BuyerSearchResponse) String() string {
 	return fmt.Sprintf("%#v", b)
 }
 
+type DataSource struct {
+	// The unique identifier for a source in the database
+	Id    string `json:"id" url:"id"`
+	Label string `json:"label" url:"label"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (d *DataSource) GetExtraProperties() map[string]interface{} {
+	return d.extraProperties
+}
+
+func (d *DataSource) UnmarshalJSON(data []byte) error {
+	type unmarshaler DataSource
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DataSource(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+
+	d._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DataSource) String() string {
+	if len(d._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
+}
+
+type MonetaryValue struct {
+	Value    float64   `json:"value" url:"value"`
+	Currency *Currency `json:"currency,omitempty" url:"currency,omitempty"`
+	Context  *string   `json:"context,omitempty" url:"context,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MonetaryValue) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
+}
+
+func (m *MonetaryValue) UnmarshalJSON(data []byte) error {
+	type unmarshaler MonetaryValue
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MonetaryValue(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MonetaryValue) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
+}
+
+type Shipment struct {
+	Id                  string                       `json:"id" url:"id"`
+	Type                string                       `json:"type" url:"type"`
+	Buyer               []*SourceOrDestinationEntity `json:"buyer,omitempty" url:"buyer,omitempty"`
+	Supplier            []*SourceOrDestinationEntity `json:"supplier,omitempty" url:"supplier,omitempty"`
+	ArrivalDate         []string                     `json:"arrival_date,omitempty" url:"arrival_date,omitempty"`
+	DepartureDate       []string                     `json:"departure_date,omitempty" url:"departure_date,omitempty"`
+	DepartureAddress    *ShipmentAddress             `json:"departure_address,omitempty" url:"departure_address,omitempty"`
+	ArrivalAddress      *ShipmentAddress             `json:"arrival_address,omitempty" url:"arrival_address,omitempty"`
+	ArrivalCountry      []Country                    `json:"arrival_country,omitempty" url:"arrival_country,omitempty"`
+	DepartureCountry    []Country                    `json:"departure_country,omitempty" url:"departure_country,omitempty"`
+	TransitCountry      []Country                    `json:"transit_country,omitempty" url:"transit_country,omitempty"`
+	Countries           []Country                    `json:"countries,omitempty" url:"countries,omitempty"`
+	ProductOrigin       []Country                    `json:"product_origin,omitempty" url:"product_origin,omitempty"`
+	MonetaryValue       []*MonetaryValue             `json:"monetary_value,omitempty" url:"monetary_value,omitempty"`
+	Weight              []*Weight                    `json:"weight,omitempty" url:"weight,omitempty"`
+	Identifier          []*ShipmentIdentifier        `json:"identifier,omitempty" url:"identifier,omitempty"`
+	Sources             []*DataSource                `json:"sources,omitempty" url:"sources,omitempty"`
+	HsCodes             []*HsCodeInfo                `json:"hs_codes,omitempty" url:"hs_codes,omitempty"`
+	ProductDescriptions []string                     `json:"product_descriptions,omitempty" url:"product_descriptions,omitempty"`
+	// The unique identifier for a record in the database
+	Record string `json:"record" url:"record"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *Shipment) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *Shipment) UnmarshalJSON(data []byte) error {
+	type unmarshaler Shipment
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Shipment(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Shipment) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+type ShipmentAddress struct {
+	X       *float64 `json:"x,omitempty" url:"x,omitempty"`
+	Y       *float64 `json:"y,omitempty" url:"y,omitempty"`
+	City    *string  `json:"city,omitempty" url:"city,omitempty"`
+	State   *string  `json:"state,omitempty" url:"state,omitempty"`
+	Country *string  `json:"country,omitempty" url:"country,omitempty"`
+	Value   *string  `json:"value,omitempty" url:"value,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *ShipmentAddress) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *ShipmentAddress) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentAddress
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentAddress(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentAddress) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+type ShipmentIdentifier struct {
+	Value string               `json:"value" url:"value"`
+	Type  *BothIdentifierTypes `json:"type,omitempty" url:"type,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *ShipmentIdentifier) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *ShipmentIdentifier) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentIdentifier
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentIdentifier(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentIdentifier) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
 // OK
 type ShipmentSearchResponse struct {
 	Limit  int             `json:"limit" url:"limit"`
@@ -128,6 +363,200 @@ func (s *ShipmentSearchResponse) UnmarshalJSON(data []byte) error {
 }
 
 func (s *ShipmentSearchResponse) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+type SourceOrDestinationEntity struct {
+	// Unique identifier of the entity
+	Id    string   `json:"id" url:"id"`
+	Type  string   `json:"type" url:"type"`
+	Names []string `json:"names,omitempty" url:"names,omitempty"`
+	// [Risks](/sayari-library/ontology/risk-factors)
+	Risks map[Risk]interface{} `json:"risks,omitempty" url:"risks,omitempty"`
+	// [Business Purpose](/sayari-library/ontology/attributes#business-purpose)
+	BusinessPurpose []*BusinessPurposeProperties `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
+	// [Address](/sayari-library/ontology/attributes#address)
+	Address []interface{} `json:"address,omitempty" url:"address,omitempty"`
+	// [Country](/sayari-library/ontology/attributes#country)
+	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SourceOrDestinationEntity) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *SourceOrDestinationEntity) UnmarshalJSON(data []byte) error {
+	type unmarshaler SourceOrDestinationEntity
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SourceOrDestinationEntity(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SourceOrDestinationEntity) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+type SupplierMetadata struct {
+	LatestShipmentDate *string   `json:"latestShipmentDate,omitempty" url:"latestShipmentDate,omitempty"`
+	Shipments          int       `json:"shipments" url:"shipments"`
+	HsCodes            []*HsCode `json:"hsCodes,omitempty" url:"hsCodes,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SupplierMetadata) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *SupplierMetadata) UnmarshalJSON(data []byte) error {
+	type unmarshaler SupplierMetadata
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SupplierMetadata(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SupplierMetadata) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+type SupplierOrBuyer struct {
+	// Unique identifier of the entity
+	Id string `json:"id" url:"id"`
+	// Display name of the entity
+	Label string `json:"label" url:"label"`
+	// Number of outgoing relationships
+	Degree int `json:"degree" url:"degree"`
+	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+	Closed bool `json:"closed" url:"closed"`
+	// Convenience URL to the entity in the API.
+	EntityUrl string `json:"entity_url" url:"entity_url"`
+	// True if the entity has the ["Politically Exposed Person (PEP)" risk factor](/sayari-library/ontology/risk-factors#politically-exposed-person-pep-), otherwise false.
+	Pep   bool    `json:"pep" url:"pep"`
+	PsaId *string `json:"psa_id,omitempty" url:"psa_id,omitempty"`
+	// Number of entities that are Possibly the Same As (PSA) the entity.
+	PsaCount int `json:"psa_count" url:"psa_count"`
+	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
+	Sanctioned bool `json:"sanctioned" url:"sanctioned"`
+	// The [entity type](/sayari-library/ontology/entities).
+	Type        Entities      `json:"type" url:"type"`
+	Identifiers []*Identifier `json:"identifiers,omitempty" url:"identifiers,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
+	// Number of records associated with the entity, grouped by source.
+	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty" url:"source_count,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses  []string       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	TradeCount map[string]int `json:"trade_count,omitempty" url:"trade_count,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth           *string           `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
+	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty" url:"relationship_count,omitempty"`
+	UserRelationshipCount RelationshipCount `json:"user_relationship_count,omitempty" url:"user_relationship_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCount map[Attributes]int `json:"attribute_count,omitempty" url:"attribute_count,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCount map[Attributes]int `json:"user_attribute_count,omitempty" url:"user_attribute_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCounts map[Attributes]int `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCounts      map[Attributes]int      `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                     `json:"related_entities_count" url:"related_entities_count"`
+	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
+	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
+	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
+	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty" url:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDeparture      `json:"shipment_departure,omitempty" url:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType            `json:"company_type,omitempty" url:"company_type,omitempty"`
+	LatestStatus             *Status                 `json:"latest_status,omitempty" url:"latest_status,omitempty"`
+	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
+	Risk EntityRisk `json:"risk,omitempty" url:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty" url:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
+	Relationships  *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
+	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
+	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
+	Metadata       *SupplierMetadata    `json:"metadata,omitempty" url:"metadata,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SupplierOrBuyer) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *SupplierOrBuyer) UnmarshalJSON(data []byte) error {
+	type unmarshaler SupplierOrBuyer
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SupplierOrBuyer(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SupplierOrBuyer) String() string {
 	if len(s._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
 			return value
@@ -282,4 +711,134 @@ func (t *TradeFilterList) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
+}
+
+type Weight struct {
+	Value float64 `json:"value" url:"value"`
+	Unit  string  `json:"unit" url:"unit"`
+	Type  string  `json:"type" url:"type"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (w *Weight) GetExtraProperties() map[string]interface{} {
+	return w.extraProperties
+}
+
+func (w *Weight) UnmarshalJSON(data []byte) error {
+	type unmarshaler Weight
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*w = Weight(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *w)
+	if err != nil {
+		return err
+	}
+	w.extraProperties = extraProperties
+
+	w._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (w *Weight) String() string {
+	if len(w._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(w._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(w); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", w)
+}
+
+type HsCode struct {
+	Key         string  `json:"key" url:"key"`
+	DocCount    int     `json:"doc_count" url:"doc_count"`
+	Value       string  `json:"value" url:"value"`
+	ValueSimple *string `json:"value_simple,omitempty" url:"value_simple,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HsCode) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
+}
+
+func (h *HsCode) UnmarshalJSON(data []byte) error {
+	type unmarshaler HsCode
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HsCode(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HsCode) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
+}
+
+type HsCodeInfo struct {
+	Code        string `json:"code" url:"code"`
+	Description string `json:"description" url:"description"`
+	Imputed     *bool  `json:"imputed,omitempty" url:"imputed,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HsCodeInfo) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
+}
+
+func (h *HsCodeInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler HsCodeInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HsCodeInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HsCodeInfo) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
 }

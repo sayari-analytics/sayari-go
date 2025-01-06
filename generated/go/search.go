@@ -76,6 +76,49 @@ type SearchRecordGet struct {
 	Advanced *bool `json:"-" url:"advanced,omitempty"`
 }
 
+type Coordinates struct {
+	Lat     *float64 `json:"lat,omitempty" url:"lat,omitempty"`
+	Lng     *float64 `json:"lng,omitempty" url:"lng,omitempty"`
+	Address string   `json:"address" url:"address"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (c *Coordinates) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
+}
+
+func (c *Coordinates) UnmarshalJSON(data []byte) error {
+	type unmarshaler Coordinates
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = Coordinates(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+
+	c._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *Coordinates) String() string {
+	if len(c._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
 // OK
 type EntitySearchResponse struct {
 	Limit  int              `json:"limit" url:"limit"`
@@ -221,4 +264,144 @@ func (r *RecordSearchResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
+}
+
+type SearchResults struct {
+	// Unique identifier of the entity
+	Id string `json:"id" url:"id"`
+	// Display name of the entity
+	Label string `json:"label" url:"label"`
+	// Number of outgoing relationships
+	Degree int `json:"degree" url:"degree"`
+	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
+	Closed bool `json:"closed" url:"closed"`
+	// Convenience URL to the entity in the API.
+	EntityUrl string `json:"entity_url" url:"entity_url"`
+	// True if the entity has the ["Politically Exposed Person (PEP)" risk factor](/sayari-library/ontology/risk-factors#politically-exposed-person-pep-), otherwise false.
+	Pep   bool    `json:"pep" url:"pep"`
+	PsaId *string `json:"psa_id,omitempty" url:"psa_id,omitempty"`
+	// Number of entities that are Possibly the Same As (PSA) the entity.
+	PsaCount int `json:"psa_count" url:"psa_count"`
+	// True if the entity has the ["Sanctioned" risk factor](/sayari-library/ontology/risk-factors#sanctioned), otherwise false.
+	Sanctioned bool `json:"sanctioned" url:"sanctioned"`
+	// The [entity type](/sayari-library/ontology/entities).
+	Type        Entities      `json:"type" url:"type"`
+	Identifiers []*Identifier `json:"identifiers,omitempty" url:"identifiers,omitempty"`
+	// Entity [country](/sayari-library/ontology/enumerated-types#country)
+	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
+	// Number of records associated with the entity, grouped by source.
+	SourceCount map[string]*SourceCountInfo `json:"source_count,omitempty" url:"source_count,omitempty"`
+	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
+	Addresses  []string       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	TradeCount map[string]int `json:"trade_count,omitempty" url:"trade_count,omitempty"`
+	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
+	DateOfBirth           *string           `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
+	RelationshipCount     RelationshipCount `json:"relationship_count,omitempty" url:"relationship_count,omitempty"`
+	UserRelationshipCount RelationshipCount `json:"user_relationship_count,omitempty" url:"user_relationship_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCount map[Attributes]int `json:"attribute_count,omitempty" url:"attribute_count,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCount map[Attributes]int `json:"user_attribute_count,omitempty" url:"user_attribute_count,omitempty"`
+	// Count of attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	AttributeCounts map[Attributes]int `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
+	// Count of user-created attributes for a given [attribute type](/sayari-library/ontology/attributes)
+	UserAttributeCounts      map[Attributes]int      `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
+	RelatedEntitiesCount     int                     `json:"related_entities_count" url:"related_entities_count"`
+	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
+	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
+	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
+	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
+	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
+	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
+	ShipmentArrival          *ShipmentArrival        `json:"shipment_arrival,omitempty" url:"shipment_arrival,omitempty"`
+	ShipmentDeparture        *ShipmentDeparture      `json:"shipment_departure,omitempty" url:"shipment_departure,omitempty"`
+	CompanyType              *CompanyType            `json:"company_type,omitempty" url:"company_type,omitempty"`
+	LatestStatus             *Status                 `json:"latest_status,omitempty" url:"latest_status,omitempty"`
+	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
+	Risk EntityRisk `json:"risk,omitempty" url:"risk,omitempty"`
+	// Detailed information about the entity's [attributes](/sayari-library/ontology/attributes).
+	Attributes *AttributeDetails `json:"attributes,omitempty" url:"attributes,omitempty"`
+	// Detailed information about the entity's [relationships](/sayari-library/ontology/relationships).
+	Relationships  *EntityRelationships `json:"relationships,omitempty" url:"relationships,omitempty"`
+	PossiblySameAs *PossiblySameAs      `json:"possibly_same_as,omitempty" url:"possibly_same_as,omitempty"`
+	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
+	Coordinates    []*Coordinates       `json:"coordinates,omitempty" url:"coordinates,omitempty"`
+	Matches        EntityMatches        `json:"matches,omitempty" url:"matches,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *SearchResults) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *SearchResults) UnmarshalJSON(data []byte) error {
+	type unmarshaler SearchResults
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SearchResults(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SearchResults) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+// The unique identifier for a source in the database
+type SourceId = string
+
+// An explanation of why this entity was returned as the result of a query.
+type EntityMatches = map[string][]string
+
+type SearchField string
+
+const (
+	SearchFieldName            SearchField = "name"
+	SearchFieldIdentifier      SearchField = "identifier"
+	SearchFieldAddress         SearchField = "address"
+	SearchFieldBusinessPurpose SearchField = "business_purpose"
+	SearchFieldDateOfBirth     SearchField = "date_of_birth"
+	SearchFieldContact         SearchField = "contact"
+)
+
+func NewSearchFieldFromString(s string) (SearchField, error) {
+	switch s {
+	case "name":
+		return SearchFieldName, nil
+	case "identifier":
+		return SearchFieldIdentifier, nil
+	case "address":
+		return SearchFieldAddress, nil
+	case "business_purpose":
+		return SearchFieldBusinessPurpose, nil
+	case "date_of_birth":
+		return SearchFieldDateOfBirth, nil
+	case "contact":
+		return SearchFieldContact, nil
+	}
+	var t SearchField
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SearchField) Ptr() *SearchField {
+	return &s
 }

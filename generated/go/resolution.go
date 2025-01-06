@@ -91,60 +91,119 @@ func (r *ResolutionPersisted) MarshalJSON() ([]byte, error) {
 	return json.Marshal(r.Body)
 }
 
-type BothIdentifierTypes struct {
-	IdentifierType     IdentifierType
-	WeakIdentifierType WeakIdentifierType
+type MatchExplanation struct {
+	Matched              *string            `json:"matched,omitempty" url:"matched,omitempty"`
+	Uploaded             *string            `json:"uploaded,omitempty" url:"uploaded,omitempty"`
+	NameCustomTfIdfScore *float64           `json:"name_custom_tf_idf_score,omitempty" url:"name_custom_tf_idf_score,omitempty"`
+	HighQualityMatchName *bool              `json:"high_quality_match_name,omitempty" url:"high_quality_match_name,omitempty"`
+	Scores               map[string]float64 `json:"scores,omitempty" url:"scores,omitempty"`
+	NCommonTermMatches   *int               `json:"n_common_term_matches,omitempty" url:"n_common_term_matches,omitempty"`
+	NUncommonTermMatches *int               `json:"n_uncommon_term_matches,omitempty" url:"n_uncommon_term_matches,omitempty"`
+	MatchQuality         *MatchQuality      `json:"match_quality,omitempty" url:"match_quality,omitempty"`
 
-	typ string
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
 }
 
-func NewBothIdentifierTypesFromIdentifierType(value IdentifierType) *BothIdentifierTypes {
-	return &BothIdentifierTypes{typ: "IdentifierType", IdentifierType: value}
+func (m *MatchExplanation) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
 }
 
-func NewBothIdentifierTypesFromWeakIdentifierType(value WeakIdentifierType) *BothIdentifierTypes {
-	return &BothIdentifierTypes{typ: "WeakIdentifierType", WeakIdentifierType: value}
+func (m *MatchExplanation) UnmarshalJSON(data []byte) error {
+	type unmarshaler MatchExplanation
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*m = MatchExplanation(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
+	}
+	m.extraProperties = extraProperties
+
+	m._rawJSON = json.RawMessage(data)
+	return nil
 }
 
-func (b *BothIdentifierTypes) UnmarshalJSON(data []byte) error {
-	var valueIdentifierType IdentifierType
-	if err := json.Unmarshal(data, &valueIdentifierType); err == nil {
-		b.typ = "IdentifierType"
-		b.IdentifierType = valueIdentifierType
-		return nil
+func (m *MatchExplanation) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
 	}
-	var valueWeakIdentifierType WeakIdentifierType
-	if err := json.Unmarshal(data, &valueWeakIdentifierType); err == nil {
-		b.typ = "WeakIdentifierType"
-		b.WeakIdentifierType = valueWeakIdentifierType
-		return nil
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
 	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, b)
+	return fmt.Sprintf("%#v", m)
 }
 
-func (b BothIdentifierTypes) MarshalJSON() ([]byte, error) {
-	if b.typ == "IdentifierType" || b.IdentifierType != "" {
-		return json.Marshal(b.IdentifierType)
+// Represents the quality of the field match
+type MatchQuality string
+
+const (
+	MatchQualityHigh   MatchQuality = "high"
+	MatchQualityMedium MatchQuality = "medium"
+	MatchQualityLow    MatchQuality = "low"
+)
+
+func NewMatchQualityFromString(s string) (MatchQuality, error) {
+	switch s {
+	case "high":
+		return MatchQualityHigh, nil
+	case "medium":
+		return MatchQualityMedium, nil
+	case "low":
+		return MatchQualityLow, nil
 	}
-	if b.typ == "WeakIdentifierType" || b.WeakIdentifierType != "" {
-		return json.Marshal(b.WeakIdentifierType)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", b)
+	var t MatchQuality
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-type BothIdentifierTypesVisitor interface {
-	VisitIdentifierType(IdentifierType) error
-	VisitWeakIdentifierType(WeakIdentifierType) error
+func (m MatchQuality) Ptr() *MatchQuality {
+	return &m
 }
 
-func (b *BothIdentifierTypes) Accept(visitor BothIdentifierTypesVisitor) error {
-	if b.typ == "IdentifierType" || b.IdentifierType != "" {
-		return visitor.VisitIdentifierType(b.IdentifierType)
+type MatchStrength struct {
+	Value string `json:"value" url:"value"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (m *MatchStrength) GetExtraProperties() map[string]interface{} {
+	return m.extraProperties
+}
+
+func (m *MatchStrength) UnmarshalJSON(data []byte) error {
+	type unmarshaler MatchStrength
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
 	}
-	if b.typ == "WeakIdentifierType" || b.WeakIdentifierType != "" {
-		return visitor.VisitWeakIdentifierType(b.WeakIdentifierType)
+	*m = MatchStrength(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	if err != nil {
+		return err
 	}
-	return fmt.Errorf("type %T does not include a non-empty union type", b)
+	m.extraProperties = extraProperties
+
+	m._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (m *MatchStrength) String() string {
+	if len(m._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(m); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", m)
 }
 
 type ProfileEnum string
@@ -293,6 +352,117 @@ func (r *ResolutionPersistedResponse) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
+type ResolutionPersistedResponseFields struct {
+	Name       []string `json:"name,omitempty" url:"name,omitempty"`
+	Identifier []string `json:"identifier,omitempty" url:"identifier,omitempty"`
+	Profile    *string  `json:"profile,omitempty" url:"profile,omitempty"`
+	// Entity country - must be ISO (3166) Trigram i.e., USA. See complete list [here](/sayari-library/ontology/enumerated-types#country)
+	Country []Country `json:"country,omitempty" url:"country,omitempty"`
+	// List of physical addresses associated with the entity.
+	Address     []string `json:"address,omitempty" url:"address,omitempty"`
+	DateOfBirth []string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
+	Contact     []string `json:"contact,omitempty" url:"contact,omitempty"`
+	// [Entity type](/sayari-library/ontology/entities)
+	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
+	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom_" and value must be "string" type)
+	CustomFieldName  *string `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
+	CustomName       *string `json:"custom_name,omitempty" url:"custom_name,omitempty"`
+	CustomIdentifier *string `json:"custom_identifier,omitempty" url:"custom_identifier,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionPersistedResponseFields) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionPersistedResponseFields) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionPersistedResponseFields
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionPersistedResponseFields(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionPersistedResponseFields) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+type ResolutionPersistedResult struct {
+	Profile             string                         `json:"profile" url:"profile"`
+	Score               float64                        `json:"score" url:"score"`
+	EntityId            string                         `json:"entity_id" url:"entity_id"`
+	Label               string                         `json:"label" url:"label"`
+	Type                Entities                       `json:"type" url:"type"`
+	Identifiers         []*Identifier                  `json:"identifiers,omitempty" url:"identifiers,omitempty"`
+	PsaId               *float64                       `json:"psa_id,omitempty" url:"psa_id,omitempty"`
+	Addresses           []string                       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	Countries           []Country                      `json:"countries,omitempty" url:"countries,omitempty"`
+	Sources             []string                       `json:"sources,omitempty" url:"sources,omitempty"`
+	TypedMatchedQueries []string                       `json:"typed_matched_queries,omitempty" url:"typed_matched_queries,omitempty"`
+	MatchedQueries      []string                       `json:"matched_queries,omitempty" url:"matched_queries,omitempty"`
+	Highlight           map[string][]string            `json:"highlight,omitempty" url:"highlight,omitempty"`
+	Explanation         map[string][]*MatchExplanation `json:"explanation,omitempty" url:"explanation,omitempty"`
+	MatchStrength       *MatchStrength                 `json:"match_strength,omitempty" url:"match_strength,omitempty"`
+	SavedEntityId       string                         `json:"saved_entity_id" url:"saved_entity_id"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionPersistedResult) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionPersistedResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionPersistedResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionPersistedResult(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionPersistedResult) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
 type ResolutionResponse struct {
 	Fields *ResolutionResponseFields `json:"fields,omitempty" url:"fields,omitempty"`
 	Data   []*ResolutionResult       `json:"data,omitempty" url:"data,omitempty"`
@@ -324,6 +494,112 @@ func (r *ResolutionResponse) UnmarshalJSON(data []byte) error {
 }
 
 func (r *ResolutionResponse) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+type ResolutionResponseFields struct {
+	Name       []string `json:"name,omitempty" url:"name,omitempty"`
+	Identifier []string `json:"identifier,omitempty" url:"identifier,omitempty"`
+	Profile    *string  `json:"profile,omitempty" url:"profile,omitempty"`
+	// Entity country - must be ISO (3166) Trigram i.e., USA. See complete list [here](/sayari-library/ontology/enumerated-types#country)
+	Country []Country `json:"country,omitempty" url:"country,omitempty"`
+	// List of physical addresses associated with the entity.
+	Address     []string `json:"address,omitempty" url:"address,omitempty"`
+	DateOfBirth []string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
+	Contact     []string `json:"contact,omitempty" url:"contact,omitempty"`
+	// [Entity type](/sayari-library/ontology/entities)
+	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionResponseFields) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionResponseFields) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionResponseFields
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionResponseFields(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionResponseFields) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+type ResolutionResult struct {
+	Profile             string                         `json:"profile" url:"profile"`
+	Score               float64                        `json:"score" url:"score"`
+	EntityId            string                         `json:"entity_id" url:"entity_id"`
+	Label               string                         `json:"label" url:"label"`
+	Type                Entities                       `json:"type" url:"type"`
+	Identifiers         []*Identifier                  `json:"identifiers,omitempty" url:"identifiers,omitempty"`
+	PsaId               *float64                       `json:"psa_id,omitempty" url:"psa_id,omitempty"`
+	Addresses           []string                       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	Countries           []Country                      `json:"countries,omitempty" url:"countries,omitempty"`
+	Sources             []string                       `json:"sources,omitempty" url:"sources,omitempty"`
+	TypedMatchedQueries []string                       `json:"typed_matched_queries,omitempty" url:"typed_matched_queries,omitempty"`
+	MatchedQueries      []string                       `json:"matched_queries,omitempty" url:"matched_queries,omitempty"`
+	Highlight           map[string][]string            `json:"highlight,omitempty" url:"highlight,omitempty"`
+	Explanation         map[string][]*MatchExplanation `json:"explanation,omitempty" url:"explanation,omitempty"`
+	MatchStrength       *MatchStrength                 `json:"match_strength,omitempty" url:"match_strength,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResolutionResult) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionResult(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionResult) String() string {
 	if len(r._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
 			return value

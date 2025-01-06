@@ -8,6 +8,223 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 )
 
+type HsCodeWithDescription struct {
+	Code        string `json:"code" url:"code"`
+	Description string `json:"description" url:"description"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HsCodeWithDescription) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
+}
+
+func (h *HsCodeWithDescription) UnmarshalJSON(data []byte) error {
+	type unmarshaler HsCodeWithDescription
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HsCodeWithDescription(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HsCodeWithDescription) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
+}
+
+type TradeTraversalEntity struct {
+	Id        string   `json:"id" url:"id"`
+	Type      string   `json:"type" url:"type"`
+	Label     string   `json:"label" url:"label"`
+	Countries []string `json:"countries,omitempty" url:"countries,omitempty"`
+	Risk      []string `json:"risk,omitempty" url:"risk,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeTraversalEntity) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TradeTraversalEntity) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalEntity
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalEntity(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalEntity) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TradeTraversalPath struct {
+	Source string                       `json:"source" url:"source"`
+	Target *TradeTraversalEntity        `json:"target,omitempty" url:"target,omitempty"`
+	Path   []*TradeTraversalPathSegment `json:"path,omitempty" url:"path,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeTraversalPath) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TradeTraversalPath) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalPath
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalPath(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalPath) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TradeTraversalPathSegment struct {
+	Entity   *TradeTraversalEntity    `json:"entity,omitempty" url:"entity,omitempty"`
+	Products []*TradeTraversalProduct `json:"products,omitempty" url:"products,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeTraversalPathSegment) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TradeTraversalPathSegment) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalPathSegment
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalPathSegment(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalPathSegment) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TradeTraversalProduct struct {
+	HsCode             *HsCodeWithDescription `json:"hs_code,omitempty" url:"hs_code,omitempty"`
+	MinDate            string                 `json:"min_date" url:"min_date"`
+	MaxDate            string                 `json:"max_date" url:"max_date"`
+	ArrivalCountries   []string               `json:"arrival_countries,omitempty" url:"arrival_countries,omitempty"`
+	DepartureCountries []string               `json:"departure_countries,omitempty" url:"departure_countries,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TradeTraversalProduct) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TradeTraversalProduct) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalProduct
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalProduct(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalProduct) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
 type UpstreamTradeTraversalResponse struct {
 	Status  *int                  `json:"status,omitempty" url:"status,omitempty"`
 	Success *bool                 `json:"success,omitempty" url:"success,omitempty"`
