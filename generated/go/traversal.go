@@ -127,6 +127,49 @@ type Traversal struct {
 	XinjiangGeospatial *bool `json:"-" url:"xinjiang_geospatial,omitempty"`
 }
 
+type ShortestPathData struct {
+	Source string           `json:"source" url:"source"`
+	Target *EntityDetails   `json:"target,omitempty" url:"target,omitempty"`
+	Path   []*TraversalPath `json:"path,omitempty" url:"path,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *ShortestPathData) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *ShortestPathData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShortestPathData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShortestPathData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShortestPathData) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
 // OK
 type ShortestPathResponse struct {
 	Entities []string            `json:"entities,omitempty" url:"entities,omitempty"`
@@ -168,6 +211,137 @@ func (s *ShortestPathResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
+}
+
+type TraversalData struct {
+	Source string           `json:"source" url:"source"`
+	Target *EntityDetails   `json:"target,omitempty" url:"target,omitempty"`
+	Path   []*TraversalPath `json:"path,omitempty" url:"path,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TraversalData) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TraversalData) UnmarshalJSON(data []byte) error {
+	type unmarshaler TraversalData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TraversalData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TraversalData) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TraversalPath struct {
+	Field         string                                       `json:"field" url:"field"`
+	Entity        *EntityDetails                               `json:"entity,omitempty" url:"entity,omitempty"`
+	Relationships map[Relationships]*TraversalRelationshipData `json:"relationships,omitempty" url:"relationships,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TraversalPath) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TraversalPath) UnmarshalJSON(data []byte) error {
+	type unmarshaler TraversalPath
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TraversalPath(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TraversalPath) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TraversalRelationshipData struct {
+	Values       []*RelationshipInfo `json:"values,omitempty" url:"values,omitempty"`
+	Former       *bool               `json:"former,omitempty" url:"former,omitempty"`
+	StartDate    *string             `json:"start_date,omitempty" url:"start_date,omitempty"`
+	LastObserved *string             `json:"last_observed,omitempty" url:"last_observed,omitempty"`
+	EndDate      *string             `json:"end_date,omitempty" url:"end_date,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (t *TraversalRelationshipData) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TraversalRelationshipData) UnmarshalJSON(data []byte) error {
+	type unmarshaler TraversalRelationshipData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TraversalRelationshipData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+
+	t._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TraversalRelationshipData) String() string {
+	if len(t._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
 
 // OK

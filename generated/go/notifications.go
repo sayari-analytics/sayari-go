@@ -23,6 +23,116 @@ type ResourceNotifications struct {
 	Offset *int `json:"-" url:"offset,omitempty"`
 }
 
+type Notification struct {
+	// The type of notification, currently limited to 'risk'
+	Type NotificationType `json:"type" url:"type"`
+	// The field that the notification is for
+	Field Risk `json:"field" url:"field"`
+	// The previous values of the field
+	Values []*RiskValue `json:"values,omitempty" url:"values,omitempty"`
+	// The date the notification was created
+	Date                  string                             `json:"date" url:"date"`
+	AdditionalInformation *NotificationAdditionalInformation `json:"additional_information,omitempty" url:"additional_information,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (n *Notification) GetExtraProperties() map[string]interface{} {
+	return n.extraProperties
+}
+
+func (n *Notification) UnmarshalJSON(data []byte) error {
+	type unmarshaler Notification
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = Notification(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+
+	n._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *Notification) String() string {
+	if len(n._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
+}
+
+type NotificationAdditionalInformation struct {
+	Value      map[string]interface{}             `json:"value,omitempty" url:"value,omitempty"`
+	Properties []*AdditionalInformationProperties `json:"properties,omitempty" url:"properties,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (n *NotificationAdditionalInformation) GetExtraProperties() map[string]interface{} {
+	return n.extraProperties
+}
+
+func (n *NotificationAdditionalInformation) UnmarshalJSON(data []byte) error {
+	type unmarshaler NotificationAdditionalInformation
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = NotificationAdditionalInformation(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+
+	n._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *NotificationAdditionalInformation) String() string {
+	if len(n._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
+}
+
+type NotificationType string
+
+const (
+	NotificationTypeRisk NotificationType = "risk"
+)
+
+func NewNotificationTypeFromString(s string) (NotificationType, error) {
+	switch s {
+	case "risk":
+		return NotificationTypeRisk, nil
+	}
+	var t NotificationType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (n NotificationType) Ptr() *NotificationType {
+	return &n
+}
+
 // Defines a sort order on a field. The value should begin with a '-' to indicate a descending sort, followed by a field name to sort on.
 type NotificationsSortField string
 
@@ -42,6 +152,103 @@ func NewNotificationsSortFieldFromString(s string) (NotificationsSortField, erro
 
 func (n NotificationsSortField) Ptr() *NotificationsSortField {
 	return &n
+}
+
+type ProjectNotificationData struct {
+	// The ID of the entity
+	Id string `json:"id" url:"id"`
+	// The ID of the saved resource
+	ResourceId string `json:"resource_id" url:"resource_id"`
+	// The ID of the entity
+	EntityId      string          `json:"entity_id" url:"entity_id"`
+	Notifications []*Notification `json:"notifications,omitempty" url:"notifications,omitempty"`
+	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom_" and value must be "string" type)
+	CustomFields interface{} `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
+	// Aggregated risk notifications
+	RiskNotifications *ProjectNotificationRiskData `json:"risk_notifications,omitempty" url:"risk_notifications,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectNotificationData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectNotificationData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectNotificationData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectNotificationData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectNotificationData) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectNotificationRiskData struct {
+	// The list of fields added
+	Added []string `json:"added,omitempty" url:"added,omitempty"`
+	// The list of fields removed
+	Removed []string `json:"removed,omitempty" url:"removed,omitempty"`
+	// The date of the notification
+	Date string `json:"date" url:"date"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (p *ProjectNotificationRiskData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectNotificationRiskData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectNotificationRiskData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectNotificationRiskData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+
+	p._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectNotificationRiskData) String() string {
+	if len(p._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
 }
 
 // OK
@@ -88,6 +295,60 @@ func (p *ProjectNotificationsResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
+}
+
+type ResourceNotificationData struct {
+	// The ID of the saved resource
+	SavedResourceId string `json:"saved_resource_id" url:"saved_resource_id"`
+	// The ID of the project the entity is saved to
+	ProjectId string `json:"project_id" url:"project_id"`
+	// The ID of the entity
+	EntityId string `json:"entity_id" url:"entity_id"`
+	// The type of notification, currently limited to 'risk'
+	Type NotificationType `json:"type" url:"type"`
+	// The field that the notification is for
+	Field Risk `json:"field" url:"field"`
+	// The previous value of the field
+	Value *RiskValue `json:"value,omitempty" url:"value,omitempty"`
+	// The date the notification was created
+	Date string `json:"date" url:"date"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *ResourceNotificationData) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResourceNotificationData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResourceNotificationData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResourceNotificationData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResourceNotificationData) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 // OK

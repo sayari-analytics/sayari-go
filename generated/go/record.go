@@ -76,3 +76,48 @@ func (g *GetRecordResponse) String() string {
 	}
 	return fmt.Sprintf("%#v", g)
 }
+
+type RecordReferences struct {
+	Limit  int             `json:"limit" url:"limit"`
+	Size   *QualifiedCount `json:"size,omitempty" url:"size,omitempty"`
+	Next   bool            `json:"next" url:"next"`
+	Offset int             `json:"offset" url:"offset"`
+	Data   interface{}     `json:"data,omitempty" url:"data,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (r *RecordReferences) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *RecordReferences) UnmarshalJSON(data []byte) error {
+	type unmarshaler RecordReferences
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RecordReferences(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+
+	r._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RecordReferences) String() string {
+	if len(r._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}

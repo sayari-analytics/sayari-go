@@ -60,6 +60,49 @@ func (a *AddAttribute) String() string {
 	return fmt.Sprintf("%#v", a)
 }
 
+type AttributeProperties struct {
+	Editable    bool   `json:"editable" url:"editable"`
+	RecordCount int    `json:"record_count" url:"record_count"`
+	Id          string `json:"id" url:"id"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AttributeProperties) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
+}
+
+func (a *AttributeProperties) UnmarshalJSON(data []byte) error {
+	type unmarshaler AttributeProperties
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AttributeProperties(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AttributeProperties) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
 // OK
 type AttributeResponse struct {
 	Data *AttributeResponseData `json:"data,omitempty" url:"data,omitempty"`
@@ -91,6 +134,48 @@ func (a *AttributeResponse) UnmarshalJSON(data []byte) error {
 }
 
 func (a *AttributeResponse) String() string {
+	if len(a._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
+type AttributeResponseData struct {
+	Value      interface{}            `json:"value,omitempty" url:"value,omitempty"`
+	Properties []*AttributeProperties `json:"properties,omitempty" url:"properties,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (a *AttributeResponseData) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
+}
+
+func (a *AttributeResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler AttributeResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AttributeResponseData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+
+	a._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AttributeResponseData) String() string {
 	if len(a._rawJSON) > 0 {
 		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
 			return value

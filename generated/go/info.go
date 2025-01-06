@@ -29,6 +29,54 @@ type GetUsage struct {
 	To *time.Time `json:"-" url:"to,omitempty" format:"date"`
 }
 
+// A map of fields appearing in the audit logs for this event
+type EventInfo = map[string]interface{}
+
+type HistoryInfo struct {
+	User        string    `json:"user" url:"user"`
+	Environment string    `json:"environment" url:"environment"`
+	Event       string    `json:"event" url:"event"`
+	Data        EventInfo `json:"data,omitempty" url:"data,omitempty"`
+	Timestamp   string    `json:"timestamp" url:"timestamp"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (h *HistoryInfo) GetExtraProperties() map[string]interface{} {
+	return h.extraProperties
+}
+
+func (h *HistoryInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler HistoryInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*h = HistoryInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	if err != nil {
+		return err
+	}
+	h.extraProperties = extraProperties
+
+	h._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (h *HistoryInfo) String() string {
+	if len(h._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(h); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", h)
+}
+
 type HistoryResponse struct {
 	Size      int            `json:"size" url:"size"`
 	NextToken string         `json:"next_token" url:"next_token"`
@@ -70,6 +118,55 @@ func (h *HistoryResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", h)
+}
+
+type UsageInfo struct {
+	Entity         *int `json:"entity,omitempty" url:"entity,omitempty"`
+	Record         *int `json:"record,omitempty" url:"record,omitempty"`
+	Resolve        *int `json:"resolve,omitempty" url:"resolve,omitempty"`
+	Search         *int `json:"search,omitempty" url:"search,omitempty"`
+	SearchEntities *int `json:"search_entities,omitempty" url:"search_entities,omitempty"`
+	SearchRecords  *int `json:"search_records,omitempty" url:"search_records,omitempty"`
+	SearchTrade    *int `json:"search_trade,omitempty" url:"search_trade,omitempty"`
+	TradeTraversal *int `json:"trade_traversal,omitempty" url:"trade_traversal,omitempty"`
+	Traversal      *int `json:"traversal,omitempty" url:"traversal,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (u *UsageInfo) GetExtraProperties() map[string]interface{} {
+	return u.extraProperties
+}
+
+func (u *UsageInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler UsageInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UsageInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+
+	u._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UsageInfo) String() string {
+	if len(u._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(u._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
 }
 
 type UsageResponse struct {

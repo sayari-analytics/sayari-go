@@ -115,3 +115,57 @@ func (l *ListSourcesResponse) String() string {
 	}
 	return fmt.Sprintf("%#v", l)
 }
+
+type Source struct {
+	// The unique identifier of the source
+	Id          string `json:"id" url:"id"`
+	Label       string `json:"label" url:"label"`
+	Description string `json:"description" url:"description"`
+	// Source [country](/sayari-library/ontology/enumerated-types#country)
+	Country    Country `json:"country" url:"country"`
+	Region     string  `json:"region" url:"region"`
+	DateAdded  string  `json:"date_added" url:"date_added"`
+	SourceType string  `json:"source_type" url:"source_type"`
+	RecordType string  `json:"record_type" url:"record_type"`
+	Structure  string  `json:"structure" url:"structure"`
+	SourceUrl  *string `json:"source_url,omitempty" url:"source_url,omitempty"`
+	Pep        bool    `json:"pep" url:"pep"`
+	Watchlist  bool    `json:"watchlist" url:"watchlist"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (s *Source) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *Source) UnmarshalJSON(data []byte) error {
+	type unmarshaler Source
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Source(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+
+	s._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Source) String() string {
+	if len(s._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}

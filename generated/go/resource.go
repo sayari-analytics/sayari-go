@@ -49,6 +49,57 @@ func (d *DeleteResourceResponse) String() string {
 	return fmt.Sprintf("%#v", d)
 }
 
+type EntityResponseData struct {
+	Type       ResourceType `json:"type" url:"type"`
+	Id         string       `json:"id" url:"id"`
+	Project    string       `json:"project" url:"project"`
+	Label      string       `json:"label" url:"label"`
+	Created    string       `json:"created" url:"created"`
+	Updated    string       `json:"updated" url:"updated"`
+	UpdatedBy  string       `json:"updated_by" url:"updated_by"`
+	Version    int          `json:"version" url:"version"`
+	EntityId   string       `json:"entity_id" url:"entity_id"`
+	TagIds     []string     `json:"tag_ids,omitempty" url:"tag_ids,omitempty"`
+	CaseStatus string       `json:"case_status" url:"case_status"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (e *EntityResponseData) GetExtraProperties() map[string]interface{} {
+	return e.extraProperties
+}
+
+func (e *EntityResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler EntityResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*e = EntityResponseData(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	if err != nil {
+		return err
+	}
+	e.extraProperties = extraProperties
+
+	e._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (e *EntityResponseData) String() string {
+	if len(e._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(e); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", e)
+}
+
 type ResourceType string
 
 const (
@@ -74,7 +125,7 @@ type SaveEntityRequest struct {
 	Project string `json:"project" url:"project"`
 	// The entity identifier.
 	EntityId string `json:"entity_id" url:"entity_id"`
-	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom\_" and value must be "string" type)
+	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom_" and value must be "string" type)
 	CustomFields interface{} `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
 
 	extraProperties map[string]interface{}

@@ -54,3 +54,49 @@ func (m *MetadataResponse) String() string {
 	}
 	return fmt.Sprintf("%#v", m)
 }
+
+type UserInfo struct {
+	// Currently logged in user ID
+	Id string `json:"id" url:"id"`
+	// Name of the sayari organization tied to credentials
+	GroupDisplayNames *string `json:"groupDisplayNames,omitempty" url:"groupDisplayNames,omitempty"`
+	// Licenses associated with the organization
+	Roles *string `json:"roles,omitempty" url:"roles,omitempty"`
+
+	extraProperties map[string]interface{}
+	_rawJSON        json.RawMessage
+}
+
+func (u *UserInfo) GetExtraProperties() map[string]interface{} {
+	return u.extraProperties
+}
+
+func (u *UserInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler UserInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UserInfo(value)
+
+	extraProperties, err := core.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+
+	u._rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UserInfo) String() string {
+	if len(u._rawJSON) > 0 {
+		if value, err := core.StringifyJSON(u._rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := core.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
