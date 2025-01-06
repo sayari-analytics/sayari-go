@@ -9,6 +9,7 @@ import (
 	entity "github.com/sayari-analytics/sayari-go/generated/go/entity"
 	info "github.com/sayari-analytics/sayari-go/generated/go/info"
 	metadata "github.com/sayari-analytics/sayari-go/generated/go/metadata"
+	negativenews "github.com/sayari-analytics/sayari-go/generated/go/negativenews"
 	notifications "github.com/sayari-analytics/sayari-go/generated/go/notifications"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	project "github.com/sayari-analytics/sayari-go/generated/go/project"
@@ -33,6 +34,7 @@ type Client struct {
 	Entity        *entity.Client
 	Info          *info.Client
 	Metadata      *metadata.Client
+	NegativeNews  *negativenews.Client
 	Notifications *notifications.Client
 	Project       *project.Client
 	Record        *record.Client
@@ -61,6 +63,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 		Entity:        entity.NewClient(opts...),
 		Info:          info.NewClient(opts...),
 		Metadata:      metadata.NewClient(opts...),
+		NegativeNews:  negativenews.NewClient(opts...),
 		Notifications: notifications.NewClient(opts...),
 		Project:       project.NewClient(opts...),
 		Record:        record.NewClient(opts...),
