@@ -7,8 +7,10 @@ package api
 // RequestOption to override the client's default environment,
 // if any.
 var Environments = struct {
+	// Sayari production - the default environment
 	Production string
-	Dev        string
+	// Sayari development - utilized for internal testing before promotion to production
+	Dev string
 }{
 	Production: "https://api.sayari.com",
 	Dev:        "https://api.internal.sayari.com",
