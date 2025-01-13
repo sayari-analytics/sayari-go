@@ -8859,9 +8859,13 @@ const (
 	RiskBisBoycottRequesterList                                                  Risk = "bis_boycott_requester_list"
 	RiskCmicEntity                                                               Risk = "cmic_entity"
 	RiskCmicEntity50PercentRule                                                  Risk = "cmic_entity_50_percent_rule"
+	RiskControlledByAusSanctioned                                                Risk = "controlled_by_aus_sanctioned"
 	RiskControlledByEuSanctioned                                                 Risk = "controlled_by_eu_sanctioned"
+	RiskControlledByJpnSanctioned                                                Risk = "controlled_by_jpn_sanctioned"
 	RiskControlledByOfacSdn                                                      Risk = "controlled_by_ofac_sdn"
 	RiskControlledByUkSanctioned                                                 Risk = "controlled_by_uk_sanctioned"
+	RiskControlledByUkrSanctioned                                                Risk = "controlled_by_ukr_sanctioned"
+	RiskControlledByUnSanctioned                                                 Risk = "controlled_by_un_sanctioned"
 	RiskCpiScore                                                                 Risk = "cpi_score"
 	RiskEntityLicensedWithFsbRf                                                  Risk = "entity_licensed_with_fsb_rf"
 	RiskEu50PercentRule                                                          Risk = "eu_50_percent_rule"
@@ -9033,12 +9037,20 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskCmicEntity, nil
 	case "cmic_entity_50_percent_rule":
 		return RiskCmicEntity50PercentRule, nil
+	case "controlled_by_aus_sanctioned":
+		return RiskControlledByAusSanctioned, nil
 	case "controlled_by_eu_sanctioned":
 		return RiskControlledByEuSanctioned, nil
+	case "controlled_by_jpn_sanctioned":
+		return RiskControlledByJpnSanctioned, nil
 	case "controlled_by_ofac_sdn":
 		return RiskControlledByOfacSdn, nil
 	case "controlled_by_uk_sanctioned":
 		return RiskControlledByUkSanctioned, nil
+	case "controlled_by_ukr_sanctioned":
+		return RiskControlledByUkrSanctioned, nil
+	case "controlled_by_un_sanctioned":
+		return RiskControlledByUnSanctioned, nil
 	case "cpi_score":
 		return RiskCpiScore, nil
 	case "entity_licensed_with_fsb_rf":
