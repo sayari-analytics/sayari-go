@@ -34,7 +34,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// <Warning>This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> The Project Notifications endpoint returns a list of notifications on all entities saved to a project.
+// The Project Notifications endpoint returns a list of notifications on all entities saved to a project.
 func (c *Client) ProjectNotifications(
 	ctx context.Context,
 	// Unique identifier of the project
