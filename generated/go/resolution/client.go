@@ -237,7 +237,7 @@ func (c *Client) ResolutionPost(
 	return response, nil
 }
 
-// <Warning>This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> The persisted resolution endpoints allow users to search for matching entities against a provided list of attributes. The endpoint is similar to the resolution endpoint, except it also stores matched entities into user's project.
+// The persisted resolution endpoints allow users to search for matching entities against a provided list of attributes. The endpoint is similar to the resolution endpoint, except it also stores matched entities into user's project.
 func (c *Client) ResolutionPersisted(
 	ctx context.Context,
 	// Unique identifier of the project
@@ -341,7 +341,7 @@ func (c *Client) ResolutionPersisted(
 	return response, nil
 }
 
-// <Warning>This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> This endpoint allows you to upload entities in bulk.
+// <Warning>This endpoint is in beta and subject to change</Warning> This endpoint allows you to upload entities in bulk.
 func (c *Client) ResolutionUpload(
 	ctx context.Context,
 	// Unique identifier of the project

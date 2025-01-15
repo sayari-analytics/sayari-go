@@ -34,7 +34,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// <Warning>This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> Adds a new Attribute
+// Adds a new attribute to an entity in the project
 func (c *Client) PostAttribute(
 	ctx context.Context,
 	request *generatedgo.AddAttribute,
