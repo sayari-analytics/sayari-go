@@ -206,11 +206,13 @@ func (a *AdditionalInformationInfo) String() string {
 }
 
 type AdditionalInformationProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The type of additional information being conveyed
 	Type *string `json:"type,omitempty" url:"type,omitempty"`
@@ -357,11 +359,13 @@ type AddressProperties struct {
 	Country *string `json:"country,omitempty" url:"country,omitempty"`
 	// Informal subdivision of a country without any political status
 	CountryRegion *string `json:"country_region,omitempty" url:"country_region,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
 	// Numbered/lettered entrance
 	Entrance *string `json:"entrance,omitempty" url:"entrance,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// Building/site name (e.g., "Brooklyn Academy of Music", "Empire State Building")
 	House *string `json:"house,omitempty" url:"house,omitempty"`
@@ -393,7 +397,7 @@ type AddressProperties struct {
 	StateDistrict *string `json:"state_district,omitempty" url:"state_district,omitempty"`
 	// Usually an unofficial neighborhood name, like "Harlem", "South Bronx", or "Crown Heights"
 	Suburb *string `json:"suburb,omitempty" url:"suburb,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The address value translated to English
 	Translated *string `json:"translated,omitempty" url:"translated,omitempty"`
@@ -465,6 +469,8 @@ const (
 	AddressTypePhysical AddressType = "physical"
 	// An address an entity has listed for its registration
 	AddressTypeRegistered AddressType = "registered"
+	// The port at which a shipment is temporarily located or moved between vessels in the course of shipment.
+	AddressTypeTransit AddressType = "transit"
 )
 
 func NewAddressTypeFromString(s string) (AddressType, error) {
@@ -481,6 +487,8 @@ func NewAddressTypeFromString(s string) (AddressType, error) {
 		return AddressTypePhysical, nil
 	case "registered":
 		return AddressTypeRegistered, nil
+	case "transit":
+		return AddressTypeTransit, nil
 	}
 	var t AddressType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -826,13 +834,15 @@ func (b *BusinessPurposeInfo) String() string {
 type BusinessPurposeProperties struct {
 	// A code
 	Code *string `json:"code,omitempty" url:"code,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// The type of code (e.g., "ISIC4", "NACE1")
 	Standard *BusinessPurposeStandard `json:"standard,omitempty" url:"standard,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// A text description
 	Value *string `json:"value,omitempty" url:"value,omitempty"`
@@ -1179,11 +1189,13 @@ func (c *CompanyTypeInfo) String() string {
 }
 
 type CompanyTypeProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	Value  *string `json:"value,omitempty" url:"value,omitempty"`
 
@@ -1316,11 +1328,13 @@ func (c *ContactInfo) String() string {
 }
 
 type ContactProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// Email, fax, phone number, or URL
 	Type *ContactType `json:"type,omitempty" url:"type,omitempty"`
@@ -2585,13 +2599,15 @@ func (c *CountryInfo) String() string {
 type CountryProperties struct {
 	// The type of affiliation
 	Context *CountryContext `json:"context,omitempty" url:"context,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// The subnational state, province, region, etc.
 	State *string `json:"state,omitempty" url:"state,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The country, ideally normalized to an ISO trigram
 	Value Country `json:"value" url:"value"`
@@ -3486,11 +3502,13 @@ func (d *DateOfBirthInfo) String() string {
 }
 
 type DateOfBirthProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The date of birth in YYYY-MM-DD, YYYY-MM, or YYYY format
 	Value string `json:"value" url:"value"`
@@ -3742,11 +3760,13 @@ type FinancesProperties struct {
 	Context *FinanceType `json:"context,omitempty" url:"context,omitempty"`
 	// The currency, if applicable
 	Currency *Currency `json:"currency,omitempty" url:"currency,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// A free-text definition of the type
 	Type *string `json:"type,omitempty" url:"type,omitempty"`
@@ -3886,11 +3906,13 @@ type FinancialsProperties struct {
 	Assets *float64 `json:"assets,omitempty" url:"assets,omitempty"`
 	// Reporting currency
 	Currency *Currency `json:"currency,omitempty" url:"currency,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
 	// Total employees
 	Employees *int `json:"employees,omitempty" url:"employees,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// Sum of the combined debts a company owes
 	Liabilities *float64 `json:"liabilities,omitempty" url:"liabilities,omitempty"`
@@ -3902,7 +3924,7 @@ type FinancialsProperties struct {
 	RegisteredCapital *float64 `json:"registered_capital,omitempty" url:"registered_capital,omitempty"`
 	// The total amount of income generated by the sale of goods or services related to the company's primary operations
 	Revenue *float64 `json:"revenue,omitempty" url:"revenue,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 
 	extraProperties map[string]interface{}
@@ -4063,11 +4085,13 @@ func (g *GenderInfo) String() string {
 }
 
 type GenderProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// May be described as "female", "male", or "other"
 	Value Gender `json:"value" url:"value"`
@@ -4201,11 +4225,13 @@ func (g *GenericInfo) String() string {
 }
 
 type GenericProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// A text description of the attribute (e.g., "name of pet")
 	Type *string `json:"type,omitempty" url:"type,omitempty"`
@@ -4341,11 +4367,13 @@ func (i *IdentifierInfo) String() string {
 }
 
 type IdentifierProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string              `json:"to_date,omitempty" url:"to_date,omitempty"`
 	Type   *BothIdentifierTypes `json:"type,omitempty" url:"type,omitempty"`
 	// The text/number value of the identifier
@@ -4470,6 +4498,8 @@ const (
 	IdentifierTypeAusCreditLicenceNumber IdentifierType = "aus_credit_licence_number"
 	// Australian identifying number allocated to a credit representative
 	IdentifierTypeAusCreditRepNumber IdentifierType = "aus_credit_rep_number"
+	// Australia Passport Number
+	IdentifierTypeAusPassport IdentifierType = "aus_passport"
 	// Austrian Company Register Number
 	IdentifierTypeAutFirmenbuchNo IdentifierType = "aut_firmenbuch_no"
 	// Azerbaijan TIN. Unique number assigned to taxpayers registered with Azerbaijan State Tax Service.
@@ -4488,6 +4518,8 @@ const (
 	IdentifierTypeBfaEntityId IdentifierType = "bfa_entity_id"
 	// OHADA corporate registry ID number
 	IdentifierTypeBfaRccmNumber IdentifierType = "bfa_rccm_number"
+	// Bangladesh Passport Number
+	IdentifierTypeBgdPassport IdentifierType = "bgd_passport"
 	// A hashed representation of a Bulgarian citizenship number
 	IdentifierTypeBgrEgnHashed IdentifierType = "bgr_egn_hashed"
 	// Unique Identification Code for all legal and other entities engaged in business activities in Bulgaria
@@ -4735,6 +4767,10 @@ const (
 	IdentifierTypeEcuRucNumber IdentifierType = "ecu_ruc_number"
 	// Ecuador Shipment Reference Number
 	IdentifierTypeEcuShipmentRefNo IdentifierType = "ecu_shipment_ref_no"
+	// Egypt National Identity Card Number. The national number is a unique 14-digit identifier assigned to each citizen.
+	IdentifierTypeEgyId IdentifierType = "egy_id"
+	// Egypt passport number
+	IdentifierTypeEgyPassport IdentifierType = "egy_passport"
 	// Unique identification number assigned to every entity registered with the Bank of Spain.
 	IdentifierTypeEspBeCode IdentifierType = "esp_be_code"
 	// Value taken from datos registrales section used to identify companies in the Borme. Not an official identifier.
@@ -4844,6 +4880,8 @@ const (
 	IdentifierTypeIcijOffshoreInternalId IdentifierType = "icij_offshore_internal_id"
 	// ICIJ Offshore Database Node ID
 	IdentifierTypeIcijOffshoreNodeId IdentifierType = "icij_offshore_node_id"
+	// Indonesia National identification number issued to all Indonesian citizens. This ID represents a unique 16-digit number known as a Nomor Induk Kependudukan (NIK).
+	IdentifierTypeIdnNikId IdentifierType = "idn_nik_id"
 	// Indonesian passport number
 	IdentifierTypeIdnPassport IdentifierType = "idn_passport"
 	// Indonesian tax ID aka NPWP Number; learn more [here](https://wiki.scn.sap.com/wiki/display/CRM/Indonesia)
@@ -5105,6 +5143,10 @@ const (
 	IdentifierTypeMysCompanyRegNo IdentifierType = "mys_company_reg_no"
 	// Malaysia natural person ID number
 	IdentifierTypeMysIdCardNo IdentifierType = "mys_id_card_no"
+	// Malaysia MOHA Sanctions List Identifier. Reference number assigned to all entities listed under the Malaysia Ministry of Home Affairs Sanctions List.
+	IdentifierTypeMysMohaListNumber IdentifierType = "mys_moha_list_number"
+	// Malaysia passport number
+	IdentifierTypeMysPassport IdentifierType = "mys_passport"
 	// NG-Check entity internal ID number
 	IdentifierTypeNgCheckInternalId IdentifierType = "ng_check_internal_id"
 	// Nigerian Corporate Registry Internal ID
@@ -5181,6 +5223,8 @@ const (
 	IdentifierTypePerRucNo IdentifierType = "per_ruc_no"
 	// Philippines business registry ID number
 	IdentifierTypePhlBnn IdentifierType = "phl_bnn"
+	// Philippines passport number
+	IdentifierTypePhlPassport IdentifierType = "phl_passport"
 	// Philippines securities issuer internal ID number
 	IdentifierTypePhlPseId IdentifierType = "phl_pse_id"
 	// Philippines business registry ID number
@@ -5266,6 +5310,12 @@ const (
 	IdentifierTypeRusTouristObj IdentifierType = "rus_tourist_obj"
 	// Unique Canada province ID number. Assigned to every legal entity in the Saskatchewan Corporate Registry.
 	IdentifierTypeSaskatchewanRegistryNumber IdentifierType = "saskatchewan_registry_number"
+	// Saudi Arabia Commercial Registration ID Number. Issued by Ministry of Commerce of Saudi Arabia.
+	IdentifierTypeSauCrNumber IdentifierType = "sau_cr_number"
+	// Unified Saudi Arabia National Number of the Establishment. Issued by the Ministry of Commerce of Saudi Arabia via the National Information Center. This ID may also be issued through the Saudi Arabia Ministry of Human Resources and Social Development for establishments that do not require a commercial registration to practice business activity. It normally consists of ten digits.
+	IdentifierTypeSauEstablishmentNum IdentifierType = "sau_establishment_num"
+	// Saudi Arabia National Identity Card Number. The identification card number in Saudi Arabia is a 10-digit numerical sequence called the Iqama number.
+	IdentifierTypeSauId IdentifierType = "sau_id"
 	// Saudi Arabian passport number
 	IdentifierTypeSauPassport IdentifierType = "sau_passport"
 	// UID used to merge entities internally
@@ -5322,6 +5372,8 @@ const (
 	IdentifierTypeSweTaxNumber IdentifierType = "swe_tax_number"
 	// Unique global ID code. Assigned to financial and non-financial institutions for use addressing messages, routing business transactions, and identifying business parties.
 	IdentifierTypeSwiftBicCode IdentifierType = "swift_bic_code"
+	// Syria passport number
+	IdentifierTypeSyrPassport IdentifierType = "syr_passport"
 	// Unique Syria ID number. Assigned to every legal entity registered with the Syria Ministry of Economy and Foreign Trade.
 	IdentifierTypeSyriaCommercialRegisterNumber IdentifierType = "syria_commercial_register_number"
 	// Thailand corporate registry ID number
@@ -5336,12 +5388,16 @@ const (
 	IdentifierTypeTtoBizNumber IdentifierType = "tto_biz_number"
 	// Tunisia passport number
 	IdentifierTypeTunPassport IdentifierType = "tun_passport"
+	// Türkiye Identification Number. This ID number is a unique 11-digit personal identification number assigned to citizens of Turkey.
+	IdentifierTypeTurId IdentifierType = "tur_id"
 	// Istanbul Chamber of Commerce registration number
 	IdentifierTypeTurIstanbulCocRegNo IdentifierType = "tur_istanbul_coc_reg_no"
 	// Izmir Chamber of Commerce registration number
 	IdentifierTypeTurIzmirCocRegNo IdentifierType = "tur_izmir_coc_reg_no"
 	// Turkish Central Registry Number System (MERSIS) number
 	IdentifierTypeTurMersisNumber IdentifierType = "tur_mersis_number"
+	// Türkiye passport number
+	IdentifierTypeTurPassport IdentifierType = "tur_passport"
 	// Unique concatenation of bill of lading number and item number for shipments in Turkey.
 	IdentifierTypeTurShipmentId IdentifierType = "tur_shipment_id"
 	// Turkish Tax Identifier
@@ -5727,6 +5783,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeAusCreditLicenceNumber, nil
 	case "aus_credit_rep_number":
 		return IdentifierTypeAusCreditRepNumber, nil
+	case "aus_passport":
+		return IdentifierTypeAusPassport, nil
 	case "aut_firmenbuch_no":
 		return IdentifierTypeAutFirmenbuchNo, nil
 	case "aze_tin_number":
@@ -5745,6 +5803,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBfaEntityId, nil
 	case "bfa_rccm_number":
 		return IdentifierTypeBfaRccmNumber, nil
+	case "bgd_passport":
+		return IdentifierTypeBgdPassport, nil
 	case "bgr_egn_hashed":
 		return IdentifierTypeBgrEgnHashed, nil
 	case "bgr_uic":
@@ -5997,6 +6057,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeEcuRucNumber, nil
 	case "ecu_shipment_ref_no":
 		return IdentifierTypeEcuShipmentRefNo, nil
+	case "egy_id":
+		return IdentifierTypeEgyId, nil
+	case "egy_passport":
+		return IdentifierTypeEgyPassport, nil
 	case "esp_be_code":
 		return IdentifierTypeEspBeCode, nil
 	case "esp_borme_reg_id":
@@ -6107,6 +6171,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIcijOffshoreInternalId, nil
 	case "icij_offshore_node_id":
 		return IdentifierTypeIcijOffshoreNodeId, nil
+	case "idn_nik_id":
+		return IdentifierTypeIdnNikId, nil
 	case "idn_passport":
 		return IdentifierTypeIdnPassport, nil
 	case "idn_tax_id":
@@ -6375,6 +6441,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeMysCompanyRegNo, nil
 	case "mys_id_card_no":
 		return IdentifierTypeMysIdCardNo, nil
+	case "mys_moha_list_number":
+		return IdentifierTypeMysMohaListNumber, nil
+	case "mys_passport":
+		return IdentifierTypeMysPassport, nil
 	case "ng_check_internal_id":
 		return IdentifierTypeNgCheckInternalId, nil
 	case "nga_crp_reg_internal_id":
@@ -6451,6 +6521,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypePerRucNo, nil
 	case "phl_bnn":
 		return IdentifierTypePhlBnn, nil
+	case "phl_passport":
+		return IdentifierTypePhlPassport, nil
 	case "phl_pse_id":
 		return IdentifierTypePhlPseId, nil
 	case "phl_sec_id":
@@ -6539,6 +6611,12 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeRusTouristObj, nil
 	case "saskatchewan_registry_number":
 		return IdentifierTypeSaskatchewanRegistryNumber, nil
+	case "sau_cr_number":
+		return IdentifierTypeSauCrNumber, nil
+	case "sau_establishment_num":
+		return IdentifierTypeSauEstablishmentNum, nil
+	case "sau_id":
+		return IdentifierTypeSauId, nil
 	case "sau_passport":
 		return IdentifierTypeSauPassport, nil
 	case "sayari_internal_identifier":
@@ -6595,6 +6673,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeSweTaxNumber, nil
 	case "swift_bic_code":
 		return IdentifierTypeSwiftBicCode, nil
+	case "syr_passport":
+		return IdentifierTypeSyrPassport, nil
 	case "syria_commercial_register_number":
 		return IdentifierTypeSyriaCommercialRegisterNumber, nil
 	case "tha_registration_no":
@@ -6609,12 +6689,16 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeTtoBizNumber, nil
 	case "tun_passport":
 		return IdentifierTypeTunPassport, nil
+	case "tur_id":
+		return IdentifierTypeTurId, nil
 	case "tur_istanbul_coc_reg_no":
 		return IdentifierTypeTurIstanbulCocRegNo, nil
 	case "tur_izmir_coc_reg_no":
 		return IdentifierTypeTurIzmirCocRegNo, nil
 	case "tur_mersis_number":
 		return IdentifierTypeTurMersisNumber, nil
+	case "tur_passport":
+		return IdentifierTypeTurPassport, nil
 	case "tur_shipment_id":
 		return IdentifierTypeTurShipmentId, nil
 	case "tur_tax_id":
@@ -7776,11 +7860,13 @@ func (m *MeasurementInfo) String() string {
 }
 
 type MeasurementProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// Type of the measurement
 	Type MeasurementType `json:"type" url:"type"`
@@ -7980,11 +8066,13 @@ type MonetaryValueProperties struct {
 	Context MonetaryValueContext `json:"context" url:"context"`
 	// The ISO 4217 currency code
 	Currency *Currency `json:"currency,omitempty" url:"currency,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The financial value of the asset
 	Value float64 `json:"value" url:"value"`
@@ -8164,13 +8252,15 @@ func (n *NameInfo) String() string {
 
 type NameProperties struct {
 	Context *string `json:"context,omitempty" url:"context,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// The language that the name is in
 	Language *Language `json:"language,omitempty" url:"language,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The name value translated to English
 	Translated *string `json:"translated,omitempty" url:"translated,omitempty"`
@@ -8337,11 +8427,13 @@ func (p *PersonStatusInfo) String() string {
 }
 
 type PersonStatusProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The event
 	Value PersonStatus `json:"value" url:"value"`
@@ -8475,11 +8567,13 @@ func (p *PositionInfo) String() string {
 }
 
 type PositionProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The position as text
 	Value string `json:"value" url:"value"`
@@ -8994,6 +9088,7 @@ const (
 	RiskPsaSheffieldHallamUniversityIntermediaryEntity                           Risk = "psa_sheffield_hallam_university_intermediary_entity"
 	RiskPsaSheffieldHallamUniversityUsefulResources                              Risk = "psa_sheffield_hallam_university_useful_resources"
 	RiskPsaStateOwned                                                            Risk = "psa_state_owned"
+	RiskPsaStateOwnedVen                                                         Risk = "psa_state_owned_ven"
 	RiskPsaWroEntity                                                             Risk = "psa_wro_entity"
 	RiskRegulatoryAction                                                         Risk = "regulatory_action"
 	RiskReputationalRiskBriberyAndCorruption                                     Risk = "reputational_risk_bribery_and_corruption"
@@ -9307,6 +9402,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaSheffieldHallamUniversityUsefulResources, nil
 	case "psa_state_owned":
 		return RiskPsaStateOwned, nil
+	case "psa_state_owned_ven":
+		return RiskPsaStateOwnedVen, nil
 	case "psa_wro_entity":
 		return RiskPsaWroEntity, nil
 	case "regulatory_action":
@@ -9459,9 +9556,11 @@ func (r *RiskIntelligenceInfo) String() string {
 type RiskIntelligenceProperties struct {
 	// Government authority issuing the enforcement or risk intelligence action
 	Authority *string `json:"authority,omitempty" url:"authority,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// Official list where the entity's risk information or enforcement action is recorded
 	List *string `json:"list,omitempty" url:"list,omitempty"`
@@ -9469,7 +9568,7 @@ type RiskIntelligenceProperties struct {
 	Program *string `json:"program,omitempty" url:"program,omitempty"`
 	// Explanation or legal basis for the risk intelligence
 	Reason *string `json:"reason,omitempty" url:"reason,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// Type of risk intelligence
 	Type Tag `json:"type" url:"type"`
@@ -9605,9 +9704,11 @@ func (s *SharesInfo) String() string {
 type SharesProperties struct {
 	// The currency of the monetary_value
 	Currency *Currency `json:"currency,omitempty" url:"currency,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// The total monetary value of the shares
 	MonetaryValue *float64 `json:"monetary_value,omitempty" url:"monetary_value,omitempty"`
@@ -9615,7 +9716,7 @@ type SharesProperties struct {
 	NumShares *float64 `json:"num_shares,omitempty" url:"num_shares,omitempty"`
 	// The percentage of shares owned
 	Percentage *float64 `json:"percentage,omitempty" url:"percentage,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// A string describing the type of shares (e.g., "Class B", "Protected cell shares")
 	Type *string `json:"type,omitempty" url:"type,omitempty"`
@@ -9788,13 +9889,15 @@ func (s *StatusInfo) String() string {
 type StatusProperties struct {
 	// The type of status, such as license or partnership type
 	Context *StatusContext `json:"context,omitempty" url:"context,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// The raw status text
 	Text *string `json:"text,omitempty" url:"text,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The status, normalized to one of the status enums
 	Value *CompanyStatus `json:"value,omitempty" url:"value,omitempty"`
@@ -10013,13 +10116,15 @@ func (t *TranslatedNameInfo) String() string {
 type TranslatedNameProperties struct {
 	// The type of translation
 	Context *TranslationContext `json:"context,omitempty" url:"context,omitempty"`
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
 	// The original name
 	Original *string `json:"original,omitempty" url:"original,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The name, as text
 	Value string `json:"value" url:"value"`
@@ -10211,11 +10316,13 @@ func (w *WeakIdentifierInfo) String() string {
 }
 
 type WeakIdentifierProperties struct {
-	// as-of date
+	// as-of date of attribute
 	Date *string `json:"date,omitempty" url:"date,omitempty"`
-	// start date
+	// extra information of attribute
+	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
+	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
-	// end date
+	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// The type of the identifier, including the country/jurisdiction that issued it
 	Type WeakIdentifierType `json:"type" url:"type"`
