@@ -62,7 +62,7 @@ type GetEntity struct {
 	RelationshipsNext *string `json:"-" url:"relationships.next,omitempty"`
 	// The pagination token for the previous page of relationship results
 	RelationshipsPrev *string `json:"-" url:"relationships.prev,omitempty"`
-	// Limit total relationship values. Defaults to 200.
+	// Limit total relationship values. Defaults to 50.
 	RelationshipsLimit *int `json:"-" url:"relationships.limit,omitempty"`
 	// Filter relationships to [relationship type](/sayari-library/ontology/relationships), e.g. director_of or has_shareholder
 	RelationshipsType *Relationships `json:"-" url:"relationships.type,omitempty"`
