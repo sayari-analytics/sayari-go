@@ -358,7 +358,7 @@ func (c *Client) ResolutionUpload(
 	if options.BaseURL != "" {
 		baseURL = options.BaseURL
 	}
-	endpointURL := core.EncodeURL(baseURL+"/v1/v1/projects/%v/resolutions", projectId)
+	endpointURL := core.EncodeURL(baseURL+"/v1/projects/%v/resolutions", projectId)
 
 	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
 
