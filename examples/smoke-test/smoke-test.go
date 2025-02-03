@@ -152,9 +152,16 @@ func main() {
 	log.Printf("Found %v watchlist resulsts for entity %v.", len(watchlist.Data), putinResult.Data[0].Id)
 
 	// Shortest Path
+	log.Printf("Querying shortest path from '%v' to '%v'", firstEntityResult, ubo.Data[0].Target.Id)
 	shortestPath, err := client.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{firstEntityResult, ubo.Data[0].Target.Id}})
 	if err != nil {
-		log.Fatalf("Error: %v", err)
+		//TODO: remove this retry once queries work in both directions
+		log.Printf("Error: %v", err)
+		log.Printf("Querying shortest path from '%v' to '%v'", ubo.Data[0].Target.Id, firstEntityResult)
+		shortestPath, err = client.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{ubo.Data[0].Target.Id, firstEntityResult}})
+		if err != nil {
+			log.Fatalf("Error: %v", err)
+		}
 	}
 	// uncomment to view data
 	//spew.Dump(shortestPath)
