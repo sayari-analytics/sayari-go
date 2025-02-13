@@ -1884,7 +1884,7 @@ const (
 	CountryUkr Country = "UKR"
 	// United States Minor Outlying Islands
 	CountryUmi Country = "UMI"
-	// Kosovo
+	// United Nations Interim Administration in Kosovo (UNMIK)
 	CountryUnk Country = "UNK"
 	// Uruguay
 	CountryUry Country = "URY"
