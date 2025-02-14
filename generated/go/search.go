@@ -180,7 +180,7 @@ type FilterList struct {
 	// Pipe-delimited bounding box coordinates (north,west,south,east). E.g., '"46.12|-76|45|-75"'.
 	Bounds []string `json:"bounds,omitempty" url:"bounds,omitempty"`
 	// List of risk factors to filter by.
-	Risk []Risk `json:"risk,omitempty" url:"risk,omitempty"`
+	Risk *RiskFactor `json:"risk,omitempty" url:"risk,omitempty"`
 
 	extraProperties map[string]interface{}
 	_rawJSON        json.RawMessage
@@ -264,6 +264,71 @@ func (r *RecordSearchResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
+}
+
+type RiskFactor struct {
+	// Matches specific risk factors
+	RiskList []Risk
+	// Matches any risk factor
+	anyStringLiteral string
+
+	typ string
+}
+
+func NewRiskFactorFromRiskList(value []Risk) *RiskFactor {
+	return &RiskFactor{typ: "RiskList", RiskList: value}
+}
+
+func NewRiskFactorWithAnyStringLiteral() *RiskFactor {
+	return &RiskFactor{typ: "anyStringLiteral", anyStringLiteral: "any"}
+}
+
+func (r *RiskFactor) AnyStringLiteral() string {
+	return r.anyStringLiteral
+}
+
+func (r *RiskFactor) UnmarshalJSON(data []byte) error {
+	var valueRiskList []Risk
+	if err := json.Unmarshal(data, &valueRiskList); err == nil {
+		r.typ = "RiskList"
+		r.RiskList = valueRiskList
+		return nil
+	}
+	var valueAnyStringLiteral string
+	if err := json.Unmarshal(data, &valueAnyStringLiteral); err == nil {
+		r.typ = "anyStringLiteral"
+		r.anyStringLiteral = valueAnyStringLiteral
+		if r.anyStringLiteral != "any" {
+			return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", r, "any", valueAnyStringLiteral)
+		}
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, r)
+}
+
+func (r RiskFactor) MarshalJSON() ([]byte, error) {
+	if r.typ == "RiskList" || r.RiskList != nil {
+		return json.Marshal(r.RiskList)
+	}
+	if r.typ == "anyStringLiteral" || r.anyStringLiteral != "" {
+		return json.Marshal("any")
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", r)
+}
+
+type RiskFactorVisitor interface {
+	VisitRiskList([]Risk) error
+	VisitAnyStringLiteral(string) error
+}
+
+func (r *RiskFactor) Accept(visitor RiskFactorVisitor) error {
+	if r.typ == "RiskList" || r.RiskList != nil {
+		return visitor.VisitRiskList(r.RiskList)
+	}
+	if r.typ == "anyStringLiteral" || r.anyStringLiteral != "" {
+		return visitor.VisitAnyStringLiteral(r.anyStringLiteral)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", r)
 }
 
 type SearchResults struct {
