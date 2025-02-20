@@ -37,31 +37,33 @@ type Ownership struct {
 	ExcludeFormerRelationships *bool `json:"-" url:"exclude_former_relationships,omitempty"`
 	// Include entities that existed in the past but not at the present time. Defaults to false.
 	ExcludeClosedEntities *bool `json:"-" url:"exclude_closed_entities,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with any risk factor of these categories
+	RiskCategories *TraversalRiskCategory `json:"-" url:"risk_categories,omitempty"`
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	EuHighRiskThird *bool `json:"-" url:"eu_high_risk_third,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskModernSlavery *bool `json:"-" url:"reputational_risk_modern_slavery,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	StateOwned *bool `json:"-" url:"state_owned,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	FormerlySanctioned *bool `json:"-" url:"formerly_sanctioned,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskTerrorism *bool `json:"-" url:"reputational_risk_terrorism,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskOrganizedCrime *bool `json:"-" url:"reputational_risk_organized_crime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskFinancialCrime *bool `json:"-" url:"reputational_risk_financial_crime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskBriberyAndCorruption *bool `json:"-" url:"reputational_risk_bribery_and_corruption,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskOther *bool `json:"-" url:"reputational_risk_other,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskCybercrime *bool `json:"-" url:"reputational_risk_cybercrime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	RegulatoryAction *bool `json:"-" url:"regulatory_action,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	LawEnforcementAction *bool `json:"-" url:"law_enforcement_action,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	XinjiangGeospatial *bool `json:"-" url:"xinjiang_geospatial,omitempty"`
 }
 
@@ -99,32 +101,68 @@ type Traversal struct {
 	ExcludeFormerRelationships *bool `json:"-" url:"exclude_former_relationships,omitempty"`
 	// Include entities that existed in the past but not at the present time. Defaults to false.
 	ExcludeClosedEntities *bool `json:"-" url:"exclude_closed_entities,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with any risk factor of these categories
+	RiskCategories *TraversalRiskCategory `json:"-" url:"risk_categories,omitempty"`
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	EuHighRiskThird *bool `json:"-" url:"eu_high_risk_third,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskModernSlavery *bool `json:"-" url:"reputational_risk_modern_slavery,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	StateOwned *bool `json:"-" url:"state_owned,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	FormerlySanctioned *bool `json:"-" url:"formerly_sanctioned,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskTerrorism *bool `json:"-" url:"reputational_risk_terrorism,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskOrganizedCrime *bool `json:"-" url:"reputational_risk_organized_crime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskFinancialCrime *bool `json:"-" url:"reputational_risk_financial_crime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskBriberyAndCorruption *bool `json:"-" url:"reputational_risk_bribery_and_corruption,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskOther *bool `json:"-" url:"reputational_risk_other,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskCybercrime *bool `json:"-" url:"reputational_risk_cybercrime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	RegulatoryAction *bool `json:"-" url:"regulatory_action,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	LawEnforcementAction *bool `json:"-" url:"law_enforcement_action,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	XinjiangGeospatial *bool `json:"-" url:"xinjiang_geospatial,omitempty"`
+}
+
+type RiskCategories string
+
+const (
+	RiskCategoriesForcedLabor       RiskCategories = "forced_labor"
+	RiskCategoriesExportControls    RiskCategories = "export_controls"
+	RiskCategoriesSanctions         RiskCategories = "sanctions"
+	RiskCategoriesPoliticalExposure RiskCategories = "political_exposure"
+	RiskCategoriesRegulatoryAction  RiskCategories = "regulatory_action"
+	RiskCategoriesAdverseMedia      RiskCategories = "adverse_media"
+)
+
+func NewRiskCategoriesFromString(s string) (RiskCategories, error) {
+	switch s {
+	case "forced_labor":
+		return RiskCategoriesForcedLabor, nil
+	case "export_controls":
+		return RiskCategoriesExportControls, nil
+	case "sanctions":
+		return RiskCategoriesSanctions, nil
+	case "political_exposure":
+		return RiskCategoriesPoliticalExposure, nil
+	case "regulatory_action":
+		return RiskCategoriesRegulatoryAction, nil
+	case "adverse_media":
+		return RiskCategoriesAdverseMedia, nil
+	}
+	var t RiskCategories
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r RiskCategories) Ptr() *RiskCategories {
+	return &r
 }
 
 type ShortestPathData struct {
@@ -401,6 +439,64 @@ func (t *TraversalResponse) String() string {
 	return fmt.Sprintf("%#v", t)
 }
 
+type TraversalRiskCategory struct {
+	// Matches specific risk category
+	RiskCategoriesList []RiskCategories
+	// Matches a custom risk category
+	String string
+
+	typ string
+}
+
+func NewTraversalRiskCategoryFromRiskCategoriesList(value []RiskCategories) *TraversalRiskCategory {
+	return &TraversalRiskCategory{typ: "RiskCategoriesList", RiskCategoriesList: value}
+}
+
+func NewTraversalRiskCategoryFromString(value string) *TraversalRiskCategory {
+	return &TraversalRiskCategory{typ: "String", String: value}
+}
+
+func (t *TraversalRiskCategory) UnmarshalJSON(data []byte) error {
+	var valueRiskCategoriesList []RiskCategories
+	if err := json.Unmarshal(data, &valueRiskCategoriesList); err == nil {
+		t.typ = "RiskCategoriesList"
+		t.RiskCategoriesList = valueRiskCategoriesList
+		return nil
+	}
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		t.typ = "String"
+		t.String = valueString
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, t)
+}
+
+func (t TraversalRiskCategory) MarshalJSON() ([]byte, error) {
+	if t.typ == "RiskCategoriesList" || t.RiskCategoriesList != nil {
+		return json.Marshal(t.RiskCategoriesList)
+	}
+	if t.typ == "String" || t.String != "" {
+		return json.Marshal(t.String)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", t)
+}
+
+type TraversalRiskCategoryVisitor interface {
+	VisitRiskCategoriesList([]RiskCategories) error
+	VisitString(string) error
+}
+
+func (t *TraversalRiskCategory) Accept(visitor TraversalRiskCategoryVisitor) error {
+	if t.typ == "RiskCategoriesList" || t.RiskCategoriesList != nil {
+		return visitor.VisitRiskCategoriesList(t.RiskCategoriesList)
+	}
+	if t.typ == "String" || t.String != "" {
+		return visitor.VisitString(t.String)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", t)
+}
+
 type Ubo struct {
 	// Limit total values for traversal. Defaults to 10. Max of 50.
 	Limit *int `json:"-" url:"limit,omitempty"`
@@ -430,31 +526,33 @@ type Ubo struct {
 	ExcludeFormerRelationships *bool `json:"-" url:"exclude_former_relationships,omitempty"`
 	// Include entities that existed in the past but not at the present time. Defaults to false.
 	ExcludeClosedEntities *bool `json:"-" url:"exclude_closed_entities,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with any risk factor of these categories
+	RiskCategories *TraversalRiskCategory `json:"-" url:"risk_categories,omitempty"`
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	EuHighRiskThird *bool `json:"-" url:"eu_high_risk_third,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskModernSlavery *bool `json:"-" url:"reputational_risk_modern_slavery,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	StateOwned *bool `json:"-" url:"state_owned,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	FormerlySanctioned *bool `json:"-" url:"formerly_sanctioned,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskTerrorism *bool `json:"-" url:"reputational_risk_terrorism,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskOrganizedCrime *bool `json:"-" url:"reputational_risk_organized_crime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskFinancialCrime *bool `json:"-" url:"reputational_risk_financial_crime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskBriberyAndCorruption *bool `json:"-" url:"reputational_risk_bribery_and_corruption,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskOther *bool `json:"-" url:"reputational_risk_other,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskCybercrime *bool `json:"-" url:"reputational_risk_cybercrime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	RegulatoryAction *bool `json:"-" url:"regulatory_action,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	LawEnforcementAction *bool `json:"-" url:"law_enforcement_action,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	XinjiangGeospatial *bool `json:"-" url:"xinjiang_geospatial,omitempty"`
 }
 
@@ -487,30 +585,32 @@ type Watchlist struct {
 	ExcludeFormerRelationships *bool `json:"-" url:"exclude_former_relationships,omitempty"`
 	// Include entities that existed in the past but not at the present time. Defaults to false.
 	ExcludeClosedEntities *bool `json:"-" url:"exclude_closed_entities,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with any risk factor of these categories
+	RiskCategories *TraversalRiskCategory `json:"-" url:"risk_categories,omitempty"`
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	EuHighRiskThird *bool `json:"-" url:"eu_high_risk_third,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskModernSlavery *bool `json:"-" url:"reputational_risk_modern_slavery,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	StateOwned *bool `json:"-" url:"state_owned,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	FormerlySanctioned *bool `json:"-" url:"formerly_sanctioned,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskTerrorism *bool `json:"-" url:"reputational_risk_terrorism,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskOrganizedCrime *bool `json:"-" url:"reputational_risk_organized_crime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskFinancialCrime *bool `json:"-" url:"reputational_risk_financial_crime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskBriberyAndCorruption *bool `json:"-" url:"reputational_risk_bribery_and_corruption,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskOther *bool `json:"-" url:"reputational_risk_other,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	ReputationalRiskCybercrime *bool `json:"-" url:"reputational_risk_cybercrime,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	RegulatoryAction *bool `json:"-" url:"regulatory_action,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	LawEnforcementAction *bool `json:"-" url:"law_enforcement_action,omitempty"`
-	// Filter paths to only those that entity with an entity that we have flagged with this risk factor
+	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	XinjiangGeospatial *bool `json:"-" url:"xinjiang_geospatial,omitempty"`
 }
