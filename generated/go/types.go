@@ -4611,6 +4611,8 @@ const (
 	IdentifierTypeCanPeRegistrationNumber IdentifierType = "can_pe_registration_number"
 	// Penalty number assigned by the  Quebec Ministry of the Environment, the Fight against Climate Change, Wildlife and Parks to each entity listed as offender in the Register of Administrative Monetary Penalties for non-compliance with environmental laws and regulations.
 	IdentifierTypeCanQcSapRegistryRefNum IdentifierType = "can_qc_sap_registry_ref_num"
+	// Internal Identifier used by Techsalerator to identify published companies
+	IdentifierTypeCanTechsaleratorId IdentifierType = "can_techsalerator_id"
 	// Unique Canada ID number. Assigned to every registered trademark.
 	IdentifierTypeCanTmRegistrationNo IdentifierType = "can_tm_registration_no"
 	// CCS Vessel Registration Number
@@ -5897,6 +5899,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCanPeRegistrationNumber, nil
 	case "can_qc_sap_registry_ref_num":
 		return IdentifierTypeCanQcSapRegistryRefNum, nil
+	case "can_techsalerator_id":
+		return IdentifierTypeCanTechsaleratorId, nil
 	case "can_tm_registration_no":
 		return IdentifierTypeCanTmRegistrationNo, nil
 	case "ccs_registration":
@@ -8980,6 +8984,7 @@ const (
 	RiskExportToSoe                                                              Risk = "export_to_soe"
 	RiskExportsBisHighPriorityItems                                              Risk = "exports_bis_high_priority_items"
 	RiskExportsBisHighPriorityItemsCriticalComponents                            Risk = "exports_bis_high_priority_items_critical_components"
+	RiskExportsConflictMinerals                                                  Risk = "exports_conflict_minerals"
 	RiskExportsEudrShipmentCattle                                                Risk = "exports_eudr_shipment_cattle"
 	RiskExportsEudrShipmentCocoa                                                 Risk = "exports_eudr_shipment_cocoa"
 	RiskExportsEudrShipmentCoffee                                                Risk = "exports_eudr_shipment_coffee"
@@ -9024,6 +9029,7 @@ const (
 	RiskFormerlySanctioned                                                       Risk = "formerly_sanctioned"
 	RiskImportsBisHighPriorityItems                                              Risk = "imports_bis_high_priority_items"
 	RiskImportsBisHighPriorityItemsCriticalComponents                            Risk = "imports_bis_high_priority_items_critical_components"
+	RiskImportsConflictMinerals                                                  Risk = "imports_conflict_minerals"
 	RiskImportsEudrShipmentCattle                                                Risk = "imports_eudr_shipment_cattle"
 	RiskImportsEudrShipmentCocoa                                                 Risk = "imports_eudr_shipment_cocoa"
 	RiskImportsEudrShipmentCoffee                                                Risk = "imports_eudr_shipment_coffee"
@@ -9186,6 +9192,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskExportsBisHighPriorityItems, nil
 	case "exports_bis_high_priority_items_critical_components":
 		return RiskExportsBisHighPriorityItemsCriticalComponents, nil
+	case "exports_conflict_minerals":
+		return RiskExportsConflictMinerals, nil
 	case "exports_eudr_shipment_cattle":
 		return RiskExportsEudrShipmentCattle, nil
 	case "exports_eudr_shipment_cocoa":
@@ -9274,6 +9282,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskImportsBisHighPriorityItems, nil
 	case "imports_bis_high_priority_items_critical_components":
 		return RiskImportsBisHighPriorityItemsCriticalComponents, nil
+	case "imports_conflict_minerals":
+		return RiskImportsConflictMinerals, nil
 	case "imports_eudr_shipment_cattle":
 		return RiskImportsEudrShipmentCattle, nil
 	case "imports_eudr_shipment_cocoa":
@@ -10532,6 +10542,8 @@ const (
 	WeakIdentifierTypeRusCbrId WeakIdentifierType = "rus_cbr_id"
 	// Partial South African ID number for individuals
 	WeakIdentifierTypeSouthAfricaPartialIdNumber WeakIdentifierType = "south_africa_partial_id_number"
+	// Tokyo Shoko Research Business Identifier. Identification code, assigned by credit reporting company, Tokyo Shoko Research, for businesses in Japan.
+	WeakIdentifierTypeTokyoShokoId WeakIdentifierType = "tokyo_shoko_id"
 	// Turkey municipal trade registry ID number. Assigned by municipal chambers of commerce in Turkey.
 	WeakIdentifierTypeTurOfficeRegistrationNumber WeakIdentifierType = "tur_office_registration_number"
 	// Partial Turkish Central Registry Number System (MERSIS) number
@@ -10758,6 +10770,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeRusCbrId, nil
 	case "south_africa_partial_id_number":
 		return WeakIdentifierTypeSouthAfricaPartialIdNumber, nil
+	case "tokyo_shoko_id":
+		return WeakIdentifierTypeTokyoShokoId, nil
 	case "tur_office_registration_number":
 		return WeakIdentifierTypeTurOfficeRegistrationNumber, nil
 	case "tur_partial_mersis_number":

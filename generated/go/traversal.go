@@ -138,6 +138,7 @@ const (
 	RiskCategoriesExportControls    RiskCategories = "export_controls"
 	RiskCategoriesSanctions         RiskCategories = "sanctions"
 	RiskCategoriesPoliticalExposure RiskCategories = "political_exposure"
+	RiskCategoriesEnvironmentalRisk RiskCategories = "environmental_risk"
 	RiskCategoriesRegulatoryAction  RiskCategories = "regulatory_action"
 	RiskCategoriesAdverseMedia      RiskCategories = "adverse_media"
 )
@@ -152,6 +153,8 @@ func NewRiskCategoriesFromString(s string) (RiskCategories, error) {
 		return RiskCategoriesSanctions, nil
 	case "political_exposure":
 		return RiskCategoriesPoliticalExposure, nil
+	case "environmental_risk":
+		return RiskCategoriesEnvironmentalRisk, nil
 	case "regulatory_action":
 		return RiskCategoriesRegulatoryAction, nil
 	case "adverse_media":
