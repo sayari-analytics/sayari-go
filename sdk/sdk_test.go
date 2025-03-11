@@ -240,6 +240,9 @@ func TestOwnershipTraversal(t *testing.T) {
 	// do ownership traversal from ubo
 	log.Println("Attempting Ownership traversal w/ UBO entity: ", uboID)
 	downstream, err := api.Traversal.Ownership(context.Background(), uboID, &sayari.Ownership{Limit: &limit})
+	if shouldRetry(err) {
+		TestOwnershipTraversal(t)
+	}
 	handleError(t, err)
 	assert.Greater(t, len(downstream.Data), 0)
 
