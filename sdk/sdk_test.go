@@ -261,7 +261,6 @@ func TestOwnershipTraversal(t *testing.T) {
 	// shortest path
 	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
 	if shouldRetry(err) {
-		time.Sleep(time.Second)
 		TestOwnershipTraversal(t)
 	}
 	handleError(t, err)
@@ -440,8 +439,9 @@ func generateRandomString(length int) string {
 
 // retryErrs is a map of errors that we should just retry on
 var retryErrs = map[int]string{
-	http.StatusRequestTimeout:  "StatusRequestTimeout",
-	http.StatusTooManyRequests: "StatusTooManyRequests",
+	http.StatusRequestTimeout:      "StatusRequestTimeout",
+	http.StatusTooManyRequests:     "StatusTooManyRequests",
+	http.StatusInternalServerError: "ServiceUnavailable",
 }
 
 // getErrCode will extract the status code of an error if it exists
@@ -464,7 +464,11 @@ func shouldRetry(err error) bool {
 	// check to see if the returned status code warrants a retry
 	if _, ok := retryErrs[*statusCode]; ok {
 		log.Printf("Recieved status code %v, will retry", *statusCode)
-		// sleep 5 seconds before attempting a retry
+		// If we got a 500, sleep 30s total
+		if *statusCode == http.StatusInternalServerError {
+			time.Sleep(25 * time.Second)
+		}
+		// otherwise sleep 5 seconds before attempting a retry
 		time.Sleep(5 * time.Second)
 		return true
 	}
