@@ -240,7 +240,7 @@ func TestOwnershipTraversal(t *testing.T) {
 	// do ownership traversal from ubo
 	log.Println("Attempting Ownership traversal w/ UBO entity: ", uboID)
 	downstream, err := api.Traversal.Ownership(context.Background(), uboID, &sayari.Ownership{Limit: &limit})
-	if shouldRetry(err) {
+	if err != nil && shouldRetry(err) {
 		TestOwnershipTraversal(t)
 	}
 	handleError(t, err)
@@ -263,7 +263,7 @@ func TestOwnershipTraversal(t *testing.T) {
 
 	// shortest path
 	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
-	if shouldRetry(err) {
+	if err != nil && shouldRetry(err) {
 		TestOwnershipTraversal(t)
 	}
 	handleError(t, err)
@@ -421,7 +421,7 @@ func TestUsage(t *testing.T) {
 
 func TestHistory(t *testing.T) {
 	history, err := api.Info.GetHistory(context.Background(), &sayari.GetHistory{Size: sayari.Int(10)})
-	if shouldRetry(err) {
+	if err != nil && shouldRetry(err) {
 		TestHistory(t)
 	}
 	handleError(t, err)
