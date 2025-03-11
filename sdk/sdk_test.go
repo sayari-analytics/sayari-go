@@ -459,11 +459,13 @@ func shouldRetry(err error) bool {
 	statusCode := getErrCode(err)
 	// if there was none, don't retry
 	if statusCode == nil {
+		log.Print("Received nil status code.")
 		return false
 	}
+	log.Printf("Recieved status code %v, will check if retry should be made", *statusCode)
 	// check to see if the returned status code warrants a retry
 	if _, ok := retryErrs[*statusCode]; ok {
-		log.Printf("Recieved status code %v, will retry", *statusCode)
+		log.Print("Will retry.")
 		// If we got a 500, sleep 30s total
 		if *statusCode == http.StatusInternalServerError {
 			time.Sleep(25 * time.Second)
