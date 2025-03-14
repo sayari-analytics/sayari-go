@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 	time "time"
 )
 
@@ -170,7 +170,273 @@ type EntitySummaryResponse struct {
 	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (e *EntitySummaryResponse) GetId() string {
+	if e == nil {
+		return ""
+	}
+	return e.Id
+}
+
+func (e *EntitySummaryResponse) GetLabel() string {
+	if e == nil {
+		return ""
+	}
+	return e.Label
+}
+
+func (e *EntitySummaryResponse) GetDegree() int {
+	if e == nil {
+		return 0
+	}
+	return e.Degree
+}
+
+func (e *EntitySummaryResponse) GetClosed() bool {
+	if e == nil {
+		return false
+	}
+	return e.Closed
+}
+
+func (e *EntitySummaryResponse) GetEntityUrl() string {
+	if e == nil {
+		return ""
+	}
+	return e.EntityUrl
+}
+
+func (e *EntitySummaryResponse) GetPep() bool {
+	if e == nil {
+		return false
+	}
+	return e.Pep
+}
+
+func (e *EntitySummaryResponse) GetPsaId() *string {
+	if e == nil {
+		return nil
+	}
+	return e.PsaId
+}
+
+func (e *EntitySummaryResponse) GetPsaCount() int {
+	if e == nil {
+		return 0
+	}
+	return e.PsaCount
+}
+
+func (e *EntitySummaryResponse) GetSanctioned() bool {
+	if e == nil {
+		return false
+	}
+	return e.Sanctioned
+}
+
+func (e *EntitySummaryResponse) GetType() Entities {
+	if e == nil {
+		return ""
+	}
+	return e.Type
+}
+
+func (e *EntitySummaryResponse) GetIdentifiers() []*Identifier {
+	if e == nil {
+		return nil
+	}
+	return e.Identifiers
+}
+
+func (e *EntitySummaryResponse) GetCountries() []Country {
+	if e == nil {
+		return nil
+	}
+	return e.Countries
+}
+
+func (e *EntitySummaryResponse) GetSourceCount() map[string]*SourceCountInfo {
+	if e == nil {
+		return nil
+	}
+	return e.SourceCount
+}
+
+func (e *EntitySummaryResponse) GetAddresses() []string {
+	if e == nil {
+		return nil
+	}
+	return e.Addresses
+}
+
+func (e *EntitySummaryResponse) GetTradeCount() map[string]int {
+	if e == nil {
+		return nil
+	}
+	return e.TradeCount
+}
+
+func (e *EntitySummaryResponse) GetDateOfBirth() *string {
+	if e == nil {
+		return nil
+	}
+	return e.DateOfBirth
+}
+
+func (e *EntitySummaryResponse) GetRelationshipCount() RelationshipCount {
+	if e == nil {
+		return nil
+	}
+	return e.RelationshipCount
+}
+
+func (e *EntitySummaryResponse) GetUserRelationshipCount() RelationshipCount {
+	if e == nil {
+		return nil
+	}
+	return e.UserRelationshipCount
+}
+
+func (e *EntitySummaryResponse) GetAttributeCount() map[Attributes]int {
+	if e == nil {
+		return nil
+	}
+	return e.AttributeCount
+}
+
+func (e *EntitySummaryResponse) GetUserAttributeCount() map[Attributes]int {
+	if e == nil {
+		return nil
+	}
+	return e.UserAttributeCount
+}
+
+func (e *EntitySummaryResponse) GetAttributeCounts() map[Attributes]int {
+	if e == nil {
+		return nil
+	}
+	return e.AttributeCounts
+}
+
+func (e *EntitySummaryResponse) GetUserAttributeCounts() map[Attributes]int {
+	if e == nil {
+		return nil
+	}
+	return e.UserAttributeCounts
+}
+
+func (e *EntitySummaryResponse) GetRelatedEntitiesCount() int {
+	if e == nil {
+		return 0
+	}
+	return e.RelatedEntitiesCount
+}
+
+func (e *EntitySummaryResponse) GetUserRelatedEntitiesCount() int {
+	if e == nil {
+		return 0
+	}
+	return e.UserRelatedEntitiesCount
+}
+
+func (e *EntitySummaryResponse) GetUserRecordCount() int {
+	if e == nil {
+		return 0
+	}
+	return e.UserRecordCount
+}
+
+func (e *EntitySummaryResponse) GetReferenceId() *string {
+	if e == nil {
+		return nil
+	}
+	return e.ReferenceId
+}
+
+func (e *EntitySummaryResponse) GetRegistrationDate() *EntityRegistrationDate {
+	if e == nil {
+		return nil
+	}
+	return e.RegistrationDate
+}
+
+func (e *EntitySummaryResponse) GetTranslatedLabel() *EntityTranslatedLabel {
+	if e == nil {
+		return nil
+	}
+	return e.TranslatedLabel
+}
+
+func (e *EntitySummaryResponse) GetHsCode() *EntityHsCode {
+	if e == nil {
+		return nil
+	}
+	return e.HsCode
+}
+
+func (e *EntitySummaryResponse) GetShipmentArrival() *ShipmentArrival {
+	if e == nil {
+		return nil
+	}
+	return e.ShipmentArrival
+}
+
+func (e *EntitySummaryResponse) GetShipmentDeparture() *ShipmentDeparture {
+	if e == nil {
+		return nil
+	}
+	return e.ShipmentDeparture
+}
+
+func (e *EntitySummaryResponse) GetCompanyType() *CompanyType {
+	if e == nil {
+		return nil
+	}
+	return e.CompanyType
+}
+
+func (e *EntitySummaryResponse) GetLatestStatus() *Status {
+	if e == nil {
+		return nil
+	}
+	return e.LatestStatus
+}
+
+func (e *EntitySummaryResponse) GetRisk() EntityRisk {
+	if e == nil {
+		return nil
+	}
+	return e.Risk
+}
+
+func (e *EntitySummaryResponse) GetAttributes() *AttributeDetails {
+	if e == nil {
+		return nil
+	}
+	return e.Attributes
+}
+
+func (e *EntitySummaryResponse) GetRelationships() *EntityRelationships {
+	if e == nil {
+		return nil
+	}
+	return e.Relationships
+}
+
+func (e *EntitySummaryResponse) GetPossiblySameAs() *PossiblySameAs {
+	if e == nil {
+		return nil
+	}
+	return e.PossiblySameAs
+}
+
+func (e *EntitySummaryResponse) GetReferencedBy() *ReferencedBy {
+	if e == nil {
+		return nil
+	}
+	return e.ReferencedBy
 }
 
 func (e *EntitySummaryResponse) GetExtraProperties() map[string]interface{} {
@@ -184,24 +450,22 @@ func (e *EntitySummaryResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EntitySummaryResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	extraProperties, err := internal.ExtractExtraProperties(data, *e)
 	if err != nil {
 		return err
 	}
 	e.extraProperties = extraProperties
-
-	e._rawJSON = json.RawMessage(data)
+	e.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (e *EntitySummaryResponse) String() string {
-	if len(e._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+	if len(e.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(e.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(e); err == nil {
+	if value, err := internal.StringifyJSON(e); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", e)
@@ -269,7 +533,273 @@ type GetEntityResponse struct {
 	ReferencedBy   *ReferencedBy        `json:"referenced_by,omitempty" url:"referenced_by,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (g *GetEntityResponse) GetId() string {
+	if g == nil {
+		return ""
+	}
+	return g.Id
+}
+
+func (g *GetEntityResponse) GetLabel() string {
+	if g == nil {
+		return ""
+	}
+	return g.Label
+}
+
+func (g *GetEntityResponse) GetDegree() int {
+	if g == nil {
+		return 0
+	}
+	return g.Degree
+}
+
+func (g *GetEntityResponse) GetClosed() bool {
+	if g == nil {
+		return false
+	}
+	return g.Closed
+}
+
+func (g *GetEntityResponse) GetEntityUrl() string {
+	if g == nil {
+		return ""
+	}
+	return g.EntityUrl
+}
+
+func (g *GetEntityResponse) GetPep() bool {
+	if g == nil {
+		return false
+	}
+	return g.Pep
+}
+
+func (g *GetEntityResponse) GetPsaId() *string {
+	if g == nil {
+		return nil
+	}
+	return g.PsaId
+}
+
+func (g *GetEntityResponse) GetPsaCount() int {
+	if g == nil {
+		return 0
+	}
+	return g.PsaCount
+}
+
+func (g *GetEntityResponse) GetSanctioned() bool {
+	if g == nil {
+		return false
+	}
+	return g.Sanctioned
+}
+
+func (g *GetEntityResponse) GetType() Entities {
+	if g == nil {
+		return ""
+	}
+	return g.Type
+}
+
+func (g *GetEntityResponse) GetIdentifiers() []*Identifier {
+	if g == nil {
+		return nil
+	}
+	return g.Identifiers
+}
+
+func (g *GetEntityResponse) GetCountries() []Country {
+	if g == nil {
+		return nil
+	}
+	return g.Countries
+}
+
+func (g *GetEntityResponse) GetSourceCount() map[string]*SourceCountInfo {
+	if g == nil {
+		return nil
+	}
+	return g.SourceCount
+}
+
+func (g *GetEntityResponse) GetAddresses() []string {
+	if g == nil {
+		return nil
+	}
+	return g.Addresses
+}
+
+func (g *GetEntityResponse) GetTradeCount() map[string]int {
+	if g == nil {
+		return nil
+	}
+	return g.TradeCount
+}
+
+func (g *GetEntityResponse) GetDateOfBirth() *string {
+	if g == nil {
+		return nil
+	}
+	return g.DateOfBirth
+}
+
+func (g *GetEntityResponse) GetRelationshipCount() RelationshipCount {
+	if g == nil {
+		return nil
+	}
+	return g.RelationshipCount
+}
+
+func (g *GetEntityResponse) GetUserRelationshipCount() RelationshipCount {
+	if g == nil {
+		return nil
+	}
+	return g.UserRelationshipCount
+}
+
+func (g *GetEntityResponse) GetAttributeCount() map[Attributes]int {
+	if g == nil {
+		return nil
+	}
+	return g.AttributeCount
+}
+
+func (g *GetEntityResponse) GetUserAttributeCount() map[Attributes]int {
+	if g == nil {
+		return nil
+	}
+	return g.UserAttributeCount
+}
+
+func (g *GetEntityResponse) GetAttributeCounts() map[Attributes]int {
+	if g == nil {
+		return nil
+	}
+	return g.AttributeCounts
+}
+
+func (g *GetEntityResponse) GetUserAttributeCounts() map[Attributes]int {
+	if g == nil {
+		return nil
+	}
+	return g.UserAttributeCounts
+}
+
+func (g *GetEntityResponse) GetRelatedEntitiesCount() int {
+	if g == nil {
+		return 0
+	}
+	return g.RelatedEntitiesCount
+}
+
+func (g *GetEntityResponse) GetUserRelatedEntitiesCount() int {
+	if g == nil {
+		return 0
+	}
+	return g.UserRelatedEntitiesCount
+}
+
+func (g *GetEntityResponse) GetUserRecordCount() int {
+	if g == nil {
+		return 0
+	}
+	return g.UserRecordCount
+}
+
+func (g *GetEntityResponse) GetReferenceId() *string {
+	if g == nil {
+		return nil
+	}
+	return g.ReferenceId
+}
+
+func (g *GetEntityResponse) GetRegistrationDate() *EntityRegistrationDate {
+	if g == nil {
+		return nil
+	}
+	return g.RegistrationDate
+}
+
+func (g *GetEntityResponse) GetTranslatedLabel() *EntityTranslatedLabel {
+	if g == nil {
+		return nil
+	}
+	return g.TranslatedLabel
+}
+
+func (g *GetEntityResponse) GetHsCode() *EntityHsCode {
+	if g == nil {
+		return nil
+	}
+	return g.HsCode
+}
+
+func (g *GetEntityResponse) GetShipmentArrival() *ShipmentArrival {
+	if g == nil {
+		return nil
+	}
+	return g.ShipmentArrival
+}
+
+func (g *GetEntityResponse) GetShipmentDeparture() *ShipmentDeparture {
+	if g == nil {
+		return nil
+	}
+	return g.ShipmentDeparture
+}
+
+func (g *GetEntityResponse) GetCompanyType() *CompanyType {
+	if g == nil {
+		return nil
+	}
+	return g.CompanyType
+}
+
+func (g *GetEntityResponse) GetLatestStatus() *Status {
+	if g == nil {
+		return nil
+	}
+	return g.LatestStatus
+}
+
+func (g *GetEntityResponse) GetRisk() EntityRisk {
+	if g == nil {
+		return nil
+	}
+	return g.Risk
+}
+
+func (g *GetEntityResponse) GetAttributes() *AttributeDetails {
+	if g == nil {
+		return nil
+	}
+	return g.Attributes
+}
+
+func (g *GetEntityResponse) GetRelationships() *EntityRelationships {
+	if g == nil {
+		return nil
+	}
+	return g.Relationships
+}
+
+func (g *GetEntityResponse) GetPossiblySameAs() *PossiblySameAs {
+	if g == nil {
+		return nil
+	}
+	return g.PossiblySameAs
+}
+
+func (g *GetEntityResponse) GetReferencedBy() *ReferencedBy {
+	if g == nil {
+		return nil
+	}
+	return g.ReferencedBy
 }
 
 func (g *GetEntityResponse) GetExtraProperties() map[string]interface{} {
@@ -283,24 +813,22 @@ func (g *GetEntityResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetEntityResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
 	if err != nil {
 		return err
 	}
 	g.extraProperties = extraProperties
-
-	g._rawJSON = json.RawMessage(data)
+	g.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (g *GetEntityResponse) String() string {
-	if len(g._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(g); err == nil {
+	if value, err := internal.StringifyJSON(g); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", g)

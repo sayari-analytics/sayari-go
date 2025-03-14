@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type GetRecord struct {
@@ -40,7 +40,105 @@ type GetRecordResponse struct {
 	References   *RecordReferences   `json:"references,omitempty" url:"references,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (g *GetRecordResponse) GetId() string {
+	if g == nil {
+		return ""
+	}
+	return g.Id
+}
+
+func (g *GetRecordResponse) GetLabel() string {
+	if g == nil {
+		return ""
+	}
+	return g.Label
+}
+
+func (g *GetRecordResponse) GetSource() string {
+	if g == nil {
+		return ""
+	}
+	return g.Source
+}
+
+func (g *GetRecordResponse) GetPublicationDate() *string {
+	if g == nil {
+		return nil
+	}
+	return g.PublicationDate
+}
+
+func (g *GetRecordResponse) GetAcquisitionDate() string {
+	if g == nil {
+		return ""
+	}
+	return g.AcquisitionDate
+}
+
+func (g *GetRecordResponse) GetReferencesCount() int {
+	if g == nil {
+		return 0
+	}
+	return g.ReferencesCount
+}
+
+func (g *GetRecordResponse) GetRecordUrl() string {
+	if g == nil {
+		return ""
+	}
+	return g.RecordUrl
+}
+
+func (g *GetRecordResponse) GetSourceUrl() *string {
+	if g == nil {
+		return nil
+	}
+	return g.SourceUrl
+}
+
+func (g *GetRecordResponse) GetDocumentUrls() []string {
+	if g == nil {
+		return nil
+	}
+	return g.DocumentUrls
+}
+
+func (g *GetRecordResponse) GetMatches() map[string][]string {
+	if g == nil {
+		return nil
+	}
+	return g.Matches
+}
+
+func (g *GetRecordResponse) GetCountry() *Country {
+	if g == nil {
+		return nil
+	}
+	return g.Country
+}
+
+func (g *GetRecordResponse) GetPage() *float64 {
+	if g == nil {
+		return nil
+	}
+	return g.Page
+}
+
+func (g *GetRecordResponse) GetPageCount() *float64 {
+	if g == nil {
+		return nil
+	}
+	return g.PageCount
+}
+
+func (g *GetRecordResponse) GetReferences() *RecordReferences {
+	if g == nil {
+		return nil
+	}
+	return g.References
 }
 
 func (g *GetRecordResponse) GetExtraProperties() map[string]interface{} {
@@ -54,24 +152,22 @@ func (g *GetRecordResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetRecordResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
 	if err != nil {
 		return err
 	}
 	g.extraProperties = extraProperties
-
-	g._rawJSON = json.RawMessage(data)
+	g.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (g *GetRecordResponse) String() string {
-	if len(g._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(g); err == nil {
+	if value, err := internal.StringifyJSON(g); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", g)
@@ -85,7 +181,42 @@ type RecordReferences struct {
 	Data   interface{}     `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *RecordReferences) GetLimit() int {
+	if r == nil {
+		return 0
+	}
+	return r.Limit
+}
+
+func (r *RecordReferences) GetSize() *QualifiedCount {
+	if r == nil {
+		return nil
+	}
+	return r.Size
+}
+
+func (r *RecordReferences) GetNext() bool {
+	if r == nil {
+		return false
+	}
+	return r.Next
+}
+
+func (r *RecordReferences) GetOffset() int {
+	if r == nil {
+		return 0
+	}
+	return r.Offset
+}
+
+func (r *RecordReferences) GetData() interface{} {
+	if r == nil {
+		return nil
+	}
+	return r.Data
 }
 
 func (r *RecordReferences) GetExtraProperties() map[string]interface{} {
@@ -99,24 +230,22 @@ func (r *RecordReferences) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RecordReferences(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *RecordReferences) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)

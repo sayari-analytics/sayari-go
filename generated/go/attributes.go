@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type AddAttribute struct {
@@ -23,7 +23,49 @@ type AddAttribute struct {
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (a *AddAttribute) GetEntity() string {
+	if a == nil {
+		return ""
+	}
+	return a.Entity
+}
+
+func (a *AddAttribute) GetType() string {
+	if a == nil {
+		return ""
+	}
+	return a.Type
+}
+
+func (a *AddAttribute) GetValue() interface{} {
+	if a == nil {
+		return nil
+	}
+	return a.Value
+}
+
+func (a *AddAttribute) GetDate() *string {
+	if a == nil {
+		return nil
+	}
+	return a.Date
+}
+
+func (a *AddAttribute) GetFromDate() *string {
+	if a == nil {
+		return nil
+	}
+	return a.FromDate
+}
+
+func (a *AddAttribute) GetToDate() *string {
+	if a == nil {
+		return nil
+	}
+	return a.ToDate
 }
 
 func (a *AddAttribute) GetExtraProperties() map[string]interface{} {
@@ -37,24 +79,22 @@ func (a *AddAttribute) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AddAttribute(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
 	if err != nil {
 		return err
 	}
 	a.extraProperties = extraProperties
-
-	a._rawJSON = json.RawMessage(data)
+	a.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (a *AddAttribute) String() string {
-	if len(a._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(a); err == nil {
+	if value, err := internal.StringifyJSON(a); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", a)
@@ -66,7 +106,28 @@ type AttributeProperties struct {
 	Id          string `json:"id" url:"id"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (a *AttributeProperties) GetEditable() bool {
+	if a == nil {
+		return false
+	}
+	return a.Editable
+}
+
+func (a *AttributeProperties) GetRecordCount() int {
+	if a == nil {
+		return 0
+	}
+	return a.RecordCount
+}
+
+func (a *AttributeProperties) GetId() string {
+	if a == nil {
+		return ""
+	}
+	return a.Id
 }
 
 func (a *AttributeProperties) GetExtraProperties() map[string]interface{} {
@@ -80,24 +141,22 @@ func (a *AttributeProperties) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AttributeProperties(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
 	if err != nil {
 		return err
 	}
 	a.extraProperties = extraProperties
-
-	a._rawJSON = json.RawMessage(data)
+	a.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (a *AttributeProperties) String() string {
-	if len(a._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(a); err == nil {
+	if value, err := internal.StringifyJSON(a); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", a)
@@ -108,7 +167,14 @@ type AttributeResponse struct {
 	Data *AttributeResponseData `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (a *AttributeResponse) GetData() *AttributeResponseData {
+	if a == nil {
+		return nil
+	}
+	return a.Data
 }
 
 func (a *AttributeResponse) GetExtraProperties() map[string]interface{} {
@@ -122,24 +188,22 @@ func (a *AttributeResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AttributeResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
 	if err != nil {
 		return err
 	}
 	a.extraProperties = extraProperties
-
-	a._rawJSON = json.RawMessage(data)
+	a.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (a *AttributeResponse) String() string {
-	if len(a._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(a); err == nil {
+	if value, err := internal.StringifyJSON(a); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", a)
@@ -150,7 +214,21 @@ type AttributeResponseData struct {
 	Properties []*AttributeProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (a *AttributeResponseData) GetValue() interface{} {
+	if a == nil {
+		return nil
+	}
+	return a.Value
+}
+
+func (a *AttributeResponseData) GetProperties() []*AttributeProperties {
+	if a == nil {
+		return nil
+	}
+	return a.Properties
 }
 
 func (a *AttributeResponseData) GetExtraProperties() map[string]interface{} {
@@ -164,24 +242,22 @@ func (a *AttributeResponseData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AttributeResponseData(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
 	if err != nil {
 		return err
 	}
 	a.extraProperties = extraProperties
-
-	a._rawJSON = json.RawMessage(data)
+	a.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (a *AttributeResponseData) String() string {
-	if len(a._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(a); err == nil {
+	if value, err := internal.StringifyJSON(a); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", a)
@@ -198,7 +274,35 @@ type UpdateAttribute struct {
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdateAttribute) GetValue() interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.Value
+}
+
+func (u *UpdateAttribute) GetDate() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Date
+}
+
+func (u *UpdateAttribute) GetFromDate() *string {
+	if u == nil {
+		return nil
+	}
+	return u.FromDate
+}
+
+func (u *UpdateAttribute) GetToDate() *string {
+	if u == nil {
+		return nil
+	}
+	return u.ToDate
 }
 
 func (u *UpdateAttribute) GetExtraProperties() map[string]interface{} {
@@ -212,24 +316,22 @@ func (u *UpdateAttribute) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*u = UpdateAttribute(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *u)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
 	if err != nil {
 		return err
 	}
 	u.extraProperties = extraProperties
-
-	u._rawJSON = json.RawMessage(data)
+	u.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (u *UpdateAttribute) String() string {
-	if len(u._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(u._rawJSON); err == nil {
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(u); err == nil {
+	if value, err := internal.StringifyJSON(u); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", u)
