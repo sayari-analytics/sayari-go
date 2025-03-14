@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 	time "time"
 )
 
@@ -40,7 +40,42 @@ type HistoryInfo struct {
 	Timestamp   string    `json:"timestamp" url:"timestamp"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (h *HistoryInfo) GetUser() string {
+	if h == nil {
+		return ""
+	}
+	return h.User
+}
+
+func (h *HistoryInfo) GetEnvironment() string {
+	if h == nil {
+		return ""
+	}
+	return h.Environment
+}
+
+func (h *HistoryInfo) GetEvent() string {
+	if h == nil {
+		return ""
+	}
+	return h.Event
+}
+
+func (h *HistoryInfo) GetData() EventInfo {
+	if h == nil {
+		return nil
+	}
+	return h.Data
+}
+
+func (h *HistoryInfo) GetTimestamp() string {
+	if h == nil {
+		return ""
+	}
+	return h.Timestamp
 }
 
 func (h *HistoryInfo) GetExtraProperties() map[string]interface{} {
@@ -54,24 +89,22 @@ func (h *HistoryInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HistoryInfo(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	extraProperties, err := internal.ExtractExtraProperties(data, *h)
 	if err != nil {
 		return err
 	}
 	h.extraProperties = extraProperties
-
-	h._rawJSON = json.RawMessage(data)
+	h.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (h *HistoryInfo) String() string {
-	if len(h._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+	if len(h.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(h); err == nil {
+	if value, err := internal.StringifyJSON(h); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", h)
@@ -83,7 +116,28 @@ type HistoryResponse struct {
 	Events    []*HistoryInfo `json:"events,omitempty" url:"events,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (h *HistoryResponse) GetSize() int {
+	if h == nil {
+		return 0
+	}
+	return h.Size
+}
+
+func (h *HistoryResponse) GetNextToken() string {
+	if h == nil {
+		return ""
+	}
+	return h.NextToken
+}
+
+func (h *HistoryResponse) GetEvents() []*HistoryInfo {
+	if h == nil {
+		return nil
+	}
+	return h.Events
 }
 
 func (h *HistoryResponse) GetExtraProperties() map[string]interface{} {
@@ -97,24 +151,22 @@ func (h *HistoryResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HistoryResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	extraProperties, err := internal.ExtractExtraProperties(data, *h)
 	if err != nil {
 		return err
 	}
 	h.extraProperties = extraProperties
-
-	h._rawJSON = json.RawMessage(data)
+	h.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (h *HistoryResponse) String() string {
-	if len(h._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+	if len(h.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(h); err == nil {
+	if value, err := internal.StringifyJSON(h); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", h)
@@ -132,7 +184,70 @@ type UsageInfo struct {
 	Traversal      *int `json:"traversal,omitempty" url:"traversal,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (u *UsageInfo) GetEntity() *int {
+	if u == nil {
+		return nil
+	}
+	return u.Entity
+}
+
+func (u *UsageInfo) GetRecord() *int {
+	if u == nil {
+		return nil
+	}
+	return u.Record
+}
+
+func (u *UsageInfo) GetResolve() *int {
+	if u == nil {
+		return nil
+	}
+	return u.Resolve
+}
+
+func (u *UsageInfo) GetSearch() *int {
+	if u == nil {
+		return nil
+	}
+	return u.Search
+}
+
+func (u *UsageInfo) GetSearchEntities() *int {
+	if u == nil {
+		return nil
+	}
+	return u.SearchEntities
+}
+
+func (u *UsageInfo) GetSearchRecords() *int {
+	if u == nil {
+		return nil
+	}
+	return u.SearchRecords
+}
+
+func (u *UsageInfo) GetSearchTrade() *int {
+	if u == nil {
+		return nil
+	}
+	return u.SearchTrade
+}
+
+func (u *UsageInfo) GetTradeTraversal() *int {
+	if u == nil {
+		return nil
+	}
+	return u.TradeTraversal
+}
+
+func (u *UsageInfo) GetTraversal() *int {
+	if u == nil {
+		return nil
+	}
+	return u.Traversal
 }
 
 func (u *UsageInfo) GetExtraProperties() map[string]interface{} {
@@ -146,24 +261,22 @@ func (u *UsageInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*u = UsageInfo(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *u)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
 	if err != nil {
 		return err
 	}
 	u.extraProperties = extraProperties
-
-	u._rawJSON = json.RawMessage(data)
+	u.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (u *UsageInfo) String() string {
-	if len(u._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(u._rawJSON); err == nil {
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(u); err == nil {
+	if value, err := internal.StringifyJSON(u); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", u)
@@ -178,7 +291,28 @@ type UsageResponse struct {
 	To string `json:"to" url:"to"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (u *UsageResponse) GetUsage() *UsageInfo {
+	if u == nil {
+		return nil
+	}
+	return u.Usage
+}
+
+func (u *UsageResponse) GetFrom() string {
+	if u == nil {
+		return ""
+	}
+	return u.From
+}
+
+func (u *UsageResponse) GetTo() string {
+	if u == nil {
+		return ""
+	}
+	return u.To
 }
 
 func (u *UsageResponse) GetExtraProperties() map[string]interface{} {
@@ -192,24 +326,22 @@ func (u *UsageResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*u = UsageResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *u)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
 	if err != nil {
 		return err
 	}
 	u.extraProperties = extraProperties
-
-	u._rawJSON = json.RawMessage(data)
+	u.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (u *UsageResponse) String() string {
-	if len(u._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(u._rawJSON); err == nil {
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(u); err == nil {
+	if value, err := internal.StringifyJSON(u); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", u)

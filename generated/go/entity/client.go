@@ -3,20 +3,17 @@
 package entity
 
 import (
-	bytes "bytes"
 	context "context"
-	json "encoding/json"
-	errors "errors"
 	generatedgo "github.com/sayari-analytics/sayari-go/generated/go"
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
-	io "io"
 	http "net/http"
 )
 
 type Client struct {
 	baseURL string
-	caller  *core.Caller
+	caller  *internal.Caller
 	header  http.Header
 }
 
@@ -24,8 +21,8 @@ func NewClient(opts ...option.RequestOption) *Client {
 	options := core.NewRequestOptions(opts...)
 	return &Client{
 		baseURL: options.BaseURL,
-		caller: core.NewCaller(
-			&core.CallerParams{
+		caller: internal.NewCaller(
+			&internal.CallerParams{
 				Client:      options.HTTPClient,
 				MaxAttempts: options.MaxAttempts,
 			},
@@ -43,93 +40,72 @@ func (c *Client) GetEntity(
 	opts ...option.RequestOption,
 ) (*generatedgo.GetEntityResponse, error) {
 	options := core.NewRequestOptions(opts...)
-
-	baseURL := "https://api.sayari.com"
-	if c.baseURL != "" {
-		baseURL = c.baseURL
-	}
-	if options.BaseURL != "" {
-		baseURL = options.BaseURL
-	}
-	endpointURL := core.EncodeURL(baseURL+"/v1/entity/%v", id)
-
-	queryParams, err := core.QueryValues(request)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/entity/%v",
+		id,
+	)
+	queryParams, err := internal.QueryValues(request)
 	if err != nil {
 		return nil, err
 	}
 	if len(queryParams) > 0 {
 		endpointURL += "?" + queryParams.Encode()
 	}
-
-	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
-
-	errorDecoder := func(statusCode int, body io.Reader) error {
-		raw, err := io.ReadAll(body)
-		if err != nil {
-			return err
-		}
-		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
-		decoder := json.NewDecoder(bytes.NewReader(raw))
-		switch statusCode {
-		case 400:
-			value := new(generatedgo.BadRequest)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
 			}
-			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
 			}
-			return value
-		case 404:
-			value := new(generatedgo.NotFound)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
 			}
-			return value
-		case 405:
-			value := new(generatedgo.MethodNotAllowed)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
 			}
-			return value
-		case 429:
-			value := new(generatedgo.RateLimitExceeded)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
 			}
-			return value
-		case 500:
-			value := new(generatedgo.InternalServerError)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
 			}
-			return value
-		}
-		return apiError
+		},
 	}
 
 	var response *generatedgo.GetEntityResponse
 	if err := c.caller.Call(
 		ctx,
-		&core.CallParams{
+		&internal.CallParams{
 			URL:             endpointURL,
 			Method:          http.MethodGet,
-			MaxAttempts:     options.MaxAttempts,
 			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
 			BodyProperties:  options.BodyProperties,
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    errorDecoder,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
 		},
 	); err != nil {
 		return nil, err
@@ -145,85 +121,65 @@ func (c *Client) EntitySummary(
 	opts ...option.RequestOption,
 ) (*generatedgo.EntitySummaryResponse, error) {
 	options := core.NewRequestOptions(opts...)
-
-	baseURL := "https://api.sayari.com"
-	if c.baseURL != "" {
-		baseURL = c.baseURL
-	}
-	if options.BaseURL != "" {
-		baseURL = options.BaseURL
-	}
-	endpointURL := core.EncodeURL(baseURL+"/v1/entity_summary/%v", id)
-
-	headers := core.MergeHeaders(c.header.Clone(), options.ToHeader())
-
-	errorDecoder := func(statusCode int, body io.Reader) error {
-		raw, err := io.ReadAll(body)
-		if err != nil {
-			return err
-		}
-		apiError := core.NewAPIError(statusCode, errors.New(string(raw)))
-		decoder := json.NewDecoder(bytes.NewReader(raw))
-		switch statusCode {
-		case 400:
-			value := new(generatedgo.BadRequest)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/entity_summary/%v",
+		id,
+	)
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
 			}
-			return value
-		case 401:
-			value := new(generatedgo.Unauthorized)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
 			}
-			return value
-		case 404:
-			value := new(generatedgo.NotFound)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
 			}
-			return value
-		case 405:
-			value := new(generatedgo.MethodNotAllowed)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
 			}
-			return value
-		case 429:
-			value := new(generatedgo.RateLimitExceeded)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
 			}
-			return value
-		case 500:
-			value := new(generatedgo.InternalServerError)
-			value.APIError = apiError
-			if err := decoder.Decode(value); err != nil {
-				return apiError
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
 			}
-			return value
-		}
-		return apiError
+		},
 	}
 
 	var response *generatedgo.EntitySummaryResponse
 	if err := c.caller.Call(
 		ctx,
-		&core.CallParams{
+		&internal.CallParams{
 			URL:             endpointURL,
 			Method:          http.MethodGet,
-			MaxAttempts:     options.MaxAttempts,
 			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
 			BodyProperties:  options.BodyProperties,
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    errorDecoder,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
 		},
 	); err != nil {
 		return nil, err

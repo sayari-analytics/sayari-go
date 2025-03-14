@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type GetToken struct {
@@ -58,7 +58,28 @@ type AuthResponse struct {
 	TokenType string `json:"token_type" url:"token_type"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (a *AuthResponse) GetAccessToken() string {
+	if a == nil {
+		return ""
+	}
+	return a.AccessToken
+}
+
+func (a *AuthResponse) GetExpiresIn() int {
+	if a == nil {
+		return 0
+	}
+	return a.ExpiresIn
+}
+
+func (a *AuthResponse) GetTokenType() string {
+	if a == nil {
+		return ""
+	}
+	return a.TokenType
 }
 
 func (a *AuthResponse) GetExtraProperties() map[string]interface{} {
@@ -72,24 +93,22 @@ func (a *AuthResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = AuthResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
 	if err != nil {
 		return err
 	}
 	a.extraProperties = extraProperties
-
-	a._rawJSON = json.RawMessage(data)
+	a.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (a *AuthResponse) String() string {
-	if len(a._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(a); err == nil {
+	if value, err := internal.StringifyJSON(a); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", a)

@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type ProjectNotifications struct {
@@ -35,7 +35,42 @@ type Notification struct {
 	AdditionalInformation *NotificationAdditionalInformation `json:"additional_information,omitempty" url:"additional_information,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (n *Notification) GetType() NotificationType {
+	if n == nil {
+		return ""
+	}
+	return n.Type
+}
+
+func (n *Notification) GetField() Risk {
+	if n == nil {
+		return ""
+	}
+	return n.Field
+}
+
+func (n *Notification) GetValues() []*RiskValue {
+	if n == nil {
+		return nil
+	}
+	return n.Values
+}
+
+func (n *Notification) GetDate() string {
+	if n == nil {
+		return ""
+	}
+	return n.Date
+}
+
+func (n *Notification) GetAdditionalInformation() *NotificationAdditionalInformation {
+	if n == nil {
+		return nil
+	}
+	return n.AdditionalInformation
 }
 
 func (n *Notification) GetExtraProperties() map[string]interface{} {
@@ -49,24 +84,22 @@ func (n *Notification) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*n = Notification(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	extraProperties, err := internal.ExtractExtraProperties(data, *n)
 	if err != nil {
 		return err
 	}
 	n.extraProperties = extraProperties
-
-	n._rawJSON = json.RawMessage(data)
+	n.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (n *Notification) String() string {
-	if len(n._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+	if len(n.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(n.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(n); err == nil {
+	if value, err := internal.StringifyJSON(n); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", n)
@@ -77,7 +110,21 @@ type NotificationAdditionalInformation struct {
 	Properties []*AdditionalInformationProperties `json:"properties,omitempty" url:"properties,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (n *NotificationAdditionalInformation) GetValue() map[string]interface{} {
+	if n == nil {
+		return nil
+	}
+	return n.Value
+}
+
+func (n *NotificationAdditionalInformation) GetProperties() []*AdditionalInformationProperties {
+	if n == nil {
+		return nil
+	}
+	return n.Properties
 }
 
 func (n *NotificationAdditionalInformation) GetExtraProperties() map[string]interface{} {
@@ -91,24 +138,22 @@ func (n *NotificationAdditionalInformation) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*n = NotificationAdditionalInformation(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *n)
+	extraProperties, err := internal.ExtractExtraProperties(data, *n)
 	if err != nil {
 		return err
 	}
 	n.extraProperties = extraProperties
-
-	n._rawJSON = json.RawMessage(data)
+	n.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (n *NotificationAdditionalInformation) String() string {
-	if len(n._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(n._rawJSON); err == nil {
+	if len(n.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(n.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(n); err == nil {
+	if value, err := internal.StringifyJSON(n); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", n)
@@ -168,7 +213,49 @@ type ProjectNotificationData struct {
 	RiskNotifications *ProjectNotificationRiskData `json:"risk_notifications,omitempty" url:"risk_notifications,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectNotificationData) GetId() string {
+	if p == nil {
+		return ""
+	}
+	return p.Id
+}
+
+func (p *ProjectNotificationData) GetResourceId() string {
+	if p == nil {
+		return ""
+	}
+	return p.ResourceId
+}
+
+func (p *ProjectNotificationData) GetEntityId() string {
+	if p == nil {
+		return ""
+	}
+	return p.EntityId
+}
+
+func (p *ProjectNotificationData) GetNotifications() []*Notification {
+	if p == nil {
+		return nil
+	}
+	return p.Notifications
+}
+
+func (p *ProjectNotificationData) GetCustomFields() interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.CustomFields
+}
+
+func (p *ProjectNotificationData) GetRiskNotifications() *ProjectNotificationRiskData {
+	if p == nil {
+		return nil
+	}
+	return p.RiskNotifications
 }
 
 func (p *ProjectNotificationData) GetExtraProperties() map[string]interface{} {
@@ -182,24 +269,22 @@ func (p *ProjectNotificationData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectNotificationData(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *ProjectNotificationData) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -214,7 +299,28 @@ type ProjectNotificationRiskData struct {
 	Date string `json:"date" url:"date"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectNotificationRiskData) GetAdded() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Added
+}
+
+func (p *ProjectNotificationRiskData) GetRemoved() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Removed
+}
+
+func (p *ProjectNotificationRiskData) GetDate() string {
+	if p == nil {
+		return ""
+	}
+	return p.Date
 }
 
 func (p *ProjectNotificationRiskData) GetExtraProperties() map[string]interface{} {
@@ -228,24 +334,22 @@ func (p *ProjectNotificationRiskData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectNotificationRiskData(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *ProjectNotificationRiskData) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -260,7 +364,42 @@ type ProjectNotificationsResponse struct {
 	Size   *QualifiedCount            `json:"size,omitempty" url:"size,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectNotificationsResponse) GetOffset() int {
+	if p == nil {
+		return 0
+	}
+	return p.Offset
+}
+
+func (p *ProjectNotificationsResponse) GetLimit() int {
+	if p == nil {
+		return 0
+	}
+	return p.Limit
+}
+
+func (p *ProjectNotificationsResponse) GetNext() bool {
+	if p == nil {
+		return false
+	}
+	return p.Next
+}
+
+func (p *ProjectNotificationsResponse) GetData() []*ProjectNotificationData {
+	if p == nil {
+		return nil
+	}
+	return p.Data
+}
+
+func (p *ProjectNotificationsResponse) GetSize() *QualifiedCount {
+	if p == nil {
+		return nil
+	}
+	return p.Size
 }
 
 func (p *ProjectNotificationsResponse) GetExtraProperties() map[string]interface{} {
@@ -274,24 +413,22 @@ func (p *ProjectNotificationsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectNotificationsResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *ProjectNotificationsResponse) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -314,7 +451,56 @@ type ResourceNotificationData struct {
 	Date string `json:"date" url:"date"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResourceNotificationData) GetSavedResourceId() string {
+	if r == nil {
+		return ""
+	}
+	return r.SavedResourceId
+}
+
+func (r *ResourceNotificationData) GetProjectId() string {
+	if r == nil {
+		return ""
+	}
+	return r.ProjectId
+}
+
+func (r *ResourceNotificationData) GetEntityId() string {
+	if r == nil {
+		return ""
+	}
+	return r.EntityId
+}
+
+func (r *ResourceNotificationData) GetType() NotificationType {
+	if r == nil {
+		return ""
+	}
+	return r.Type
+}
+
+func (r *ResourceNotificationData) GetField() Risk {
+	if r == nil {
+		return ""
+	}
+	return r.Field
+}
+
+func (r *ResourceNotificationData) GetValue() *RiskValue {
+	if r == nil {
+		return nil
+	}
+	return r.Value
+}
+
+func (r *ResourceNotificationData) GetDate() string {
+	if r == nil {
+		return ""
+	}
+	return r.Date
 }
 
 func (r *ResourceNotificationData) GetExtraProperties() map[string]interface{} {
@@ -328,24 +514,22 @@ func (r *ResourceNotificationData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResourceNotificationData(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResourceNotificationData) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -359,7 +543,35 @@ type ResourceNotificationsResponse struct {
 	Data   []*ResourceNotificationData `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResourceNotificationsResponse) GetOffset() int {
+	if r == nil {
+		return 0
+	}
+	return r.Offset
+}
+
+func (r *ResourceNotificationsResponse) GetLimit() int {
+	if r == nil {
+		return 0
+	}
+	return r.Limit
+}
+
+func (r *ResourceNotificationsResponse) GetNext() bool {
+	if r == nil {
+		return false
+	}
+	return r.Next
+}
+
+func (r *ResourceNotificationsResponse) GetData() []*ResourceNotificationData {
+	if r == nil {
+		return nil
+	}
+	return r.Data
 }
 
 func (r *ResourceNotificationsResponse) GetExtraProperties() map[string]interface{} {
@@ -373,24 +585,22 @@ func (r *ResourceNotificationsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResourceNotificationsResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResourceNotificationsResponse) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)

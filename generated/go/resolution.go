@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type Resolution struct {
@@ -102,7 +102,63 @@ type MatchExplanation struct {
 	MatchQuality         *MatchQuality      `json:"match_quality,omitempty" url:"match_quality,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (m *MatchExplanation) GetMatched() *string {
+	if m == nil {
+		return nil
+	}
+	return m.Matched
+}
+
+func (m *MatchExplanation) GetUploaded() *string {
+	if m == nil {
+		return nil
+	}
+	return m.Uploaded
+}
+
+func (m *MatchExplanation) GetNameCustomTfIdfScore() *float64 {
+	if m == nil {
+		return nil
+	}
+	return m.NameCustomTfIdfScore
+}
+
+func (m *MatchExplanation) GetHighQualityMatchName() *bool {
+	if m == nil {
+		return nil
+	}
+	return m.HighQualityMatchName
+}
+
+func (m *MatchExplanation) GetScores() map[string]float64 {
+	if m == nil {
+		return nil
+	}
+	return m.Scores
+}
+
+func (m *MatchExplanation) GetNCommonTermMatches() *int {
+	if m == nil {
+		return nil
+	}
+	return m.NCommonTermMatches
+}
+
+func (m *MatchExplanation) GetNUncommonTermMatches() *int {
+	if m == nil {
+		return nil
+	}
+	return m.NUncommonTermMatches
+}
+
+func (m *MatchExplanation) GetMatchQuality() *MatchQuality {
+	if m == nil {
+		return nil
+	}
+	return m.MatchQuality
 }
 
 func (m *MatchExplanation) GetExtraProperties() map[string]interface{} {
@@ -116,24 +172,22 @@ func (m *MatchExplanation) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MatchExplanation(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	extraProperties, err := internal.ExtractExtraProperties(data, *m)
 	if err != nil {
 		return err
 	}
 	m.extraProperties = extraProperties
-
-	m._rawJSON = json.RawMessage(data)
+	m.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (m *MatchExplanation) String() string {
-	if len(m._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+	if len(m.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(m.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(m); err == nil {
+	if value, err := internal.StringifyJSON(m); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", m)
@@ -169,7 +223,14 @@ type MatchStrength struct {
 	Value string `json:"value" url:"value"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (m *MatchStrength) GetValue() string {
+	if m == nil {
+		return ""
+	}
+	return m.Value
 }
 
 func (m *MatchStrength) GetExtraProperties() map[string]interface{} {
@@ -183,24 +244,22 @@ func (m *MatchStrength) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MatchStrength(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	extraProperties, err := internal.ExtractExtraProperties(data, *m)
 	if err != nil {
 		return err
 	}
 	m.extraProperties = extraProperties
-
-	m._rawJSON = json.RawMessage(data)
+	m.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (m *MatchStrength) String() string {
-	if len(m._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+	if len(m.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(m.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(m); err == nil {
+	if value, err := internal.StringifyJSON(m); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", m)
@@ -273,7 +332,133 @@ type ResolutionBody struct {
 	SkipPostProcess *bool `json:"skip_post_process,omitempty" url:"skip_post_process,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionBody) GetName() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Name
+}
+
+func (r *ResolutionBody) GetIdentifier() *BothIdentifierTypes {
+	if r == nil {
+		return nil
+	}
+	return r.Identifier
+}
+
+func (r *ResolutionBody) GetAddress() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Address
+}
+
+func (r *ResolutionBody) GetCity() *string {
+	if r == nil {
+		return nil
+	}
+	return r.City
+}
+
+func (r *ResolutionBody) GetState() *string {
+	if r == nil {
+		return nil
+	}
+	return r.State
+}
+
+func (r *ResolutionBody) GetCountry() []Country {
+	if r == nil {
+		return nil
+	}
+	return r.Country
+}
+
+func (r *ResolutionBody) GetDateOfBirth() []string {
+	if r == nil {
+		return nil
+	}
+	return r.DateOfBirth
+}
+
+func (r *ResolutionBody) GetContact() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Contact
+}
+
+func (r *ResolutionBody) GetType() []Entities {
+	if r == nil {
+		return nil
+	}
+	return r.Type
+}
+
+func (r *ResolutionBody) GetProfile() *ProfileEnum {
+	if r == nil {
+		return nil
+	}
+	return r.Profile
+}
+
+func (r *ResolutionBody) GetNameMinPercentage() *int {
+	if r == nil {
+		return nil
+	}
+	return r.NameMinPercentage
+}
+
+func (r *ResolutionBody) GetNameMinTokens() *int {
+	if r == nil {
+		return nil
+	}
+	return r.NameMinTokens
+}
+
+func (r *ResolutionBody) GetTags() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Tags
+}
+
+func (r *ResolutionBody) GetMinimumScoreThreshold() *int {
+	if r == nil {
+		return nil
+	}
+	return r.MinimumScoreThreshold
+}
+
+func (r *ResolutionBody) GetSearchFallback() *bool {
+	if r == nil {
+		return nil
+	}
+	return r.SearchFallback
+}
+
+func (r *ResolutionBody) GetCutoffThreshold() *int {
+	if r == nil {
+		return nil
+	}
+	return r.CutoffThreshold
+}
+
+func (r *ResolutionBody) GetCandidatePoolSize() *int {
+	if r == nil {
+		return nil
+	}
+	return r.CandidatePoolSize
+}
+
+func (r *ResolutionBody) GetSkipPostProcess() *bool {
+	if r == nil {
+		return nil
+	}
+	return r.SkipPostProcess
 }
 
 func (r *ResolutionBody) GetExtraProperties() map[string]interface{} {
@@ -287,24 +472,22 @@ func (r *ResolutionBody) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionBody(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResolutionBody) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -315,7 +498,21 @@ type ResolutionPersistedResponse struct {
 	Data   []*ResolutionPersistedResult       `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionPersistedResponse) GetFields() *ResolutionPersistedResponseFields {
+	if r == nil {
+		return nil
+	}
+	return r.Fields
+}
+
+func (r *ResolutionPersistedResponse) GetData() []*ResolutionPersistedResult {
+	if r == nil {
+		return nil
+	}
+	return r.Data
 }
 
 func (r *ResolutionPersistedResponse) GetExtraProperties() map[string]interface{} {
@@ -329,24 +526,22 @@ func (r *ResolutionPersistedResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionPersistedResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResolutionPersistedResponse) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -370,7 +565,84 @@ type ResolutionPersistedResponseFields struct {
 	CustomIdentifier *string `json:"custom_identifier,omitempty" url:"custom_identifier,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionPersistedResponseFields) GetName() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Name
+}
+
+func (r *ResolutionPersistedResponseFields) GetIdentifier() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Identifier
+}
+
+func (r *ResolutionPersistedResponseFields) GetProfile() *string {
+	if r == nil {
+		return nil
+	}
+	return r.Profile
+}
+
+func (r *ResolutionPersistedResponseFields) GetCountry() []Country {
+	if r == nil {
+		return nil
+	}
+	return r.Country
+}
+
+func (r *ResolutionPersistedResponseFields) GetAddress() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Address
+}
+
+func (r *ResolutionPersistedResponseFields) GetDateOfBirth() []string {
+	if r == nil {
+		return nil
+	}
+	return r.DateOfBirth
+}
+
+func (r *ResolutionPersistedResponseFields) GetContact() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Contact
+}
+
+func (r *ResolutionPersistedResponseFields) GetType() []Entities {
+	if r == nil {
+		return nil
+	}
+	return r.Type
+}
+
+func (r *ResolutionPersistedResponseFields) GetCustomFieldName() *string {
+	if r == nil {
+		return nil
+	}
+	return r.CustomFieldName
+}
+
+func (r *ResolutionPersistedResponseFields) GetCustomName() *string {
+	if r == nil {
+		return nil
+	}
+	return r.CustomName
+}
+
+func (r *ResolutionPersistedResponseFields) GetCustomIdentifier() *string {
+	if r == nil {
+		return nil
+	}
+	return r.CustomIdentifier
 }
 
 func (r *ResolutionPersistedResponseFields) GetExtraProperties() map[string]interface{} {
@@ -384,24 +656,22 @@ func (r *ResolutionPersistedResponseFields) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionPersistedResponseFields(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResolutionPersistedResponseFields) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -426,7 +696,119 @@ type ResolutionPersistedResult struct {
 	SavedEntityId       string                         `json:"saved_entity_id" url:"saved_entity_id"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionPersistedResult) GetProfile() string {
+	if r == nil {
+		return ""
+	}
+	return r.Profile
+}
+
+func (r *ResolutionPersistedResult) GetScore() float64 {
+	if r == nil {
+		return 0
+	}
+	return r.Score
+}
+
+func (r *ResolutionPersistedResult) GetEntityId() string {
+	if r == nil {
+		return ""
+	}
+	return r.EntityId
+}
+
+func (r *ResolutionPersistedResult) GetLabel() string {
+	if r == nil {
+		return ""
+	}
+	return r.Label
+}
+
+func (r *ResolutionPersistedResult) GetType() Entities {
+	if r == nil {
+		return ""
+	}
+	return r.Type
+}
+
+func (r *ResolutionPersistedResult) GetIdentifiers() []*Identifier {
+	if r == nil {
+		return nil
+	}
+	return r.Identifiers
+}
+
+func (r *ResolutionPersistedResult) GetPsaId() *float64 {
+	if r == nil {
+		return nil
+	}
+	return r.PsaId
+}
+
+func (r *ResolutionPersistedResult) GetAddresses() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Addresses
+}
+
+func (r *ResolutionPersistedResult) GetCountries() []Country {
+	if r == nil {
+		return nil
+	}
+	return r.Countries
+}
+
+func (r *ResolutionPersistedResult) GetSources() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Sources
+}
+
+func (r *ResolutionPersistedResult) GetTypedMatchedQueries() []string {
+	if r == nil {
+		return nil
+	}
+	return r.TypedMatchedQueries
+}
+
+func (r *ResolutionPersistedResult) GetMatchedQueries() []string {
+	if r == nil {
+		return nil
+	}
+	return r.MatchedQueries
+}
+
+func (r *ResolutionPersistedResult) GetHighlight() map[string][]string {
+	if r == nil {
+		return nil
+	}
+	return r.Highlight
+}
+
+func (r *ResolutionPersistedResult) GetExplanation() map[string][]*MatchExplanation {
+	if r == nil {
+		return nil
+	}
+	return r.Explanation
+}
+
+func (r *ResolutionPersistedResult) GetMatchStrength() *MatchStrength {
+	if r == nil {
+		return nil
+	}
+	return r.MatchStrength
+}
+
+func (r *ResolutionPersistedResult) GetSavedEntityId() string {
+	if r == nil {
+		return ""
+	}
+	return r.SavedEntityId
 }
 
 func (r *ResolutionPersistedResult) GetExtraProperties() map[string]interface{} {
@@ -440,24 +822,22 @@ func (r *ResolutionPersistedResult) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionPersistedResult(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResolutionPersistedResult) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -468,7 +848,21 @@ type ResolutionResponse struct {
 	Data   []*ResolutionResult       `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionResponse) GetFields() *ResolutionResponseFields {
+	if r == nil {
+		return nil
+	}
+	return r.Fields
+}
+
+func (r *ResolutionResponse) GetData() []*ResolutionResult {
+	if r == nil {
+		return nil
+	}
+	return r.Data
 }
 
 func (r *ResolutionResponse) GetExtraProperties() map[string]interface{} {
@@ -482,24 +876,22 @@ func (r *ResolutionResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResolutionResponse) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -519,7 +911,63 @@ type ResolutionResponseFields struct {
 	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionResponseFields) GetName() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Name
+}
+
+func (r *ResolutionResponseFields) GetIdentifier() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Identifier
+}
+
+func (r *ResolutionResponseFields) GetProfile() *string {
+	if r == nil {
+		return nil
+	}
+	return r.Profile
+}
+
+func (r *ResolutionResponseFields) GetCountry() []Country {
+	if r == nil {
+		return nil
+	}
+	return r.Country
+}
+
+func (r *ResolutionResponseFields) GetAddress() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Address
+}
+
+func (r *ResolutionResponseFields) GetDateOfBirth() []string {
+	if r == nil {
+		return nil
+	}
+	return r.DateOfBirth
+}
+
+func (r *ResolutionResponseFields) GetContact() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Contact
+}
+
+func (r *ResolutionResponseFields) GetType() []Entities {
+	if r == nil {
+		return nil
+	}
+	return r.Type
 }
 
 func (r *ResolutionResponseFields) GetExtraProperties() map[string]interface{} {
@@ -533,24 +981,22 @@ func (r *ResolutionResponseFields) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionResponseFields(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResolutionResponseFields) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -574,7 +1020,112 @@ type ResolutionResult struct {
 	MatchStrength       *MatchStrength                 `json:"match_strength,omitempty" url:"match_strength,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionResult) GetProfile() string {
+	if r == nil {
+		return ""
+	}
+	return r.Profile
+}
+
+func (r *ResolutionResult) GetScore() float64 {
+	if r == nil {
+		return 0
+	}
+	return r.Score
+}
+
+func (r *ResolutionResult) GetEntityId() string {
+	if r == nil {
+		return ""
+	}
+	return r.EntityId
+}
+
+func (r *ResolutionResult) GetLabel() string {
+	if r == nil {
+		return ""
+	}
+	return r.Label
+}
+
+func (r *ResolutionResult) GetType() Entities {
+	if r == nil {
+		return ""
+	}
+	return r.Type
+}
+
+func (r *ResolutionResult) GetIdentifiers() []*Identifier {
+	if r == nil {
+		return nil
+	}
+	return r.Identifiers
+}
+
+func (r *ResolutionResult) GetPsaId() *float64 {
+	if r == nil {
+		return nil
+	}
+	return r.PsaId
+}
+
+func (r *ResolutionResult) GetAddresses() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Addresses
+}
+
+func (r *ResolutionResult) GetCountries() []Country {
+	if r == nil {
+		return nil
+	}
+	return r.Countries
+}
+
+func (r *ResolutionResult) GetSources() []string {
+	if r == nil {
+		return nil
+	}
+	return r.Sources
+}
+
+func (r *ResolutionResult) GetTypedMatchedQueries() []string {
+	if r == nil {
+		return nil
+	}
+	return r.TypedMatchedQueries
+}
+
+func (r *ResolutionResult) GetMatchedQueries() []string {
+	if r == nil {
+		return nil
+	}
+	return r.MatchedQueries
+}
+
+func (r *ResolutionResult) GetHighlight() map[string][]string {
+	if r == nil {
+		return nil
+	}
+	return r.Highlight
+}
+
+func (r *ResolutionResult) GetExplanation() map[string][]*MatchExplanation {
+	if r == nil {
+		return nil
+	}
+	return r.Explanation
+}
+
+func (r *ResolutionResult) GetMatchStrength() *MatchStrength {
+	if r == nil {
+		return nil
+	}
+	return r.MatchStrength
 }
 
 func (r *ResolutionResult) GetExtraProperties() map[string]interface{} {
@@ -588,24 +1139,22 @@ func (r *ResolutionResult) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionResult(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResolutionResult) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -616,7 +1165,21 @@ type ResolutionUploadBody struct {
 	Data     []*ResolutionBody `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionUploadBody) GetFilename() string {
+	if r == nil {
+		return ""
+	}
+	return r.Filename
+}
+
+func (r *ResolutionUploadBody) GetData() []*ResolutionBody {
+	if r == nil {
+		return nil
+	}
+	return r.Data
 }
 
 func (r *ResolutionUploadBody) GetExtraProperties() map[string]interface{} {
@@ -630,24 +1193,22 @@ func (r *ResolutionUploadBody) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionUploadBody(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResolutionUploadBody) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -659,7 +1220,28 @@ type ResolutionUploadResponse struct {
 	Count    int    `json:"count" url:"count"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionUploadResponse) GetFile() string {
+	if r == nil {
+		return ""
+	}
+	return r.File
+}
+
+func (r *ResolutionUploadResponse) GetUploaded() string {
+	if r == nil {
+		return ""
+	}
+	return r.Uploaded
+}
+
+func (r *ResolutionUploadResponse) GetCount() int {
+	if r == nil {
+		return 0
+	}
+	return r.Count
 }
 
 func (r *ResolutionUploadResponse) GetExtraProperties() map[string]interface{} {
@@ -673,24 +1255,22 @@ func (r *ResolutionUploadResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = ResolutionUploadResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *ResolutionUploadResponse) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)

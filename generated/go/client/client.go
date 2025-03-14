@@ -8,6 +8,7 @@ import (
 	core "github.com/sayari-analytics/sayari-go/generated/go/core"
 	entity "github.com/sayari-analytics/sayari-go/generated/go/entity"
 	info "github.com/sayari-analytics/sayari-go/generated/go/info"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 	metadata "github.com/sayari-analytics/sayari-go/generated/go/metadata"
 	negativenews "github.com/sayari-analytics/sayari-go/generated/go/negativenews"
 	notifications "github.com/sayari-analytics/sayari-go/generated/go/notifications"
@@ -26,7 +27,7 @@ import (
 
 type Client struct {
 	baseURL string
-	caller  *core.Caller
+	caller  *internal.Caller
 	header  http.Header
 
 	Attributes    *attributes.Client
@@ -51,8 +52,8 @@ func NewClient(opts ...option.RequestOption) *Client {
 	options := core.NewRequestOptions(opts...)
 	return &Client{
 		baseURL: options.BaseURL,
-		caller: core.NewCaller(
-			&core.CallerParams{
+		caller: internal.NewCaller(
+			&internal.CallerParams{
 				Client:      options.HTTPClient,
 				MaxAttempts: options.MaxAttempts,
 			},

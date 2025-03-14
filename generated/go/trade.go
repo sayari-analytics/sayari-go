@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type SearchBuyers struct {
@@ -56,7 +56,42 @@ type BuyerSearchResponse struct {
 	Data   []*SupplierOrBuyer `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (b *BuyerSearchResponse) GetLimit() int {
+	if b == nil {
+		return 0
+	}
+	return b.Limit
+}
+
+func (b *BuyerSearchResponse) GetSize() *QualifiedCount {
+	if b == nil {
+		return nil
+	}
+	return b.Size
+}
+
+func (b *BuyerSearchResponse) GetOffset() int {
+	if b == nil {
+		return 0
+	}
+	return b.Offset
+}
+
+func (b *BuyerSearchResponse) GetNext() bool {
+	if b == nil {
+		return false
+	}
+	return b.Next
+}
+
+func (b *BuyerSearchResponse) GetData() []*SupplierOrBuyer {
+	if b == nil {
+		return nil
+	}
+	return b.Data
 }
 
 func (b *BuyerSearchResponse) GetExtraProperties() map[string]interface{} {
@@ -70,24 +105,22 @@ func (b *BuyerSearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*b = BuyerSearchResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *b)
+	extraProperties, err := internal.ExtractExtraProperties(data, *b)
 	if err != nil {
 		return err
 	}
 	b.extraProperties = extraProperties
-
-	b._rawJSON = json.RawMessage(data)
+	b.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (b *BuyerSearchResponse) String() string {
-	if len(b._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
+	if len(b.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(b.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(b); err == nil {
+	if value, err := internal.StringifyJSON(b); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", b)
@@ -99,7 +132,21 @@ type DataSource struct {
 	Label string `json:"label" url:"label"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (d *DataSource) GetId() string {
+	if d == nil {
+		return ""
+	}
+	return d.Id
+}
+
+func (d *DataSource) GetLabel() string {
+	if d == nil {
+		return ""
+	}
+	return d.Label
 }
 
 func (d *DataSource) GetExtraProperties() map[string]interface{} {
@@ -113,24 +160,22 @@ func (d *DataSource) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DataSource(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	extraProperties, err := internal.ExtractExtraProperties(data, *d)
 	if err != nil {
 		return err
 	}
 	d.extraProperties = extraProperties
-
-	d._rawJSON = json.RawMessage(data)
+	d.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (d *DataSource) String() string {
-	if len(d._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+	if len(d.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(d.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(d); err == nil {
+	if value, err := internal.StringifyJSON(d); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", d)
@@ -142,7 +187,28 @@ type MonetaryValue struct {
 	Context  *string   `json:"context,omitempty" url:"context,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (m *MonetaryValue) GetValue() float64 {
+	if m == nil {
+		return 0
+	}
+	return m.Value
+}
+
+func (m *MonetaryValue) GetCurrency() *Currency {
+	if m == nil {
+		return nil
+	}
+	return m.Currency
+}
+
+func (m *MonetaryValue) GetContext() *string {
+	if m == nil {
+		return nil
+	}
+	return m.Context
 }
 
 func (m *MonetaryValue) GetExtraProperties() map[string]interface{} {
@@ -156,24 +222,22 @@ func (m *MonetaryValue) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MonetaryValue(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	extraProperties, err := internal.ExtractExtraProperties(data, *m)
 	if err != nil {
 		return err
 	}
 	m.extraProperties = extraProperties
-
-	m._rawJSON = json.RawMessage(data)
+	m.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (m *MonetaryValue) String() string {
-	if len(m._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+	if len(m.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(m.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(m); err == nil {
+	if value, err := internal.StringifyJSON(m); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", m)
@@ -203,7 +267,147 @@ type Shipment struct {
 	Record string `json:"record" url:"record"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *Shipment) GetId() string {
+	if s == nil {
+		return ""
+	}
+	return s.Id
+}
+
+func (s *Shipment) GetType() string {
+	if s == nil {
+		return ""
+	}
+	return s.Type
+}
+
+func (s *Shipment) GetBuyer() []*SourceOrDestinationEntity {
+	if s == nil {
+		return nil
+	}
+	return s.Buyer
+}
+
+func (s *Shipment) GetSupplier() []*SourceOrDestinationEntity {
+	if s == nil {
+		return nil
+	}
+	return s.Supplier
+}
+
+func (s *Shipment) GetArrivalDate() []string {
+	if s == nil {
+		return nil
+	}
+	return s.ArrivalDate
+}
+
+func (s *Shipment) GetDepartureDate() []string {
+	if s == nil {
+		return nil
+	}
+	return s.DepartureDate
+}
+
+func (s *Shipment) GetDepartureAddress() *ShipmentAddress {
+	if s == nil {
+		return nil
+	}
+	return s.DepartureAddress
+}
+
+func (s *Shipment) GetArrivalAddress() *ShipmentAddress {
+	if s == nil {
+		return nil
+	}
+	return s.ArrivalAddress
+}
+
+func (s *Shipment) GetArrivalCountry() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.ArrivalCountry
+}
+
+func (s *Shipment) GetDepartureCountry() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.DepartureCountry
+}
+
+func (s *Shipment) GetTransitCountry() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.TransitCountry
+}
+
+func (s *Shipment) GetCountries() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.Countries
+}
+
+func (s *Shipment) GetProductOrigin() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.ProductOrigin
+}
+
+func (s *Shipment) GetMonetaryValue() []*MonetaryValue {
+	if s == nil {
+		return nil
+	}
+	return s.MonetaryValue
+}
+
+func (s *Shipment) GetWeight() []*Weight {
+	if s == nil {
+		return nil
+	}
+	return s.Weight
+}
+
+func (s *Shipment) GetIdentifier() []*ShipmentIdentifier {
+	if s == nil {
+		return nil
+	}
+	return s.Identifier
+}
+
+func (s *Shipment) GetSources() []*DataSource {
+	if s == nil {
+		return nil
+	}
+	return s.Sources
+}
+
+func (s *Shipment) GetHsCodes() []*HsCodeInfo {
+	if s == nil {
+		return nil
+	}
+	return s.HsCodes
+}
+
+func (s *Shipment) GetProductDescriptions() []string {
+	if s == nil {
+		return nil
+	}
+	return s.ProductDescriptions
+}
+
+func (s *Shipment) GetRecord() string {
+	if s == nil {
+		return ""
+	}
+	return s.Record
 }
 
 func (s *Shipment) GetExtraProperties() map[string]interface{} {
@@ -217,24 +421,22 @@ func (s *Shipment) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = Shipment(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *Shipment) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -249,7 +451,49 @@ type ShipmentAddress struct {
 	Value   *string  `json:"value,omitempty" url:"value,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *ShipmentAddress) GetX() *float64 {
+	if s == nil {
+		return nil
+	}
+	return s.X
+}
+
+func (s *ShipmentAddress) GetY() *float64 {
+	if s == nil {
+		return nil
+	}
+	return s.Y
+}
+
+func (s *ShipmentAddress) GetCity() *string {
+	if s == nil {
+		return nil
+	}
+	return s.City
+}
+
+func (s *ShipmentAddress) GetState() *string {
+	if s == nil {
+		return nil
+	}
+	return s.State
+}
+
+func (s *ShipmentAddress) GetCountry() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Country
+}
+
+func (s *ShipmentAddress) GetValue() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Value
 }
 
 func (s *ShipmentAddress) GetExtraProperties() map[string]interface{} {
@@ -263,24 +507,68 @@ func (s *ShipmentAddress) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShipmentAddress(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *ShipmentAddress) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+type ShipmentCountry struct {
+	Value Country `json:"value" url:"value"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *ShipmentCountry) GetValue() Country {
+	if s == nil {
+		return ""
+	}
+	return s.Value
+}
+
+func (s *ShipmentCountry) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *ShipmentCountry) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentCountry
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentCountry(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentCountry) String() string {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -291,7 +579,21 @@ type ShipmentIdentifier struct {
 	Type  *BothIdentifierTypes `json:"type,omitempty" url:"type,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *ShipmentIdentifier) GetValue() string {
+	if s == nil {
+		return ""
+	}
+	return s.Value
+}
+
+func (s *ShipmentIdentifier) GetType() *BothIdentifierTypes {
+	if s == nil {
+		return nil
+	}
+	return s.Type
 }
 
 func (s *ShipmentIdentifier) GetExtraProperties() map[string]interface{} {
@@ -305,24 +607,125 @@ func (s *ShipmentIdentifier) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShipmentIdentifier(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *ShipmentIdentifier) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+type ShipmentMetadata struct {
+	ArrivalCountry []Country `json:"arrival_country,omitempty" url:"arrival_country,omitempty"`
+	Jurisdiction   []Country `json:"jurisdiction,omitempty" url:"jurisdiction,omitempty"`
+	ReferenceId    string    `json:"reference_id" url:"reference_id"`
+	// Unique identifier of the entity
+	EntityId         string             `json:"entity_id" url:"entity_id"`
+	DepartureAddress *AddressProperties `json:"departure_address,omitempty" url:"departure_address,omitempty"`
+	Type             string             `json:"type" url:"type"`
+	Sources          []string           `json:"sources,omitempty" url:"sources,omitempty"`
+	DepartureCountry []Country          `json:"departure_country,omitempty" url:"departure_country,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *ShipmentMetadata) GetArrivalCountry() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.ArrivalCountry
+}
+
+func (s *ShipmentMetadata) GetJurisdiction() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.Jurisdiction
+}
+
+func (s *ShipmentMetadata) GetReferenceId() string {
+	if s == nil {
+		return ""
+	}
+	return s.ReferenceId
+}
+
+func (s *ShipmentMetadata) GetEntityId() string {
+	if s == nil {
+		return ""
+	}
+	return s.EntityId
+}
+
+func (s *ShipmentMetadata) GetDepartureAddress() *AddressProperties {
+	if s == nil {
+		return nil
+	}
+	return s.DepartureAddress
+}
+
+func (s *ShipmentMetadata) GetType() string {
+	if s == nil {
+		return ""
+	}
+	return s.Type
+}
+
+func (s *ShipmentMetadata) GetSources() []string {
+	if s == nil {
+		return nil
+	}
+	return s.Sources
+}
+
+func (s *ShipmentMetadata) GetDepartureCountry() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.DepartureCountry
+}
+
+func (s *ShipmentMetadata) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *ShipmentMetadata) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShipmentMetadata
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShipmentMetadata(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShipmentMetadata) String() string {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -337,7 +740,42 @@ type ShipmentSearchResponse struct {
 	Data   []*Shipment     `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *ShipmentSearchResponse) GetLimit() int {
+	if s == nil {
+		return 0
+	}
+	return s.Limit
+}
+
+func (s *ShipmentSearchResponse) GetSize() *QualifiedCount {
+	if s == nil {
+		return nil
+	}
+	return s.Size
+}
+
+func (s *ShipmentSearchResponse) GetOffset() int {
+	if s == nil {
+		return 0
+	}
+	return s.Offset
+}
+
+func (s *ShipmentSearchResponse) GetNext() bool {
+	if s == nil {
+		return false
+	}
+	return s.Next
+}
+
+func (s *ShipmentSearchResponse) GetData() []*Shipment {
+	if s == nil {
+		return nil
+	}
+	return s.Data
 }
 
 func (s *ShipmentSearchResponse) GetExtraProperties() map[string]interface{} {
@@ -351,24 +789,22 @@ func (s *ShipmentSearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShipmentSearchResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *ShipmentSearchResponse) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -389,7 +825,56 @@ type SourceOrDestinationEntity struct {
 	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *SourceOrDestinationEntity) GetId() string {
+	if s == nil {
+		return ""
+	}
+	return s.Id
+}
+
+func (s *SourceOrDestinationEntity) GetType() string {
+	if s == nil {
+		return ""
+	}
+	return s.Type
+}
+
+func (s *SourceOrDestinationEntity) GetNames() []string {
+	if s == nil {
+		return nil
+	}
+	return s.Names
+}
+
+func (s *SourceOrDestinationEntity) GetRisks() map[Risk]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.Risks
+}
+
+func (s *SourceOrDestinationEntity) GetBusinessPurpose() []*BusinessPurposeProperties {
+	if s == nil {
+		return nil
+	}
+	return s.BusinessPurpose
+}
+
+func (s *SourceOrDestinationEntity) GetAddress() []interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.Address
+}
+
+func (s *SourceOrDestinationEntity) GetCountries() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.Countries
 }
 
 func (s *SourceOrDestinationEntity) GetExtraProperties() map[string]interface{} {
@@ -403,24 +888,22 @@ func (s *SourceOrDestinationEntity) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SourceOrDestinationEntity(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *SourceOrDestinationEntity) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -432,7 +915,28 @@ type SupplierMetadata struct {
 	HsCodes            []*HsCode `json:"hsCodes,omitempty" url:"hsCodes,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *SupplierMetadata) GetLatestShipmentDate() *string {
+	if s == nil {
+		return nil
+	}
+	return s.LatestShipmentDate
+}
+
+func (s *SupplierMetadata) GetShipments() int {
+	if s == nil {
+		return 0
+	}
+	return s.Shipments
+}
+
+func (s *SupplierMetadata) GetHsCodes() []*HsCode {
+	if s == nil {
+		return nil
+	}
+	return s.HsCodes
 }
 
 func (s *SupplierMetadata) GetExtraProperties() map[string]interface{} {
@@ -446,24 +950,22 @@ func (s *SupplierMetadata) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SupplierMetadata(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *SupplierMetadata) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -531,7 +1033,280 @@ type SupplierOrBuyer struct {
 	Metadata       *SupplierMetadata    `json:"metadata,omitempty" url:"metadata,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *SupplierOrBuyer) GetId() string {
+	if s == nil {
+		return ""
+	}
+	return s.Id
+}
+
+func (s *SupplierOrBuyer) GetLabel() string {
+	if s == nil {
+		return ""
+	}
+	return s.Label
+}
+
+func (s *SupplierOrBuyer) GetDegree() int {
+	if s == nil {
+		return 0
+	}
+	return s.Degree
+}
+
+func (s *SupplierOrBuyer) GetClosed() bool {
+	if s == nil {
+		return false
+	}
+	return s.Closed
+}
+
+func (s *SupplierOrBuyer) GetEntityUrl() string {
+	if s == nil {
+		return ""
+	}
+	return s.EntityUrl
+}
+
+func (s *SupplierOrBuyer) GetPep() bool {
+	if s == nil {
+		return false
+	}
+	return s.Pep
+}
+
+func (s *SupplierOrBuyer) GetPsaId() *string {
+	if s == nil {
+		return nil
+	}
+	return s.PsaId
+}
+
+func (s *SupplierOrBuyer) GetPsaCount() int {
+	if s == nil {
+		return 0
+	}
+	return s.PsaCount
+}
+
+func (s *SupplierOrBuyer) GetSanctioned() bool {
+	if s == nil {
+		return false
+	}
+	return s.Sanctioned
+}
+
+func (s *SupplierOrBuyer) GetType() Entities {
+	if s == nil {
+		return ""
+	}
+	return s.Type
+}
+
+func (s *SupplierOrBuyer) GetIdentifiers() []*Identifier {
+	if s == nil {
+		return nil
+	}
+	return s.Identifiers
+}
+
+func (s *SupplierOrBuyer) GetCountries() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.Countries
+}
+
+func (s *SupplierOrBuyer) GetSourceCount() map[string]*SourceCountInfo {
+	if s == nil {
+		return nil
+	}
+	return s.SourceCount
+}
+
+func (s *SupplierOrBuyer) GetAddresses() []string {
+	if s == nil {
+		return nil
+	}
+	return s.Addresses
+}
+
+func (s *SupplierOrBuyer) GetTradeCount() map[string]int {
+	if s == nil {
+		return nil
+	}
+	return s.TradeCount
+}
+
+func (s *SupplierOrBuyer) GetDateOfBirth() *string {
+	if s == nil {
+		return nil
+	}
+	return s.DateOfBirth
+}
+
+func (s *SupplierOrBuyer) GetRelationshipCount() RelationshipCount {
+	if s == nil {
+		return nil
+	}
+	return s.RelationshipCount
+}
+
+func (s *SupplierOrBuyer) GetUserRelationshipCount() RelationshipCount {
+	if s == nil {
+		return nil
+	}
+	return s.UserRelationshipCount
+}
+
+func (s *SupplierOrBuyer) GetAttributeCount() map[Attributes]int {
+	if s == nil {
+		return nil
+	}
+	return s.AttributeCount
+}
+
+func (s *SupplierOrBuyer) GetUserAttributeCount() map[Attributes]int {
+	if s == nil {
+		return nil
+	}
+	return s.UserAttributeCount
+}
+
+func (s *SupplierOrBuyer) GetAttributeCounts() map[Attributes]int {
+	if s == nil {
+		return nil
+	}
+	return s.AttributeCounts
+}
+
+func (s *SupplierOrBuyer) GetUserAttributeCounts() map[Attributes]int {
+	if s == nil {
+		return nil
+	}
+	return s.UserAttributeCounts
+}
+
+func (s *SupplierOrBuyer) GetRelatedEntitiesCount() int {
+	if s == nil {
+		return 0
+	}
+	return s.RelatedEntitiesCount
+}
+
+func (s *SupplierOrBuyer) GetUserRelatedEntitiesCount() int {
+	if s == nil {
+		return 0
+	}
+	return s.UserRelatedEntitiesCount
+}
+
+func (s *SupplierOrBuyer) GetUserRecordCount() int {
+	if s == nil {
+		return 0
+	}
+	return s.UserRecordCount
+}
+
+func (s *SupplierOrBuyer) GetReferenceId() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ReferenceId
+}
+
+func (s *SupplierOrBuyer) GetRegistrationDate() *EntityRegistrationDate {
+	if s == nil {
+		return nil
+	}
+	return s.RegistrationDate
+}
+
+func (s *SupplierOrBuyer) GetTranslatedLabel() *EntityTranslatedLabel {
+	if s == nil {
+		return nil
+	}
+	return s.TranslatedLabel
+}
+
+func (s *SupplierOrBuyer) GetHsCode() *EntityHsCode {
+	if s == nil {
+		return nil
+	}
+	return s.HsCode
+}
+
+func (s *SupplierOrBuyer) GetShipmentArrival() *ShipmentArrival {
+	if s == nil {
+		return nil
+	}
+	return s.ShipmentArrival
+}
+
+func (s *SupplierOrBuyer) GetShipmentDeparture() *ShipmentDeparture {
+	if s == nil {
+		return nil
+	}
+	return s.ShipmentDeparture
+}
+
+func (s *SupplierOrBuyer) GetCompanyType() *CompanyType {
+	if s == nil {
+		return nil
+	}
+	return s.CompanyType
+}
+
+func (s *SupplierOrBuyer) GetLatestStatus() *Status {
+	if s == nil {
+		return nil
+	}
+	return s.LatestStatus
+}
+
+func (s *SupplierOrBuyer) GetRisk() EntityRisk {
+	if s == nil {
+		return nil
+	}
+	return s.Risk
+}
+
+func (s *SupplierOrBuyer) GetAttributes() *AttributeDetails {
+	if s == nil {
+		return nil
+	}
+	return s.Attributes
+}
+
+func (s *SupplierOrBuyer) GetRelationships() *EntityRelationships {
+	if s == nil {
+		return nil
+	}
+	return s.Relationships
+}
+
+func (s *SupplierOrBuyer) GetPossiblySameAs() *PossiblySameAs {
+	if s == nil {
+		return nil
+	}
+	return s.PossiblySameAs
+}
+
+func (s *SupplierOrBuyer) GetReferencedBy() *ReferencedBy {
+	if s == nil {
+		return nil
+	}
+	return s.ReferencedBy
+}
+
+func (s *SupplierOrBuyer) GetMetadata() *SupplierMetadata {
+	if s == nil {
+		return nil
+	}
+	return s.Metadata
 }
 
 func (s *SupplierOrBuyer) GetExtraProperties() map[string]interface{} {
@@ -545,24 +1320,22 @@ func (s *SupplierOrBuyer) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SupplierOrBuyer(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *SupplierOrBuyer) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -577,7 +1350,42 @@ type SupplierSearchResponse struct {
 	Data   []*SupplierOrBuyer `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *SupplierSearchResponse) GetLimit() int {
+	if s == nil {
+		return 0
+	}
+	return s.Limit
+}
+
+func (s *SupplierSearchResponse) GetSize() *QualifiedCount {
+	if s == nil {
+		return nil
+	}
+	return s.Size
+}
+
+func (s *SupplierSearchResponse) GetOffset() int {
+	if s == nil {
+		return 0
+	}
+	return s.Offset
+}
+
+func (s *SupplierSearchResponse) GetNext() bool {
+	if s == nil {
+		return false
+	}
+	return s.Next
+}
+
+func (s *SupplierSearchResponse) GetData() []*SupplierOrBuyer {
+	if s == nil {
+		return nil
+	}
+	return s.Data
 }
 
 func (s *SupplierSearchResponse) GetExtraProperties() map[string]interface{} {
@@ -591,24 +1399,22 @@ func (s *SupplierSearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SupplierSearchResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *SupplierSearchResponse) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -676,7 +1482,210 @@ type TradeFilterList struct {
 	Sources []string `json:"sources,omitempty" url:"sources,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (t *TradeFilterList) GetBuyerId() []string {
+	if t == nil {
+		return nil
+	}
+	return t.BuyerId
+}
+
+func (t *TradeFilterList) GetSupplierId() []string {
+	if t == nil {
+		return nil
+	}
+	return t.SupplierId
+}
+
+func (t *TradeFilterList) GetBuyerName() []string {
+	if t == nil {
+		return nil
+	}
+	return t.BuyerName
+}
+
+func (t *TradeFilterList) GetSupplierName() []string {
+	if t == nil {
+		return nil
+	}
+	return t.SupplierName
+}
+
+func (t *TradeFilterList) GetBuyerRisk() []Risk {
+	if t == nil {
+		return nil
+	}
+	return t.BuyerRisk
+}
+
+func (t *TradeFilterList) GetSupplierRisk() []Risk {
+	if t == nil {
+		return nil
+	}
+	return t.SupplierRisk
+}
+
+func (t *TradeFilterList) GetBuyerCountry() []Country {
+	if t == nil {
+		return nil
+	}
+	return t.BuyerCountry
+}
+
+func (t *TradeFilterList) GetBuyerCity() []string {
+	if t == nil {
+		return nil
+	}
+	return t.BuyerCity
+}
+
+func (t *TradeFilterList) GetBuyerState() []string {
+	if t == nil {
+		return nil
+	}
+	return t.BuyerState
+}
+
+func (t *TradeFilterList) GetSupplierCountry() []Country {
+	if t == nil {
+		return nil
+	}
+	return t.SupplierCountry
+}
+
+func (t *TradeFilterList) GetSupplierCity() []string {
+	if t == nil {
+		return nil
+	}
+	return t.SupplierCity
+}
+
+func (t *TradeFilterList) GetSupplierState() []string {
+	if t == nil {
+		return nil
+	}
+	return t.SupplierState
+}
+
+func (t *TradeFilterList) GetDepartureCountry() []Country {
+	if t == nil {
+		return nil
+	}
+	return t.DepartureCountry
+}
+
+func (t *TradeFilterList) GetDepartureState() []string {
+	if t == nil {
+		return nil
+	}
+	return t.DepartureState
+}
+
+func (t *TradeFilterList) GetDepartureCity() []string {
+	if t == nil {
+		return nil
+	}
+	return t.DepartureCity
+}
+
+func (t *TradeFilterList) GetArrivalCountry() []Country {
+	if t == nil {
+		return nil
+	}
+	return t.ArrivalCountry
+}
+
+func (t *TradeFilterList) GetArrivalState() []string {
+	if t == nil {
+		return nil
+	}
+	return t.ArrivalState
+}
+
+func (t *TradeFilterList) GetArrivalCity() []string {
+	if t == nil {
+		return nil
+	}
+	return t.ArrivalCity
+}
+
+func (t *TradeFilterList) GetHsCode() []string {
+	if t == nil {
+		return nil
+	}
+	return t.HsCode
+}
+
+func (t *TradeFilterList) GetHsDescription() []string {
+	if t == nil {
+		return nil
+	}
+	return t.HsDescription
+}
+
+func (t *TradeFilterList) GetProductOrigin() []Country {
+	if t == nil {
+		return nil
+	}
+	return t.ProductOrigin
+}
+
+func (t *TradeFilterList) GetSupplierPurpose() []string {
+	if t == nil {
+		return nil
+	}
+	return t.SupplierPurpose
+}
+
+func (t *TradeFilterList) GetBuyerPurpose() []string {
+	if t == nil {
+		return nil
+	}
+	return t.BuyerPurpose
+}
+
+func (t *TradeFilterList) GetArrivalDate() []string {
+	if t == nil {
+		return nil
+	}
+	return t.ArrivalDate
+}
+
+func (t *TradeFilterList) GetDepartureDate() []string {
+	if t == nil {
+		return nil
+	}
+	return t.DepartureDate
+}
+
+func (t *TradeFilterList) GetShipmentIdentifier() []string {
+	if t == nil {
+		return nil
+	}
+	return t.ShipmentIdentifier
+}
+
+func (t *TradeFilterList) GetTransitCountry() []Country {
+	if t == nil {
+		return nil
+	}
+	return t.TransitCountry
+}
+
+func (t *TradeFilterList) GetWeight() []string {
+	if t == nil {
+		return nil
+	}
+	return t.Weight
+}
+
+func (t *TradeFilterList) GetSources() []string {
+	if t == nil {
+		return nil
+	}
+	return t.Sources
 }
 
 func (t *TradeFilterList) GetExtraProperties() map[string]interface{} {
@@ -690,24 +1699,22 @@ func (t *TradeFilterList) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TradeFilterList(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
 	}
 	t.extraProperties = extraProperties
-
-	t._rawJSON = json.RawMessage(data)
+	t.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (t *TradeFilterList) String() string {
-	if len(t._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(t); err == nil {
+	if value, err := internal.StringifyJSON(t); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
@@ -719,7 +1726,28 @@ type Weight struct {
 	Type  string  `json:"type" url:"type"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (w *Weight) GetValue() float64 {
+	if w == nil {
+		return 0
+	}
+	return w.Value
+}
+
+func (w *Weight) GetUnit() string {
+	if w == nil {
+		return ""
+	}
+	return w.Unit
+}
+
+func (w *Weight) GetType() string {
+	if w == nil {
+		return ""
+	}
+	return w.Type
 }
 
 func (w *Weight) GetExtraProperties() map[string]interface{} {
@@ -733,24 +1761,22 @@ func (w *Weight) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*w = Weight(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *w)
+	extraProperties, err := internal.ExtractExtraProperties(data, *w)
 	if err != nil {
 		return err
 	}
 	w.extraProperties = extraProperties
-
-	w._rawJSON = json.RawMessage(data)
+	w.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (w *Weight) String() string {
-	if len(w._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(w._rawJSON); err == nil {
+	if len(w.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(w.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(w); err == nil {
+	if value, err := internal.StringifyJSON(w); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", w)
@@ -763,7 +1789,35 @@ type HsCode struct {
 	ValueSimple *string `json:"value_simple,omitempty" url:"value_simple,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (h *HsCode) GetKey() string {
+	if h == nil {
+		return ""
+	}
+	return h.Key
+}
+
+func (h *HsCode) GetDocCount() int {
+	if h == nil {
+		return 0
+	}
+	return h.DocCount
+}
+
+func (h *HsCode) GetValue() string {
+	if h == nil {
+		return ""
+	}
+	return h.Value
+}
+
+func (h *HsCode) GetValueSimple() *string {
+	if h == nil {
+		return nil
+	}
+	return h.ValueSimple
 }
 
 func (h *HsCode) GetExtraProperties() map[string]interface{} {
@@ -777,24 +1831,22 @@ func (h *HsCode) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCode(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	extraProperties, err := internal.ExtractExtraProperties(data, *h)
 	if err != nil {
 		return err
 	}
 	h.extraProperties = extraProperties
-
-	h._rawJSON = json.RawMessage(data)
+	h.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (h *HsCode) String() string {
-	if len(h._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+	if len(h.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(h); err == nil {
+	if value, err := internal.StringifyJSON(h); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", h)
@@ -806,7 +1858,28 @@ type HsCodeInfo struct {
 	Imputed     *bool  `json:"imputed,omitempty" url:"imputed,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (h *HsCodeInfo) GetCode() string {
+	if h == nil {
+		return ""
+	}
+	return h.Code
+}
+
+func (h *HsCodeInfo) GetDescription() string {
+	if h == nil {
+		return ""
+	}
+	return h.Description
+}
+
+func (h *HsCodeInfo) GetImputed() *bool {
+	if h == nil {
+		return nil
+	}
+	return h.Imputed
 }
 
 func (h *HsCodeInfo) GetExtraProperties() map[string]interface{} {
@@ -820,24 +1893,22 @@ func (h *HsCodeInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCodeInfo(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	extraProperties, err := internal.ExtractExtraProperties(data, *h)
 	if err != nil {
 		return err
 	}
 	h.extraProperties = extraProperties
-
-	h._rawJSON = json.RawMessage(data)
+	h.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (h *HsCodeInfo) String() string {
-	if len(h._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+	if len(h.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(h); err == nil {
+	if value, err := internal.StringifyJSON(h); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", h)

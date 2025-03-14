@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type ListSources struct {
@@ -33,7 +33,91 @@ type GetSourceResponse struct {
 	Watchlist  bool    `json:"watchlist" url:"watchlist"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (g *GetSourceResponse) GetId() string {
+	if g == nil {
+		return ""
+	}
+	return g.Id
+}
+
+func (g *GetSourceResponse) GetLabel() string {
+	if g == nil {
+		return ""
+	}
+	return g.Label
+}
+
+func (g *GetSourceResponse) GetDescription() string {
+	if g == nil {
+		return ""
+	}
+	return g.Description
+}
+
+func (g *GetSourceResponse) GetCountry() Country {
+	if g == nil {
+		return ""
+	}
+	return g.Country
+}
+
+func (g *GetSourceResponse) GetRegion() string {
+	if g == nil {
+		return ""
+	}
+	return g.Region
+}
+
+func (g *GetSourceResponse) GetDateAdded() string {
+	if g == nil {
+		return ""
+	}
+	return g.DateAdded
+}
+
+func (g *GetSourceResponse) GetSourceType() string {
+	if g == nil {
+		return ""
+	}
+	return g.SourceType
+}
+
+func (g *GetSourceResponse) GetRecordType() string {
+	if g == nil {
+		return ""
+	}
+	return g.RecordType
+}
+
+func (g *GetSourceResponse) GetStructure() string {
+	if g == nil {
+		return ""
+	}
+	return g.Structure
+}
+
+func (g *GetSourceResponse) GetSourceUrl() *string {
+	if g == nil {
+		return nil
+	}
+	return g.SourceUrl
+}
+
+func (g *GetSourceResponse) GetPep() bool {
+	if g == nil {
+		return false
+	}
+	return g.Pep
+}
+
+func (g *GetSourceResponse) GetWatchlist() bool {
+	if g == nil {
+		return false
+	}
+	return g.Watchlist
 }
 
 func (g *GetSourceResponse) GetExtraProperties() map[string]interface{} {
@@ -47,24 +131,22 @@ func (g *GetSourceResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetSourceResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
 	if err != nil {
 		return err
 	}
 	g.extraProperties = extraProperties
-
-	g._rawJSON = json.RawMessage(data)
+	g.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (g *GetSourceResponse) String() string {
-	if len(g._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(g); err == nil {
+	if value, err := internal.StringifyJSON(g); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", g)
@@ -79,7 +161,42 @@ type ListSourcesResponse struct {
 	Data   []*Source       `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (l *ListSourcesResponse) GetLimit() int {
+	if l == nil {
+		return 0
+	}
+	return l.Limit
+}
+
+func (l *ListSourcesResponse) GetSize() *QualifiedCount {
+	if l == nil {
+		return nil
+	}
+	return l.Size
+}
+
+func (l *ListSourcesResponse) GetOffset() int {
+	if l == nil {
+		return 0
+	}
+	return l.Offset
+}
+
+func (l *ListSourcesResponse) GetNext() bool {
+	if l == nil {
+		return false
+	}
+	return l.Next
+}
+
+func (l *ListSourcesResponse) GetData() []*Source {
+	if l == nil {
+		return nil
+	}
+	return l.Data
 }
 
 func (l *ListSourcesResponse) GetExtraProperties() map[string]interface{} {
@@ -93,24 +210,22 @@ func (l *ListSourcesResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*l = ListSourcesResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *l)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
 	if err != nil {
 		return err
 	}
 	l.extraProperties = extraProperties
-
-	l._rawJSON = json.RawMessage(data)
+	l.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (l *ListSourcesResponse) String() string {
-	if len(l._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(l._rawJSON); err == nil {
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(l); err == nil {
+	if value, err := internal.StringifyJSON(l); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", l)
@@ -133,7 +248,91 @@ type Source struct {
 	Watchlist  bool    `json:"watchlist" url:"watchlist"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *Source) GetId() string {
+	if s == nil {
+		return ""
+	}
+	return s.Id
+}
+
+func (s *Source) GetLabel() string {
+	if s == nil {
+		return ""
+	}
+	return s.Label
+}
+
+func (s *Source) GetDescription() string {
+	if s == nil {
+		return ""
+	}
+	return s.Description
+}
+
+func (s *Source) GetCountry() Country {
+	if s == nil {
+		return ""
+	}
+	return s.Country
+}
+
+func (s *Source) GetRegion() string {
+	if s == nil {
+		return ""
+	}
+	return s.Region
+}
+
+func (s *Source) GetDateAdded() string {
+	if s == nil {
+		return ""
+	}
+	return s.DateAdded
+}
+
+func (s *Source) GetSourceType() string {
+	if s == nil {
+		return ""
+	}
+	return s.SourceType
+}
+
+func (s *Source) GetRecordType() string {
+	if s == nil {
+		return ""
+	}
+	return s.RecordType
+}
+
+func (s *Source) GetStructure() string {
+	if s == nil {
+		return ""
+	}
+	return s.Structure
+}
+
+func (s *Source) GetSourceUrl() *string {
+	if s == nil {
+		return nil
+	}
+	return s.SourceUrl
+}
+
+func (s *Source) GetPep() bool {
+	if s == nil {
+		return false
+	}
+	return s.Pep
+}
+
+func (s *Source) GetWatchlist() bool {
+	if s == nil {
+		return false
+	}
+	return s.Watchlist
 }
 
 func (s *Source) GetExtraProperties() map[string]interface{} {
@@ -147,24 +346,22 @@ func (s *Source) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = Source(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *Source) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)

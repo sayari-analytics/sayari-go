@@ -5,14 +5,21 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type DeleteResourceResponse struct {
 	Data *EntityResponseData `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (d *DeleteResourceResponse) GetData() *EntityResponseData {
+	if d == nil {
+		return nil
+	}
+	return d.Data
 }
 
 func (d *DeleteResourceResponse) GetExtraProperties() map[string]interface{} {
@@ -26,24 +33,22 @@ func (d *DeleteResourceResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DeleteResourceResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	extraProperties, err := internal.ExtractExtraProperties(data, *d)
 	if err != nil {
 		return err
 	}
 	d.extraProperties = extraProperties
-
-	d._rawJSON = json.RawMessage(data)
+	d.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (d *DeleteResourceResponse) String() string {
-	if len(d._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+	if len(d.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(d.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(d); err == nil {
+	if value, err := internal.StringifyJSON(d); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", d)
@@ -63,7 +68,84 @@ type EntityResponseData struct {
 	CaseStatus string       `json:"case_status" url:"case_status"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (e *EntityResponseData) GetType() ResourceType {
+	if e == nil {
+		return ""
+	}
+	return e.Type
+}
+
+func (e *EntityResponseData) GetId() string {
+	if e == nil {
+		return ""
+	}
+	return e.Id
+}
+
+func (e *EntityResponseData) GetProject() string {
+	if e == nil {
+		return ""
+	}
+	return e.Project
+}
+
+func (e *EntityResponseData) GetLabel() string {
+	if e == nil {
+		return ""
+	}
+	return e.Label
+}
+
+func (e *EntityResponseData) GetCreated() string {
+	if e == nil {
+		return ""
+	}
+	return e.Created
+}
+
+func (e *EntityResponseData) GetUpdated() string {
+	if e == nil {
+		return ""
+	}
+	return e.Updated
+}
+
+func (e *EntityResponseData) GetUpdatedBy() string {
+	if e == nil {
+		return ""
+	}
+	return e.UpdatedBy
+}
+
+func (e *EntityResponseData) GetVersion() int {
+	if e == nil {
+		return 0
+	}
+	return e.Version
+}
+
+func (e *EntityResponseData) GetEntityId() string {
+	if e == nil {
+		return ""
+	}
+	return e.EntityId
+}
+
+func (e *EntityResponseData) GetTagIds() []string {
+	if e == nil {
+		return nil
+	}
+	return e.TagIds
+}
+
+func (e *EntityResponseData) GetCaseStatus() string {
+	if e == nil {
+		return ""
+	}
+	return e.CaseStatus
 }
 
 func (e *EntityResponseData) GetExtraProperties() map[string]interface{} {
@@ -77,24 +159,22 @@ func (e *EntityResponseData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EntityResponseData(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	extraProperties, err := internal.ExtractExtraProperties(data, *e)
 	if err != nil {
 		return err
 	}
 	e.extraProperties = extraProperties
-
-	e._rawJSON = json.RawMessage(data)
+	e.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (e *EntityResponseData) String() string {
-	if len(e._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+	if len(e.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(e.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(e); err == nil {
+	if value, err := internal.StringifyJSON(e); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", e)
@@ -129,7 +209,35 @@ type SaveEntityRequest struct {
 	CustomFields interface{} `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *SaveEntityRequest) GetType() ResourceType {
+	if s == nil {
+		return ""
+	}
+	return s.Type
+}
+
+func (s *SaveEntityRequest) GetProject() string {
+	if s == nil {
+		return ""
+	}
+	return s.Project
+}
+
+func (s *SaveEntityRequest) GetEntityId() string {
+	if s == nil {
+		return ""
+	}
+	return s.EntityId
+}
+
+func (s *SaveEntityRequest) GetCustomFields() interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.CustomFields
 }
 
 func (s *SaveEntityRequest) GetExtraProperties() map[string]interface{} {
@@ -143,24 +251,22 @@ func (s *SaveEntityRequest) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SaveEntityRequest(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *SaveEntityRequest) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -170,7 +276,14 @@ type SaveEntityResponse struct {
 	Data *EntityResponseData `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *SaveEntityResponse) GetData() *EntityResponseData {
+	if s == nil {
+		return nil
+	}
+	return s.Data
 }
 
 func (s *SaveEntityResponse) GetExtraProperties() map[string]interface{} {
@@ -184,24 +297,22 @@ func (s *SaveEntityResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SaveEntityResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *SaveEntityResponse) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)

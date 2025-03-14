@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type Ownership struct {
@@ -131,50 +131,34 @@ type Traversal struct {
 	XinjiangGeospatial *bool `json:"-" url:"xinjiang_geospatial,omitempty"`
 }
 
-type RiskCategories string
-
-const (
-	RiskCategoriesForcedLabor       RiskCategories = "forced_labor"
-	RiskCategoriesExportControls    RiskCategories = "export_controls"
-	RiskCategoriesSanctions         RiskCategories = "sanctions"
-	RiskCategoriesPoliticalExposure RiskCategories = "political_exposure"
-	RiskCategoriesEnvironmentalRisk RiskCategories = "environmental_risk"
-	RiskCategoriesRegulatoryAction  RiskCategories = "regulatory_action"
-	RiskCategoriesAdverseMedia      RiskCategories = "adverse_media"
-)
-
-func NewRiskCategoriesFromString(s string) (RiskCategories, error) {
-	switch s {
-	case "forced_labor":
-		return RiskCategoriesForcedLabor, nil
-	case "export_controls":
-		return RiskCategoriesExportControls, nil
-	case "sanctions":
-		return RiskCategoriesSanctions, nil
-	case "political_exposure":
-		return RiskCategoriesPoliticalExposure, nil
-	case "environmental_risk":
-		return RiskCategoriesEnvironmentalRisk, nil
-	case "regulatory_action":
-		return RiskCategoriesRegulatoryAction, nil
-	case "adverse_media":
-		return RiskCategoriesAdverseMedia, nil
-	}
-	var t RiskCategories
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (r RiskCategories) Ptr() *RiskCategories {
-	return &r
-}
-
 type ShortestPathData struct {
 	Source string           `json:"source" url:"source"`
 	Target *EntityDetails   `json:"target,omitempty" url:"target,omitempty"`
 	Path   []*TraversalPath `json:"path,omitempty" url:"path,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *ShortestPathData) GetSource() string {
+	if s == nil {
+		return ""
+	}
+	return s.Source
+}
+
+func (s *ShortestPathData) GetTarget() *EntityDetails {
+	if s == nil {
+		return nil
+	}
+	return s.Target
+}
+
+func (s *ShortestPathData) GetPath() []*TraversalPath {
+	if s == nil {
+		return nil
+	}
+	return s.Path
 }
 
 func (s *ShortestPathData) GetExtraProperties() map[string]interface{} {
@@ -188,24 +172,22 @@ func (s *ShortestPathData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShortestPathData(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *ShortestPathData) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -217,7 +199,21 @@ type ShortestPathResponse struct {
 	Data     []*ShortestPathData `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *ShortestPathResponse) GetEntities() []string {
+	if s == nil {
+		return nil
+	}
+	return s.Entities
+}
+
+func (s *ShortestPathResponse) GetData() []*ShortestPathData {
+	if s == nil {
+		return nil
+	}
+	return s.Data
 }
 
 func (s *ShortestPathResponse) GetExtraProperties() map[string]interface{} {
@@ -231,24 +227,22 @@ func (s *ShortestPathResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = ShortestPathResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *ShortestPathResponse) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -260,7 +254,28 @@ type TraversalData struct {
 	Path   []*TraversalPath `json:"path,omitempty" url:"path,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (t *TraversalData) GetSource() string {
+	if t == nil {
+		return ""
+	}
+	return t.Source
+}
+
+func (t *TraversalData) GetTarget() *EntityDetails {
+	if t == nil {
+		return nil
+	}
+	return t.Target
+}
+
+func (t *TraversalData) GetPath() []*TraversalPath {
+	if t == nil {
+		return nil
+	}
+	return t.Path
 }
 
 func (t *TraversalData) GetExtraProperties() map[string]interface{} {
@@ -274,24 +289,22 @@ func (t *TraversalData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TraversalData(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
 	}
 	t.extraProperties = extraProperties
-
-	t._rawJSON = json.RawMessage(data)
+	t.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (t *TraversalData) String() string {
-	if len(t._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(t); err == nil {
+	if value, err := internal.StringifyJSON(t); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
@@ -303,7 +316,28 @@ type TraversalPath struct {
 	Relationships map[Relationships]*TraversalRelationshipData `json:"relationships,omitempty" url:"relationships,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (t *TraversalPath) GetField() string {
+	if t == nil {
+		return ""
+	}
+	return t.Field
+}
+
+func (t *TraversalPath) GetEntity() *EntityDetails {
+	if t == nil {
+		return nil
+	}
+	return t.Entity
+}
+
+func (t *TraversalPath) GetRelationships() map[Relationships]*TraversalRelationshipData {
+	if t == nil {
+		return nil
+	}
+	return t.Relationships
 }
 
 func (t *TraversalPath) GetExtraProperties() map[string]interface{} {
@@ -317,24 +351,22 @@ func (t *TraversalPath) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TraversalPath(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
 	}
 	t.extraProperties = extraProperties
-
-	t._rawJSON = json.RawMessage(data)
+	t.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (t *TraversalPath) String() string {
-	if len(t._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(t); err == nil {
+	if value, err := internal.StringifyJSON(t); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
@@ -348,7 +380,42 @@ type TraversalRelationshipData struct {
 	EndDate      *string             `json:"end_date,omitempty" url:"end_date,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (t *TraversalRelationshipData) GetValues() []*RelationshipInfo {
+	if t == nil {
+		return nil
+	}
+	return t.Values
+}
+
+func (t *TraversalRelationshipData) GetFormer() *bool {
+	if t == nil {
+		return nil
+	}
+	return t.Former
+}
+
+func (t *TraversalRelationshipData) GetStartDate() *string {
+	if t == nil {
+		return nil
+	}
+	return t.StartDate
+}
+
+func (t *TraversalRelationshipData) GetLastObserved() *string {
+	if t == nil {
+		return nil
+	}
+	return t.LastObserved
+}
+
+func (t *TraversalRelationshipData) GetEndDate() *string {
+	if t == nil {
+		return nil
+	}
+	return t.EndDate
 }
 
 func (t *TraversalRelationshipData) GetExtraProperties() map[string]interface{} {
@@ -362,24 +429,22 @@ func (t *TraversalRelationshipData) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TraversalRelationshipData(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
 	}
 	t.extraProperties = extraProperties
-
-	t._rawJSON = json.RawMessage(data)
+	t.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (t *TraversalRelationshipData) String() string {
-	if len(t._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(t); err == nil {
+	if value, err := internal.StringifyJSON(t); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
@@ -405,7 +470,119 @@ type TraversalResponse struct {
 	ExploredCount  int              `json:"explored_count" url:"explored_count"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (t *TraversalResponse) GetMinDepth() int {
+	if t == nil {
+		return 0
+	}
+	return t.MinDepth
+}
+
+func (t *TraversalResponse) GetMaxDepth() int {
+	if t == nil {
+		return 0
+	}
+	return t.MaxDepth
+}
+
+func (t *TraversalResponse) GetRelationships() []Relationships {
+	if t == nil {
+		return nil
+	}
+	return t.Relationships
+}
+
+func (t *TraversalResponse) GetCountries() []Country {
+	if t == nil {
+		return nil
+	}
+	return t.Countries
+}
+
+func (t *TraversalResponse) GetTypes() []string {
+	if t == nil {
+		return nil
+	}
+	return t.Types
+}
+
+func (t *TraversalResponse) GetName() string {
+	if t == nil {
+		return ""
+	}
+	return t.Name
+}
+
+func (t *TraversalResponse) GetWatchlist() bool {
+	if t == nil {
+		return false
+	}
+	return t.Watchlist
+}
+
+func (t *TraversalResponse) GetPsa() bool {
+	if t == nil {
+		return false
+	}
+	return t.Psa
+}
+
+func (t *TraversalResponse) GetOffset() int {
+	if t == nil {
+		return 0
+	}
+	return t.Offset
+}
+
+func (t *TraversalResponse) GetLimit() int {
+	if t == nil {
+		return 0
+	}
+	return t.Limit
+}
+
+func (t *TraversalResponse) GetNext() bool {
+	if t == nil {
+		return false
+	}
+	return t.Next
+}
+
+func (t *TraversalResponse) GetPartialResults() bool {
+	if t == nil {
+		return false
+	}
+	return t.PartialResults
+}
+
+func (t *TraversalResponse) GetData() []*TraversalData {
+	if t == nil {
+		return nil
+	}
+	return t.Data
+}
+
+func (t *TraversalResponse) GetSanctioned() *bool {
+	if t == nil {
+		return nil
+	}
+	return t.Sanctioned
+}
+
+func (t *TraversalResponse) GetPep() *bool {
+	if t == nil {
+		return nil
+	}
+	return t.Pep
+}
+
+func (t *TraversalResponse) GetExploredCount() int {
+	if t == nil {
+		return 0
+	}
+	return t.ExploredCount
 }
 
 func (t *TraversalResponse) GetExtraProperties() map[string]interface{} {
@@ -419,24 +596,22 @@ func (t *TraversalResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TraversalResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
 	}
 	t.extraProperties = extraProperties
-
-	t._rawJSON = json.RawMessage(data)
+	t.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (t *TraversalResponse) String() string {
-	if len(t._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(t); err == nil {
+	if value, err := internal.StringifyJSON(t); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
@@ -457,6 +632,20 @@ func NewTraversalRiskCategoryFromRiskCategoriesList(value []RiskCategories) *Tra
 
 func NewTraversalRiskCategoryFromString(value string) *TraversalRiskCategory {
 	return &TraversalRiskCategory{typ: "String", String: value}
+}
+
+func (t *TraversalRiskCategory) GetRiskCategoriesList() []RiskCategories {
+	if t == nil {
+		return nil
+	}
+	return t.RiskCategoriesList
+}
+
+func (t *TraversalRiskCategory) GetString() string {
+	if t == nil {
+		return ""
+	}
+	return t.String
 }
 
 func (t *TraversalRiskCategory) UnmarshalJSON(data []byte) error {

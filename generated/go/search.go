@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type SearchEntity struct {
@@ -82,7 +82,28 @@ type Coordinates struct {
 	Address string   `json:"address" url:"address"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (c *Coordinates) GetLat() *float64 {
+	if c == nil {
+		return nil
+	}
+	return c.Lat
+}
+
+func (c *Coordinates) GetLng() *float64 {
+	if c == nil {
+		return nil
+	}
+	return c.Lng
+}
+
+func (c *Coordinates) GetAddress() string {
+	if c == nil {
+		return ""
+	}
+	return c.Address
 }
 
 func (c *Coordinates) GetExtraProperties() map[string]interface{} {
@@ -96,24 +117,22 @@ func (c *Coordinates) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = Coordinates(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
 	}
 	c.extraProperties = extraProperties
-
-	c._rawJSON = json.RawMessage(data)
+	c.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (c *Coordinates) String() string {
-	if len(c._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(c); err == nil {
+	if value, err := internal.StringifyJSON(c); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
@@ -128,7 +147,42 @@ type EntitySearchResponse struct {
 	Data   []*SearchResults `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (e *EntitySearchResponse) GetLimit() int {
+	if e == nil {
+		return 0
+	}
+	return e.Limit
+}
+
+func (e *EntitySearchResponse) GetSize() *QualifiedCount {
+	if e == nil {
+		return nil
+	}
+	return e.Size
+}
+
+func (e *EntitySearchResponse) GetOffset() int {
+	if e == nil {
+		return 0
+	}
+	return e.Offset
+}
+
+func (e *EntitySearchResponse) GetNext() bool {
+	if e == nil {
+		return false
+	}
+	return e.Next
+}
+
+func (e *EntitySearchResponse) GetData() []*SearchResults {
+	if e == nil {
+		return nil
+	}
+	return e.Data
 }
 
 func (e *EntitySearchResponse) GetExtraProperties() map[string]interface{} {
@@ -142,24 +196,22 @@ func (e *EntitySearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*e = EntitySearchResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *e)
+	extraProperties, err := internal.ExtractExtraProperties(data, *e)
 	if err != nil {
 		return err
 	}
 	e.extraProperties = extraProperties
-
-	e._rawJSON = json.RawMessage(data)
+	e.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (e *EntitySearchResponse) String() string {
-	if len(e._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
+	if len(e.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(e.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(e); err == nil {
+	if value, err := internal.StringifyJSON(e); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", e)
@@ -183,7 +235,56 @@ type FilterList struct {
 	Risk *RiskFactor `json:"risk,omitempty" url:"risk,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (f *FilterList) GetSource() []SourceId {
+	if f == nil {
+		return nil
+	}
+	return f.Source
+}
+
+func (f *FilterList) GetCountry() []Country {
+	if f == nil {
+		return nil
+	}
+	return f.Country
+}
+
+func (f *FilterList) GetState() []string {
+	if f == nil {
+		return nil
+	}
+	return f.State
+}
+
+func (f *FilterList) GetCity() []string {
+	if f == nil {
+		return nil
+	}
+	return f.City
+}
+
+func (f *FilterList) GetEntityType() []Entities {
+	if f == nil {
+		return nil
+	}
+	return f.EntityType
+}
+
+func (f *FilterList) GetBounds() []string {
+	if f == nil {
+		return nil
+	}
+	return f.Bounds
+}
+
+func (f *FilterList) GetRisk() *RiskFactor {
+	if f == nil {
+		return nil
+	}
+	return f.Risk
 }
 
 func (f *FilterList) GetExtraProperties() map[string]interface{} {
@@ -197,24 +298,22 @@ func (f *FilterList) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*f = FilterList(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *f)
+	extraProperties, err := internal.ExtractExtraProperties(data, *f)
 	if err != nil {
 		return err
 	}
 	f.extraProperties = extraProperties
-
-	f._rawJSON = json.RawMessage(data)
+	f.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (f *FilterList) String() string {
-	if len(f._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(f._rawJSON); err == nil {
+	if len(f.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(f.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(f); err == nil {
+	if value, err := internal.StringifyJSON(f); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", f)
@@ -229,7 +328,42 @@ type RecordSearchResponse struct {
 	Data   []*RecordDetails `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *RecordSearchResponse) GetLimit() int {
+	if r == nil {
+		return 0
+	}
+	return r.Limit
+}
+
+func (r *RecordSearchResponse) GetSize() *QualifiedCount {
+	if r == nil {
+		return nil
+	}
+	return r.Size
+}
+
+func (r *RecordSearchResponse) GetOffset() int {
+	if r == nil {
+		return 0
+	}
+	return r.Offset
+}
+
+func (r *RecordSearchResponse) GetNext() bool {
+	if r == nil {
+		return false
+	}
+	return r.Next
+}
+
+func (r *RecordSearchResponse) GetData() []*RecordDetails {
+	if r == nil {
+		return nil
+	}
+	return r.Data
 }
 
 func (r *RecordSearchResponse) GetExtraProperties() map[string]interface{} {
@@ -243,24 +377,22 @@ func (r *RecordSearchResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RecordSearchResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *RecordSearchResponse) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -270,7 +402,7 @@ type RiskFactor struct {
 	// Matches specific risk factors
 	RiskList []Risk
 	// Matches any risk factor
-	anyStringLiteral string
+	AnyStringLiteral string
 
 	typ string
 }
@@ -280,11 +412,14 @@ func NewRiskFactorFromRiskList(value []Risk) *RiskFactor {
 }
 
 func NewRiskFactorWithAnyStringLiteral() *RiskFactor {
-	return &RiskFactor{typ: "anyStringLiteral", anyStringLiteral: "any"}
+	return &RiskFactor{typ: "AnyStringLiteral", AnyStringLiteral: "any"}
 }
 
-func (r *RiskFactor) AnyStringLiteral() string {
-	return r.anyStringLiteral
+func (r *RiskFactor) GetRiskList() []Risk {
+	if r == nil {
+		return nil
+	}
+	return r.RiskList
 }
 
 func (r *RiskFactor) UnmarshalJSON(data []byte) error {
@@ -296,9 +431,9 @@ func (r *RiskFactor) UnmarshalJSON(data []byte) error {
 	}
 	var valueAnyStringLiteral string
 	if err := json.Unmarshal(data, &valueAnyStringLiteral); err == nil {
-		r.typ = "anyStringLiteral"
-		r.anyStringLiteral = valueAnyStringLiteral
-		if r.anyStringLiteral != "any" {
+		r.typ = "AnyStringLiteral"
+		r.AnyStringLiteral = valueAnyStringLiteral
+		if r.AnyStringLiteral != "any" {
 			return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", r, "any", valueAnyStringLiteral)
 		}
 		return nil
@@ -310,7 +445,7 @@ func (r RiskFactor) MarshalJSON() ([]byte, error) {
 	if r.typ == "RiskList" || r.RiskList != nil {
 		return json.Marshal(r.RiskList)
 	}
-	if r.typ == "anyStringLiteral" || r.anyStringLiteral != "" {
+	if r.typ == "AnyStringLiteral" || r.AnyStringLiteral != "" {
 		return json.Marshal("any")
 	}
 	return nil, fmt.Errorf("type %T does not include a non-empty union type", r)
@@ -325,8 +460,8 @@ func (r *RiskFactor) Accept(visitor RiskFactorVisitor) error {
 	if r.typ == "RiskList" || r.RiskList != nil {
 		return visitor.VisitRiskList(r.RiskList)
 	}
-	if r.typ == "anyStringLiteral" || r.anyStringLiteral != "" {
-		return visitor.VisitAnyStringLiteral(r.anyStringLiteral)
+	if r.typ == "AnyStringLiteral" || r.AnyStringLiteral != "" {
+		return visitor.VisitAnyStringLiteral(r.AnyStringLiteral)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", r)
 }
@@ -394,7 +529,287 @@ type SearchResults struct {
 	Matches        EntityMatches        `json:"matches,omitempty" url:"matches,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (s *SearchResults) GetId() string {
+	if s == nil {
+		return ""
+	}
+	return s.Id
+}
+
+func (s *SearchResults) GetLabel() string {
+	if s == nil {
+		return ""
+	}
+	return s.Label
+}
+
+func (s *SearchResults) GetDegree() int {
+	if s == nil {
+		return 0
+	}
+	return s.Degree
+}
+
+func (s *SearchResults) GetClosed() bool {
+	if s == nil {
+		return false
+	}
+	return s.Closed
+}
+
+func (s *SearchResults) GetEntityUrl() string {
+	if s == nil {
+		return ""
+	}
+	return s.EntityUrl
+}
+
+func (s *SearchResults) GetPep() bool {
+	if s == nil {
+		return false
+	}
+	return s.Pep
+}
+
+func (s *SearchResults) GetPsaId() *string {
+	if s == nil {
+		return nil
+	}
+	return s.PsaId
+}
+
+func (s *SearchResults) GetPsaCount() int {
+	if s == nil {
+		return 0
+	}
+	return s.PsaCount
+}
+
+func (s *SearchResults) GetSanctioned() bool {
+	if s == nil {
+		return false
+	}
+	return s.Sanctioned
+}
+
+func (s *SearchResults) GetType() Entities {
+	if s == nil {
+		return ""
+	}
+	return s.Type
+}
+
+func (s *SearchResults) GetIdentifiers() []*Identifier {
+	if s == nil {
+		return nil
+	}
+	return s.Identifiers
+}
+
+func (s *SearchResults) GetCountries() []Country {
+	if s == nil {
+		return nil
+	}
+	return s.Countries
+}
+
+func (s *SearchResults) GetSourceCount() map[string]*SourceCountInfo {
+	if s == nil {
+		return nil
+	}
+	return s.SourceCount
+}
+
+func (s *SearchResults) GetAddresses() []string {
+	if s == nil {
+		return nil
+	}
+	return s.Addresses
+}
+
+func (s *SearchResults) GetTradeCount() map[string]int {
+	if s == nil {
+		return nil
+	}
+	return s.TradeCount
+}
+
+func (s *SearchResults) GetDateOfBirth() *string {
+	if s == nil {
+		return nil
+	}
+	return s.DateOfBirth
+}
+
+func (s *SearchResults) GetRelationshipCount() RelationshipCount {
+	if s == nil {
+		return nil
+	}
+	return s.RelationshipCount
+}
+
+func (s *SearchResults) GetUserRelationshipCount() RelationshipCount {
+	if s == nil {
+		return nil
+	}
+	return s.UserRelationshipCount
+}
+
+func (s *SearchResults) GetAttributeCount() map[Attributes]int {
+	if s == nil {
+		return nil
+	}
+	return s.AttributeCount
+}
+
+func (s *SearchResults) GetUserAttributeCount() map[Attributes]int {
+	if s == nil {
+		return nil
+	}
+	return s.UserAttributeCount
+}
+
+func (s *SearchResults) GetAttributeCounts() map[Attributes]int {
+	if s == nil {
+		return nil
+	}
+	return s.AttributeCounts
+}
+
+func (s *SearchResults) GetUserAttributeCounts() map[Attributes]int {
+	if s == nil {
+		return nil
+	}
+	return s.UserAttributeCounts
+}
+
+func (s *SearchResults) GetRelatedEntitiesCount() int {
+	if s == nil {
+		return 0
+	}
+	return s.RelatedEntitiesCount
+}
+
+func (s *SearchResults) GetUserRelatedEntitiesCount() int {
+	if s == nil {
+		return 0
+	}
+	return s.UserRelatedEntitiesCount
+}
+
+func (s *SearchResults) GetUserRecordCount() int {
+	if s == nil {
+		return 0
+	}
+	return s.UserRecordCount
+}
+
+func (s *SearchResults) GetReferenceId() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ReferenceId
+}
+
+func (s *SearchResults) GetRegistrationDate() *EntityRegistrationDate {
+	if s == nil {
+		return nil
+	}
+	return s.RegistrationDate
+}
+
+func (s *SearchResults) GetTranslatedLabel() *EntityTranslatedLabel {
+	if s == nil {
+		return nil
+	}
+	return s.TranslatedLabel
+}
+
+func (s *SearchResults) GetHsCode() *EntityHsCode {
+	if s == nil {
+		return nil
+	}
+	return s.HsCode
+}
+
+func (s *SearchResults) GetShipmentArrival() *ShipmentArrival {
+	if s == nil {
+		return nil
+	}
+	return s.ShipmentArrival
+}
+
+func (s *SearchResults) GetShipmentDeparture() *ShipmentDeparture {
+	if s == nil {
+		return nil
+	}
+	return s.ShipmentDeparture
+}
+
+func (s *SearchResults) GetCompanyType() *CompanyType {
+	if s == nil {
+		return nil
+	}
+	return s.CompanyType
+}
+
+func (s *SearchResults) GetLatestStatus() *Status {
+	if s == nil {
+		return nil
+	}
+	return s.LatestStatus
+}
+
+func (s *SearchResults) GetRisk() EntityRisk {
+	if s == nil {
+		return nil
+	}
+	return s.Risk
+}
+
+func (s *SearchResults) GetAttributes() *AttributeDetails {
+	if s == nil {
+		return nil
+	}
+	return s.Attributes
+}
+
+func (s *SearchResults) GetRelationships() *EntityRelationships {
+	if s == nil {
+		return nil
+	}
+	return s.Relationships
+}
+
+func (s *SearchResults) GetPossiblySameAs() *PossiblySameAs {
+	if s == nil {
+		return nil
+	}
+	return s.PossiblySameAs
+}
+
+func (s *SearchResults) GetReferencedBy() *ReferencedBy {
+	if s == nil {
+		return nil
+	}
+	return s.ReferencedBy
+}
+
+func (s *SearchResults) GetCoordinates() []*Coordinates {
+	if s == nil {
+		return nil
+	}
+	return s.Coordinates
+}
+
+func (s *SearchResults) GetMatches() EntityMatches {
+	if s == nil {
+		return nil
+	}
+	return s.Matches
 }
 
 func (s *SearchResults) GetExtraProperties() map[string]interface{} {
@@ -408,24 +823,22 @@ func (s *SearchResults) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*s = SearchResults(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *s)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
 	}
 	s.extraProperties = extraProperties
-
-	s._rawJSON = json.RawMessage(data)
+	s.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (s *SearchResults) String() string {
-	if len(s._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(s._rawJSON); err == nil {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(s); err == nil {
+	if value, err := internal.StringifyJSON(s); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
@@ -433,40 +846,3 @@ func (s *SearchResults) String() string {
 
 // The unique identifier for a source in the database
 type SourceId = string
-
-// An explanation of why this entity was returned as the result of a query.
-type EntityMatches = map[string][]string
-
-type SearchField string
-
-const (
-	SearchFieldName            SearchField = "name"
-	SearchFieldIdentifier      SearchField = "identifier"
-	SearchFieldAddress         SearchField = "address"
-	SearchFieldBusinessPurpose SearchField = "business_purpose"
-	SearchFieldDateOfBirth     SearchField = "date_of_birth"
-	SearchFieldContact         SearchField = "contact"
-)
-
-func NewSearchFieldFromString(s string) (SearchField, error) {
-	switch s {
-	case "name":
-		return SearchFieldName, nil
-	case "identifier":
-		return SearchFieldIdentifier, nil
-	case "address":
-		return SearchFieldAddress, nil
-	case "business_purpose":
-		return SearchFieldBusinessPurpose, nil
-	case "date_of_birth":
-		return SearchFieldDateOfBirth, nil
-	case "contact":
-		return SearchFieldContact, nil
-	}
-	var t SearchField
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SearchField) Ptr() *SearchField {
-	return &s
-}

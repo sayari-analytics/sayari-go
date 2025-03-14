@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type MetadataResponse struct {
@@ -18,7 +18,35 @@ type MetadataResponse struct {
 	User             *UserInfo `json:"user,omitempty" url:"user,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (m *MetadataResponse) GetVersion() string {
+	if m == nil {
+		return ""
+	}
+	return m.Version
+}
+
+func (m *MetadataResponse) GetMasterRelease() string {
+	if m == nil {
+		return ""
+	}
+	return m.MasterRelease
+}
+
+func (m *MetadataResponse) GetWatchlistRelease() string {
+	if m == nil {
+		return ""
+	}
+	return m.WatchlistRelease
+}
+
+func (m *MetadataResponse) GetUser() *UserInfo {
+	if m == nil {
+		return nil
+	}
+	return m.User
 }
 
 func (m *MetadataResponse) GetExtraProperties() map[string]interface{} {
@@ -32,24 +60,22 @@ func (m *MetadataResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*m = MetadataResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *m)
+	extraProperties, err := internal.ExtractExtraProperties(data, *m)
 	if err != nil {
 		return err
 	}
 	m.extraProperties = extraProperties
-
-	m._rawJSON = json.RawMessage(data)
+	m.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (m *MetadataResponse) String() string {
-	if len(m._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(m._rawJSON); err == nil {
+	if len(m.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(m.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(m); err == nil {
+	if value, err := internal.StringifyJSON(m); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", m)
@@ -64,7 +90,28 @@ type UserInfo struct {
 	Roles *string `json:"roles,omitempty" url:"roles,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (u *UserInfo) GetId() string {
+	if u == nil {
+		return ""
+	}
+	return u.Id
+}
+
+func (u *UserInfo) GetGroupDisplayNames() *string {
+	if u == nil {
+		return nil
+	}
+	return u.GroupDisplayNames
+}
+
+func (u *UserInfo) GetRoles() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Roles
 }
 
 func (u *UserInfo) GetExtraProperties() map[string]interface{} {
@@ -78,24 +125,22 @@ func (u *UserInfo) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*u = UserInfo(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *u)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
 	if err != nil {
 		return err
 	}
 	u.extraProperties = extraProperties
-
-	u._rawJSON = json.RawMessage(data)
+	u.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (u *UserInfo) String() string {
-	if len(u._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(u._rawJSON); err == nil {
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(u); err == nil {
+	if value, err := internal.StringifyJSON(u); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", u)
