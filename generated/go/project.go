@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
 type GetProjectEntities struct {
@@ -58,7 +58,42 @@ type BucketAgg struct {
 	HsCodeSums *IntKeyValue `json:"hs_code_sums,omitempty" url:"hs_code_sums,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (b *BucketAgg) GetKey() string {
+	if b == nil {
+		return ""
+	}
+	return b.Key
+}
+
+func (b *BucketAgg) GetDocCount() int {
+	if b == nil {
+		return 0
+	}
+	return b.DocCount
+}
+
+func (b *BucketAgg) GetLabel() *string {
+	if b == nil {
+		return nil
+	}
+	return b.Label
+}
+
+func (b *BucketAgg) GetComment() *string {
+	if b == nil {
+		return nil
+	}
+	return b.Comment
+}
+
+func (b *BucketAgg) GetHsCodeSums() *IntKeyValue {
+	if b == nil {
+		return nil
+	}
+	return b.HsCodeSums
 }
 
 func (b *BucketAgg) GetExtraProperties() map[string]interface{} {
@@ -72,24 +107,22 @@ func (b *BucketAgg) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*b = BucketAgg(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *b)
+	extraProperties, err := internal.ExtractExtraProperties(data, *b)
 	if err != nil {
 		return err
 	}
 	b.extraProperties = extraProperties
-
-	b._rawJSON = json.RawMessage(data)
+	b.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (b *BucketAgg) String() string {
-	if len(b._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(b._rawJSON); err == nil {
+	if len(b.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(b.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(b); err == nil {
+	if value, err := internal.StringifyJSON(b); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", b)
@@ -101,7 +134,21 @@ type CreateProjectRequest struct {
 	Share *ProjectShareOnCreate `json:"share,omitempty" url:"share,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateProjectRequest) GetLabel() string {
+	if c == nil {
+		return ""
+	}
+	return c.Label
+}
+
+func (c *CreateProjectRequest) GetShare() *ProjectShareOnCreate {
+	if c == nil {
+		return nil
+	}
+	return c.Share
 }
 
 func (c *CreateProjectRequest) GetExtraProperties() map[string]interface{} {
@@ -115,24 +162,22 @@ func (c *CreateProjectRequest) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CreateProjectRequest(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
 	}
 	c.extraProperties = extraProperties
-
-	c._rawJSON = json.RawMessage(data)
+	c.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (c *CreateProjectRequest) String() string {
-	if len(c._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(c); err == nil {
+	if value, err := internal.StringifyJSON(c); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
@@ -142,7 +187,14 @@ type CreateProjectResponse struct {
 	Data *Project `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateProjectResponse) GetData() *Project {
+	if c == nil {
+		return nil
+	}
+	return c.Data
 }
 
 func (c *CreateProjectResponse) GetExtraProperties() map[string]interface{} {
@@ -156,24 +208,22 @@ func (c *CreateProjectResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*c = CreateProjectResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *c)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
 	}
 	c.extraProperties = extraProperties
-
-	c._rawJSON = json.RawMessage(data)
+	c.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (c *CreateProjectResponse) String() string {
-	if len(c._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(c); err == nil {
+	if value, err := internal.StringifyJSON(c); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
@@ -183,7 +233,14 @@ type DeleteProjectResponse struct {
 	Data *Project `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (d *DeleteProjectResponse) GetData() *Project {
+	if d == nil {
+		return nil
+	}
+	return d.Data
 }
 
 func (d *DeleteProjectResponse) GetExtraProperties() map[string]interface{} {
@@ -197,24 +254,68 @@ func (d *DeleteProjectResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*d = DeleteProjectResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *d)
+	extraProperties, err := internal.ExtractExtraProperties(data, *d)
 	if err != nil {
 		return err
 	}
 	d.extraProperties = extraProperties
-
-	d._rawJSON = json.RawMessage(data)
+	d.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (d *DeleteProjectResponse) String() string {
-	if len(d._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(d._rawJSON); err == nil {
+	if len(d.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(d.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(d); err == nil {
+	if value, err := internal.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
+}
+
+type DocCount struct {
+	DocCount int `json:"doc_count" url:"doc_count"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (d *DocCount) GetDocCount() int {
+	if d == nil {
+		return 0
+	}
+	return d.DocCount
+}
+
+func (d *DocCount) GetExtraProperties() map[string]interface{} {
+	return d.extraProperties
+}
+
+func (d *DocCount) UnmarshalJSON(data []byte) error {
+	type unmarshaler DocCount
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DocCount(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+	d.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DocCount) String() string {
+	if len(d.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(d.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(d); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", d)
@@ -254,7 +355,49 @@ type GetProjectEntitiesResponse struct {
 	Aggregations *ProjectEntitiesAggs `json:"aggregations,omitempty" url:"aggregations,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (g *GetProjectEntitiesResponse) GetLimit() int {
+	if g == nil {
+		return 0
+	}
+	return g.Limit
+}
+
+func (g *GetProjectEntitiesResponse) GetSize() *QualifiedCount {
+	if g == nil {
+		return nil
+	}
+	return g.Size
+}
+
+func (g *GetProjectEntitiesResponse) GetNext() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Next
+}
+
+func (g *GetProjectEntitiesResponse) GetPrev() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Prev
+}
+
+func (g *GetProjectEntitiesResponse) GetData() []*ProjectEntity {
+	if g == nil {
+		return nil
+	}
+	return g.Data
+}
+
+func (g *GetProjectEntitiesResponse) GetAggregations() *ProjectEntitiesAggs {
+	if g == nil {
+		return nil
+	}
+	return g.Aggregations
 }
 
 func (g *GetProjectEntitiesResponse) GetExtraProperties() map[string]interface{} {
@@ -268,24 +411,22 @@ func (g *GetProjectEntitiesResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetProjectEntitiesResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
 	if err != nil {
 		return err
 	}
 	g.extraProperties = extraProperties
-
-	g._rawJSON = json.RawMessage(data)
+	g.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (g *GetProjectEntitiesResponse) String() string {
-	if len(g._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(g); err == nil {
+	if value, err := internal.StringifyJSON(g); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", g)
@@ -300,7 +441,49 @@ type GetProjectsResponse struct {
 	Data  []*ProjectWithMembers `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (g *GetProjectsResponse) GetNext() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Next
+}
+
+func (g *GetProjectsResponse) GetPrev() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Prev
+}
+
+func (g *GetProjectsResponse) GetFirst() *bool {
+	if g == nil {
+		return nil
+	}
+	return g.First
+}
+
+func (g *GetProjectsResponse) GetLast() *bool {
+	if g == nil {
+		return nil
+	}
+	return g.Last
+}
+
+func (g *GetProjectsResponse) GetLimit() int {
+	if g == nil {
+		return 0
+	}
+	return g.Limit
+}
+
+func (g *GetProjectsResponse) GetData() []*ProjectWithMembers {
+	if g == nil {
+		return nil
+	}
+	return g.Data
 }
 
 func (g *GetProjectsResponse) GetExtraProperties() map[string]interface{} {
@@ -314,24 +497,22 @@ func (g *GetProjectsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*g = GetProjectsResponse(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *g)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
 	if err != nil {
 		return err
 	}
 	g.extraProperties = extraProperties
-
-	g._rawJSON = json.RawMessage(data)
+	g.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (g *GetProjectsResponse) String() string {
-	if len(g._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(g._rawJSON); err == nil {
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(g); err == nil {
+	if value, err := internal.StringifyJSON(g); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", g)
@@ -342,7 +523,21 @@ type HsCodeAgg struct {
 	HsCodeTerms *HsCodeAggTerms `json:"hs_code_terms,omitempty" url:"hs_code_terms,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (h *HsCodeAgg) GetDocCount() int {
+	if h == nil {
+		return 0
+	}
+	return h.DocCount
+}
+
+func (h *HsCodeAgg) GetHsCodeTerms() *HsCodeAggTerms {
+	if h == nil {
+		return nil
+	}
+	return h.HsCodeTerms
 }
 
 func (h *HsCodeAgg) GetExtraProperties() map[string]interface{} {
@@ -356,24 +551,22 @@ func (h *HsCodeAgg) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCodeAgg(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	extraProperties, err := internal.ExtractExtraProperties(data, *h)
 	if err != nil {
 		return err
 	}
 	h.extraProperties = extraProperties
-
-	h._rawJSON = json.RawMessage(data)
+	h.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (h *HsCodeAgg) String() string {
-	if len(h._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+	if len(h.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(h); err == nil {
+	if value, err := internal.StringifyJSON(h); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", h)
@@ -385,7 +578,28 @@ type HsCodeAggBucket struct {
 	HsCodeSums *IntKeyValue `json:"hs_code_sums,omitempty" url:"hs_code_sums,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (h *HsCodeAggBucket) GetKey() string {
+	if h == nil {
+		return ""
+	}
+	return h.Key
+}
+
+func (h *HsCodeAggBucket) GetDocCount() int {
+	if h == nil {
+		return 0
+	}
+	return h.DocCount
+}
+
+func (h *HsCodeAggBucket) GetHsCodeSums() *IntKeyValue {
+	if h == nil {
+		return nil
+	}
+	return h.HsCodeSums
 }
 
 func (h *HsCodeAggBucket) GetExtraProperties() map[string]interface{} {
@@ -399,24 +613,22 @@ func (h *HsCodeAggBucket) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCodeAggBucket(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	extraProperties, err := internal.ExtractExtraProperties(data, *h)
 	if err != nil {
 		return err
 	}
 	h.extraProperties = extraProperties
-
-	h._rawJSON = json.RawMessage(data)
+	h.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (h *HsCodeAggBucket) String() string {
-	if len(h._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+	if len(h.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(h); err == nil {
+	if value, err := internal.StringifyJSON(h); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", h)
@@ -428,7 +640,28 @@ type HsCodeAggTerms struct {
 	Buckets                 []*HsCodeAggBucket `json:"buckets,omitempty" url:"buckets,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (h *HsCodeAggTerms) GetDocCountErrorUpperBound() int {
+	if h == nil {
+		return 0
+	}
+	return h.DocCountErrorUpperBound
+}
+
+func (h *HsCodeAggTerms) GetSumOtherDocCount() int {
+	if h == nil {
+		return 0
+	}
+	return h.SumOtherDocCount
+}
+
+func (h *HsCodeAggTerms) GetBuckets() []*HsCodeAggBucket {
+	if h == nil {
+		return nil
+	}
+	return h.Buckets
 }
 
 func (h *HsCodeAggTerms) GetExtraProperties() map[string]interface{} {
@@ -442,24 +675,22 @@ func (h *HsCodeAggTerms) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*h = HsCodeAggTerms(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *h)
+	extraProperties, err := internal.ExtractExtraProperties(data, *h)
 	if err != nil {
 		return err
 	}
 	h.extraProperties = extraProperties
-
-	h._rawJSON = json.RawMessage(data)
+	h.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (h *HsCodeAggTerms) String() string {
-	if len(h._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(h._rawJSON); err == nil {
+	if len(h.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(h); err == nil {
+	if value, err := internal.StringifyJSON(h); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", h)
@@ -469,7 +700,14 @@ type IntKeyValue struct {
 	Value int `json:"value" url:"value"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (i *IntKeyValue) GetValue() int {
+	if i == nil {
+		return 0
+	}
+	return i.Value
 }
 
 func (i *IntKeyValue) GetExtraProperties() map[string]interface{} {
@@ -483,24 +721,22 @@ func (i *IntKeyValue) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*i = IntKeyValue(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *i)
+	extraProperties, err := internal.ExtractExtraProperties(data, *i)
 	if err != nil {
 		return err
 	}
 	i.extraProperties = extraProperties
-
-	i._rawJSON = json.RawMessage(data)
+	i.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (i *IntKeyValue) String() string {
-	if len(i._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(i._rawJSON); err == nil {
+	if len(i.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(i.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(i); err == nil {
+	if value, err := internal.StringifyJSON(i); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", i)
@@ -512,7 +748,28 @@ type PsaSummary struct {
 	Count     int       `json:"count" url:"count"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *PsaSummary) GetRisk() []Risk {
+	if p == nil {
+		return nil
+	}
+	return p.Risk
+}
+
+func (p *PsaSummary) GetCountries() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Countries
+}
+
+func (p *PsaSummary) GetCount() int {
+	if p == nil {
+		return 0
+	}
+	return p.Count
 }
 
 func (p *PsaSummary) GetExtraProperties() map[string]interface{} {
@@ -526,24 +783,22 @@ func (p *PsaSummary) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = PsaSummary(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *PsaSummary) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -561,7 +816,49 @@ type Project struct {
 	Counts   *ProjectCounts `json:"counts,omitempty" url:"counts,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *Project) GetId() string {
+	if p == nil {
+		return ""
+	}
+	return p.Id
+}
+
+func (p *Project) GetLabel() string {
+	if p == nil {
+		return ""
+	}
+	return p.Label
+}
+
+func (p *Project) GetArchived() bool {
+	if p == nil {
+		return false
+	}
+	return p.Archived
+}
+
+func (p *Project) GetCreated() string {
+	if p == nil {
+		return ""
+	}
+	return p.Created
+}
+
+func (p *Project) GetUpdated() string {
+	if p == nil {
+		return ""
+	}
+	return p.Updated
+}
+
+func (p *Project) GetCounts() *ProjectCounts {
+	if p == nil {
+		return nil
+	}
+	return p.Counts
 }
 
 func (p *Project) GetExtraProperties() map[string]interface{} {
@@ -575,24 +872,22 @@ func (p *Project) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = Project(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *Project) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -606,7 +901,35 @@ type ProjectCounts struct {
 	Record *int `json:"record,omitempty" url:"record,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectCounts) GetEntity() *int {
+	if p == nil {
+		return nil
+	}
+	return p.Entity
+}
+
+func (p *ProjectCounts) GetGraph() *int {
+	if p == nil {
+		return nil
+	}
+	return p.Graph
+}
+
+func (p *ProjectCounts) GetSearch() *int {
+	if p == nil {
+		return nil
+	}
+	return p.Search
+}
+
+func (p *ProjectCounts) GetRecord() *int {
+	if p == nil {
+		return nil
+	}
+	return p.Record
 }
 
 func (p *ProjectCounts) GetExtraProperties() map[string]interface{} {
@@ -620,24 +943,22 @@ func (p *ProjectCounts) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectCounts(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *ProjectCounts) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -668,7 +989,154 @@ type ProjectEntitiesAggs struct {
 	Region               []*BucketAgg  `json:"region,omitempty" url:"region,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntitiesAggs) GetHitCount() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.HitCount
+}
+
+func (p *ProjectEntitiesAggs) GetCountry() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.Country
+}
+
+func (p *ProjectEntitiesAggs) GetUpstreamCountry() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.UpstreamCountry
+}
+
+func (p *ProjectEntitiesAggs) GetUpstreamCountryTiers() *TierCountAgg {
+	if p == nil {
+		return nil
+	}
+	return p.UpstreamCountryTiers
+}
+
+func (p *ProjectEntitiesAggs) GetRisk() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.Risk
+}
+
+func (p *ProjectEntitiesAggs) GetUpstreamRisk() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.UpstreamRisk
+}
+
+func (p *ProjectEntitiesAggs) GetUpstreamRiskTiers() *TierCountAgg {
+	if p == nil {
+		return nil
+	}
+	return p.UpstreamRiskTiers
+}
+
+func (p *ProjectEntitiesAggs) GetSource() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.Source
+}
+
+func (p *ProjectEntitiesAggs) GetBusinessPurpose() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.BusinessPurpose
+}
+
+func (p *ProjectEntitiesAggs) GetTagIds() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.TagIds
+}
+
+func (p *ProjectEntitiesAggs) GetCaseStatuses() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.CaseStatuses
+}
+
+func (p *ProjectEntitiesAggs) GetShipmentCounts() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.ShipmentCounts
+}
+
+func (p *ProjectEntitiesAggs) GetShippedHsCodes() *HsCodeAgg {
+	if p == nil {
+		return nil
+	}
+	return p.ShippedHsCodes
+}
+
+func (p *ProjectEntitiesAggs) GetReceivedHsCodes() *HsCodeAgg {
+	if p == nil {
+		return nil
+	}
+	return p.ReceivedHsCodes
+}
+
+func (p *ProjectEntitiesAggs) GetCombinedHsCodes() *HsCodeAgg {
+	if p == nil {
+		return nil
+	}
+	return p.CombinedHsCodes
+}
+
+func (p *ProjectEntitiesAggs) GetMatchResults() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.MatchResults
+}
+
+func (p *ProjectEntitiesAggs) GetCustomFields() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.CustomFields
+}
+
+func (p *ProjectEntitiesAggs) GetCustomFieldsCount() *IntKeyValue {
+	if p == nil {
+		return nil
+	}
+	return p.CustomFieldsCount
+}
+
+func (p *ProjectEntitiesAggs) GetLocation() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.Location
+}
+
+func (p *ProjectEntitiesAggs) GetSourceType() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.SourceType
+}
+
+func (p *ProjectEntitiesAggs) GetRegion() []*BucketAgg {
+	if p == nil {
+		return nil
+	}
+	return p.Region
 }
 
 func (p *ProjectEntitiesAggs) GetExtraProperties() map[string]interface{} {
@@ -682,24 +1150,22 @@ func (p *ProjectEntitiesAggs) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectEntitiesAggs(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *ProjectEntitiesAggs) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -743,7 +1209,119 @@ type ProjectEntitiesFilter struct {
 	CustomFieldName []string `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntitiesFilter) GetRisk() []Risk {
+	if p == nil {
+		return nil
+	}
+	return p.Risk
+}
+
+func (p *ProjectEntitiesFilter) GetUpstreamRisk() []Risk {
+	if p == nil {
+		return nil
+	}
+	return p.UpstreamRisk
+}
+
+func (p *ProjectEntitiesFilter) GetUpstreamRiskTiers() []UpstreamTiers {
+	if p == nil {
+		return nil
+	}
+	return p.UpstreamRiskTiers
+}
+
+func (p *ProjectEntitiesFilter) GetCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Country
+}
+
+func (p *ProjectEntitiesFilter) GetUpstreamCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.UpstreamCountry
+}
+
+func (p *ProjectEntitiesFilter) GetUpstreamCountryTiers() []UpstreamTiers {
+	if p == nil {
+		return nil
+	}
+	return p.UpstreamCountryTiers
+}
+
+func (p *ProjectEntitiesFilter) GetBusinessPurpose() []string {
+	if p == nil {
+		return nil
+	}
+	return p.BusinessPurpose
+}
+
+func (p *ProjectEntitiesFilter) GetLabelFuzzy() []string {
+	if p == nil {
+		return nil
+	}
+	return p.LabelFuzzy
+}
+
+func (p *ProjectEntitiesFilter) GetCityFuzzy() []string {
+	if p == nil {
+		return nil
+	}
+	return p.CityFuzzy
+}
+
+func (p *ProjectEntitiesFilter) GetStateFuzzy() []string {
+	if p == nil {
+		return nil
+	}
+	return p.StateFuzzy
+}
+
+func (p *ProjectEntitiesFilter) GetIdentifierFuzzy() []string {
+	if p == nil {
+		return nil
+	}
+	return p.IdentifierFuzzy
+}
+
+func (p *ProjectEntitiesFilter) GetSourceExact() []string {
+	if p == nil {
+		return nil
+	}
+	return p.SourceExact
+}
+
+func (p *ProjectEntitiesFilter) GetStatusExact() []CompanyStatus {
+	if p == nil {
+		return nil
+	}
+	return p.StatusExact
+}
+
+func (p *ProjectEntitiesFilter) GetRiskCategory() []string {
+	if p == nil {
+		return nil
+	}
+	return p.RiskCategory
+}
+
+func (p *ProjectEntitiesFilter) GetBounds() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Bounds
+}
+
+func (p *ProjectEntitiesFilter) GetCustomFieldName() []string {
+	if p == nil {
+		return nil
+	}
+	return p.CustomFieldName
 }
 
 func (p *ProjectEntitiesFilter) GetExtraProperties() map[string]interface{} {
@@ -757,24 +1335,22 @@ func (p *ProjectEntitiesFilter) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectEntitiesFilter(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *ProjectEntitiesFilter) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -811,15 +1387,148 @@ type ProjectEntity struct {
 	type_            string
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
 }
 
-func (p *ProjectEntity) GetExtraProperties() map[string]interface{} {
-	return p.extraProperties
+func (p *ProjectEntity) GetId() string {
+	if p == nil {
+		return ""
+	}
+	return p.Id
+}
+
+func (p *ProjectEntity) GetProject() string {
+	if p == nil {
+		return ""
+	}
+	return p.Project
+}
+
+func (p *ProjectEntity) GetLabel() string {
+	if p == nil {
+		return ""
+	}
+	return p.Label
+}
+
+func (p *ProjectEntity) GetCreated() string {
+	if p == nil {
+		return ""
+	}
+	return p.Created
+}
+
+func (p *ProjectEntity) GetUpdated() string {
+	if p == nil {
+		return ""
+	}
+	return p.Updated
+}
+
+func (p *ProjectEntity) GetUpdatedBy() string {
+	if p == nil {
+		return ""
+	}
+	return p.UpdatedBy
+}
+
+func (p *ProjectEntity) GetVersion() int {
+	if p == nil {
+		return 0
+	}
+	return p.Version
+}
+
+func (p *ProjectEntity) GetEntityId() string {
+	if p == nil {
+		return ""
+	}
+	return p.EntityId
+}
+
+func (p *ProjectEntity) GetTagIds() []string {
+	if p == nil {
+		return nil
+	}
+	return p.TagIds
+}
+
+func (p *ProjectEntity) GetCaseStatus() string {
+	if p == nil {
+		return ""
+	}
+	return p.CaseStatus
+}
+
+func (p *ProjectEntity) GetCustomFields() interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.CustomFields
+}
+
+func (p *ProjectEntity) GetMatchStrength() interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.MatchStrength
+}
+
+func (p *ProjectEntity) GetShippedHsCodes() []string {
+	if p == nil {
+		return nil
+	}
+	return p.ShippedHsCodes
+}
+
+func (p *ProjectEntity) GetReceivedHsCodes() []string {
+	if p == nil {
+		return nil
+	}
+	return p.ReceivedHsCodes
+}
+
+func (p *ProjectEntity) GetCombinedHsCodes() []string {
+	if p == nil {
+		return nil
+	}
+	return p.CombinedHsCodes
+}
+
+func (p *ProjectEntity) GetTradeCountInclMg() *TradeCount {
+	if p == nil {
+		return nil
+	}
+	return p.TradeCountInclMg
+}
+
+func (p *ProjectEntity) GetUpstream() *ProjectEntityUpstream {
+	if p == nil {
+		return nil
+	}
+	return p.Upstream
+}
+
+func (p *ProjectEntity) GetSummary() *CoreEntity {
+	if p == nil {
+		return nil
+	}
+	return p.Summary
+}
+
+func (p *ProjectEntity) GetPsa() *PsaSummary {
+	if p == nil {
+		return nil
+	}
+	return p.Psa
 }
 
 func (p *ProjectEntity) Type() string {
 	return p.type_
+}
+
+func (p *ProjectEntity) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
 }
 
 func (p *ProjectEntity) UnmarshalJSON(data []byte) error {
@@ -838,14 +1547,12 @@ func (p *ProjectEntity) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", p, "entity", unmarshaler.Type)
 	}
 	p.type_ = unmarshaler.Type
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p, "type")
+	extraProperties, err := internal.ExtractExtraProperties(data, *p, "type")
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
@@ -862,12 +1569,12 @@ func (p *ProjectEntity) MarshalJSON() ([]byte, error) {
 }
 
 func (p *ProjectEntity) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -881,7 +1588,42 @@ type ProjectEntityUpstream struct {
 	MatchProducts    map[string][]string `json:"match_products,omitempty" url:"match_products,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityUpstream) GetRisk() []Risk {
+	if p == nil {
+		return nil
+	}
+	return p.Risk
+}
+
+func (p *ProjectEntityUpstream) GetCountries() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Countries
+}
+
+func (p *ProjectEntityUpstream) GetEntities() int {
+	if p == nil {
+		return 0
+	}
+	return p.Entities
+}
+
+func (p *ProjectEntityUpstream) GetMatchHasUpstream() map[string]bool {
+	if p == nil {
+		return nil
+	}
+	return p.MatchHasUpstream
+}
+
+func (p *ProjectEntityUpstream) GetMatchProducts() map[string][]string {
+	if p == nil {
+		return nil
+	}
+	return p.MatchProducts
 }
 
 func (p *ProjectEntityUpstream) GetExtraProperties() map[string]interface{} {
@@ -895,24 +1637,22 @@ func (p *ProjectEntityUpstream) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectEntityUpstream(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *ProjectEntityUpstream) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -922,7 +1662,14 @@ type ProjectShareOnCreate struct {
 	Org Role `json:"org" url:"org"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectShareOnCreate) GetOrg() Role {
+	if p == nil {
+		return ""
+	}
+	return p.Org
 }
 
 func (p *ProjectShareOnCreate) GetExtraProperties() map[string]interface{} {
@@ -936,24 +1683,22 @@ func (p *ProjectShareOnCreate) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectShareOnCreate(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *ProjectShareOnCreate) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -972,7 +1717,56 @@ type ProjectWithMembers struct {
 	Members  []*RoleMember  `json:"members,omitempty" url:"members,omitempty"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectWithMembers) GetId() string {
+	if p == nil {
+		return ""
+	}
+	return p.Id
+}
+
+func (p *ProjectWithMembers) GetLabel() string {
+	if p == nil {
+		return ""
+	}
+	return p.Label
+}
+
+func (p *ProjectWithMembers) GetArchived() bool {
+	if p == nil {
+		return false
+	}
+	return p.Archived
+}
+
+func (p *ProjectWithMembers) GetCreated() string {
+	if p == nil {
+		return ""
+	}
+	return p.Created
+}
+
+func (p *ProjectWithMembers) GetUpdated() string {
+	if p == nil {
+		return ""
+	}
+	return p.Updated
+}
+
+func (p *ProjectWithMembers) GetCounts() *ProjectCounts {
+	if p == nil {
+		return nil
+	}
+	return p.Counts
+}
+
+func (p *ProjectWithMembers) GetMembers() []*RoleMember {
+	if p == nil {
+		return nil
+	}
+	return p.Members
 }
 
 func (p *ProjectWithMembers) GetExtraProperties() map[string]interface{} {
@@ -986,24 +1780,22 @@ func (p *ProjectWithMembers) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*p = ProjectWithMembers(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
 	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (p *ProjectWithMembers) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(p); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
@@ -1046,7 +1838,42 @@ type RoleMember struct {
 	Updated string         `json:"updated" url:"updated"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (r *RoleMember) GetId() string {
+	if r == nil {
+		return ""
+	}
+	return r.Id
+}
+
+func (r *RoleMember) GetType() RoleMemberType {
+	if r == nil {
+		return ""
+	}
+	return r.Type
+}
+
+func (r *RoleMember) GetRole() Role {
+	if r == nil {
+		return ""
+	}
+	return r.Role
+}
+
+func (r *RoleMember) GetCreated() string {
+	if r == nil {
+		return ""
+	}
+	return r.Created
+}
+
+func (r *RoleMember) GetUpdated() string {
+	if r == nil {
+		return ""
+	}
+	return r.Updated
 }
 
 func (r *RoleMember) GetExtraProperties() map[string]interface{} {
@@ -1060,24 +1887,22 @@ func (r *RoleMember) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*r = RoleMember(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *r)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
 	if err != nil {
 		return err
 	}
 	r.extraProperties = extraProperties
-
-	r._rawJSON = json.RawMessage(data)
+	r.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (r *RoleMember) String() string {
-	if len(r._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(r._rawJSON); err == nil {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(r); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", r)
@@ -1212,7 +2037,7 @@ type TierCountAgg = map[string]TierCount
 
 type TierCountKeys struct {
 	UpstreamTiers           UpstreamTiers
-	totalCountStringLiteral string
+	TotalCountStringLiteral string
 
 	typ string
 }
@@ -1222,11 +2047,14 @@ func NewTierCountKeysFromUpstreamTiers(value UpstreamTiers) *TierCountKeys {
 }
 
 func NewTierCountKeysWithTotalCountStringLiteral() *TierCountKeys {
-	return &TierCountKeys{typ: "totalCountStringLiteral", totalCountStringLiteral: "totalCount"}
+	return &TierCountKeys{typ: "TotalCountStringLiteral", TotalCountStringLiteral: "totalCount"}
 }
 
-func (t *TierCountKeys) TotalCountStringLiteral() string {
-	return t.totalCountStringLiteral
+func (t *TierCountKeys) GetUpstreamTiers() UpstreamTiers {
+	if t == nil {
+		return ""
+	}
+	return t.UpstreamTiers
 }
 
 func (t *TierCountKeys) UnmarshalJSON(data []byte) error {
@@ -1238,9 +2066,9 @@ func (t *TierCountKeys) UnmarshalJSON(data []byte) error {
 	}
 	var valueTotalCountStringLiteral string
 	if err := json.Unmarshal(data, &valueTotalCountStringLiteral); err == nil {
-		t.typ = "totalCountStringLiteral"
-		t.totalCountStringLiteral = valueTotalCountStringLiteral
-		if t.totalCountStringLiteral != "totalCount" {
+		t.typ = "TotalCountStringLiteral"
+		t.TotalCountStringLiteral = valueTotalCountStringLiteral
+		if t.TotalCountStringLiteral != "totalCount" {
 			return fmt.Errorf("unexpected value for literal on type %T; expected %v got %v", t, "totalCount", valueTotalCountStringLiteral)
 		}
 		return nil
@@ -1252,7 +2080,7 @@ func (t TierCountKeys) MarshalJSON() ([]byte, error) {
 	if t.typ == "UpstreamTiers" || t.UpstreamTiers != "" {
 		return json.Marshal(t.UpstreamTiers)
 	}
-	if t.typ == "totalCountStringLiteral" || t.totalCountStringLiteral != "" {
+	if t.typ == "TotalCountStringLiteral" || t.TotalCountStringLiteral != "" {
 		return json.Marshal("totalCount")
 	}
 	return nil, fmt.Errorf("type %T does not include a non-empty union type", t)
@@ -1267,8 +2095,8 @@ func (t *TierCountKeys) Accept(visitor TierCountKeysVisitor) error {
 	if t.typ == "UpstreamTiers" || t.UpstreamTiers != "" {
 		return visitor.VisitUpstreamTiers(t.UpstreamTiers)
 	}
-	if t.typ == "totalCountStringLiteral" || t.totalCountStringLiteral != "" {
-		return visitor.VisitTotalCountStringLiteral(t.totalCountStringLiteral)
+	if t.typ == "TotalCountStringLiteral" || t.TotalCountStringLiteral != "" {
+		return visitor.VisitTotalCountStringLiteral(t.TotalCountStringLiteral)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", t)
 }
@@ -1278,7 +2106,21 @@ type TradeCount struct {
 	ShipperOf  int `json:"shipper_of" url:"shipper_of"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (t *TradeCount) GetReceiverOf() int {
+	if t == nil {
+		return 0
+	}
+	return t.ReceiverOf
+}
+
+func (t *TradeCount) GetShipperOf() int {
+	if t == nil {
+		return 0
+	}
+	return t.ShipperOf
 }
 
 func (t *TradeCount) GetExtraProperties() map[string]interface{} {
@@ -1292,24 +2134,22 @@ func (t *TradeCount) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*t = TradeCount(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *t)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
 	}
 	t.extraProperties = extraProperties
-
-	t._rawJSON = json.RawMessage(data)
+	t.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (t *TradeCount) String() string {
-	if len(t._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(t._rawJSON); err == nil {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(t); err == nil {
+	if value, err := internal.StringifyJSON(t); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
@@ -1341,219 +2181,4 @@ func NewUpstreamTiersFromString(s string) (UpstreamTiers, error) {
 
 func (u UpstreamTiers) Ptr() *UpstreamTiers {
 	return &u
-}
-
-// The attributes fields common to most entities.
-type CoreEntity struct {
-	Attributes map[Attributes][]interface{} `json:"attributes,omitempty" url:"attributes,omitempty"`
-	// Unique identifier of the entity
-	Id string `json:"id" url:"id"`
-	// User or group that created the entity, if applicable. Undefined for Sayari entities.
-	Owner *string `json:"owner,omitempty" url:"owner,omitempty"`
-	// The [entity type](/sayari-library/ontology/entities).
-	Type Entities `json:"type" url:"type"`
-	// Display name of the entity
-	Label string `json:"label" url:"label"`
-	// Name variations of the entity.
-	Names             []string                `json:"names,omitempty" url:"names,omitempty"`
-	CompanyType       *CompanyType            `json:"company_type,omitempty" url:"company_type,omitempty"`
-	RegistrationDate  *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
-	LatestStatus      *Status                 `json:"latest_status,omitempty" url:"latest_status,omitempty"`
-	ShipmentArrival   *ShipmentArrival        `json:"shipment_arrival,omitempty" url:"shipment_arrival,omitempty"`
-	ShipmentDeparture *ShipmentDeparture      `json:"shipment_departure,omitempty" url:"shipment_departure,omitempty"`
-	HsCode            *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
-	TranslatedLabel   *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
-	Identifiers       []*Identifier           `json:"identifiers,omitempty" url:"identifiers,omitempty"`
-	// List of physical addresses associated with the entity. See more [here](/sayari-library/ontology/attributes#address)
-	Addresses []string `json:"addresses,omitempty" url:"addresses,omitempty"`
-	// Birth date of a person. See more [here](/sayari-library/ontology/attributes#date-of-birth)
-	DateOfBirth *string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
-	// Entity [country](/sayari-library/ontology/enumerated-types#country)
-	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
-	// True if the entity existed in the past but not at the present time, otherwise false. Always false for data curation.
-	Closed                   *bool             `json:"closed,omitempty" url:"closed,omitempty"`
-	RelatedEntitiesCount     int               `json:"related_entities_count" url:"related_entities_count"`
-	UserRelatedEntitiesCount int               `json:"user_related_entities_count" url:"user_related_entities_count"`
-	RelationshipCounts       RelationshipCount `json:"relationship_counts,omitempty" url:"relationship_counts,omitempty"`
-	UserRelationshipCounts   RelationshipCount `json:"user_relationship_counts,omitempty" url:"user_relationship_counts,omitempty"`
-	AttributeCounts          interface{}       `json:"attribute_counts,omitempty" url:"attribute_counts,omitempty"`
-	UserAttributeCounts      interface{}       `json:"user_attribute_counts,omitempty" url:"user_attribute_counts,omitempty"`
-	TradeCount               map[string]int    `json:"trade_count,omitempty" url:"trade_count,omitempty"`
-	RecordCount              int               `json:"record_count" url:"record_count"`
-	UserRecordCount          int               `json:"user_record_count" url:"user_record_count"`
-	// Number of records associated with the entity, grouped by source.
-	SourceCounts map[string]*SourceCountInfo `json:"source_counts,omitempty" url:"source_counts,omitempty"`
-	Psa          *Psa                        `json:"psa,omitempty" url:"psa,omitempty"`
-	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
-	Risk     EntityRisk `json:"risk,omitempty" url:"risk,omitempty"`
-	Created  *string    `json:"created,omitempty" url:"created,omitempty"`
-	Updated  *string    `json:"updated,omitempty" url:"updated,omitempty"`
-	EditedBy *string    `json:"edited_by,omitempty" url:"edited_by,omitempty"`
-	Editable *bool      `json:"editable,omitempty" url:"editable,omitempty"`
-	Upload   *string    `json:"upload,omitempty" url:"upload,omitempty"`
-
-	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
-}
-
-func (c *CoreEntity) GetExtraProperties() map[string]interface{} {
-	return c.extraProperties
-}
-
-func (c *CoreEntity) UnmarshalJSON(data []byte) error {
-	type unmarshaler CoreEntity
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CoreEntity(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-
-	c._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CoreEntity) String() string {
-	if len(c._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(c._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-type EntitySummary struct {
-	Attributes map[Attributes][]interface{} `json:"attributes,omitempty" url:"attributes,omitempty"`
-
-	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
-}
-
-func (e *EntitySummary) GetExtraProperties() map[string]interface{} {
-	return e.extraProperties
-}
-
-func (e *EntitySummary) UnmarshalJSON(data []byte) error {
-	type unmarshaler EntitySummary
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*e = EntitySummary(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *e)
-	if err != nil {
-		return err
-	}
-	e.extraProperties = extraProperties
-
-	e._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (e *EntitySummary) String() string {
-	if len(e._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(e._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(e); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", e)
-}
-
-type Psa struct {
-	PsaId     string          `json:"psa_id" url:"psa_id"`
-	Label     string          `json:"label" url:"label"`
-	Count     *int            `json:"count,omitempty" url:"count,omitempty"`
-	MatchKeys []*PsaMatchKeys `json:"match_keys,omitempty" url:"match_keys,omitempty"`
-
-	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
-}
-
-func (p *Psa) GetExtraProperties() map[string]interface{} {
-	return p.extraProperties
-}
-
-func (p *Psa) UnmarshalJSON(data []byte) error {
-	type unmarshaler Psa
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*p = Psa(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
-	if err != nil {
-		return err
-	}
-	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (p *Psa) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(p); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", p)
-}
-
-type PsaMatchKeys struct {
-	Key        string `json:"key" url:"key"`
-	Normalized string `json:"normalized" url:"normalized"`
-	Original   string `json:"original" url:"original"`
-
-	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
-}
-
-func (p *PsaMatchKeys) GetExtraProperties() map[string]interface{} {
-	return p.extraProperties
-}
-
-func (p *PsaMatchKeys) UnmarshalJSON(data []byte) error {
-	type unmarshaler PsaMatchKeys
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*p = PsaMatchKeys(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *p)
-	if err != nil {
-		return err
-	}
-	p.extraProperties = extraProperties
-
-	p._rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (p *PsaMatchKeys) String() string {
-	if len(p._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(p._rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := core.StringifyJSON(p); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", p)
 }

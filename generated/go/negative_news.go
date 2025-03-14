@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	core "github.com/sayari-analytics/sayari-go/generated/go/core"
+	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 	time "time"
 )
 
@@ -36,7 +36,56 @@ type Article struct {
 	Url string `json:"url" url:"url"`
 
 	extraProperties map[string]interface{}
-	_rawJSON        json.RawMessage
+	rawJSON         json.RawMessage
+}
+
+func (a *Article) GetPublished() string {
+	if a == nil {
+		return ""
+	}
+	return a.Published
+}
+
+func (a *Article) GetRiskFlags() []string {
+	if a == nil {
+		return nil
+	}
+	return a.RiskFlags
+}
+
+func (a *Article) GetSearchTerm() interface{} {
+	if a == nil {
+		return nil
+	}
+	return a.SearchTerm
+}
+
+func (a *Article) GetSnippet() string {
+	if a == nil {
+		return ""
+	}
+	return a.Snippet
+}
+
+func (a *Article) GetSource() string {
+	if a == nil {
+		return ""
+	}
+	return a.Source
+}
+
+func (a *Article) GetTitle() string {
+	if a == nil {
+		return ""
+	}
+	return a.Title
+}
+
+func (a *Article) GetUrl() string {
+	if a == nil {
+		return ""
+	}
+	return a.Url
 }
 
 func (a *Article) GetExtraProperties() map[string]interface{} {
@@ -50,24 +99,22 @@ func (a *Article) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	*a = Article(value)
-
-	extraProperties, err := core.ExtractExtraProperties(data, *a)
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
 	if err != nil {
 		return err
 	}
 	a.extraProperties = extraProperties
-
-	a._rawJSON = json.RawMessage(data)
+	a.rawJSON = json.RawMessage(data)
 	return nil
 }
 
 func (a *Article) String() string {
-	if len(a._rawJSON) > 0 {
-		if value, err := core.StringifyJSON(a._rawJSON); err == nil {
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := core.StringifyJSON(a); err == nil {
+	if value, err := internal.StringifyJSON(a); err == nil {
 		return value
 	}
 	return fmt.Sprintf("%#v", a)
