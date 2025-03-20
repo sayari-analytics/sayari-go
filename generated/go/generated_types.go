@@ -759,10 +759,16 @@ const (
 	AddressTypeDeparture AddressType = "departure"
 	// An address at which an entity receives mail
 	AddressTypeMailing AddressType = "mailing"
+	// An address associated with importer and/or exporter parties involved in trade transactions
+	AddressTypeOperations AddressType = "operations"
 	// An address at which an entity has a physical presence
 	AddressTypePhysical AddressType = "physical"
+	// The address reported by the importer for where a shipment is received
+	AddressTypeReceiverAddress AddressType = "receiver_address"
 	// An address an entity has listed for its registration
 	AddressTypeRegistered AddressType = "registered"
+	// The address reported by the exporter for where a shipment is sent
+	AddressTypeShipperAddress AddressType = "shipper_address"
 	// The port at which a shipment is temporarily located or moved between vessels in the course of shipment.
 	AddressTypeTransit AddressType = "transit"
 )
@@ -777,10 +783,16 @@ func NewAddressTypeFromString(s string) (AddressType, error) {
 		return AddressTypeDeparture, nil
 	case "mailing":
 		return AddressTypeMailing, nil
+	case "operations":
+		return AddressTypeOperations, nil
 	case "physical":
 		return AddressTypePhysical, nil
+	case "receiver_address":
+		return AddressTypeReceiverAddress, nil
 	case "registered":
 		return AddressTypeRegistered, nil
+	case "shipper_address":
+		return AddressTypeShipperAddress, nil
 	case "transit":
 		return AddressTypeTransit, nil
 	}
@@ -3225,6 +3237,10 @@ const (
 	CountryContextCitizenship CountryContext = "citizenship"
 	// e.g., "Country of incorporation", "Jurisdiction of formation", "Organized under the laws of". A company can operate in multiple countries, but can only have one domicile at a time.
 	CountryContextDomicile CountryContext = "domicile"
+	// A country where the entity carries out export operations.
+	CountryContextExportActivityIn CountryContext = "export_activity_in"
+	// A country where the entity carries out import operations.
+	CountryContextImportActivityIn CountryContext = "import_activity_in"
 	// Rarely used. Converted to "domicile".
 	CountryContextIncorporation CountryContext = "incorporation"
 	// The entity is mentioned in a record originating from this country
@@ -3255,6 +3271,10 @@ func NewCountryContextFromString(s string) (CountryContext, error) {
 		return CountryContextCitizenship, nil
 	case "domicile":
 		return CountryContextDomicile, nil
+	case "export_activity_in":
+		return CountryContextExportActivityIn, nil
+	case "import_activity_in":
+		return CountryContextImportActivityIn, nil
 	case "incorporation":
 		return CountryContextIncorporation, nil
 	case "mentioned_in":
@@ -6326,12 +6346,16 @@ const (
 	IdentifierTypeFraSiren IdentifierType = "fra_siren"
 	// France legal person establishment ID number
 	IdentifierTypeFraSiret IdentifierType = "fra_siret"
+	// Value added tax identification number / Intra-community VAT number.
+	IdentifierTypeFraVatNumber IdentifierType = "fra_vat_number"
 	// Skráseting Føroya Registration Number. Assigned to legal entities registered with the Company Registry of the Faroe Islands.
 	IdentifierTypeFroRegNum IdentifierType = "fro_reg_num"
 	// Unique UK charity ID number. Assigned to every charity registered with the Charity Commission for England and Wales.
 	IdentifierTypeGbrCharityNo IdentifierType = "gbr_charity_no"
 	// United Kingdom Confirmation Statement Company Number
 	IdentifierTypeGbrCompanyNumber IdentifierType = "gbr_company_number"
+	// Unique reference number for a disqualification case in the UK. Can contain alphanumeric characters.
+	IdentifierTypeGbrDisqualificationCaseNum IdentifierType = "gbr_disqualification_case_num"
 	// Action number assigned by the  Environment Agency to each enforcement action against offender pursuant to relevant legislation.
 	IdentifierTypeGbrEnforcementActionNum IdentifierType = "gbr_enforcement_action_num"
 	// Unique UK government organization ID number. Assigned to government organizations in the UK.
@@ -7619,12 +7643,16 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeFraSiren, nil
 	case "fra_siret":
 		return IdentifierTypeFraSiret, nil
+	case "fra_vat_number":
+		return IdentifierTypeFraVatNumber, nil
 	case "fro_reg_num":
 		return IdentifierTypeFroRegNum, nil
 	case "gbr_charity_no":
 		return IdentifierTypeGbrCharityNo, nil
 	case "gbr_company_number":
 		return IdentifierTypeGbrCompanyNumber, nil
+	case "gbr_disqualification_case_num":
+		return IdentifierTypeGbrDisqualificationCaseNum, nil
 	case "gbr_enforcement_action_num":
 		return IdentifierTypeGbrEnforcementActionNum, nil
 	case "gbr_go_no":
@@ -13053,6 +13081,8 @@ const (
 	WeakIdentifierTypeDeuRegisternummer WeakIdentifierType = "deu_registernummer"
 	// Dominica Business Registry Entity Number
 	WeakIdentifierTypeDmaCorporateRegistryEntityNum WeakIdentifierType = "dma_corporate_registry_entity_num"
+	// UK Bankruptcy and Insolvency Court Case Number linked to an individual subject to bankruptcies and insolvencies in England and Wales.
+	WeakIdentifierTypeGbrBankruptcyCaseNum WeakIdentifierType = "gbr_bankruptcy_case_num"
 	// UK entity ID number assigned to entities registered in the UK Government Grants Information System
 	WeakIdentifierTypeGbrGrantInfoNumber WeakIdentifierType = "gbr_grant_info_number"
 	// Georgian state registration number
@@ -13196,12 +13226,30 @@ const (
 	WeakIdentifierTypeUnknownPassport WeakIdentifierType = "unknown_passport"
 	// A residency number whose country of origin is not known
 	WeakIdentifierTypeUnknownResidencyNum WeakIdentifierType = "unknown_residency_num"
+	// Clean Air Markets Division Business Systems (CAMDBS) permit identifier
+	WeakIdentifierTypeUsaCamdbsId WeakIdentifierType = "usa_camdbs_id"
 	// USA Customs and Border Protection Withhold Release Order ID
 	WeakIdentifierTypeUsaCbpWroId WeakIdentifierType = "usa_cbp_wro_id"
+	// Compliance and Emissions Data Reporting Interface (CEDRI) permit identifier
+	WeakIdentifierTypeUsaCedriId WeakIdentifierType = "usa_cedri_id"
+	// Emissions Inventory System (EIS) permit identifier
+	WeakIdentifierTypeUsaEisId WeakIdentifierType = "usa_eis_id"
+	// USA EPA Facility Registry System
+	WeakIdentifierTypeUsaEpaFacilityRegistrySystem WeakIdentifierType = "usa_epa_facility_registry_system"
 	// Former USA/IRS FEI/EIN Number
 	WeakIdentifierTypeUsaFormerFein WeakIdentifierType = "usa_former_fein"
+	// Facility Registry Service (FRS) permit identifier
+	WeakIdentifierTypeUsaFrsId WeakIdentifierType = "usa_frs_id"
 	// Ticker symbol for securities without exchange information
 	WeakIdentifierTypeUsaGenericTicker WeakIdentifierType = "usa_generic_ticker"
+	// Greenhouse Gas Reporting Program (GHGRP) permit identifier
+	WeakIdentifierTypeUsaGhgrpId WeakIdentifierType = "usa_ghgrp_id"
+	// Integrated Compliance Information System for Air (ICIS-Air) permit identifier
+	WeakIdentifierTypeUsaIcisAirId WeakIdentifierType = "usa_icis_air_id"
+	// Integrated Compliance Information System (ICIS) permit identifier
+	WeakIdentifierTypeUsaIcisId WeakIdentifierType = "usa_icis_id"
+	// Integrated Compliance Information System (ICIS) National Pollutant Discharge Elimination System (NPDES) permit identifier
+	WeakIdentifierTypeUsaIcisNpdesId WeakIdentifierType = "usa_icis_npdes_id"
 	// Site number of business registered in Chicago, Illinois, business license registry (unique to account number)
 	WeakIdentifierTypeUsaIlChicagoSiteNumber WeakIdentifierType = "usa_il_chicago_site_number"
 	// Identifier for shipment transactions
@@ -13216,6 +13264,18 @@ const (
 	WeakIdentifierTypeUsaNcCorpNo WeakIdentifierType = "usa_nc_corp_no"
 	// USA New Mexico Secretary of State License ID
 	WeakIdentifierTypeUsaNmLicenseId WeakIdentifierType = "usa_nm_license_id"
+	// Resource Conservation and Recovery Act (RCRA) permit identifier
+	WeakIdentifierTypeUsaRcraInfoId WeakIdentifierType = "usa_rcra_info_id"
+	// Risk Management Program (RMP) permit identifier
+	WeakIdentifierTypeUsaRmpId WeakIdentifierType = "usa_rmp_id"
+	// Safe Drinking Water Information System (SDWIS) permit identifier
+	WeakIdentifierTypeUsaSdwisId WeakIdentifierType = "usa_sdwis_id"
+	// Superfund Enterprise Management System (SEMS) permit identifier
+	WeakIdentifierTypeUsaSemsId WeakIdentifierType = "usa_sems_id"
+	// Toxic Release Inventory (TRI) permit identifier
+	WeakIdentifierTypeUsaTriId WeakIdentifierType = "usa_tri_id"
+	// Toxic Substances Control Act (TSCA) permit identifier
+	WeakIdentifierTypeUsaTscaId WeakIdentifierType = "usa_tsca_id"
 	// Value-added tax ID number
 	WeakIdentifierTypeVat WeakIdentifierType = "vat"
 	// Identification number for Venezuelan comisarios
@@ -13280,6 +13340,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeDeuRegisternummer, nil
 	case "dma_corporate_registry_entity_num":
 		return WeakIdentifierTypeDmaCorporateRegistryEntityNum, nil
+	case "gbr_bankruptcy_case_num":
+		return WeakIdentifierTypeGbrBankruptcyCaseNum, nil
 	case "gbr_grant_info_number":
 		return WeakIdentifierTypeGbrGrantInfoNumber, nil
 	case "geo_state_registration_number":
@@ -13424,12 +13486,30 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeUnknownPassport, nil
 	case "unknown_residency_num":
 		return WeakIdentifierTypeUnknownResidencyNum, nil
+	case "usa_camdbs_id":
+		return WeakIdentifierTypeUsaCamdbsId, nil
 	case "usa_cbp_wro_id":
 		return WeakIdentifierTypeUsaCbpWroId, nil
+	case "usa_cedri_id":
+		return WeakIdentifierTypeUsaCedriId, nil
+	case "usa_eis_id":
+		return WeakIdentifierTypeUsaEisId, nil
+	case "usa_epa_facility_registry_system":
+		return WeakIdentifierTypeUsaEpaFacilityRegistrySystem, nil
 	case "usa_former_fein":
 		return WeakIdentifierTypeUsaFormerFein, nil
+	case "usa_frs_id":
+		return WeakIdentifierTypeUsaFrsId, nil
 	case "usa_generic_ticker":
 		return WeakIdentifierTypeUsaGenericTicker, nil
+	case "usa_ghgrp_id":
+		return WeakIdentifierTypeUsaGhgrpId, nil
+	case "usa_icis_air_id":
+		return WeakIdentifierTypeUsaIcisAirId, nil
+	case "usa_icis_id":
+		return WeakIdentifierTypeUsaIcisId, nil
+	case "usa_icis_npdes_id":
+		return WeakIdentifierTypeUsaIcisNpdesId, nil
 	case "usa_il_chicago_site_number":
 		return WeakIdentifierTypeUsaIlChicagoSiteNumber, nil
 	case "usa_imports_system_identity_id":
@@ -13444,6 +13524,18 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeUsaNcCorpNo, nil
 	case "usa_nm_license_id":
 		return WeakIdentifierTypeUsaNmLicenseId, nil
+	case "usa_rcra_info_id":
+		return WeakIdentifierTypeUsaRcraInfoId, nil
+	case "usa_rmp_id":
+		return WeakIdentifierTypeUsaRmpId, nil
+	case "usa_sdwis_id":
+		return WeakIdentifierTypeUsaSdwisId, nil
+	case "usa_sems_id":
+		return WeakIdentifierTypeUsaSemsId, nil
+	case "usa_tri_id":
+		return WeakIdentifierTypeUsaTriId, nil
+	case "usa_tsca_id":
+		return WeakIdentifierTypeUsaTscaId, nil
 	case "vat":
 		return WeakIdentifierTypeVat, nil
 	case "ven_colegiado_number":
