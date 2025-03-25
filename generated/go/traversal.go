@@ -452,12 +452,13 @@ func (t *TraversalRelationshipData) String() string {
 
 // OK
 type TraversalResponse struct {
-	MinDepth       int              `json:"min_depth" url:"min_depth"`
-	MaxDepth       int              `json:"max_depth" url:"max_depth"`
-	Relationships  []Relationships  `json:"relationships,omitempty" url:"relationships,omitempty"`
-	Countries      []Country        `json:"countries,omitempty" url:"countries,omitempty"`
-	Types          []string         `json:"types,omitempty" url:"types,omitempty"`
-	Name           string           `json:"name" url:"name"`
+	MinDepth      int             `json:"min_depth" url:"min_depth"`
+	MaxDepth      int             `json:"max_depth" url:"max_depth"`
+	Relationships []Relationships `json:"relationships,omitempty" url:"relationships,omitempty"`
+	Countries     []Country       `json:"countries,omitempty" url:"countries,omitempty"`
+	Types         []string        `json:"types,omitempty" url:"types,omitempty"`
+	Name          string          `json:"name" url:"name"`
+	// <Warning>This field is deprecated.</Warning>
 	Watchlist      bool             `json:"watchlist" url:"watchlist"`
 	Psa            bool             `json:"psa" url:"psa"`
 	Offset         int              `json:"offset" url:"offset"`
