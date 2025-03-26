@@ -51,8 +51,6 @@ type SearchRecord struct {
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"q" url:"-"`
-	// Record or entity fields to search against.
-	Fields []SearchField `json:"fields,omitempty" url:"-"`
 	// Filters to be applied to search query to limit the result-set.
 	Filter *FilterList `json:"filter,omitempty" url:"-"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
@@ -68,8 +66,6 @@ type SearchRecordGet struct {
 	Offset *int `json:"-" url:"offset,omitempty"`
 	// Query term. The syntax for the query parameter follows elasticsearch simple query string syntax. The includes the ability to use search operators and to perform nested queries. Must be url encoded.
 	Q string `json:"-" url:"q"`
-	// Record or entity fields to search against.
-	Fields []*SearchField `json:"-" url:"fields,omitempty"`
 	// Whether or not to return search facets in results giving counts by field. Defaults to false.
 	Facets *bool `json:"-" url:"facets,omitempty"`
 	// Set to true to enable full elasticsearch query string syntax which allows for fielded search and more complex operators. Note that the syntax is more strict and can result in empty result-sets. Defaults to false.
