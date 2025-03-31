@@ -11022,7 +11022,12 @@ const (
 	RiskControlledByAusSanctioned                                                Risk = "controlled_by_aus_sanctioned"
 	RiskControlledByEuSanctioned                                                 Risk = "controlled_by_eu_sanctioned"
 	RiskControlledByJpnSanctioned                                                Risk = "controlled_by_jpn_sanctioned"
+	RiskControlledByOfacFtoSanctioned                                            Risk = "controlled_by_ofac_fto_sanctioned"
+	RiskControlledByOfacIllicitDrugsEo14059Sanctioned                            Risk = "controlled_by_ofac_illicit_drugs_eo14059_sanctioned"
+	RiskControlledByOfacSdgtSanctioned                                           Risk = "controlled_by_ofac_sdgt_sanctioned"
 	RiskControlledByOfacSdn                                                      Risk = "controlled_by_ofac_sdn"
+	RiskControlledByOfacSdntSanctioned                                           Risk = "controlled_by_ofac_sdnt_sanctioned"
+	RiskControlledByOfacSdntkSanctioned                                          Risk = "controlled_by_ofac_sdntk_sanctioned"
 	RiskControlledByUkSanctioned                                                 Risk = "controlled_by_uk_sanctioned"
 	RiskControlledByUkrSanctioned                                                Risk = "controlled_by_ukr_sanctioned"
 	RiskControlledByUnSanctioned                                                 Risk = "controlled_by_un_sanctioned"
@@ -11113,14 +11118,24 @@ const (
 	RiskMilitaryCivilFusion50PercentRule                                         Risk = "military_civil_fusion_50_percent_rule"
 	RiskNdaa889CoveredEntities                                                   Risk = "ndaa_889_covered_entities"
 	RiskOfac50PercentRule                                                        Risk = "ofac_50_percent_rule"
+	RiskOfacFtoSanctioned                                                        Risk = "ofac_fto_sanctioned"
+	RiskOfacIllicitDrugsEo14059Sanctioned                                        Risk = "ofac_illicit_drugs_eo14059_sanctioned"
 	RiskOfacMinorityOwnership                                                    Risk = "ofac_minority_ownership"
+	RiskOfacSdgtSanctioned                                                       Risk = "ofac_sdgt_sanctioned"
 	RiskOfacSdn                                                                  Risk = "ofac_sdn"
+	RiskOfacSdntSanctioned                                                       Risk = "ofac_sdnt_sanctioned"
+	RiskOfacSdntkSanctioned                                                      Risk = "ofac_sdntk_sanctioned"
 	RiskOwnedByAspiForcedLaborEntity                                             Risk = "owned_by_aspi_forced_labor_entity"
 	RiskOwnedByBisMeuEntity                                                      Risk = "owned_by_bis_meu_entity"
 	RiskOwnedByCmicEntity                                                        Risk = "owned_by_cmic_entity"
 	RiskOwnedByEntityInExportControls                                            Risk = "owned_by_entity_in_export_controls"
 	RiskOwnedByForcedLaborXinjiangUflpa                                          Risk = "owned_by_forced_labor_xinjiang_uflpa"
 	RiskOwnedByMilitaryCivilFusion                                               Risk = "owned_by_military_civil_fusion"
+	RiskOwnedByOfacFtoSanctioned                                                 Risk = "owned_by_ofac_fto_sanctioned"
+	RiskOwnedByOfacIllicitDrugsEo14059Sanctioned                                 Risk = "owned_by_ofac_illicit_drugs_eo14059_sanctioned"
+	RiskOwnedByOfacSdgtSanctioned                                                Risk = "owned_by_ofac_sdgt_sanctioned"
+	RiskOwnedByOfacSdntSanctioned                                                Risk = "owned_by_ofac_sdnt_sanctioned"
+	RiskOwnedByOfacSdntkSanctioned                                               Risk = "owned_by_ofac_sdntk_sanctioned"
 	RiskOwnedBySanctionedEntity                                                  Risk = "owned_by_sanctioned_entity"
 	RiskOwnedBySection1260HEntity                                                Risk = "owned_by_section_1260h_entity"
 	RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity                 Risk = "owned_by_sheffield_hallam_university_reports_forced_labor_entity"
@@ -11131,6 +11146,11 @@ const (
 	RiskOwnerOfExportControlsEntity                                              Risk = "owner_of_export_controls_entity"
 	RiskOwnerOfForcedLaborXinjiangEntity                                         Risk = "owner_of_forced_labor_xinjiang_entity"
 	RiskOwnerOfForcedLaborXinjiangUflpa                                          Risk = "owner_of_forced_labor_xinjiang_uflpa"
+	RiskOwnerOfOfacFtoSanctioned                                                 Risk = "owner_of_ofac_fto_sanctioned"
+	RiskOwnerOfOfacIllicitDrugsEo14059Sanctioned                                 Risk = "owner_of_ofac_illicit_drugs_eo14059_sanctioned"
+	RiskOwnerOfOfacSdgtSanctioned                                                Risk = "owner_of_ofac_sdgt_sanctioned"
+	RiskOwnerOfOfacSdntSanctioned                                                Risk = "owner_of_ofac_sdnt_sanctioned"
+	RiskOwnerOfOfacSdntkSanctioned                                               Risk = "owner_of_ofac_sdntk_sanctioned"
 	RiskOwnerOfRegulatoryActionEntity                                            Risk = "owner_of_regulatory_action_entity"
 	RiskOwnerOfSanctionedEntity                                                  Risk = "owner_of_sanctioned_entity"
 	RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity                 Risk = "owner_of_sheffield_hallam_university_reports_forced_labor_entity"
@@ -11139,16 +11159,105 @@ const (
 	RiskPep                                                                      Risk = "pep"
 	RiskPepAdjacent                                                              Risk = "pep_adjacent"
 	RiskPsaBisBoycottRequesterList                                               Risk = "psa_bis_boycott_requester_list"
+	RiskPsaCmicEntity50PercentRule                                               Risk = "psa_cmic_entity_50_percent_rule"
 	RiskPsaEntityLicensedWithFsbRf                                               Risk = "psa_entity_licensed_with_fsb_rf"
+	RiskPsaEu50PercentRule                                                       Risk = "psa_eu_50_percent_rule"
+	RiskPsaEuMinorityOwnership                                                   Risk = "psa_eu_minority_ownership"
 	RiskPsaExportControls                                                        Risk = "psa_export_controls"
+	RiskPsaExportControlsBisEntity50PercentRule                                  Risk = "psa_export_controls_bis_entity_50_percent_rule"
+	RiskPsaExportControlsBisMeu50PercentRule                                     Risk = "psa_export_controls_bis_meu_50_percent_rule"
+	RiskPsaExportControlsSection1260H50PercentRule                               Risk = "psa_export_controls_section_1260h_50_percent_rule"
+	RiskPsaExportControlsUnverifiedList50PercentRule                             Risk = "psa_export_controls_unverified_list_50_percent_rule"
+	RiskPsaExportToSanctioned                                                    Risk = "psa_export_to_sanctioned"
+	RiskPsaExportToSoe                                                           Risk = "psa_export_to_soe"
+	RiskPsaExportsBisHighPriorityItems                                           Risk = "psa_exports_bis_high_priority_items"
+	RiskPsaExportsBisHighPriorityItemsCriticalComponents                         Risk = "psa_exports_bis_high_priority_items_critical_components"
+	RiskPsaExportsConflictMinerals                                               Risk = "psa_exports_conflict_minerals"
+	RiskPsaExportsEudrShipmentCattle                                             Risk = "psa_exports_eudr_shipment_cattle"
+	RiskPsaExportsEudrShipmentCocoa                                              Risk = "psa_exports_eudr_shipment_cocoa"
+	RiskPsaExportsEudrShipmentCoffee                                             Risk = "psa_exports_eudr_shipment_coffee"
+	RiskPsaExportsEudrShipmentPalmOil                                            Risk = "psa_exports_eudr_shipment_palm_oil"
+	RiskPsaExportsEudrShipmentRubber                                             Risk = "psa_exports_eudr_shipment_rubber"
+	RiskPsaExportsEudrShipmentSoya                                               Risk = "psa_exports_eudr_shipment_soya"
+	RiskPsaExportsEudrShipmentWood                                               Risk = "psa_exports_eudr_shipment_wood"
+	RiskPsaExportsIlabChildLabor                                                 Risk = "psa_exports_ilab_child_labor"
+	RiskPsaExportsIlabForcedLabor                                                Risk = "psa_exports_ilab_forced_labor"
+	RiskPsaExportsRussianCoal                                                    Risk = "psa_exports_russian_coal"
+	RiskPsaExportsRussianGold                                                    Risk = "psa_exports_russian_gold"
+	RiskPsaExportsRussianImportantGood                                           Risk = "psa_exports_russian_important_good"
+	RiskPsaExportsRussianOil                                                     Risk = "psa_exports_russian_oil"
+	RiskPsaExportsToBisAddressesHighDiversionRisk                                Risk = "psa_exports_to_bis_addresses_high_diversion_risk"
+	RiskPsaExportsToEntityLicensedWithFsbRf                                      Risk = "psa_exports_to_entity_licensed_with_fsb_rf"
+	RiskPsaForcedLaborAspiOriginDirect                                           Risk = "psa_forced_labor_aspi_origin_direct"
+	RiskPsaForcedLaborAspiOriginSubtier                                          Risk = "psa_forced_labor_aspi_origin_subtier"
 	RiskPsaForcedLaborAspiUyghur                                                 Risk = "psa_forced_labor_aspi_uyghur"
+	RiskPsaForcedLaborSheffieldHallamUniversityReportsOriginDirect               Risk = "psa_forced_labor_sheffield_hallam_university_reports_origin_direct"
+	RiskPsaForcedLaborSheffieldHallamUniversityReportsOriginSubtier              Risk = "psa_forced_labor_sheffield_hallam_university_reports_origin_subtier"
+	RiskPsaForcedLaborUflpaOriginDirect                                          Risk = "psa_forced_labor_uflpa_origin_direct"
+	RiskPsaForcedLaborUflpaOriginSubtier                                         Risk = "psa_forced_labor_uflpa_origin_subtier"
+	RiskPsaForcedLaborWroOriginDirect                                            Risk = "psa_forced_labor_wro_origin_direct"
+	RiskPsaForcedLaborWroOriginSubtier                                           Risk = "psa_forced_labor_wro_origin_subtier"
 	RiskPsaForcedLaborXinjiangCottonEntity                                       Risk = "psa_forced_labor_xinjiang_cotton_entity"
 	RiskPsaForcedLaborXinjiangGeospatial                                         Risk = "psa_forced_labor_xinjiang_geospatial"
 	RiskPsaForcedLaborXinjiangName                                               Risk = "psa_forced_labor_xinjiang_name"
 	RiskPsaForcedLaborXinjiangOperations                                         Risk = "psa_forced_labor_xinjiang_operations"
+	RiskPsaForcedLaborXinjiangOriginDirect                                       Risk = "psa_forced_labor_xinjiang_origin_direct"
+	RiskPsaForcedLaborXinjiangOriginSubtier                                      Risk = "psa_forced_labor_xinjiang_origin_subtier"
 	RiskPsaForcedLaborXinjiangRegistration                                       Risk = "psa_forced_labor_xinjiang_registration"
 	RiskPsaForcedLaborXinjiangUflpa                                              Risk = "psa_forced_labor_xinjiang_uflpa"
+	RiskPsaImportsBisHighPriorityItems                                           Risk = "psa_imports_bis_high_priority_items"
+	RiskPsaImportsBisHighPriorityItemsCriticalComponents                         Risk = "psa_imports_bis_high_priority_items_critical_components"
+	RiskPsaImportsConflictMinerals                                               Risk = "psa_imports_conflict_minerals"
+	RiskPsaImportsEudrShipmentCattle                                             Risk = "psa_imports_eudr_shipment_cattle"
+	RiskPsaImportsEudrShipmentCocoa                                              Risk = "psa_imports_eudr_shipment_cocoa"
+	RiskPsaImportsEudrShipmentCoffee                                             Risk = "psa_imports_eudr_shipment_coffee"
+	RiskPsaImportsEudrShipmentPalmOil                                            Risk = "psa_imports_eudr_shipment_palm_oil"
+	RiskPsaImportsEudrShipmentRubber                                             Risk = "psa_imports_eudr_shipment_rubber"
+	RiskPsaImportsEudrShipmentSoya                                               Risk = "psa_imports_eudr_shipment_soya"
+	RiskPsaImportsEudrShipmentWood                                               Risk = "psa_imports_eudr_shipment_wood"
+	RiskPsaImportsFromBisAddressesHighDiversionRisk                              Risk = "psa_imports_from_bis_addresses_high_diversion_risk"
+	RiskPsaImportsIlabChildLabor                                                 Risk = "psa_imports_ilab_child_labor"
+	RiskPsaImportsIlabForcedLabor                                                Risk = "psa_imports_ilab_forced_labor"
+	RiskPsaImportsNdaa889TelecomEquipment                                        Risk = "psa_imports_ndaa_889_telecom_equipment"
+	RiskPsaImportsRussianCoal                                                    Risk = "psa_imports_russian_coal"
+	RiskPsaImportsRussianGold                                                    Risk = "psa_imports_russian_gold"
+	RiskPsaImportsRussianImportantGood                                           Risk = "psa_imports_russian_important_good"
+	RiskPsaImportsRussianOil                                                     Risk = "psa_imports_russian_oil"
 	RiskPsaMilitaryCivilFusion                                                   Risk = "psa_military_civil_fusion"
+	RiskPsaMilitaryCivilFusion50PercentRule                                      Risk = "psa_military_civil_fusion_50_percent_rule"
+	RiskPsaOfac50PercentRule                                                     Risk = "psa_ofac_50_percent_rule"
+	RiskPsaOfacMinorityOwnership                                                 Risk = "psa_ofac_minority_ownership"
+	RiskPsaOwnedByAspiForcedLaborEntity                                          Risk = "psa_owned_by_aspi_forced_labor_entity"
+	RiskPsaOwnedByBisMeuEntity                                                   Risk = "psa_owned_by_bis_meu_entity"
+	RiskPsaOwnedByCmicEntity                                                     Risk = "psa_owned_by_cmic_entity"
+	RiskPsaOwnedByEntityInExportControls                                         Risk = "psa_owned_by_entity_in_export_controls"
+	RiskPsaOwnedByForcedLaborXinjiangUflpa                                       Risk = "psa_owned_by_forced_labor_xinjiang_uflpa"
+	RiskPsaOwnedByMilitaryCivilFusion                                            Risk = "psa_owned_by_military_civil_fusion"
+	RiskPsaOwnedByOfacFtoSanctioned                                              Risk = "psa_owned_by_ofac_fto_sanctioned"
+	RiskPsaOwnedByOfacIllicitDrugsEo14059Sanctioned                              Risk = "psa_owned_by_ofac_illicit_drugs_eo14059_sanctioned"
+	RiskPsaOwnedByOfacSdgtSanctioned                                             Risk = "psa_owned_by_ofac_sdgt_sanctioned"
+	RiskPsaOwnedByOfacSdntSanctioned                                             Risk = "psa_owned_by_ofac_sdnt_sanctioned"
+	RiskPsaOwnedByOfacSdntkSanctioned                                            Risk = "psa_owned_by_ofac_sdntk_sanctioned"
+	RiskPsaOwnedBySanctionedEntity                                               Risk = "psa_owned_by_sanctioned_entity"
+	RiskPsaOwnedBySection1260HEntity                                             Risk = "psa_owned_by_section_1260h_entity"
+	RiskPsaOwnedBySheffieldHallamUniversityReportsForcedLaborEntity              Risk = "psa_owned_by_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskPsaOwnedBySoe                                                            Risk = "psa_owned_by_soe"
+	RiskPsaOwnedByWroEntity                                                      Risk = "psa_owned_by_wro_entity"
+	RiskPsaOwnedByXinjiangEntity                                                 Risk = "psa_owned_by_xinjiang_entity"
+	RiskPsaOwnerOfAspiForcedLaborEntity                                          Risk = "psa_owner_of_aspi_forced_labor_entity"
+	RiskPsaOwnerOfExportControlsEntity                                           Risk = "psa_owner_of_export_controls_entity"
+	RiskPsaOwnerOfForcedLaborXinjiangEntity                                      Risk = "psa_owner_of_forced_labor_xinjiang_entity"
+	RiskPsaOwnerOfForcedLaborXinjiangUflpa                                       Risk = "psa_owner_of_forced_labor_xinjiang_uflpa"
+	RiskPsaOwnerOfOfacFtoSanctioned                                              Risk = "psa_owner_of_ofac_fto_sanctioned"
+	RiskPsaOwnerOfOfacIllicitDrugsEo14059Sanctioned                              Risk = "psa_owner_of_ofac_illicit_drugs_eo14059_sanctioned"
+	RiskPsaOwnerOfOfacSdgtSanctioned                                             Risk = "psa_owner_of_ofac_sdgt_sanctioned"
+	RiskPsaOwnerOfOfacSdntSanctioned                                             Risk = "psa_owner_of_ofac_sdnt_sanctioned"
+	RiskPsaOwnerOfOfacSdntkSanctioned                                            Risk = "psa_owner_of_ofac_sdntk_sanctioned"
+	RiskPsaOwnerOfRegulatoryActionEntity                                         Risk = "psa_owner_of_regulatory_action_entity"
+	RiskPsaOwnerOfSanctionedEntity                                               Risk = "psa_owner_of_sanctioned_entity"
+	RiskPsaOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity              Risk = "psa_owner_of_sheffield_hallam_university_reports_forced_labor_entity"
+	RiskPsaOwnerOfSoe                                                            Risk = "psa_owner_of_soe"
+	RiskPsaOwnerOfWroEntity                                                      Risk = "psa_owner_of_wro_entity"
 	RiskPsaPep                                                                   Risk = "psa_pep"
 	RiskPsaRegulatoryAction                                                      Risk = "psa_regulatory_action"
 	RiskPsaSanctioned                                                            Risk = "psa_sanctioned"
@@ -11157,6 +11266,9 @@ const (
 	RiskPsaSheffieldHallamUniversityUsefulResources                              Risk = "psa_sheffield_hallam_university_useful_resources"
 	RiskPsaStateOwned                                                            Risk = "psa_state_owned"
 	RiskPsaStateOwnedVen                                                         Risk = "psa_state_owned_ven"
+	RiskPsaUk50PercentRule                                                       Risk = "psa_uk_50_percent_rule"
+	RiskPsaUkMinorityOwnership                                                   Risk = "psa_uk_minority_ownership"
+	RiskPsaVenSoe50Percent                                                       Risk = "psa_ven_soe_50_percent"
 	RiskPsaWroEntity                                                             Risk = "psa_wro_entity"
 	RiskRegulatoryAction                                                         Risk = "regulatory_action"
 	RiskReputationalRiskBriberyAndCorruption                                     Risk = "reputational_risk_bribery_and_corruption"
@@ -11206,8 +11318,18 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskControlledByEuSanctioned, nil
 	case "controlled_by_jpn_sanctioned":
 		return RiskControlledByJpnSanctioned, nil
+	case "controlled_by_ofac_fto_sanctioned":
+		return RiskControlledByOfacFtoSanctioned, nil
+	case "controlled_by_ofac_illicit_drugs_eo14059_sanctioned":
+		return RiskControlledByOfacIllicitDrugsEo14059Sanctioned, nil
+	case "controlled_by_ofac_sdgt_sanctioned":
+		return RiskControlledByOfacSdgtSanctioned, nil
 	case "controlled_by_ofac_sdn":
 		return RiskControlledByOfacSdn, nil
+	case "controlled_by_ofac_sdnt_sanctioned":
+		return RiskControlledByOfacSdntSanctioned, nil
+	case "controlled_by_ofac_sdntk_sanctioned":
+		return RiskControlledByOfacSdntkSanctioned, nil
 	case "controlled_by_uk_sanctioned":
 		return RiskControlledByUkSanctioned, nil
 	case "controlled_by_ukr_sanctioned":
@@ -11388,10 +11510,20 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskNdaa889CoveredEntities, nil
 	case "ofac_50_percent_rule":
 		return RiskOfac50PercentRule, nil
+	case "ofac_fto_sanctioned":
+		return RiskOfacFtoSanctioned, nil
+	case "ofac_illicit_drugs_eo14059_sanctioned":
+		return RiskOfacIllicitDrugsEo14059Sanctioned, nil
 	case "ofac_minority_ownership":
 		return RiskOfacMinorityOwnership, nil
+	case "ofac_sdgt_sanctioned":
+		return RiskOfacSdgtSanctioned, nil
 	case "ofac_sdn":
 		return RiskOfacSdn, nil
+	case "ofac_sdnt_sanctioned":
+		return RiskOfacSdntSanctioned, nil
+	case "ofac_sdntk_sanctioned":
+		return RiskOfacSdntkSanctioned, nil
 	case "owned_by_aspi_forced_labor_entity":
 		return RiskOwnedByAspiForcedLaborEntity, nil
 	case "owned_by_bis_meu_entity":
@@ -11404,6 +11536,16 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedByForcedLaborXinjiangUflpa, nil
 	case "owned_by_military_civil_fusion":
 		return RiskOwnedByMilitaryCivilFusion, nil
+	case "owned_by_ofac_fto_sanctioned":
+		return RiskOwnedByOfacFtoSanctioned, nil
+	case "owned_by_ofac_illicit_drugs_eo14059_sanctioned":
+		return RiskOwnedByOfacIllicitDrugsEo14059Sanctioned, nil
+	case "owned_by_ofac_sdgt_sanctioned":
+		return RiskOwnedByOfacSdgtSanctioned, nil
+	case "owned_by_ofac_sdnt_sanctioned":
+		return RiskOwnedByOfacSdntSanctioned, nil
+	case "owned_by_ofac_sdntk_sanctioned":
+		return RiskOwnedByOfacSdntkSanctioned, nil
 	case "owned_by_sanctioned_entity":
 		return RiskOwnedBySanctionedEntity, nil
 	case "owned_by_section_1260h_entity":
@@ -11424,6 +11566,16 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnerOfForcedLaborXinjiangEntity, nil
 	case "owner_of_forced_labor_xinjiang_uflpa":
 		return RiskOwnerOfForcedLaborXinjiangUflpa, nil
+	case "owner_of_ofac_fto_sanctioned":
+		return RiskOwnerOfOfacFtoSanctioned, nil
+	case "owner_of_ofac_illicit_drugs_eo14059_sanctioned":
+		return RiskOwnerOfOfacIllicitDrugsEo14059Sanctioned, nil
+	case "owner_of_ofac_sdgt_sanctioned":
+		return RiskOwnerOfOfacSdgtSanctioned, nil
+	case "owner_of_ofac_sdnt_sanctioned":
+		return RiskOwnerOfOfacSdntSanctioned, nil
+	case "owner_of_ofac_sdntk_sanctioned":
+		return RiskOwnerOfOfacSdntkSanctioned, nil
 	case "owner_of_regulatory_action_entity":
 		return RiskOwnerOfRegulatoryActionEntity, nil
 	case "owner_of_sanctioned_entity":
@@ -11440,12 +11592,82 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPepAdjacent, nil
 	case "psa_bis_boycott_requester_list":
 		return RiskPsaBisBoycottRequesterList, nil
+	case "psa_cmic_entity_50_percent_rule":
+		return RiskPsaCmicEntity50PercentRule, nil
 	case "psa_entity_licensed_with_fsb_rf":
 		return RiskPsaEntityLicensedWithFsbRf, nil
+	case "psa_eu_50_percent_rule":
+		return RiskPsaEu50PercentRule, nil
+	case "psa_eu_minority_ownership":
+		return RiskPsaEuMinorityOwnership, nil
 	case "psa_export_controls":
 		return RiskPsaExportControls, nil
+	case "psa_export_controls_bis_entity_50_percent_rule":
+		return RiskPsaExportControlsBisEntity50PercentRule, nil
+	case "psa_export_controls_bis_meu_50_percent_rule":
+		return RiskPsaExportControlsBisMeu50PercentRule, nil
+	case "psa_export_controls_section_1260h_50_percent_rule":
+		return RiskPsaExportControlsSection1260H50PercentRule, nil
+	case "psa_export_controls_unverified_list_50_percent_rule":
+		return RiskPsaExportControlsUnverifiedList50PercentRule, nil
+	case "psa_export_to_sanctioned":
+		return RiskPsaExportToSanctioned, nil
+	case "psa_export_to_soe":
+		return RiskPsaExportToSoe, nil
+	case "psa_exports_bis_high_priority_items":
+		return RiskPsaExportsBisHighPriorityItems, nil
+	case "psa_exports_bis_high_priority_items_critical_components":
+		return RiskPsaExportsBisHighPriorityItemsCriticalComponents, nil
+	case "psa_exports_conflict_minerals":
+		return RiskPsaExportsConflictMinerals, nil
+	case "psa_exports_eudr_shipment_cattle":
+		return RiskPsaExportsEudrShipmentCattle, nil
+	case "psa_exports_eudr_shipment_cocoa":
+		return RiskPsaExportsEudrShipmentCocoa, nil
+	case "psa_exports_eudr_shipment_coffee":
+		return RiskPsaExportsEudrShipmentCoffee, nil
+	case "psa_exports_eudr_shipment_palm_oil":
+		return RiskPsaExportsEudrShipmentPalmOil, nil
+	case "psa_exports_eudr_shipment_rubber":
+		return RiskPsaExportsEudrShipmentRubber, nil
+	case "psa_exports_eudr_shipment_soya":
+		return RiskPsaExportsEudrShipmentSoya, nil
+	case "psa_exports_eudr_shipment_wood":
+		return RiskPsaExportsEudrShipmentWood, nil
+	case "psa_exports_ilab_child_labor":
+		return RiskPsaExportsIlabChildLabor, nil
+	case "psa_exports_ilab_forced_labor":
+		return RiskPsaExportsIlabForcedLabor, nil
+	case "psa_exports_russian_coal":
+		return RiskPsaExportsRussianCoal, nil
+	case "psa_exports_russian_gold":
+		return RiskPsaExportsRussianGold, nil
+	case "psa_exports_russian_important_good":
+		return RiskPsaExportsRussianImportantGood, nil
+	case "psa_exports_russian_oil":
+		return RiskPsaExportsRussianOil, nil
+	case "psa_exports_to_bis_addresses_high_diversion_risk":
+		return RiskPsaExportsToBisAddressesHighDiversionRisk, nil
+	case "psa_exports_to_entity_licensed_with_fsb_rf":
+		return RiskPsaExportsToEntityLicensedWithFsbRf, nil
+	case "psa_forced_labor_aspi_origin_direct":
+		return RiskPsaForcedLaborAspiOriginDirect, nil
+	case "psa_forced_labor_aspi_origin_subtier":
+		return RiskPsaForcedLaborAspiOriginSubtier, nil
 	case "psa_forced_labor_aspi_uyghur":
 		return RiskPsaForcedLaborAspiUyghur, nil
+	case "psa_forced_labor_sheffield_hallam_university_reports_origin_direct":
+		return RiskPsaForcedLaborSheffieldHallamUniversityReportsOriginDirect, nil
+	case "psa_forced_labor_sheffield_hallam_university_reports_origin_subtier":
+		return RiskPsaForcedLaborSheffieldHallamUniversityReportsOriginSubtier, nil
+	case "psa_forced_labor_uflpa_origin_direct":
+		return RiskPsaForcedLaborUflpaOriginDirect, nil
+	case "psa_forced_labor_uflpa_origin_subtier":
+		return RiskPsaForcedLaborUflpaOriginSubtier, nil
+	case "psa_forced_labor_wro_origin_direct":
+		return RiskPsaForcedLaborWroOriginDirect, nil
+	case "psa_forced_labor_wro_origin_subtier":
+		return RiskPsaForcedLaborWroOriginSubtier, nil
 	case "psa_forced_labor_xinjiang_cotton_entity":
 		return RiskPsaForcedLaborXinjiangCottonEntity, nil
 	case "psa_forced_labor_xinjiang_geospatial":
@@ -11454,12 +11676,120 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaForcedLaborXinjiangName, nil
 	case "psa_forced_labor_xinjiang_operations":
 		return RiskPsaForcedLaborXinjiangOperations, nil
+	case "psa_forced_labor_xinjiang_origin_direct":
+		return RiskPsaForcedLaborXinjiangOriginDirect, nil
+	case "psa_forced_labor_xinjiang_origin_subtier":
+		return RiskPsaForcedLaborXinjiangOriginSubtier, nil
 	case "psa_forced_labor_xinjiang_registration":
 		return RiskPsaForcedLaborXinjiangRegistration, nil
 	case "psa_forced_labor_xinjiang_uflpa":
 		return RiskPsaForcedLaborXinjiangUflpa, nil
+	case "psa_imports_bis_high_priority_items":
+		return RiskPsaImportsBisHighPriorityItems, nil
+	case "psa_imports_bis_high_priority_items_critical_components":
+		return RiskPsaImportsBisHighPriorityItemsCriticalComponents, nil
+	case "psa_imports_conflict_minerals":
+		return RiskPsaImportsConflictMinerals, nil
+	case "psa_imports_eudr_shipment_cattle":
+		return RiskPsaImportsEudrShipmentCattle, nil
+	case "psa_imports_eudr_shipment_cocoa":
+		return RiskPsaImportsEudrShipmentCocoa, nil
+	case "psa_imports_eudr_shipment_coffee":
+		return RiskPsaImportsEudrShipmentCoffee, nil
+	case "psa_imports_eudr_shipment_palm_oil":
+		return RiskPsaImportsEudrShipmentPalmOil, nil
+	case "psa_imports_eudr_shipment_rubber":
+		return RiskPsaImportsEudrShipmentRubber, nil
+	case "psa_imports_eudr_shipment_soya":
+		return RiskPsaImportsEudrShipmentSoya, nil
+	case "psa_imports_eudr_shipment_wood":
+		return RiskPsaImportsEudrShipmentWood, nil
+	case "psa_imports_from_bis_addresses_high_diversion_risk":
+		return RiskPsaImportsFromBisAddressesHighDiversionRisk, nil
+	case "psa_imports_ilab_child_labor":
+		return RiskPsaImportsIlabChildLabor, nil
+	case "psa_imports_ilab_forced_labor":
+		return RiskPsaImportsIlabForcedLabor, nil
+	case "psa_imports_ndaa_889_telecom_equipment":
+		return RiskPsaImportsNdaa889TelecomEquipment, nil
+	case "psa_imports_russian_coal":
+		return RiskPsaImportsRussianCoal, nil
+	case "psa_imports_russian_gold":
+		return RiskPsaImportsRussianGold, nil
+	case "psa_imports_russian_important_good":
+		return RiskPsaImportsRussianImportantGood, nil
+	case "psa_imports_russian_oil":
+		return RiskPsaImportsRussianOil, nil
 	case "psa_military_civil_fusion":
 		return RiskPsaMilitaryCivilFusion, nil
+	case "psa_military_civil_fusion_50_percent_rule":
+		return RiskPsaMilitaryCivilFusion50PercentRule, nil
+	case "psa_ofac_50_percent_rule":
+		return RiskPsaOfac50PercentRule, nil
+	case "psa_ofac_minority_ownership":
+		return RiskPsaOfacMinorityOwnership, nil
+	case "psa_owned_by_aspi_forced_labor_entity":
+		return RiskPsaOwnedByAspiForcedLaborEntity, nil
+	case "psa_owned_by_bis_meu_entity":
+		return RiskPsaOwnedByBisMeuEntity, nil
+	case "psa_owned_by_cmic_entity":
+		return RiskPsaOwnedByCmicEntity, nil
+	case "psa_owned_by_entity_in_export_controls":
+		return RiskPsaOwnedByEntityInExportControls, nil
+	case "psa_owned_by_forced_labor_xinjiang_uflpa":
+		return RiskPsaOwnedByForcedLaborXinjiangUflpa, nil
+	case "psa_owned_by_military_civil_fusion":
+		return RiskPsaOwnedByMilitaryCivilFusion, nil
+	case "psa_owned_by_ofac_fto_sanctioned":
+		return RiskPsaOwnedByOfacFtoSanctioned, nil
+	case "psa_owned_by_ofac_illicit_drugs_eo14059_sanctioned":
+		return RiskPsaOwnedByOfacIllicitDrugsEo14059Sanctioned, nil
+	case "psa_owned_by_ofac_sdgt_sanctioned":
+		return RiskPsaOwnedByOfacSdgtSanctioned, nil
+	case "psa_owned_by_ofac_sdnt_sanctioned":
+		return RiskPsaOwnedByOfacSdntSanctioned, nil
+	case "psa_owned_by_ofac_sdntk_sanctioned":
+		return RiskPsaOwnedByOfacSdntkSanctioned, nil
+	case "psa_owned_by_sanctioned_entity":
+		return RiskPsaOwnedBySanctionedEntity, nil
+	case "psa_owned_by_section_1260h_entity":
+		return RiskPsaOwnedBySection1260HEntity, nil
+	case "psa_owned_by_sheffield_hallam_university_reports_forced_labor_entity":
+		return RiskPsaOwnedBySheffieldHallamUniversityReportsForcedLaborEntity, nil
+	case "psa_owned_by_soe":
+		return RiskPsaOwnedBySoe, nil
+	case "psa_owned_by_wro_entity":
+		return RiskPsaOwnedByWroEntity, nil
+	case "psa_owned_by_xinjiang_entity":
+		return RiskPsaOwnedByXinjiangEntity, nil
+	case "psa_owner_of_aspi_forced_labor_entity":
+		return RiskPsaOwnerOfAspiForcedLaborEntity, nil
+	case "psa_owner_of_export_controls_entity":
+		return RiskPsaOwnerOfExportControlsEntity, nil
+	case "psa_owner_of_forced_labor_xinjiang_entity":
+		return RiskPsaOwnerOfForcedLaborXinjiangEntity, nil
+	case "psa_owner_of_forced_labor_xinjiang_uflpa":
+		return RiskPsaOwnerOfForcedLaborXinjiangUflpa, nil
+	case "psa_owner_of_ofac_fto_sanctioned":
+		return RiskPsaOwnerOfOfacFtoSanctioned, nil
+	case "psa_owner_of_ofac_illicit_drugs_eo14059_sanctioned":
+		return RiskPsaOwnerOfOfacIllicitDrugsEo14059Sanctioned, nil
+	case "psa_owner_of_ofac_sdgt_sanctioned":
+		return RiskPsaOwnerOfOfacSdgtSanctioned, nil
+	case "psa_owner_of_ofac_sdnt_sanctioned":
+		return RiskPsaOwnerOfOfacSdntSanctioned, nil
+	case "psa_owner_of_ofac_sdntk_sanctioned":
+		return RiskPsaOwnerOfOfacSdntkSanctioned, nil
+	case "psa_owner_of_regulatory_action_entity":
+		return RiskPsaOwnerOfRegulatoryActionEntity, nil
+	case "psa_owner_of_sanctioned_entity":
+		return RiskPsaOwnerOfSanctionedEntity, nil
+	case "psa_owner_of_sheffield_hallam_university_reports_forced_labor_entity":
+		return RiskPsaOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity, nil
+	case "psa_owner_of_soe":
+		return RiskPsaOwnerOfSoe, nil
+	case "psa_owner_of_wro_entity":
+		return RiskPsaOwnerOfWroEntity, nil
 	case "psa_pep":
 		return RiskPsaPep, nil
 	case "psa_regulatory_action":
@@ -11476,6 +11806,12 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaStateOwned, nil
 	case "psa_state_owned_ven":
 		return RiskPsaStateOwnedVen, nil
+	case "psa_uk_50_percent_rule":
+		return RiskPsaUk50PercentRule, nil
+	case "psa_uk_minority_ownership":
+		return RiskPsaUkMinorityOwnership, nil
+	case "psa_ven_soe_50_percent":
+		return RiskPsaVenSoe50Percent, nil
 	case "psa_wro_entity":
 		return RiskPsaWroEntity, nil
 	case "regulatory_action":
@@ -11538,13 +11874,14 @@ func (r Risk) Ptr() *Risk {
 type RiskCategories string
 
 const (
-	RiskCategoriesForcedLabor       RiskCategories = "forced_labor"
-	RiskCategoriesExportControls    RiskCategories = "export_controls"
-	RiskCategoriesSanctions         RiskCategories = "sanctions"
-	RiskCategoriesPoliticalExposure RiskCategories = "political_exposure"
-	RiskCategoriesEnvironmentalRisk RiskCategories = "environmental_risk"
-	RiskCategoriesRegulatoryAction  RiskCategories = "regulatory_action"
-	RiskCategoriesAdverseMedia      RiskCategories = "adverse_media"
+	RiskCategoriesForcedLabor               RiskCategories = "forced_labor"
+	RiskCategoriesExportControls            RiskCategories = "export_controls"
+	RiskCategoriesSanctions                 RiskCategories = "sanctions"
+	RiskCategoriesPoliticalExposure         RiskCategories = "political_exposure"
+	RiskCategoriesEnvironmentalRisk         RiskCategories = "environmental_risk"
+	RiskCategoriesRegulatoryAction          RiskCategories = "regulatory_action"
+	RiskCategoriesAdverseMedia              RiskCategories = "adverse_media"
+	RiskCategoriesPossiblySameAsNetworkRisk RiskCategories = "possibly_same_as_network_risk"
 )
 
 func NewRiskCategoriesFromString(s string) (RiskCategories, error) {
@@ -11563,6 +11900,8 @@ func NewRiskCategoriesFromString(s string) (RiskCategories, error) {
 		return RiskCategoriesRegulatoryAction, nil
 	case "adverse_media":
 		return RiskCategoriesAdverseMedia, nil
+	case "possibly_same_as_network_risk":
+		return RiskCategoriesPossiblySameAsNetworkRisk, nil
 	}
 	var t RiskCategories
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
