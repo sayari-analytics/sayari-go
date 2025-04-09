@@ -101,8 +101,8 @@ type Traversal struct {
 	ExcludeFormerRelationships *bool `json:"-" url:"exclude_former_relationships,omitempty"`
 	// Include entities that existed in the past but not at the present time. Defaults to false.
 	ExcludeClosedEntities *bool `json:"-" url:"exclude_closed_entities,omitempty"`
-	// Filter paths to only those that relate with an entity that we have flagged with any risk factor of these categories
-	RiskCategories *TraversalRiskCategory `json:"-" url:"risk_categories,omitempty"`
+	// Filter paths to only those that include an entity associated with any risk factor belonging to one of the specified categories.
+	RiskCategories []RiskCategory `json:"-" url:"risk_categories,omitempty"`
 	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
 	EuHighRiskThird *bool `json:"-" url:"eu_high_risk_third,omitempty"`
 	// Filter paths to only those that relate with an entity that we have flagged with this risk factor
@@ -619,27 +619,27 @@ func (t *TraversalResponse) String() string {
 }
 
 type TraversalRiskCategory struct {
-	// Matches specific risk category
-	RiskCategoriesList []RiskCategories
+	// Filter paths to only those that include an entity associated with any risk factor belonging to one of the specified categories.
+	RiskCategoryList []RiskCategory
 	// Matches a custom risk category
 	String string
 
 	typ string
 }
 
-func NewTraversalRiskCategoryFromRiskCategoriesList(value []RiskCategories) *TraversalRiskCategory {
-	return &TraversalRiskCategory{typ: "RiskCategoriesList", RiskCategoriesList: value}
+func NewTraversalRiskCategoryFromRiskCategoryList(value []RiskCategory) *TraversalRiskCategory {
+	return &TraversalRiskCategory{typ: "RiskCategoryList", RiskCategoryList: value}
 }
 
 func NewTraversalRiskCategoryFromString(value string) *TraversalRiskCategory {
 	return &TraversalRiskCategory{typ: "String", String: value}
 }
 
-func (t *TraversalRiskCategory) GetRiskCategoriesList() []RiskCategories {
+func (t *TraversalRiskCategory) GetRiskCategoryList() []RiskCategory {
 	if t == nil {
 		return nil
 	}
-	return t.RiskCategoriesList
+	return t.RiskCategoryList
 }
 
 func (t *TraversalRiskCategory) GetString() string {
@@ -650,10 +650,10 @@ func (t *TraversalRiskCategory) GetString() string {
 }
 
 func (t *TraversalRiskCategory) UnmarshalJSON(data []byte) error {
-	var valueRiskCategoriesList []RiskCategories
-	if err := json.Unmarshal(data, &valueRiskCategoriesList); err == nil {
-		t.typ = "RiskCategoriesList"
-		t.RiskCategoriesList = valueRiskCategoriesList
+	var valueRiskCategoryList []RiskCategory
+	if err := json.Unmarshal(data, &valueRiskCategoryList); err == nil {
+		t.typ = "RiskCategoryList"
+		t.RiskCategoryList = valueRiskCategoryList
 		return nil
 	}
 	var valueString string
@@ -666,8 +666,8 @@ func (t *TraversalRiskCategory) UnmarshalJSON(data []byte) error {
 }
 
 func (t TraversalRiskCategory) MarshalJSON() ([]byte, error) {
-	if t.typ == "RiskCategoriesList" || t.RiskCategoriesList != nil {
-		return json.Marshal(t.RiskCategoriesList)
+	if t.typ == "RiskCategoryList" || t.RiskCategoryList != nil {
+		return json.Marshal(t.RiskCategoryList)
 	}
 	if t.typ == "String" || t.String != "" {
 		return json.Marshal(t.String)
@@ -676,13 +676,13 @@ func (t TraversalRiskCategory) MarshalJSON() ([]byte, error) {
 }
 
 type TraversalRiskCategoryVisitor interface {
-	VisitRiskCategoriesList([]RiskCategories) error
+	VisitRiskCategoryList([]RiskCategory) error
 	VisitString(string) error
 }
 
 func (t *TraversalRiskCategory) Accept(visitor TraversalRiskCategoryVisitor) error {
-	if t.typ == "RiskCategoriesList" || t.RiskCategoriesList != nil {
-		return visitor.VisitRiskCategoriesList(t.RiskCategoriesList)
+	if t.typ == "RiskCategoryList" || t.RiskCategoryList != nil {
+		return visitor.VisitRiskCategoryList(t.RiskCategoryList)
 	}
 	if t.typ == "String" || t.String != "" {
 		return visitor.VisitString(t.String)
