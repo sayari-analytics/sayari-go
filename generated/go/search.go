@@ -228,7 +228,9 @@ type FilterList struct {
 	// Pipe-delimited bounding box coordinates (north,west,south,east). E.g., '"46.12|-76|45|-75"'.
 	Bounds []string `json:"bounds,omitempty" url:"bounds,omitempty"`
 	// List of risk factors to filter by.
-	Risk *RiskFactor `json:"risk,omitempty" url:"risk,omitempty"`
+	Risk []Risk `json:"risk,omitempty" url:"risk,omitempty"`
+	// List of risk categories to filter by. An entity matches if it has any risk factor belonging to one of the specified categories.
+	RiskCategory []RiskCategory `json:"risk_category,omitempty" url:"risk_category,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -276,11 +278,18 @@ func (f *FilterList) GetBounds() []string {
 	return f.Bounds
 }
 
-func (f *FilterList) GetRisk() *RiskFactor {
+func (f *FilterList) GetRisk() []Risk {
 	if f == nil {
 		return nil
 	}
 	return f.Risk
+}
+
+func (f *FilterList) GetRiskCategory() []RiskCategory {
+	if f == nil {
+		return nil
+	}
+	return f.RiskCategory
 }
 
 func (f *FilterList) GetExtraProperties() map[string]interface{} {

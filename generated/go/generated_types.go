@@ -11871,43 +11871,43 @@ func (r Risk) Ptr() *Risk {
 	return &r
 }
 
-type RiskCategories string
+type RiskCategory string
 
 const (
-	RiskCategoriesForcedLabor               RiskCategories = "forced_labor"
-	RiskCategoriesExportControls            RiskCategories = "export_controls"
-	RiskCategoriesSanctions                 RiskCategories = "sanctions"
-	RiskCategoriesPoliticalExposure         RiskCategories = "political_exposure"
-	RiskCategoriesEnvironmentalRisk         RiskCategories = "environmental_risk"
-	RiskCategoriesRegulatoryAction          RiskCategories = "regulatory_action"
-	RiskCategoriesAdverseMedia              RiskCategories = "adverse_media"
-	RiskCategoriesPossiblySameAsNetworkRisk RiskCategories = "possibly_same_as_network_risk"
+	RiskCategoryAdverseMedia              RiskCategory = "adverse_media"
+	RiskCategoryEnvironmentalRisk         RiskCategory = "environmental_risk"
+	RiskCategoryExportControls            RiskCategory = "export_controls"
+	RiskCategoryForcedLabor               RiskCategory = "forced_labor"
+	RiskCategoryPoliticalExposure         RiskCategory = "political_exposure"
+	RiskCategoryPossiblySameAsNetworkRisk RiskCategory = "possibly_same_as_network_risk"
+	RiskCategoryRegulatoryAction          RiskCategory = "regulatory_action"
+	RiskCategorySanctions                 RiskCategory = "sanctions"
 )
 
-func NewRiskCategoriesFromString(s string) (RiskCategories, error) {
+func NewRiskCategoryFromString(s string) (RiskCategory, error) {
 	switch s {
-	case "forced_labor":
-		return RiskCategoriesForcedLabor, nil
-	case "export_controls":
-		return RiskCategoriesExportControls, nil
-	case "sanctions":
-		return RiskCategoriesSanctions, nil
-	case "political_exposure":
-		return RiskCategoriesPoliticalExposure, nil
-	case "environmental_risk":
-		return RiskCategoriesEnvironmentalRisk, nil
-	case "regulatory_action":
-		return RiskCategoriesRegulatoryAction, nil
 	case "adverse_media":
-		return RiskCategoriesAdverseMedia, nil
+		return RiskCategoryAdverseMedia, nil
+	case "environmental_risk":
+		return RiskCategoryEnvironmentalRisk, nil
+	case "export_controls":
+		return RiskCategoryExportControls, nil
+	case "forced_labor":
+		return RiskCategoryForcedLabor, nil
+	case "political_exposure":
+		return RiskCategoryPoliticalExposure, nil
 	case "possibly_same_as_network_risk":
-		return RiskCategoriesPossiblySameAsNetworkRisk, nil
+		return RiskCategoryPossiblySameAsNetworkRisk, nil
+	case "regulatory_action":
+		return RiskCategoryRegulatoryAction, nil
+	case "sanctions":
+		return RiskCategorySanctions, nil
 	}
-	var t RiskCategories
+	var t RiskCategory
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (r RiskCategories) Ptr() *RiskCategories {
+func (r RiskCategory) Ptr() *RiskCategory {
 	return &r
 }
 
