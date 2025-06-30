@@ -21,7 +21,7 @@ type GetProjectEntities struct {
 	EntityTypes []*Entities `json:"-" url:"entity_types,omitempty"`
 	// Whether to include geo facets in the response. Defaults to false.
 	GeoFacets *bool `json:"-" url:"geo_facets,omitempty"`
-	// Only return entities with the specified HS code(s).
+	// Only return entities with the specified HS code(s) in their supply chain.
 	HsCodes []*string `json:"-" url:"hs_codes,omitempty"`
 	// Only return entities that received the specified HS code(s).
 	ReceivedHsCodes []*string `json:"-" url:"received_hs_codes,omitempty"`
@@ -1183,10 +1183,22 @@ type ProjectEntitiesFilter struct {
 	UpstreamRiskTiers []UpstreamTiers `json:"upstream_risk_tiers,omitempty" url:"upstream_risk_tiers,omitempty"`
 	// Filter by [country](/sayari-library/ontology/enumerated-types#country).
 	Country []Country `json:"country,omitempty" url:"country,omitempty"`
-	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country).
+	// <Warning>This filter is deprecated.</Warning> Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country).
 	UpstreamCountry []Country `json:"upstream_country,omitempty" url:"upstream_country,omitempty"`
-	// Filter by upstream (supply chain) tiers that has one or more countries
+	// <Warning>This filter is deprecated.</Warning> Filter by upstream (supply chain) tiers that has one or more countries
 	UpstreamCountryTiers []UpstreamTiers `json:"upstream_country_tiers,omitempty" url:"upstream_country_tiers,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at any tier.
+	ShipmentCountry []Country `json:"shipment_country,omitempty" url:"shipment_country,omitempty"`
+	// Filter by [country](/sayari-library/ontology/enumerated-types#country) at tier 0.
+	Tier0ShipmentCountry []Country `json:"tier0_shipment_country,omitempty" url:"tier0_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 1.
+	Tier1ShipmentCountry []Country `json:"tier1_shipment_country,omitempty" url:"tier1_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 2.
+	Tier2ShipmentCountry []Country `json:"tier2_shipment_country,omitempty" url:"tier2_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 3.
+	Tier3ShipmentCountry []Country `json:"tier3_shipment_country,omitempty" url:"tier3_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 4.
+	Tier4ShipmentCountry []Country `json:"tier4_shipment_country,omitempty" url:"tier4_shipment_country,omitempty"`
 	// Filter by HS code, HS code description, or business description.
 	BusinessPurpose []string `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
 	// Filter by entity label with fuzzy matching.
@@ -1204,9 +1216,8 @@ type ProjectEntitiesFilter struct {
 	// Filter by risk factor `category`, e.g. `sanctions`. At least one risk factor from each provided category must be present.
 	RiskCategory []string `json:"risk_category,omitempty" url:"risk_category,omitempty"`
 	// Filter by a geographical bounding box. The value is a pipe-delimited set of four values representing the top, left, bottom, and right sides of the bounding box, in that order. The pipes should be URL-encoded as `%7C`. The top coordinate must greater than the bottom coordinate, and the left coordinate must be less than the right coordinate. A sample is `55.680357237879136|-71.53607290158526|41.10876347746233|-40.963927098414736`
-	Bounds *string `json:"bounds,omitempty" url:"bounds,omitempty"`
-	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom_" and value must be "string" type)
-	CustomFieldName []string `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
+	Bounds          *string           `json:"bounds,omitempty" url:"bounds,omitempty"`
+	CustomFieldName *CustomFieldValue `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -1252,6 +1263,48 @@ func (p *ProjectEntitiesFilter) GetUpstreamCountryTiers() []UpstreamTiers {
 		return nil
 	}
 	return p.UpstreamCountryTiers
+}
+
+func (p *ProjectEntitiesFilter) GetShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier0ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier0ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier1ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier1ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier2ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier2ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier3ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier3ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier4ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier4ShipmentCountry
 }
 
 func (p *ProjectEntitiesFilter) GetBusinessPurpose() []string {
@@ -1317,7 +1370,7 @@ func (p *ProjectEntitiesFilter) GetBounds() *string {
 	return p.Bounds
 }
 
-func (p *ProjectEntitiesFilter) GetCustomFieldName() []string {
+func (p *ProjectEntitiesFilter) GetCustomFieldName() *CustomFieldValue {
 	if p == nil {
 		return nil
 	}

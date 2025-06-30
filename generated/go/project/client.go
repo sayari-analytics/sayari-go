@@ -32,7 +32,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// Create a new project
+// Create a new project.
 func (c *Client) CreateProject(
 	ctx context.Context,
 	request *generatedgo.CreateProjectRequest,
@@ -180,7 +180,7 @@ func (c *Client) GetProjects(
 	return response, nil
 }
 
-// Retrieve a list of entities in a project.
+// <Warning>This endpoint is deprecated.</Warning> Retrieve a list of entities in a project.
 func (c *Client) GetProjectEntities(
 	ctx context.Context,
 	// The project identifier.
