@@ -31,7 +31,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// Execute a traversal of the upstream trade network (supply chain) of an entity, returning a set of entities and edges between them
+// Execute a traversal of the upstream trade network (supply chain) of an entity, returning a set of entities and edges between them.
 func (c *Client) UpstreamTradeTraversal(
 	ctx context.Context,
 	// The root entity identifier.

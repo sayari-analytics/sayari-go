@@ -558,11 +558,10 @@ type ResolutionPersistedResponseFields struct {
 	DateOfBirth []string `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
 	Contact     []string `json:"contact,omitempty" url:"contact,omitempty"`
 	// [Entity type](/sayari-library/ontology/entities)
-	Type []Entities `json:"type,omitempty" url:"type,omitempty"`
-	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom_" and value must be "string" type)
-	CustomFieldName  *string `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
-	CustomName       *string `json:"custom_name,omitempty" url:"custom_name,omitempty"`
-	CustomIdentifier *string `json:"custom_identifier,omitempty" url:"custom_identifier,omitempty"`
+	Type             []Entities        `json:"type,omitempty" url:"type,omitempty"`
+	CustomFieldName  *CustomFieldValue `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
+	CustomName       *string           `json:"custom_name,omitempty" url:"custom_name,omitempty"`
+	CustomIdentifier *string           `json:"custom_identifier,omitempty" url:"custom_identifier,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -624,7 +623,7 @@ func (r *ResolutionPersistedResponseFields) GetType() []Entities {
 	return r.Type
 }
 
-func (r *ResolutionPersistedResponseFields) GetCustomFieldName() *string {
+func (r *ResolutionPersistedResponseFields) GetCustomFieldName() *CustomFieldValue {
 	if r == nil {
 		return nil
 	}

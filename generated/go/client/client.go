@@ -12,8 +12,10 @@ import (
 	metadata "github.com/sayari-analytics/sayari-go/generated/go/metadata"
 	negativenews "github.com/sayari-analytics/sayari-go/generated/go/negativenews"
 	notifications "github.com/sayari-analytics/sayari-go/generated/go/notifications"
+	ontology "github.com/sayari-analytics/sayari-go/generated/go/ontology"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	project "github.com/sayari-analytics/sayari-go/generated/go/project"
+	projectentity "github.com/sayari-analytics/sayari-go/generated/go/projectentity"
 	record "github.com/sayari-analytics/sayari-go/generated/go/record"
 	resolution "github.com/sayari-analytics/sayari-go/generated/go/resolution"
 	resource "github.com/sayari-analytics/sayari-go/generated/go/resource"
@@ -37,6 +39,8 @@ type Client struct {
 	Metadata      *metadata.Client
 	NegativeNews  *negativenews.Client
 	Notifications *notifications.Client
+	Ontology      *ontology.Client
+	ProjectEntity *projectentity.Client
 	Project       *project.Client
 	Record        *record.Client
 	Resolution    *resolution.Client
@@ -66,6 +70,8 @@ func NewClient(opts ...option.RequestOption) *Client {
 		Metadata:      metadata.NewClient(opts...),
 		NegativeNews:  negativenews.NewClient(opts...),
 		Notifications: notifications.NewClient(opts...),
+		Ontology:      ontology.NewClient(opts...),
+		ProjectEntity: projectentity.NewClient(opts...),
 		Project:       project.NewClient(opts...),
 		Record:        record.NewClient(opts...),
 		Resolution:    resolution.NewClient(opts...),

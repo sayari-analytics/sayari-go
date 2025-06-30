@@ -31,7 +31,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// Returns metadata for all sources that Sayari collects data from
+// <Warning>This endpoint is deprecated. Use /v1/ontology/sources instead.</Warning> Returns metadata for all sources that Sayari collects data from
 func (c *Client) ListSources(
 	ctx context.Context,
 	request *generatedgo.ListSources,
@@ -103,7 +103,7 @@ func (c *Client) ListSources(
 	return response, nil
 }
 
-// Returns metadata for a source that Sayari collects data from
+// <Warning>This endpoint is deprecated. Use /v1/ontology/sources instead.</Warning> Returns metadata for a source that Sayari collects data from
 func (c *Client) GetSource(
 	ctx context.Context,
 	// The unique identifier for a source in the database

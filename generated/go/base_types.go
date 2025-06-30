@@ -30,6 +30,9 @@ func (c CountQualifier) Ptr() *CountQualifier {
 	return &c
 }
 
+// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom_" and value must be "string" type)
+type CustomFieldValue = *string
+
 // Response fields that represent unbounded collections, such as a search result or an entity's attributes or relationships, or a record's references, can all be paginated in cases where the collection is larger than can be efficiently returned in a single request.
 type PaginatedResponse struct {
 	Limit int             `json:"limit" url:"limit"`
