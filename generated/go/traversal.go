@@ -452,23 +452,21 @@ func (t *TraversalRelationshipData) String() string {
 
 // OK
 type TraversalResponse struct {
-	MinDepth      int             `json:"min_depth" url:"min_depth"`
-	MaxDepth      int             `json:"max_depth" url:"max_depth"`
-	Relationships []Relationships `json:"relationships,omitempty" url:"relationships,omitempty"`
-	Countries     []Country       `json:"countries,omitempty" url:"countries,omitempty"`
-	Types         []string        `json:"types,omitempty" url:"types,omitempty"`
-	Name          string          `json:"name" url:"name"`
-	// <Warning>This field is deprecated.</Warning>
-	Watchlist      bool             `json:"watchlist" url:"watchlist"`
+	MinDepth       int              `json:"min_depth" url:"min_depth"`
+	MaxDepth       int              `json:"max_depth" url:"max_depth"`
+	Relationships  []Relationships  `json:"relationships,omitempty" url:"relationships,omitempty"`
+	Countries      []Country        `json:"countries,omitempty" url:"countries,omitempty"`
+	Types          []string         `json:"types,omitempty" url:"types,omitempty"`
+	Name           string           `json:"name" url:"name"`
 	Psa            bool             `json:"psa" url:"psa"`
 	Offset         int              `json:"offset" url:"offset"`
 	Limit          int              `json:"limit" url:"limit"`
 	Next           bool             `json:"next" url:"next"`
-	PartialResults bool             `json:"partial_results" url:"partial_results"`
 	Data           []*TraversalData `json:"data,omitempty" url:"data,omitempty"`
 	Sanctioned     *bool            `json:"sanctioned,omitempty" url:"sanctioned,omitempty"`
 	Pep            *bool            `json:"pep,omitempty" url:"pep,omitempty"`
 	ExploredCount  int              `json:"explored_count" url:"explored_count"`
+	PartialResults bool             `json:"partial_results" url:"partial_results"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -516,13 +514,6 @@ func (t *TraversalResponse) GetName() string {
 	return t.Name
 }
 
-func (t *TraversalResponse) GetWatchlist() bool {
-	if t == nil {
-		return false
-	}
-	return t.Watchlist
-}
-
 func (t *TraversalResponse) GetPsa() bool {
 	if t == nil {
 		return false
@@ -551,13 +542,6 @@ func (t *TraversalResponse) GetNext() bool {
 	return t.Next
 }
 
-func (t *TraversalResponse) GetPartialResults() bool {
-	if t == nil {
-		return false
-	}
-	return t.PartialResults
-}
-
 func (t *TraversalResponse) GetData() []*TraversalData {
 	if t == nil {
 		return nil
@@ -584,6 +568,13 @@ func (t *TraversalResponse) GetExploredCount() int {
 		return 0
 	}
 	return t.ExploredCount
+}
+
+func (t *TraversalResponse) GetPartialResults() bool {
+	if t == nil {
+		return false
+	}
+	return t.PartialResults
 }
 
 func (t *TraversalResponse) GetExtraProperties() map[string]interface{} {
