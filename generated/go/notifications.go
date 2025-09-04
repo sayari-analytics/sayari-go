@@ -200,27 +200,18 @@ func (n NotificationsSortField) Ptr() *NotificationsSortField {
 }
 
 type ProjectNotificationData struct {
-	// The ID of the entity
-	Id string `json:"id" url:"id"`
 	// The ID of the saved resource
 	ResourceId string `json:"resource_id" url:"resource_id"`
 	// The ID of the entity
 	EntityId      string          `json:"entity_id" url:"entity_id"`
 	Notifications []*Notification `json:"notifications,omitempty" url:"notifications,omitempty"`
 	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom_" and value must be "string" type)
-	CustomFields interface{} `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
+	CustomFields map[string]interface{} `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
 	// Aggregated risk notifications
 	RiskNotifications *ProjectNotificationRiskData `json:"risk_notifications,omitempty" url:"risk_notifications,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
-}
-
-func (p *ProjectNotificationData) GetId() string {
-	if p == nil {
-		return ""
-	}
-	return p.Id
 }
 
 func (p *ProjectNotificationData) GetResourceId() string {
@@ -244,7 +235,7 @@ func (p *ProjectNotificationData) GetNotifications() []*Notification {
 	return p.Notifications
 }
 
-func (p *ProjectNotificationData) GetCustomFields() interface{} {
+func (p *ProjectNotificationData) GetCustomFields() map[string]interface{} {
 	if p == nil {
 		return nil
 	}
@@ -357,28 +348,12 @@ func (p *ProjectNotificationRiskData) String() string {
 
 // OK
 type ProjectNotificationsResponse struct {
-	Offset int                        `json:"offset" url:"offset"`
-	Limit  int                        `json:"limit" url:"limit"`
-	Next   bool                       `json:"next" url:"next"`
-	Data   []*ProjectNotificationData `json:"data,omitempty" url:"data,omitempty"`
-	Size   *QualifiedCount            `json:"size,omitempty" url:"size,omitempty"`
+	Next bool                       `json:"next" url:"next"`
+	Data []*ProjectNotificationData `json:"data,omitempty" url:"data,omitempty"`
+	Size *QualifiedCount            `json:"size,omitempty" url:"size,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
-}
-
-func (p *ProjectNotificationsResponse) GetOffset() int {
-	if p == nil {
-		return 0
-	}
-	return p.Offset
-}
-
-func (p *ProjectNotificationsResponse) GetLimit() int {
-	if p == nil {
-		return 0
-	}
-	return p.Limit
 }
 
 func (p *ProjectNotificationsResponse) GetNext() bool {

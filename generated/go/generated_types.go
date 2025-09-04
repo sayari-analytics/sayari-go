@@ -763,6 +763,8 @@ const (
 	AddressTypeOperations AddressType = "operations"
 	// An address at which an entity has a physical presence
 	AddressTypePhysical AddressType = "physical"
+	// An address at which an individual was born
+	AddressTypePlaceOfBirth AddressType = "place_of_birth"
 	// The address reported by the importer for where a shipment is received
 	AddressTypeReceiverAddress AddressType = "receiver_address"
 	// An address an entity has listed for its registration
@@ -787,6 +789,8 @@ func NewAddressTypeFromString(s string) (AddressType, error) {
 		return AddressTypeOperations, nil
 	case "physical":
 		return AddressTypePhysical, nil
+	case "place_of_birth":
+		return AddressTypePlaceOfBirth, nil
 	case "receiver_address":
 		return AddressTypeReceiverAddress, nil
 	case "registered":
@@ -1548,6 +1552,22 @@ const (
 	BusinessPurposeStandardTol2008 BusinessPurposeStandard = "TOL2008"
 	// การจัดประเภทมาตรฐานอุตสาหกรรมประเทศไทย ปี 2552 - Thailand Standard Industrial Classification, Rev. 2009
 	BusinessPurposeStandardTsic2552 BusinessPurposeStandard = "TSIC2552"
+	// Canada Goods and Services Identification Number
+	BusinessPurposeStandardCanGsin BusinessPurposeStandard = "can_gsin"
+	// Canada Economic Object Classification
+	BusinessPurposeStandardCanObjectCode BusinessPurposeStandard = "can_object_code"
+	// European Union Common Procurement Vocabulary
+	BusinessPurposeStandardEuCpv BusinessPurposeStandard = "eu_cpv"
+	// UK Grant Program Code
+	BusinessPurposeStandardGbrGrantProgrammeCode BusinessPurposeStandard = "gbr_grant_programme_code"
+	// Russia Classification of Products by Economic Activity
+	BusinessPurposeStandardRusOkdp BusinessPurposeStandard = "rus_okdp"
+	// Russia Classification of Products by Economic Activity, Rev. 2014
+	BusinessPurposeStandardRusOkpd2 BusinessPurposeStandard = "rus_okpd2"
+	// Russia Classification of Types of Economic Activity
+	BusinessPurposeStandardRusOkved BusinessPurposeStandard = "rus_okved"
+	// USA Product or Service Code
+	BusinessPurposeStandardUsaPsc BusinessPurposeStandard = "usa_psc"
 )
 
 func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, error) {
@@ -1614,6 +1634,22 @@ func NewBusinessPurposeStandardFromString(s string) (BusinessPurposeStandard, er
 		return BusinessPurposeStandardTol2008, nil
 	case "TSIC2552":
 		return BusinessPurposeStandardTsic2552, nil
+	case "can_gsin":
+		return BusinessPurposeStandardCanGsin, nil
+	case "can_object_code":
+		return BusinessPurposeStandardCanObjectCode, nil
+	case "eu_cpv":
+		return BusinessPurposeStandardEuCpv, nil
+	case "gbr_grant_programme_code":
+		return BusinessPurposeStandardGbrGrantProgrammeCode, nil
+	case "rus_okdp":
+		return BusinessPurposeStandardRusOkdp, nil
+	case "rus_okpd2":
+		return BusinessPurposeStandardRusOkpd2, nil
+	case "rus_okved":
+		return BusinessPurposeStandardRusOkved, nil
+	case "usa_psc":
+		return BusinessPurposeStandardUsaPsc, nil
 	}
 	var t BusinessPurposeStandard
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -3233,6 +3269,8 @@ const (
 	CountryContextActivityIn CountryContext = "activity_in"
 	// The country of an entity address
 	CountryContextAddress CountryContext = "address"
+	// Award Country
+	CountryContextAwardingCountry CountryContext = "awarding_country"
 	// The reported citizenship of a person
 	CountryContextCitizenship CountryContext = "citizenship"
 	// e.g., "Country of incorporation", "Jurisdiction of formation", "Organized under the laws of". A company can operate in multiple countries, but can only have one domicile at a time.
@@ -3267,6 +3305,8 @@ func NewCountryContextFromString(s string) (CountryContext, error) {
 		return CountryContextActivityIn, nil
 	case "address":
 		return CountryContextAddress, nil
+	case "awarding_country":
+		return CountryContextAwardingCountry, nil
 	case "citizenship":
 		return CountryContextCitizenship, nil
 	case "domicile":
@@ -4555,8 +4595,12 @@ const (
 	EntitiesAircraft Entities = "aircraft"
 	// A legal entity or organization
 	EntitiesCompany Entities = "company"
+	// The formal acceptance of a supplier's bid, proposal or application by a government agency or authorized representative.
+	EntitiesContract Entities = "contract"
 	// A generic placeholder entity. Rarely used. A generic entity typically does not fit any other entity type.
 	EntitiesGeneric Entities = "generic"
+	// Government agency and or authorized representative engaged in public procurement.
+	EntitiesGovernmentOrganization Entities = "government_organization"
 	// A trademark, patent, copyright, or similar type of intangible property
 	EntitiesIntellectualProperty Entities = "intellectual_property"
 	// A civil or criminal legal case or similar type of proceeding
@@ -4587,8 +4631,12 @@ func NewEntitiesFromString(s string) (Entities, error) {
 		return EntitiesAircraft, nil
 	case "company":
 		return EntitiesCompany, nil
+	case "contract":
+		return EntitiesContract, nil
 	case "generic":
 		return EntitiesGeneric, nil
+	case "government_organization":
+		return EntitiesGovernmentOrganization, nil
 	case "intellectual_property":
 		return EntitiesIntellectualProperty, nil
 	case "legal_matter":
@@ -5068,8 +5116,30 @@ func (f *FinancialsInfo) String() string {
 }
 
 type FinancialsProperties struct {
+	// Trade payables for the purchase of materials and supplies to be used in the production of goods or in providing of services and are due in customary trade terms within one year or within the normal operating cycle of the company.
+	AccountsPayable *float64 `json:"accounts_payable,omitempty" url:"accounts_payable,omitempty"`
+	// Write-off of any intangible or tangible fixed assets by the company and includes any value charged towards restructuring of operations.
+	AssetWriteoff *float64 `json:"asset_writeoff,omitempty" url:"asset_writeoff,omitempty"`
 	// The total value of assets owned by a company
 	Assets *float64 `json:"assets,omitempty" url:"assets,omitempty"`
+	// Profitability metric that indicates how much profit a company generates for each outstanding share of common stock.
+	BasicEps *float64 `json:"basic_eps,omitempty" url:"basic_eps,omitempty"`
+	// Total Cash and Equivalent
+	CashAndEquivalent *float64 `json:"cash_and_equivalent,omitempty" url:"cash_and_equivalent,omitempty"`
+	// Net cash used or generated in financing activities, during the stated period of time.
+	CashFinancing *float64 `json:"cash_financing,omitempty" url:"cash_financing,omitempty"`
+	// Net cash used or generated in investing activities, during the stated period of time.
+	CashInvesting *float64 `json:"cash_investing,omitempty" url:"cash_investing,omitempty"`
+	// Net cash used or generated in operating activities, during the stated period of time.
+	CashOperations *float64 `json:"cash_operations,omitempty" url:"cash_operations,omitempty"`
+	// Increase or decrease in accounts payable by the company during the stated period.
+	ChangeAccountsPayable *float64 `json:"change_accounts_payable,omitempty" url:"change_accounts_payable,omitempty"`
+	// Increase or decrease in the accounts receivable of the company during the stated period.
+	ChangeAccountsReceivable *float64 `json:"change_accounts_receivable,omitempty" url:"change_accounts_receivable,omitempty"`
+	// Change in the inventory of the company reflected in the operating section of cash flow statement.
+	ChangeInventory *float64 `json:"change_inventory,omitempty" url:"change_inventory,omitempty"`
+	// Total Common Stock
+	CommonStock *float64 `json:"common_stock,omitempty" url:"common_stock,omitempty"`
 	// Reporting currency
 	Currency *Currency `json:"currency,omitempty" url:"currency,omitempty"`
 	// as-of date of attribute
@@ -5080,21 +5150,77 @@ type FinancialsProperties struct {
 	Extra map[string]interface{} `json:"extra,omitempty" url:"extra,omitempty"`
 	// start date of attribute
 	FromDate *string `json:"from_date,omitempty" url:"from_date,omitempty"`
+	// Total Gross Profit
+	GrossProfit *float64 `json:"gross_profit,omitempty" url:"gross_profit,omitempty"`
+	// Interest expense (net of capitalized interest) incurred by the company on the debt taken. Also includes debt procurement costs, and dividend paid by parent company on the preferred stock of its subsidiary or on trust preferred securities reported in the income statement.
+	InterestExpense *float64 `json:"interest_expense,omitempty" url:"interest_expense,omitempty"`
+	// Total Inventory
+	Inventory *float64 `json:"inventory,omitempty" url:"inventory,omitempty"`
+	// The total cash inflow received from issuing new common shares during the reporting period.
+	IssuedCommonStock *float64 `json:"issued_common_stock,omitempty" url:"issued_common_stock,omitempty"`
+	// Costs incurred in legal disputes or receipts from legal settlements received by the company and reflected on the income statement.
+	LegalSettlements *float64 `json:"legal_settlements,omitempty" url:"legal_settlements,omitempty"`
 	// Sum of the combined debts a company owes
 	Liabilities *float64 `json:"liabilities,omitempty" url:"liabilities,omitempty"`
+	// Net increase or decrease in cash and cash equivalents during the stated period of time. Sum of cash flows from operating activities, investing activities and financing activities plus foreign exchange rate adjustments and other miscellaneous cash flows.
+	NetChangeCash *float64 `json:"net_change_cash,omitempty" url:"net_change_cash,omitempty"`
 	// Company's earnings for a period after subtracting operating costs, taxes, and interest
 	NetIncome *float64 `json:"net_income,omitempty" url:"net_income,omitempty"`
+	// Reported Operating Income
+	OperatingIncome *float64 `json:"operating_income,omitempty" url:"operating_income,omitempty"`
 	// Paid-up capital is the capital already held by the company
 	PaidUpCapital *float64 `json:"paid_up_capital,omitempty" url:"paid_up_capital,omitempty"`
+	// Costs incurred by a company on the development of a new product, innovation relating to technology formulation, process development, or on the process undertaken in upgrading the existing product or service line.
+	RdExpenses *float64 `json:"rd_expenses,omitempty" url:"rd_expenses,omitempty"`
 	// Registered capital is the maximum amount of share capital that a company is authorized to raise
 	RegisteredCapital *float64 `json:"registered_capital,omitempty" url:"registered_capital,omitempty"`
+	// Reporting period type
+	ReportingPeriodType *ReportingPeriodType `json:"reporting_period_type,omitempty" url:"reporting_period_type,omitempty"`
 	// The total amount of income generated by the sale of goods or services related to the company's primary operations
 	Revenue *float64 `json:"revenue,omitempty" url:"revenue,omitempty"`
+	// Cash flows obtained by the company through the sale of property, plant, and equipment.
+	SalePpe *float64 `json:"sale_ppe,omitempty" url:"sale_ppe,omitempty"`
 	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
+	// The sum of total debt and all types of equity of a company.
+	TotalCapitalization *float64 `json:"total_capitalization,omitempty" url:"total_capitalization,omitempty"`
+	// Assets which are expected to be converted into cash or used in the production of revenue within a period of twelve months.
+	TotalCurrentAssets *float64 `json:"total_current_assets,omitempty" url:"total_current_assets,omitempty"`
+	// The total amount of a company’s short-term financial obligations that are due within one year, such as accounts payable, short-term loans, and wages payable
+	TotalCurrentLiabilities *float64 `json:"total_current_liabilities,omitempty" url:"total_current_liabilities,omitempty"`
+	// Total Debt
+	TotalDebt *float64 `json:"total_debt,omitempty" url:"total_debt,omitempty"`
+	// Cash inflow from issuance of debt.
+	TotalDebtIssued *float64 `json:"total_debt_issued,omitempty" url:"total_debt_issued,omitempty"`
+	// Cash outflows towards dividends or distributions, either to common or preferred stockholders during the relevant period. The value paid may relate to pending dividend of earlier period also.
+	TotalDividends *float64 `json:"total_dividends,omitempty" url:"total_dividends,omitempty"`
+	// Equity as defined under the indicated accounting principles. Includes par value, paid in capital, retained earnings, and other adjustments to equity.
+	TotalEquity *float64 `json:"total_equity,omitempty" url:"total_equity,omitempty"`
+	// All liabilities (current and long-term) as of the date indicated, as carried on the balance sheet.
+	TotalLiabilities *float64 `json:"total_liabilities,omitempty" url:"total_liabilities,omitempty"`
+	// The costs a business incurs to maintain its day-to-day operations, excluding the cost of goods sold.
+	TotalOperatingExpenses *float64 `json:"total_operating_expenses,omitempty" url:"total_operating_expenses,omitempty"`
+	// Summation of accounts receivable - trade, accounts receivable - other, and loans receivable current.
+	TotalReceivables *float64 `json:"total_receivables,omitempty" url:"total_receivables,omitempty"`
+	// Sum of all income or expenses that are deemed infrequent and not typical of a company's ordinary operations.
+	UnusualItems *float64 `json:"unusual_items,omitempty" url:"unusual_items,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
+}
+
+func (f *FinancialsProperties) GetAccountsPayable() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.AccountsPayable
+}
+
+func (f *FinancialsProperties) GetAssetWriteoff() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.AssetWriteoff
 }
 
 func (f *FinancialsProperties) GetAssets() *float64 {
@@ -5102,6 +5228,69 @@ func (f *FinancialsProperties) GetAssets() *float64 {
 		return nil
 	}
 	return f.Assets
+}
+
+func (f *FinancialsProperties) GetBasicEps() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.BasicEps
+}
+
+func (f *FinancialsProperties) GetCashAndEquivalent() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.CashAndEquivalent
+}
+
+func (f *FinancialsProperties) GetCashFinancing() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.CashFinancing
+}
+
+func (f *FinancialsProperties) GetCashInvesting() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.CashInvesting
+}
+
+func (f *FinancialsProperties) GetCashOperations() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.CashOperations
+}
+
+func (f *FinancialsProperties) GetChangeAccountsPayable() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.ChangeAccountsPayable
+}
+
+func (f *FinancialsProperties) GetChangeAccountsReceivable() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.ChangeAccountsReceivable
+}
+
+func (f *FinancialsProperties) GetChangeInventory() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.ChangeInventory
+}
+
+func (f *FinancialsProperties) GetCommonStock() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.CommonStock
 }
 
 func (f *FinancialsProperties) GetCurrency() *Currency {
@@ -5139,11 +5328,53 @@ func (f *FinancialsProperties) GetFromDate() *string {
 	return f.FromDate
 }
 
+func (f *FinancialsProperties) GetGrossProfit() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.GrossProfit
+}
+
+func (f *FinancialsProperties) GetInterestExpense() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.InterestExpense
+}
+
+func (f *FinancialsProperties) GetInventory() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.Inventory
+}
+
+func (f *FinancialsProperties) GetIssuedCommonStock() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.IssuedCommonStock
+}
+
+func (f *FinancialsProperties) GetLegalSettlements() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.LegalSettlements
+}
+
 func (f *FinancialsProperties) GetLiabilities() *float64 {
 	if f == nil {
 		return nil
 	}
 	return f.Liabilities
+}
+
+func (f *FinancialsProperties) GetNetChangeCash() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.NetChangeCash
 }
 
 func (f *FinancialsProperties) GetNetIncome() *float64 {
@@ -5153,11 +5384,25 @@ func (f *FinancialsProperties) GetNetIncome() *float64 {
 	return f.NetIncome
 }
 
+func (f *FinancialsProperties) GetOperatingIncome() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.OperatingIncome
+}
+
 func (f *FinancialsProperties) GetPaidUpCapital() *float64 {
 	if f == nil {
 		return nil
 	}
 	return f.PaidUpCapital
+}
+
+func (f *FinancialsProperties) GetRdExpenses() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.RdExpenses
 }
 
 func (f *FinancialsProperties) GetRegisteredCapital() *float64 {
@@ -5167,6 +5412,13 @@ func (f *FinancialsProperties) GetRegisteredCapital() *float64 {
 	return f.RegisteredCapital
 }
 
+func (f *FinancialsProperties) GetReportingPeriodType() *ReportingPeriodType {
+	if f == nil {
+		return nil
+	}
+	return f.ReportingPeriodType
+}
+
 func (f *FinancialsProperties) GetRevenue() *float64 {
 	if f == nil {
 		return nil
@@ -5174,11 +5426,95 @@ func (f *FinancialsProperties) GetRevenue() *float64 {
 	return f.Revenue
 }
 
+func (f *FinancialsProperties) GetSalePpe() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.SalePpe
+}
+
 func (f *FinancialsProperties) GetToDate() *string {
 	if f == nil {
 		return nil
 	}
 	return f.ToDate
+}
+
+func (f *FinancialsProperties) GetTotalCapitalization() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalCapitalization
+}
+
+func (f *FinancialsProperties) GetTotalCurrentAssets() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalCurrentAssets
+}
+
+func (f *FinancialsProperties) GetTotalCurrentLiabilities() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalCurrentLiabilities
+}
+
+func (f *FinancialsProperties) GetTotalDebt() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalDebt
+}
+
+func (f *FinancialsProperties) GetTotalDebtIssued() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalDebtIssued
+}
+
+func (f *FinancialsProperties) GetTotalDividends() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalDividends
+}
+
+func (f *FinancialsProperties) GetTotalEquity() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalEquity
+}
+
+func (f *FinancialsProperties) GetTotalLiabilities() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalLiabilities
+}
+
+func (f *FinancialsProperties) GetTotalOperatingExpenses() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalOperatingExpenses
+}
+
+func (f *FinancialsProperties) GetTotalReceivables() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.TotalReceivables
+}
+
+func (f *FinancialsProperties) GetUnusualItems() *float64 {
+	if f == nil {
+		return nil
+	}
+	return f.UnusualItems
 }
 
 func (f *FinancialsProperties) GetExtraProperties() map[string]interface{} {
@@ -6040,6 +6376,8 @@ const (
 	IdentifierTypeAusPassport IdentifierType = "aus_passport"
 	// Austrian Company Register Number
 	IdentifierTypeAutFirmenbuchNo IdentifierType = "aut_firmenbuch_no"
+	// Austria VAT Identification Number -  Tax Identification Number. 11-digit ID, starting with 'ATU'+8 digits. For businesses, the structure of the Austrian VAT number (UID-Nummer) starts with the prefix “AT” (country code), followed by the letter “U” (Umsatzsteuer) and by 8 unique digits.
+	IdentifierTypeAutUid IdentifierType = "aut_uid"
 	// Azerbaijan TIN. Unique number assigned to taxpayers registered with Azerbaijan State Tax Service.
 	IdentifierTypeAzeTinNumber IdentifierType = "aze_tin_number"
 	// Unique business Identification number. Assigned to every registered business in Bangladesh.
@@ -6052,12 +6390,16 @@ const (
 	IdentifierTypeBelFsmaNameHash IdentifierType = "bel_fsma_name_hash"
 	// Belgium unique natural person ID number.
 	IdentifierTypeBelNationalRegisterNo IdentifierType = "bel_national_register_no"
+	// Value-added tax identification number in Belgium.
+	IdentifierTypeBelVatNumber IdentifierType = "bel_vat_number"
 	// Burkina Faso tax ID number
 	IdentifierTypeBfaEntityId IdentifierType = "bfa_entity_id"
 	// OHADA corporate registry ID number
 	IdentifierTypeBfaRccmNumber IdentifierType = "bfa_rccm_number"
 	// Bangladesh Passport Number
 	IdentifierTypeBgdPassport IdentifierType = "bgd_passport"
+	// Bangladesh TIN (Tax Identification Number) - a 12-digit number assigned to individuals and entities by the National Board of Revenue (NBR) for tax purposes.
+	IdentifierTypeBgdTin IdentifierType = "bgd_tin"
 	// A hashed representation of a Bulgarian citizenship number
 	IdentifierTypeBgrEgnHashed IdentifierType = "bgr_egn_hashed"
 	// Unique Identification Code for all legal and other entities engaged in business activities in Bulgaria
@@ -6147,12 +6489,16 @@ const (
 	IdentifierTypeCanNsCorporateRegistry IdentifierType = "can_ns_corporate_registry"
 	// Unique Canada province ID number. Assigned to every entity registered with the Prince Edward Island Corporate Registry.
 	IdentifierTypeCanPeRegistrationNumber IdentifierType = "can_pe_registration_number"
+	// Canada Québec Register of Money Services Businesses license number assigned to entities authorized to conduct money services in Québec.
+	IdentifierTypeCanQcMbsNum IdentifierType = "can_qc_mbs_num"
 	// Penalty number assigned by the  Quebec Ministry of the Environment, the Fight against Climate Change, Wildlife and Parks to each entity listed as offender in the Register of Administrative Monetary Penalties for non-compliance with environmental laws and regulations.
 	IdentifierTypeCanQcSapRegistryRefNum IdentifierType = "can_qc_sap_registry_ref_num"
 	// Internal Identifier used by Techsalerator to identify published companies
 	IdentifierTypeCanTechsaleratorId IdentifierType = "can_techsalerator_id"
 	// Unique Canada ID number. Assigned to every registered trademark.
 	IdentifierTypeCanTmRegistrationNo IdentifierType = "can_tm_registration_no"
+	// Unique identifier assigned to entities registered with the CCAMLR for fishing activities in the Southern Ocean.
+	IdentifierTypeCcamlrRfmoId IdentifierType = "ccamlr_rfmo_id"
 	// CCS Vessel Registration Number
 	IdentifierTypeCcsRegistration IdentifierType = "ccs_registration"
 	IdentifierTypeCheChIdNumber   IdentifierType = "che_ch_id_number"
@@ -6192,6 +6538,8 @@ const (
 	IdentifierTypeChnShenzenSecCode IdentifierType = "chn_shenzen_sec_code"
 	// Cameroon Tax Registration Number. Unique number assigned to taxpayers in Cameroon and issued by the Directorate General of Tax.
 	IdentifierTypeCmNuiTaxRegNum IdentifierType = "cm_nui_tax_reg_num"
+	// A unique identifier representing an Entity in the CMA universe for Credit Default Swaps (CDS) data.
+	IdentifierTypeCmaId IdentifierType = "cma_id"
 	// Unique Hong Kong tax ID number. Assigned to every company registered with the Hong Kong Business Registration Office.
 	IdentifierTypeCnHkBrNumber IdentifierType = "cn_hk_br_number"
 	// A Hong Kong CR Number
@@ -6202,6 +6550,8 @@ const (
 	IdentifierTypeCnHurdInternalCompanyId IdentifierType = "cn_hurd_internal_company_id"
 	// China customs code for import and export. May include China USCC; China OC; U.S. SSN; or U.S. EIN.
 	IdentifierTypeCnImportexportCode IdentifierType = "cn_importexport_code"
+	// Identifier assigned to investment funds in the People's Republic of China for regulatory, tracking, and reporting purposes.
+	IdentifierTypeCnInvestCode IdentifierType = "cn_invest_code"
 	// A Chinese company organization code
 	IdentifierTypeCnOrganizationCode IdentifierType = "cn_organization_code"
 	// Part of a Qichacha URL, used to uniquely identify people within the site
@@ -6277,6 +6627,8 @@ const (
 	IdentifierTypeDeuBafinId IdentifierType = "deu_bafin_id"
 	// Germany commercial registry ID number concatenated with registry district court XJustiz ID code
 	IdentifierTypeDeuRegisternummer IdentifierType = "deu_registernummer"
+	// Value-added tax identification number in Germany (Umsatzsteuer-Identifikationsnummer). Unique identification of a legal entity that participates in the VAT trade in goods or services.
+	IdentifierTypeDeuVatNumber IdentifierType = "deu_vat_number"
 	// Djibouti corporate registry ID number
 	IdentifierTypeDjiRcsNumber IdentifierType = "dji_rcs_number"
 	// Dominica Business Registry Internal ID
@@ -6315,6 +6667,8 @@ const (
 	IdentifierTypeEspBeCode IdentifierType = "esp_be_code"
 	// Value taken from datos registrales section used to identify companies in the Borme. Not an official identifier.
 	IdentifierTypeEspBormeRegId IdentifierType = "esp_borme_reg_id"
+	// Spain company national registration and tax ID number (certificado de identificación fiscal). CIF is the tax identification number that identifies a company or legal entity in Spain.
+	IdentifierTypeEspCif IdentifierType = "esp_cif"
 	// Spain Internal Employee Number
 	IdentifierTypeEspInternalEmployeeNumber IdentifierType = "esp_internal_employee_number"
 	// Spain NIF Number
@@ -6332,8 +6686,16 @@ const (
 	// EU European Commission sanctions list ID number
 	IdentifierTypeEuSanctionRn IdentifierType = "eu_sanction_rn"
 	IdentifierTypeEuid         IdentifierType = "euid"
+	// The FDIC Certificate ID is a unique numeric value that of to 5 digits. It is assigned to each depository institution by the Federal Deposit Insurance Corporation (FDIC).
+	IdentifierTypeFdicNum IdentifierType = "fdic_num"
+	// The Fed Financial Institution ID (or RSSD ID) is a unique identifier assigned to financial institutions by the Federal Reserve. While the length of the RSSD ID varies by institution, it cannot exceed 10 numerical digits.
+	IdentifierTypeFedFinId IdentifierType = "fed_fin_id"
+	// Unique identifier assigned to entities registered with the FFA for fishing activities in the Pacific Islands region.
+	IdentifierTypeFfaRfmoId IdentifierType = "ffa_rfmo_id"
 	// Finnish Business ID
 	IdentifierTypeFinBusinessId IdentifierType = "fin_business_id"
+	// Value-added tax identification number in Finland (ALV nro Momsnummer).
+	IdentifierTypeFinVatNumber IdentifierType = "fin_vat_number"
 	// USA Florida Broward County parcel ID number
 	IdentifierTypeFlPropFolio IdentifierType = "fl_prop_folio"
 	// USA Florida Miami-Dade County real property parcel ID number
@@ -6354,16 +6716,22 @@ const (
 	IdentifierTypeGbrCharityNo IdentifierType = "gbr_charity_no"
 	// United Kingdom Confirmation Statement Company Number
 	IdentifierTypeGbrCompanyNumber IdentifierType = "gbr_company_number"
+	// UK Contract Identifier Code
+	IdentifierTypeGbrContractId IdentifierType = "gbr_contract_id"
 	// Unique reference number for a disqualification case in the UK. Can contain alphanumeric characters.
 	IdentifierTypeGbrDisqualificationCaseNum IdentifierType = "gbr_disqualification_case_num"
 	// Action number assigned by the  Environment Agency to each enforcement action against offender pursuant to relevant legislation.
 	IdentifierTypeGbrEnforcementActionNum IdentifierType = "gbr_enforcement_action_num"
 	// Unique UK government organization ID number. Assigned to government organizations in the UK.
 	IdentifierTypeGbrGoNo IdentifierType = "gbr_go_no"
+	// UK Grant Identifier Code
+	IdentifierTypeGbrGrantId IdentifierType = "gbr_grant_id"
 	// UK HM Treasury OFSI sanctions list ID number
 	IdentifierTypeGbrHmTreasurySanctionGroupId IdentifierType = "gbr_hm_treasury_sanction_group_id"
 	// Unique UK ID number. Assigned to every registered trademark.
 	IdentifierTypeGbrIpoTrademarkRegNo IdentifierType = "gbr_ipo_trademark_reg_no"
+	// United Kingdom Trade Internal Shipment ID
+	IdentifierTypeGbrTradeInternalShipmentId IdentifierType = "gbr_trade_internal_shipment_id"
 	// Unique UK internal ID number. Assigned to every trustee registered with the Charity Commission for England and Wales.
 	IdentifierTypeGbrTrusteeId IdentifierType = "gbr_trustee_id"
 	// UK Sanctions List Unique ID
@@ -6378,6 +6746,8 @@ const (
 	IdentifierTypeGeoPersonalNumber IdentifierType = "geo_personal_number"
 	// Georgian state registration number
 	IdentifierTypeGeoStateRegistrationNumber IdentifierType = "geo_state_registration_number"
+	// Unique identifier assigned to entities registered with the GFCM for fishing activities in the Mediterranean and Black Seas.
+	IdentifierTypeGfcmRfmoId IdentifierType = "gfcm_rfmo_id"
 	// Guernsey Corporate Registry Number
 	IdentifierTypeGgyCorporateRegNumber IdentifierType = "ggy_corporate_reg_number"
 	// Unique Guernsey intellectual property ID number. Assigned to every trademark registered with the Guernsey Intellectual Property Office.
@@ -6400,6 +6770,8 @@ const (
 	IdentifierTypeGtmNitNumber IdentifierType = "gtm_nit_number"
 	// Hong Kong Stock Exchange Code
 	IdentifierTypeHkgStockCode IdentifierType = "hkg_stock_code"
+	// Hong Kong Reference Code
+	IdentifierTypeHkgTenderRefCode IdentifierType = "hkg_tender_ref_code"
 	// Honduras Cortes commercial registry ID number
 	IdentifierTypeHndCocCompanyRegistrationNumber IdentifierType = "hnd_coc_company_registration_number"
 	// Honduras Tegucigalpa Matricula
@@ -6418,6 +6790,8 @@ const (
 	IdentifierTypeHunPersonTaxId IdentifierType = "hun_person_tax_id"
 	// Unique Hungary Tax ID. Issued to companies registered in Hungary.
 	IdentifierTypeHunTaxNumber IdentifierType = "hun_tax_number"
+	// Unique identifier assigned to entities registered with the IATTC for fishing activities in the Eastern Pacific Ocean.
+	IdentifierTypeIattcRfmoId IdentifierType = "iattc_rfmo_id"
 	// Unique ID number. Assigned to individual bank accounts for use in cross-border financial transactions.
 	IdentifierTypeIban IdentifierType = "iban"
 	// ICIJ Offshore Database Internal ID
@@ -6426,6 +6800,8 @@ const (
 	IdentifierTypeIcijOffshoreNodeId IdentifierType = "icij_offshore_node_id"
 	// Indonesia National identification number issued to all Indonesian citizens. This ID represents a unique 16-digit number known as a Nomor Induk Kependudukan (NIK).
 	IdentifierTypeIdnNikId IdentifierType = "idn_nik_id"
+	// Deed of Establishment (SK) Number, a document required to establish a company in Indonesia.
+	IdentifierTypeIdnNoSk IdentifierType = "idn_no_sk"
 	// Indonesian passport number
 	IdentifierTypeIdnPassport IdentifierType = "idn_passport"
 	// Indonesian tax ID aka NPWP Number; learn more [here](https://wiki.scn.sap.com/wiki/display/CRM/Indonesia)
@@ -6456,6 +6832,8 @@ const (
 	IdentifierTypeIndDirectorIdNumber IdentifierType = "ind_director_id_number"
 	// India foreign company registration number
 	IdentifierTypeIndFcrn IdentifierType = "ind_fcrn"
+	// GSTIN, Goods and Services Tax Identification Number, represents a unique 15-digit identification number assigned to every taxpayer (primarily dealer or supplier or any business entity) registered under the GST regime in India. Alpha numeric.
+	IdentifierTypeIndGstin IdentifierType = "ind_gstin"
 	// Unique identifiers for each bank branch participating in India's National Electronic Funds Transfer (NEFT), Real Time Gross Settlement (RTGS), and Immediate Payment Service (IMPS) electronic funds transfer systems.
 	IdentifierTypeIndIfsc IdentifierType = "ind_ifsc"
 	// India limited liability partnership ID number
@@ -6474,8 +6852,14 @@ const (
 	IdentifierTypeIndTrademarkSubmissionRef IdentifierType = "ind_trademark_submission_ref"
 	// Unique global ID number. Assigned to ships, registered ship owners, and management companies.
 	IdentifierTypeIntMaritimeOrgId IdentifierType = "int_maritime_org_id"
+	// Internal ID type used to represent curated entity resolution merge rules. Only added in enrichment.
+	IdentifierTypeInternalCuratedMergeId IdentifierType = "internal_curated_merge_id"
+	// Internal ID type used to represent curated entity split rules. Only added in enrichment, not used to merge.
+	IdentifierTypeInternalCuratedSplitId IdentifierType = "internal_curated_split_id"
 	// Hex digest of data that should be used for resolution (e.g., name=Sayari&registration_date=2000-01-01)
 	IdentifierTypeInternalMd5 IdentifierType = "internal_md5"
+	// Unique identifier assigned to entities registered with the IOTC for fishing activities in the Indian Ocean.
+	IdentifierTypeIotcRfmoId IdentifierType = "iotc_rfmo_id"
 	// Iraqi Stock Exchange Symbol
 	IdentifierTypeIraqiStockExchangeSymbol IdentifierType = "iraqi_stock_exchange_symbol"
 	// Registered Charity Number (RCN). Unique Identifier issued by the Charities Regulator to the registered charitable organizations awarded with charitable status.
@@ -6537,6 +6921,8 @@ const (
 	IdentifierTypeJpnCorporateNo IdentifierType = "jpn_corporate_no"
 	// Company code from EDINET
 	IdentifierTypeJpnEdinetCode IdentifierType = "jpn_edinet_code"
+	// Japan Trade Internal Shipment ID
+	IdentifierTypeJpnTradeInternalShipmentId IdentifierType = "jpn_trade_internal_shipment_id"
 	// A 12-digit Kazakh business identification number
 	IdentifierTypeKazBin IdentifierType = "kaz_bin"
 	// A nine-digit Kazakh identifier
@@ -6555,6 +6941,8 @@ const (
 	IdentifierTypeKorBusinessTin IdentifierType = "kor_business_tin"
 	// Korean corporate registration number
 	IdentifierTypeKorCorporateRegistrationNumber IdentifierType = "kor_corporate_registration_number"
+	// South Korea Trade Internal Shipment ID
+	IdentifierTypeKorTradeInternalShipmentId IdentifierType = "kor_trade_internal_shipment_id"
 	// Ticker number for the Korean Stock Exchange
 	IdentifierTypeKrxTickerCode IdentifierType = "krx_ticker_code"
 	// Kuwait passport number
@@ -6637,6 +7025,8 @@ const (
 	IdentifierTypeMkdEmbsBranchNumber IdentifierType = "mkd_embs_branch_number"
 	// North Macedonia corporate registry ID number
 	IdentifierTypeMkdEmbsNumber IdentifierType = "mkd_embs_number"
+	// This package contains the Money Market Directories ID (MMD) with daily delivery.
+	IdentifierTypeMmmId IdentifierType = "mmm_id"
 	// Myanmar corporate registry ID for companies
 	IdentifierTypeMmrCorpId IdentifierType = "mmr_corp_id"
 	// Myanmar corporate registry ID for officers
@@ -6691,6 +7081,8 @@ const (
 	IdentifierTypeMysMohaListNumber IdentifierType = "mys_moha_list_number"
 	// Malaysia passport number
 	IdentifierTypeMysPassport IdentifierType = "mys_passport"
+	// The NCUA Charter ID is a numeric value that can be up to 5 digits. It is assigned to credit unions, including corporate credit unions, by the National Credit Union Administration for all NCUA-insured credit unions and some non-federally insured credit unions.
+	IdentifierTypeNcuaNum IdentifierType = "ncua_num"
 	// NG-Check entity internal ID number
 	IdentifierTypeNgCheckInternalId IdentifierType = "ng_check_internal_id"
 	// Nigerian Corporate Registry Internal ID
@@ -6719,6 +7111,8 @@ const (
 	IdentifierTypeNldKvkNumber IdentifierType = "nld_kvk_number"
 	// Norway Organisasjonsnummer
 	IdentifierTypeNorOrgNo IdentifierType = "nor_org_no"
+	// Unique identifier assigned to entities registered with the North Pacific Fisheries Commission (NPFC) for fishing activities in the North Pacific Ocean.
+	IdentifierTypeNpfcRfmoId IdentifierType = "npfc_rfmo_id"
 	// Nepali Company Registration No. from National Information Technology Center
 	IdentifierTypeNplCoRegNo IdentifierType = "npl_co_reg_no"
 	// USA New York City real property parcel ID number
@@ -6794,6 +7188,8 @@ const (
 	IdentifierTypePrkRegistrationId IdentifierType = "prk_registration_id"
 	// North Korea Shipment ID
 	IdentifierTypePrkShipmentId IdentifierType = "prk_shipment_id"
+	// Portugal corporate identification number (NIPC). The number of legal person identification (NIPC) generally corresponds to the tax identification number (TIN) and the Social Security identification number (NISS).
+	IdentifierTypePrtNipc IdentifierType = "prt_nipc"
 	// Portuguese Trust Number
 	IdentifierTypePrtTrustNumber IdentifierType = "prt_trust_number"
 	// Portuguese VAT Number
@@ -6826,6 +7222,8 @@ const (
 	IdentifierTypeRksFiscalNumber IdentifierType = "rks_fiscal_number"
 	// Kosovo registration number
 	IdentifierTypeRksRegistrationNumber IdentifierType = "rks_registration_number"
+	// Romanian Commercial Register ID (concatenated from jud_com, nr_com, and an_com from ROU/taxpayers)
+	IdentifierTypeRouCommercialRegisterId IdentifierType = "rou_commercial_register_id"
 	// Romania tax ID number
 	IdentifierTypeRouCompanyRegistrationCode IdentifierType = "rou_company_registration_code"
 	// Romanian tax identification number for companies
@@ -6838,12 +7236,18 @@ const (
 	IdentifierTypeRuInn IdentifierType = "ru_inn"
 	// A Russian company registration number with 12 digits
 	IdentifierTypeRuOgrn IdentifierType = "ru_ogrn"
+	// Russian registration number that is not specified specifically as an OGRN in source data
+	IdentifierTypeRuRegistrationNumber IdentifierType = "ru_registration_number"
 	// Russia vessel registry ID number
 	IdentifierTypeRuShipRegisterId IdentifierType = "ru_ship_register_id"
+	// Russian tax identification number that is not specified specifically as an INN in source data
+	IdentifierTypeRuTin IdentifierType = "ru_tin"
 	// Russia Trade Internal Shipment ID
 	IdentifierTypeRuTradeInternalShipmentId IdentifierType = "ru_trade_internal_shipment_id"
 	// Russia Bank Identification Code
 	IdentifierTypeRusBikCode IdentifierType = "rus_bik_code"
+	// Russia Contract Number
+	IdentifierTypeRusContractNumber IdentifierType = "rus_contract_number"
 	// A unique concatenation of bill of lading number, date of customs declaration and Russia customs sequence number.
 	IdentifierTypeRusDeclarationNumber IdentifierType = "rus_declaration_number"
 	// Russia securities ID code
@@ -6864,6 +7268,8 @@ const (
 	IdentifierTypeSauPassport IdentifierType = "sau_passport"
 	// UID used to merge entities internally
 	IdentifierTypeSayariInternalIdentifier IdentifierType = "sayari_internal_identifier"
+	// Internal Identifier used by SESAMm to label companies listed in their dataset.
+	IdentifierTypeSesammCompanyId IdentifierType = "sesamm_company_id"
 	// Singapore Passport Number
 	IdentifierTypeSgpPassport IdentifierType = "sgp_passport"
 	// The UEN is a standard, unique identification number for a registered entity in Singapore. It is comparable to the NRIC number, which is an ID number for Singapore citizens.
@@ -6880,12 +7286,18 @@ const (
 	IdentifierTypeSlvUidNumber IdentifierType = "slv_uid_number"
 	// San Marino Economic Operator Code
 	IdentifierTypeSmrEconomicOperatorCode IdentifierType = "smr_economic_operator_code"
+	// A unique identifier implemented by SNL to identify companies in the SNL universe - SNL Financial Institutions Regulatory datase.
+	IdentifierTypeSnlInternalId IdentifierType = "snl_internal_id"
 	// Somalian UBI Number
 	IdentifierTypeSomUbi IdentifierType = "som_ubi"
 	// Enterprise number for South African companies
 	IdentifierTypeSouthAfricaEnterpriseNumber IdentifierType = "south_africa_enterprise_number"
 	// South African passport number
 	IdentifierTypeSouthAfricaPassportNumber IdentifierType = "south_africa_passport_number"
+	// S&P Global Company Identifier
+	IdentifierTypeSpCompanyId IdentifierType = "sp_company_id"
+	// A unique identifier for companies in the Compustat database (Compustat Global Company Key).
+	IdentifierTypeSpKey IdentifierType = "sp_key"
 	// Unique Serbia ID number. Assigned to every entity registered with the Serbia Business Register Agency's Register of Beneficial Owners.
 	IdentifierTypeSrbBeneficialOwnerId IdentifierType = "srb_beneficial_owner_id"
 	// Serbia branch ID
@@ -6900,6 +7312,8 @@ const (
 	IdentifierTypeStockTicker IdentifierType = "stock_ticker"
 	// Slovakia legal person ID number
 	IdentifierTypeSvkIcoNumber IdentifierType = "svk_ico_number"
+	// Slovakia Value-Added Tax (VAT) Identification number used by entities.
+	IdentifierTypeSvkVatNum IdentifierType = "svk_vat_num"
 	// ZAPST number used for shareholders and partners in Slovenia Corporate Registry
 	IdentifierTypeSvnAjpesZapstNumber IdentifierType = "svn_ajpes_zapst_number"
 	// Slovenian Company Registry ID Number
@@ -6920,6 +7334,8 @@ const (
 	IdentifierTypeSyrPassport IdentifierType = "syr_passport"
 	// Unique Syria ID number. Assigned to every legal entity registered with the Syria Ministry of Economy and Foreign Trade.
 	IdentifierTypeSyriaCommercialRegisterNumber IdentifierType = "syria_commercial_register_number"
+	// The Trucost Unique ID (TCUID) is an integer which is autogenerated whenever a new company is analyzed by Trucost.  The Trucost Unique Identifier is typically 5 to 6 digits in length, but may increase to 7 or more digits in length over time with extended coverage of companies by Trucost.  Both publicly traded companies and companies in private ownership are issued Trucost Unique IDs.
+	IdentifierTypeTcuId IdentifierType = "tcu_id"
 	// Thailand corporate registry ID number
 	IdentifierTypeThaRegistrationNo IdentifierType = "tha_registration_no"
 	// Tajikistan EIN (RYIAM) number. Unique number assigned to taxpayers in Tajikistan.
@@ -6970,6 +7386,10 @@ const (
 	IdentifierTypeTxTaxId IdentifierType = "tx_tax_id"
 	// Tanzania Registration Number. Unique identifier issued by the Tanzania Business Registration and Licensing Agency and assigned to the registered entities.
 	IdentifierTypeTzaBrelaRegNum IdentifierType = "tza_brela_reg_num"
+	// Tanzania Single Administrative Document (TANSAD). Official customs declaration. This document is used to declare goods being imported or exported.
+	IdentifierTypeTzaTansadNumber IdentifierType = "tza_tansad_number"
+	// Taxpayer Identification Number (TIN) is a unique identification number assigned to individuals and entities in Tanzania, largely for tax purposes. A TIN is issued by the Tanzania Revenue Authority (TRA) - the governing body responsible for tax administration in the country.
+	IdentifierTypeTzaTin IdentifierType = "tza_tin"
 	// A UK company registration number. The pattern was sourced from the snapshot file documentation provided to us. When the first two characters are not digits, they have a special meaning.
 	IdentifierTypeUkCompanyNumber IdentifierType = "uk_company_number"
 	// Unique UK ID number. Assigned to every firm in the FCA financial services registry.
@@ -7133,6 +7553,8 @@ const (
 	IdentifierTypeUsaOtiId IdentifierType = "usa_oti_id"
 	// USA Pennsylvania Department of State Business Entity ID Number
 	IdentifierTypeUsaPaCorporateRegistryId IdentifierType = "usa_pa_corporate_registry_id"
+	// USA Procurement Instrument Identifier
+	IdentifierTypeUsaPiid IdentifierType = "usa_piid"
 	// USA Puerto Rico corporate registry ID number
 	IdentifierTypeUsaPuertoRicoRegisterNumber IdentifierType = "usa_puerto_rico_register_number"
 	// USA Rhode Island filing entity identification number
@@ -7193,6 +7615,8 @@ const (
 	IdentifierTypeUtahCorporateRegistryInternalEntityNumber IdentifierType = "utah_corporate_registry_internal_entity_number"
 	// Uzbekistan tax ID number
 	IdentifierTypeUzbTinNumber IdentifierType = "uzb_tin_number"
+	// Uzbekistan VAT number
+	IdentifierTypeUzbVatNumber IdentifierType = "uzb_vat_number"
 	// Validatis identification number
 	IdentifierTypeValidatisNumber IdentifierType = "validatis_number"
 	// Value-added tax ID number
@@ -7331,6 +7755,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeAusPassport, nil
 	case "aut_firmenbuch_no":
 		return IdentifierTypeAutFirmenbuchNo, nil
+	case "aut_uid":
+		return IdentifierTypeAutUid, nil
 	case "aze_tin_number":
 		return IdentifierTypeAzeTinNumber, nil
 	case "bd_bin":
@@ -7343,12 +7769,16 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBelFsmaNameHash, nil
 	case "bel_national_register_no":
 		return IdentifierTypeBelNationalRegisterNo, nil
+	case "bel_vat_number":
+		return IdentifierTypeBelVatNumber, nil
 	case "bfa_entity_id":
 		return IdentifierTypeBfaEntityId, nil
 	case "bfa_rccm_number":
 		return IdentifierTypeBfaRccmNumber, nil
 	case "bgd_passport":
 		return IdentifierTypeBgdPassport, nil
+	case "bgd_tin":
+		return IdentifierTypeBgdTin, nil
 	case "bgr_egn_hashed":
 		return IdentifierTypeBgrEgnHashed, nil
 	case "bgr_uic":
@@ -7439,12 +7869,16 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCanNsCorporateRegistry, nil
 	case "can_pe_registration_number":
 		return IdentifierTypeCanPeRegistrationNumber, nil
+	case "can_qc_mbs_num":
+		return IdentifierTypeCanQcMbsNum, nil
 	case "can_qc_sap_registry_ref_num":
 		return IdentifierTypeCanQcSapRegistryRefNum, nil
 	case "can_techsalerator_id":
 		return IdentifierTypeCanTechsaleratorId, nil
 	case "can_tm_registration_no":
 		return IdentifierTypeCanTmRegistrationNo, nil
+	case "ccamlr_rfmo_id":
+		return IdentifierTypeCcamlrRfmoId, nil
 	case "ccs_registration":
 		return IdentifierTypeCcsRegistration, nil
 	case "che_ch_id_number":
@@ -7485,6 +7919,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeChnShenzenSecCode, nil
 	case "cm_nui_tax_reg_num":
 		return IdentifierTypeCmNuiTaxRegNum, nil
+	case "cma_id":
+		return IdentifierTypeCmaId, nil
 	case "cn_hk_br_number":
 		return IdentifierTypeCnHkBrNumber, nil
 	case "cn_hk_cr_number":
@@ -7495,6 +7931,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCnHurdInternalCompanyId, nil
 	case "cn_importexport_code":
 		return IdentifierTypeCnImportexportCode, nil
+	case "cn_invest_code":
+		return IdentifierTypeCnInvestCode, nil
 	case "cn_organization_code":
 		return IdentifierTypeCnOrganizationCode, nil
 	case "cn_qichacha_internal_id":
@@ -7573,6 +8011,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeDeuBafinId, nil
 	case "deu_registernummer":
 		return IdentifierTypeDeuRegisternummer, nil
+	case "deu_vat_number":
+		return IdentifierTypeDeuVatNumber, nil
 	case "dji_rcs_number":
 		return IdentifierTypeDjiRcsNumber, nil
 	case "dma_business_registry_internal_id":
@@ -7611,6 +8051,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeEspBeCode, nil
 	case "esp_borme_reg_id":
 		return IdentifierTypeEspBormeRegId, nil
+	case "esp_cif":
+		return IdentifierTypeEspCif, nil
 	case "esp_internal_employee_number":
 		return IdentifierTypeEspInternalEmployeeNumber, nil
 	case "esp_nif":
@@ -7629,8 +8071,16 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeEuSanctionRn, nil
 	case "euid":
 		return IdentifierTypeEuid, nil
+	case "fdic_num":
+		return IdentifierTypeFdicNum, nil
+	case "fed_fin_id":
+		return IdentifierTypeFedFinId, nil
+	case "ffa_rfmo_id":
+		return IdentifierTypeFfaRfmoId, nil
 	case "fin_business_id":
 		return IdentifierTypeFinBusinessId, nil
+	case "fin_vat_number":
+		return IdentifierTypeFinVatNumber, nil
 	case "fl_prop_folio":
 		return IdentifierTypeFlPropFolio, nil
 	case "fl_prop_folio_dade":
@@ -7651,16 +8101,22 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeGbrCharityNo, nil
 	case "gbr_company_number":
 		return IdentifierTypeGbrCompanyNumber, nil
+	case "gbr_contract_id":
+		return IdentifierTypeGbrContractId, nil
 	case "gbr_disqualification_case_num":
 		return IdentifierTypeGbrDisqualificationCaseNum, nil
 	case "gbr_enforcement_action_num":
 		return IdentifierTypeGbrEnforcementActionNum, nil
 	case "gbr_go_no":
 		return IdentifierTypeGbrGoNo, nil
+	case "gbr_grant_id":
+		return IdentifierTypeGbrGrantId, nil
 	case "gbr_hm_treasury_sanction_group_id":
 		return IdentifierTypeGbrHmTreasurySanctionGroupId, nil
 	case "gbr_ipo_trademark_reg_no":
 		return IdentifierTypeGbrIpoTrademarkRegNo, nil
+	case "gbr_trade_internal_shipment_id":
+		return IdentifierTypeGbrTradeInternalShipmentId, nil
 	case "gbr_trustee_id":
 		return IdentifierTypeGbrTrusteeId, nil
 	case "gbr_uk_sanctions_id":
@@ -7675,6 +8131,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeGeoPersonalNumber, nil
 	case "geo_state_registration_number":
 		return IdentifierTypeGeoStateRegistrationNumber, nil
+	case "gfcm_rfmo_id":
+		return IdentifierTypeGfcmRfmoId, nil
 	case "ggy_corporate_reg_number":
 		return IdentifierTypeGgyCorporateRegNumber, nil
 	case "ggy_trademark_no":
@@ -7697,6 +8155,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeGtmNitNumber, nil
 	case "hkg_stock_code":
 		return IdentifierTypeHkgStockCode, nil
+	case "hkg_tender_ref_code":
+		return IdentifierTypeHkgTenderRefCode, nil
 	case "hnd_coc_company_registration_number":
 		return IdentifierTypeHndCocCompanyRegistrationNumber, nil
 	case "hnd_tegucigalpa_matricula":
@@ -7715,6 +8175,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeHunPersonTaxId, nil
 	case "hun_tax_number":
 		return IdentifierTypeHunTaxNumber, nil
+	case "iattc_rfmo_id":
+		return IdentifierTypeIattcRfmoId, nil
 	case "iban":
 		return IdentifierTypeIban, nil
 	case "icij_offshore_internal_id":
@@ -7723,6 +8185,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIcijOffshoreNodeId, nil
 	case "idn_nik_id":
 		return IdentifierTypeIdnNikId, nil
+	case "idn_no_sk":
+		return IdentifierTypeIdnNoSk, nil
 	case "idn_passport":
 		return IdentifierTypeIdnPassport, nil
 	case "idn_tax_id":
@@ -7753,6 +8217,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIndDirectorIdNumber, nil
 	case "ind_fcrn":
 		return IdentifierTypeIndFcrn, nil
+	case "ind_gstin":
+		return IdentifierTypeIndGstin, nil
 	case "ind_ifsc":
 		return IdentifierTypeIndIfsc, nil
 	case "ind_llpin":
@@ -7771,8 +8237,14 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIndTrademarkSubmissionRef, nil
 	case "int_maritime_org_id":
 		return IdentifierTypeIntMaritimeOrgId, nil
+	case "internal_curated_merge_id":
+		return IdentifierTypeInternalCuratedMergeId, nil
+	case "internal_curated_split_id":
+		return IdentifierTypeInternalCuratedSplitId, nil
 	case "internal_md5":
 		return IdentifierTypeInternalMd5, nil
+	case "iotc_rfmo_id":
+		return IdentifierTypeIotcRfmoId, nil
 	case "iraqi_stock_exchange_symbol":
 		return IdentifierTypeIraqiStockExchangeSymbol, nil
 	case "irl_rcn":
@@ -7835,6 +8307,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeJpnCorporateNo, nil
 	case "jpn_edinet_code":
 		return IdentifierTypeJpnEdinetCode, nil
+	case "jpn_trade_internal_shipment_id":
+		return IdentifierTypeJpnTradeInternalShipmentId, nil
 	case "kaz_bin":
 		return IdentifierTypeKazBin, nil
 	case "kaz_identifier":
@@ -7855,6 +8329,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeKorBusinessTin, nil
 	case "kor_corporate_registration_number":
 		return IdentifierTypeKorCorporateRegistrationNumber, nil
+	case "kor_trade_internal_shipment_id":
+		return IdentifierTypeKorTradeInternalShipmentId, nil
 	case "krx_ticker_code":
 		return IdentifierTypeKrxTickerCode, nil
 	case "kwt_passport":
@@ -7939,6 +8415,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeMkdEmbsBranchNumber, nil
 	case "mkd_embs_number":
 		return IdentifierTypeMkdEmbsNumber, nil
+	case "mmm_id":
+		return IdentifierTypeMmmId, nil
 	case "mmr_corp_id":
 		return IdentifierTypeMmrCorpId, nil
 	case "mmr_officer_id":
@@ -7995,6 +8473,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeMysMohaListNumber, nil
 	case "mys_passport":
 		return IdentifierTypeMysPassport, nil
+	case "ncua_num":
+		return IdentifierTypeNcuaNum, nil
 	case "ng_check_internal_id":
 		return IdentifierTypeNgCheckInternalId, nil
 	case "nga_crp_reg_internal_id":
@@ -8023,6 +8503,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeNldKvkNumber, nil
 	case "nor_org_no":
 		return IdentifierTypeNorOrgNo, nil
+	case "npfc_rfmo_id":
+		return IdentifierTypeNpfcRfmoId, nil
 	case "npl_co_reg_no":
 		return IdentifierTypeNplCoRegNo, nil
 	case "nyc_bbl":
@@ -8099,6 +8581,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypePrkRegistrationId, nil
 	case "prk_shipment_id":
 		return IdentifierTypePrkShipmentId, nil
+	case "prt_nipc":
+		return IdentifierTypePrtNipc, nil
 	case "prt_trust_number":
 		return IdentifierTypePrtTrustNumber, nil
 	case "prt_vat_number":
@@ -8133,6 +8617,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeRksFiscalNumber, nil
 	case "rks_registration_number":
 		return IdentifierTypeRksRegistrationNumber, nil
+	case "rou_commercial_register_id":
+		return IdentifierTypeRouCommercialRegisterId, nil
 	case "rou_company_registration_code":
 		return IdentifierTypeRouCompanyRegistrationCode, nil
 	case "rou_company_tin":
@@ -8145,12 +8631,18 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeRuInn, nil
 	case "ru_ogrn":
 		return IdentifierTypeRuOgrn, nil
+	case "ru_registration_number":
+		return IdentifierTypeRuRegistrationNumber, nil
 	case "ru_ship_register_id":
 		return IdentifierTypeRuShipRegisterId, nil
+	case "ru_tin":
+		return IdentifierTypeRuTin, nil
 	case "ru_trade_internal_shipment_id":
 		return IdentifierTypeRuTradeInternalShipmentId, nil
 	case "rus_bik_code":
 		return IdentifierTypeRusBikCode, nil
+	case "rus_contract_number":
+		return IdentifierTypeRusContractNumber, nil
 	case "rus_declaration_number":
 		return IdentifierTypeRusDeclarationNumber, nil
 	case "rus_micex_code":
@@ -8171,6 +8663,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeSauPassport, nil
 	case "sayari_internal_identifier":
 		return IdentifierTypeSayariInternalIdentifier, nil
+	case "sesamm_company_id":
+		return IdentifierTypeSesammCompanyId, nil
 	case "sgp_passport":
 		return IdentifierTypeSgpPassport, nil
 	case "sgp_unqiue_entity_number":
@@ -8187,12 +8681,18 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeSlvUidNumber, nil
 	case "smr_economic_operator_code":
 		return IdentifierTypeSmrEconomicOperatorCode, nil
+	case "snl_internal_id":
+		return IdentifierTypeSnlInternalId, nil
 	case "som_ubi":
 		return IdentifierTypeSomUbi, nil
 	case "south_africa_enterprise_number":
 		return IdentifierTypeSouthAfricaEnterpriseNumber, nil
 	case "south_africa_passport_number":
 		return IdentifierTypeSouthAfricaPassportNumber, nil
+	case "sp_company_id":
+		return IdentifierTypeSpCompanyId, nil
+	case "sp_key":
+		return IdentifierTypeSpKey, nil
 	case "srb_beneficial_owner_id":
 		return IdentifierTypeSrbBeneficialOwnerId, nil
 	case "srb_branch_id":
@@ -8207,6 +8707,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeStockTicker, nil
 	case "svk_ico_number":
 		return IdentifierTypeSvkIcoNumber, nil
+	case "svk_vat_num":
+		return IdentifierTypeSvkVatNum, nil
 	case "svn_ajpes_zapst_number":
 		return IdentifierTypeSvnAjpesZapstNumber, nil
 	case "svn_co_reg_no":
@@ -8227,6 +8729,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeSyrPassport, nil
 	case "syria_commercial_register_number":
 		return IdentifierTypeSyriaCommercialRegisterNumber, nil
+	case "tcu_id":
+		return IdentifierTypeTcuId, nil
 	case "tha_registration_no":
 		return IdentifierTypeThaRegistrationNo, nil
 	case "tjk_ein_number":
@@ -8277,6 +8781,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeTxTaxId, nil
 	case "tza_brela_reg_num":
 		return IdentifierTypeTzaBrelaRegNum, nil
+	case "tza_tansad_number":
+		return IdentifierTypeTzaTansadNumber, nil
+	case "tza_tin":
+		return IdentifierTypeTzaTin, nil
 	case "uk_company_number":
 		return IdentifierTypeUkCompanyNumber, nil
 	case "uk_firm_reference_number":
@@ -8443,6 +8951,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeUsaOtiId, nil
 	case "usa_pa_corporate_registry_id":
 		return IdentifierTypeUsaPaCorporateRegistryId, nil
+	case "usa_piid":
+		return IdentifierTypeUsaPiid, nil
 	case "usa_puerto_rico_register_number":
 		return IdentifierTypeUsaPuertoRicoRegisterNumber, nil
 	case "usa_ri_fei_no":
@@ -8505,6 +9015,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeUtahCorporateRegistryInternalEntityNumber, nil
 	case "uzb_tin_number":
 		return IdentifierTypeUzbTinNumber, nil
+	case "uzb_vat_number":
+		return IdentifierTypeUzbVatNumber, nil
 	case "validatis_number":
 		return IdentifierTypeValidatisNumber, nil
 	case "vat":
@@ -9604,6 +10116,8 @@ type MonetaryValueContext string
 const (
 	// Indicates value determined by customs authorities
 	MonetaryValueContextAssessedValue MonetaryValueContext = "assessed_value"
+	// Indicates value of a contract
+	MonetaryValueContextContractValue MonetaryValueContext = "contract_value"
 	// Indicates cost, insurance, and freight (CIF) arrangement
 	MonetaryValueContextCostInsuranceAndFreight MonetaryValueContext = "cost_insurance_and_freight"
 	// Indicates free on board (FOB) arrangement
@@ -9614,6 +10128,8 @@ func NewMonetaryValueContextFromString(s string) (MonetaryValueContext, error) {
 	switch s {
 	case "assessed_value":
 		return MonetaryValueContextAssessedValue, nil
+	case "contract_value":
+		return MonetaryValueContextContractValue, nil
 	case "cost_insurance_and_freight":
 		return MonetaryValueContextCostInsuranceAndFreight, nil
 	case "free_on_board":
@@ -10693,6 +11209,10 @@ const (
 	RelationshipsAuditorOf Relationships = "auditor_of"
 	// Auditors of this company
 	RelationshipsHasAuditor Relationships = "has_auditor"
+	// Contracts this entity has issued
+	RelationshipsAwarderOf Relationships = "awarder_of"
+	// Entitites that issued this contract
+	RelationshipsAwardedBy Relationships = "awarded_by"
 	// Entities reported to be beneficially or indirectly owned by this entity
 	RelationshipsBeneficialOwnerOf Relationships = "beneficial_owner_of"
 	// Entities reported to beneficially or indirectly own this entity
@@ -10799,10 +11319,18 @@ const (
 	RelationshipsPartyTo Relationships = "party_to"
 	// Litigants in this Legal Matter
 	RelationshipsHasParty Relationships = "has_party"
+	// Suppliers of this entity
+	RelationshipsProcuresFrom Relationships = "procures_from"
+	// Buyers of this entity's goods and/or services
+	RelationshipsContractedBy Relationships = "contracted_by"
 	// Shipments this entity received
 	RelationshipsReceiverOf Relationships = "receiver_of"
 	// The entity that received this shipment
 	RelationshipsReceivedBy Relationships = "received_by"
+	// Contracts this entity has received
+	RelationshipsRecipientOf Relationships = "recipient_of"
+	// Entities that received this contract
+	RelationshipsAwardedTo Relationships = "awarded_to"
 	// Entities of which this entity is reported to be a Registered Agent, corporate secretary, or similar
 	RelationshipsRegisteredAgentOf Relationships = "registered_agent_of"
 	// Entities acting in a Registered Agent, corporate secretary, or similar role for this entity
@@ -10852,6 +11380,10 @@ func NewRelationshipsFromString(s string) (Relationships, error) {
 		return RelationshipsAuditorOf, nil
 	case "has_auditor":
 		return RelationshipsHasAuditor, nil
+	case "awarder_of":
+		return RelationshipsAwarderOf, nil
+	case "awarded_by":
+		return RelationshipsAwardedBy, nil
 	case "beneficial_owner_of":
 		return RelationshipsBeneficialOwnerOf, nil
 	case "has_beneficial_owner":
@@ -10958,10 +11490,18 @@ func NewRelationshipsFromString(s string) (Relationships, error) {
 		return RelationshipsPartyTo, nil
 	case "has_party":
 		return RelationshipsHasParty, nil
+	case "procures_from":
+		return RelationshipsProcuresFrom, nil
+	case "contracted_by":
+		return RelationshipsContractedBy, nil
 	case "receiver_of":
 		return RelationshipsReceiverOf, nil
 	case "received_by":
 		return RelationshipsReceivedBy, nil
+	case "recipient_of":
+		return RelationshipsRecipientOf, nil
+	case "awarded_to":
+		return RelationshipsAwardedTo, nil
 	case "registered_agent_of":
 		return RelationshipsRegisteredAgentOf, nil
 	case "has_registered_agent":
@@ -11009,6 +11549,43 @@ func (r Relationships) Ptr() *Relationships {
 	return &r
 }
 
+// Reporting period type enums designate the type of statement period the values in a financials attribute are measured for.
+type ReportingPeriodType string
+
+const (
+	// Reported for the fiscal year
+	ReportingPeriodTypeAnnualFiscal ReportingPeriodType = "annual_fiscal"
+	// Covers the preceding twelve months
+	ReportingPeriodTypeLastTwelveMonths ReportingPeriodType = "last_twelve_months"
+	// Reported quarterly in the fiscal year
+	ReportingPeriodTypeQuarterlyFiscal ReportingPeriodType = "quarterly_fiscal"
+	// Reported twice a year in the fiscal year
+	ReportingPeriodTypeSemiAnnualFiscal ReportingPeriodType = "semi_annual_fiscal"
+	// Covers the year up until the reporting period
+	ReportingPeriodTypeYearToDateFiscal ReportingPeriodType = "year_to_date_fiscal"
+)
+
+func NewReportingPeriodTypeFromString(s string) (ReportingPeriodType, error) {
+	switch s {
+	case "annual_fiscal":
+		return ReportingPeriodTypeAnnualFiscal, nil
+	case "last_twelve_months":
+		return ReportingPeriodTypeLastTwelveMonths, nil
+	case "quarterly_fiscal":
+		return ReportingPeriodTypeQuarterlyFiscal, nil
+	case "semi_annual_fiscal":
+		return ReportingPeriodTypeSemiAnnualFiscal, nil
+	case "year_to_date_fiscal":
+		return ReportingPeriodTypeYearToDateFiscal, nil
+	}
+	var t ReportingPeriodType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r ReportingPeriodType) Ptr() *ReportingPeriodType {
+	return &r
+}
+
 type Risk string
 
 const (
@@ -11017,6 +11594,8 @@ const (
 	RiskBaselAml                                                                 Risk = "basel_aml"
 	RiskBisAddressesHighDiversionRisk                                            Risk = "bis_addresses_high_diversion_risk"
 	RiskBisBoycottRequesterList                                                  Risk = "bis_boycott_requester_list"
+	RiskChineseSoeAdjacent                                                       Risk = "chinese_soe_adjacent"
+	RiskChineseStateOwned                                                        Risk = "chinese_state_owned"
 	RiskCmicEntity                                                               Risk = "cmic_entity"
 	RiskCmicEntity50PercentRule                                                  Risk = "cmic_entity_50_percent_rule"
 	RiskControlledByAusSanctioned                                                Risk = "controlled_by_aus_sanctioned"
@@ -11047,10 +11626,13 @@ const (
 	RiskExportControlsSection1260H50PercentRule                                  Risk = "export_controls_section_1260h_50_percent_rule"
 	RiskExportControlsUnverifiedList                                             Risk = "export_controls_unverified_list"
 	RiskExportControlsUnverifiedList50PercentRule                                Risk = "export_controls_unverified_list_50_percent_rule"
+	RiskExportToChineseSoe                                                       Risk = "export_to_chinese_soe"
 	RiskExportToSanctioned                                                       Risk = "export_to_sanctioned"
 	RiskExportToSoe                                                              Risk = "export_to_soe"
-	RiskExportsBisHighPriorityItems                                              Risk = "exports_bis_high_priority_items"
-	RiskExportsBisHighPriorityItemsCriticalComponents                            Risk = "exports_bis_high_priority_items_critical_components"
+	RiskExportsBisHighPriorityItemsCriticalComponentsDirect                      Risk = "exports_bis_high_priority_items_critical_components_direct"
+	RiskExportsBisHighPriorityItemsCriticalComponentsIndirect                    Risk = "exports_bis_high_priority_items_critical_components_indirect"
+	RiskExportsBisHighPriorityItemsDirect                                        Risk = "exports_bis_high_priority_items_direct"
+	RiskExportsBisHighPriorityItemsIndirect                                      Risk = "exports_bis_high_priority_items_indirect"
 	RiskExportsConflictMinerals                                                  Risk = "exports_conflict_minerals"
 	RiskExportsEudrShipmentCattle                                                Risk = "exports_eudr_shipment_cattle"
 	RiskExportsEudrShipmentCocoa                                                 Risk = "exports_eudr_shipment_cocoa"
@@ -11067,6 +11649,43 @@ const (
 	RiskExportsRussianOil                                                        Risk = "exports_russian_oil"
 	RiskExportsToBisAddressesHighDiversionRisk                                   Risk = "exports_to_bis_addresses_high_diversion_risk"
 	RiskExportsToEntityLicensedWithFsbRf                                         Risk = "exports_to_entity_licensed_with_fsb_rf"
+	RiskExportsToJpnMetiEndUserEntity                                            Risk = "exports_to_jpn_meti_end_user_entity"
+	RiskExportsToJpnMofaExportBanEntity                                          Risk = "exports_to_jpn_mofa_export_ban_entity"
+	RiskExportsToSanctionedArgRepetJusEntity                                     Risk = "exports_to_sanctioned_arg_repet_jus_entity"
+	RiskExportsToSanctionedAusDfatEntity                                         Risk = "exports_to_sanctioned_aus_dfat_entity"
+	RiskExportsToSanctionedBelFpsfEntity                                         Risk = "exports_to_sanctioned_bel_fpsf_entity"
+	RiskExportsToSanctionedCanGacEntity                                          Risk = "exports_to_sanctioned_can_gac_entity"
+	RiskExportsToSanctionedCheSecoEntity                                         Risk = "exports_to_sanctioned_che_seco_entity"
+	RiskExportsToSanctionedCzeMofEntity                                          Risk = "exports_to_sanctioned_cze_mof_entity"
+	RiskExportsToSanctionedEuDgFismaEcEntity                                     Risk = "exports_to_sanctioned_eu_dg_fisma_ec_entity"
+	RiskExportsToSanctionedEuEcRegulation8332014Entity                           Risk = "exports_to_sanctioned_eu_ec_regulation_833_2014_entity"
+	RiskExportsToSanctionedEuEcSanctionsMapEntity                                Risk = "exports_to_sanctioned_eu_ec_sanctions_map_entity"
+	RiskExportsToSanctionedFraDgtMefidsEntity                                    Risk = "exports_to_sanctioned_fra_dgt_mefids_entity"
+	RiskExportsToSanctionedGbrFcdoEntity                                         Risk = "exports_to_sanctioned_gbr_fcdo_entity"
+	RiskExportsToSanctionedGbrHmtOfsiEntity                                      Risk = "exports_to_sanctioned_gbr_hmt_ofsi_entity"
+	RiskExportsToSanctionedIsrModNbctfEntity                                     Risk = "exports_to_sanctioned_isr_mod_nbctf_entity"
+	RiskExportsToSanctionedJpnMofEntity                                          Risk = "exports_to_sanctioned_jpn_mof_entity"
+	RiskExportsToSanctionedLtuMiEntity                                           Risk = "exports_to_sanctioned_ltu_mi_entity"
+	RiskExportsToSanctionedLvaFisEntity                                          Risk = "exports_to_sanctioned_lva_fis_entity"
+	RiskExportsToSanctionedMysMohaEntity                                         Risk = "exports_to_sanctioned_mys_moha_entity"
+	RiskExportsToSanctionedNldMofaEntity                                         Risk = "exports_to_sanctioned_nld_mofa_entity"
+	RiskExportsToSanctionedNzlMfatRusEntity                                      Risk = "exports_to_sanctioned_nzl_mfat_rus_entity"
+	RiskExportsToSanctionedPolMiaEntity                                          Risk = "exports_to_sanctioned_pol_mia_entity"
+	RiskExportsToSanctionedSgpAgcEntity                                          Risk = "exports_to_sanctioned_sgp_agc_entity"
+	RiskExportsToSanctionedUkrNsdcEntity                                         Risk = "exports_to_sanctioned_ukr_nsdc_entity"
+	RiskExportsToSanctionedUkrSfmsEntity                                         Risk = "exports_to_sanctioned_ukr_sfms_entity"
+	RiskExportsToSanctionedUnScEntity                                            Risk = "exports_to_sanctioned_un_sc_entity"
+	RiskExportsToSanctionedUsaOfacNonSdnEntity                                   Risk = "exports_to_sanctioned_usa_ofac_non_sdn_entity"
+	RiskExportsToSanctionedUsaOfacSdnEntity                                      Risk = "exports_to_sanctioned_usa_ofac_sdn_entity"
+	RiskExportsToSanctionedXxxEbrdEntity                                         Risk = "exports_to_sanctioned_xxx_ebrd_entity"
+	RiskExportsToSanctionedXxxIabdEntity                                         Risk = "exports_to_sanctioned_xxx_iabd_entity"
+	RiskExportsToUsaAecaDebarredEntity                                           Risk = "exports_to_usa_aeca_debarred_entity"
+	RiskExportsToUsaBisDeniedPersonsEntity                                       Risk = "exports_to_usa_bis_denied_persons_entity"
+	RiskExportsToUsaBisEntity                                                    Risk = "exports_to_usa_bis_entity"
+	RiskExportsToUsaBisMeuEntity                                                 Risk = "exports_to_usa_bis_meu_entity"
+	RiskExportsToUsaBisUnverifiedEntity                                          Risk = "exports_to_usa_bis_unverified_entity"
+	RiskExportsToUsaIsnEntity                                                    Risk = "exports_to_usa_isn_entity"
+	RiskExportsToUsaSection1260HEntity                                           Risk = "exports_to_usa_section_1260h_entity"
 	RiskForcedLaborAspiOriginDirect                                              Risk = "forced_labor_aspi_origin_direct"
 	RiskForcedLaborAspiOriginSubtier                                             Risk = "forced_labor_aspi_origin_subtier"
 	RiskForcedLaborAspiOriginSubtierProductBlueprint                             Risk = "forced_labor_aspi_origin_subtier_product_blueprint"
@@ -11094,6 +11713,34 @@ const (
 	RiskFormerSoe                                                                Risk = "former_soe"
 	RiskFormerWroEntity                                                          Risk = "former_wro_entity"
 	RiskFormerlySanctioned                                                       Risk = "formerly_sanctioned"
+	RiskFormerlySanctionedArgRepetJus                                            Risk = "formerly_sanctioned_arg_repet_jus"
+	RiskFormerlySanctionedAusDfat                                                Risk = "formerly_sanctioned_aus_dfat"
+	RiskFormerlySanctionedBelFpsf                                                Risk = "formerly_sanctioned_bel_fpsf"
+	RiskFormerlySanctionedCanGac                                                 Risk = "formerly_sanctioned_can_gac"
+	RiskFormerlySanctionedCheSeco                                                Risk = "formerly_sanctioned_che_seco"
+	RiskFormerlySanctionedCzeMof                                                 Risk = "formerly_sanctioned_cze_mof"
+	RiskFormerlySanctionedEuDgFismaEc                                            Risk = "formerly_sanctioned_eu_dg_fisma_ec"
+	RiskFormerlySanctionedEuEcRegulation8332014                                  Risk = "formerly_sanctioned_eu_ec_regulation_833_2014"
+	RiskFormerlySanctionedEuEcSanctionsMap                                       Risk = "formerly_sanctioned_eu_ec_sanctions_map"
+	RiskFormerlySanctionedFraDgtMefids                                           Risk = "formerly_sanctioned_fra_dgt_mefids"
+	RiskFormerlySanctionedGbrFcdo                                                Risk = "formerly_sanctioned_gbr_fcdo"
+	RiskFormerlySanctionedGbrHmtOfsi                                             Risk = "formerly_sanctioned_gbr_hmt_ofsi"
+	RiskFormerlySanctionedIsrModNbctf                                            Risk = "formerly_sanctioned_isr_mod_nbctf"
+	RiskFormerlySanctionedJpnMof                                                 Risk = "formerly_sanctioned_jpn_mof"
+	RiskFormerlySanctionedLtuMi                                                  Risk = "formerly_sanctioned_ltu_mi"
+	RiskFormerlySanctionedLvaFis                                                 Risk = "formerly_sanctioned_lva_fis"
+	RiskFormerlySanctionedMysMoha                                                Risk = "formerly_sanctioned_mys_moha"
+	RiskFormerlySanctionedNldMofa                                                Risk = "formerly_sanctioned_nld_mofa"
+	RiskFormerlySanctionedNzlMfatRus                                             Risk = "formerly_sanctioned_nzl_mfat_rus"
+	RiskFormerlySanctionedPolMia                                                 Risk = "formerly_sanctioned_pol_mia"
+	RiskFormerlySanctionedSgpAgc                                                 Risk = "formerly_sanctioned_sgp_agc"
+	RiskFormerlySanctionedUkrNsdc                                                Risk = "formerly_sanctioned_ukr_nsdc"
+	RiskFormerlySanctionedUkrSfms                                                Risk = "formerly_sanctioned_ukr_sfms"
+	RiskFormerlySanctionedUnSc                                                   Risk = "formerly_sanctioned_un_sc"
+	RiskFormerlySanctionedUsaOfacNonSdn                                          Risk = "formerly_sanctioned_usa_ofac_non_sdn"
+	RiskFormerlySanctionedUsaOfacSdn                                             Risk = "formerly_sanctioned_usa_ofac_sdn"
+	RiskFormerlySanctionedXxxEbrd                                                Risk = "formerly_sanctioned_xxx_ebrd"
+	RiskFormerlySanctionedXxxIabd                                                Risk = "formerly_sanctioned_xxx_iabd"
 	RiskImportsBisHighPriorityItems                                              Risk = "imports_bis_high_priority_items"
 	RiskImportsBisHighPriorityItemsCriticalComponents                            Risk = "imports_bis_high_priority_items_critical_components"
 	RiskImportsConflictMinerals                                                  Risk = "imports_conflict_minerals"
@@ -11112,10 +11759,13 @@ const (
 	RiskImportsRussianGold                                                       Risk = "imports_russian_gold"
 	RiskImportsRussianImportantGood                                              Risk = "imports_russian_important_good"
 	RiskImportsRussianOil                                                        Risk = "imports_russian_oil"
+	RiskJpnMetiEndUser                                                           Risk = "jpn_meti_end_user"
+	RiskJpnMofaExportBan                                                         Risk = "jpn_mofa_export_ban"
 	RiskLawEnforcementAction                                                     Risk = "law_enforcement_action"
 	RiskMeuListContractors                                                       Risk = "meu_list_contractors"
 	RiskMilitaryCivilFusion                                                      Risk = "military_civil_fusion"
 	RiskMilitaryCivilFusion50PercentRule                                         Risk = "military_civil_fusion_50_percent_rule"
+	RiskMilitaryEndUseChinaKeywords                                              Risk = "military_end_use_china_keywords"
 	RiskNdaa889CoveredEntities                                                   Risk = "ndaa_889_covered_entities"
 	RiskOfac50PercentRule                                                        Risk = "ofac_50_percent_rule"
 	RiskOfacFtoSanctioned                                                        Risk = "ofac_fto_sanctioned"
@@ -11123,42 +11773,123 @@ const (
 	RiskOfacMinorityOwnership                                                    Risk = "ofac_minority_ownership"
 	RiskOfacSdgtSanctioned                                                       Risk = "ofac_sdgt_sanctioned"
 	RiskOfacSdn                                                                  Risk = "ofac_sdn"
+	RiskOfacSdnMexDtoSanctioned                                                  Risk = "ofac_sdn_mex_dto_sanctioned"
+	RiskOfacSdnMexDtoSanctionedAdjacent                                          Risk = "ofac_sdn_mex_dto_sanctioned_adjacent"
 	RiskOfacSdntSanctioned                                                       Risk = "ofac_sdnt_sanctioned"
 	RiskOfacSdntkSanctioned                                                      Risk = "ofac_sdntk_sanctioned"
 	RiskOwnedByAspiForcedLaborEntity                                             Risk = "owned_by_aspi_forced_labor_entity"
 	RiskOwnedByBisMeuEntity                                                      Risk = "owned_by_bis_meu_entity"
+	RiskOwnedByChineseSoe                                                        Risk = "owned_by_chinese_soe"
 	RiskOwnedByCmicEntity                                                        Risk = "owned_by_cmic_entity"
 	RiskOwnedByEntityInExportControls                                            Risk = "owned_by_entity_in_export_controls"
 	RiskOwnedByForcedLaborXinjiangUflpa                                          Risk = "owned_by_forced_labor_xinjiang_uflpa"
+	RiskOwnedByJpnMetiEndUserEntity                                              Risk = "owned_by_jpn_meti_end_user_entity"
+	RiskOwnedByJpnMofaExportBanEntity                                            Risk = "owned_by_jpn_mofa_export_ban_entity"
 	RiskOwnedByMilitaryCivilFusion                                               Risk = "owned_by_military_civil_fusion"
 	RiskOwnedByOfacFtoSanctioned                                                 Risk = "owned_by_ofac_fto_sanctioned"
 	RiskOwnedByOfacIllicitDrugsEo14059Sanctioned                                 Risk = "owned_by_ofac_illicit_drugs_eo14059_sanctioned"
 	RiskOwnedByOfacSdgtSanctioned                                                Risk = "owned_by_ofac_sdgt_sanctioned"
+	RiskOwnedByOfacSdnMexDtoSanctioned                                           Risk = "owned_by_ofac_sdn_mex_dto_sanctioned"
 	RiskOwnedByOfacSdntSanctioned                                                Risk = "owned_by_ofac_sdnt_sanctioned"
 	RiskOwnedByOfacSdntkSanctioned                                               Risk = "owned_by_ofac_sdntk_sanctioned"
+	RiskOwnedBySanctionedArgRepetJusEntity                                       Risk = "owned_by_sanctioned_arg_repet_jus_entity"
+	RiskOwnedBySanctionedAusDfatEntity                                           Risk = "owned_by_sanctioned_aus_dfat_entity"
+	RiskOwnedBySanctionedBelFpsfEntity                                           Risk = "owned_by_sanctioned_bel_fpsf_entity"
+	RiskOwnedBySanctionedCanGacEntity                                            Risk = "owned_by_sanctioned_can_gac_entity"
+	RiskOwnedBySanctionedCheSecoEntity                                           Risk = "owned_by_sanctioned_che_seco_entity"
+	RiskOwnedBySanctionedCzeMofEntity                                            Risk = "owned_by_sanctioned_cze_mof_entity"
 	RiskOwnedBySanctionedEntity                                                  Risk = "owned_by_sanctioned_entity"
+	RiskOwnedBySanctionedEuDgFismaEcEntity                                       Risk = "owned_by_sanctioned_eu_dg_fisma_ec_entity"
+	RiskOwnedBySanctionedEuEcRegulation8332014Entity                             Risk = "owned_by_sanctioned_eu_ec_regulation_833_2014_entity"
+	RiskOwnedBySanctionedEuEcSanctionsMapEntity                                  Risk = "owned_by_sanctioned_eu_ec_sanctions_map_entity"
+	RiskOwnedBySanctionedFraDgtMefidsEntity                                      Risk = "owned_by_sanctioned_fra_dgt_mefids_entity"
+	RiskOwnedBySanctionedGbrFcdoEntity                                           Risk = "owned_by_sanctioned_gbr_fcdo_entity"
+	RiskOwnedBySanctionedGbrHmtOfsiEntity                                        Risk = "owned_by_sanctioned_gbr_hmt_ofsi_entity"
+	RiskOwnedBySanctionedIsrModNbctfEntity                                       Risk = "owned_by_sanctioned_isr_mod_nbctf_entity"
+	RiskOwnedBySanctionedJpnMofEntity                                            Risk = "owned_by_sanctioned_jpn_mof_entity"
+	RiskOwnedBySanctionedLtuMiEntity                                             Risk = "owned_by_sanctioned_ltu_mi_entity"
+	RiskOwnedBySanctionedLvaFisEntity                                            Risk = "owned_by_sanctioned_lva_fis_entity"
+	RiskOwnedBySanctionedMysMohaEntity                                           Risk = "owned_by_sanctioned_mys_moha_entity"
+	RiskOwnedBySanctionedNldMofaEntity                                           Risk = "owned_by_sanctioned_nld_mofa_entity"
+	RiskOwnedBySanctionedNzlMfatRusEntity                                        Risk = "owned_by_sanctioned_nzl_mfat_rus_entity"
+	RiskOwnedBySanctionedPolMiaEntity                                            Risk = "owned_by_sanctioned_pol_mia_entity"
+	RiskOwnedBySanctionedSgpAgcEntity                                            Risk = "owned_by_sanctioned_sgp_agc_entity"
+	RiskOwnedBySanctionedUkrNsdcEntity                                           Risk = "owned_by_sanctioned_ukr_nsdc_entity"
+	RiskOwnedBySanctionedUkrSfmsEntity                                           Risk = "owned_by_sanctioned_ukr_sfms_entity"
+	RiskOwnedBySanctionedUnScEntity                                              Risk = "owned_by_sanctioned_un_sc_entity"
+	RiskOwnedBySanctionedUsaOfacNonSdnEntity                                     Risk = "owned_by_sanctioned_usa_ofac_non_sdn_entity"
+	RiskOwnedBySanctionedUsaOfacSdnEntity                                        Risk = "owned_by_sanctioned_usa_ofac_sdn_entity"
+	RiskOwnedBySanctionedXxxEbrdEntity                                           Risk = "owned_by_sanctioned_xxx_ebrd_entity"
+	RiskOwnedBySanctionedXxxIabdEntity                                           Risk = "owned_by_sanctioned_xxx_iabd_entity"
 	RiskOwnedBySection1260HEntity                                                Risk = "owned_by_section_1260h_entity"
 	RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity                 Risk = "owned_by_sheffield_hallam_university_reports_forced_labor_entity"
 	RiskOwnedBySoe                                                               Risk = "owned_by_soe"
+	RiskOwnedByUsaAecaDebarredEntity                                             Risk = "owned_by_usa_aeca_debarred_entity"
+	RiskOwnedByUsaBisDeniedPersonsEntity                                         Risk = "owned_by_usa_bis_denied_persons_entity"
+	RiskOwnedByUsaBisEntity                                                      Risk = "owned_by_usa_bis_entity"
+	RiskOwnedByUsaBisMeuEntity                                                   Risk = "owned_by_usa_bis_meu_entity"
+	RiskOwnedByUsaBisUnverifiedEntity                                            Risk = "owned_by_usa_bis_unverified_entity"
+	RiskOwnedByUsaIsnEntity                                                      Risk = "owned_by_usa_isn_entity"
+	RiskOwnedByUsaSection1260HEntity                                             Risk = "owned_by_usa_section_1260h_entity"
 	RiskOwnedByWroEntity                                                         Risk = "owned_by_wro_entity"
 	RiskOwnedByXinjiangEntity                                                    Risk = "owned_by_xinjiang_entity"
 	RiskOwnerOfAspiForcedLaborEntity                                             Risk = "owner_of_aspi_forced_labor_entity"
+	RiskOwnerOfChineseSoe                                                        Risk = "owner_of_chinese_soe"
 	RiskOwnerOfExportControlsEntity                                              Risk = "owner_of_export_controls_entity"
 	RiskOwnerOfForcedLaborXinjiangEntity                                         Risk = "owner_of_forced_labor_xinjiang_entity"
 	RiskOwnerOfForcedLaborXinjiangUflpa                                          Risk = "owner_of_forced_labor_xinjiang_uflpa"
+	RiskOwnerOfJpnMetiEndUserEntity                                              Risk = "owner_of_jpn_meti_end_user_entity"
+	RiskOwnerOfJpnMofaExportBanEntity                                            Risk = "owner_of_jpn_mofa_export_ban_entity"
 	RiskOwnerOfOfacFtoSanctioned                                                 Risk = "owner_of_ofac_fto_sanctioned"
 	RiskOwnerOfOfacIllicitDrugsEo14059Sanctioned                                 Risk = "owner_of_ofac_illicit_drugs_eo14059_sanctioned"
 	RiskOwnerOfOfacSdgtSanctioned                                                Risk = "owner_of_ofac_sdgt_sanctioned"
+	RiskOwnerOfOfacSdnMexDtoSanctioned                                           Risk = "owner_of_ofac_sdn_mex_dto_sanctioned"
 	RiskOwnerOfOfacSdntSanctioned                                                Risk = "owner_of_ofac_sdnt_sanctioned"
 	RiskOwnerOfOfacSdntkSanctioned                                               Risk = "owner_of_ofac_sdntk_sanctioned"
 	RiskOwnerOfRegulatoryActionEntity                                            Risk = "owner_of_regulatory_action_entity"
+	RiskOwnerOfSanctionedArgRepetJusEntity                                       Risk = "owner_of_sanctioned_arg_repet_jus_entity"
+	RiskOwnerOfSanctionedAusDfatEntity                                           Risk = "owner_of_sanctioned_aus_dfat_entity"
+	RiskOwnerOfSanctionedBelFpsfEntity                                           Risk = "owner_of_sanctioned_bel_fpsf_entity"
+	RiskOwnerOfSanctionedCanGacEntity                                            Risk = "owner_of_sanctioned_can_gac_entity"
+	RiskOwnerOfSanctionedCheSecoEntity                                           Risk = "owner_of_sanctioned_che_seco_entity"
+	RiskOwnerOfSanctionedCzeMofEntity                                            Risk = "owner_of_sanctioned_cze_mof_entity"
 	RiskOwnerOfSanctionedEntity                                                  Risk = "owner_of_sanctioned_entity"
+	RiskOwnerOfSanctionedEuDgFismaEcEntity                                       Risk = "owner_of_sanctioned_eu_dg_fisma_ec_entity"
+	RiskOwnerOfSanctionedEuEcRegulation8332014Entity                             Risk = "owner_of_sanctioned_eu_ec_regulation_833_2014_entity"
+	RiskOwnerOfSanctionedEuEcSanctionsMapEntity                                  Risk = "owner_of_sanctioned_eu_ec_sanctions_map_entity"
+	RiskOwnerOfSanctionedFraDgtMefidsEntity                                      Risk = "owner_of_sanctioned_fra_dgt_mefids_entity"
+	RiskOwnerOfSanctionedGbrFcdoEntity                                           Risk = "owner_of_sanctioned_gbr_fcdo_entity"
+	RiskOwnerOfSanctionedGbrHmtOfsiEntity                                        Risk = "owner_of_sanctioned_gbr_hmt_ofsi_entity"
+	RiskOwnerOfSanctionedIsrModNbctfEntity                                       Risk = "owner_of_sanctioned_isr_mod_nbctf_entity"
+	RiskOwnerOfSanctionedJpnMofEntity                                            Risk = "owner_of_sanctioned_jpn_mof_entity"
+	RiskOwnerOfSanctionedLtuMiEntity                                             Risk = "owner_of_sanctioned_ltu_mi_entity"
+	RiskOwnerOfSanctionedLvaFisEntity                                            Risk = "owner_of_sanctioned_lva_fis_entity"
+	RiskOwnerOfSanctionedMysMohaEntity                                           Risk = "owner_of_sanctioned_mys_moha_entity"
+	RiskOwnerOfSanctionedNldMofaEntity                                           Risk = "owner_of_sanctioned_nld_mofa_entity"
+	RiskOwnerOfSanctionedNzlMfatRusEntity                                        Risk = "owner_of_sanctioned_nzl_mfat_rus_entity"
+	RiskOwnerOfSanctionedPolMiaEntity                                            Risk = "owner_of_sanctioned_pol_mia_entity"
+	RiskOwnerOfSanctionedSgpAgcEntity                                            Risk = "owner_of_sanctioned_sgp_agc_entity"
+	RiskOwnerOfSanctionedUkrNsdcEntity                                           Risk = "owner_of_sanctioned_ukr_nsdc_entity"
+	RiskOwnerOfSanctionedUkrSfmsEntity                                           Risk = "owner_of_sanctioned_ukr_sfms_entity"
+	RiskOwnerOfSanctionedUnScEntity                                              Risk = "owner_of_sanctioned_un_sc_entity"
+	RiskOwnerOfSanctionedUsaOfacNonSdnEntity                                     Risk = "owner_of_sanctioned_usa_ofac_non_sdn_entity"
+	RiskOwnerOfSanctionedUsaOfacSdnEntity                                        Risk = "owner_of_sanctioned_usa_ofac_sdn_entity"
+	RiskOwnerOfSanctionedXxxEbrdEntity                                           Risk = "owner_of_sanctioned_xxx_ebrd_entity"
+	RiskOwnerOfSanctionedXxxIabdEntity                                           Risk = "owner_of_sanctioned_xxx_iabd_entity"
 	RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity                 Risk = "owner_of_sheffield_hallam_university_reports_forced_labor_entity"
 	RiskOwnerOfSoe                                                               Risk = "owner_of_soe"
+	RiskOwnerOfUsaAecaDebarredEntity                                             Risk = "owner_of_usa_aeca_debarred_entity"
+	RiskOwnerOfUsaBisDeniedPersonsEntity                                         Risk = "owner_of_usa_bis_denied_persons_entity"
+	RiskOwnerOfUsaBisEntity                                                      Risk = "owner_of_usa_bis_entity"
+	RiskOwnerOfUsaBisMeuEntity                                                   Risk = "owner_of_usa_bis_meu_entity"
+	RiskOwnerOfUsaBisUnverifiedEntity                                            Risk = "owner_of_usa_bis_unverified_entity"
+	RiskOwnerOfUsaIsnEntity                                                      Risk = "owner_of_usa_isn_entity"
+	RiskOwnerOfUsaSection1260HEntity                                             Risk = "owner_of_usa_section_1260h_entity"
 	RiskOwnerOfWroEntity                                                         Risk = "owner_of_wro_entity"
 	RiskPep                                                                      Risk = "pep"
 	RiskPepAdjacent                                                              Risk = "pep_adjacent"
 	RiskPsaBisBoycottRequesterList                                               Risk = "psa_bis_boycott_requester_list"
+	RiskPsaChineseStateOwned                                                     Risk = "psa_chinese_state_owned"
 	RiskPsaCmicEntity50PercentRule                                               Risk = "psa_cmic_entity_50_percent_rule"
 	RiskPsaEntityLicensedWithFsbRf                                               Risk = "psa_entity_licensed_with_fsb_rf"
 	RiskPsaEu50PercentRule                                                       Risk = "psa_eu_50_percent_rule"
@@ -11168,10 +11899,13 @@ const (
 	RiskPsaExportControlsBisMeu50PercentRule                                     Risk = "psa_export_controls_bis_meu_50_percent_rule"
 	RiskPsaExportControlsSection1260H50PercentRule                               Risk = "psa_export_controls_section_1260h_50_percent_rule"
 	RiskPsaExportControlsUnverifiedList50PercentRule                             Risk = "psa_export_controls_unverified_list_50_percent_rule"
+	RiskPsaExportToChineseSoe                                                    Risk = "psa_export_to_chinese_soe"
 	RiskPsaExportToSanctioned                                                    Risk = "psa_export_to_sanctioned"
 	RiskPsaExportToSoe                                                           Risk = "psa_export_to_soe"
-	RiskPsaExportsBisHighPriorityItems                                           Risk = "psa_exports_bis_high_priority_items"
-	RiskPsaExportsBisHighPriorityItemsCriticalComponents                         Risk = "psa_exports_bis_high_priority_items_critical_components"
+	RiskPsaExportsBisHighPriorityItemsCriticalComponentsDirect                   Risk = "psa_exports_bis_high_priority_items_critical_components_direct"
+	RiskPsaExportsBisHighPriorityItemsCriticalComponentsIndirect                 Risk = "psa_exports_bis_high_priority_items_critical_components_indirect"
+	RiskPsaExportsBisHighPriorityItemsDirect                                     Risk = "psa_exports_bis_high_priority_items_direct"
+	RiskPsaExportsBisHighPriorityItemsIndirect                                   Risk = "psa_exports_bis_high_priority_items_indirect"
 	RiskPsaExportsConflictMinerals                                               Risk = "psa_exports_conflict_minerals"
 	RiskPsaExportsEudrShipmentCattle                                             Risk = "psa_exports_eudr_shipment_cattle"
 	RiskPsaExportsEudrShipmentCocoa                                              Risk = "psa_exports_eudr_shipment_cocoa"
@@ -11188,6 +11922,43 @@ const (
 	RiskPsaExportsRussianOil                                                     Risk = "psa_exports_russian_oil"
 	RiskPsaExportsToBisAddressesHighDiversionRisk                                Risk = "psa_exports_to_bis_addresses_high_diversion_risk"
 	RiskPsaExportsToEntityLicensedWithFsbRf                                      Risk = "psa_exports_to_entity_licensed_with_fsb_rf"
+	RiskPsaExportsToJpnMetiEndUserEntity                                         Risk = "psa_exports_to_jpn_meti_end_user_entity"
+	RiskPsaExportsToJpnMofaExportBanEntity                                       Risk = "psa_exports_to_jpn_mofa_export_ban_entity"
+	RiskPsaExportsToSanctionedArgRepetJusEntity                                  Risk = "psa_exports_to_sanctioned_arg_repet_jus_entity"
+	RiskPsaExportsToSanctionedAusDfatEntity                                      Risk = "psa_exports_to_sanctioned_aus_dfat_entity"
+	RiskPsaExportsToSanctionedBelFpsfEntity                                      Risk = "psa_exports_to_sanctioned_bel_fpsf_entity"
+	RiskPsaExportsToSanctionedCanGacEntity                                       Risk = "psa_exports_to_sanctioned_can_gac_entity"
+	RiskPsaExportsToSanctionedCheSecoEntity                                      Risk = "psa_exports_to_sanctioned_che_seco_entity"
+	RiskPsaExportsToSanctionedCzeMofEntity                                       Risk = "psa_exports_to_sanctioned_cze_mof_entity"
+	RiskPsaExportsToSanctionedEuDgFismaEcEntity                                  Risk = "psa_exports_to_sanctioned_eu_dg_fisma_ec_entity"
+	RiskPsaExportsToSanctionedEuEcRegulation8332014Entity                        Risk = "psa_exports_to_sanctioned_eu_ec_regulation_833_2014_entity"
+	RiskPsaExportsToSanctionedEuEcSanctionsMapEntity                             Risk = "psa_exports_to_sanctioned_eu_ec_sanctions_map_entity"
+	RiskPsaExportsToSanctionedFraDgtMefidsEntity                                 Risk = "psa_exports_to_sanctioned_fra_dgt_mefids_entity"
+	RiskPsaExportsToSanctionedGbrFcdoEntity                                      Risk = "psa_exports_to_sanctioned_gbr_fcdo_entity"
+	RiskPsaExportsToSanctionedGbrHmtOfsiEntity                                   Risk = "psa_exports_to_sanctioned_gbr_hmt_ofsi_entity"
+	RiskPsaExportsToSanctionedIsrModNbctfEntity                                  Risk = "psa_exports_to_sanctioned_isr_mod_nbctf_entity"
+	RiskPsaExportsToSanctionedJpnMofEntity                                       Risk = "psa_exports_to_sanctioned_jpn_mof_entity"
+	RiskPsaExportsToSanctionedLtuMiEntity                                        Risk = "psa_exports_to_sanctioned_ltu_mi_entity"
+	RiskPsaExportsToSanctionedLvaFisEntity                                       Risk = "psa_exports_to_sanctioned_lva_fis_entity"
+	RiskPsaExportsToSanctionedMysMohaEntity                                      Risk = "psa_exports_to_sanctioned_mys_moha_entity"
+	RiskPsaExportsToSanctionedNldMofaEntity                                      Risk = "psa_exports_to_sanctioned_nld_mofa_entity"
+	RiskPsaExportsToSanctionedNzlMfatRusEntity                                   Risk = "psa_exports_to_sanctioned_nzl_mfat_rus_entity"
+	RiskPsaExportsToSanctionedPolMiaEntity                                       Risk = "psa_exports_to_sanctioned_pol_mia_entity"
+	RiskPsaExportsToSanctionedSgpAgcEntity                                       Risk = "psa_exports_to_sanctioned_sgp_agc_entity"
+	RiskPsaExportsToSanctionedUkrNsdcEntity                                      Risk = "psa_exports_to_sanctioned_ukr_nsdc_entity"
+	RiskPsaExportsToSanctionedUkrSfmsEntity                                      Risk = "psa_exports_to_sanctioned_ukr_sfms_entity"
+	RiskPsaExportsToSanctionedUnScEntity                                         Risk = "psa_exports_to_sanctioned_un_sc_entity"
+	RiskPsaExportsToSanctionedUsaOfacNonSdnEntity                                Risk = "psa_exports_to_sanctioned_usa_ofac_non_sdn_entity"
+	RiskPsaExportsToSanctionedUsaOfacSdnEntity                                   Risk = "psa_exports_to_sanctioned_usa_ofac_sdn_entity"
+	RiskPsaExportsToSanctionedXxxEbrdEntity                                      Risk = "psa_exports_to_sanctioned_xxx_ebrd_entity"
+	RiskPsaExportsToSanctionedXxxIabdEntity                                      Risk = "psa_exports_to_sanctioned_xxx_iabd_entity"
+	RiskPsaExportsToUsaAecaDebarredEntity                                        Risk = "psa_exports_to_usa_aeca_debarred_entity"
+	RiskPsaExportsToUsaBisDeniedPersonsEntity                                    Risk = "psa_exports_to_usa_bis_denied_persons_entity"
+	RiskPsaExportsToUsaBisEntity                                                 Risk = "psa_exports_to_usa_bis_entity"
+	RiskPsaExportsToUsaBisMeuEntity                                              Risk = "psa_exports_to_usa_bis_meu_entity"
+	RiskPsaExportsToUsaBisUnverifiedEntity                                       Risk = "psa_exports_to_usa_bis_unverified_entity"
+	RiskPsaExportsToUsaIsnEntity                                                 Risk = "psa_exports_to_usa_isn_entity"
+	RiskPsaExportsToUsaSection1260HEntity                                        Risk = "psa_exports_to_usa_section_1260h_entity"
 	RiskPsaForcedLaborAspiOriginDirect                                           Risk = "psa_forced_labor_aspi_origin_direct"
 	RiskPsaForcedLaborAspiOriginSubtier                                          Risk = "psa_forced_labor_aspi_origin_subtier"
 	RiskPsaForcedLaborAspiUyghur                                                 Risk = "psa_forced_labor_aspi_uyghur"
@@ -11223,44 +11994,153 @@ const (
 	RiskPsaImportsRussianGold                                                    Risk = "psa_imports_russian_gold"
 	RiskPsaImportsRussianImportantGood                                           Risk = "psa_imports_russian_important_good"
 	RiskPsaImportsRussianOil                                                     Risk = "psa_imports_russian_oil"
+	RiskPsaJpnMetiEndUser                                                        Risk = "psa_jpn_meti_end_user"
+	RiskPsaJpnMofaExportBan                                                      Risk = "psa_jpn_mofa_export_ban"
 	RiskPsaMilitaryCivilFusion                                                   Risk = "psa_military_civil_fusion"
 	RiskPsaMilitaryCivilFusion50PercentRule                                      Risk = "psa_military_civil_fusion_50_percent_rule"
 	RiskPsaOfac50PercentRule                                                     Risk = "psa_ofac_50_percent_rule"
 	RiskPsaOfacMinorityOwnership                                                 Risk = "psa_ofac_minority_ownership"
+	RiskPsaOfacSdnMexDtoSanctionedAdjacent                                       Risk = "psa_ofac_sdn_mex_dto_sanctioned_adjacent"
 	RiskPsaOwnedByAspiForcedLaborEntity                                          Risk = "psa_owned_by_aspi_forced_labor_entity"
 	RiskPsaOwnedByBisMeuEntity                                                   Risk = "psa_owned_by_bis_meu_entity"
+	RiskPsaOwnedByChineseSoe                                                     Risk = "psa_owned_by_chinese_soe"
 	RiskPsaOwnedByCmicEntity                                                     Risk = "psa_owned_by_cmic_entity"
 	RiskPsaOwnedByEntityInExportControls                                         Risk = "psa_owned_by_entity_in_export_controls"
 	RiskPsaOwnedByForcedLaborXinjiangUflpa                                       Risk = "psa_owned_by_forced_labor_xinjiang_uflpa"
+	RiskPsaOwnedByJpnMetiEndUserEntity                                           Risk = "psa_owned_by_jpn_meti_end_user_entity"
+	RiskPsaOwnedByJpnMofaExportBanEntity                                         Risk = "psa_owned_by_jpn_mofa_export_ban_entity"
 	RiskPsaOwnedByMilitaryCivilFusion                                            Risk = "psa_owned_by_military_civil_fusion"
 	RiskPsaOwnedByOfacFtoSanctioned                                              Risk = "psa_owned_by_ofac_fto_sanctioned"
 	RiskPsaOwnedByOfacIllicitDrugsEo14059Sanctioned                              Risk = "psa_owned_by_ofac_illicit_drugs_eo14059_sanctioned"
 	RiskPsaOwnedByOfacSdgtSanctioned                                             Risk = "psa_owned_by_ofac_sdgt_sanctioned"
+	RiskPsaOwnedByOfacSdnMexDtoSanctioned                                        Risk = "psa_owned_by_ofac_sdn_mex_dto_sanctioned"
 	RiskPsaOwnedByOfacSdntSanctioned                                             Risk = "psa_owned_by_ofac_sdnt_sanctioned"
 	RiskPsaOwnedByOfacSdntkSanctioned                                            Risk = "psa_owned_by_ofac_sdntk_sanctioned"
+	RiskPsaOwnedBySanctionedArgRepetJusEntity                                    Risk = "psa_owned_by_sanctioned_arg_repet_jus_entity"
+	RiskPsaOwnedBySanctionedAusDfatEntity                                        Risk = "psa_owned_by_sanctioned_aus_dfat_entity"
+	RiskPsaOwnedBySanctionedBelFpsfEntity                                        Risk = "psa_owned_by_sanctioned_bel_fpsf_entity"
+	RiskPsaOwnedBySanctionedCanGacEntity                                         Risk = "psa_owned_by_sanctioned_can_gac_entity"
+	RiskPsaOwnedBySanctionedCheSecoEntity                                        Risk = "psa_owned_by_sanctioned_che_seco_entity"
+	RiskPsaOwnedBySanctionedCzeMofEntity                                         Risk = "psa_owned_by_sanctioned_cze_mof_entity"
 	RiskPsaOwnedBySanctionedEntity                                               Risk = "psa_owned_by_sanctioned_entity"
+	RiskPsaOwnedBySanctionedEuDgFismaEcEntity                                    Risk = "psa_owned_by_sanctioned_eu_dg_fisma_ec_entity"
+	RiskPsaOwnedBySanctionedEuEcRegulation8332014Entity                          Risk = "psa_owned_by_sanctioned_eu_ec_regulation_833_2014_entity"
+	RiskPsaOwnedBySanctionedEuEcSanctionsMapEntity                               Risk = "psa_owned_by_sanctioned_eu_ec_sanctions_map_entity"
+	RiskPsaOwnedBySanctionedFraDgtMefidsEntity                                   Risk = "psa_owned_by_sanctioned_fra_dgt_mefids_entity"
+	RiskPsaOwnedBySanctionedGbrFcdoEntity                                        Risk = "psa_owned_by_sanctioned_gbr_fcdo_entity"
+	RiskPsaOwnedBySanctionedGbrHmtOfsiEntity                                     Risk = "psa_owned_by_sanctioned_gbr_hmt_ofsi_entity"
+	RiskPsaOwnedBySanctionedIsrModNbctfEntity                                    Risk = "psa_owned_by_sanctioned_isr_mod_nbctf_entity"
+	RiskPsaOwnedBySanctionedJpnMofEntity                                         Risk = "psa_owned_by_sanctioned_jpn_mof_entity"
+	RiskPsaOwnedBySanctionedLtuMiEntity                                          Risk = "psa_owned_by_sanctioned_ltu_mi_entity"
+	RiskPsaOwnedBySanctionedLvaFisEntity                                         Risk = "psa_owned_by_sanctioned_lva_fis_entity"
+	RiskPsaOwnedBySanctionedMysMohaEntity                                        Risk = "psa_owned_by_sanctioned_mys_moha_entity"
+	RiskPsaOwnedBySanctionedNldMofaEntity                                        Risk = "psa_owned_by_sanctioned_nld_mofa_entity"
+	RiskPsaOwnedBySanctionedNzlMfatRusEntity                                     Risk = "psa_owned_by_sanctioned_nzl_mfat_rus_entity"
+	RiskPsaOwnedBySanctionedPolMiaEntity                                         Risk = "psa_owned_by_sanctioned_pol_mia_entity"
+	RiskPsaOwnedBySanctionedSgpAgcEntity                                         Risk = "psa_owned_by_sanctioned_sgp_agc_entity"
+	RiskPsaOwnedBySanctionedUkrNsdcEntity                                        Risk = "psa_owned_by_sanctioned_ukr_nsdc_entity"
+	RiskPsaOwnedBySanctionedUkrSfmsEntity                                        Risk = "psa_owned_by_sanctioned_ukr_sfms_entity"
+	RiskPsaOwnedBySanctionedUnScEntity                                           Risk = "psa_owned_by_sanctioned_un_sc_entity"
+	RiskPsaOwnedBySanctionedUsaOfacNonSdnEntity                                  Risk = "psa_owned_by_sanctioned_usa_ofac_non_sdn_entity"
+	RiskPsaOwnedBySanctionedUsaOfacSdnEntity                                     Risk = "psa_owned_by_sanctioned_usa_ofac_sdn_entity"
+	RiskPsaOwnedBySanctionedXxxEbrdEntity                                        Risk = "psa_owned_by_sanctioned_xxx_ebrd_entity"
+	RiskPsaOwnedBySanctionedXxxIabdEntity                                        Risk = "psa_owned_by_sanctioned_xxx_iabd_entity"
 	RiskPsaOwnedBySection1260HEntity                                             Risk = "psa_owned_by_section_1260h_entity"
 	RiskPsaOwnedBySheffieldHallamUniversityReportsForcedLaborEntity              Risk = "psa_owned_by_sheffield_hallam_university_reports_forced_labor_entity"
 	RiskPsaOwnedBySoe                                                            Risk = "psa_owned_by_soe"
+	RiskPsaOwnedByUsaAecaDebarredEntity                                          Risk = "psa_owned_by_usa_aeca_debarred_entity"
+	RiskPsaOwnedByUsaBisDeniedPersonsEntity                                      Risk = "psa_owned_by_usa_bis_denied_persons_entity"
+	RiskPsaOwnedByUsaBisEntity                                                   Risk = "psa_owned_by_usa_bis_entity"
+	RiskPsaOwnedByUsaBisMeuEntity                                                Risk = "psa_owned_by_usa_bis_meu_entity"
+	RiskPsaOwnedByUsaBisUnverifiedEntity                                         Risk = "psa_owned_by_usa_bis_unverified_entity"
+	RiskPsaOwnedByUsaIsnEntity                                                   Risk = "psa_owned_by_usa_isn_entity"
+	RiskPsaOwnedByUsaSection1260HEntity                                          Risk = "psa_owned_by_usa_section_1260h_entity"
 	RiskPsaOwnedByWroEntity                                                      Risk = "psa_owned_by_wro_entity"
 	RiskPsaOwnedByXinjiangEntity                                                 Risk = "psa_owned_by_xinjiang_entity"
 	RiskPsaOwnerOfAspiForcedLaborEntity                                          Risk = "psa_owner_of_aspi_forced_labor_entity"
+	RiskPsaOwnerOfChineseSoe                                                     Risk = "psa_owner_of_chinese_soe"
 	RiskPsaOwnerOfExportControlsEntity                                           Risk = "psa_owner_of_export_controls_entity"
 	RiskPsaOwnerOfForcedLaborXinjiangEntity                                      Risk = "psa_owner_of_forced_labor_xinjiang_entity"
 	RiskPsaOwnerOfForcedLaborXinjiangUflpa                                       Risk = "psa_owner_of_forced_labor_xinjiang_uflpa"
+	RiskPsaOwnerOfJpnMetiEndUserEntity                                           Risk = "psa_owner_of_jpn_meti_end_user_entity"
+	RiskPsaOwnerOfJpnMofaExportBanEntity                                         Risk = "psa_owner_of_jpn_mofa_export_ban_entity"
 	RiskPsaOwnerOfOfacFtoSanctioned                                              Risk = "psa_owner_of_ofac_fto_sanctioned"
 	RiskPsaOwnerOfOfacIllicitDrugsEo14059Sanctioned                              Risk = "psa_owner_of_ofac_illicit_drugs_eo14059_sanctioned"
 	RiskPsaOwnerOfOfacSdgtSanctioned                                             Risk = "psa_owner_of_ofac_sdgt_sanctioned"
+	RiskPsaOwnerOfOfacSdnMexDtoSanctioned                                        Risk = "psa_owner_of_ofac_sdn_mex_dto_sanctioned"
 	RiskPsaOwnerOfOfacSdntSanctioned                                             Risk = "psa_owner_of_ofac_sdnt_sanctioned"
 	RiskPsaOwnerOfOfacSdntkSanctioned                                            Risk = "psa_owner_of_ofac_sdntk_sanctioned"
 	RiskPsaOwnerOfRegulatoryActionEntity                                         Risk = "psa_owner_of_regulatory_action_entity"
+	RiskPsaOwnerOfSanctionedArgRepetJusEntity                                    Risk = "psa_owner_of_sanctioned_arg_repet_jus_entity"
+	RiskPsaOwnerOfSanctionedAusDfatEntity                                        Risk = "psa_owner_of_sanctioned_aus_dfat_entity"
+	RiskPsaOwnerOfSanctionedBelFpsfEntity                                        Risk = "psa_owner_of_sanctioned_bel_fpsf_entity"
+	RiskPsaOwnerOfSanctionedCanGacEntity                                         Risk = "psa_owner_of_sanctioned_can_gac_entity"
+	RiskPsaOwnerOfSanctionedCheSecoEntity                                        Risk = "psa_owner_of_sanctioned_che_seco_entity"
+	RiskPsaOwnerOfSanctionedCzeMofEntity                                         Risk = "psa_owner_of_sanctioned_cze_mof_entity"
 	RiskPsaOwnerOfSanctionedEntity                                               Risk = "psa_owner_of_sanctioned_entity"
+	RiskPsaOwnerOfSanctionedEuDgFismaEcEntity                                    Risk = "psa_owner_of_sanctioned_eu_dg_fisma_ec_entity"
+	RiskPsaOwnerOfSanctionedEuEcRegulation8332014Entity                          Risk = "psa_owner_of_sanctioned_eu_ec_regulation_833_2014_entity"
+	RiskPsaOwnerOfSanctionedEuEcSanctionsMapEntity                               Risk = "psa_owner_of_sanctioned_eu_ec_sanctions_map_entity"
+	RiskPsaOwnerOfSanctionedFraDgtMefidsEntity                                   Risk = "psa_owner_of_sanctioned_fra_dgt_mefids_entity"
+	RiskPsaOwnerOfSanctionedGbrFcdoEntity                                        Risk = "psa_owner_of_sanctioned_gbr_fcdo_entity"
+	RiskPsaOwnerOfSanctionedGbrHmtOfsiEntity                                     Risk = "psa_owner_of_sanctioned_gbr_hmt_ofsi_entity"
+	RiskPsaOwnerOfSanctionedIsrModNbctfEntity                                    Risk = "psa_owner_of_sanctioned_isr_mod_nbctf_entity"
+	RiskPsaOwnerOfSanctionedJpnMofEntity                                         Risk = "psa_owner_of_sanctioned_jpn_mof_entity"
+	RiskPsaOwnerOfSanctionedLtuMiEntity                                          Risk = "psa_owner_of_sanctioned_ltu_mi_entity"
+	RiskPsaOwnerOfSanctionedLvaFisEntity                                         Risk = "psa_owner_of_sanctioned_lva_fis_entity"
+	RiskPsaOwnerOfSanctionedMysMohaEntity                                        Risk = "psa_owner_of_sanctioned_mys_moha_entity"
+	RiskPsaOwnerOfSanctionedNldMofaEntity                                        Risk = "psa_owner_of_sanctioned_nld_mofa_entity"
+	RiskPsaOwnerOfSanctionedNzlMfatRusEntity                                     Risk = "psa_owner_of_sanctioned_nzl_mfat_rus_entity"
+	RiskPsaOwnerOfSanctionedPolMiaEntity                                         Risk = "psa_owner_of_sanctioned_pol_mia_entity"
+	RiskPsaOwnerOfSanctionedSgpAgcEntity                                         Risk = "psa_owner_of_sanctioned_sgp_agc_entity"
+	RiskPsaOwnerOfSanctionedUkrNsdcEntity                                        Risk = "psa_owner_of_sanctioned_ukr_nsdc_entity"
+	RiskPsaOwnerOfSanctionedUkrSfmsEntity                                        Risk = "psa_owner_of_sanctioned_ukr_sfms_entity"
+	RiskPsaOwnerOfSanctionedUnScEntity                                           Risk = "psa_owner_of_sanctioned_un_sc_entity"
+	RiskPsaOwnerOfSanctionedUsaOfacNonSdnEntity                                  Risk = "psa_owner_of_sanctioned_usa_ofac_non_sdn_entity"
+	RiskPsaOwnerOfSanctionedUsaOfacSdnEntity                                     Risk = "psa_owner_of_sanctioned_usa_ofac_sdn_entity"
+	RiskPsaOwnerOfSanctionedXxxEbrdEntity                                        Risk = "psa_owner_of_sanctioned_xxx_ebrd_entity"
+	RiskPsaOwnerOfSanctionedXxxIabdEntity                                        Risk = "psa_owner_of_sanctioned_xxx_iabd_entity"
 	RiskPsaOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity              Risk = "psa_owner_of_sheffield_hallam_university_reports_forced_labor_entity"
 	RiskPsaOwnerOfSoe                                                            Risk = "psa_owner_of_soe"
+	RiskPsaOwnerOfUsaAecaDebarredEntity                                          Risk = "psa_owner_of_usa_aeca_debarred_entity"
+	RiskPsaOwnerOfUsaBisDeniedPersonsEntity                                      Risk = "psa_owner_of_usa_bis_denied_persons_entity"
+	RiskPsaOwnerOfUsaBisEntity                                                   Risk = "psa_owner_of_usa_bis_entity"
+	RiskPsaOwnerOfUsaBisMeuEntity                                                Risk = "psa_owner_of_usa_bis_meu_entity"
+	RiskPsaOwnerOfUsaBisUnverifiedEntity                                         Risk = "psa_owner_of_usa_bis_unverified_entity"
+	RiskPsaOwnerOfUsaIsnEntity                                                   Risk = "psa_owner_of_usa_isn_entity"
+	RiskPsaOwnerOfUsaSection1260HEntity                                          Risk = "psa_owner_of_usa_section_1260h_entity"
 	RiskPsaOwnerOfWroEntity                                                      Risk = "psa_owner_of_wro_entity"
 	RiskPsaPep                                                                   Risk = "psa_pep"
 	RiskPsaRegulatoryAction                                                      Risk = "psa_regulatory_action"
 	RiskPsaSanctioned                                                            Risk = "psa_sanctioned"
+	RiskPsaSanctionedArgRepetJus                                                 Risk = "psa_sanctioned_arg_repet_jus"
+	RiskPsaSanctionedAusDfat                                                     Risk = "psa_sanctioned_aus_dfat"
+	RiskPsaSanctionedBelFpsf                                                     Risk = "psa_sanctioned_bel_fpsf"
+	RiskPsaSanctionedCanGac                                                      Risk = "psa_sanctioned_can_gac"
+	RiskPsaSanctionedCheSeco                                                     Risk = "psa_sanctioned_che_seco"
+	RiskPsaSanctionedCzeMof                                                      Risk = "psa_sanctioned_cze_mof"
+	RiskPsaSanctionedEuDgFismaEc                                                 Risk = "psa_sanctioned_eu_dg_fisma_ec"
+	RiskPsaSanctionedEuEcRegulation8332014                                       Risk = "psa_sanctioned_eu_ec_regulation_833_2014"
+	RiskPsaSanctionedEuEcSanctionsMap                                            Risk = "psa_sanctioned_eu_ec_sanctions_map"
+	RiskPsaSanctionedFraDgtMefids                                                Risk = "psa_sanctioned_fra_dgt_mefids"
+	RiskPsaSanctionedGbrFcdo                                                     Risk = "psa_sanctioned_gbr_fcdo"
+	RiskPsaSanctionedGbrHmtOfsi                                                  Risk = "psa_sanctioned_gbr_hmt_ofsi"
+	RiskPsaSanctionedIsrModNbctf                                                 Risk = "psa_sanctioned_isr_mod_nbctf"
+	RiskPsaSanctionedJpnMof                                                      Risk = "psa_sanctioned_jpn_mof"
+	RiskPsaSanctionedLtuMi                                                       Risk = "psa_sanctioned_ltu_mi"
+	RiskPsaSanctionedLvaFis                                                      Risk = "psa_sanctioned_lva_fis"
+	RiskPsaSanctionedMysMoha                                                     Risk = "psa_sanctioned_mys_moha"
+	RiskPsaSanctionedNldMofa                                                     Risk = "psa_sanctioned_nld_mofa"
+	RiskPsaSanctionedNzlMfatRus                                                  Risk = "psa_sanctioned_nzl_mfat_rus"
+	RiskPsaSanctionedPolMia                                                      Risk = "psa_sanctioned_pol_mia"
+	RiskPsaSanctionedSgpAgc                                                      Risk = "psa_sanctioned_sgp_agc"
+	RiskPsaSanctionedUkrNsdc                                                     Risk = "psa_sanctioned_ukr_nsdc"
+	RiskPsaSanctionedUkrSfms                                                     Risk = "psa_sanctioned_ukr_sfms"
+	RiskPsaSanctionedUnSc                                                        Risk = "psa_sanctioned_un_sc"
+	RiskPsaSanctionedUsaOfacNonSdn                                               Risk = "psa_sanctioned_usa_ofac_non_sdn"
+	RiskPsaSanctionedUsaOfacSdn                                                  Risk = "psa_sanctioned_usa_ofac_sdn"
+	RiskPsaSanctionedXxxEbrd                                                     Risk = "psa_sanctioned_xxx_ebrd"
+	RiskPsaSanctionedXxxIabd                                                     Risk = "psa_sanctioned_xxx_iabd"
 	RiskPsaSheffieldHallamUniversityForcedLaborEntity                            Risk = "psa_sheffield_hallam_university_forced_labor_entity"
 	RiskPsaSheffieldHallamUniversityIntermediaryEntity                           Risk = "psa_sheffield_hallam_university_intermediary_entity"
 	RiskPsaSheffieldHallamUniversityUsefulResources                              Risk = "psa_sheffield_hallam_university_useful_resources"
@@ -11268,6 +12148,14 @@ const (
 	RiskPsaStateOwnedVen                                                         Risk = "psa_state_owned_ven"
 	RiskPsaUk50PercentRule                                                       Risk = "psa_uk_50_percent_rule"
 	RiskPsaUkMinorityOwnership                                                   Risk = "psa_uk_minority_ownership"
+	RiskPsaUsaAecaDebarred                                                       Risk = "psa_usa_aeca_debarred"
+	RiskPsaUsaBis                                                                Risk = "psa_usa_bis"
+	RiskPsaUsaBis50PercentRule                                                   Risk = "psa_usa_bis_50_percent_rule"
+	RiskPsaUsaBisDeniedPersons                                                   Risk = "psa_usa_bis_denied_persons"
+	RiskPsaUsaBisMeu                                                             Risk = "psa_usa_bis_meu"
+	RiskPsaUsaBisUnverified                                                      Risk = "psa_usa_bis_unverified"
+	RiskPsaUsaIsn                                                                Risk = "psa_usa_isn"
+	RiskPsaUsaSection1260H                                                       Risk = "psa_usa_section_1260h"
 	RiskPsaVenSoe50Percent                                                       Risk = "psa_ven_soe_50_percent"
 	RiskPsaWroEntity                                                             Risk = "psa_wro_entity"
 	RiskRegulatoryAction                                                         Risk = "regulatory_action"
@@ -11280,6 +12168,34 @@ const (
 	RiskReputationalRiskTerrorism                                                Risk = "reputational_risk_terrorism"
 	RiskSanctioned                                                               Risk = "sanctioned"
 	RiskSanctionedAdjacent                                                       Risk = "sanctioned_adjacent"
+	RiskSanctionedArgRepetJus                                                    Risk = "sanctioned_arg_repet_jus"
+	RiskSanctionedAusDfat                                                        Risk = "sanctioned_aus_dfat"
+	RiskSanctionedBelFpsf                                                        Risk = "sanctioned_bel_fpsf"
+	RiskSanctionedCanGac                                                         Risk = "sanctioned_can_gac"
+	RiskSanctionedCheSeco                                                        Risk = "sanctioned_che_seco"
+	RiskSanctionedCzeMof                                                         Risk = "sanctioned_cze_mof"
+	RiskSanctionedEuDgFismaEc                                                    Risk = "sanctioned_eu_dg_fisma_ec"
+	RiskSanctionedEuEcRegulation8332014                                          Risk = "sanctioned_eu_ec_regulation_833_2014"
+	RiskSanctionedEuEcSanctionsMap                                               Risk = "sanctioned_eu_ec_sanctions_map"
+	RiskSanctionedFraDgtMefids                                                   Risk = "sanctioned_fra_dgt_mefids"
+	RiskSanctionedGbrFcdo                                                        Risk = "sanctioned_gbr_fcdo"
+	RiskSanctionedGbrHmtOfsi                                                     Risk = "sanctioned_gbr_hmt_ofsi"
+	RiskSanctionedIsrModNbctf                                                    Risk = "sanctioned_isr_mod_nbctf"
+	RiskSanctionedJpnMof                                                         Risk = "sanctioned_jpn_mof"
+	RiskSanctionedLtuMi                                                          Risk = "sanctioned_ltu_mi"
+	RiskSanctionedLvaFis                                                         Risk = "sanctioned_lva_fis"
+	RiskSanctionedMysMoha                                                        Risk = "sanctioned_mys_moha"
+	RiskSanctionedNldMofa                                                        Risk = "sanctioned_nld_mofa"
+	RiskSanctionedNzlMfatRus                                                     Risk = "sanctioned_nzl_mfat_rus"
+	RiskSanctionedPolMia                                                         Risk = "sanctioned_pol_mia"
+	RiskSanctionedSgpAgc                                                         Risk = "sanctioned_sgp_agc"
+	RiskSanctionedUkrNsdc                                                        Risk = "sanctioned_ukr_nsdc"
+	RiskSanctionedUkrSfms                                                        Risk = "sanctioned_ukr_sfms"
+	RiskSanctionedUnSc                                                           Risk = "sanctioned_un_sc"
+	RiskSanctionedUsaOfacNonSdn                                                  Risk = "sanctioned_usa_ofac_non_sdn"
+	RiskSanctionedUsaOfacSdn                                                     Risk = "sanctioned_usa_ofac_sdn"
+	RiskSanctionedXxxEbrd                                                        Risk = "sanctioned_xxx_ebrd"
+	RiskSanctionedXxxIabd                                                        Risk = "sanctioned_xxx_iabd"
 	RiskSheffieldHallamUniversityForcedLaborEntity                               Risk = "sheffield_hallam_university_forced_labor_entity"
 	RiskSheffieldHallamUniversityForcedLaborReportsEntityAdjacent                Risk = "sheffield_hallam_university_forced_labor_reports_entity_adjacent"
 	RiskSheffieldHallamUniversityForcedLaborReportsIntermediaryEntity            Risk = "sheffield_hallam_university_forced_labor_reports_intermediary_entity"
@@ -11291,6 +12207,14 @@ const (
 	RiskUk50PercentRule                                                          Risk = "uk_50_percent_rule"
 	RiskUkMinorityOwnership                                                      Risk = "uk_minority_ownership"
 	RiskUkSanctioned                                                             Risk = "uk_sanctioned"
+	RiskUsaAecaDebarred                                                          Risk = "usa_aeca_debarred"
+	RiskUsaBis                                                                   Risk = "usa_bis"
+	RiskUsaBis50PercentRule                                                      Risk = "usa_bis_50_percent_rule"
+	RiskUsaBisDeniedPersons                                                      Risk = "usa_bis_denied_persons"
+	RiskUsaBisMeu                                                                Risk = "usa_bis_meu"
+	RiskUsaBisUnverified                                                         Risk = "usa_bis_unverified"
+	RiskUsaIsn                                                                   Risk = "usa_isn"
+	RiskUsaSection1260H                                                          Risk = "usa_section_1260h"
 	RiskVenSoe50Percent                                                          Risk = "ven_soe_50_percent"
 	RiskWroEntity                                                                Risk = "wro_entity"
 	RiskWroEntityAdjacent                                                        Risk = "wro_entity_adjacent"
@@ -11308,6 +12232,10 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskBisAddressesHighDiversionRisk, nil
 	case "bis_boycott_requester_list":
 		return RiskBisBoycottRequesterList, nil
+	case "chinese_soe_adjacent":
+		return RiskChineseSoeAdjacent, nil
+	case "chinese_state_owned":
+		return RiskChineseStateOwned, nil
 	case "cmic_entity":
 		return RiskCmicEntity, nil
 	case "cmic_entity_50_percent_rule":
@@ -11368,14 +12296,20 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskExportControlsUnverifiedList, nil
 	case "export_controls_unverified_list_50_percent_rule":
 		return RiskExportControlsUnverifiedList50PercentRule, nil
+	case "export_to_chinese_soe":
+		return RiskExportToChineseSoe, nil
 	case "export_to_sanctioned":
 		return RiskExportToSanctioned, nil
 	case "export_to_soe":
 		return RiskExportToSoe, nil
-	case "exports_bis_high_priority_items":
-		return RiskExportsBisHighPriorityItems, nil
-	case "exports_bis_high_priority_items_critical_components":
-		return RiskExportsBisHighPriorityItemsCriticalComponents, nil
+	case "exports_bis_high_priority_items_critical_components_direct":
+		return RiskExportsBisHighPriorityItemsCriticalComponentsDirect, nil
+	case "exports_bis_high_priority_items_critical_components_indirect":
+		return RiskExportsBisHighPriorityItemsCriticalComponentsIndirect, nil
+	case "exports_bis_high_priority_items_direct":
+		return RiskExportsBisHighPriorityItemsDirect, nil
+	case "exports_bis_high_priority_items_indirect":
+		return RiskExportsBisHighPriorityItemsIndirect, nil
 	case "exports_conflict_minerals":
 		return RiskExportsConflictMinerals, nil
 	case "exports_eudr_shipment_cattle":
@@ -11408,6 +12342,80 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskExportsToBisAddressesHighDiversionRisk, nil
 	case "exports_to_entity_licensed_with_fsb_rf":
 		return RiskExportsToEntityLicensedWithFsbRf, nil
+	case "exports_to_jpn_meti_end_user_entity":
+		return RiskExportsToJpnMetiEndUserEntity, nil
+	case "exports_to_jpn_mofa_export_ban_entity":
+		return RiskExportsToJpnMofaExportBanEntity, nil
+	case "exports_to_sanctioned_arg_repet_jus_entity":
+		return RiskExportsToSanctionedArgRepetJusEntity, nil
+	case "exports_to_sanctioned_aus_dfat_entity":
+		return RiskExportsToSanctionedAusDfatEntity, nil
+	case "exports_to_sanctioned_bel_fpsf_entity":
+		return RiskExportsToSanctionedBelFpsfEntity, nil
+	case "exports_to_sanctioned_can_gac_entity":
+		return RiskExportsToSanctionedCanGacEntity, nil
+	case "exports_to_sanctioned_che_seco_entity":
+		return RiskExportsToSanctionedCheSecoEntity, nil
+	case "exports_to_sanctioned_cze_mof_entity":
+		return RiskExportsToSanctionedCzeMofEntity, nil
+	case "exports_to_sanctioned_eu_dg_fisma_ec_entity":
+		return RiskExportsToSanctionedEuDgFismaEcEntity, nil
+	case "exports_to_sanctioned_eu_ec_regulation_833_2014_entity":
+		return RiskExportsToSanctionedEuEcRegulation8332014Entity, nil
+	case "exports_to_sanctioned_eu_ec_sanctions_map_entity":
+		return RiskExportsToSanctionedEuEcSanctionsMapEntity, nil
+	case "exports_to_sanctioned_fra_dgt_mefids_entity":
+		return RiskExportsToSanctionedFraDgtMefidsEntity, nil
+	case "exports_to_sanctioned_gbr_fcdo_entity":
+		return RiskExportsToSanctionedGbrFcdoEntity, nil
+	case "exports_to_sanctioned_gbr_hmt_ofsi_entity":
+		return RiskExportsToSanctionedGbrHmtOfsiEntity, nil
+	case "exports_to_sanctioned_isr_mod_nbctf_entity":
+		return RiskExportsToSanctionedIsrModNbctfEntity, nil
+	case "exports_to_sanctioned_jpn_mof_entity":
+		return RiskExportsToSanctionedJpnMofEntity, nil
+	case "exports_to_sanctioned_ltu_mi_entity":
+		return RiskExportsToSanctionedLtuMiEntity, nil
+	case "exports_to_sanctioned_lva_fis_entity":
+		return RiskExportsToSanctionedLvaFisEntity, nil
+	case "exports_to_sanctioned_mys_moha_entity":
+		return RiskExportsToSanctionedMysMohaEntity, nil
+	case "exports_to_sanctioned_nld_mofa_entity":
+		return RiskExportsToSanctionedNldMofaEntity, nil
+	case "exports_to_sanctioned_nzl_mfat_rus_entity":
+		return RiskExportsToSanctionedNzlMfatRusEntity, nil
+	case "exports_to_sanctioned_pol_mia_entity":
+		return RiskExportsToSanctionedPolMiaEntity, nil
+	case "exports_to_sanctioned_sgp_agc_entity":
+		return RiskExportsToSanctionedSgpAgcEntity, nil
+	case "exports_to_sanctioned_ukr_nsdc_entity":
+		return RiskExportsToSanctionedUkrNsdcEntity, nil
+	case "exports_to_sanctioned_ukr_sfms_entity":
+		return RiskExportsToSanctionedUkrSfmsEntity, nil
+	case "exports_to_sanctioned_un_sc_entity":
+		return RiskExportsToSanctionedUnScEntity, nil
+	case "exports_to_sanctioned_usa_ofac_non_sdn_entity":
+		return RiskExportsToSanctionedUsaOfacNonSdnEntity, nil
+	case "exports_to_sanctioned_usa_ofac_sdn_entity":
+		return RiskExportsToSanctionedUsaOfacSdnEntity, nil
+	case "exports_to_sanctioned_xxx_ebrd_entity":
+		return RiskExportsToSanctionedXxxEbrdEntity, nil
+	case "exports_to_sanctioned_xxx_iabd_entity":
+		return RiskExportsToSanctionedXxxIabdEntity, nil
+	case "exports_to_usa_aeca_debarred_entity":
+		return RiskExportsToUsaAecaDebarredEntity, nil
+	case "exports_to_usa_bis_denied_persons_entity":
+		return RiskExportsToUsaBisDeniedPersonsEntity, nil
+	case "exports_to_usa_bis_entity":
+		return RiskExportsToUsaBisEntity, nil
+	case "exports_to_usa_bis_meu_entity":
+		return RiskExportsToUsaBisMeuEntity, nil
+	case "exports_to_usa_bis_unverified_entity":
+		return RiskExportsToUsaBisUnverifiedEntity, nil
+	case "exports_to_usa_isn_entity":
+		return RiskExportsToUsaIsnEntity, nil
+	case "exports_to_usa_section_1260h_entity":
+		return RiskExportsToUsaSection1260HEntity, nil
 	case "forced_labor_aspi_origin_direct":
 		return RiskForcedLaborAspiOriginDirect, nil
 	case "forced_labor_aspi_origin_subtier":
@@ -11462,6 +12470,62 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskFormerWroEntity, nil
 	case "formerly_sanctioned":
 		return RiskFormerlySanctioned, nil
+	case "formerly_sanctioned_arg_repet_jus":
+		return RiskFormerlySanctionedArgRepetJus, nil
+	case "formerly_sanctioned_aus_dfat":
+		return RiskFormerlySanctionedAusDfat, nil
+	case "formerly_sanctioned_bel_fpsf":
+		return RiskFormerlySanctionedBelFpsf, nil
+	case "formerly_sanctioned_can_gac":
+		return RiskFormerlySanctionedCanGac, nil
+	case "formerly_sanctioned_che_seco":
+		return RiskFormerlySanctionedCheSeco, nil
+	case "formerly_sanctioned_cze_mof":
+		return RiskFormerlySanctionedCzeMof, nil
+	case "formerly_sanctioned_eu_dg_fisma_ec":
+		return RiskFormerlySanctionedEuDgFismaEc, nil
+	case "formerly_sanctioned_eu_ec_regulation_833_2014":
+		return RiskFormerlySanctionedEuEcRegulation8332014, nil
+	case "formerly_sanctioned_eu_ec_sanctions_map":
+		return RiskFormerlySanctionedEuEcSanctionsMap, nil
+	case "formerly_sanctioned_fra_dgt_mefids":
+		return RiskFormerlySanctionedFraDgtMefids, nil
+	case "formerly_sanctioned_gbr_fcdo":
+		return RiskFormerlySanctionedGbrFcdo, nil
+	case "formerly_sanctioned_gbr_hmt_ofsi":
+		return RiskFormerlySanctionedGbrHmtOfsi, nil
+	case "formerly_sanctioned_isr_mod_nbctf":
+		return RiskFormerlySanctionedIsrModNbctf, nil
+	case "formerly_sanctioned_jpn_mof":
+		return RiskFormerlySanctionedJpnMof, nil
+	case "formerly_sanctioned_ltu_mi":
+		return RiskFormerlySanctionedLtuMi, nil
+	case "formerly_sanctioned_lva_fis":
+		return RiskFormerlySanctionedLvaFis, nil
+	case "formerly_sanctioned_mys_moha":
+		return RiskFormerlySanctionedMysMoha, nil
+	case "formerly_sanctioned_nld_mofa":
+		return RiskFormerlySanctionedNldMofa, nil
+	case "formerly_sanctioned_nzl_mfat_rus":
+		return RiskFormerlySanctionedNzlMfatRus, nil
+	case "formerly_sanctioned_pol_mia":
+		return RiskFormerlySanctionedPolMia, nil
+	case "formerly_sanctioned_sgp_agc":
+		return RiskFormerlySanctionedSgpAgc, nil
+	case "formerly_sanctioned_ukr_nsdc":
+		return RiskFormerlySanctionedUkrNsdc, nil
+	case "formerly_sanctioned_ukr_sfms":
+		return RiskFormerlySanctionedUkrSfms, nil
+	case "formerly_sanctioned_un_sc":
+		return RiskFormerlySanctionedUnSc, nil
+	case "formerly_sanctioned_usa_ofac_non_sdn":
+		return RiskFormerlySanctionedUsaOfacNonSdn, nil
+	case "formerly_sanctioned_usa_ofac_sdn":
+		return RiskFormerlySanctionedUsaOfacSdn, nil
+	case "formerly_sanctioned_xxx_ebrd":
+		return RiskFormerlySanctionedXxxEbrd, nil
+	case "formerly_sanctioned_xxx_iabd":
+		return RiskFormerlySanctionedXxxIabd, nil
 	case "imports_bis_high_priority_items":
 		return RiskImportsBisHighPriorityItems, nil
 	case "imports_bis_high_priority_items_critical_components":
@@ -11498,6 +12562,10 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskImportsRussianImportantGood, nil
 	case "imports_russian_oil":
 		return RiskImportsRussianOil, nil
+	case "jpn_meti_end_user":
+		return RiskJpnMetiEndUser, nil
+	case "jpn_mofa_export_ban":
+		return RiskJpnMofaExportBan, nil
 	case "law_enforcement_action":
 		return RiskLawEnforcementAction, nil
 	case "meu_list_contractors":
@@ -11506,6 +12574,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskMilitaryCivilFusion, nil
 	case "military_civil_fusion_50_percent_rule":
 		return RiskMilitaryCivilFusion50PercentRule, nil
+	case "military_end_use_china_keywords":
+		return RiskMilitaryEndUseChinaKeywords, nil
 	case "ndaa_889_covered_entities":
 		return RiskNdaa889CoveredEntities, nil
 	case "ofac_50_percent_rule":
@@ -11520,6 +12590,10 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOfacSdgtSanctioned, nil
 	case "ofac_sdn":
 		return RiskOfacSdn, nil
+	case "ofac_sdn_mex_dto_sanctioned":
+		return RiskOfacSdnMexDtoSanctioned, nil
+	case "ofac_sdn_mex_dto_sanctioned_adjacent":
+		return RiskOfacSdnMexDtoSanctionedAdjacent, nil
 	case "ofac_sdnt_sanctioned":
 		return RiskOfacSdntSanctioned, nil
 	case "ofac_sdntk_sanctioned":
@@ -11528,12 +12602,18 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedByAspiForcedLaborEntity, nil
 	case "owned_by_bis_meu_entity":
 		return RiskOwnedByBisMeuEntity, nil
+	case "owned_by_chinese_soe":
+		return RiskOwnedByChineseSoe, nil
 	case "owned_by_cmic_entity":
 		return RiskOwnedByCmicEntity, nil
 	case "owned_by_entity_in_export_controls":
 		return RiskOwnedByEntityInExportControls, nil
 	case "owned_by_forced_labor_xinjiang_uflpa":
 		return RiskOwnedByForcedLaborXinjiangUflpa, nil
+	case "owned_by_jpn_meti_end_user_entity":
+		return RiskOwnedByJpnMetiEndUserEntity, nil
+	case "owned_by_jpn_mofa_export_ban_entity":
+		return RiskOwnedByJpnMofaExportBanEntity, nil
 	case "owned_by_military_civil_fusion":
 		return RiskOwnedByMilitaryCivilFusion, nil
 	case "owned_by_ofac_fto_sanctioned":
@@ -11542,48 +12622,198 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedByOfacIllicitDrugsEo14059Sanctioned, nil
 	case "owned_by_ofac_sdgt_sanctioned":
 		return RiskOwnedByOfacSdgtSanctioned, nil
+	case "owned_by_ofac_sdn_mex_dto_sanctioned":
+		return RiskOwnedByOfacSdnMexDtoSanctioned, nil
 	case "owned_by_ofac_sdnt_sanctioned":
 		return RiskOwnedByOfacSdntSanctioned, nil
 	case "owned_by_ofac_sdntk_sanctioned":
 		return RiskOwnedByOfacSdntkSanctioned, nil
+	case "owned_by_sanctioned_arg_repet_jus_entity":
+		return RiskOwnedBySanctionedArgRepetJusEntity, nil
+	case "owned_by_sanctioned_aus_dfat_entity":
+		return RiskOwnedBySanctionedAusDfatEntity, nil
+	case "owned_by_sanctioned_bel_fpsf_entity":
+		return RiskOwnedBySanctionedBelFpsfEntity, nil
+	case "owned_by_sanctioned_can_gac_entity":
+		return RiskOwnedBySanctionedCanGacEntity, nil
+	case "owned_by_sanctioned_che_seco_entity":
+		return RiskOwnedBySanctionedCheSecoEntity, nil
+	case "owned_by_sanctioned_cze_mof_entity":
+		return RiskOwnedBySanctionedCzeMofEntity, nil
 	case "owned_by_sanctioned_entity":
 		return RiskOwnedBySanctionedEntity, nil
+	case "owned_by_sanctioned_eu_dg_fisma_ec_entity":
+		return RiskOwnedBySanctionedEuDgFismaEcEntity, nil
+	case "owned_by_sanctioned_eu_ec_regulation_833_2014_entity":
+		return RiskOwnedBySanctionedEuEcRegulation8332014Entity, nil
+	case "owned_by_sanctioned_eu_ec_sanctions_map_entity":
+		return RiskOwnedBySanctionedEuEcSanctionsMapEntity, nil
+	case "owned_by_sanctioned_fra_dgt_mefids_entity":
+		return RiskOwnedBySanctionedFraDgtMefidsEntity, nil
+	case "owned_by_sanctioned_gbr_fcdo_entity":
+		return RiskOwnedBySanctionedGbrFcdoEntity, nil
+	case "owned_by_sanctioned_gbr_hmt_ofsi_entity":
+		return RiskOwnedBySanctionedGbrHmtOfsiEntity, nil
+	case "owned_by_sanctioned_isr_mod_nbctf_entity":
+		return RiskOwnedBySanctionedIsrModNbctfEntity, nil
+	case "owned_by_sanctioned_jpn_mof_entity":
+		return RiskOwnedBySanctionedJpnMofEntity, nil
+	case "owned_by_sanctioned_ltu_mi_entity":
+		return RiskOwnedBySanctionedLtuMiEntity, nil
+	case "owned_by_sanctioned_lva_fis_entity":
+		return RiskOwnedBySanctionedLvaFisEntity, nil
+	case "owned_by_sanctioned_mys_moha_entity":
+		return RiskOwnedBySanctionedMysMohaEntity, nil
+	case "owned_by_sanctioned_nld_mofa_entity":
+		return RiskOwnedBySanctionedNldMofaEntity, nil
+	case "owned_by_sanctioned_nzl_mfat_rus_entity":
+		return RiskOwnedBySanctionedNzlMfatRusEntity, nil
+	case "owned_by_sanctioned_pol_mia_entity":
+		return RiskOwnedBySanctionedPolMiaEntity, nil
+	case "owned_by_sanctioned_sgp_agc_entity":
+		return RiskOwnedBySanctionedSgpAgcEntity, nil
+	case "owned_by_sanctioned_ukr_nsdc_entity":
+		return RiskOwnedBySanctionedUkrNsdcEntity, nil
+	case "owned_by_sanctioned_ukr_sfms_entity":
+		return RiskOwnedBySanctionedUkrSfmsEntity, nil
+	case "owned_by_sanctioned_un_sc_entity":
+		return RiskOwnedBySanctionedUnScEntity, nil
+	case "owned_by_sanctioned_usa_ofac_non_sdn_entity":
+		return RiskOwnedBySanctionedUsaOfacNonSdnEntity, nil
+	case "owned_by_sanctioned_usa_ofac_sdn_entity":
+		return RiskOwnedBySanctionedUsaOfacSdnEntity, nil
+	case "owned_by_sanctioned_xxx_ebrd_entity":
+		return RiskOwnedBySanctionedXxxEbrdEntity, nil
+	case "owned_by_sanctioned_xxx_iabd_entity":
+		return RiskOwnedBySanctionedXxxIabdEntity, nil
 	case "owned_by_section_1260h_entity":
 		return RiskOwnedBySection1260HEntity, nil
 	case "owned_by_sheffield_hallam_university_reports_forced_labor_entity":
 		return RiskOwnedBySheffieldHallamUniversityReportsForcedLaborEntity, nil
 	case "owned_by_soe":
 		return RiskOwnedBySoe, nil
+	case "owned_by_usa_aeca_debarred_entity":
+		return RiskOwnedByUsaAecaDebarredEntity, nil
+	case "owned_by_usa_bis_denied_persons_entity":
+		return RiskOwnedByUsaBisDeniedPersonsEntity, nil
+	case "owned_by_usa_bis_entity":
+		return RiskOwnedByUsaBisEntity, nil
+	case "owned_by_usa_bis_meu_entity":
+		return RiskOwnedByUsaBisMeuEntity, nil
+	case "owned_by_usa_bis_unverified_entity":
+		return RiskOwnedByUsaBisUnverifiedEntity, nil
+	case "owned_by_usa_isn_entity":
+		return RiskOwnedByUsaIsnEntity, nil
+	case "owned_by_usa_section_1260h_entity":
+		return RiskOwnedByUsaSection1260HEntity, nil
 	case "owned_by_wro_entity":
 		return RiskOwnedByWroEntity, nil
 	case "owned_by_xinjiang_entity":
 		return RiskOwnedByXinjiangEntity, nil
 	case "owner_of_aspi_forced_labor_entity":
 		return RiskOwnerOfAspiForcedLaborEntity, nil
+	case "owner_of_chinese_soe":
+		return RiskOwnerOfChineseSoe, nil
 	case "owner_of_export_controls_entity":
 		return RiskOwnerOfExportControlsEntity, nil
 	case "owner_of_forced_labor_xinjiang_entity":
 		return RiskOwnerOfForcedLaborXinjiangEntity, nil
 	case "owner_of_forced_labor_xinjiang_uflpa":
 		return RiskOwnerOfForcedLaborXinjiangUflpa, nil
+	case "owner_of_jpn_meti_end_user_entity":
+		return RiskOwnerOfJpnMetiEndUserEntity, nil
+	case "owner_of_jpn_mofa_export_ban_entity":
+		return RiskOwnerOfJpnMofaExportBanEntity, nil
 	case "owner_of_ofac_fto_sanctioned":
 		return RiskOwnerOfOfacFtoSanctioned, nil
 	case "owner_of_ofac_illicit_drugs_eo14059_sanctioned":
 		return RiskOwnerOfOfacIllicitDrugsEo14059Sanctioned, nil
 	case "owner_of_ofac_sdgt_sanctioned":
 		return RiskOwnerOfOfacSdgtSanctioned, nil
+	case "owner_of_ofac_sdn_mex_dto_sanctioned":
+		return RiskOwnerOfOfacSdnMexDtoSanctioned, nil
 	case "owner_of_ofac_sdnt_sanctioned":
 		return RiskOwnerOfOfacSdntSanctioned, nil
 	case "owner_of_ofac_sdntk_sanctioned":
 		return RiskOwnerOfOfacSdntkSanctioned, nil
 	case "owner_of_regulatory_action_entity":
 		return RiskOwnerOfRegulatoryActionEntity, nil
+	case "owner_of_sanctioned_arg_repet_jus_entity":
+		return RiskOwnerOfSanctionedArgRepetJusEntity, nil
+	case "owner_of_sanctioned_aus_dfat_entity":
+		return RiskOwnerOfSanctionedAusDfatEntity, nil
+	case "owner_of_sanctioned_bel_fpsf_entity":
+		return RiskOwnerOfSanctionedBelFpsfEntity, nil
+	case "owner_of_sanctioned_can_gac_entity":
+		return RiskOwnerOfSanctionedCanGacEntity, nil
+	case "owner_of_sanctioned_che_seco_entity":
+		return RiskOwnerOfSanctionedCheSecoEntity, nil
+	case "owner_of_sanctioned_cze_mof_entity":
+		return RiskOwnerOfSanctionedCzeMofEntity, nil
 	case "owner_of_sanctioned_entity":
 		return RiskOwnerOfSanctionedEntity, nil
+	case "owner_of_sanctioned_eu_dg_fisma_ec_entity":
+		return RiskOwnerOfSanctionedEuDgFismaEcEntity, nil
+	case "owner_of_sanctioned_eu_ec_regulation_833_2014_entity":
+		return RiskOwnerOfSanctionedEuEcRegulation8332014Entity, nil
+	case "owner_of_sanctioned_eu_ec_sanctions_map_entity":
+		return RiskOwnerOfSanctionedEuEcSanctionsMapEntity, nil
+	case "owner_of_sanctioned_fra_dgt_mefids_entity":
+		return RiskOwnerOfSanctionedFraDgtMefidsEntity, nil
+	case "owner_of_sanctioned_gbr_fcdo_entity":
+		return RiskOwnerOfSanctionedGbrFcdoEntity, nil
+	case "owner_of_sanctioned_gbr_hmt_ofsi_entity":
+		return RiskOwnerOfSanctionedGbrHmtOfsiEntity, nil
+	case "owner_of_sanctioned_isr_mod_nbctf_entity":
+		return RiskOwnerOfSanctionedIsrModNbctfEntity, nil
+	case "owner_of_sanctioned_jpn_mof_entity":
+		return RiskOwnerOfSanctionedJpnMofEntity, nil
+	case "owner_of_sanctioned_ltu_mi_entity":
+		return RiskOwnerOfSanctionedLtuMiEntity, nil
+	case "owner_of_sanctioned_lva_fis_entity":
+		return RiskOwnerOfSanctionedLvaFisEntity, nil
+	case "owner_of_sanctioned_mys_moha_entity":
+		return RiskOwnerOfSanctionedMysMohaEntity, nil
+	case "owner_of_sanctioned_nld_mofa_entity":
+		return RiskOwnerOfSanctionedNldMofaEntity, nil
+	case "owner_of_sanctioned_nzl_mfat_rus_entity":
+		return RiskOwnerOfSanctionedNzlMfatRusEntity, nil
+	case "owner_of_sanctioned_pol_mia_entity":
+		return RiskOwnerOfSanctionedPolMiaEntity, nil
+	case "owner_of_sanctioned_sgp_agc_entity":
+		return RiskOwnerOfSanctionedSgpAgcEntity, nil
+	case "owner_of_sanctioned_ukr_nsdc_entity":
+		return RiskOwnerOfSanctionedUkrNsdcEntity, nil
+	case "owner_of_sanctioned_ukr_sfms_entity":
+		return RiskOwnerOfSanctionedUkrSfmsEntity, nil
+	case "owner_of_sanctioned_un_sc_entity":
+		return RiskOwnerOfSanctionedUnScEntity, nil
+	case "owner_of_sanctioned_usa_ofac_non_sdn_entity":
+		return RiskOwnerOfSanctionedUsaOfacNonSdnEntity, nil
+	case "owner_of_sanctioned_usa_ofac_sdn_entity":
+		return RiskOwnerOfSanctionedUsaOfacSdnEntity, nil
+	case "owner_of_sanctioned_xxx_ebrd_entity":
+		return RiskOwnerOfSanctionedXxxEbrdEntity, nil
+	case "owner_of_sanctioned_xxx_iabd_entity":
+		return RiskOwnerOfSanctionedXxxIabdEntity, nil
 	case "owner_of_sheffield_hallam_university_reports_forced_labor_entity":
 		return RiskOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity, nil
 	case "owner_of_soe":
 		return RiskOwnerOfSoe, nil
+	case "owner_of_usa_aeca_debarred_entity":
+		return RiskOwnerOfUsaAecaDebarredEntity, nil
+	case "owner_of_usa_bis_denied_persons_entity":
+		return RiskOwnerOfUsaBisDeniedPersonsEntity, nil
+	case "owner_of_usa_bis_entity":
+		return RiskOwnerOfUsaBisEntity, nil
+	case "owner_of_usa_bis_meu_entity":
+		return RiskOwnerOfUsaBisMeuEntity, nil
+	case "owner_of_usa_bis_unverified_entity":
+		return RiskOwnerOfUsaBisUnverifiedEntity, nil
+	case "owner_of_usa_isn_entity":
+		return RiskOwnerOfUsaIsnEntity, nil
+	case "owner_of_usa_section_1260h_entity":
+		return RiskOwnerOfUsaSection1260HEntity, nil
 	case "owner_of_wro_entity":
 		return RiskOwnerOfWroEntity, nil
 	case "pep":
@@ -11592,6 +12822,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPepAdjacent, nil
 	case "psa_bis_boycott_requester_list":
 		return RiskPsaBisBoycottRequesterList, nil
+	case "psa_chinese_state_owned":
+		return RiskPsaChineseStateOwned, nil
 	case "psa_cmic_entity_50_percent_rule":
 		return RiskPsaCmicEntity50PercentRule, nil
 	case "psa_entity_licensed_with_fsb_rf":
@@ -11610,14 +12842,20 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaExportControlsSection1260H50PercentRule, nil
 	case "psa_export_controls_unverified_list_50_percent_rule":
 		return RiskPsaExportControlsUnverifiedList50PercentRule, nil
+	case "psa_export_to_chinese_soe":
+		return RiskPsaExportToChineseSoe, nil
 	case "psa_export_to_sanctioned":
 		return RiskPsaExportToSanctioned, nil
 	case "psa_export_to_soe":
 		return RiskPsaExportToSoe, nil
-	case "psa_exports_bis_high_priority_items":
-		return RiskPsaExportsBisHighPriorityItems, nil
-	case "psa_exports_bis_high_priority_items_critical_components":
-		return RiskPsaExportsBisHighPriorityItemsCriticalComponents, nil
+	case "psa_exports_bis_high_priority_items_critical_components_direct":
+		return RiskPsaExportsBisHighPriorityItemsCriticalComponentsDirect, nil
+	case "psa_exports_bis_high_priority_items_critical_components_indirect":
+		return RiskPsaExportsBisHighPriorityItemsCriticalComponentsIndirect, nil
+	case "psa_exports_bis_high_priority_items_direct":
+		return RiskPsaExportsBisHighPriorityItemsDirect, nil
+	case "psa_exports_bis_high_priority_items_indirect":
+		return RiskPsaExportsBisHighPriorityItemsIndirect, nil
 	case "psa_exports_conflict_minerals":
 		return RiskPsaExportsConflictMinerals, nil
 	case "psa_exports_eudr_shipment_cattle":
@@ -11650,6 +12888,80 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaExportsToBisAddressesHighDiversionRisk, nil
 	case "psa_exports_to_entity_licensed_with_fsb_rf":
 		return RiskPsaExportsToEntityLicensedWithFsbRf, nil
+	case "psa_exports_to_jpn_meti_end_user_entity":
+		return RiskPsaExportsToJpnMetiEndUserEntity, nil
+	case "psa_exports_to_jpn_mofa_export_ban_entity":
+		return RiskPsaExportsToJpnMofaExportBanEntity, nil
+	case "psa_exports_to_sanctioned_arg_repet_jus_entity":
+		return RiskPsaExportsToSanctionedArgRepetJusEntity, nil
+	case "psa_exports_to_sanctioned_aus_dfat_entity":
+		return RiskPsaExportsToSanctionedAusDfatEntity, nil
+	case "psa_exports_to_sanctioned_bel_fpsf_entity":
+		return RiskPsaExportsToSanctionedBelFpsfEntity, nil
+	case "psa_exports_to_sanctioned_can_gac_entity":
+		return RiskPsaExportsToSanctionedCanGacEntity, nil
+	case "psa_exports_to_sanctioned_che_seco_entity":
+		return RiskPsaExportsToSanctionedCheSecoEntity, nil
+	case "psa_exports_to_sanctioned_cze_mof_entity":
+		return RiskPsaExportsToSanctionedCzeMofEntity, nil
+	case "psa_exports_to_sanctioned_eu_dg_fisma_ec_entity":
+		return RiskPsaExportsToSanctionedEuDgFismaEcEntity, nil
+	case "psa_exports_to_sanctioned_eu_ec_regulation_833_2014_entity":
+		return RiskPsaExportsToSanctionedEuEcRegulation8332014Entity, nil
+	case "psa_exports_to_sanctioned_eu_ec_sanctions_map_entity":
+		return RiskPsaExportsToSanctionedEuEcSanctionsMapEntity, nil
+	case "psa_exports_to_sanctioned_fra_dgt_mefids_entity":
+		return RiskPsaExportsToSanctionedFraDgtMefidsEntity, nil
+	case "psa_exports_to_sanctioned_gbr_fcdo_entity":
+		return RiskPsaExportsToSanctionedGbrFcdoEntity, nil
+	case "psa_exports_to_sanctioned_gbr_hmt_ofsi_entity":
+		return RiskPsaExportsToSanctionedGbrHmtOfsiEntity, nil
+	case "psa_exports_to_sanctioned_isr_mod_nbctf_entity":
+		return RiskPsaExportsToSanctionedIsrModNbctfEntity, nil
+	case "psa_exports_to_sanctioned_jpn_mof_entity":
+		return RiskPsaExportsToSanctionedJpnMofEntity, nil
+	case "psa_exports_to_sanctioned_ltu_mi_entity":
+		return RiskPsaExportsToSanctionedLtuMiEntity, nil
+	case "psa_exports_to_sanctioned_lva_fis_entity":
+		return RiskPsaExportsToSanctionedLvaFisEntity, nil
+	case "psa_exports_to_sanctioned_mys_moha_entity":
+		return RiskPsaExportsToSanctionedMysMohaEntity, nil
+	case "psa_exports_to_sanctioned_nld_mofa_entity":
+		return RiskPsaExportsToSanctionedNldMofaEntity, nil
+	case "psa_exports_to_sanctioned_nzl_mfat_rus_entity":
+		return RiskPsaExportsToSanctionedNzlMfatRusEntity, nil
+	case "psa_exports_to_sanctioned_pol_mia_entity":
+		return RiskPsaExportsToSanctionedPolMiaEntity, nil
+	case "psa_exports_to_sanctioned_sgp_agc_entity":
+		return RiskPsaExportsToSanctionedSgpAgcEntity, nil
+	case "psa_exports_to_sanctioned_ukr_nsdc_entity":
+		return RiskPsaExportsToSanctionedUkrNsdcEntity, nil
+	case "psa_exports_to_sanctioned_ukr_sfms_entity":
+		return RiskPsaExportsToSanctionedUkrSfmsEntity, nil
+	case "psa_exports_to_sanctioned_un_sc_entity":
+		return RiskPsaExportsToSanctionedUnScEntity, nil
+	case "psa_exports_to_sanctioned_usa_ofac_non_sdn_entity":
+		return RiskPsaExportsToSanctionedUsaOfacNonSdnEntity, nil
+	case "psa_exports_to_sanctioned_usa_ofac_sdn_entity":
+		return RiskPsaExportsToSanctionedUsaOfacSdnEntity, nil
+	case "psa_exports_to_sanctioned_xxx_ebrd_entity":
+		return RiskPsaExportsToSanctionedXxxEbrdEntity, nil
+	case "psa_exports_to_sanctioned_xxx_iabd_entity":
+		return RiskPsaExportsToSanctionedXxxIabdEntity, nil
+	case "psa_exports_to_usa_aeca_debarred_entity":
+		return RiskPsaExportsToUsaAecaDebarredEntity, nil
+	case "psa_exports_to_usa_bis_denied_persons_entity":
+		return RiskPsaExportsToUsaBisDeniedPersonsEntity, nil
+	case "psa_exports_to_usa_bis_entity":
+		return RiskPsaExportsToUsaBisEntity, nil
+	case "psa_exports_to_usa_bis_meu_entity":
+		return RiskPsaExportsToUsaBisMeuEntity, nil
+	case "psa_exports_to_usa_bis_unverified_entity":
+		return RiskPsaExportsToUsaBisUnverifiedEntity, nil
+	case "psa_exports_to_usa_isn_entity":
+		return RiskPsaExportsToUsaIsnEntity, nil
+	case "psa_exports_to_usa_section_1260h_entity":
+		return RiskPsaExportsToUsaSection1260HEntity, nil
 	case "psa_forced_labor_aspi_origin_direct":
 		return RiskPsaForcedLaborAspiOriginDirect, nil
 	case "psa_forced_labor_aspi_origin_subtier":
@@ -11720,6 +13032,10 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaImportsRussianImportantGood, nil
 	case "psa_imports_russian_oil":
 		return RiskPsaImportsRussianOil, nil
+	case "psa_jpn_meti_end_user":
+		return RiskPsaJpnMetiEndUser, nil
+	case "psa_jpn_mofa_export_ban":
+		return RiskPsaJpnMofaExportBan, nil
 	case "psa_military_civil_fusion":
 		return RiskPsaMilitaryCivilFusion, nil
 	case "psa_military_civil_fusion_50_percent_rule":
@@ -11728,16 +13044,24 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaOfac50PercentRule, nil
 	case "psa_ofac_minority_ownership":
 		return RiskPsaOfacMinorityOwnership, nil
+	case "psa_ofac_sdn_mex_dto_sanctioned_adjacent":
+		return RiskPsaOfacSdnMexDtoSanctionedAdjacent, nil
 	case "psa_owned_by_aspi_forced_labor_entity":
 		return RiskPsaOwnedByAspiForcedLaborEntity, nil
 	case "psa_owned_by_bis_meu_entity":
 		return RiskPsaOwnedByBisMeuEntity, nil
+	case "psa_owned_by_chinese_soe":
+		return RiskPsaOwnedByChineseSoe, nil
 	case "psa_owned_by_cmic_entity":
 		return RiskPsaOwnedByCmicEntity, nil
 	case "psa_owned_by_entity_in_export_controls":
 		return RiskPsaOwnedByEntityInExportControls, nil
 	case "psa_owned_by_forced_labor_xinjiang_uflpa":
 		return RiskPsaOwnedByForcedLaborXinjiangUflpa, nil
+	case "psa_owned_by_jpn_meti_end_user_entity":
+		return RiskPsaOwnedByJpnMetiEndUserEntity, nil
+	case "psa_owned_by_jpn_mofa_export_ban_entity":
+		return RiskPsaOwnedByJpnMofaExportBanEntity, nil
 	case "psa_owned_by_military_civil_fusion":
 		return RiskPsaOwnedByMilitaryCivilFusion, nil
 	case "psa_owned_by_ofac_fto_sanctioned":
@@ -11746,48 +13070,198 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaOwnedByOfacIllicitDrugsEo14059Sanctioned, nil
 	case "psa_owned_by_ofac_sdgt_sanctioned":
 		return RiskPsaOwnedByOfacSdgtSanctioned, nil
+	case "psa_owned_by_ofac_sdn_mex_dto_sanctioned":
+		return RiskPsaOwnedByOfacSdnMexDtoSanctioned, nil
 	case "psa_owned_by_ofac_sdnt_sanctioned":
 		return RiskPsaOwnedByOfacSdntSanctioned, nil
 	case "psa_owned_by_ofac_sdntk_sanctioned":
 		return RiskPsaOwnedByOfacSdntkSanctioned, nil
+	case "psa_owned_by_sanctioned_arg_repet_jus_entity":
+		return RiskPsaOwnedBySanctionedArgRepetJusEntity, nil
+	case "psa_owned_by_sanctioned_aus_dfat_entity":
+		return RiskPsaOwnedBySanctionedAusDfatEntity, nil
+	case "psa_owned_by_sanctioned_bel_fpsf_entity":
+		return RiskPsaOwnedBySanctionedBelFpsfEntity, nil
+	case "psa_owned_by_sanctioned_can_gac_entity":
+		return RiskPsaOwnedBySanctionedCanGacEntity, nil
+	case "psa_owned_by_sanctioned_che_seco_entity":
+		return RiskPsaOwnedBySanctionedCheSecoEntity, nil
+	case "psa_owned_by_sanctioned_cze_mof_entity":
+		return RiskPsaOwnedBySanctionedCzeMofEntity, nil
 	case "psa_owned_by_sanctioned_entity":
 		return RiskPsaOwnedBySanctionedEntity, nil
+	case "psa_owned_by_sanctioned_eu_dg_fisma_ec_entity":
+		return RiskPsaOwnedBySanctionedEuDgFismaEcEntity, nil
+	case "psa_owned_by_sanctioned_eu_ec_regulation_833_2014_entity":
+		return RiskPsaOwnedBySanctionedEuEcRegulation8332014Entity, nil
+	case "psa_owned_by_sanctioned_eu_ec_sanctions_map_entity":
+		return RiskPsaOwnedBySanctionedEuEcSanctionsMapEntity, nil
+	case "psa_owned_by_sanctioned_fra_dgt_mefids_entity":
+		return RiskPsaOwnedBySanctionedFraDgtMefidsEntity, nil
+	case "psa_owned_by_sanctioned_gbr_fcdo_entity":
+		return RiskPsaOwnedBySanctionedGbrFcdoEntity, nil
+	case "psa_owned_by_sanctioned_gbr_hmt_ofsi_entity":
+		return RiskPsaOwnedBySanctionedGbrHmtOfsiEntity, nil
+	case "psa_owned_by_sanctioned_isr_mod_nbctf_entity":
+		return RiskPsaOwnedBySanctionedIsrModNbctfEntity, nil
+	case "psa_owned_by_sanctioned_jpn_mof_entity":
+		return RiskPsaOwnedBySanctionedJpnMofEntity, nil
+	case "psa_owned_by_sanctioned_ltu_mi_entity":
+		return RiskPsaOwnedBySanctionedLtuMiEntity, nil
+	case "psa_owned_by_sanctioned_lva_fis_entity":
+		return RiskPsaOwnedBySanctionedLvaFisEntity, nil
+	case "psa_owned_by_sanctioned_mys_moha_entity":
+		return RiskPsaOwnedBySanctionedMysMohaEntity, nil
+	case "psa_owned_by_sanctioned_nld_mofa_entity":
+		return RiskPsaOwnedBySanctionedNldMofaEntity, nil
+	case "psa_owned_by_sanctioned_nzl_mfat_rus_entity":
+		return RiskPsaOwnedBySanctionedNzlMfatRusEntity, nil
+	case "psa_owned_by_sanctioned_pol_mia_entity":
+		return RiskPsaOwnedBySanctionedPolMiaEntity, nil
+	case "psa_owned_by_sanctioned_sgp_agc_entity":
+		return RiskPsaOwnedBySanctionedSgpAgcEntity, nil
+	case "psa_owned_by_sanctioned_ukr_nsdc_entity":
+		return RiskPsaOwnedBySanctionedUkrNsdcEntity, nil
+	case "psa_owned_by_sanctioned_ukr_sfms_entity":
+		return RiskPsaOwnedBySanctionedUkrSfmsEntity, nil
+	case "psa_owned_by_sanctioned_un_sc_entity":
+		return RiskPsaOwnedBySanctionedUnScEntity, nil
+	case "psa_owned_by_sanctioned_usa_ofac_non_sdn_entity":
+		return RiskPsaOwnedBySanctionedUsaOfacNonSdnEntity, nil
+	case "psa_owned_by_sanctioned_usa_ofac_sdn_entity":
+		return RiskPsaOwnedBySanctionedUsaOfacSdnEntity, nil
+	case "psa_owned_by_sanctioned_xxx_ebrd_entity":
+		return RiskPsaOwnedBySanctionedXxxEbrdEntity, nil
+	case "psa_owned_by_sanctioned_xxx_iabd_entity":
+		return RiskPsaOwnedBySanctionedXxxIabdEntity, nil
 	case "psa_owned_by_section_1260h_entity":
 		return RiskPsaOwnedBySection1260HEntity, nil
 	case "psa_owned_by_sheffield_hallam_university_reports_forced_labor_entity":
 		return RiskPsaOwnedBySheffieldHallamUniversityReportsForcedLaborEntity, nil
 	case "psa_owned_by_soe":
 		return RiskPsaOwnedBySoe, nil
+	case "psa_owned_by_usa_aeca_debarred_entity":
+		return RiskPsaOwnedByUsaAecaDebarredEntity, nil
+	case "psa_owned_by_usa_bis_denied_persons_entity":
+		return RiskPsaOwnedByUsaBisDeniedPersonsEntity, nil
+	case "psa_owned_by_usa_bis_entity":
+		return RiskPsaOwnedByUsaBisEntity, nil
+	case "psa_owned_by_usa_bis_meu_entity":
+		return RiskPsaOwnedByUsaBisMeuEntity, nil
+	case "psa_owned_by_usa_bis_unverified_entity":
+		return RiskPsaOwnedByUsaBisUnverifiedEntity, nil
+	case "psa_owned_by_usa_isn_entity":
+		return RiskPsaOwnedByUsaIsnEntity, nil
+	case "psa_owned_by_usa_section_1260h_entity":
+		return RiskPsaOwnedByUsaSection1260HEntity, nil
 	case "psa_owned_by_wro_entity":
 		return RiskPsaOwnedByWroEntity, nil
 	case "psa_owned_by_xinjiang_entity":
 		return RiskPsaOwnedByXinjiangEntity, nil
 	case "psa_owner_of_aspi_forced_labor_entity":
 		return RiskPsaOwnerOfAspiForcedLaborEntity, nil
+	case "psa_owner_of_chinese_soe":
+		return RiskPsaOwnerOfChineseSoe, nil
 	case "psa_owner_of_export_controls_entity":
 		return RiskPsaOwnerOfExportControlsEntity, nil
 	case "psa_owner_of_forced_labor_xinjiang_entity":
 		return RiskPsaOwnerOfForcedLaborXinjiangEntity, nil
 	case "psa_owner_of_forced_labor_xinjiang_uflpa":
 		return RiskPsaOwnerOfForcedLaborXinjiangUflpa, nil
+	case "psa_owner_of_jpn_meti_end_user_entity":
+		return RiskPsaOwnerOfJpnMetiEndUserEntity, nil
+	case "psa_owner_of_jpn_mofa_export_ban_entity":
+		return RiskPsaOwnerOfJpnMofaExportBanEntity, nil
 	case "psa_owner_of_ofac_fto_sanctioned":
 		return RiskPsaOwnerOfOfacFtoSanctioned, nil
 	case "psa_owner_of_ofac_illicit_drugs_eo14059_sanctioned":
 		return RiskPsaOwnerOfOfacIllicitDrugsEo14059Sanctioned, nil
 	case "psa_owner_of_ofac_sdgt_sanctioned":
 		return RiskPsaOwnerOfOfacSdgtSanctioned, nil
+	case "psa_owner_of_ofac_sdn_mex_dto_sanctioned":
+		return RiskPsaOwnerOfOfacSdnMexDtoSanctioned, nil
 	case "psa_owner_of_ofac_sdnt_sanctioned":
 		return RiskPsaOwnerOfOfacSdntSanctioned, nil
 	case "psa_owner_of_ofac_sdntk_sanctioned":
 		return RiskPsaOwnerOfOfacSdntkSanctioned, nil
 	case "psa_owner_of_regulatory_action_entity":
 		return RiskPsaOwnerOfRegulatoryActionEntity, nil
+	case "psa_owner_of_sanctioned_arg_repet_jus_entity":
+		return RiskPsaOwnerOfSanctionedArgRepetJusEntity, nil
+	case "psa_owner_of_sanctioned_aus_dfat_entity":
+		return RiskPsaOwnerOfSanctionedAusDfatEntity, nil
+	case "psa_owner_of_sanctioned_bel_fpsf_entity":
+		return RiskPsaOwnerOfSanctionedBelFpsfEntity, nil
+	case "psa_owner_of_sanctioned_can_gac_entity":
+		return RiskPsaOwnerOfSanctionedCanGacEntity, nil
+	case "psa_owner_of_sanctioned_che_seco_entity":
+		return RiskPsaOwnerOfSanctionedCheSecoEntity, nil
+	case "psa_owner_of_sanctioned_cze_mof_entity":
+		return RiskPsaOwnerOfSanctionedCzeMofEntity, nil
 	case "psa_owner_of_sanctioned_entity":
 		return RiskPsaOwnerOfSanctionedEntity, nil
+	case "psa_owner_of_sanctioned_eu_dg_fisma_ec_entity":
+		return RiskPsaOwnerOfSanctionedEuDgFismaEcEntity, nil
+	case "psa_owner_of_sanctioned_eu_ec_regulation_833_2014_entity":
+		return RiskPsaOwnerOfSanctionedEuEcRegulation8332014Entity, nil
+	case "psa_owner_of_sanctioned_eu_ec_sanctions_map_entity":
+		return RiskPsaOwnerOfSanctionedEuEcSanctionsMapEntity, nil
+	case "psa_owner_of_sanctioned_fra_dgt_mefids_entity":
+		return RiskPsaOwnerOfSanctionedFraDgtMefidsEntity, nil
+	case "psa_owner_of_sanctioned_gbr_fcdo_entity":
+		return RiskPsaOwnerOfSanctionedGbrFcdoEntity, nil
+	case "psa_owner_of_sanctioned_gbr_hmt_ofsi_entity":
+		return RiskPsaOwnerOfSanctionedGbrHmtOfsiEntity, nil
+	case "psa_owner_of_sanctioned_isr_mod_nbctf_entity":
+		return RiskPsaOwnerOfSanctionedIsrModNbctfEntity, nil
+	case "psa_owner_of_sanctioned_jpn_mof_entity":
+		return RiskPsaOwnerOfSanctionedJpnMofEntity, nil
+	case "psa_owner_of_sanctioned_ltu_mi_entity":
+		return RiskPsaOwnerOfSanctionedLtuMiEntity, nil
+	case "psa_owner_of_sanctioned_lva_fis_entity":
+		return RiskPsaOwnerOfSanctionedLvaFisEntity, nil
+	case "psa_owner_of_sanctioned_mys_moha_entity":
+		return RiskPsaOwnerOfSanctionedMysMohaEntity, nil
+	case "psa_owner_of_sanctioned_nld_mofa_entity":
+		return RiskPsaOwnerOfSanctionedNldMofaEntity, nil
+	case "psa_owner_of_sanctioned_nzl_mfat_rus_entity":
+		return RiskPsaOwnerOfSanctionedNzlMfatRusEntity, nil
+	case "psa_owner_of_sanctioned_pol_mia_entity":
+		return RiskPsaOwnerOfSanctionedPolMiaEntity, nil
+	case "psa_owner_of_sanctioned_sgp_agc_entity":
+		return RiskPsaOwnerOfSanctionedSgpAgcEntity, nil
+	case "psa_owner_of_sanctioned_ukr_nsdc_entity":
+		return RiskPsaOwnerOfSanctionedUkrNsdcEntity, nil
+	case "psa_owner_of_sanctioned_ukr_sfms_entity":
+		return RiskPsaOwnerOfSanctionedUkrSfmsEntity, nil
+	case "psa_owner_of_sanctioned_un_sc_entity":
+		return RiskPsaOwnerOfSanctionedUnScEntity, nil
+	case "psa_owner_of_sanctioned_usa_ofac_non_sdn_entity":
+		return RiskPsaOwnerOfSanctionedUsaOfacNonSdnEntity, nil
+	case "psa_owner_of_sanctioned_usa_ofac_sdn_entity":
+		return RiskPsaOwnerOfSanctionedUsaOfacSdnEntity, nil
+	case "psa_owner_of_sanctioned_xxx_ebrd_entity":
+		return RiskPsaOwnerOfSanctionedXxxEbrdEntity, nil
+	case "psa_owner_of_sanctioned_xxx_iabd_entity":
+		return RiskPsaOwnerOfSanctionedXxxIabdEntity, nil
 	case "psa_owner_of_sheffield_hallam_university_reports_forced_labor_entity":
 		return RiskPsaOwnerOfSheffieldHallamUniversityReportsForcedLaborEntity, nil
 	case "psa_owner_of_soe":
 		return RiskPsaOwnerOfSoe, nil
+	case "psa_owner_of_usa_aeca_debarred_entity":
+		return RiskPsaOwnerOfUsaAecaDebarredEntity, nil
+	case "psa_owner_of_usa_bis_denied_persons_entity":
+		return RiskPsaOwnerOfUsaBisDeniedPersonsEntity, nil
+	case "psa_owner_of_usa_bis_entity":
+		return RiskPsaOwnerOfUsaBisEntity, nil
+	case "psa_owner_of_usa_bis_meu_entity":
+		return RiskPsaOwnerOfUsaBisMeuEntity, nil
+	case "psa_owner_of_usa_bis_unverified_entity":
+		return RiskPsaOwnerOfUsaBisUnverifiedEntity, nil
+	case "psa_owner_of_usa_isn_entity":
+		return RiskPsaOwnerOfUsaIsnEntity, nil
+	case "psa_owner_of_usa_section_1260h_entity":
+		return RiskPsaOwnerOfUsaSection1260HEntity, nil
 	case "psa_owner_of_wro_entity":
 		return RiskPsaOwnerOfWroEntity, nil
 	case "psa_pep":
@@ -11796,6 +13270,62 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaRegulatoryAction, nil
 	case "psa_sanctioned":
 		return RiskPsaSanctioned, nil
+	case "psa_sanctioned_arg_repet_jus":
+		return RiskPsaSanctionedArgRepetJus, nil
+	case "psa_sanctioned_aus_dfat":
+		return RiskPsaSanctionedAusDfat, nil
+	case "psa_sanctioned_bel_fpsf":
+		return RiskPsaSanctionedBelFpsf, nil
+	case "psa_sanctioned_can_gac":
+		return RiskPsaSanctionedCanGac, nil
+	case "psa_sanctioned_che_seco":
+		return RiskPsaSanctionedCheSeco, nil
+	case "psa_sanctioned_cze_mof":
+		return RiskPsaSanctionedCzeMof, nil
+	case "psa_sanctioned_eu_dg_fisma_ec":
+		return RiskPsaSanctionedEuDgFismaEc, nil
+	case "psa_sanctioned_eu_ec_regulation_833_2014":
+		return RiskPsaSanctionedEuEcRegulation8332014, nil
+	case "psa_sanctioned_eu_ec_sanctions_map":
+		return RiskPsaSanctionedEuEcSanctionsMap, nil
+	case "psa_sanctioned_fra_dgt_mefids":
+		return RiskPsaSanctionedFraDgtMefids, nil
+	case "psa_sanctioned_gbr_fcdo":
+		return RiskPsaSanctionedGbrFcdo, nil
+	case "psa_sanctioned_gbr_hmt_ofsi":
+		return RiskPsaSanctionedGbrHmtOfsi, nil
+	case "psa_sanctioned_isr_mod_nbctf":
+		return RiskPsaSanctionedIsrModNbctf, nil
+	case "psa_sanctioned_jpn_mof":
+		return RiskPsaSanctionedJpnMof, nil
+	case "psa_sanctioned_ltu_mi":
+		return RiskPsaSanctionedLtuMi, nil
+	case "psa_sanctioned_lva_fis":
+		return RiskPsaSanctionedLvaFis, nil
+	case "psa_sanctioned_mys_moha":
+		return RiskPsaSanctionedMysMoha, nil
+	case "psa_sanctioned_nld_mofa":
+		return RiskPsaSanctionedNldMofa, nil
+	case "psa_sanctioned_nzl_mfat_rus":
+		return RiskPsaSanctionedNzlMfatRus, nil
+	case "psa_sanctioned_pol_mia":
+		return RiskPsaSanctionedPolMia, nil
+	case "psa_sanctioned_sgp_agc":
+		return RiskPsaSanctionedSgpAgc, nil
+	case "psa_sanctioned_ukr_nsdc":
+		return RiskPsaSanctionedUkrNsdc, nil
+	case "psa_sanctioned_ukr_sfms":
+		return RiskPsaSanctionedUkrSfms, nil
+	case "psa_sanctioned_un_sc":
+		return RiskPsaSanctionedUnSc, nil
+	case "psa_sanctioned_usa_ofac_non_sdn":
+		return RiskPsaSanctionedUsaOfacNonSdn, nil
+	case "psa_sanctioned_usa_ofac_sdn":
+		return RiskPsaSanctionedUsaOfacSdn, nil
+	case "psa_sanctioned_xxx_ebrd":
+		return RiskPsaSanctionedXxxEbrd, nil
+	case "psa_sanctioned_xxx_iabd":
+		return RiskPsaSanctionedXxxIabd, nil
 	case "psa_sheffield_hallam_university_forced_labor_entity":
 		return RiskPsaSheffieldHallamUniversityForcedLaborEntity, nil
 	case "psa_sheffield_hallam_university_intermediary_entity":
@@ -11810,6 +13340,22 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaUk50PercentRule, nil
 	case "psa_uk_minority_ownership":
 		return RiskPsaUkMinorityOwnership, nil
+	case "psa_usa_aeca_debarred":
+		return RiskPsaUsaAecaDebarred, nil
+	case "psa_usa_bis":
+		return RiskPsaUsaBis, nil
+	case "psa_usa_bis_50_percent_rule":
+		return RiskPsaUsaBis50PercentRule, nil
+	case "psa_usa_bis_denied_persons":
+		return RiskPsaUsaBisDeniedPersons, nil
+	case "psa_usa_bis_meu":
+		return RiskPsaUsaBisMeu, nil
+	case "psa_usa_bis_unverified":
+		return RiskPsaUsaBisUnverified, nil
+	case "psa_usa_isn":
+		return RiskPsaUsaIsn, nil
+	case "psa_usa_section_1260h":
+		return RiskPsaUsaSection1260H, nil
 	case "psa_ven_soe_50_percent":
 		return RiskPsaVenSoe50Percent, nil
 	case "psa_wro_entity":
@@ -11834,6 +13380,62 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskSanctioned, nil
 	case "sanctioned_adjacent":
 		return RiskSanctionedAdjacent, nil
+	case "sanctioned_arg_repet_jus":
+		return RiskSanctionedArgRepetJus, nil
+	case "sanctioned_aus_dfat":
+		return RiskSanctionedAusDfat, nil
+	case "sanctioned_bel_fpsf":
+		return RiskSanctionedBelFpsf, nil
+	case "sanctioned_can_gac":
+		return RiskSanctionedCanGac, nil
+	case "sanctioned_che_seco":
+		return RiskSanctionedCheSeco, nil
+	case "sanctioned_cze_mof":
+		return RiskSanctionedCzeMof, nil
+	case "sanctioned_eu_dg_fisma_ec":
+		return RiskSanctionedEuDgFismaEc, nil
+	case "sanctioned_eu_ec_regulation_833_2014":
+		return RiskSanctionedEuEcRegulation8332014, nil
+	case "sanctioned_eu_ec_sanctions_map":
+		return RiskSanctionedEuEcSanctionsMap, nil
+	case "sanctioned_fra_dgt_mefids":
+		return RiskSanctionedFraDgtMefids, nil
+	case "sanctioned_gbr_fcdo":
+		return RiskSanctionedGbrFcdo, nil
+	case "sanctioned_gbr_hmt_ofsi":
+		return RiskSanctionedGbrHmtOfsi, nil
+	case "sanctioned_isr_mod_nbctf":
+		return RiskSanctionedIsrModNbctf, nil
+	case "sanctioned_jpn_mof":
+		return RiskSanctionedJpnMof, nil
+	case "sanctioned_ltu_mi":
+		return RiskSanctionedLtuMi, nil
+	case "sanctioned_lva_fis":
+		return RiskSanctionedLvaFis, nil
+	case "sanctioned_mys_moha":
+		return RiskSanctionedMysMoha, nil
+	case "sanctioned_nld_mofa":
+		return RiskSanctionedNldMofa, nil
+	case "sanctioned_nzl_mfat_rus":
+		return RiskSanctionedNzlMfatRus, nil
+	case "sanctioned_pol_mia":
+		return RiskSanctionedPolMia, nil
+	case "sanctioned_sgp_agc":
+		return RiskSanctionedSgpAgc, nil
+	case "sanctioned_ukr_nsdc":
+		return RiskSanctionedUkrNsdc, nil
+	case "sanctioned_ukr_sfms":
+		return RiskSanctionedUkrSfms, nil
+	case "sanctioned_un_sc":
+		return RiskSanctionedUnSc, nil
+	case "sanctioned_usa_ofac_non_sdn":
+		return RiskSanctionedUsaOfacNonSdn, nil
+	case "sanctioned_usa_ofac_sdn":
+		return RiskSanctionedUsaOfacSdn, nil
+	case "sanctioned_xxx_ebrd":
+		return RiskSanctionedXxxEbrd, nil
+	case "sanctioned_xxx_iabd":
+		return RiskSanctionedXxxIabd, nil
 	case "sheffield_hallam_university_forced_labor_entity":
 		return RiskSheffieldHallamUniversityForcedLaborEntity, nil
 	case "sheffield_hallam_university_forced_labor_reports_entity_adjacent":
@@ -11856,6 +13458,22 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskUkMinorityOwnership, nil
 	case "uk_sanctioned":
 		return RiskUkSanctioned, nil
+	case "usa_aeca_debarred":
+		return RiskUsaAecaDebarred, nil
+	case "usa_bis":
+		return RiskUsaBis, nil
+	case "usa_bis_50_percent_rule":
+		return RiskUsaBis50PercentRule, nil
+	case "usa_bis_denied_persons":
+		return RiskUsaBisDeniedPersons, nil
+	case "usa_bis_meu":
+		return RiskUsaBisMeu, nil
+	case "usa_bis_unverified":
+		return RiskUsaBisUnverified, nil
+	case "usa_isn":
+		return RiskUsaIsn, nil
+	case "usa_section_1260h":
+		return RiskUsaSection1260H, nil
 	case "ven_soe_50_percent":
 		return RiskVenSoe50Percent, nil
 	case "wro_entity":
@@ -11874,14 +13492,14 @@ func (r Risk) Ptr() *Risk {
 type RiskCategory string
 
 const (
-	RiskCategoryAdverseMedia              RiskCategory = "adverse_media"
-	RiskCategoryEnvironmentalRisk         RiskCategory = "environmental_risk"
-	RiskCategoryExportControls            RiskCategory = "export_controls"
-	RiskCategoryForcedLabor               RiskCategory = "forced_labor"
-	RiskCategoryPoliticalExposure         RiskCategory = "political_exposure"
-	RiskCategoryPossiblySameAsNetworkRisk RiskCategory = "possibly_same_as_network_risk"
-	RiskCategoryRegulatoryAction          RiskCategory = "regulatory_action"
-	RiskCategorySanctions                 RiskCategory = "sanctions"
+	RiskCategoryAdverseMedia                   RiskCategory = "adverse_media"
+	RiskCategoryEnvironmentalRisk              RiskCategory = "environmental_risk"
+	RiskCategoryExportControls                 RiskCategory = "export_controls"
+	RiskCategoryForcedLabor                    RiskCategory = "forced_labor"
+	RiskCategoryPoliticalExposure              RiskCategory = "political_exposure"
+	RiskCategoryRegulatoryAction               RiskCategory = "regulatory_action"
+	RiskCategorySanctions                      RiskCategory = "sanctions"
+	RiskCategorySanctionsAndExportControlLists RiskCategory = "sanctions_and_export_control_lists"
 )
 
 func NewRiskCategoryFromString(s string) (RiskCategory, error) {
@@ -11896,12 +13514,12 @@ func NewRiskCategoryFromString(s string) (RiskCategory, error) {
 		return RiskCategoryForcedLabor, nil
 	case "political_exposure":
 		return RiskCategoryPoliticalExposure, nil
-	case "possibly_same_as_network_risk":
-		return RiskCategoryPossiblySameAsNetworkRisk, nil
 	case "regulatory_action":
 		return RiskCategoryRegulatoryAction, nil
 	case "sanctions":
 		return RiskCategorySanctions, nil
+	case "sanctions_and_export_control_lists":
+		return RiskCategorySanctionsAndExportControlLists, nil
 	}
 	var t RiskCategory
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -12075,6 +13693,8 @@ type RiskIntelligenceProperties struct {
 	Program *string `json:"program,omitempty" url:"program,omitempty"`
 	// Explanation or legal basis for the risk intelligence
 	Reason *string `json:"reason,omitempty" url:"reason,omitempty"`
+	// A value indicating the assessed level of a certain risk tied to an entity. Meaning and scale depend on the specific scoring model used.
+	Score *float64 `json:"score,omitempty" url:"score,omitempty"`
 	// end date of attribute
 	ToDate *string `json:"to_date,omitempty" url:"to_date,omitempty"`
 	// Type of risk intelligence
@@ -12131,6 +13751,13 @@ func (r *RiskIntelligenceProperties) GetReason() *string {
 		return nil
 	}
 	return r.Reason
+}
+
+func (r *RiskIntelligenceProperties) GetScore() *float64 {
+	if r == nil {
+		return nil
+	}
+	return r.Score
 }
 
 func (r *RiskIntelligenceProperties) GetToDate() *string {
@@ -12740,6 +14367,7 @@ type Tag string
 const (
 	TagAspiUyghurForcedLaborReportEntity          Tag = "aspi_uyghur_forced_labor_report_entity"
 	TagBisBoycottRequesterList                    Tag = "bis_boycott_requester_list"
+	TagEsgScore                                   Tag = "esg_score"
 	TagExportControls                             Tag = "export_controls"
 	TagExportControlsBisEntity                    Tag = "export_controls_bis_entity"
 	TagForcedLaborXinjiangContractors             Tag = "forced_labor_xinjiang_contractors"
@@ -12768,6 +14396,8 @@ func NewTagFromString(s string) (Tag, error) {
 		return TagAspiUyghurForcedLaborReportEntity, nil
 	case "bis_boycott_requester_list":
 		return TagBisBoycottRequesterList, nil
+	case "esg_score":
+		return TagEsgScore, nil
 	case "export_controls":
 		return TagExportControls, nil
 	case "export_controls_bis_entity":
@@ -13378,12 +15008,18 @@ const (
 	WeakIdentifierTypeAtgCorporateRegistryEntityNum WeakIdentifierType = "atg_corporate_registry_entity_num"
 	// ASIC's internal document number used to identify the document containing the ban or disqualification notice/order in the Australia ASIC Banned and Disqualified Persons Register.
 	WeakIdentifierTypeAusAsicDisqualifiedPersonsNumber WeakIdentifierType = "aus_asic_disqualified_persons_number"
+	// Declaration number for import and export shipments in Australia
+	WeakIdentifierTypeAusDeclarationNumber WeakIdentifierType = "aus_declaration_number"
 	// Weak AUS state registration number. Registration number assigned when legal entity is originally registered by the Australian State.
 	WeakIdentifierTypeAusStateRegNumber WeakIdentifierType = "aus_state_reg_number"
+	// Australia Trade Internal Shipment ID
+	WeakIdentifierTypeAusTradeInternalShipmentId WeakIdentifierType = "aus_trade_internal_shipment_id"
 	// Austrian Company Register Number (no longer used)
 	WeakIdentifierTypeAutFormerCrNo WeakIdentifierType = "aut_former_cr_no"
 	// Austrian National Bank ID Number
 	WeakIdentifierTypeAutNatlBankNo WeakIdentifierType = "aut_natl_bank_no"
+	// Bangladesh Bill of Entry Number
+	WeakIdentifierTypeBgdBillOfEntry WeakIdentifierType = "bgd_bill_of_entry"
 	// Bosnia and Herzegovina business register registration number
 	WeakIdentifierTypeBihMbsNumber WeakIdentifierType = "bih_mbs_number"
 	// Bill of lading number for trade data
@@ -13394,26 +15030,40 @@ const (
 	WeakIdentifierTypeBraPartialCpf WeakIdentifierType = "bra_partial_cpf"
 	// Brazilian Lawyer Identification number
 	WeakIdentifierTypeBrazilianOab WeakIdentifierType = "brazilian_oab"
+	// Canada Procurement ID Number
+	WeakIdentifierTypeCanProcurementId WeakIdentifierType = "can_procurement_id"
+	// Canada Reference Number
+	WeakIdentifierTypeCanReferenceNumber WeakIdentifierType = "can_reference_number"
 	// China Classification Society Ship Class Number
 	WeakIdentifierTypeCcsShipClassNumber WeakIdentifierType = "ccs_ship_class_number"
+	// The Classification of Financial Instruments (CFI) Code is a code assigned to a financial instrument pursuant to international standard ISO 10962:2015(E). The CFI Code is a string of alphabetical characters that identify the type of financial instrument, rights conferred by the financial instrument, and other key characteristics of the financial Instrument.
+	WeakIdentifierTypeCfiCode WeakIdentifierType = "cfi_code"
 	// CVE number in Chile Santiago Gazette
 	WeakIdentifierTypeChlSantiagoGazetteCve WeakIdentifierType = "chl_santiago_gazette_cve"
 	// Internal identifier for legal persons from CHN cninfo data
 	WeakIdentifierTypeChnCninfoLegalPersonId WeakIdentifierType = "chn_cninfo_legal_person_id"
+	// China Contract Number
+	WeakIdentifierTypeChnContractNumber WeakIdentifierType = "chn_contract_number"
 	// Chinese customs registration code. Downgraded to weak identifier.
 	WeakIdentifierTypeChnCustomsRegistrationCode WeakIdentifierType = "chn_customs_registration_code"
+	// China Project Number
+	WeakIdentifierTypeChnProjectNumber WeakIdentifierType = "chn_project_number"
 	// Part of a Qichacha URL, used to uniquely identify people within the site
 	WeakIdentifierTypeCnQccInternalId WeakIdentifierType = "cn_qcc_internal_id"
 	// National identification number for enterprises and associations (Senegal)
 	WeakIdentifierTypeCofiCode WeakIdentifierType = "cofi_code"
 	// Bill of lading number for Colombian trade data
 	WeakIdentifierTypeColBillOfLading WeakIdentifierType = "col_bill_of_lading"
+	// Declaration number for import and export shipments in Colombia
+	WeakIdentifierTypeColDeclarationNumber WeakIdentifierType = "col_declaration_number"
 	// Matricula mercantil number, which is non-unique across different chambers of commerce
 	WeakIdentifierTypeColMatriculaMercantil WeakIdentifierType = "col_matricula_mercantil"
 	// Colombian SECOP internal ID
 	WeakIdentifierTypeColSecopNo WeakIdentifierType = "col_secop_no"
 	// Internal ID for Costa Rica comexport data (shipping operation number)
 	WeakIdentifierTypeCriOpNo WeakIdentifierType = "cri_op_no"
+	// Costa Rica Shipment Declaration Number
+	WeakIdentifierTypeCriShipmentDeclarationNumber WeakIdentifierType = "cri_shipment_declaration_number"
 	// Czechia file number from MOJ registry
 	WeakIdentifierTypeCzeFileNumber WeakIdentifierType = "cze_file_number"
 	// The company number given to each company listed in Handelsregister, the German Commercial Register. It is not unique unless combined with the district court XJustiz ID, which this weak identifier does not contain because in some cases it is not provided.
@@ -13422,16 +15072,26 @@ const (
 	WeakIdentifierTypeDmaCorporateRegistryEntityNum WeakIdentifierType = "dma_corporate_registry_entity_num"
 	// UK Bankruptcy and Insolvency Court Case Number linked to an individual subject to bankruptcies and insolvencies in England and Wales.
 	WeakIdentifierTypeGbrBankruptcyCaseNum WeakIdentifierType = "gbr_bankruptcy_case_num"
+	// Declaration number for import and export shipments in the United Kingdom
+	WeakIdentifierTypeGbrDeclarationNumber WeakIdentifierType = "gbr_declaration_number"
 	// UK entity ID number assigned to entities registered in the UK Government Grants Information System
 	WeakIdentifierTypeGbrGrantInfoNumber WeakIdentifierType = "gbr_grant_info_number"
 	// Georgian state registration number
 	WeakIdentifierTypeGeoStateRegistrationNumber WeakIdentifierType = "geo_state_registration_number"
+	// House Air Waybill is a document used in the transportation of goods by airplane - issued and signed by a freight forwarder. This document can be used to track individual shipments under a master air waybill. Normally used for tracking shipments within a consolidated air cargo.
+	WeakIdentifierTypeHabwId WeakIdentifierType = "habw_id"
 	// Notary office number for notaries in Honduras Tegucigalpa source
 	WeakIdentifierTypeHndTegucigalpaNotary WeakIdentifierType = "hnd_tegucigalpa_notary"
 	// Internal ID for Hungarian companies by Opten Ltd
 	WeakIdentifierTypeHunOptenId WeakIdentifierType = "hun_opten_id"
+	// Import General Manifest International Shipping Number
+	WeakIdentifierTypeIgmNumber WeakIdentifierType = "igm_number"
 	// Weak identifier. Assigned to entities registered with the Securities and Exchange Board of India.
 	WeakIdentifierTypeIndSebi WeakIdentifierType = "ind_sebi"
+	// India Shipment Bill Id
+	WeakIdentifierTypeIndShipmentBillId WeakIdentifierType = "ind_shipment_bill_id"
+	// Global Trade Internal Shipment ID
+	WeakIdentifierTypeIntTradeInternalShipmentId WeakIdentifierType = "int_trade_internal_shipment_id"
 	// Unique Ireland ID number. Assigned to every legal entity registered with Ireland Companies Registration Office.
 	WeakIdentifierTypeIrlRegistrationNo WeakIdentifierType = "irl_registration_no"
 	// Iranian registration number
@@ -13446,14 +15106,20 @@ const (
 	WeakIdentifierTypeJorSolPropInstitutionNumber WeakIdentifierType = "jor_sol_prop_institution_number"
 	// Company number from Jordan corporate registry
 	WeakIdentifierTypeJordanCompanyNo WeakIdentifierType = "jordan_company_no"
+	// Declaration number for import and export shipments in Japan
+	WeakIdentifierTypeJpnDeclarationNumber WeakIdentifierType = "jpn_declaration_number"
 	// Japan Ministry of Land, Infrastructure, Transport and Tourism permit number
 	WeakIdentifierTypeJpnPermitNo WeakIdentifierType = "jpn_permit_no"
+	// Kazakhstan Shipment Declaration Number
+	WeakIdentifierTypeKazShipmentDeclarationNumber WeakIdentifierType = "kaz_shipment_declaration_number"
 	// Kyrgyzstan INN
 	WeakIdentifierTypeKgzInn WeakIdentifierType = "kgz_inn"
 	// A unique identifier that is reissued when a company dissolves. Applies to Kyrgyz companies.
 	WeakIdentifierTypeKgzOkpo WeakIdentifierType = "kgz_okpo"
 	// Cambodia tax identification number
 	WeakIdentifierTypeKhmTinNumber WeakIdentifierType = "khm_tin_number"
+	// Declaration number for import and export shipments in South Korea
+	WeakIdentifierTypeKorDeclarationNumber WeakIdentifierType = "kor_declaration_number"
 	// Lebanese family number
 	WeakIdentifierTypeLbnFamilyNumber       WeakIdentifierType = "lbn_family_number"
 	WeakIdentifierTypeLbnRegistrationNumber WeakIdentifierType = "lbn_registration_number"
@@ -13481,6 +15147,8 @@ const (
 	WeakIdentifierTypeMdgRcsNumber WeakIdentifierType = "mdg_rcs_number"
 	// Time stamp unique to each politician's filing on Declaranet
 	WeakIdentifierTypeMexDeclaranetAcuse WeakIdentifierType = "mex_declaranet_acuse"
+	// Mexico Shipment Declaration Number
+	WeakIdentifierTypeMexShipmentDeclarationNumber WeakIdentifierType = "mex_shipment_declaration_number"
 	// Mexican trademark application number
 	WeakIdentifierTypeMexTmAppNo WeakIdentifierType = "mex_tm_app_no"
 	// Mexican trademark registration number
@@ -13491,10 +15159,24 @@ const (
 	WeakIdentifierTypeMxFme WeakIdentifierType = "mx_fme"
 	// Partial Mexican RFC
 	WeakIdentifierTypeMxPartialRfcPerson WeakIdentifierType = "mx_partial_rfc_person"
+	// Malaysia National Registration Identity Card (NRIC) number is a unique identifier for citizens and permanent residents. Weak ID as it is partial.
+	WeakIdentifierTypeMysPartialNationalIdentityNumber WeakIdentifierType = "mys_partial_national_identity_number"
+	// Nigerian Driver's License No.
+	WeakIdentifierTypeNgaDrivers WeakIdentifierType = "nga_drivers"
+	// Nigerian National Identification Number
+	WeakIdentifierTypeNgaNin WeakIdentifierType = "nga_nin"
+	// Nigeria corporate registry ID code
+	WeakIdentifierTypeNgaRegistrationNumber WeakIdentifierType = "nga_registration_number"
+	// Nigerian Corporate Registry Registration Serial No.
+	WeakIdentifierTypeNgaRegistrationSn WeakIdentifierType = "nga_registration_sn"
+	// Nigeria Shipment Registry Number
+	WeakIdentifierTypeNgaShipmentRegistryNumber WeakIdentifierType = "nga_shipment_registry_number"
 	// Pakistan CNIC family number
 	WeakIdentifierTypePakCnicFamilyNo WeakIdentifierType = "pak_cnic_family_no"
 	// Old Pakistan company code
 	WeakIdentifierTypePakOldCompanyCode WeakIdentifierType = "pak_old_company_code"
+	// Pakistan Shipment Bill Number
+	WeakIdentifierTypePakShipmentBillNumber WeakIdentifierType = "pak_shipment_bill_number"
 	// Panama Folio No.
 	WeakIdentifierTypePanFolio WeakIdentifierType = "pan_folio"
 	// Panama IBC RUC
@@ -13531,8 +15213,16 @@ const (
 	WeakIdentifierTypeRuOktmo WeakIdentifierType = "ru_oktmo"
 	// Russia Central Bank ID
 	WeakIdentifierTypeRusCbrId WeakIdentifierType = "rus_cbr_id"
+	// An internal identifier specific to the contract procedure record within the procurement system.
+	WeakIdentifierTypeRusContractInternalId WeakIdentifierType = "rus_contract_internal_id"
+	// The number for a Russian government procurement notice.
+	WeakIdentifierTypeRusProcurementNoticeNumber WeakIdentifierType = "rus_procurement_notice_number"
+	// Singapore National Registration Identity Card (NRIC) number is a unique identifier for citizens and permanent residents. Weak ID as it is partial.
+	WeakIdentifierTypeSgpPartialNationalIdentityNumber WeakIdentifierType = "sgp_partial_national_identity_number"
 	// Partial South African ID number for individuals
 	WeakIdentifierTypeSouthAfricaPartialIdNumber WeakIdentifierType = "south_africa_partial_id_number"
+	// Filing ID Number for company registration information in Slovakia Business Register. Weak ID.
+	WeakIdentifierTypeSvkFilingNumber WeakIdentifierType = "svk_filing_number"
 	// Tokyo Shoko Research Business Identifier. Identification code, assigned by credit reporting company, Tokyo Shoko Research, for businesses in Japan.
 	WeakIdentifierTypeTokyoShokoId WeakIdentifierType = "tokyo_shoko_id"
 	// Turkey municipal trade registry ID number. Assigned by municipal chambers of commerce in Turkey.
@@ -13541,8 +15231,14 @@ const (
 	WeakIdentifierTypeTurPartialMersisNumber WeakIdentifierType = "tur_partial_mersis_number"
 	// Bexar Appraisal District GEO ID
 	WeakIdentifierTypeTxBexarPropertyGeoId WeakIdentifierType = "tx_bexar_property_geo_id"
+	// Bill of lading number for Tanzania trade data
+	WeakIdentifierTypeTzaBillOfLading WeakIdentifierType = "tza_bill_of_lading"
+	// Tanzania Cargo Reference Number. Identifier assigned to a shipment when it is first lodged in the customs system, often through the manifest or pre-clearance process.
+	WeakIdentifierTypeTzaCrnNo WeakIdentifierType = "tza_crn_no"
 	// Learn more [here](https://www.wikidata.org/wiki/Property:P3125)
 	WeakIdentifierTypeUkrEdrpou WeakIdentifierType = "ukr_edrpou"
+	// Ukraine Shipment Declaration Number
+	WeakIdentifierTypeUkrShipmentDeclarationNumber WeakIdentifierType = "ukr_shipment_declaration_number"
 	// A string that is thought to be an ID number, but whose type is unknown
 	WeakIdentifierTypeUnknown WeakIdentifierType = "unknown"
 	// Brazil Litigation Case No.
@@ -13615,6 +15311,8 @@ const (
 	WeakIdentifierTypeUsaTriId WeakIdentifierType = "usa_tri_id"
 	// Toxic Substances Control Act (TSCA) permit identifier
 	WeakIdentifierTypeUsaTscaId WeakIdentifierType = "usa_tsca_id"
+	// Uzbekistan Customs Registration Number
+	WeakIdentifierTypeUzbCustomsRegistrationNumber WeakIdentifierType = "uzb_customs_registration_number"
 	// Value-added tax ID number
 	WeakIdentifierTypeVat WeakIdentifierType = "vat"
 	// Identification number for Venezuelan comisarios
@@ -13637,12 +15335,18 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeAtgCorporateRegistryEntityNum, nil
 	case "aus_asic_disqualified_persons_number":
 		return WeakIdentifierTypeAusAsicDisqualifiedPersonsNumber, nil
+	case "aus_declaration_number":
+		return WeakIdentifierTypeAusDeclarationNumber, nil
 	case "aus_state_reg_number":
 		return WeakIdentifierTypeAusStateRegNumber, nil
+	case "aus_trade_internal_shipment_id":
+		return WeakIdentifierTypeAusTradeInternalShipmentId, nil
 	case "aut_former_cr_no":
 		return WeakIdentifierTypeAutFormerCrNo, nil
 	case "aut_natl_bank_no":
 		return WeakIdentifierTypeAutNatlBankNo, nil
+	case "bgd_bill_of_entry":
+		return WeakIdentifierTypeBgdBillOfEntry, nil
 	case "bih_mbs_number":
 		return WeakIdentifierTypeBihMbsNumber, nil
 	case "bill_of_lading":
@@ -13653,26 +15357,40 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeBraPartialCpf, nil
 	case "brazilian_oab":
 		return WeakIdentifierTypeBrazilianOab, nil
+	case "can_procurement_id":
+		return WeakIdentifierTypeCanProcurementId, nil
+	case "can_reference_number":
+		return WeakIdentifierTypeCanReferenceNumber, nil
 	case "ccs_ship_class_number":
 		return WeakIdentifierTypeCcsShipClassNumber, nil
+	case "cfi_code":
+		return WeakIdentifierTypeCfiCode, nil
 	case "chl_santiago_gazette_cve":
 		return WeakIdentifierTypeChlSantiagoGazetteCve, nil
 	case "chn_cninfo_legal_person_id":
 		return WeakIdentifierTypeChnCninfoLegalPersonId, nil
+	case "chn_contract_number":
+		return WeakIdentifierTypeChnContractNumber, nil
 	case "chn_customs_registration_code":
 		return WeakIdentifierTypeChnCustomsRegistrationCode, nil
+	case "chn_project_number":
+		return WeakIdentifierTypeChnProjectNumber, nil
 	case "cn_qcc_internal_id":
 		return WeakIdentifierTypeCnQccInternalId, nil
 	case "cofi_code":
 		return WeakIdentifierTypeCofiCode, nil
 	case "col_bill_of_lading":
 		return WeakIdentifierTypeColBillOfLading, nil
+	case "col_declaration_number":
+		return WeakIdentifierTypeColDeclarationNumber, nil
 	case "col_matricula_mercantil":
 		return WeakIdentifierTypeColMatriculaMercantil, nil
 	case "col_secop_no":
 		return WeakIdentifierTypeColSecopNo, nil
 	case "cri_op_no":
 		return WeakIdentifierTypeCriOpNo, nil
+	case "cri_shipment_declaration_number":
+		return WeakIdentifierTypeCriShipmentDeclarationNumber, nil
 	case "cze_file_number":
 		return WeakIdentifierTypeCzeFileNumber, nil
 	case "deu_registernummer":
@@ -13681,16 +15399,26 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeDmaCorporateRegistryEntityNum, nil
 	case "gbr_bankruptcy_case_num":
 		return WeakIdentifierTypeGbrBankruptcyCaseNum, nil
+	case "gbr_declaration_number":
+		return WeakIdentifierTypeGbrDeclarationNumber, nil
 	case "gbr_grant_info_number":
 		return WeakIdentifierTypeGbrGrantInfoNumber, nil
 	case "geo_state_registration_number":
 		return WeakIdentifierTypeGeoStateRegistrationNumber, nil
+	case "habw_id":
+		return WeakIdentifierTypeHabwId, nil
 	case "hnd_tegucigalpa_notary":
 		return WeakIdentifierTypeHndTegucigalpaNotary, nil
 	case "hun_opten_id":
 		return WeakIdentifierTypeHunOptenId, nil
+	case "igm_number":
+		return WeakIdentifierTypeIgmNumber, nil
 	case "ind_sebi":
 		return WeakIdentifierTypeIndSebi, nil
+	case "ind_shipment_bill_id":
+		return WeakIdentifierTypeIndShipmentBillId, nil
+	case "int_trade_internal_shipment_id":
+		return WeakIdentifierTypeIntTradeInternalShipmentId, nil
 	case "irl_registration_no":
 		return WeakIdentifierTypeIrlRegistrationNo, nil
 	case "irn_reg_number":
@@ -13705,14 +15433,20 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeJorSolPropInstitutionNumber, nil
 	case "jordan_company_no":
 		return WeakIdentifierTypeJordanCompanyNo, nil
+	case "jpn_declaration_number":
+		return WeakIdentifierTypeJpnDeclarationNumber, nil
 	case "jpn_permit_no":
 		return WeakIdentifierTypeJpnPermitNo, nil
+	case "kaz_shipment_declaration_number":
+		return WeakIdentifierTypeKazShipmentDeclarationNumber, nil
 	case "kgz_inn":
 		return WeakIdentifierTypeKgzInn, nil
 	case "kgz_okpo":
 		return WeakIdentifierTypeKgzOkpo, nil
 	case "khm_tin_number":
 		return WeakIdentifierTypeKhmTinNumber, nil
+	case "kor_declaration_number":
+		return WeakIdentifierTypeKorDeclarationNumber, nil
 	case "lbn_family_number":
 		return WeakIdentifierTypeLbnFamilyNumber, nil
 	case "lbn_registration_number":
@@ -13741,6 +15475,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeMdgRcsNumber, nil
 	case "mex_declaranet_acuse":
 		return WeakIdentifierTypeMexDeclaranetAcuse, nil
+	case "mex_shipment_declaration_number":
+		return WeakIdentifierTypeMexShipmentDeclarationNumber, nil
 	case "mex_tm_app_no":
 		return WeakIdentifierTypeMexTmAppNo, nil
 	case "mex_tm_reg_no":
@@ -13751,10 +15487,24 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeMxFme, nil
 	case "mx_partial_rfc_person":
 		return WeakIdentifierTypeMxPartialRfcPerson, nil
+	case "mys_partial_national_identity_number":
+		return WeakIdentifierTypeMysPartialNationalIdentityNumber, nil
+	case "nga_drivers":
+		return WeakIdentifierTypeNgaDrivers, nil
+	case "nga_nin":
+		return WeakIdentifierTypeNgaNin, nil
+	case "nga_registration_number":
+		return WeakIdentifierTypeNgaRegistrationNumber, nil
+	case "nga_registration_sn":
+		return WeakIdentifierTypeNgaRegistrationSn, nil
+	case "nga_shipment_registry_number":
+		return WeakIdentifierTypeNgaShipmentRegistryNumber, nil
 	case "pak_cnic_family_no":
 		return WeakIdentifierTypePakCnicFamilyNo, nil
 	case "pak_old_company_code":
 		return WeakIdentifierTypePakOldCompanyCode, nil
+	case "pak_shipment_bill_number":
+		return WeakIdentifierTypePakShipmentBillNumber, nil
 	case "pan_folio":
 		return WeakIdentifierTypePanFolio, nil
 	case "pan_ibc_ruc":
@@ -13791,8 +15541,16 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeRuOktmo, nil
 	case "rus_cbr_id":
 		return WeakIdentifierTypeRusCbrId, nil
+	case "rus_contract_internal_id":
+		return WeakIdentifierTypeRusContractInternalId, nil
+	case "rus_procurement_notice_number":
+		return WeakIdentifierTypeRusProcurementNoticeNumber, nil
+	case "sgp_partial_national_identity_number":
+		return WeakIdentifierTypeSgpPartialNationalIdentityNumber, nil
 	case "south_africa_partial_id_number":
 		return WeakIdentifierTypeSouthAfricaPartialIdNumber, nil
+	case "svk_filing_number":
+		return WeakIdentifierTypeSvkFilingNumber, nil
 	case "tokyo_shoko_id":
 		return WeakIdentifierTypeTokyoShokoId, nil
 	case "tur_office_registration_number":
@@ -13801,8 +15559,14 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeTurPartialMersisNumber, nil
 	case "tx_bexar_property_geo_id":
 		return WeakIdentifierTypeTxBexarPropertyGeoId, nil
+	case "tza_bill_of_lading":
+		return WeakIdentifierTypeTzaBillOfLading, nil
+	case "tza_crn_no":
+		return WeakIdentifierTypeTzaCrnNo, nil
 	case "ukr_edrpou":
 		return WeakIdentifierTypeUkrEdrpou, nil
+	case "ukr_shipment_declaration_number":
+		return WeakIdentifierTypeUkrShipmentDeclarationNumber, nil
 	case "unknown":
 		return WeakIdentifierTypeUnknown, nil
 	case "unknown_bra_case_number":
@@ -13875,6 +15639,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeUsaTriId, nil
 	case "usa_tsca_id":
 		return WeakIdentifierTypeUsaTscaId, nil
+	case "uzb_customs_registration_number":
+		return WeakIdentifierTypeUzbCustomsRegistrationNumber, nil
 	case "vat":
 		return WeakIdentifierTypeVat, nil
 	case "ven_colegiado_number":

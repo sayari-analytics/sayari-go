@@ -217,6 +217,8 @@ func (e *EntitySearchResponse) String() string {
 type FilterList struct {
 	// List of source IDs to filter by.
 	Source []SourceId `json:"source,omitempty" url:"source,omitempty"`
+	// List of source countries to filter by. Must be specified as trigrams, e.g. ATF.
+	SourceCountry []Country `json:"source_country,omitempty" url:"source_country,omitempty"`
 	// List of countries to filter by.
 	Country []Country `json:"country,omitempty" url:"country,omitempty"`
 	// List of states or provinces to filter by.
@@ -241,6 +243,13 @@ func (f *FilterList) GetSource() []SourceId {
 		return nil
 	}
 	return f.Source
+}
+
+func (f *FilterList) GetSourceCountry() []Country {
+	if f == nil {
+		return nil
+	}
+	return f.SourceCountry
 }
 
 func (f *FilterList) GetCountry() []Country {
@@ -515,6 +524,7 @@ type SearchResults struct {
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
 	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
+	LogisticsEntity          *bool                   `json:"logistics_entity,omitempty" url:"logistics_entity,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
@@ -717,6 +727,13 @@ func (s *SearchResults) GetReferenceId() *string {
 		return nil
 	}
 	return s.ReferenceId
+}
+
+func (s *SearchResults) GetLogisticsEntity() *bool {
+	if s == nil {
+		return nil
+	}
+	return s.LogisticsEntity
 }
 
 func (s *SearchResults) GetRegistrationDate() *EntityRegistrationDate {
