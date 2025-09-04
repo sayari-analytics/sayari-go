@@ -37,7 +37,7 @@ func main() {
 	}
 
 	// List sources
-	sources, err := client.Source.ListSources(context.Background(), &sayari.ListSources{})
+	sources, err := client.Ontology.GetSources(context.Background(), &sayari.GetOntologySourcesRequest{})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
@@ -45,13 +45,18 @@ func main() {
 	log.Printf("Found %v sources", len(sources.Data))
 
 	// Get the first source
-	firstSource, err := client.Source.GetSource(context.Background(), sources.Data[0].Id)
+	// NOTE: API issue - when filtering by a single ID, the response returns filters.id as a string instead of []string,
+	// causing JSON unmarshaling to fail. Workaround: request 2 sources to ensure filters.id remains an array.
+	firstSource, err := client.Ontology.GetSources(context.Background(), &sayari.GetOntologySourcesRequest{
+		Id: []string{sources.Data[0].Id, sources.Data[1].Id},
+	})
 	if err != nil {
 		log.Fatalf("Error: %v", err)
 	}
+
 	// uncomment to view data
 	//spew.Dump(firstSource)
-	log.Printf("First source is: %v", firstSource.Label)
+	log.Printf("First source is: %v", firstSource.Data[0].Label)
 
 	// Search for an entity
 	searchTerm := "victoria beckham limited"
