@@ -252,6 +252,8 @@ type Shipment struct {
 	DepartureDate       []string                     `json:"departure_date,omitempty" url:"departure_date,omitempty"`
 	DepartureAddress    *ShipmentAddress             `json:"departure_address,omitempty" url:"departure_address,omitempty"`
 	ArrivalAddress      *ShipmentAddress             `json:"arrival_address,omitempty" url:"arrival_address,omitempty"`
+	ShipperAddress      *ShipmentAddress             `json:"shipper_address,omitempty" url:"shipper_address,omitempty"`
+	ReceiverAddress     *ShipmentAddress             `json:"receiver_address,omitempty" url:"receiver_address,omitempty"`
 	ArrivalCountry      []Country                    `json:"arrival_country,omitempty" url:"arrival_country,omitempty"`
 	DepartureCountry    []Country                    `json:"departure_country,omitempty" url:"departure_country,omitempty"`
 	TransitCountry      []Country                    `json:"transit_country,omitempty" url:"transit_country,omitempty"`
@@ -324,6 +326,20 @@ func (s *Shipment) GetArrivalAddress() *ShipmentAddress {
 		return nil
 	}
 	return s.ArrivalAddress
+}
+
+func (s *Shipment) GetShipperAddress() *ShipmentAddress {
+	if s == nil {
+		return nil
+	}
+	return s.ShipperAddress
+}
+
+func (s *Shipment) GetReceiverAddress() *ShipmentAddress {
+	if s == nil {
+		return nil
+	}
+	return s.ReceiverAddress
 }
 
 func (s *Shipment) GetArrivalCountry() []Country {
@@ -635,6 +651,8 @@ type ShipmentMetadata struct {
 	// Unique identifier of the entity
 	EntityId         string             `json:"entity_id" url:"entity_id"`
 	DepartureAddress *AddressProperties `json:"departure_address,omitempty" url:"departure_address,omitempty"`
+	ShipperAddress   *AddressProperties `json:"shipper_address,omitempty" url:"shipper_address,omitempty"`
+	ReceiverAddress  *AddressProperties `json:"receiver_address,omitempty" url:"receiver_address,omitempty"`
 	Type             string             `json:"type" url:"type"`
 	Sources          []string           `json:"sources,omitempty" url:"sources,omitempty"`
 	DepartureCountry []Country          `json:"departure_country,omitempty" url:"departure_country,omitempty"`
@@ -676,6 +694,20 @@ func (s *ShipmentMetadata) GetDepartureAddress() *AddressProperties {
 		return nil
 	}
 	return s.DepartureAddress
+}
+
+func (s *ShipmentMetadata) GetShipperAddress() *AddressProperties {
+	if s == nil {
+		return nil
+	}
+	return s.ShipperAddress
+}
+
+func (s *ShipmentMetadata) GetReceiverAddress() *AddressProperties {
+	if s == nil {
+		return nil
+	}
+	return s.ReceiverAddress
 }
 
 func (s *ShipmentMetadata) GetType() string {
@@ -1015,6 +1047,7 @@ type SupplierOrBuyer struct {
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
 	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
+	LogisticsEntity          *bool                   `json:"logistics_entity,omitempty" url:"logistics_entity,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
@@ -1216,6 +1249,13 @@ func (s *SupplierOrBuyer) GetReferenceId() *string {
 		return nil
 	}
 	return s.ReferenceId
+}
+
+func (s *SupplierOrBuyer) GetLogisticsEntity() *bool {
+	if s == nil {
+		return nil
+	}
+	return s.LogisticsEntity
 }
 
 func (s *SupplierOrBuyer) GetRegistrationDate() *EntityRegistrationDate {
@@ -1468,9 +1508,11 @@ type TradeFilterList struct {
 	SupplierPurpose []string `json:"supplier_purpose,omitempty" url:"supplier_purpose,omitempty"`
 	// The buyer purpose contains the provided string.
 	BuyerPurpose []string `json:"buyer_purpose,omitempty" url:"buyer_purpose,omitempty"`
-	// The arrival date is within the provided range.
+	// The arrival date is within the provided range. Supports exact dates (YYYY-MM-DD)
+	// or date ranges (YYYY-MM TO YYYY-MM). Example: ["2024-01 TO 2024-10"] or ["2024-01-30"].
 	ArrivalDate []string `json:"arrival_date,omitempty" url:"arrival_date,omitempty"`
-	// The departure date is within the provided range.
+	// The departure date is within the provided range. Supports exact dates (YYYY-MM-DD)
+	// or date ranges (YYYY-MM TO YYYY-MM). Example: ["2024-01 TO 2024-10"] or ["2024-01-30"].
 	DepartureDate []string `json:"departure_date,omitempty" url:"departure_date,omitempty"`
 	// The shipment identifier starts with the provided string.
 	ShipmentIdentifier []string `json:"shipment_identifier,omitempty" url:"shipment_identifier,omitempty"`
