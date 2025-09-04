@@ -153,6 +153,7 @@ type EntitySummaryResponse struct {
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
 	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
+	LogisticsEntity          *bool                   `json:"logistics_entity,omitempty" url:"logistics_entity,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
@@ -355,6 +356,13 @@ func (e *EntitySummaryResponse) GetReferenceId() *string {
 	return e.ReferenceId
 }
 
+func (e *EntitySummaryResponse) GetLogisticsEntity() *bool {
+	if e == nil {
+		return nil
+	}
+	return e.LogisticsEntity
+}
+
 func (e *EntitySummaryResponse) GetRegistrationDate() *EntityRegistrationDate {
 	if e == nil {
 		return nil
@@ -516,6 +524,7 @@ type GetEntityResponse struct {
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
 	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
+	LogisticsEntity          *bool                   `json:"logistics_entity,omitempty" url:"logistics_entity,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
@@ -716,6 +725,13 @@ func (g *GetEntityResponse) GetReferenceId() *string {
 		return nil
 	}
 	return g.ReferenceId
+}
+
+func (g *GetEntityResponse) GetLogisticsEntity() *bool {
+	if g == nil {
+		return nil
+	}
+	return g.LogisticsEntity
 }
 
 func (g *GetEntityResponse) GetRegistrationDate() *EntityRegistrationDate {

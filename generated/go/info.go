@@ -177,9 +177,6 @@ type UsageInfo struct {
 	Record         *int `json:"record,omitempty" url:"record,omitempty"`
 	Resolve        *int `json:"resolve,omitempty" url:"resolve,omitempty"`
 	Search         *int `json:"search,omitempty" url:"search,omitempty"`
-	SearchEntities *int `json:"search_entities,omitempty" url:"search_entities,omitempty"`
-	SearchRecords  *int `json:"search_records,omitempty" url:"search_records,omitempty"`
-	SearchTrade    *int `json:"search_trade,omitempty" url:"search_trade,omitempty"`
 	TradeTraversal *int `json:"trade_traversal,omitempty" url:"trade_traversal,omitempty"`
 	Traversal      *int `json:"traversal,omitempty" url:"traversal,omitempty"`
 
@@ -213,27 +210,6 @@ func (u *UsageInfo) GetSearch() *int {
 		return nil
 	}
 	return u.Search
-}
-
-func (u *UsageInfo) GetSearchEntities() *int {
-	if u == nil {
-		return nil
-	}
-	return u.SearchEntities
-}
-
-func (u *UsageInfo) GetSearchRecords() *int {
-	if u == nil {
-		return nil
-	}
-	return u.SearchRecords
-}
-
-func (u *UsageInfo) GetSearchTrade() *int {
-	if u == nil {
-		return nil
-	}
-	return u.SearchTrade
 }
 
 func (u *UsageInfo) GetTradeTraversal() *int {

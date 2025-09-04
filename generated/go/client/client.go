@@ -12,8 +12,12 @@ import (
 	metadata "github.com/sayari-analytics/sayari-go/generated/go/metadata"
 	negativenews "github.com/sayari-analytics/sayari-go/generated/go/negativenews"
 	notifications "github.com/sayari-analytics/sayari-go/generated/go/notifications"
+	ontology "github.com/sayari-analytics/sayari-go/generated/go/ontology"
 	option "github.com/sayari-analytics/sayari-go/generated/go/option"
 	project "github.com/sayari-analytics/sayari-go/generated/go/project"
+	projectentity "github.com/sayari-analytics/sayari-go/generated/go/projectentity"
+	projectentityattributes "github.com/sayari-analytics/sayari-go/generated/go/projectentityattributes"
+	projectentitysupplychainsnapshots "github.com/sayari-analytics/sayari-go/generated/go/projectentitysupplychainsnapshots"
 	record "github.com/sayari-analytics/sayari-go/generated/go/record"
 	resolution "github.com/sayari-analytics/sayari-go/generated/go/resolution"
 	resource "github.com/sayari-analytics/sayari-go/generated/go/resource"
@@ -30,22 +34,26 @@ type Client struct {
 	caller  *internal.Caller
 	header  http.Header
 
-	Attributes    *attributes.Client
-	Auth          *auth.Client
-	Entity        *entity.Client
-	Info          *info.Client
-	Metadata      *metadata.Client
-	NegativeNews  *negativenews.Client
-	Notifications *notifications.Client
-	Project       *project.Client
-	Record        *record.Client
-	Resolution    *resolution.Client
-	Resource      *resource.Client
-	Search        *search.Client
-	Source        *source.Client
-	SupplyChain   *supplychain.Client
-	Trade         *trade.Client
-	Traversal     *traversal.Client
+	Attributes                        *attributes.Client
+	Auth                              *auth.Client
+	Entity                            *entity.Client
+	Info                              *info.Client
+	Metadata                          *metadata.Client
+	NegativeNews                      *negativenews.Client
+	Notifications                     *notifications.Client
+	Ontology                          *ontology.Client
+	ProjectEntityAttributes           *projectentityattributes.Client
+	ProjectEntitySupplyChainSnapshots *projectentitysupplychainsnapshots.Client
+	ProjectEntity                     *projectentity.Client
+	Project                           *project.Client
+	Record                            *record.Client
+	Resolution                        *resolution.Client
+	Resource                          *resource.Client
+	Search                            *search.Client
+	Source                            *source.Client
+	SupplyChain                       *supplychain.Client
+	Trade                             *trade.Client
+	Traversal                         *traversal.Client
 }
 
 func NewClient(opts ...option.RequestOption) *Client {
@@ -58,22 +66,26 @@ func NewClient(opts ...option.RequestOption) *Client {
 				MaxAttempts: options.MaxAttempts,
 			},
 		),
-		header:        options.ToHeader(),
-		Attributes:    attributes.NewClient(opts...),
-		Auth:          auth.NewClient(opts...),
-		Entity:        entity.NewClient(opts...),
-		Info:          info.NewClient(opts...),
-		Metadata:      metadata.NewClient(opts...),
-		NegativeNews:  negativenews.NewClient(opts...),
-		Notifications: notifications.NewClient(opts...),
-		Project:       project.NewClient(opts...),
-		Record:        record.NewClient(opts...),
-		Resolution:    resolution.NewClient(opts...),
-		Resource:      resource.NewClient(opts...),
-		Search:        search.NewClient(opts...),
-		Source:        source.NewClient(opts...),
-		SupplyChain:   supplychain.NewClient(opts...),
-		Trade:         trade.NewClient(opts...),
-		Traversal:     traversal.NewClient(opts...),
+		header:                            options.ToHeader(),
+		Attributes:                        attributes.NewClient(opts...),
+		Auth:                              auth.NewClient(opts...),
+		Entity:                            entity.NewClient(opts...),
+		Info:                              info.NewClient(opts...),
+		Metadata:                          metadata.NewClient(opts...),
+		NegativeNews:                      negativenews.NewClient(opts...),
+		Notifications:                     notifications.NewClient(opts...),
+		Ontology:                          ontology.NewClient(opts...),
+		ProjectEntityAttributes:           projectentityattributes.NewClient(opts...),
+		ProjectEntitySupplyChainSnapshots: projectentitysupplychainsnapshots.NewClient(opts...),
+		ProjectEntity:                     projectentity.NewClient(opts...),
+		Project:                           project.NewClient(opts...),
+		Record:                            record.NewClient(opts...),
+		Resolution:                        resolution.NewClient(opts...),
+		Resource:                          resource.NewClient(opts...),
+		Search:                            search.NewClient(opts...),
+		Source:                            source.NewClient(opts...),
+		SupplyChain:                       supplychain.NewClient(opts...),
+		Trade:                             trade.NewClient(opts...),
+		Traversal:                         traversal.NewClient(opts...),
 	}
 }
