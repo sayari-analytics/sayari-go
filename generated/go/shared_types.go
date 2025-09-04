@@ -143,12 +143,13 @@ type CoreEntity struct {
 	SourceCounts map[string]*SourceCountInfo `json:"source_counts,omitempty" url:"source_counts,omitempty"`
 	Psa          *Psa                        `json:"psa,omitempty" url:"psa,omitempty"`
 	// [Risk factors](/sayari-library/ontology/risk-factors) associated with the entity.
-	Risk     EntityRisk `json:"risk,omitempty" url:"risk,omitempty"`
-	Created  *string    `json:"created,omitempty" url:"created,omitempty"`
-	Updated  *string    `json:"updated,omitempty" url:"updated,omitempty"`
-	EditedBy *string    `json:"edited_by,omitempty" url:"edited_by,omitempty"`
-	Editable *bool      `json:"editable,omitempty" url:"editable,omitempty"`
-	Upload   *string    `json:"upload,omitempty" url:"upload,omitempty"`
+	Risk            EntityRisk `json:"risk,omitempty" url:"risk,omitempty"`
+	Created         *string    `json:"created,omitempty" url:"created,omitempty"`
+	Updated         *string    `json:"updated,omitempty" url:"updated,omitempty"`
+	EditedBy        *string    `json:"edited_by,omitempty" url:"edited_by,omitempty"`
+	Editable        *bool      `json:"editable,omitempty" url:"editable,omitempty"`
+	Upload          *string    `json:"upload,omitempty" url:"upload,omitempty"`
+	LogisticsEntity *bool      `json:"logistics_entity,omitempty" url:"logistics_entity,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -399,6 +400,13 @@ func (c *CoreEntity) GetUpload() *string {
 	return c.Upload
 }
 
+func (c *CoreEntity) GetLogisticsEntity() *bool {
+	if c == nil {
+		return nil
+	}
+	return c.LogisticsEntity
+}
+
 func (c *CoreEntity) GetExtraProperties() map[string]interface{} {
 	return c.extraProperties
 }
@@ -476,6 +484,7 @@ type EmbeddedEntity struct {
 	UserRelatedEntitiesCount int                `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                `json:"user_record_count" url:"user_record_count"`
 	ReferenceId              *string            `json:"reference_id,omitempty" url:"reference_id,omitempty"`
+	LogisticsEntity          *bool              `json:"logistics_entity,omitempty" url:"logistics_entity,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -663,6 +672,13 @@ func (e *EmbeddedEntity) GetReferenceId() *string {
 	return e.ReferenceId
 }
 
+func (e *EmbeddedEntity) GetLogisticsEntity() *bool {
+	if e == nil {
+		return nil
+	}
+	return e.LogisticsEntity
+}
+
 func (e *EmbeddedEntity) GetExtraProperties() map[string]interface{} {
 	return e.extraProperties
 }
@@ -740,6 +756,7 @@ type EntityDetails struct {
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
 	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
+	LogisticsEntity          *bool                   `json:"logistics_entity,omitempty" url:"logistics_entity,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	TranslatedLabel          *EntityTranslatedLabel  `json:"translated_label,omitempty" url:"translated_label,omitempty"`
 	HsCode                   *EntityHsCode           `json:"hs_code,omitempty" url:"hs_code,omitempty"`
@@ -940,6 +957,13 @@ func (e *EntityDetails) GetReferenceId() *string {
 		return nil
 	}
 	return e.ReferenceId
+}
+
+func (e *EntityDetails) GetLogisticsEntity() *bool {
+	if e == nil {
+		return nil
+	}
+	return e.LogisticsEntity
 }
 
 func (e *EntityDetails) GetRegistrationDate() *EntityRegistrationDate {
@@ -1369,6 +1393,7 @@ type PsaEntity struct {
 	UserRelatedEntitiesCount int                     `json:"user_related_entities_count" url:"user_related_entities_count"`
 	UserRecordCount          int                     `json:"user_record_count" url:"user_record_count"`
 	ReferenceId              *string                 `json:"reference_id,omitempty" url:"reference_id,omitempty"`
+	LogisticsEntity          *bool                   `json:"logistics_entity,omitempty" url:"logistics_entity,omitempty"`
 	Risk                     EntityRisk              `json:"risk,omitempty" url:"risk,omitempty"`
 	RegistrationDate         *EntityRegistrationDate `json:"registration_date,omitempty" url:"registration_date,omitempty"`
 	CompanyType              *CompanyType            `json:"company_type,omitempty" url:"company_type,omitempty"`
@@ -1558,6 +1583,13 @@ func (p *PsaEntity) GetReferenceId() *string {
 		return nil
 	}
 	return p.ReferenceId
+}
+
+func (p *PsaEntity) GetLogisticsEntity() *bool {
+	if p == nil {
+		return nil
+	}
+	return p.LogisticsEntity
 }
 
 func (p *PsaEntity) GetRisk() EntityRisk {

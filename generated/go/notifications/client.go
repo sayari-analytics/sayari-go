@@ -31,7 +31,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// The Project Notifications endpoint returns a list of notifications on all entities saved to a project.
+// <Warning>Legacy endpoint. New integrations should contact Sayari for best practices.</Warning> The Project Notifications endpoint returns a list of notifications on all entities saved to a project.
 func (c *Client) ProjectNotifications(
 	ctx context.Context,
 	// Unique identifier of the project
@@ -123,7 +123,7 @@ func (c *Client) ProjectNotifications(
 	return response, nil
 }
 
-// <Warning>This endpoint is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> The Resource Notifications endpoint returns a list of notifications for a saved entity.
+// <Warning>Legacy endpoint. New integrations should contact Sayari for best practices.</Warning> The Resource Notifications endpoint returns a list of notifications for a saved entity.
 func (c *Client) ResourceNotifications(
 	ctx context.Context,
 	// Unique identifier of the resource
@@ -215,7 +215,7 @@ func (c *Client) ResourceNotifications(
 	return response, nil
 }
 
-// Deletes all notifications from a project.
+// <Warning>Legacy endpoint. New integrations should contact Sayari for best practices.</Warning> Deletes all notifications from a project.
 func (c *Client) DeleteProjectNotifications(
 	ctx context.Context,
 	projectId string,
@@ -286,7 +286,7 @@ func (c *Client) DeleteProjectNotifications(
 	return nil
 }
 
-// Deletes notifications for saved resources of an entity.
+// <Warning>Legacy endpoint. New integrations should contact Sayari for best practices.</Warning> Deletes notifications for saved resources of an entity.
 func (c *Client) DeleteEntityNotifications(
 	ctx context.Context,
 	entityId string,
@@ -357,7 +357,7 @@ func (c *Client) DeleteEntityNotifications(
 	return nil
 }
 
-// Deletes notifications for a saved resource.
+// <Warning>Legacy endpoint. New integrations should contact Sayari for best practices.</Warning> Deletes notifications for a saved resource.
 func (c *Client) DeleteResourceNotifications(
 	ctx context.Context,
 	resourceId string,

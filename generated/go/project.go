@@ -8,36 +8,6 @@ import (
 	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
-type GetProjectEntities struct {
-	// The response format. Defaults to application/json.
-	Accept GetProjectEntitiesAcceptHeader `json:"-" url:"-"`
-	// The pagination token for the next page of entities.
-	Next *string `json:"-" url:"next,omitempty"`
-	// The pagination token for the previous page of entities.
-	Prev *string `json:"-" url:"prev,omitempty"`
-	// Limit total entities returned. Defaults to 1,000. Max 10,000.
-	Limit *int `json:"-" url:"limit,omitempty"`
-	// Only return entities of the specified [entity type(s)](/sayari-library/ontology/entities). Defaults to all types.
-	EntityTypes []*Entities `json:"-" url:"entity_types,omitempty"`
-	// Whether to include geo facets in the response. Defaults to false.
-	GeoFacets *bool `json:"-" url:"geo_facets,omitempty"`
-	// Only return entities with the specified HS code(s).
-	HsCodes []*string `json:"-" url:"hs_codes,omitempty"`
-	// Only return entities that received the specified HS code(s).
-	ReceivedHsCodes []*string `json:"-" url:"received_hs_codes,omitempty"`
-	// Only return entities that shipped the specified HS code(s).
-	ShippedHsCodes []*string `json:"-" url:"shipped_hs_codes,omitempty"`
-	// Only return entities that have shipped or received the specified HS code(s).
-	CombinedHsCodes []*string `json:"-" url:"combined_hs_codes,omitempty"`
-	// The language code to translate the entity labels to. Defaults to the user's preferred language.
-	Translation *string    `json:"-" url:"translation,omitempty"`
-	Sort        *SortField `json:"-" url:"sort,omitempty"`
-	// Filter for entities in a project. The format is `field=value`, where the equal sign is encoded as `%3D`. Supported fields are as follows
-	Filters []*ProjectEntitiesFilter `json:"-" url:"filters,omitempty"`
-	// Aggregations that should be returned for entities in the project.
-	Aggregations []*ProjectEntitiesAggsDefinition `json:"-" url:"aggregations,omitempty"`
-}
-
 type GetProjects struct {
 	// The pagination token for the next page of projects.
 	Next *string `json:"-" url:"next,omitempty"`
@@ -51,11 +21,10 @@ type GetProjects struct {
 
 // Aggregation buckets for entities in a project.
 type BucketAgg struct {
-	Key        string       `json:"key" url:"key"`
-	DocCount   int          `json:"doc_count" url:"doc_count"`
-	Label      *string      `json:"label,omitempty" url:"label,omitempty"`
-	Comment    *string      `json:"comment,omitempty" url:"comment,omitempty"`
-	HsCodeSums *IntKeyValue `json:"hs_code_sums,omitempty" url:"hs_code_sums,omitempty"`
+	Key      string  `json:"key" url:"key"`
+	DocCount int     `json:"doc_count" url:"doc_count"`
+	Label    *string `json:"label,omitempty" url:"label,omitempty"`
+	Comment  *string `json:"comment,omitempty" url:"comment,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -87,13 +56,6 @@ func (b *BucketAgg) GetComment() *string {
 		return nil
 	}
 	return b.Comment
-}
-
-func (b *BucketAgg) GetHsCodeSums() *IntKeyValue {
-	if b == nil {
-		return nil
-	}
-	return b.HsCodeSums
 }
 
 func (b *BucketAgg) GetExtraProperties() map[string]interface{} {
@@ -518,184 +480,6 @@ func (g *GetProjectsResponse) String() string {
 	return fmt.Sprintf("%#v", g)
 }
 
-type HsCodeAgg struct {
-	DocCount    int             `json:"doc_count" url:"doc_count"`
-	HsCodeTerms *HsCodeAggTerms `json:"hs_code_terms,omitempty" url:"hs_code_terms,omitempty"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (h *HsCodeAgg) GetDocCount() int {
-	if h == nil {
-		return 0
-	}
-	return h.DocCount
-}
-
-func (h *HsCodeAgg) GetHsCodeTerms() *HsCodeAggTerms {
-	if h == nil {
-		return nil
-	}
-	return h.HsCodeTerms
-}
-
-func (h *HsCodeAgg) GetExtraProperties() map[string]interface{} {
-	return h.extraProperties
-}
-
-func (h *HsCodeAgg) UnmarshalJSON(data []byte) error {
-	type unmarshaler HsCodeAgg
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*h = HsCodeAgg(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *h)
-	if err != nil {
-		return err
-	}
-	h.extraProperties = extraProperties
-	h.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (h *HsCodeAgg) String() string {
-	if len(h.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(h); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", h)
-}
-
-type HsCodeAggBucket struct {
-	Key        string       `json:"key" url:"key"`
-	DocCount   int          `json:"doc_count" url:"doc_count"`
-	HsCodeSums *IntKeyValue `json:"hs_code_sums,omitempty" url:"hs_code_sums,omitempty"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (h *HsCodeAggBucket) GetKey() string {
-	if h == nil {
-		return ""
-	}
-	return h.Key
-}
-
-func (h *HsCodeAggBucket) GetDocCount() int {
-	if h == nil {
-		return 0
-	}
-	return h.DocCount
-}
-
-func (h *HsCodeAggBucket) GetHsCodeSums() *IntKeyValue {
-	if h == nil {
-		return nil
-	}
-	return h.HsCodeSums
-}
-
-func (h *HsCodeAggBucket) GetExtraProperties() map[string]interface{} {
-	return h.extraProperties
-}
-
-func (h *HsCodeAggBucket) UnmarshalJSON(data []byte) error {
-	type unmarshaler HsCodeAggBucket
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*h = HsCodeAggBucket(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *h)
-	if err != nil {
-		return err
-	}
-	h.extraProperties = extraProperties
-	h.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (h *HsCodeAggBucket) String() string {
-	if len(h.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(h); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", h)
-}
-
-type HsCodeAggTerms struct {
-	DocCountErrorUpperBound int                `json:"doc_count_error_upper_bound" url:"doc_count_error_upper_bound"`
-	SumOtherDocCount        int                `json:"sum_other_doc_count" url:"sum_other_doc_count"`
-	Buckets                 []*HsCodeAggBucket `json:"buckets,omitempty" url:"buckets,omitempty"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (h *HsCodeAggTerms) GetDocCountErrorUpperBound() int {
-	if h == nil {
-		return 0
-	}
-	return h.DocCountErrorUpperBound
-}
-
-func (h *HsCodeAggTerms) GetSumOtherDocCount() int {
-	if h == nil {
-		return 0
-	}
-	return h.SumOtherDocCount
-}
-
-func (h *HsCodeAggTerms) GetBuckets() []*HsCodeAggBucket {
-	if h == nil {
-		return nil
-	}
-	return h.Buckets
-}
-
-func (h *HsCodeAggTerms) GetExtraProperties() map[string]interface{} {
-	return h.extraProperties
-}
-
-func (h *HsCodeAggTerms) UnmarshalJSON(data []byte) error {
-	type unmarshaler HsCodeAggTerms
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*h = HsCodeAggTerms(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *h)
-	if err != nil {
-		return err
-	}
-	h.extraProperties = extraProperties
-	h.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (h *HsCodeAggTerms) String() string {
-	if len(h.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(h); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", h)
-}
-
 type IntKeyValue struct {
 	Value int `json:"value" url:"value"`
 
@@ -814,6 +598,7 @@ type Project struct {
 	Created  string         `json:"created" url:"created"`
 	Updated  string         `json:"updated" url:"updated"`
 	Counts   *ProjectCounts `json:"counts,omitempty" url:"counts,omitempty"`
+	IsScrm   *bool          `json:"is_scrm,omitempty" url:"is_scrm,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -859,6 +644,13 @@ func (p *Project) GetCounts() *ProjectCounts {
 		return nil
 	}
 	return p.Counts
+}
+
+func (p *Project) GetIsScrm() *bool {
+	if p == nil {
+		return nil
+	}
+	return p.IsScrm
 }
 
 func (p *Project) GetExtraProperties() map[string]interface{} {
@@ -978,9 +770,9 @@ type ProjectEntitiesAggs struct {
 	TagIds               []*BucketAgg  `json:"tag_ids,omitempty" url:"tag_ids,omitempty"`
 	CaseStatuses         []*BucketAgg  `json:"case_statuses,omitempty" url:"case_statuses,omitempty"`
 	ShipmentCounts       []*BucketAgg  `json:"shipment_counts,omitempty" url:"shipment_counts,omitempty"`
-	ShippedHsCodes       *HsCodeAgg    `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
-	ReceivedHsCodes      *HsCodeAgg    `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
-	CombinedHsCodes      *HsCodeAgg    `json:"combined_hs_codes,omitempty" url:"combined_hs_codes,omitempty"`
+	ShippedHsCodes       []string      `json:"shipped_hs_codes,omitempty" url:"shipped_hs_codes,omitempty"`
+	ReceivedHsCodes      []string      `json:"received_hs_codes,omitempty" url:"received_hs_codes,omitempty"`
+	CombinedHsCodes      []string      `json:"combined_hs_codes,omitempty" url:"combined_hs_codes,omitempty"`
 	MatchResults         []*BucketAgg  `json:"match_results,omitempty" url:"match_results,omitempty"`
 	CustomFields         []*BucketAgg  `json:"custom_fields,omitempty" url:"custom_fields,omitempty"`
 	CustomFieldsCount    *IntKeyValue  `json:"custom_fields_count,omitempty" url:"custom_fields_count,omitempty"`
@@ -1076,21 +868,21 @@ func (p *ProjectEntitiesAggs) GetShipmentCounts() []*BucketAgg {
 	return p.ShipmentCounts
 }
 
-func (p *ProjectEntitiesAggs) GetShippedHsCodes() *HsCodeAgg {
+func (p *ProjectEntitiesAggs) GetShippedHsCodes() []string {
 	if p == nil {
 		return nil
 	}
 	return p.ShippedHsCodes
 }
 
-func (p *ProjectEntitiesAggs) GetReceivedHsCodes() *HsCodeAgg {
+func (p *ProjectEntitiesAggs) GetReceivedHsCodes() []string {
 	if p == nil {
 		return nil
 	}
 	return p.ReceivedHsCodes
 }
 
-func (p *ProjectEntitiesAggs) GetCombinedHsCodes() *HsCodeAgg {
+func (p *ProjectEntitiesAggs) GetCombinedHsCodes() []string {
 	if p == nil {
 		return nil
 	}
@@ -1183,10 +975,22 @@ type ProjectEntitiesFilter struct {
 	UpstreamRiskTiers []UpstreamTiers `json:"upstream_risk_tiers,omitempty" url:"upstream_risk_tiers,omitempty"`
 	// Filter by [country](/sayari-library/ontology/enumerated-types#country).
 	Country []Country `json:"country,omitempty" url:"country,omitempty"`
-	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country).
+	// <Warning>This filter is deprecated.</Warning> Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country).
 	UpstreamCountry []Country `json:"upstream_country,omitempty" url:"upstream_country,omitempty"`
-	// Filter by upstream (supply chain) tiers that has one or more countries
+	// <Warning>This filter is deprecated.</Warning> Filter by upstream (supply chain) tiers that has one or more countries
 	UpstreamCountryTiers []UpstreamTiers `json:"upstream_country_tiers,omitempty" url:"upstream_country_tiers,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at any tier.
+	ShipmentCountry []Country `json:"shipment_country,omitempty" url:"shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 1.
+	Tier1ShipmentCountry []Country `json:"tier1_shipment_country,omitempty" url:"tier1_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 2.
+	Tier2ShipmentCountry []Country `json:"tier2_shipment_country,omitempty" url:"tier2_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 3.
+	Tier3ShipmentCountry []Country `json:"tier3_shipment_country,omitempty" url:"tier3_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 4.
+	Tier4ShipmentCountry []Country `json:"tier4_shipment_country,omitempty" url:"tier4_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 5.
+	Tier5ShipmentCountry []Country `json:"tier5_shipment_country,omitempty" url:"tier5_shipment_country,omitempty"`
 	// Filter by HS code, HS code description, or business description.
 	BusinessPurpose []string `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
 	// Filter by entity label with fuzzy matching.
@@ -1204,9 +1008,8 @@ type ProjectEntitiesFilter struct {
 	// Filter by risk factor `category`, e.g. `sanctions`. At least one risk factor from each provided category must be present.
 	RiskCategory []string `json:"risk_category,omitempty" url:"risk_category,omitempty"`
 	// Filter by a geographical bounding box. The value is a pipe-delimited set of four values representing the top, left, bottom, and right sides of the bounding box, in that order. The pipes should be URL-encoded as `%7C`. The top coordinate must greater than the bottom coordinate, and the left coordinate must be less than the right coordinate. A sample is `55.680357237879136|-71.53607290158526|41.10876347746233|-40.963927098414736`
-	Bounds *string `json:"bounds,omitempty" url:"bounds,omitempty"`
-	// <Warning>This property is in beta and is subject to change. It is provided for early access and testing purposes only.</Warning> custom user key/value pairs (key must be prefixed with "custom_" and value must be "string" type)
-	CustomFieldName []string `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
+	Bounds          *string           `json:"bounds,omitempty" url:"bounds,omitempty"`
+	CustomFieldName *CustomFieldValue `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -1252,6 +1055,48 @@ func (p *ProjectEntitiesFilter) GetUpstreamCountryTiers() []UpstreamTiers {
 		return nil
 	}
 	return p.UpstreamCountryTiers
+}
+
+func (p *ProjectEntitiesFilter) GetShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier1ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier1ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier2ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier2ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier3ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier3ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier4ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier4ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier5ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier5ShipmentCountry
 }
 
 func (p *ProjectEntitiesFilter) GetBusinessPurpose() []string {
@@ -1317,7 +1162,7 @@ func (p *ProjectEntitiesFilter) GetBounds() *string {
 	return p.Bounds
 }
 
-func (p *ProjectEntitiesFilter) GetCustomFieldName() []string {
+func (p *ProjectEntitiesFilter) GetCustomFieldName() *CustomFieldValue {
 	if p == nil {
 		return nil
 	}
@@ -1714,6 +1559,7 @@ type ProjectWithMembers struct {
 	Created  string         `json:"created" url:"created"`
 	Updated  string         `json:"updated" url:"updated"`
 	Counts   *ProjectCounts `json:"counts,omitempty" url:"counts,omitempty"`
+	IsScrm   *bool          `json:"is_scrm,omitempty" url:"is_scrm,omitempty"`
 	Members  []*RoleMember  `json:"members,omitempty" url:"members,omitempty"`
 
 	extraProperties map[string]interface{}
@@ -1760,6 +1606,13 @@ func (p *ProjectWithMembers) GetCounts() *ProjectCounts {
 		return nil
 	}
 	return p.Counts
+}
+
+func (p *ProjectWithMembers) GetIsScrm() *bool {
+	if p == nil {
+		return nil
+	}
+	return p.IsScrm
 }
 
 func (p *ProjectWithMembers) GetMembers() []*RoleMember {

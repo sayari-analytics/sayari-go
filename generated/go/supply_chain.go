@@ -8,68 +8,144 @@ import (
 	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
-type EntityId = string
-
-type HsCodeWithDescription struct {
-	Code        string `json:"code" url:"code"`
-	Description string `json:"description" url:"description"`
+type TradeTraversalComponent struct {
+	HsCode             string   `json:"hs_code" url:"hs_code"`
+	ArrivalCountries   []string `json:"arrival_countries,omitempty" url:"arrival_countries,omitempty"`
+	DepartureCountries []string `json:"departure_countries,omitempty" url:"departure_countries,omitempty"`
+	MinDate            *string  `json:"min_date,omitempty" url:"min_date,omitempty"`
+	MaxDate            *string  `json:"max_date,omitempty" url:"max_date,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
 }
 
-func (h *HsCodeWithDescription) GetCode() string {
-	if h == nil {
+func (t *TradeTraversalComponent) GetHsCode() string {
+	if t == nil {
 		return ""
 	}
-	return h.Code
+	return t.HsCode
 }
 
-func (h *HsCodeWithDescription) GetDescription() string {
-	if h == nil {
-		return ""
+func (t *TradeTraversalComponent) GetArrivalCountries() []string {
+	if t == nil {
+		return nil
 	}
-	return h.Description
+	return t.ArrivalCountries
 }
 
-func (h *HsCodeWithDescription) GetExtraProperties() map[string]interface{} {
-	return h.extraProperties
+func (t *TradeTraversalComponent) GetDepartureCountries() []string {
+	if t == nil {
+		return nil
+	}
+	return t.DepartureCountries
 }
 
-func (h *HsCodeWithDescription) UnmarshalJSON(data []byte) error {
-	type unmarshaler HsCodeWithDescription
+func (t *TradeTraversalComponent) GetMinDate() *string {
+	if t == nil {
+		return nil
+	}
+	return t.MinDate
+}
+
+func (t *TradeTraversalComponent) GetMaxDate() *string {
+	if t == nil {
+		return nil
+	}
+	return t.MaxDate
+}
+
+func (t *TradeTraversalComponent) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TradeTraversalComponent) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalComponent
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*h = HsCodeWithDescription(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *h)
+	*t = TradeTraversalComponent(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
 	}
-	h.extraProperties = extraProperties
-	h.rawJSON = json.RawMessage(data)
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (h *HsCodeWithDescription) String() string {
-	if len(h.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(h.rawJSON); err == nil {
+func (t *TradeTraversalComponent) String() string {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := internal.StringifyJSON(h); err == nil {
+	if value, err := internal.StringifyJSON(t); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", h)
+	return fmt.Sprintf("%#v", t)
+}
+
+type TradeTraversalData struct {
+	Paths    []*TradeTraversalPath            `json:"paths,omitempty" url:"paths,omitempty"`
+	Entities map[string]*TradeTraversalEntity `json:"entities,omitempty" url:"entities,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (t *TradeTraversalData) GetPaths() []*TradeTraversalPath {
+	if t == nil {
+		return nil
+	}
+	return t.Paths
+}
+
+func (t *TradeTraversalData) GetEntities() map[string]*TradeTraversalEntity {
+	if t == nil {
+		return nil
+	}
+	return t.Entities
+}
+
+func (t *TradeTraversalData) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TradeTraversalData) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalData(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalData) String() string {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
 
 type TradeTraversalEntity struct {
-	Id        string   `json:"id" url:"id"`
-	Type      string   `json:"type" url:"type"`
-	Label     string   `json:"label" url:"label"`
-	Countries []string `json:"countries,omitempty" url:"countries,omitempty"`
-	Risk      []string `json:"risk,omitempty" url:"risk,omitempty"`
+	Id          string   `json:"id" url:"id"`
+	Type        string   `json:"type" url:"type"`
+	Label       string   `json:"label" url:"label"`
+	RiskFactors []string `json:"risk_factors,omitempty" url:"risk_factors,omitempty"`
+	Countries   []string `json:"countries,omitempty" url:"countries,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -96,18 +172,18 @@ func (t *TradeTraversalEntity) GetLabel() string {
 	return t.Label
 }
 
+func (t *TradeTraversalEntity) GetRiskFactors() []string {
+	if t == nil {
+		return nil
+	}
+	return t.RiskFactors
+}
+
 func (t *TradeTraversalEntity) GetCountries() []string {
 	if t == nil {
 		return nil
 	}
 	return t.Countries
-}
-
-func (t *TradeTraversalEntity) GetRisk() []string {
-	if t == nil {
-		return nil
-	}
-	return t.Risk
 }
 
 func (t *TradeTraversalEntity) GetExtraProperties() map[string]interface{} {
@@ -142,27 +218,167 @@ func (t *TradeTraversalEntity) String() string {
 	return fmt.Sprintf("%#v", t)
 }
 
-type TradeTraversalPath struct {
-	Source string                       `json:"source" url:"source"`
-	Target *TradeTraversalEntity        `json:"target,omitempty" url:"target,omitempty"`
-	Path   []*TradeTraversalPathSegment `json:"path,omitempty" url:"path,omitempty"`
+type TradeTraversalFilters struct {
+	// Risk leaf node filter. Only return supply chains that end with a supplier that has 1+ of the specified risk factors.
+	RiskFactors []Risk `json:"risk_factors,omitempty" url:"risk_factors,omitempty"`
+	// Risk leaf node filter. Only return supply chains that end with a supplier that has none of the specified risk factors.
+	NotRisk []Risk `json:"-risk_factors,omitempty" url:"-risk_factors,omitempty"`
+	// Country leaf node filter. Only return supply chains that end with a supplier in 1+ of the specified countries.
+	Countries []Country `json:"countries,omitempty" url:"countries,omitempty"`
+	// Country leaf node filter. Only return supply chains that end with a supplier in none of the specified countries.
+	NotCountries []Country `json:"-countries,omitempty" url:"-countries,omitempty"`
+	// Product root edge filter. Only return supply chains that start with an edge that has 1+ of the specified HS codes.
+	Product []string `json:"product,omitempty" url:"product,omitempty"`
+	// Product root edge filter. Only return supply chains that start with an edge that has none of the specified HS codes.
+	NotProduct []string `json:"-product,omitempty" url:"-product,omitempty"`
+	// Component edge filter. Only return supply chains that contain at least one edge with 1+ of the specified HS codes.
+	Component []string `json:"component,omitempty" url:"component,omitempty"`
+	// Component edge filter. Only return supply chains that contain no edges with any of the specified HS codes.
+	NotComponent []string `json:"-component,omitempty" url:"-component,omitempty"`
+	// Minimum date edge filter in <YYYY-MM-DD> format. Only return supply chains with edge dates that are greater than or equal to this date.
+	MinDate *string `json:"min_date,omitempty" url:"min_date,omitempty"`
+	// Maximum date edge filter in <YYYY-MM-DD> format. Only return supply chains with edge dates that are less than or equal to this date.
+	MaxDate *string `json:"max_date,omitempty" url:"max_date,omitempty"`
+	// The maximum depth of the traversal, from 1 to 4 inclusive. Default is 4. Reduce if query is timing out.
+	MaxDepth *int `json:"max_depth,omitempty" url:"max_depth,omitempty"`
+	// The maximum number of results to return. Default is no limit.
+	Limit *int `json:"limit,omitempty" url:"limit,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
 }
 
-func (t *TradeTraversalPath) GetSource() string {
-	if t == nil {
-		return ""
-	}
-	return t.Source
-}
-
-func (t *TradeTraversalPath) GetTarget() *TradeTraversalEntity {
+func (t *TradeTraversalFilters) GetRiskFactors() []Risk {
 	if t == nil {
 		return nil
 	}
-	return t.Target
+	return t.RiskFactors
+}
+
+func (t *TradeTraversalFilters) GetNotRisk() []Risk {
+	if t == nil {
+		return nil
+	}
+	return t.NotRisk
+}
+
+func (t *TradeTraversalFilters) GetCountries() []Country {
+	if t == nil {
+		return nil
+	}
+	return t.Countries
+}
+
+func (t *TradeTraversalFilters) GetNotCountries() []Country {
+	if t == nil {
+		return nil
+	}
+	return t.NotCountries
+}
+
+func (t *TradeTraversalFilters) GetProduct() []string {
+	if t == nil {
+		return nil
+	}
+	return t.Product
+}
+
+func (t *TradeTraversalFilters) GetNotProduct() []string {
+	if t == nil {
+		return nil
+	}
+	return t.NotProduct
+}
+
+func (t *TradeTraversalFilters) GetComponent() []string {
+	if t == nil {
+		return nil
+	}
+	return t.Component
+}
+
+func (t *TradeTraversalFilters) GetNotComponent() []string {
+	if t == nil {
+		return nil
+	}
+	return t.NotComponent
+}
+
+func (t *TradeTraversalFilters) GetMinDate() *string {
+	if t == nil {
+		return nil
+	}
+	return t.MinDate
+}
+
+func (t *TradeTraversalFilters) GetMaxDate() *string {
+	if t == nil {
+		return nil
+	}
+	return t.MaxDate
+}
+
+func (t *TradeTraversalFilters) GetMaxDepth() *int {
+	if t == nil {
+		return nil
+	}
+	return t.MaxDepth
+}
+
+func (t *TradeTraversalFilters) GetLimit() *int {
+	if t == nil {
+		return nil
+	}
+	return t.Limit
+}
+
+func (t *TradeTraversalFilters) GetExtraProperties() map[string]interface{} {
+	return t.extraProperties
+}
+
+func (t *TradeTraversalFilters) UnmarshalJSON(data []byte) error {
+	type unmarshaler TradeTraversalFilters
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TradeTraversalFilters(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TradeTraversalFilters) String() string {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+type TradeTraversalPath struct {
+	// Root entity ID
+	SourceEntityId string `json:"source_entity_id" url:"source_entity_id"`
+	// Upstream paths beginning with the T1-T2 edge
+	Path []*TradeTraversalPathSegment `json:"path,omitempty" url:"path,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (t *TradeTraversalPath) GetSourceEntityId() string {
+	if t == nil {
+		return ""
+	}
+	return t.SourceEntityId
 }
 
 func (t *TradeTraversalPath) GetPath() []*TradeTraversalPathSegment {
@@ -205,25 +421,36 @@ func (t *TradeTraversalPath) String() string {
 }
 
 type TradeTraversalPathSegment struct {
-	Entity   *TradeTraversalEntity    `json:"entity,omitempty" url:"entity,omitempty"`
-	Products []*TradeTraversalProduct `json:"products,omitempty" url:"products,omitempty"`
+	// Associated tier for that path segment (1-5)
+	Tier int `json:"tier" url:"tier"`
+	// Supplier entity ID
+	EntityId string `json:"entity_id" url:"entity_id"`
+	// Components shipped by the supplier
+	Components []*TradeTraversalComponent `json:"components,omitempty" url:"components,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
 }
 
-func (t *TradeTraversalPathSegment) GetEntity() *TradeTraversalEntity {
+func (t *TradeTraversalPathSegment) GetTier() int {
 	if t == nil {
-		return nil
+		return 0
 	}
-	return t.Entity
+	return t.Tier
 }
 
-func (t *TradeTraversalPathSegment) GetProducts() []*TradeTraversalProduct {
+func (t *TradeTraversalPathSegment) GetEntityId() string {
+	if t == nil {
+		return ""
+	}
+	return t.EntityId
+}
+
+func (t *TradeTraversalPathSegment) GetComponents() []*TradeTraversalComponent {
 	if t == nil {
 		return nil
 	}
-	return t.Products
+	return t.Components
 }
 
 func (t *TradeTraversalPathSegment) GetExtraProperties() map[string]interface{} {
@@ -258,89 +485,16 @@ func (t *TradeTraversalPathSegment) String() string {
 	return fmt.Sprintf("%#v", t)
 }
 
-type TradeTraversalProduct struct {
-	HsCode             *HsCodeWithDescription `json:"hs_code,omitempty" url:"hs_code,omitempty"`
-	MinDate            string                 `json:"min_date" url:"min_date"`
-	MaxDate            string                 `json:"max_date" url:"max_date"`
-	ArrivalCountries   []string               `json:"arrival_countries,omitempty" url:"arrival_countries,omitempty"`
-	DepartureCountries []string               `json:"departure_countries,omitempty" url:"departure_countries,omitempty"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (t *TradeTraversalProduct) GetHsCode() *HsCodeWithDescription {
-	if t == nil {
-		return nil
-	}
-	return t.HsCode
-}
-
-func (t *TradeTraversalProduct) GetMinDate() string {
-	if t == nil {
-		return ""
-	}
-	return t.MinDate
-}
-
-func (t *TradeTraversalProduct) GetMaxDate() string {
-	if t == nil {
-		return ""
-	}
-	return t.MaxDate
-}
-
-func (t *TradeTraversalProduct) GetArrivalCountries() []string {
-	if t == nil {
-		return nil
-	}
-	return t.ArrivalCountries
-}
-
-func (t *TradeTraversalProduct) GetDepartureCountries() []string {
-	if t == nil {
-		return nil
-	}
-	return t.DepartureCountries
-}
-
-func (t *TradeTraversalProduct) GetExtraProperties() map[string]interface{} {
-	return t.extraProperties
-}
-
-func (t *TradeTraversalProduct) UnmarshalJSON(data []byte) error {
-	type unmarshaler TradeTraversalProduct
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*t = TradeTraversalProduct(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *t)
-	if err != nil {
-		return err
-	}
-	t.extraProperties = extraProperties
-	t.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (t *TradeTraversalProduct) String() string {
-	if len(t.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(t); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", t)
-}
-
 type UpstreamTradeTraversalResponse struct {
-	Status  *int                  `json:"status,omitempty" url:"status,omitempty"`
-	Success *bool                 `json:"success,omitempty" url:"success,omitempty"`
-	Message *string               `json:"message,omitempty" url:"message,omitempty"`
-	Data    []*TradeTraversalPath `json:"data,omitempty" url:"data,omitempty"`
+	Status  *int                   `json:"status,omitempty" url:"status,omitempty"`
+	Success *bool                  `json:"success,omitempty" url:"success,omitempty"`
+	Message *string                `json:"message,omitempty" url:"message,omitempty"`
+	Filters *TradeTraversalFilters `json:"filters,omitempty" url:"filters,omitempty"`
+	Data    *TradeTraversalData    `json:"data,omitempty" url:"data,omitempty"`
+	// Number of hops explored in the traversal
+	ExploredCount int `json:"explored_count" url:"explored_count"`
+	// True if the traversal returned partial results
+	PartialResults bool `json:"partial_results" url:"partial_results"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -367,11 +521,32 @@ func (u *UpstreamTradeTraversalResponse) GetMessage() *string {
 	return u.Message
 }
 
-func (u *UpstreamTradeTraversalResponse) GetData() []*TradeTraversalPath {
+func (u *UpstreamTradeTraversalResponse) GetFilters() *TradeTraversalFilters {
+	if u == nil {
+		return nil
+	}
+	return u.Filters
+}
+
+func (u *UpstreamTradeTraversalResponse) GetData() *TradeTraversalData {
 	if u == nil {
 		return nil
 	}
 	return u.Data
+}
+
+func (u *UpstreamTradeTraversalResponse) GetExploredCount() int {
+	if u == nil {
+		return 0
+	}
+	return u.ExploredCount
+}
+
+func (u *UpstreamTradeTraversalResponse) GetPartialResults() bool {
+	if u == nil {
+		return false
+	}
+	return u.PartialResults
 }
 
 func (u *UpstreamTradeTraversalResponse) GetExtraProperties() map[string]interface{} {
@@ -407,28 +582,42 @@ func (u *UpstreamTradeTraversalResponse) String() string {
 }
 
 type UpstreamTradeTraversalRequest struct {
-	// Risk leaf node filter. Only return supply chains that end with a supplier that has 1+ of the specified [risk factors](/sayari-library/ontology/risk-factors).
+	// Product root edge filter. Filters results to include only trade relationships where the associated component is part of the specified product's blueprint or is a sub-component of that product.
+	Product []string `json:"-" url:"product,omitempty"`
+	// Product root edge filter. Filters results to exclude any trade relationships where the associated component is part of the specified product's blueprint or is a sub-component of that product.
+	NotProduct []string `json:"-" url:"-product,omitempty"`
+	// Risk leaf node filter. Only return supply chains that end with a supplier that has 1+ of the specified risk factors.
 	Risk []Risk `json:"-" url:"risk,omitempty"`
-	// Risk leaf node filter. Only return supply chains that end with a supplier that has none of the specified [risk factors](/sayari-library/ontology/risk-factors).
+	// Risk leaf node filter. Only return supply chains that end with a supplier that has none of the specified risk factors.
 	NotRisk []Risk `json:"-" url:"-risk,omitempty"`
 	// Country leaf node filter. Only return supply chains that end with a supplier in 1+ of the specified countries.
 	Countries []Country `json:"-" url:"countries,omitempty"`
 	// Country leaf node filter. Only return supply chains that end with a supplier in none of the specified countries.
 	NotCountries []Country `json:"-" url:"-countries,omitempty"`
-	// Product root edge filter. Only return supply chains that start with an edge that has 1+ of the specified HS codes.
-	Product []string `json:"-" url:"product,omitempty"`
-	// Product root edge filter. Only return supply chains that start with an edge that has none of the specified HS codes.
-	NotProduct []string `json:"-" url:"-product,omitempty"`
-	// Component node filter. Only return supply chains that contain at least one edge with 1+ of the specified HS codes.
+	// Filters supply chain paths where 1+ shipment country from any tier matches the provided values.
+	ShipmentCountry []Country `json:"-" url:"shipment_country,omitempty"`
+	// Filters supply chain paths where none of the shipment countries from any tier matches the provided values.
+	NotShipmentCountry []Country `json:"-" url:"-shipment_country,omitempty"`
+	// Filters supply chain paths where 1+ shipment country from tier 1 matches the provided values.
+	Tier1ShipmentCountry []Country `json:"-" url:"tier1_shipment_country,omitempty"`
+	// Filters supply chain paths where 1+ shipment country from tier 2 matches the provided values.
+	Tier2ShipmentCountry []Country `json:"-" url:"tier2_shipment_country,omitempty"`
+	// Filters supply chain paths where 1+ shipment country from tier 3 matches the provided values.
+	Tier3ShipmentCountry []Country `json:"-" url:"tier3_shipment_country,omitempty"`
+	// Filters supply chain paths where 1+ shipment country from tier 4 matches the provided values.
+	Tier4ShipmentCountry []Country `json:"-" url:"tier4_shipment_country,omitempty"`
+	// Filters supply chain paths where 1+ shipment country from tier 5 matches the provided values.
+	Tier5ShipmentCountry []Country `json:"-" url:"tier5_shipment_country,omitempty"`
+	// Component edge filter. Only return supply chains that contain at least one edge with 1+ of the specified HS codes.
 	Component []string `json:"-" url:"component,omitempty"`
-	// Component node filter. Only return supply chains that contain no edges with any of the specified HS codes.
+	// Component edge filter. Only return supply chains that contain no edges with any of the specified HS codes.
 	NotComponent []string `json:"-" url:"-component,omitempty"`
-	// Minimum date edge filter. Only return supply chains with edge dates that are greater than or equal to this date.
+	// Minimum date edge filter in <YYYY-MM-DD> format. Only return supply chains with edge dates that are greater than or equal to this date.
 	MinDate *string `json:"-" url:"min_date,omitempty"`
-	// Maximum date edge filter. Only return supply chains with edge dates that are less than or equal to this date.
+	// Maximum date edge filter in <YYYY-MM-DD> format. Only return supply chains with edge dates that are less than or equal to this date.
 	MaxDate *string `json:"-" url:"max_date,omitempty"`
 	// The maximum depth of the traversal, from 1 to 4 inclusive. Default is 4. Reduce if query is timing out.
 	MaxDepth *int `json:"-" url:"max_depth,omitempty"`
-	// The maximum number of results to return. Default and maximum values are 25,000.
+	// The maximum number of results to return. Default is no limit.
 	Limit *int `json:"-" url:"limit,omitempty"`
 }
