@@ -52,8 +52,8 @@ func setup() {
 }
 
 func TestSources(t *testing.T) {
-	// list sources
-	sources, err := api.Source.ListSources(context.Background(), &sayari.ListSources{})
+	// list sources using current Ontology API (replaces deprecated Source.ListSources)
+	sources, err := api.Ontology.GetSources(context.Background(), &sayari.GetOntologySourcesRequest{})
 	handleError(t, err)
 	assert.GreaterOrEqual(t, len(sources.Data), 250, "There should be 250 sources as of 12/19/2023")
 }
