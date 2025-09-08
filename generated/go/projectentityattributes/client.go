@@ -31,6 +31,158 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
+// Retrieves all attributes for a project entity.
+func (c *Client) GetProjectEntityAttributes(
+	ctx context.Context,
+	projectId string,
+	projectEntityId string,
+	opts ...option.RequestOption,
+) (*generatedgo.ProjectEntityAttributesResponse, error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/%v/attributes",
+		projectId,
+		projectEntityId,
+	)
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	var response *generatedgo.ProjectEntityAttributesResponse
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
+// Creates a new attribute for a project entity.
+func (c *Client) CreateProjectEntityAttribute(
+	ctx context.Context,
+	projectId string,
+	projectEntityId string,
+	request *generatedgo.CreateProjectEntityAttributeRequest,
+	opts ...option.RequestOption,
+) (*generatedgo.CreateProjectEntityAttributeResponse, error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/%v/attributes",
+		projectId,
+		projectEntityId,
+	)
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	var response *generatedgo.CreateProjectEntityAttributeResponse
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodPost,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Request:         request,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
 // Updates a specific attribute for a project entity.
 func (c *Client) UpdateProjectEntityAttribute(
 	ctx context.Context,
@@ -108,4 +260,79 @@ func (c *Client) UpdateProjectEntityAttribute(
 		return nil, err
 	}
 	return response, nil
+}
+
+// Deletes a specific attribute for a project entity.
+func (c *Client) DeleteProjectEntityAttribute(
+	ctx context.Context,
+	projectId string,
+	projectEntityId string,
+	attributeId string,
+	opts ...option.RequestOption,
+) error {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/%v/attributes/%v",
+		projectId,
+		projectEntityId,
+		attributeId,
+	)
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodDelete,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return err
+	}
+	return nil
 }

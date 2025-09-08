@@ -22,7 +22,6 @@ import (
 	resolution "github.com/sayari-analytics/sayari-go/generated/go/resolution"
 	resource "github.com/sayari-analytics/sayari-go/generated/go/resource"
 	search "github.com/sayari-analytics/sayari-go/generated/go/search"
-	source "github.com/sayari-analytics/sayari-go/generated/go/source"
 	supplychain "github.com/sayari-analytics/sayari-go/generated/go/supplychain"
 	trade "github.com/sayari-analytics/sayari-go/generated/go/trade"
 	traversal "github.com/sayari-analytics/sayari-go/generated/go/traversal"
@@ -50,7 +49,6 @@ type Client struct {
 	Resolution                        *resolution.Client
 	Resource                          *resource.Client
 	Search                            *search.Client
-	Source                            *source.Client
 	SupplyChain                       *supplychain.Client
 	Trade                             *trade.Client
 	Traversal                         *traversal.Client
@@ -83,7 +81,6 @@ func NewClient(opts ...option.RequestOption) *Client {
 		Resolution:                        resolution.NewClient(opts...),
 		Resource:                          resource.NewClient(opts...),
 		Search:                            search.NewClient(opts...),
-		Source:                            source.NewClient(opts...),
 		SupplyChain:                       supplychain.NewClient(opts...),
 		Trade:                             trade.NewClient(opts...),
 		Traversal:                         traversal.NewClient(opts...),

@@ -319,18 +319,18 @@ func (a *AttributeTypesResponse) String() string {
 }
 
 type AttributeValues struct {
-	Resolve bool     `json:"resolve" url:"resolve"`
-	Values  []string `json:"values,omitempty" url:"values,omitempty"`
+	MatchResolution bool     `json:"match_resolution" url:"match_resolution"`
+	Values          []string `json:"values,omitempty" url:"values,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
 }
 
-func (a *AttributeValues) GetResolve() bool {
+func (a *AttributeValues) GetMatchResolution() bool {
 	if a == nil {
 		return false
 	}
-	return a.Resolve
+	return a.MatchResolution
 }
 
 func (a *AttributeValues) GetValues() []string {
@@ -743,6 +743,38 @@ func (f *FacetsResponse) String() string {
 	return fmt.Sprintf("%#v", f)
 }
 
+type FieldMatchQuality string
+
+const (
+	// High quality match
+	FieldMatchQualityHigh FieldMatchQuality = "high"
+	// Medium quality match
+	FieldMatchQualityMedium FieldMatchQuality = "medium"
+	// Low quality match
+	FieldMatchQualityLow FieldMatchQuality = "low"
+	// Quality not available
+	FieldMatchQualityNa FieldMatchQuality = "na"
+)
+
+func NewFieldMatchQualityFromString(s string) (FieldMatchQuality, error) {
+	switch s {
+	case "high":
+		return FieldMatchQualityHigh, nil
+	case "medium":
+		return FieldMatchQualityMedium, nil
+	case "low":
+		return FieldMatchQualityLow, nil
+	case "na":
+		return FieldMatchQualityNa, nil
+	}
+	var t FieldMatchQuality
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (f FieldMatchQuality) Ptr() *FieldMatchQuality {
+	return &f
+}
+
 type GroupedAttribute struct {
 	Field           string                   `json:"field" url:"field"`
 	MatchResolution bool                     `json:"match_resolution" url:"match_resolution"`
@@ -989,84 +1021,6 @@ func NewMatchStrengthEnumFromString(s string) (MatchStrengthEnum, error) {
 
 func (m MatchStrengthEnum) Ptr() *MatchStrengthEnum {
 	return &m
-}
-
-type MatchedAttributes struct {
-	Name       []string `json:"name,omitempty" url:"name,omitempty"`
-	Address    []string `json:"address,omitempty" url:"address,omitempty"`
-	Contact    []string `json:"contact,omitempty" url:"contact,omitempty"`
-	Country    []string `json:"country,omitempty" url:"country,omitempty"`
-	Identifier []string `json:"identifier,omitempty" url:"identifier,omitempty"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (m *MatchedAttributes) GetName() []string {
-	if m == nil {
-		return nil
-	}
-	return m.Name
-}
-
-func (m *MatchedAttributes) GetAddress() []string {
-	if m == nil {
-		return nil
-	}
-	return m.Address
-}
-
-func (m *MatchedAttributes) GetContact() []string {
-	if m == nil {
-		return nil
-	}
-	return m.Contact
-}
-
-func (m *MatchedAttributes) GetCountry() []string {
-	if m == nil {
-		return nil
-	}
-	return m.Country
-}
-
-func (m *MatchedAttributes) GetIdentifier() []string {
-	if m == nil {
-		return nil
-	}
-	return m.Identifier
-}
-
-func (m *MatchedAttributes) GetExtraProperties() map[string]interface{} {
-	return m.extraProperties
-}
-
-func (m *MatchedAttributes) UnmarshalJSON(data []byte) error {
-	type unmarshaler MatchedAttributes
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*m = MatchedAttributes(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *m)
-	if err != nil {
-		return err
-	}
-	m.extraProperties = extraProperties
-	m.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (m *MatchedAttributes) String() string {
-	if len(m.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(m.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(m); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", m)
 }
 
 type ProductBucket struct {
@@ -1401,24 +1355,95 @@ func (p *ProjectEntityIdResponse) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
+type ProjectEntityMatchExplanation struct {
+	Field string `json:"field" url:"field"`
+	// Quality of the match
+	Quality     FieldMatchQuality `json:"quality" url:"quality"`
+	Description []string          `json:"description,omitempty" url:"description,omitempty"`
+	Matches     []string          `json:"matches,omitempty" url:"matches,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityMatchExplanation) GetField() string {
+	if p == nil {
+		return ""
+	}
+	return p.Field
+}
+
+func (p *ProjectEntityMatchExplanation) GetQuality() FieldMatchQuality {
+	if p == nil {
+		return ""
+	}
+	return p.Quality
+}
+
+func (p *ProjectEntityMatchExplanation) GetDescription() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Description
+}
+
+func (p *ProjectEntityMatchExplanation) GetMatches() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Matches
+}
+
+func (p *ProjectEntityMatchExplanation) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityMatchExplanation) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityMatchExplanation
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityMatchExplanation(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityMatchExplanation) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
 type ProjectEntityMatchResponse struct {
-	MatchId           string                 `json:"match_id" url:"match_id"`
-	SayariEntityId    string                 `json:"sayari_entity_id" url:"sayari_entity_id"`
-	Type              string                 `json:"type" url:"type"`
-	Label             string                 `json:"label" url:"label"`
-	MatchedAttributes *MatchedAttributes     `json:"matched_attributes,omitempty" url:"matched_attributes,omitempty"`
-	Countries         []string               `json:"countries,omitempty" url:"countries,omitempty"`
-	RiskCategories    []*ProjectRiskCategory `json:"risk_categories,omitempty" url:"risk_categories,omitempty"`
-	RiskFactors       []*ProjectRiskFactor   `json:"risk_factors,omitempty" url:"risk_factors,omitempty"`
-	BusinessPurpose   []*BusinessPurpose     `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
-	Upstream          *UpstreamInfo          `json:"upstream,omitempty" url:"upstream,omitempty"`
-	Sources           []*SourceField         `json:"sources,omitempty" url:"sources,omitempty"`
-	Addresses         []*Address             `json:"addresses,omitempty" url:"addresses,omitempty"`
-	HsCodes           []string               `json:"hs_codes,omitempty" url:"hs_codes,omitempty"`
-	CreatedAt         string                 `json:"created_at" url:"created_at"`
-	UpdatedAt         *string                `json:"updated_at,omitempty" url:"updated_at,omitempty"`
-	MatchProfile      *MatchProfileEnum      `json:"match_profile,omitempty" url:"match_profile,omitempty"`
-	DeletedAt         *string                `json:"deleted_at,omitempty" url:"deleted_at,omitempty"`
+	MatchId          string                           `json:"match_id" url:"match_id"`
+	SayariEntityId   string                           `json:"sayari_entity_id" url:"sayari_entity_id"`
+	Type             string                           `json:"type" url:"type"`
+	Label            string                           `json:"label" url:"label"`
+	Countries        []string                         `json:"countries,omitempty" url:"countries,omitempty"`
+	RiskCategories   []*ProjectRiskCategory           `json:"risk_categories,omitempty" url:"risk_categories,omitempty"`
+	RiskFactors      []*ProjectRiskFactor             `json:"risk_factors,omitempty" url:"risk_factors,omitempty"`
+	BusinessPurpose  []*BusinessPurpose               `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
+	Upstream         *UpstreamInfo                    `json:"upstream,omitempty" url:"upstream,omitempty"`
+	Sources          []*SourceField                   `json:"sources,omitempty" url:"sources,omitempty"`
+	Addresses        []*Address                       `json:"addresses,omitempty" url:"addresses,omitempty"`
+	HsCodes          []string                         `json:"hs_codes,omitempty" url:"hs_codes,omitempty"`
+	CreatedAt        string                           `json:"created_at" url:"created_at"`
+	UpdatedAt        *string                          `json:"updated_at,omitempty" url:"updated_at,omitempty"`
+	MatchProfile     *MatchProfileEnum                `json:"match_profile,omitempty" url:"match_profile,omitempty"`
+	DeletedAt        *string                          `json:"deleted_at,omitempty" url:"deleted_at,omitempty"`
+	MatchExplanation []*ProjectEntityMatchExplanation `json:"match_explanation,omitempty" url:"match_explanation,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -1450,13 +1475,6 @@ func (p *ProjectEntityMatchResponse) GetLabel() string {
 		return ""
 	}
 	return p.Label
-}
-
-func (p *ProjectEntityMatchResponse) GetMatchedAttributes() *MatchedAttributes {
-	if p == nil {
-		return nil
-	}
-	return p.MatchedAttributes
 }
 
 func (p *ProjectEntityMatchResponse) GetCountries() []string {
@@ -1541,6 +1559,13 @@ func (p *ProjectEntityMatchResponse) GetDeletedAt() *string {
 		return nil
 	}
 	return p.DeletedAt
+}
+
+func (p *ProjectEntityMatchResponse) GetMatchExplanation() []*ProjectEntityMatchExplanation {
+	if p == nil {
+		return nil
+	}
+	return p.MatchExplanation
 }
 
 func (p *ProjectEntityMatchResponse) GetExtraProperties() map[string]interface{} {

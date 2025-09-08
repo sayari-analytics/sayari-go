@@ -8,6 +8,346 @@ import (
 	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
+type CreateProjectEntityAttributeRequest struct {
+	Field           string `json:"field" url:"field"`
+	Value           string `json:"value" url:"value"`
+	MatchResolution bool   `json:"match_resolution" url:"match_resolution"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateProjectEntityAttributeRequest) GetField() string {
+	if c == nil {
+		return ""
+	}
+	return c.Field
+}
+
+func (c *CreateProjectEntityAttributeRequest) GetValue() string {
+	if c == nil {
+		return ""
+	}
+	return c.Value
+}
+
+func (c *CreateProjectEntityAttributeRequest) GetMatchResolution() bool {
+	if c == nil {
+		return false
+	}
+	return c.MatchResolution
+}
+
+func (c *CreateProjectEntityAttributeRequest) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
+}
+
+func (c *CreateProjectEntityAttributeRequest) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateProjectEntityAttributeRequest
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateProjectEntityAttributeRequest(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateProjectEntityAttributeRequest) String() string {
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+type CreateProjectEntityAttributeResponse struct {
+	Data *CreateProjectEntityAttributeResponseData `json:"data,omitempty" url:"data,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateProjectEntityAttributeResponse) GetData() *CreateProjectEntityAttributeResponseData {
+	if c == nil {
+		return nil
+	}
+	return c.Data
+}
+
+func (c *CreateProjectEntityAttributeResponse) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
+}
+
+func (c *CreateProjectEntityAttributeResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateProjectEntityAttributeResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateProjectEntityAttributeResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateProjectEntityAttributeResponse) String() string {
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+type CreateProjectEntityAttributeResponseData struct {
+	Id              string `json:"id" url:"id"`
+	Field           string `json:"field" url:"field"`
+	Value           string `json:"value" url:"value"`
+	MatchResolution bool   `json:"match_resolution" url:"match_resolution"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateProjectEntityAttributeResponseData) GetId() string {
+	if c == nil {
+		return ""
+	}
+	return c.Id
+}
+
+func (c *CreateProjectEntityAttributeResponseData) GetField() string {
+	if c == nil {
+		return ""
+	}
+	return c.Field
+}
+
+func (c *CreateProjectEntityAttributeResponseData) GetValue() string {
+	if c == nil {
+		return ""
+	}
+	return c.Value
+}
+
+func (c *CreateProjectEntityAttributeResponseData) GetMatchResolution() bool {
+	if c == nil {
+		return false
+	}
+	return c.MatchResolution
+}
+
+func (c *CreateProjectEntityAttributeResponseData) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
+}
+
+func (c *CreateProjectEntityAttributeResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateProjectEntityAttributeResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateProjectEntityAttributeResponseData(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateProjectEntityAttributeResponseData) String() string {
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+type ProjectEntityAttribute struct {
+	Field           string                         `json:"field" url:"field"`
+	MatchResolution bool                           `json:"match_resolution" url:"match_resolution"`
+	Values          []*ProjectEntityAttributeValue `json:"values,omitempty" url:"values,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityAttribute) GetField() string {
+	if p == nil {
+		return ""
+	}
+	return p.Field
+}
+
+func (p *ProjectEntityAttribute) GetMatchResolution() bool {
+	if p == nil {
+		return false
+	}
+	return p.MatchResolution
+}
+
+func (p *ProjectEntityAttribute) GetValues() []*ProjectEntityAttributeValue {
+	if p == nil {
+		return nil
+	}
+	return p.Values
+}
+
+func (p *ProjectEntityAttribute) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityAttribute) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityAttribute
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityAttribute(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityAttribute) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityAttributeValue struct {
+	Id    int    `json:"id" url:"id"`
+	Value string `json:"value" url:"value"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityAttributeValue) GetId() int {
+	if p == nil {
+		return 0
+	}
+	return p.Id
+}
+
+func (p *ProjectEntityAttributeValue) GetValue() string {
+	if p == nil {
+		return ""
+	}
+	return p.Value
+}
+
+func (p *ProjectEntityAttributeValue) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityAttributeValue) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityAttributeValue
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityAttributeValue(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityAttributeValue) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityAttributesResponse struct {
+	Data []*ProjectEntityAttribute `json:"data,omitempty" url:"data,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityAttributesResponse) GetData() []*ProjectEntityAttribute {
+	if p == nil {
+		return nil
+	}
+	return p.Data
+}
+
+func (p *ProjectEntityAttributesResponse) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityAttributesResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityAttributesResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityAttributesResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityAttributesResponse) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
 type UpdateProjectEntityAttributeRequest struct {
 	Field           string `json:"field" url:"field"`
 	Value           string `json:"value" url:"value"`

@@ -9,7 +9,7 @@ import (
 )
 
 type SearchBuyers struct {
-	// A limit on the number of objects to be returned with a range between 1 and 10000. Defaults to 100.
+	// A limit on the number of objects to be returned with a range between 1 and 3000. Defaults to 100.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
@@ -22,7 +22,7 @@ type SearchBuyers struct {
 }
 
 type SearchShipments struct {
-	// A limit on the number of objects to be returned with a range between 1 and 10000. Defaults to 100.
+	// A limit on the number of objects to be returned with a range between 1 and 3000. Defaults to 100.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
@@ -35,7 +35,7 @@ type SearchShipments struct {
 }
 
 type SearchSuppliers struct {
-	// A limit on the number of objects to be returned with a range between 1 and 10000. Defaults to 100.
+	// A limit on the number of objects to be returned with a range between 1 and 3000. Defaults to 100.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
 	Offset *int `json:"-" url:"offset,omitempty"`
@@ -1509,11 +1509,13 @@ type TradeFilterList struct {
 	// The buyer purpose contains the provided string.
 	BuyerPurpose []string `json:"buyer_purpose,omitempty" url:"buyer_purpose,omitempty"`
 	// The arrival date is within the provided range. Supports exact dates (YYYY-MM-DD)
-	// or date ranges (YYYY-MM TO YYYY-MM). Example: ["2024-01 TO 2024-10"] or ["2024-01-30"].
-	ArrivalDate []string `json:"arrival_date,omitempty" url:"arrival_date,omitempty"`
+	// or date ranges (YYYY-MM | YYYY-MM). If an exact date is used it will be treated as the minimum date, with no maximum date specified.
+	// Example: "2024-01|2024-10" or "2024-01-30".
+	ArrivalDate *string `json:"arrival_date,omitempty" url:"arrival_date,omitempty"`
 	// The departure date is within the provided range. Supports exact dates (YYYY-MM-DD)
-	// or date ranges (YYYY-MM TO YYYY-MM). Example: ["2024-01 TO 2024-10"] or ["2024-01-30"].
-	DepartureDate []string `json:"departure_date,omitempty" url:"departure_date,omitempty"`
+	// If an exact date is used it will be treated as the minimum date, with no maximum date specified.
+	// or date ranges (YYYY-MM | YYYY-MM). Example: "2024-01|2024-10" or "2024-01-30".
+	DepartureDate *string `json:"departure_date,omitempty" url:"departure_date,omitempty"`
 	// The shipment identifier starts with the provided string.
 	ShipmentIdentifier []string `json:"shipment_identifier,omitempty" url:"shipment_identifier,omitempty"`
 	// Countries through which a shipment passes for the provided [country code](/sayari-library/ontology/enumerated-types#country).
@@ -1688,14 +1690,14 @@ func (t *TradeFilterList) GetBuyerPurpose() []string {
 	return t.BuyerPurpose
 }
 
-func (t *TradeFilterList) GetArrivalDate() []string {
+func (t *TradeFilterList) GetArrivalDate() *string {
 	if t == nil {
 		return nil
 	}
 	return t.ArrivalDate
 }
 
-func (t *TradeFilterList) GetDepartureDate() []string {
+func (t *TradeFilterList) GetDepartureDate() *string {
 	if t == nil {
 		return nil
 	}

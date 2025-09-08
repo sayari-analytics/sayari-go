@@ -11,7 +11,10 @@ var Environments = struct {
 	Production string
 	// Sayari development - utilized for internal testing before promotion to production
 	Dev string
+	// Sayari production - UK environment
+	ProductionUk string
 }{
-	Production: "https://api.sayari.com",
-	Dev:        "https://api.internal.sayari.com",
+	Production:   "https://api.sayari.com",
+	Dev:          "https://api.internal.sayari.com",
+	ProductionUk: "https://api.uk.sayari.com",
 }

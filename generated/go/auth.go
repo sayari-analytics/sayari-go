@@ -49,6 +49,28 @@ func (g *GetToken) MarshalJSON() ([]byte, error) {
 	return json.Marshal(marshaler)
 }
 
+type Audience string
+
+const (
+	AudienceSayari   Audience = "sayari.com"
+	AudienceSayariUk Audience = "uk.sayari.com"
+)
+
+func NewAudienceFromString(s string) (Audience, error) {
+	switch s {
+	case "sayari.com":
+		return AudienceSayari, nil
+	case "uk.sayari.com":
+		return AudienceSayariUk, nil
+	}
+	var t Audience
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (a Audience) Ptr() *Audience {
+	return &a
+}
+
 type AuthResponse struct {
 	// The bearer token you will pass in to subsequent API calls to authenticate.
 	AccessToken string `json:"access_token" url:"access_token"`

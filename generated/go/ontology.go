@@ -2690,7 +2690,7 @@ type OntologySource struct {
 	SourceType string    `json:"source_type" url:"source_type"`
 	RecordType string    `json:"record_type" url:"record_type"`
 	Structure  string    `json:"structure" url:"structure"`
-	SourceUrl  string    `json:"source_url" url:"source_url"`
+	SourceUrl  *string   `json:"source_url,omitempty" url:"source_url,omitempty"`
 	Pep        bool      `json:"pep" url:"pep"`
 	Watchlist  bool      `json:"watchlist" url:"watchlist"`
 
@@ -2761,9 +2761,9 @@ func (o *OntologySource) GetStructure() string {
 	return o.Structure
 }
 
-func (o *OntologySource) GetSourceUrl() string {
+func (o *OntologySource) GetSourceUrl() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.SourceUrl
 }
