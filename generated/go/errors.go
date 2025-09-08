@@ -213,3 +213,26 @@ func (u *Unauthorized) MarshalJSON() ([]byte, error) {
 func (u *Unauthorized) Unwrap() error {
 	return u.APIError
 }
+
+type UnprocessableContent struct {
+	*core.APIError
+	Body *UnprocessableContentResponse
+}
+
+func (u *UnprocessableContent) UnmarshalJSON(data []byte) error {
+	var body *UnprocessableContentResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	u.StatusCode = 422
+	u.Body = body
+	return nil
+}
+
+func (u *UnprocessableContent) MarshalJSON() ([]byte, error) {
+	return json.Marshal(u.Body)
+}
+
+func (u *UnprocessableContent) Unwrap() error {
+	return u.APIError
+}
