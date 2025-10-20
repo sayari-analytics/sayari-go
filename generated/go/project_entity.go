@@ -5,6 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
+
 	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
@@ -318,22 +319,68 @@ func (a *AttributeTypesResponse) String() string {
 	return fmt.Sprintf("%#v", a)
 }
 
-type AttributeValues struct {
-	Resolve bool     `json:"resolve" url:"resolve"`
-	Values  []string `json:"values,omitempty" url:"values,omitempty"`
+type AttributeValue struct {
+	Value string `json:"value" url:"value"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
 }
 
-func (a *AttributeValues) GetResolve() bool {
+func (a *AttributeValue) GetValue() string {
+	if a == nil {
+		return ""
+	}
+	return a.Value
+}
+
+func (a *AttributeValue) GetExtraProperties() map[string]interface{} {
+	return a.extraProperties
+}
+
+func (a *AttributeValue) UnmarshalJSON(data []byte) error {
+	type unmarshaler AttributeValue
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*a = AttributeValue(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+	a.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AttributeValue) String() string {
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
+type AttributeValues struct {
+	MatchResolution bool              `json:"match_resolution" url:"match_resolution"`
+	Values          []*AttributeValue `json:"values,omitempty" url:"values,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (a *AttributeValues) GetMatchResolution() bool {
 	if a == nil {
 		return false
 	}
-	return a.Resolve
+	return a.MatchResolution
 }
 
-func (a *AttributeValues) GetValues() []string {
+func (a *AttributeValues) GetValues() []*AttributeValue {
 	if a == nil {
 		return nil
 	}
@@ -470,6 +517,84 @@ func (b *BusinessPurpose) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", b)
+}
+
+type CaseInfo struct {
+	Status     *CaseStatus `json:"status,omitempty" url:"status,omitempty"`
+	AssignedTo *string     `json:"assigned_to,omitempty" url:"assigned_to,omitempty"`
+	Notes      *string     `json:"notes,omitempty" url:"notes,omitempty"`
+	UpdatedAt  *string     `json:"updated_at,omitempty" url:"updated_at,omitempty"`
+	UpdatedBy  *string     `json:"updated_by,omitempty" url:"updated_by,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CaseInfo) GetStatus() *CaseStatus {
+	if c == nil {
+		return nil
+	}
+	return c.Status
+}
+
+func (c *CaseInfo) GetAssignedTo() *string {
+	if c == nil {
+		return nil
+	}
+	return c.AssignedTo
+}
+
+func (c *CaseInfo) GetNotes() *string {
+	if c == nil {
+		return nil
+	}
+	return c.Notes
+}
+
+func (c *CaseInfo) GetUpdatedAt() *string {
+	if c == nil {
+		return nil
+	}
+	return c.UpdatedAt
+}
+
+func (c *CaseInfo) GetUpdatedBy() *string {
+	if c == nil {
+		return nil
+	}
+	return c.UpdatedBy
+}
+
+func (c *CaseInfo) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
+}
+
+func (c *CaseInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler CaseInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CaseInfo(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CaseInfo) String() string {
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
 }
 
 type CaseStatus string
@@ -1588,7 +1713,7 @@ type ProjectEntityResponse struct {
 	RiskFactors     []*ProjectRiskFactor          `json:"risk_factors,omitempty" url:"risk_factors,omitempty"`
 	Upstream        *UpstreamInfo                 `json:"upstream,omitempty" url:"upstream,omitempty"`
 	Tags            []*TagResponse                `json:"tags,omitempty" url:"tags,omitempty"`
-	Case            *CaseStatus                   `json:"case,omitempty" url:"case,omitempty"`
+	Case            *CaseInfo                     `json:"case,omitempty" url:"case,omitempty"`
 	Matches         []*ProjectEntityMatchResponse `json:"matches,omitempty" url:"matches,omitempty"`
 	UpdatedAt       *string                       `json:"updated_at,omitempty" url:"updated_at,omitempty"`
 
@@ -1680,7 +1805,7 @@ func (p *ProjectEntityResponse) GetTags() []*TagResponse {
 	return p.Tags
 }
 
-func (p *ProjectEntityResponse) GetCase() *CaseStatus {
+func (p *ProjectEntityResponse) GetCase() *CaseInfo {
 	if p == nil {
 		return nil
 	}
