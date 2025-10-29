@@ -8,68 +8,77 @@ import (
 	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
-type GetProjectEntitiesRequest struct {
-	// Filter by entity IDs
-	EntityId []string `json:"-" url:"entity_id,omitempty"`
-	// Filter by upload IDs
-	Uploads []string `json:"-" url:"uploads,omitempty"`
-	// Filter by case status
-	CaseStatus []CaseStatus `json:"-" url:"case_status,omitempty"`
-	// Filter by tag IDs
-	Tags []string `json:"-" url:"tags,omitempty"`
-	// Filter by match count
-	MatchCount *MatchCount `json:"-" url:"match_count,omitempty"`
-	// Filter by match strength
-	MatchStrength []MatchStrengthEnum `json:"-" url:"match_strength,omitempty"`
-	// Filter by entity types
-	EntityTypes []string `json:"-" url:"entity_types,omitempty"`
-	// Include geo facets
-	GeoFacets *bool `json:"-" url:"geo_facets,omitempty"`
-	// Use exact matching
-	ExactMatch *bool `json:"-" url:"exact_match,omitempty"`
-	// Filter by HS codes
-	HsCodes []string `json:"-" url:"hs_codes,omitempty"`
-	// Filter by received HS codes
-	ReceivedHsCodes []string `json:"-" url:"received_hs_codes,omitempty"`
-	// Filter by shipped HS codes
-	ShippedHsCodes []string `json:"-" url:"shipped_hs_codes,omitempty"`
-	// Filter by upstream product
-	UpstreamProduct []string `json:"-" url:"upstream_product,omitempty"`
-	// Maximum number of results to return
-	Limit *int `json:"-" url:"limit,omitempty"`
-	// Pagination token
-	Token *string `json:"-" url:"token,omitempty"`
-	// Sort fields
-	Sort []string `json:"-" url:"sort,omitempty"`
-	// Fields to aggregate
-	Aggregations []string `json:"-" url:"aggregations,omitempty"`
-	// Number of aggregation buckets
-	NumAggregationBuckets *int `json:"-" url:"num_aggregation_buckets,omitempty"`
-	// List of risk factors to filter by
-	Risk []Risk `json:"-" url:"risk,omitempty"`
-	// List of risk categories to filter by. An entity matches if it has any risk factor belonging to one of the specified categories
-	RiskCategory []RiskCategory `json:"-" url:"risk_category,omitempty"`
+type CreateResolvedProjectEntityRequestWrapper struct {
+	// Whether to enable LLM-based data cleaning to remove noise and standardize entity attributes. Defaults to true if not supplied. Set to false to disable LLM cleaning.
+	EnableLlmClean *bool                               `json:"-" url:"enable_llm_clean,omitempty"`
+	Body           *CreateResolvedProjectEntityRequest `json:"-" url:"-"`
 }
 
-type GetProjectEntityRequest struct {
-	// Filter by entity IDs
-	EntityId []string `json:"-" url:"entity_id,omitempty"`
-	// Filter by upload IDs
-	Uploads []string `json:"-" url:"uploads,omitempty"`
-	// Filter by case status
-	CaseStatus []CaseStatus `json:"-" url:"case_status,omitempty"`
-	// Filter by tag IDs
-	Tags []string `json:"-" url:"tags,omitempty"`
-	// Filter by match count
-	MatchCount *MatchCount `json:"-" url:"match_count,omitempty"`
-	// Filter by match strength
-	MatchStrength []MatchStrengthEnum `json:"-" url:"match_strength,omitempty"`
-	// Filter by entity types
-	EntityTypes []string `json:"-" url:"entity_types,omitempty"`
-	// List of risk factors to filter by
-	Risk []Risk `json:"-" url:"risk,omitempty"`
-	// List of risk categories to filter by. An entity matches if it has any risk factor belonging to one of the specified categories
-	RiskCategory []RiskCategory `json:"-" url:"risk_category,omitempty"`
+func (c *CreateResolvedProjectEntityRequestWrapper) UnmarshalJSON(data []byte) error {
+	body := new(CreateResolvedProjectEntityRequest)
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	c.Body = body
+	return nil
+}
+
+func (c *CreateResolvedProjectEntityRequestWrapper) MarshalJSON() ([]byte, error) {
+	return json.Marshal(c.Body)
+}
+
+type GetProjectEntitiesRequest struct {
+	// The pagination token for the next page of projects.
+	Next *string `json:"-" url:"next,omitempty"`
+	// The pagination token for the previous page of projects.
+	Prev *string `json:"-" url:"prev,omitempty"`
+	// Limit total values returned for projects. Defaults to 100. Max 100.
+	Limit *int `json:"-" url:"limit,omitempty"`
+	// Filter the project entities. Supports both dot notation (e.g., 'filter.attribute.name') and bracket notation (e.g., 'filter[attribute][name]') for nested field filtering.
+	Filter *ProjectEntitiesFilter `json:"-" url:"filter,omitempty"`
+}
+
+type GetProjectEntityRiskChangesRequest struct {
+	// The maximum number of risk changes to return. Default is 100.
+	Limit *int `json:"-" url:"limit,omitempty"`
+	// Token to retrieve the next page of risk changes
+	Next *string `json:"-" url:"next,omitempty"`
+	// Token to retrieve the previous page of risk changes
+	Prev *string `json:"-" url:"prev,omitempty"`
+	// Sort by timestamp in ascending or descending order. Default is desc.
+	SortDate *SortOrder `json:"-" url:"sort.date,omitempty"`
+	// Filter risk changes from the provided date
+	FilterFrom *string `json:"-" url:"filter.from,omitempty"`
+	// Filter risk changes up to the provided date
+	FilterTo *string `json:"-" url:"filter.to,omitempty"`
+	// Filter risk changes for the provided risk factors
+	FilterRiskFactor []string `json:"-" url:"filter.risk_factor,omitempty"`
+	// Filter risk changes for risk factors from the provided risk categories
+	FilterRiskCategory []string `json:"-" url:"filter.risk_category,omitempty"`
+}
+
+type GetProjectEntityRiskSummaryRequest struct {
+	// Filter risk factors by risk factor IDs and risk categories
+	Filter *ProjectEntityRiskSummaryFilters `json:"-" url:"filter,omitempty"`
+}
+
+type GetProjectRiskChangesRequest struct {
+	// The maximum number of risk changes to return. Default is 100.
+	Limit *int `json:"-" url:"limit,omitempty"`
+	// Token to retrieve the next page of risk changes
+	Next *string `json:"-" url:"next,omitempty"`
+	// Token to retrieve the previous page of risk changes
+	Prev *string `json:"-" url:"prev,omitempty"`
+	// Sort by timestamp in ascending or descending order. Default is desc.
+	SortDate *SortOrder `json:"-" url:"sort.date,omitempty"`
+	// Filter risk changes from the provided date
+	FilterFrom *string `json:"-" url:"filter.from,omitempty"`
+	// Filter risk changes up to the provided date
+	FilterTo *string `json:"-" url:"filter.to,omitempty"`
+	// Filter risk changes for the provided risk factors
+	FilterRiskFactor []string `json:"-" url:"filter.risk_factor,omitempty"`
+	// Filter risk changes for risk factors from the provided risk categories
+	FilterRiskCategory []string `json:"-" url:"filter.risk_category,omitempty"`
 }
 
 type ProjectEntitySupplyChainRequest struct {
@@ -219,25 +228,25 @@ func (a *Address) String() string {
 }
 
 type AttributeType struct {
-	Type       string `json:"type" url:"type"`
-	Resolution bool   `json:"resolution" url:"resolution"`
+	Field           string `json:"field" url:"field"`
+	MatchResolution bool   `json:"match_resolution" url:"match_resolution"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
 }
 
-func (a *AttributeType) GetType() string {
+func (a *AttributeType) GetField() string {
 	if a == nil {
 		return ""
 	}
-	return a.Type
+	return a.Field
 }
 
-func (a *AttributeType) GetResolution() bool {
+func (a *AttributeType) GetMatchResolution() bool {
 	if a == nil {
 		return false
 	}
-	return a.Resolution
+	return a.MatchResolution
 }
 
 func (a *AttributeType) GetExtraProperties() map[string]interface{} {
@@ -472,34 +481,6 @@ func (b *BusinessPurpose) String() string {
 	return fmt.Sprintf("%#v", b)
 }
 
-type CaseStatus string
-
-const (
-	CaseStatusNotAssigned CaseStatus = "not_assigned"
-	CaseStatusInReview    CaseStatus = "in_review"
-	CaseStatusApproved    CaseStatus = "approved"
-	CaseStatusRejected    CaseStatus = "rejected"
-)
-
-func NewCaseStatusFromString(s string) (CaseStatus, error) {
-	switch s {
-	case "not_assigned":
-		return CaseStatusNotAssigned, nil
-	case "in_review":
-		return CaseStatusInReview, nil
-	case "approved":
-		return CaseStatusApproved, nil
-	case "rejected":
-		return CaseStatusRejected, nil
-	}
-	var t CaseStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CaseStatus) Ptr() *CaseStatus {
-	return &c
-}
-
 type CountType string
 
 const (
@@ -536,6 +517,8 @@ type CreateResolvedProjectEntityRequest struct {
 	City        []string           `json:"city,omitempty" url:"city,omitempty"`
 	State       []string           `json:"state,omitempty" url:"state,omitempty"`
 	Profile     *ResolutionProfile `json:"profile,omitempty" url:"profile,omitempty"`
+	// Whether to enable LLM-based data cleaning to remove noise and standardize entity attributes. Defaults to true if not supplied. Set to false to disable LLM cleaning.
+	EnableLlmClean *bool `json:"enable_llm_clean,omitempty" url:"enable_llm_clean,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -609,6 +592,13 @@ func (c *CreateResolvedProjectEntityRequest) GetProfile() *ResolutionProfile {
 		return nil
 	}
 	return c.Profile
+}
+
+func (c *CreateResolvedProjectEntityRequest) GetEnableLlmClean() *bool {
+	if c == nil {
+		return nil
+	}
+	return c.EnableLlmClean
 }
 
 func (c *CreateResolvedProjectEntityRequest) GetExtraProperties() map[string]interface{} {
@@ -945,28 +935,6 @@ func (l *Location) String() string {
 	return fmt.Sprintf("%#v", l)
 }
 
-type MatchCount string
-
-const (
-	MatchCountOne  MatchCount = "one"
-	MatchCountMany MatchCount = "many"
-)
-
-func NewMatchCountFromString(s string) (MatchCount, error) {
-	switch s {
-	case "one":
-		return MatchCountOne, nil
-	case "many":
-		return MatchCountMany, nil
-	}
-	var t MatchCount
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (m MatchCount) Ptr() *MatchCount {
-	return &m
-}
-
 type MatchProfileEnum string
 
 const (
@@ -992,34 +960,6 @@ func NewMatchProfileEnumFromString(s string) (MatchProfileEnum, error) {
 }
 
 func (m MatchProfileEnum) Ptr() *MatchProfileEnum {
-	return &m
-}
-
-type MatchStrengthEnum string
-
-const (
-	MatchStrengthEnumStrong  MatchStrengthEnum = "strong"
-	MatchStrengthEnumPartial MatchStrengthEnum = "partial"
-	MatchStrengthEnumNoMatch MatchStrengthEnum = "no_match"
-	MatchStrengthEnumManual  MatchStrengthEnum = "manual"
-)
-
-func NewMatchStrengthEnumFromString(s string) (MatchStrengthEnum, error) {
-	switch s {
-	case "strong":
-		return MatchStrengthEnumStrong, nil
-	case "partial":
-		return MatchStrengthEnumPartial, nil
-	case "no_match":
-		return MatchStrengthEnumNoMatch, nil
-	case "manual":
-		return MatchStrengthEnumManual, nil
-	}
-	var t MatchStrengthEnum
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (m MatchStrengthEnum) Ptr() *MatchStrengthEnum {
 	return &m
 }
 
@@ -1174,6 +1114,418 @@ func (p *ProductMapping) UnmarshalJSON(data []byte) error {
 }
 
 func (p *ProductMapping) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntitiesCustomFieldFilter struct {
+	CustomFieldName *CustomFieldValue `json:"custom_{field name},omitempty" url:"custom_{field name},omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntitiesCustomFieldFilter) GetCustomFieldName() *CustomFieldValue {
+	if p == nil {
+		return nil
+	}
+	return p.CustomFieldName
+}
+
+func (p *ProjectEntitiesCustomFieldFilter) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntitiesCustomFieldFilter) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntitiesCustomFieldFilter
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntitiesCustomFieldFilter(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntitiesCustomFieldFilter) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntitiesExactFilter struct {
+	// Filter with exact matching.
+	Exact []string `json:"exact,omitempty" url:"exact,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntitiesExactFilter) GetExact() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Exact
+}
+
+func (p *ProjectEntitiesExactFilter) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntitiesExactFilter) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntitiesExactFilter
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntitiesExactFilter(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntitiesExactFilter) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntitiesFilter struct {
+	// Filter by [risk factor](/sayari-library/ontology/risk-factors) ID.
+	RiskFactor []Risk `json:"risk_factor,omitempty" url:"risk_factor,omitempty"`
+	// Filter by risk factor `category`, e.g. `sanctions`. At least one risk factor from each provided category must be present.
+	RiskCategory []string `json:"risk_category,omitempty" url:"risk_category,omitempty"`
+	// Filter by upstream (supply chain) product ID.
+	UpstreamProduct []string `json:"upstream_product,omitempty" url:"upstream_product,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at any tier.
+	ShipmentCountry []Country `json:"shipment_country,omitempty" url:"shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 1.
+	Tier1ShipmentCountry []Country `json:"tier1_shipment_country,omitempty" url:"tier1_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 2.
+	Tier2ShipmentCountry []Country `json:"tier2_shipment_country,omitempty" url:"tier2_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 3.
+	Tier3ShipmentCountry []Country `json:"tier3_shipment_country,omitempty" url:"tier3_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 4.
+	Tier4ShipmentCountry []Country `json:"tier4_shipment_country,omitempty" url:"tier4_shipment_country,omitempty"`
+	// Filter by upstream (supply chain) [country](/sayari-library/ontology/enumerated-types#country) at tier 5.
+	Tier5ShipmentCountry []Country `json:"tier5_shipment_country,omitempty" url:"tier5_shipment_country,omitempty"`
+	// Filter by [country](/sayari-library/ontology/enumerated-types#country).
+	Country []Country `json:"country,omitempty" url:"country,omitempty"`
+	// Filter by HS code, HS code description, or business description.
+	BusinessPurpose []string `json:"business_purpose,omitempty" url:"business_purpose,omitempty"`
+	// Filter by entity label with fuzzy matching.
+	Label *ProjectEntitiesFuzzyFilter `json:"label,omitempty" url:"label,omitempty"`
+	// Filter by entity city with fuzzy matching.
+	City *ProjectEntitiesFuzzyFilter `json:"city,omitempty" url:"city,omitempty"`
+	// Filter by entity address state with fuzzy matching.
+	State *ProjectEntitiesFuzzyFilter `json:"state,omitempty" url:"state,omitempty"`
+	// Filter by entity identifier attributes with fuzzy matching.
+	Identifier *ProjectEntitiesFuzzyFilter `json:"identifier,omitempty" url:"identifier,omitempty"`
+	// Filter by entity source ID.
+	Source *ProjectEntitiesExactFilter `json:"source,omitempty" url:"source,omitempty"`
+	// Filter by entity [company status](/sayari-library/ontology/enumerated-types#company-status).
+	Status []CompanyStatus `json:"status,omitempty" url:"status,omitempty"`
+	// Filter by a geographical bounding box. The value is a pipe-delimited set of four values representing the top, left, bottom, and right sides of the bounding box, in that order. The pipes should be URL-encoded as `%7C`. The top coordinate must greater than the bottom coordinate, and the left coordinate must be less than the right coordinate. A sample is `55.680357237879136|-71.53607290158526|41.10876347746233|-40.963927098414736`
+	Bounds *string `json:"bounds,omitempty" url:"bounds,omitempty"`
+	// Filter by match entity ID.
+	MatchEntityId []string `json:"match_entity_id,omitempty" url:"match_entity_id,omitempty"`
+	// Filter by entity type.
+	EntityType []string `json:"entity_type,omitempty" url:"entity_type,omitempty"`
+	// Filter by tag ID.
+	Tag []string `json:"tag,omitempty" url:"tag,omitempty"`
+	// Filter by upload ID.
+	Upload []string `json:"upload,omitempty" url:"upload,omitempty"`
+	// Filter by case status.
+	CaseStatus []CaseStatus `json:"case_status,omitempty" url:"case_status,omitempty"`
+	// Filter by match strength.
+	MatchStrength []MatchStrengthEnum `json:"match_strength,omitempty" url:"match_strength,omitempty"`
+	// Filter by match count.
+	MatchCount *MatchCount `json:"match_count,omitempty" url:"match_count,omitempty"`
+	// Filter by custom field.
+	Attribute *ProjectEntitiesCustomFieldFilter `json:"attribute,omitempty" url:"attribute,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntitiesFilter) GetRiskFactor() []Risk {
+	if p == nil {
+		return nil
+	}
+	return p.RiskFactor
+}
+
+func (p *ProjectEntitiesFilter) GetRiskCategory() []string {
+	if p == nil {
+		return nil
+	}
+	return p.RiskCategory
+}
+
+func (p *ProjectEntitiesFilter) GetUpstreamProduct() []string {
+	if p == nil {
+		return nil
+	}
+	return p.UpstreamProduct
+}
+
+func (p *ProjectEntitiesFilter) GetShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier1ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier1ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier2ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier2ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier3ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier3ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier4ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier4ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetTier5ShipmentCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Tier5ShipmentCountry
+}
+
+func (p *ProjectEntitiesFilter) GetCountry() []Country {
+	if p == nil {
+		return nil
+	}
+	return p.Country
+}
+
+func (p *ProjectEntitiesFilter) GetBusinessPurpose() []string {
+	if p == nil {
+		return nil
+	}
+	return p.BusinessPurpose
+}
+
+func (p *ProjectEntitiesFilter) GetLabel() *ProjectEntitiesFuzzyFilter {
+	if p == nil {
+		return nil
+	}
+	return p.Label
+}
+
+func (p *ProjectEntitiesFilter) GetCity() *ProjectEntitiesFuzzyFilter {
+	if p == nil {
+		return nil
+	}
+	return p.City
+}
+
+func (p *ProjectEntitiesFilter) GetState() *ProjectEntitiesFuzzyFilter {
+	if p == nil {
+		return nil
+	}
+	return p.State
+}
+
+func (p *ProjectEntitiesFilter) GetIdentifier() *ProjectEntitiesFuzzyFilter {
+	if p == nil {
+		return nil
+	}
+	return p.Identifier
+}
+
+func (p *ProjectEntitiesFilter) GetSource() *ProjectEntitiesExactFilter {
+	if p == nil {
+		return nil
+	}
+	return p.Source
+}
+
+func (p *ProjectEntitiesFilter) GetStatus() []CompanyStatus {
+	if p == nil {
+		return nil
+	}
+	return p.Status
+}
+
+func (p *ProjectEntitiesFilter) GetBounds() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Bounds
+}
+
+func (p *ProjectEntitiesFilter) GetMatchEntityId() []string {
+	if p == nil {
+		return nil
+	}
+	return p.MatchEntityId
+}
+
+func (p *ProjectEntitiesFilter) GetEntityType() []string {
+	if p == nil {
+		return nil
+	}
+	return p.EntityType
+}
+
+func (p *ProjectEntitiesFilter) GetTag() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Tag
+}
+
+func (p *ProjectEntitiesFilter) GetUpload() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Upload
+}
+
+func (p *ProjectEntitiesFilter) GetCaseStatus() []CaseStatus {
+	if p == nil {
+		return nil
+	}
+	return p.CaseStatus
+}
+
+func (p *ProjectEntitiesFilter) GetMatchStrength() []MatchStrengthEnum {
+	if p == nil {
+		return nil
+	}
+	return p.MatchStrength
+}
+
+func (p *ProjectEntitiesFilter) GetMatchCount() *MatchCount {
+	if p == nil {
+		return nil
+	}
+	return p.MatchCount
+}
+
+func (p *ProjectEntitiesFilter) GetAttribute() *ProjectEntitiesCustomFieldFilter {
+	if p == nil {
+		return nil
+	}
+	return p.Attribute
+}
+
+func (p *ProjectEntitiesFilter) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntitiesFilter) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntitiesFilter
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntitiesFilter(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntitiesFilter) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntitiesFuzzyFilter struct {
+	// Filter with fuzzy matching.
+	Fuzzy []string `json:"fuzzy,omitempty" url:"fuzzy,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntitiesFuzzyFilter) GetFuzzy() []string {
+	if p == nil {
+		return nil
+	}
+	return p.Fuzzy
+}
+
+func (p *ProjectEntitiesFuzzyFilter) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntitiesFuzzyFilter) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntitiesFuzzyFilter
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntitiesFuzzyFilter(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntitiesFuzzyFilter) String() string {
 	if len(p.rawJSON) > 0 {
 		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
@@ -1758,6 +2110,592 @@ func (p *ProjectEntityResponse) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
+type ProjectEntityRiskChangesResponse struct {
+	Filters *RiskChangeFilters                    `json:"filters,omitempty" url:"filters,omitempty"`
+	Next    *string                               `json:"next,omitempty" url:"next,omitempty"`
+	Prev    *string                               `json:"prev,omitempty" url:"prev,omitempty"`
+	Limit   int                                   `json:"limit" url:"limit"`
+	Data    *ProjectEntityRiskChangesResponseData `json:"data,omitempty" url:"data,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityRiskChangesResponse) GetFilters() *RiskChangeFilters {
+	if p == nil {
+		return nil
+	}
+	return p.Filters
+}
+
+func (p *ProjectEntityRiskChangesResponse) GetNext() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Next
+}
+
+func (p *ProjectEntityRiskChangesResponse) GetPrev() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Prev
+}
+
+func (p *ProjectEntityRiskChangesResponse) GetLimit() int {
+	if p == nil {
+		return 0
+	}
+	return p.Limit
+}
+
+func (p *ProjectEntityRiskChangesResponse) GetData() *ProjectEntityRiskChangesResponseData {
+	if p == nil {
+		return nil
+	}
+	return p.Data
+}
+
+func (p *ProjectEntityRiskChangesResponse) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityRiskChangesResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityRiskChangesResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityRiskChangesResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityRiskChangesResponse) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityRiskChangesResponseData struct {
+	ProjectId       string              `json:"project_id" url:"project_id"`
+	ProjectEntityId string              `json:"project_entity_id" url:"project_entity_id"`
+	RiskFactors     []*RiskChangeFactor `json:"risk_factors,omitempty" url:"risk_factors,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityRiskChangesResponseData) GetProjectId() string {
+	if p == nil {
+		return ""
+	}
+	return p.ProjectId
+}
+
+func (p *ProjectEntityRiskChangesResponseData) GetProjectEntityId() string {
+	if p == nil {
+		return ""
+	}
+	return p.ProjectEntityId
+}
+
+func (p *ProjectEntityRiskChangesResponseData) GetRiskFactors() []*RiskChangeFactor {
+	if p == nil {
+		return nil
+	}
+	return p.RiskFactors
+}
+
+func (p *ProjectEntityRiskChangesResponseData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityRiskChangesResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityRiskChangesResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityRiskChangesResponseData(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityRiskChangesResponseData) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityRiskSummaryData struct {
+	ProjectEntityId string                                `json:"project_entity_id" url:"project_entity_id"`
+	ProjectId       string                                `json:"project_id" url:"project_id"`
+	RiskFactors     []*ProjectEntityRiskSummaryRiskFactor `json:"risk_factors,omitempty" url:"risk_factors,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityRiskSummaryData) GetProjectEntityId() string {
+	if p == nil {
+		return ""
+	}
+	return p.ProjectEntityId
+}
+
+func (p *ProjectEntityRiskSummaryData) GetProjectId() string {
+	if p == nil {
+		return ""
+	}
+	return p.ProjectId
+}
+
+func (p *ProjectEntityRiskSummaryData) GetRiskFactors() []*ProjectEntityRiskSummaryRiskFactor {
+	if p == nil {
+		return nil
+	}
+	return p.RiskFactors
+}
+
+func (p *ProjectEntityRiskSummaryData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityRiskSummaryData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityRiskSummaryData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityRiskSummaryData(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityRiskSummaryData) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityRiskSummaryFilters struct {
+	// Filter by risk factor IDs
+	RiskFactor []string `json:"risk_factor,omitempty" url:"risk_factor,omitempty"`
+	// Filter by risk category IDs
+	RiskCategory []string `json:"risk_category,omitempty" url:"risk_category,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityRiskSummaryFilters) GetRiskFactor() []string {
+	if p == nil {
+		return nil
+	}
+	return p.RiskFactor
+}
+
+func (p *ProjectEntityRiskSummaryFilters) GetRiskCategory() []string {
+	if p == nil {
+		return nil
+	}
+	return p.RiskCategory
+}
+
+func (p *ProjectEntityRiskSummaryFilters) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityRiskSummaryFilters) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityRiskSummaryFilters
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityRiskSummaryFilters(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityRiskSummaryFilters) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityRiskSummaryNetworkPath struct {
+	SayariEntityId     string            `json:"sayari_entity_id" url:"sayari_entity_id"`
+	SayariEntityLabel  string            `json:"sayari_entity_label" url:"sayari_entity_label"`
+	RelationshipType   string            `json:"relationship_type" url:"relationship_type"`
+	RelationshipStatus string            `json:"relationship_status" url:"relationship_status"`
+	Former             bool              `json:"former" url:"former"`
+	FirstObserved      string            `json:"first_observed" url:"first_observed"`
+	LastObserved       string            `json:"last_observed" url:"last_observed"`
+	StartDate          *string           `json:"start_date,omitempty" url:"start_date,omitempty"`
+	Shares             *ShareInformation `json:"shares,omitempty" url:"shares,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetSayariEntityId() string {
+	if p == nil {
+		return ""
+	}
+	return p.SayariEntityId
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetSayariEntityLabel() string {
+	if p == nil {
+		return ""
+	}
+	return p.SayariEntityLabel
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetRelationshipType() string {
+	if p == nil {
+		return ""
+	}
+	return p.RelationshipType
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetRelationshipStatus() string {
+	if p == nil {
+		return ""
+	}
+	return p.RelationshipStatus
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetFormer() bool {
+	if p == nil {
+		return false
+	}
+	return p.Former
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetFirstObserved() string {
+	if p == nil {
+		return ""
+	}
+	return p.FirstObserved
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetLastObserved() string {
+	if p == nil {
+		return ""
+	}
+	return p.LastObserved
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetStartDate() *string {
+	if p == nil {
+		return nil
+	}
+	return p.StartDate
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetShares() *ShareInformation {
+	if p == nil {
+		return nil
+	}
+	return p.Shares
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityRiskSummaryNetworkPath
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityRiskSummaryNetworkPath(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityRiskSummaryNetworkPath) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityRiskSummaryResponse struct {
+	Data    *ProjectEntityRiskSummaryData            `json:"data,omitempty" url:"data,omitempty"`
+	Filters *ProjectEntityRiskSummaryResponseFilters `json:"filters,omitempty" url:"filters,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityRiskSummaryResponse) GetData() *ProjectEntityRiskSummaryData {
+	if p == nil {
+		return nil
+	}
+	return p.Data
+}
+
+func (p *ProjectEntityRiskSummaryResponse) GetFilters() *ProjectEntityRiskSummaryResponseFilters {
+	if p == nil {
+		return nil
+	}
+	return p.Filters
+}
+
+func (p *ProjectEntityRiskSummaryResponse) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityRiskSummaryResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityRiskSummaryResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityRiskSummaryResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityRiskSummaryResponse) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityRiskSummaryResponseFilters struct {
+	RiskFactor   []string `json:"risk_factor,omitempty" url:"risk_factor,omitempty"`
+	RiskCategory []string `json:"risk_category,omitempty" url:"risk_category,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityRiskSummaryResponseFilters) GetRiskFactor() []string {
+	if p == nil {
+		return nil
+	}
+	return p.RiskFactor
+}
+
+func (p *ProjectEntityRiskSummaryResponseFilters) GetRiskCategory() []string {
+	if p == nil {
+		return nil
+	}
+	return p.RiskCategory
+}
+
+func (p *ProjectEntityRiskSummaryResponseFilters) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityRiskSummaryResponseFilters) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityRiskSummaryResponseFilters
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityRiskSummaryResponseFilters(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityRiskSummaryResponseFilters) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectEntityRiskSummaryRiskFactor struct {
+	Id               string                                   `json:"id" url:"id"`
+	Label            string                                   `json:"label" url:"label"`
+	Value            *StringOrNumber                          `json:"value,omitempty" url:"value,omitempty"`
+	Level            RiskLevel                                `json:"level" url:"level"`
+	RiskCategories   []*ProjectRiskCategory                   `json:"risk_categories,omitempty" url:"risk_categories,omitempty"`
+	SourceEntityIds  []string                                 `json:"source_entity_ids,omitempty" url:"source_entity_ids,omitempty"`
+	NetworkPaths     [][]*ProjectEntityRiskSummaryNetworkPath `json:"network_paths,omitempty" url:"network_paths,omitempty"`
+	Metadata         []map[string][]*StringOrNumber           `json:"metadata,omitempty" url:"metadata,omitempty"`
+	RiskIntelligence []map[string]*StringOrNumber             `json:"risk_intelligence,omitempty" url:"risk_intelligence,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetId() string {
+	if p == nil {
+		return ""
+	}
+	return p.Id
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetLabel() string {
+	if p == nil {
+		return ""
+	}
+	return p.Label
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetValue() *StringOrNumber {
+	if p == nil {
+		return nil
+	}
+	return p.Value
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetLevel() RiskLevel {
+	if p == nil {
+		return ""
+	}
+	return p.Level
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetRiskCategories() []*ProjectRiskCategory {
+	if p == nil {
+		return nil
+	}
+	return p.RiskCategories
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetSourceEntityIds() []string {
+	if p == nil {
+		return nil
+	}
+	return p.SourceEntityIds
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetNetworkPaths() [][]*ProjectEntityRiskSummaryNetworkPath {
+	if p == nil {
+		return nil
+	}
+	return p.NetworkPaths
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetMetadata() []map[string][]*StringOrNumber {
+	if p == nil {
+		return nil
+	}
+	return p.Metadata
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetRiskIntelligence() []map[string]*StringOrNumber {
+	if p == nil {
+		return nil
+	}
+	return p.RiskIntelligence
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectEntityRiskSummaryRiskFactor
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectEntityRiskSummaryRiskFactor(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectEntityRiskSummaryRiskFactor) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
 type ProjectEntitySupplyChainSummaryResponse struct {
 	Filters *TradeTraversalFilters                       `json:"filters,omitempty" url:"filters,omitempty"`
 	Data    *ProjectEntitySupplyChainSummaryResponseData `json:"data,omitempty" url:"data,omitempty"`
@@ -1987,6 +2925,192 @@ func (p *ProjectRiskCategory) UnmarshalJSON(data []byte) error {
 }
 
 func (p *ProjectRiskCategory) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectRiskChange struct {
+	ProjectEntityId string              `json:"project_entity_id" url:"project_entity_id"`
+	RiskFactors     []*RiskChangeFactor `json:"risk_factors,omitempty" url:"risk_factors,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectRiskChange) GetProjectEntityId() string {
+	if p == nil {
+		return ""
+	}
+	return p.ProjectEntityId
+}
+
+func (p *ProjectRiskChange) GetRiskFactors() []*RiskChangeFactor {
+	if p == nil {
+		return nil
+	}
+	return p.RiskFactors
+}
+
+func (p *ProjectRiskChange) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectRiskChange) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectRiskChange
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectRiskChange(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectRiskChange) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectRiskChangesResponse struct {
+	Filters *RiskChangeFilters              `json:"filters,omitempty" url:"filters,omitempty"`
+	Next    *string                         `json:"next,omitempty" url:"next,omitempty"`
+	Prev    *string                         `json:"prev,omitempty" url:"prev,omitempty"`
+	Limit   int                             `json:"limit" url:"limit"`
+	Data    *ProjectRiskChangesResponseData `json:"data,omitempty" url:"data,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectRiskChangesResponse) GetFilters() *RiskChangeFilters {
+	if p == nil {
+		return nil
+	}
+	return p.Filters
+}
+
+func (p *ProjectRiskChangesResponse) GetNext() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Next
+}
+
+func (p *ProjectRiskChangesResponse) GetPrev() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Prev
+}
+
+func (p *ProjectRiskChangesResponse) GetLimit() int {
+	if p == nil {
+		return 0
+	}
+	return p.Limit
+}
+
+func (p *ProjectRiskChangesResponse) GetData() *ProjectRiskChangesResponseData {
+	if p == nil {
+		return nil
+	}
+	return p.Data
+}
+
+func (p *ProjectRiskChangesResponse) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectRiskChangesResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectRiskChangesResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectRiskChangesResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectRiskChangesResponse) String() string {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type ProjectRiskChangesResponseData struct {
+	ProjectId   string               `json:"project_id" url:"project_id"`
+	RiskChanges []*ProjectRiskChange `json:"risk_changes,omitempty" url:"risk_changes,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *ProjectRiskChangesResponseData) GetProjectId() string {
+	if p == nil {
+		return ""
+	}
+	return p.ProjectId
+}
+
+func (p *ProjectRiskChangesResponseData) GetRiskChanges() []*ProjectRiskChange {
+	if p == nil {
+		return nil
+	}
+	return p.RiskChanges
+}
+
+func (p *ProjectRiskChangesResponseData) GetExtraProperties() map[string]interface{} {
+	return p.extraProperties
+}
+
+func (p *ProjectRiskChangesResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ProjectRiskChangesResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = ProjectRiskChangesResponseData(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *ProjectRiskChangesResponseData) String() string {
 	if len(p.rawJSON) > 0 {
 		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
@@ -2252,6 +3376,161 @@ func (r *RiskCategoriesSummary) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
+type RiskChangeFactor struct {
+	Id string `json:"id" url:"id"`
+	// Timestamp of risk change detection
+	Timestamp  string                     `json:"timestamp" url:"timestamp"`
+	ChangeType RiskChangeFactorChangeType `json:"change_type" url:"change_type"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *RiskChangeFactor) GetId() string {
+	if r == nil {
+		return ""
+	}
+	return r.Id
+}
+
+func (r *RiskChangeFactor) GetTimestamp() string {
+	if r == nil {
+		return ""
+	}
+	return r.Timestamp
+}
+
+func (r *RiskChangeFactor) GetChangeType() RiskChangeFactorChangeType {
+	if r == nil {
+		return ""
+	}
+	return r.ChangeType
+}
+
+func (r *RiskChangeFactor) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *RiskChangeFactor) UnmarshalJSON(data []byte) error {
+	type unmarshaler RiskChangeFactor
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RiskChangeFactor(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RiskChangeFactor) String() string {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+type RiskChangeFactorChangeType string
+
+const (
+	RiskChangeFactorChangeTypeAdded   RiskChangeFactorChangeType = "added"
+	RiskChangeFactorChangeTypeRemoved RiskChangeFactorChangeType = "removed"
+)
+
+func NewRiskChangeFactorChangeTypeFromString(s string) (RiskChangeFactorChangeType, error) {
+	switch s {
+	case "added":
+		return RiskChangeFactorChangeTypeAdded, nil
+	case "removed":
+		return RiskChangeFactorChangeTypeRemoved, nil
+	}
+	var t RiskChangeFactorChangeType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (r RiskChangeFactorChangeType) Ptr() *RiskChangeFactorChangeType {
+	return &r
+}
+
+type RiskChangeFilters struct {
+	From         *string  `json:"from,omitempty" url:"from,omitempty"`
+	To           *string  `json:"to,omitempty" url:"to,omitempty"`
+	RiskFactor   []string `json:"risk_factor,omitempty" url:"risk_factor,omitempty"`
+	RiskCategory []string `json:"risk_category,omitempty" url:"risk_category,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *RiskChangeFilters) GetFrom() *string {
+	if r == nil {
+		return nil
+	}
+	return r.From
+}
+
+func (r *RiskChangeFilters) GetTo() *string {
+	if r == nil {
+		return nil
+	}
+	return r.To
+}
+
+func (r *RiskChangeFilters) GetRiskFactor() []string {
+	if r == nil {
+		return nil
+	}
+	return r.RiskFactor
+}
+
+func (r *RiskChangeFilters) GetRiskCategory() []string {
+	if r == nil {
+		return nil
+	}
+	return r.RiskCategory
+}
+
+func (r *RiskChangeFilters) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *RiskChangeFilters) UnmarshalJSON(data []byte) error {
+	type unmarshaler RiskChangeFilters
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RiskChangeFilters(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RiskChangeFilters) String() string {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
 type SaveProjectEntityBody struct {
 	EntityIds  []string              `json:"entity_ids,omitempty" url:"entity_ids,omitempty"`
 	Attributes *ResolutionAttributes `json:"attributes,omitempty" url:"attributes,omitempty"`
@@ -2314,6 +3593,68 @@ func (s *SaveProjectEntityBody) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
+type ShareInformation struct {
+	Percentage    *float64 `json:"percentage,omitempty" url:"percentage,omitempty"`
+	NumShares     *int     `json:"num_shares,omitempty" url:"num_shares,omitempty"`
+	MonetaryValue *int     `json:"monetary_value,omitempty" url:"monetary_value,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *ShareInformation) GetPercentage() *float64 {
+	if s == nil {
+		return nil
+	}
+	return s.Percentage
+}
+
+func (s *ShareInformation) GetNumShares() *int {
+	if s == nil {
+		return nil
+	}
+	return s.NumShares
+}
+
+func (s *ShareInformation) GetMonetaryValue() *int {
+	if s == nil {
+		return nil
+	}
+	return s.MonetaryValue
+}
+
+func (s *ShareInformation) GetExtraProperties() map[string]interface{} {
+	return s.extraProperties
+}
+
+func (s *ShareInformation) UnmarshalJSON(data []byte) error {
+	type unmarshaler ShareInformation
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = ShareInformation(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *ShareInformation) String() string {
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
 type SingleProjectEntityResponse struct {
 	Data *ProjectEntityResponse `json:"data,omitempty" url:"data,omitempty"`
 
@@ -2358,6 +3699,28 @@ func (s *SingleProjectEntityResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
+}
+
+type SortOrder string
+
+const (
+	SortOrderAsc  SortOrder = "asc"
+	SortOrderDesc SortOrder = "desc"
+)
+
+func NewSortOrderFromString(s string) (SortOrder, error) {
+	switch s {
+	case "asc":
+		return SortOrderAsc, nil
+	case "desc":
+		return SortOrderDesc, nil
+	}
+	var t SortOrder
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SortOrder) Ptr() *SortOrder {
+	return &s
 }
 
 type SourceField struct {

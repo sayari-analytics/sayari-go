@@ -8,6 +8,34 @@ import (
 	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
+type CaseStatus string
+
+const (
+	CaseStatusNotAssigned CaseStatus = "not_assigned"
+	CaseStatusInReview    CaseStatus = "in_review"
+	CaseStatusApproved    CaseStatus = "approved"
+	CaseStatusRejected    CaseStatus = "rejected"
+)
+
+func NewCaseStatusFromString(s string) (CaseStatus, error) {
+	switch s {
+	case "not_assigned":
+		return CaseStatusNotAssigned, nil
+	case "in_review":
+		return CaseStatusInReview, nil
+	case "approved":
+		return CaseStatusApproved, nil
+	case "rejected":
+		return CaseStatusRejected, nil
+	}
+	var t CaseStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CaseStatus) Ptr() *CaseStatus {
+	return &c
+}
+
 type ClientName string
 
 const (
@@ -1278,6 +1306,56 @@ func (i *Identifier) String() string {
 	return fmt.Sprintf("%#v", i)
 }
 
+type MatchCount string
+
+const (
+	MatchCountOne  MatchCount = "one"
+	MatchCountMany MatchCount = "many"
+)
+
+func NewMatchCountFromString(s string) (MatchCount, error) {
+	switch s {
+	case "one":
+		return MatchCountOne, nil
+	case "many":
+		return MatchCountMany, nil
+	}
+	var t MatchCount
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (m MatchCount) Ptr() *MatchCount {
+	return &m
+}
+
+type MatchStrengthEnum string
+
+const (
+	MatchStrengthEnumStrong  MatchStrengthEnum = "strong"
+	MatchStrengthEnumPartial MatchStrengthEnum = "partial"
+	MatchStrengthEnumNoMatch MatchStrengthEnum = "no_match"
+	MatchStrengthEnumManual  MatchStrengthEnum = "manual"
+)
+
+func NewMatchStrengthEnumFromString(s string) (MatchStrengthEnum, error) {
+	switch s {
+	case "strong":
+		return MatchStrengthEnumStrong, nil
+	case "partial":
+		return MatchStrengthEnumPartial, nil
+	case "no_match":
+		return MatchStrengthEnumNoMatch, nil
+	case "manual":
+		return MatchStrengthEnumManual, nil
+	}
+	var t MatchStrengthEnum
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (m MatchStrengthEnum) Ptr() *MatchStrengthEnum {
+	return &m
+}
+
 type Psa struct {
 	PsaId     string          `json:"psa_id" url:"psa_id"`
 	Label     string          `json:"label" url:"label"`
@@ -1714,7 +1792,7 @@ func (p *PsaMatchKeys) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
-// List of entities that are Possibly the Same As (PSA) the entity.
+// <Warning>This property is deprecated.</Warning> List of entities that are Possibly the Same As (PSA) the entity.
 type PossiblySameAs struct {
 	Limit  int                   `json:"limit" url:"limit"`
 	Size   *QualifiedCount       `json:"size,omitempty" url:"size,omitempty"`
