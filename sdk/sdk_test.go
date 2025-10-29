@@ -206,6 +206,9 @@ func TestOwnershipTraversal(t *testing.T) {
 	log.Println("Searching for entity: ", randomString)
 	entitySearchResults, err := api.Search.SearchEntity(context.Background(), &sayari.SearchEntity{Q: randomString, Limit: &limit})
 	handleError(t, err)
+	if err != nil {
+		return
+	}
 	if len(entitySearchResults.Data) == 0 {
 		time.Sleep(5 * time.Second)
 		TestOwnershipTraversal(t)
@@ -221,8 +224,12 @@ func TestOwnershipTraversal(t *testing.T) {
 	traversal, err := api.Traversal.Ownership(context.Background(), entity.Id, &sayari.Ownership{})
 	if err != nil && shouldRetry(err) {
 		TestOwnershipTraversal(t)
+		return
 	}
 	handleError(t, err)
+	if err != nil {
+		return
+	}
 	if len(traversal.Data) == 0 {
 		time.Sleep(5 * time.Second)
 		TestOwnershipTraversal(t)
@@ -236,8 +243,12 @@ func TestOwnershipTraversal(t *testing.T) {
 	ubo, err := api.Traversal.Ubo(context.Background(), entity.Id, &sayari.Ubo{})
 	if err != nil && shouldRetry(err) {
 		TestOwnershipTraversal(t)
+		return
 	}
 	handleError(t, err)
+	if err != nil {
+		return
+	}
 	if len(ubo.Data) == 0 {
 		time.Sleep(5 * time.Second)
 		TestOwnershipTraversal(t)
@@ -251,8 +262,12 @@ func TestOwnershipTraversal(t *testing.T) {
 	downstream, err := api.Traversal.Ownership(context.Background(), uboID, &sayari.Ownership{Limit: &limit})
 	if err != nil && shouldRetry(err) {
 		TestOwnershipTraversal(t)
+		return
 	}
 	handleError(t, err)
+	if err != nil {
+		return
+	}
 	assert.Greater(t, len(downstream.Data), 0)
 
 	/*
@@ -274,8 +289,12 @@ func TestOwnershipTraversal(t *testing.T) {
 	shortestPath, err := api.Traversal.ShortestPath(context.Background(), &sayari.ShortestPath{Entities: []string{string(entity.Id), uboID}})
 	if err != nil && shouldRetry(err) {
 		TestOwnershipTraversal(t)
+		return
 	}
 	handleError(t, err)
+	if err != nil {
+		return
+	}
 	assert.Greater(t, len(shortestPath.Data[0].Path), 0)
 
 	// TODO: figure out good test for watchlist traversal
