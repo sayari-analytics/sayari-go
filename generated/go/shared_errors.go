@@ -83,7 +83,7 @@ func (m *MethodNotAllowedResponse) String() string {
 	return fmt.Sprintf("%#v", m)
 }
 
-// Request made in an unacceptable state. This is most commonly due to parameter validation errors.
+// Request made in an unacceptable state due to an invalid Accept header.
 type NotAcceptableResponse struct {
 	Status  int      `json:"status" url:"status"`
 	Message []string `json:"message,omitempty" url:"message,omitempty"`
@@ -214,3 +214,66 @@ type RateLimitResponse = interface{}
 
 // Request made without valid token.
 type UnauthorizedResponse = interface{}
+
+// Request made with an invalid body. This is most commonly due to parameter validation errors.
+type UnprocessableContentResponse struct {
+	Status  int      `json:"status" url:"status"`
+	Message []string `json:"message,omitempty" url:"message,omitempty"`
+	Success bool     `json:"success" url:"success"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UnprocessableContentResponse) GetStatus() int {
+	if u == nil {
+		return 0
+	}
+	return u.Status
+}
+
+func (u *UnprocessableContentResponse) GetMessage() []string {
+	if u == nil {
+		return nil
+	}
+	return u.Message
+}
+
+func (u *UnprocessableContentResponse) GetSuccess() bool {
+	if u == nil {
+		return false
+	}
+	return u.Success
+}
+
+func (u *UnprocessableContentResponse) GetExtraProperties() map[string]interface{} {
+	return u.extraProperties
+}
+
+func (u *UnprocessableContentResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler UnprocessableContentResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UnprocessableContentResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UnprocessableContentResponse) String() string {
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}

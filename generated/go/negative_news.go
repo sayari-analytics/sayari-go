@@ -14,7 +14,7 @@ type NegativeNews struct {
 	Name string `json:"-" url:"name"`
 	// Risk category filter for targeted screening. Each topic represents a distinct risk domain (e.g., `environmental` for environmental violations, `financial` for financial misconduct).
 	Topic *Topics `json:"-" url:"topic,omitempty"`
-	// Date cutoff for article inclusion in `YYYY-MM-DD` format. If provided, only articles published before this date will be included in results.
+	// Date cutoff for article inclusion in `YYYY-MM-DD` format. If provided, only articles published after this date will be included in results.
 	Until *time.Time `json:"-" url:"until,omitempty" format:"date"`
 }
 
@@ -125,30 +125,25 @@ type NegativeNewsResponse = []*Article
 type Topics string
 
 const (
-	TopicsBasic         Topics = "basic"
-	TopicsEnvironmental Topics = "environmental"
-	TopicsSocial        Topics = "social"
-	TopicsCybersecurity Topics = "cybersecurity"
-	TopicsDisruption    Topics = "disruption"
-	TopicsCriminal      Topics = "criminal"
-	TopicsReputational  Topics = "reputational"
-	TopicsFinancial     Topics = "financial"
-	TopicsRegulatory    Topics = "regulatory"
-	TopicsLegal         Topics = "legal"
-	TopicsMisconduct    Topics = "misconduct"
-	TopicsTerrorism     Topics = "terrorism"
-	TopicsSanctions     Topics = "sanctions"
-	TopicsAll           Topics = "all"
+	TopicsOverview               Topics = "overview"
+	TopicsEnvironmentalAndSocial Topics = "environmental_and_social"
+	TopicsCybersecurity          Topics = "cybersecurity"
+	TopicsDisruption             Topics = "disruption"
+	TopicsCriminal               Topics = "criminal"
+	TopicsReputational           Topics = "reputational"
+	TopicsFinancial              Topics = "financial"
+	TopicsSanctionsAndRegulatory Topics = "sanctions_and_regulatory"
+	TopicsLegal                  Topics = "legal"
+	TopicsPolitical              Topics = "political"
+	TopicsTerrorism              Topics = "terrorism"
 )
 
 func NewTopicsFromString(s string) (Topics, error) {
 	switch s {
-	case "basic":
-		return TopicsBasic, nil
-	case "environmental":
-		return TopicsEnvironmental, nil
-	case "social":
-		return TopicsSocial, nil
+	case "overview":
+		return TopicsOverview, nil
+	case "environmental_and_social":
+		return TopicsEnvironmentalAndSocial, nil
 	case "cybersecurity":
 		return TopicsCybersecurity, nil
 	case "disruption":
@@ -159,18 +154,14 @@ func NewTopicsFromString(s string) (Topics, error) {
 		return TopicsReputational, nil
 	case "financial":
 		return TopicsFinancial, nil
-	case "regulatory":
-		return TopicsRegulatory, nil
+	case "sanctions_and_regulatory":
+		return TopicsSanctionsAndRegulatory, nil
 	case "legal":
 		return TopicsLegal, nil
-	case "misconduct":
-		return TopicsMisconduct, nil
+	case "political":
+		return TopicsPolitical, nil
 	case "terrorism":
 		return TopicsTerrorism, nil
-	case "sanctions":
-		return TopicsSanctions, nil
-	case "all":
-		return TopicsAll, nil
 	}
 	var t Topics
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
