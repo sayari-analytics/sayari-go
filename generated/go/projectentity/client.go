@@ -35,7 +35,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 func (c *Client) CreateProjectEntity(
 	ctx context.Context,
 	projectId string,
-	request *generatedgo.CreateResolvedProjectEntityRequest,
+	request *generatedgo.CreateResolvedProjectEntityRequestWrapper,
 	opts ...option.RequestOption,
 ) (*generatedgo.SingleProjectEntityResponse, error) {
 	options := core.NewRequestOptions(opts...)
@@ -48,6 +48,13 @@ func (c *Client) CreateProjectEntity(
 		baseURL+"/v1/projects/%v/entities/create",
 		projectId,
 	)
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
 	headers := internal.MergeHeaders(
 		c.header.Clone(),
 		options.ToHeader(),
@@ -107,6 +114,18 @@ func (c *Client) CreateProjectEntity(
 }
 
 // Retrieves a list of entities for a specific project with pagination support.
+//
+// **Response Formats:**
+// - **JSON** (default): Returns structured data with nested objects
+// - **CSV**: Returns tabular data with dynamic columns for attributes and risk categories
+//
+// **CSV Format:**
+// The CSV response includes dynamic columns based on the data:
+// - `attribute_{field_name}`: Dynamic columns for each attribute field found in the data
+// - `risk_category_{category_id}`: Dynamic columns for each risk category found in the data
+// - Standard columns: project_id, project_entity_id, label, project_entity_url, upload_ids, strength, countries, tags, case_status, created_at, match_count, upstream_products, upstream_risk_factors, upstream_countries
+//
+// Use the `Accept: text/csv` header to request CSV format.
 func (c *Client) GetProjectEntities(
 	ctx context.Context,
 	projectId string,
@@ -192,7 +211,6 @@ func (c *Client) GetProjectEntity(
 	ctx context.Context,
 	projectId string,
 	projectEntityId string,
-	request *generatedgo.GetProjectEntityRequest,
 	opts ...option.RequestOption,
 ) (*generatedgo.SingleProjectEntityResponse, error) {
 	options := core.NewRequestOptions(opts...)
@@ -206,13 +224,6 @@ func (c *Client) GetProjectEntity(
 		projectId,
 		projectEntityId,
 	)
-	queryParams, err := internal.QueryValues(request)
-	if err != nil {
-		return nil, err
-	}
-	if len(queryParams) > 0 {
-		endpointURL += "?" + queryParams.Encode()
-	}
 	headers := internal.MergeHeaders(
 		c.header.Clone(),
 		options.ToHeader(),
@@ -568,6 +579,324 @@ func (c *Client) SaveProjectEntity(
 	return response, nil
 }
 
+// Retrieves the risk changes for all project entities in a project.
+func (c *Client) GetProjectRiskChanges(
+	ctx context.Context,
+	projectId string,
+	request *generatedgo.GetProjectRiskChangesRequest,
+	opts ...option.RequestOption,
+) (*generatedgo.ProjectRiskChangesResponse, error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/changes/risk",
+		projectId,
+	)
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		422: func(apiError *core.APIError) error {
+			return &generatedgo.UnprocessableContent{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	var response *generatedgo.ProjectRiskChangesResponse
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
+// Retrieves the risk changes for a single project entity.
+func (c *Client) GetProjectEntityRiskChanges(
+	ctx context.Context,
+	projectId string,
+	projectEntityId string,
+	request *generatedgo.GetProjectEntityRiskChangesRequest,
+	opts ...option.RequestOption,
+) (*generatedgo.ProjectEntityRiskChangesResponse, error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/%v/changes/risk",
+		projectId,
+		projectEntityId,
+	)
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		422: func(apiError *core.APIError) error {
+			return &generatedgo.UnprocessableContent{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	var response *generatedgo.ProjectEntityRiskChangesResponse
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
+// Dismiss risk changes for all project entities in a project.
+func (c *Client) DeleteProjectRiskChanges(
+	ctx context.Context,
+	projectId string,
+	opts ...option.RequestOption,
+) error {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/changes/risk",
+		projectId,
+	)
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodDelete,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return err
+	}
+	return nil
+}
+
+// Dismiss risk changes for a single project entity.
+func (c *Client) DeleteProjectEntityRiskChanges(
+	ctx context.Context,
+	projectId string,
+	projectEntityId string,
+	opts ...option.RequestOption,
+) error {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/%v/changes/risk",
+		projectId,
+		projectEntityId,
+	)
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodDelete,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return err
+	}
+	return nil
+}
+
 // Execute a traversal of the upstream trade network (supply chain) for all matched entities of a project entity, returning a set of entities and edges between them.
 func (c *Client) ProjectEntitySupplyChain(
 	ctx context.Context,
@@ -634,6 +963,95 @@ func (c *Client) ProjectEntitySupplyChain(
 	}
 
 	var response *generatedgo.UpstreamTradeTraversalResponse
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
+// Retrieves a risk summary for a specific project entity, including risk factors with network paths and risk intelligence data.
+//
+// **Response includes:**
+// - Risk factors with their levels (elevated, high, critical)
+// - Network paths showing relationships between entities
+// - Risk intelligence scores and metadata
+// - Risk categories and source entity information
+func (c *Client) GetProjectEntityRiskSummary(
+	ctx context.Context,
+	projectId string,
+	projectEntityId string,
+	request *generatedgo.GetProjectEntityRiskSummaryRequest,
+	opts ...option.RequestOption,
+) (*generatedgo.ProjectEntityRiskSummaryResponse, error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/%v/risk_summary",
+		projectId,
+		projectEntityId,
+	)
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	var response *generatedgo.ProjectEntityRiskSummaryResponse
 	if err := c.caller.Call(
 		ctx,
 		&internal.CallParams{

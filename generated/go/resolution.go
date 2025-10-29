@@ -47,14 +47,18 @@ type Resolution struct {
 	CandidatePoolSize *int `json:"-" url:"candidate_pool_size,omitempty"`
 	// Bypasses the post-processing setps and re-ranking. Useful for debugging. By default set to false, set to true to enable.
 	SkipPostProcess *bool `json:"-" url:"skip_post_process,omitempty"`
+	// Whether to enable LLM-based data cleaning to remove noise and standardize entity attributes. Defaults to true if not supplied. Set to false to disable LLM cleaning.
+	EnableLlmClean *bool `json:"-" url:"enable_llm_clean,omitempty"`
 }
 
 type ResolutionPost struct {
 	// A limit on the number of objects to be returned with a range between 1 and 10 inclusive. Defaults to 10.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Number of results to skip before returning response. Defaults to 0.
-	Offset *int            `json:"-" url:"offset,omitempty"`
-	Body   *ResolutionBody `json:"-" url:"-"`
+	Offset *int `json:"-" url:"offset,omitempty"`
+	// Whether to enable LLM-based data cleaning to remove noise and standardize entity attributes. Defaults to true if not supplied. Set to false to disable LLM cleaning.
+	EnableLlmClean *bool           `json:"-" url:"enable_llm_clean,omitempty"`
+	Body           *ResolutionBody `json:"-" url:"-"`
 }
 
 func (r *ResolutionPost) UnmarshalJSON(data []byte) error {
@@ -330,6 +334,8 @@ type ResolutionBody struct {
 	CandidatePoolSize *int `json:"candidate_pool_size,omitempty" url:"candidate_pool_size,omitempty"`
 	// Bypasses the post-processing setps and re-ranking. Useful for debugging. By default set to false, set to true to enable.
 	SkipPostProcess *bool `json:"skip_post_process,omitempty" url:"skip_post_process,omitempty"`
+	// Whether to enable LLM-based data cleaning to remove noise and standardize entity attributes. Defaults to true if not supplied. Set to false to disable LLM cleaning.
+	EnableLlmClean *bool `json:"enable_llm_clean,omitempty" url:"enable_llm_clean,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -459,6 +465,13 @@ func (r *ResolutionBody) GetSkipPostProcess() *bool {
 		return nil
 	}
 	return r.SkipPostProcess
+}
+
+func (r *ResolutionBody) GetEnableLlmClean() *bool {
+	if r == nil {
+		return nil
+	}
+	return r.EnableLlmClean
 }
 
 func (r *ResolutionBody) GetExtraProperties() map[string]interface{} {
@@ -1160,8 +1173,10 @@ func (r *ResolutionResult) String() string {
 }
 
 type ResolutionUploadBody struct {
-	Filename string            `json:"filename" url:"filename"`
-	Data     []*ResolutionBody `json:"data,omitempty" url:"data,omitempty"`
+	Filename string `json:"filename" url:"filename"`
+	// Whether to enable LLM-based data cleaning to remove noise and standardize entity attributes. Defaults to true if not supplied. Set to false to disable LLM cleaning.
+	EnableLlmClean *bool             `json:"enable_llm_clean,omitempty" url:"enable_llm_clean,omitempty"`
+	Data           []*ResolutionBody `json:"data,omitempty" url:"data,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -1172,6 +1187,13 @@ func (r *ResolutionUploadBody) GetFilename() string {
 		return ""
 	}
 	return r.Filename
+}
+
+func (r *ResolutionUploadBody) GetEnableLlmClean() *bool {
+	if r == nil {
+		return nil
+	}
+	return r.EnableLlmClean
 }
 
 func (r *ResolutionUploadBody) GetData() []*ResolutionBody {
