@@ -6419,6 +6419,8 @@ const (
 	IdentifierTypeBillOfLading IdentifierType = "bill_of_lading"
 	// Unique digital currency address
 	IdentifierTypeBitcoinAddress IdentifierType = "bitcoin_address"
+	// Belarus Passport No.
+	IdentifierTypeBlrPassport IdentifierType = "blr_passport"
 	// Belarus Registration Number
 	IdentifierTypeBlrRegistrationNumber IdentifierType = "blr_registration_number"
 	// Belize Companies & Corporate Affairs Registry (BCCAR) registration number
@@ -6501,7 +6503,9 @@ const (
 	IdentifierTypeCcamlrRfmoId IdentifierType = "ccamlr_rfmo_id"
 	// CCS Vessel Registration Number
 	IdentifierTypeCcsRegistration IdentifierType = "ccs_registration"
-	IdentifierTypeCheChIdNumber   IdentifierType = "che_ch_id_number"
+	// Unique identifier assigned to entities registered with the CCSBT.
+	IdentifierTypeCcsbtRfmoId   IdentifierType = "ccsbt_rfmo_id"
+	IdentifierTypeCheChIdNumber IdentifierType = "che_ch_id_number"
 	// Swiss SECO Sanction Number
 	IdentifierTypeCheSecoSanctionNumber IdentifierType = "che_seco_sanction_number"
 	// Switzerland business registry ID number
@@ -6702,6 +6706,8 @@ const (
 	IdentifierTypeFlPropFolioDade IdentifierType = "fl_prop_folio_dade"
 	// Unique reference number assigned to every entity in the France National Asset Freeze Register.
 	IdentifierTypeFraAssetFreezeId IdentifierType = "fra_asset_freeze_id"
+	// France passport number
+	IdentifierTypeFraPassport IdentifierType = "fra_passport"
 	// Unique France ID number. Assigned to every legal entity registered with National Registry of Associations.
 	IdentifierTypeFraRna IdentifierType = "fra_rna"
 	// France business directory ID number
@@ -6794,6 +6800,8 @@ const (
 	IdentifierTypeIattcRfmoId IdentifierType = "iattc_rfmo_id"
 	// Unique ID number. Assigned to individual bank accounts for use in cross-border financial transactions.
 	IdentifierTypeIban IdentifierType = "iban"
+	// Unique identifier assigned to entities registered with the ICCAT.
+	IdentifierTypeIccatRfmoId IdentifierType = "iccat_rfmo_id"
 	// ICIJ Offshore Database Internal ID
 	IdentifierTypeIcijOffshoreInternalId IdentifierType = "icij_offshore_internal_id"
 	// ICIJ Offshore Database Node ID
@@ -6891,6 +6899,8 @@ const (
 	IdentifierTypeIsrCompanyNumber IdentifierType = "isr_company_number"
 	// Israel National ID Number. Assigned to all residents over 16 years old who have legal permanent residence status.
 	IdentifierTypeIsrNationalId IdentifierType = "isr_national_id"
+	// Israeli passport number
+	IdentifierTypeIsrPassport IdentifierType = "isr_passport"
 	// Unique Israel public benefit company registration number. Assigned to every public benefit company in the Israel Ministry of Justice Association and Public Benefit Company Registry.
 	IdentifierTypeIsrPbcNumber IdentifierType = "isr_pbc_number"
 	// Italy tax ID code
@@ -7019,6 +7029,8 @@ const (
 	IdentifierTypeMexTmNo IdentifierType = "mex_tm_no"
 	// Mexico Yucatan parcel ID number. Assigned to every parcel and property registered by the Government of the State of Yucatan.
 	IdentifierTypeMexYucatanFolio IdentifierType = "mex_yucatan_folio"
+	// Unique business identification number. Assigned to every registered business in the Marshall Islands.
+	IdentifierTypeMhRegId IdentifierType = "mh_reg_id"
 	// North Macedonia unique identifier. Assigned to every North Macedonia Corporate Registry Announcement.
 	IdentifierTypeMkdArchiveNumber IdentifierType = "mkd_archive_number"
 	// North Macedonia corporate registry ID number
@@ -7131,6 +7143,8 @@ const (
 	IdentifierTypeOnBusinessIdNumber IdentifierType = "on_business_id_number"
 	// Unique Canada province ID number. Assigned to every legal entity in the Ontario Business Registry.
 	IdentifierTypeOntarioCorporationNumber IdentifierType = "ontario_corporation_number"
+	// Internal identifier used by Open Sanctions to identify entities across multiple datasets.
+	IdentifierTypeOpenSanctionsInternalId IdentifierType = "open_sanctions_internal_id"
 	// Unique Pakistan National Taxpayer Number for Companies and Associations of Persons
 	IdentifierTypePakCoNtn IdentifierType = "pak_co_ntn"
 	// Pakistan EGM ID
@@ -7236,11 +7250,11 @@ const (
 	IdentifierTypeRuInn IdentifierType = "ru_inn"
 	// A Russian company registration number with 12 digits
 	IdentifierTypeRuOgrn IdentifierType = "ru_ogrn"
-	// Russian registration number that is not specified specifically as an OGRN in source data
+	// Russian registration number that is not explicitly designated  as an OGRN in source data
 	IdentifierTypeRuRegistrationNumber IdentifierType = "ru_registration_number"
 	// Russia vessel registry ID number
 	IdentifierTypeRuShipRegisterId IdentifierType = "ru_ship_register_id"
-	// Russian tax identification number that is not specified specifically as an INN in source data
+	// Russian tax identification number that is not explicitly designated as an INN in source data
 	IdentifierTypeRuTin IdentifierType = "ru_tin"
 	// Russia Trade Internal Shipment ID
 	IdentifierTypeRuTradeInternalShipmentId IdentifierType = "ru_trade_internal_shipment_id"
@@ -7276,6 +7290,8 @@ const (
 	IdentifierTypeSgpUnqiueEntityNumber IdentifierType = "sgp_unqiue_entity_number"
 	// Mexico corporate registry internal ID number
 	IdentifierTypeSigerInternalId IdentifierType = "siger_internal_id"
+	// Unique business identification number. Assigned to every registered business in the Solomon Islands.
+	IdentifierTypeSlbRegId IdentifierType = "slb_reg_id"
 	// El Salvador commercial registry ID number
 	IdentifierTypeSlvCommercialRegNumber IdentifierType = "slv_commercial_reg_number"
 	// El Salvador corporate registry ID number
@@ -7390,6 +7406,8 @@ const (
 	IdentifierTypeTzaTansadNumber IdentifierType = "tza_tansad_number"
 	// Taxpayer Identification Number (TIN) is a unique identification number assigned to individuals and entities in Tanzania, largely for tax purposes. A TIN is issued by the Tanzania Revenue Authority (TRA) - the governing body responsible for tax administration in the country.
 	IdentifierTypeTzaTin IdentifierType = "tza_tin"
+	// Taxpayer Identification Number in Uganda is a unique identifying number assigned to every taxpayer by Uganda Revenue Authority (URA) for tax administration purposes.
+	IdentifierTypeUgaTin IdentifierType = "uga_tin"
 	// A UK company registration number. The pattern was sourced from the snapshot file documentation provided to us. When the first two characters are not digits, they have a special meaning.
 	IdentifierTypeUkCompanyNumber IdentifierType = "uk_company_number"
 	// Unique UK ID number. Assigned to every firm in the FCA financial services registry.
@@ -7403,6 +7421,8 @@ const (
 	// Ukraine SFMS List Identifier. Reference number assigned to all entities listed under Ukraine SFMS List for Terrorism.
 	IdentifierTypeUkrFiuListNumber IdentifierType = "ukr_fiu_list_number"
 	IdentifierTypeUkrMojId         IdentifierType = "ukr_moj_id"
+	// Ukraine passport number
+	IdentifierTypeUkrPassport IdentifierType = "ukr_passport"
 	// Ukrainian Registration Number
 	IdentifierTypeUkrRegNum IdentifierType = "ukr_reg_num"
 	// Ukraine NAZK sanctions company internal ID
@@ -7641,6 +7661,8 @@ const (
 	IdentifierTypeVnmPersonIdNo IdentifierType = "vnm_person_id_no"
 	// Vanuatu Corporate Registry Number
 	IdentifierTypeVutCorpRegNumber IdentifierType = "vut_corp_reg_number"
+	// Unique identifier assigned to entities registered with the WCPFC.
+	IdentifierTypeWcpfcRfmoId IdentifierType = "wcpfc_rfmo_id"
 	// Unique USA ID number. Assigned to every foreign trademark application.
 	IdentifierTypeWipoIntlRefNo IdentifierType = "wipo_intl_ref_no"
 	// Unique USA ID number. Assigned to every registered foreign trademark.
@@ -7799,6 +7821,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeBillOfLading, nil
 	case "bitcoin_address":
 		return IdentifierTypeBitcoinAddress, nil
+	case "blr_passport":
+		return IdentifierTypeBlrPassport, nil
 	case "blr_registration_number":
 		return IdentifierTypeBlrRegistrationNumber, nil
 	case "blz_bccar_reg_no":
@@ -7881,6 +7905,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeCcamlrRfmoId, nil
 	case "ccs_registration":
 		return IdentifierTypeCcsRegistration, nil
+	case "ccsbt_rfmo_id":
+		return IdentifierTypeCcsbtRfmoId, nil
 	case "che_ch_id_number":
 		return IdentifierTypeCheChIdNumber, nil
 	case "che_seco_sanction_number":
@@ -8087,6 +8113,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeFlPropFolioDade, nil
 	case "fra_asset_freeze_id":
 		return IdentifierTypeFraAssetFreezeId, nil
+	case "fra_passport":
+		return IdentifierTypeFraPassport, nil
 	case "fra_rna":
 		return IdentifierTypeFraRna, nil
 	case "fra_siren":
@@ -8179,6 +8207,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIattcRfmoId, nil
 	case "iban":
 		return IdentifierTypeIban, nil
+	case "iccat_rfmo_id":
+		return IdentifierTypeIccatRfmoId, nil
 	case "icij_offshore_internal_id":
 		return IdentifierTypeIcijOffshoreInternalId, nil
 	case "icij_offshore_node_id":
@@ -8277,6 +8307,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIsrCompanyNumber, nil
 	case "isr_national_id":
 		return IdentifierTypeIsrNationalId, nil
+	case "isr_passport":
+		return IdentifierTypeIsrPassport, nil
 	case "isr_pbc_number":
 		return IdentifierTypeIsrPbcNumber, nil
 	case "ita_fiscal_code":
@@ -8409,6 +8441,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeMexTmNo, nil
 	case "mex_yucatan_folio":
 		return IdentifierTypeMexYucatanFolio, nil
+	case "mh_reg_id":
+		return IdentifierTypeMhRegId, nil
 	case "mkd_archive_number":
 		return IdentifierTypeMkdArchiveNumber, nil
 	case "mkd_embs_branch_number":
@@ -8523,6 +8557,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeOnBusinessIdNumber, nil
 	case "ontario_corporation_number":
 		return IdentifierTypeOntarioCorporationNumber, nil
+	case "open_sanctions_internal_id":
+		return IdentifierTypeOpenSanctionsInternalId, nil
 	case "pak_co_ntn":
 		return IdentifierTypePakCoNtn, nil
 	case "pak_egm_id":
@@ -8671,6 +8707,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeSgpUnqiueEntityNumber, nil
 	case "siger_internal_id":
 		return IdentifierTypeSigerInternalId, nil
+	case "slb_reg_id":
+		return IdentifierTypeSlbRegId, nil
 	case "slv_commercial_reg_number":
 		return IdentifierTypeSlvCommercialRegNumber, nil
 	case "slv_mcas":
@@ -8785,6 +8823,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeTzaTansadNumber, nil
 	case "tza_tin":
 		return IdentifierTypeTzaTin, nil
+	case "uga_tin":
+		return IdentifierTypeUgaTin, nil
 	case "uk_company_number":
 		return IdentifierTypeUkCompanyNumber, nil
 	case "uk_firm_reference_number":
@@ -8799,6 +8839,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeUkrFiuListNumber, nil
 	case "ukr_moj_id":
 		return IdentifierTypeUkrMojId, nil
+	case "ukr_passport":
+		return IdentifierTypeUkrPassport, nil
 	case "ukr_reg_num":
 		return IdentifierTypeUkrRegNum, nil
 	case "ukr_sanctions_nazk_company_internal_id":
@@ -9041,6 +9083,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeVnmPersonIdNo, nil
 	case "vut_corp_reg_number":
 		return IdentifierTypeVutCorpRegNumber, nil
+	case "wcpfc_rfmo_id":
+		return IdentifierTypeWcpfcRfmoId, nil
 	case "wipo_intl_ref_no":
 		return IdentifierTypeWipoIntlRefNo, nil
 	case "wipo_intl_reg_no":
@@ -10085,8 +10129,12 @@ func (m *MeasurementProperties) String() string {
 type MeasurementType string
 
 const (
+	// Indicates the total built-area of all structures on a plot of land.
+	MeasurementTypeBuiltArea MeasurementType = "built_area"
 	// Total weight including the weight of goods, packaging, and any additional accessories used for shipping
 	MeasurementTypeGrossWeight MeasurementType = "gross_weight"
+	// Indicates the total area of a plot of land.
+	MeasurementTypeLandArea MeasurementType = "land_area"
 	// Weight of raw goods only
 	MeasurementTypeNetWeight MeasurementType = "net_weight"
 	// Describes the number of units of product
@@ -10095,8 +10143,12 @@ const (
 
 func NewMeasurementTypeFromString(s string) (MeasurementType, error) {
 	switch s {
+	case "built_area":
+		return MeasurementTypeBuiltArea, nil
 	case "gross_weight":
 		return MeasurementTypeGrossWeight, nil
+	case "land_area":
+		return MeasurementTypeLandArea, nil
 	case "net_weight":
 		return MeasurementTypeNetWeight, nil
 	case "quantity":
@@ -10116,10 +10168,30 @@ type MonetaryValueContext string
 const (
 	// Indicates value determined by customs authorities
 	MonetaryValueContextAssessedValue MonetaryValueContext = "assessed_value"
+	// Indicates official property valuation. Primarily used for property tax purposes and typically lower than market value.
+	MonetaryValueContextCadastralValue MonetaryValueContext = "cadastral_value"
+	// Indicates carriage and insurance paid to (CIP) arrangement
+	MonetaryValueContextCarriageAndInsurancePaidTo MonetaryValueContext = "carriage_and_insurance_paid_to"
+	// Indicates carriage paid to (CPT) arrangement
+	MonetaryValueContextCarriagePaidTo MonetaryValueContext = "carriage_paid_to"
 	// Indicates value of a contract
 	MonetaryValueContextContractValue MonetaryValueContext = "contract_value"
+	// Indicates cost and freight (CFR) arrangement
+	MonetaryValueContextCostAndFreight MonetaryValueContext = "cost_and_freight"
 	// Indicates cost, insurance, and freight (CIF) arrangement
 	MonetaryValueContextCostInsuranceAndFreight MonetaryValueContext = "cost_insurance_and_freight"
+	// Indicates delivered at place (DAP) arrangement
+	MonetaryValueContextDeliveredAtPlace MonetaryValueContext = "delivered_at_place"
+	// Indicates delivered at place unloaded (DPU) arrangement
+	MonetaryValueContextDeliveredAtPlaceUnloaded MonetaryValueContext = "delivered_at_place_unloaded"
+	// Indicates delivered duty paid (DDP) arrangement
+	MonetaryValueContextDeliveredDutyPaid MonetaryValueContext = "delivered_duty_paid"
+	// Indicates ex works (EXW) arrangement
+	MonetaryValueContextExWorks MonetaryValueContext = "ex_works"
+	// Indicates free alongside ship (FAS) arrangement
+	MonetaryValueContextFreeAlongsideShip MonetaryValueContext = "free_alongside_ship"
+	// Indicates free carrier (FCA) arrangement
+	MonetaryValueContextFreeCarrier MonetaryValueContext = "free_carrier"
 	// Indicates free on board (FOB) arrangement
 	MonetaryValueContextFreeOnBoard MonetaryValueContext = "free_on_board"
 )
@@ -10128,10 +10200,30 @@ func NewMonetaryValueContextFromString(s string) (MonetaryValueContext, error) {
 	switch s {
 	case "assessed_value":
 		return MonetaryValueContextAssessedValue, nil
+	case "cadastral_value":
+		return MonetaryValueContextCadastralValue, nil
+	case "carriage_and_insurance_paid_to":
+		return MonetaryValueContextCarriageAndInsurancePaidTo, nil
+	case "carriage_paid_to":
+		return MonetaryValueContextCarriagePaidTo, nil
 	case "contract_value":
 		return MonetaryValueContextContractValue, nil
+	case "cost_and_freight":
+		return MonetaryValueContextCostAndFreight, nil
 	case "cost_insurance_and_freight":
 		return MonetaryValueContextCostInsuranceAndFreight, nil
+	case "delivered_at_place":
+		return MonetaryValueContextDeliveredAtPlace, nil
+	case "delivered_at_place_unloaded":
+		return MonetaryValueContextDeliveredAtPlaceUnloaded, nil
+	case "delivered_duty_paid":
+		return MonetaryValueContextDeliveredDutyPaid, nil
+	case "ex_works":
+		return MonetaryValueContextExWorks, nil
+	case "free_alongside_ship":
+		return MonetaryValueContextFreeAlongsideShip, nil
+	case "free_carrier":
+		return MonetaryValueContextFreeCarrier, nil
 	case "free_on_board":
 		return MonetaryValueContextFreeOnBoard, nil
 	}
@@ -11612,6 +11704,9 @@ const (
 	RiskControlledByUnSanctioned                                                 Risk = "controlled_by_un_sanctioned"
 	RiskCpiScore                                                                 Risk = "cpi_score"
 	RiskEntityLicensedWithFsbRf                                                  Risk = "entity_licensed_with_fsb_rf"
+	RiskEsgScoreHigh                                                             Risk = "esg_score_high"
+	RiskEsgScoreMedium                                                           Risk = "esg_score_medium"
+	RiskEsgScoreVeryHigh                                                         Risk = "esg_score_very_high"
 	RiskEu50PercentRule                                                          Risk = "eu_50_percent_rule"
 	RiskEuHighRiskThird                                                          Risk = "eu_high_risk_third"
 	RiskEuMinorityOwnership                                                      Risk = "eu_minority_ownership"
@@ -11660,6 +11755,7 @@ const (
 	RiskExportsToSanctionedEuDgFismaEcEntity                                     Risk = "exports_to_sanctioned_eu_dg_fisma_ec_entity"
 	RiskExportsToSanctionedEuEcRegulation8332014Entity                           Risk = "exports_to_sanctioned_eu_ec_regulation_833_2014_entity"
 	RiskExportsToSanctionedEuEcSanctionsMapEntity                                Risk = "exports_to_sanctioned_eu_ec_sanctions_map_entity"
+	RiskExportsToSanctionedEuSanctionsEntity                                     Risk = "exports_to_sanctioned_eu_sanctions_entity"
 	RiskExportsToSanctionedFraDgtMefidsEntity                                    Risk = "exports_to_sanctioned_fra_dgt_mefids_entity"
 	RiskExportsToSanctionedGbrFcdoEntity                                         Risk = "exports_to_sanctioned_gbr_fcdo_entity"
 	RiskExportsToSanctionedGbrHmtOfsiEntity                                      Risk = "exports_to_sanctioned_gbr_hmt_ofsi_entity"
@@ -11722,6 +11818,7 @@ const (
 	RiskFormerlySanctionedEuDgFismaEc                                            Risk = "formerly_sanctioned_eu_dg_fisma_ec"
 	RiskFormerlySanctionedEuEcRegulation8332014                                  Risk = "formerly_sanctioned_eu_ec_regulation_833_2014"
 	RiskFormerlySanctionedEuEcSanctionsMap                                       Risk = "formerly_sanctioned_eu_ec_sanctions_map"
+	RiskFormerlySanctionedEuSanctions                                            Risk = "formerly_sanctioned_eu_sanctions"
 	RiskFormerlySanctionedFraDgtMefids                                           Risk = "formerly_sanctioned_fra_dgt_mefids"
 	RiskFormerlySanctionedGbrFcdo                                                Risk = "formerly_sanctioned_gbr_fcdo"
 	RiskFormerlySanctionedGbrHmtOfsi                                             Risk = "formerly_sanctioned_gbr_hmt_ofsi"
@@ -11802,6 +11899,7 @@ const (
 	RiskOwnedBySanctionedEuDgFismaEcEntity                                       Risk = "owned_by_sanctioned_eu_dg_fisma_ec_entity"
 	RiskOwnedBySanctionedEuEcRegulation8332014Entity                             Risk = "owned_by_sanctioned_eu_ec_regulation_833_2014_entity"
 	RiskOwnedBySanctionedEuEcSanctionsMapEntity                                  Risk = "owned_by_sanctioned_eu_ec_sanctions_map_entity"
+	RiskOwnedBySanctionedEuSanctionsEntity                                       Risk = "owned_by_sanctioned_eu_sanctions_entity"
 	RiskOwnedBySanctionedFraDgtMefidsEntity                                      Risk = "owned_by_sanctioned_fra_dgt_mefids_entity"
 	RiskOwnedBySanctionedGbrFcdoEntity                                           Risk = "owned_by_sanctioned_gbr_fcdo_entity"
 	RiskOwnedBySanctionedGbrHmtOfsiEntity                                        Risk = "owned_by_sanctioned_gbr_hmt_ofsi_entity"
@@ -11857,6 +11955,7 @@ const (
 	RiskOwnerOfSanctionedEuDgFismaEcEntity                                       Risk = "owner_of_sanctioned_eu_dg_fisma_ec_entity"
 	RiskOwnerOfSanctionedEuEcRegulation8332014Entity                             Risk = "owner_of_sanctioned_eu_ec_regulation_833_2014_entity"
 	RiskOwnerOfSanctionedEuEcSanctionsMapEntity                                  Risk = "owner_of_sanctioned_eu_ec_sanctions_map_entity"
+	RiskOwnerOfSanctionedEuSanctionsEntity                                       Risk = "owner_of_sanctioned_eu_sanctions_entity"
 	RiskOwnerOfSanctionedFraDgtMefidsEntity                                      Risk = "owner_of_sanctioned_fra_dgt_mefids_entity"
 	RiskOwnerOfSanctionedGbrFcdoEntity                                           Risk = "owner_of_sanctioned_gbr_fcdo_entity"
 	RiskOwnerOfSanctionedGbrHmtOfsiEntity                                        Risk = "owner_of_sanctioned_gbr_hmt_ofsi_entity"
@@ -11933,6 +12032,7 @@ const (
 	RiskPsaExportsToSanctionedEuDgFismaEcEntity                                  Risk = "psa_exports_to_sanctioned_eu_dg_fisma_ec_entity"
 	RiskPsaExportsToSanctionedEuEcRegulation8332014Entity                        Risk = "psa_exports_to_sanctioned_eu_ec_regulation_833_2014_entity"
 	RiskPsaExportsToSanctionedEuEcSanctionsMapEntity                             Risk = "psa_exports_to_sanctioned_eu_ec_sanctions_map_entity"
+	RiskPsaExportsToSanctionedEuSanctionsEntity                                  Risk = "psa_exports_to_sanctioned_eu_sanctions_entity"
 	RiskPsaExportsToSanctionedFraDgtMefidsEntity                                 Risk = "psa_exports_to_sanctioned_fra_dgt_mefids_entity"
 	RiskPsaExportsToSanctionedGbrFcdoEntity                                      Risk = "psa_exports_to_sanctioned_gbr_fcdo_entity"
 	RiskPsaExportsToSanctionedGbrHmtOfsiEntity                                   Risk = "psa_exports_to_sanctioned_gbr_hmt_ofsi_entity"
@@ -12026,6 +12126,7 @@ const (
 	RiskPsaOwnedBySanctionedEuDgFismaEcEntity                                    Risk = "psa_owned_by_sanctioned_eu_dg_fisma_ec_entity"
 	RiskPsaOwnedBySanctionedEuEcRegulation8332014Entity                          Risk = "psa_owned_by_sanctioned_eu_ec_regulation_833_2014_entity"
 	RiskPsaOwnedBySanctionedEuEcSanctionsMapEntity                               Risk = "psa_owned_by_sanctioned_eu_ec_sanctions_map_entity"
+	RiskPsaOwnedBySanctionedEuSanctionsEntity                                    Risk = "psa_owned_by_sanctioned_eu_sanctions_entity"
 	RiskPsaOwnedBySanctionedFraDgtMefidsEntity                                   Risk = "psa_owned_by_sanctioned_fra_dgt_mefids_entity"
 	RiskPsaOwnedBySanctionedGbrFcdoEntity                                        Risk = "psa_owned_by_sanctioned_gbr_fcdo_entity"
 	RiskPsaOwnedBySanctionedGbrHmtOfsiEntity                                     Risk = "psa_owned_by_sanctioned_gbr_hmt_ofsi_entity"
@@ -12081,6 +12182,7 @@ const (
 	RiskPsaOwnerOfSanctionedEuDgFismaEcEntity                                    Risk = "psa_owner_of_sanctioned_eu_dg_fisma_ec_entity"
 	RiskPsaOwnerOfSanctionedEuEcRegulation8332014Entity                          Risk = "psa_owner_of_sanctioned_eu_ec_regulation_833_2014_entity"
 	RiskPsaOwnerOfSanctionedEuEcSanctionsMapEntity                               Risk = "psa_owner_of_sanctioned_eu_ec_sanctions_map_entity"
+	RiskPsaOwnerOfSanctionedEuSanctionsEntity                                    Risk = "psa_owner_of_sanctioned_eu_sanctions_entity"
 	RiskPsaOwnerOfSanctionedFraDgtMefidsEntity                                   Risk = "psa_owner_of_sanctioned_fra_dgt_mefids_entity"
 	RiskPsaOwnerOfSanctionedGbrFcdoEntity                                        Risk = "psa_owner_of_sanctioned_gbr_fcdo_entity"
 	RiskPsaOwnerOfSanctionedGbrHmtOfsiEntity                                     Risk = "psa_owner_of_sanctioned_gbr_hmt_ofsi_entity"
@@ -12122,6 +12224,7 @@ const (
 	RiskPsaSanctionedEuDgFismaEc                                                 Risk = "psa_sanctioned_eu_dg_fisma_ec"
 	RiskPsaSanctionedEuEcRegulation8332014                                       Risk = "psa_sanctioned_eu_ec_regulation_833_2014"
 	RiskPsaSanctionedEuEcSanctionsMap                                            Risk = "psa_sanctioned_eu_ec_sanctions_map"
+	RiskPsaSanctionedEuSanctions                                                 Risk = "psa_sanctioned_eu_sanctions"
 	RiskPsaSanctionedFraDgtMefids                                                Risk = "psa_sanctioned_fra_dgt_mefids"
 	RiskPsaSanctionedGbrFcdo                                                     Risk = "psa_sanctioned_gbr_fcdo"
 	RiskPsaSanctionedGbrHmtOfsi                                                  Risk = "psa_sanctioned_gbr_hmt_ofsi"
@@ -12153,6 +12256,7 @@ const (
 	RiskPsaUsaBis50PercentRule                                                   Risk = "psa_usa_bis_50_percent_rule"
 	RiskPsaUsaBisDeniedPersons                                                   Risk = "psa_usa_bis_denied_persons"
 	RiskPsaUsaBisMeu                                                             Risk = "psa_usa_bis_meu"
+	RiskPsaUsaBisMeu50PercentRule                                                Risk = "psa_usa_bis_meu_50_percent_rule"
 	RiskPsaUsaBisUnverified                                                      Risk = "psa_usa_bis_unverified"
 	RiskPsaUsaIsn                                                                Risk = "psa_usa_isn"
 	RiskPsaUsaSection1260H                                                       Risk = "psa_usa_section_1260h"
@@ -12175,8 +12279,10 @@ const (
 	RiskSanctionedCheSeco                                                        Risk = "sanctioned_che_seco"
 	RiskSanctionedCzeMof                                                         Risk = "sanctioned_cze_mof"
 	RiskSanctionedEuDgFismaEc                                                    Risk = "sanctioned_eu_dg_fisma_ec"
+	RiskSanctionedEuEcRegulation2692014                                          Risk = "sanctioned_eu_ec_regulation_269_2014"
 	RiskSanctionedEuEcRegulation8332014                                          Risk = "sanctioned_eu_ec_regulation_833_2014"
 	RiskSanctionedEuEcSanctionsMap                                               Risk = "sanctioned_eu_ec_sanctions_map"
+	RiskSanctionedEuSanctions                                                    Risk = "sanctioned_eu_sanctions"
 	RiskSanctionedFraDgtMefids                                                   Risk = "sanctioned_fra_dgt_mefids"
 	RiskSanctionedGbrFcdo                                                        Risk = "sanctioned_gbr_fcdo"
 	RiskSanctionedGbrHmtOfsi                                                     Risk = "sanctioned_gbr_hmt_ofsi"
@@ -12212,6 +12318,7 @@ const (
 	RiskUsaBis50PercentRule                                                      Risk = "usa_bis_50_percent_rule"
 	RiskUsaBisDeniedPersons                                                      Risk = "usa_bis_denied_persons"
 	RiskUsaBisMeu                                                                Risk = "usa_bis_meu"
+	RiskUsaBisMeu50PercentRule                                                   Risk = "usa_bis_meu_50_percent_rule"
 	RiskUsaBisUnverified                                                         Risk = "usa_bis_unverified"
 	RiskUsaIsn                                                                   Risk = "usa_isn"
 	RiskUsaSection1260H                                                          Risk = "usa_section_1260h"
@@ -12268,6 +12375,12 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskCpiScore, nil
 	case "entity_licensed_with_fsb_rf":
 		return RiskEntityLicensedWithFsbRf, nil
+	case "esg_score_high":
+		return RiskEsgScoreHigh, nil
+	case "esg_score_medium":
+		return RiskEsgScoreMedium, nil
+	case "esg_score_very_high":
+		return RiskEsgScoreVeryHigh, nil
 	case "eu_50_percent_rule":
 		return RiskEu50PercentRule, nil
 	case "eu_high_risk_third":
@@ -12364,6 +12477,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskExportsToSanctionedEuEcRegulation8332014Entity, nil
 	case "exports_to_sanctioned_eu_ec_sanctions_map_entity":
 		return RiskExportsToSanctionedEuEcSanctionsMapEntity, nil
+	case "exports_to_sanctioned_eu_sanctions_entity":
+		return RiskExportsToSanctionedEuSanctionsEntity, nil
 	case "exports_to_sanctioned_fra_dgt_mefids_entity":
 		return RiskExportsToSanctionedFraDgtMefidsEntity, nil
 	case "exports_to_sanctioned_gbr_fcdo_entity":
@@ -12488,6 +12603,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskFormerlySanctionedEuEcRegulation8332014, nil
 	case "formerly_sanctioned_eu_ec_sanctions_map":
 		return RiskFormerlySanctionedEuEcSanctionsMap, nil
+	case "formerly_sanctioned_eu_sanctions":
+		return RiskFormerlySanctionedEuSanctions, nil
 	case "formerly_sanctioned_fra_dgt_mefids":
 		return RiskFormerlySanctionedFraDgtMefids, nil
 	case "formerly_sanctioned_gbr_fcdo":
@@ -12648,6 +12765,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedBySanctionedEuEcRegulation8332014Entity, nil
 	case "owned_by_sanctioned_eu_ec_sanctions_map_entity":
 		return RiskOwnedBySanctionedEuEcSanctionsMapEntity, nil
+	case "owned_by_sanctioned_eu_sanctions_entity":
+		return RiskOwnedBySanctionedEuSanctionsEntity, nil
 	case "owned_by_sanctioned_fra_dgt_mefids_entity":
 		return RiskOwnedBySanctionedFraDgtMefidsEntity, nil
 	case "owned_by_sanctioned_gbr_fcdo_entity":
@@ -12758,6 +12877,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnerOfSanctionedEuEcRegulation8332014Entity, nil
 	case "owner_of_sanctioned_eu_ec_sanctions_map_entity":
 		return RiskOwnerOfSanctionedEuEcSanctionsMapEntity, nil
+	case "owner_of_sanctioned_eu_sanctions_entity":
+		return RiskOwnerOfSanctionedEuSanctionsEntity, nil
 	case "owner_of_sanctioned_fra_dgt_mefids_entity":
 		return RiskOwnerOfSanctionedFraDgtMefidsEntity, nil
 	case "owner_of_sanctioned_gbr_fcdo_entity":
@@ -12910,6 +13031,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaExportsToSanctionedEuEcRegulation8332014Entity, nil
 	case "psa_exports_to_sanctioned_eu_ec_sanctions_map_entity":
 		return RiskPsaExportsToSanctionedEuEcSanctionsMapEntity, nil
+	case "psa_exports_to_sanctioned_eu_sanctions_entity":
+		return RiskPsaExportsToSanctionedEuSanctionsEntity, nil
 	case "psa_exports_to_sanctioned_fra_dgt_mefids_entity":
 		return RiskPsaExportsToSanctionedFraDgtMefidsEntity, nil
 	case "psa_exports_to_sanctioned_gbr_fcdo_entity":
@@ -13096,6 +13219,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaOwnedBySanctionedEuEcRegulation8332014Entity, nil
 	case "psa_owned_by_sanctioned_eu_ec_sanctions_map_entity":
 		return RiskPsaOwnedBySanctionedEuEcSanctionsMapEntity, nil
+	case "psa_owned_by_sanctioned_eu_sanctions_entity":
+		return RiskPsaOwnedBySanctionedEuSanctionsEntity, nil
 	case "psa_owned_by_sanctioned_fra_dgt_mefids_entity":
 		return RiskPsaOwnedBySanctionedFraDgtMefidsEntity, nil
 	case "psa_owned_by_sanctioned_gbr_fcdo_entity":
@@ -13206,6 +13331,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaOwnerOfSanctionedEuEcRegulation8332014Entity, nil
 	case "psa_owner_of_sanctioned_eu_ec_sanctions_map_entity":
 		return RiskPsaOwnerOfSanctionedEuEcSanctionsMapEntity, nil
+	case "psa_owner_of_sanctioned_eu_sanctions_entity":
+		return RiskPsaOwnerOfSanctionedEuSanctionsEntity, nil
 	case "psa_owner_of_sanctioned_fra_dgt_mefids_entity":
 		return RiskPsaOwnerOfSanctionedFraDgtMefidsEntity, nil
 	case "psa_owner_of_sanctioned_gbr_fcdo_entity":
@@ -13288,6 +13415,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaSanctionedEuEcRegulation8332014, nil
 	case "psa_sanctioned_eu_ec_sanctions_map":
 		return RiskPsaSanctionedEuEcSanctionsMap, nil
+	case "psa_sanctioned_eu_sanctions":
+		return RiskPsaSanctionedEuSanctions, nil
 	case "psa_sanctioned_fra_dgt_mefids":
 		return RiskPsaSanctionedFraDgtMefids, nil
 	case "psa_sanctioned_gbr_fcdo":
@@ -13350,6 +13479,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaUsaBisDeniedPersons, nil
 	case "psa_usa_bis_meu":
 		return RiskPsaUsaBisMeu, nil
+	case "psa_usa_bis_meu_50_percent_rule":
+		return RiskPsaUsaBisMeu50PercentRule, nil
 	case "psa_usa_bis_unverified":
 		return RiskPsaUsaBisUnverified, nil
 	case "psa_usa_isn":
@@ -13394,10 +13525,14 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskSanctionedCzeMof, nil
 	case "sanctioned_eu_dg_fisma_ec":
 		return RiskSanctionedEuDgFismaEc, nil
+	case "sanctioned_eu_ec_regulation_269_2014":
+		return RiskSanctionedEuEcRegulation2692014, nil
 	case "sanctioned_eu_ec_regulation_833_2014":
 		return RiskSanctionedEuEcRegulation8332014, nil
 	case "sanctioned_eu_ec_sanctions_map":
 		return RiskSanctionedEuEcSanctionsMap, nil
+	case "sanctioned_eu_sanctions":
+		return RiskSanctionedEuSanctions, nil
 	case "sanctioned_fra_dgt_mefids":
 		return RiskSanctionedFraDgtMefids, nil
 	case "sanctioned_gbr_fcdo":
@@ -13468,6 +13603,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskUsaBisDeniedPersons, nil
 	case "usa_bis_meu":
 		return RiskUsaBisMeu, nil
+	case "usa_bis_meu_50_percent_rule":
+		return RiskUsaBisMeu50PercentRule, nil
 	case "usa_bis_unverified":
 		return RiskUsaBisUnverified, nil
 	case "usa_isn":
@@ -14370,6 +14507,7 @@ const (
 	TagEsgScore                                   Tag = "esg_score"
 	TagExportControls                             Tag = "export_controls"
 	TagExportControlsBisEntity                    Tag = "export_controls_bis_entity"
+	TagFinancialRiskScore                         Tag = "financial_risk_score"
 	TagForcedLaborXinjiangContractors             Tag = "forced_labor_xinjiang_contractors"
 	TagFormerSoe                                  Tag = "former_soe"
 	TagFormerlySanctioned                         Tag = "formerly_sanctioned"
@@ -14402,6 +14540,8 @@ func NewTagFromString(s string) (Tag, error) {
 		return TagExportControls, nil
 	case "export_controls_bis_entity":
 		return TagExportControlsBisEntity, nil
+	case "financial_risk_score":
+		return TagFinancialRiskScore, nil
 	case "forced_labor_xinjiang_contractors":
 		return TagForcedLaborXinjiangContractors, nil
 	case "former_soe":
@@ -14734,6 +14874,8 @@ const (
 	UnitKilogram Unit = "kilogram"
 	// Indicates meters (m)
 	UnitMetre Unit = "metre"
+	// Indicates meters squared (m^2)
+	UnitMetresSquared Unit = "metres_squared"
 	// Used to show the number of units of a product
 	UnitUnit Unit = "unit"
 )
@@ -14744,6 +14886,8 @@ func NewUnitFromString(s string) (Unit, error) {
 		return UnitKilogram, nil
 	case "metre":
 		return UnitMetre, nil
+	case "metres_squared":
+		return UnitMetresSquared, nil
 	case "unit":
 		return UnitUnit, nil
 	}
@@ -15048,6 +15192,10 @@ const (
 	WeakIdentifierTypeChnCustomsRegistrationCode WeakIdentifierType = "chn_customs_registration_code"
 	// China Project Number
 	WeakIdentifierTypeChnProjectNumber WeakIdentifierType = "chn_project_number"
+	// Ivory Coast Authorized Economic Operator (AEO) Number. AEO ID signifies that an entity is recognized by the customs administration for meeting supply chain security standards. It is assigned to parties involved in the international movement of goods.
+	WeakIdentifierTypeCivAeoCode WeakIdentifierType = "civ_aeo_code"
+	// Cameroon Shipment Declaration Number
+	WeakIdentifierTypeCmrShipmentDeclarationNumber WeakIdentifierType = "cmr_shipment_declaration_number"
 	// Part of a Qichacha URL, used to uniquely identify people within the site
 	WeakIdentifierTypeCnQccInternalId WeakIdentifierType = "cn_qcc_internal_id"
 	// National identification number for enterprises and associations (Senegal)
@@ -15072,12 +15220,16 @@ const (
 	WeakIdentifierTypeDmaCorporateRegistryEntityNum WeakIdentifierType = "dma_corporate_registry_entity_num"
 	// UK Bankruptcy and Insolvency Court Case Number linked to an individual subject to bankruptcies and insolvencies in England and Wales.
 	WeakIdentifierTypeGbrBankruptcyCaseNum WeakIdentifierType = "gbr_bankruptcy_case_num"
+	// Unique UK charity ID number. Assigned to every charity registered with the Charity Commission for England and Wales.
+	WeakIdentifierTypeGbrCharityNo WeakIdentifierType = "gbr_charity_no"
 	// Declaration number for import and export shipments in the United Kingdom
 	WeakIdentifierTypeGbrDeclarationNumber WeakIdentifierType = "gbr_declaration_number"
 	// UK entity ID number assigned to entities registered in the UK Government Grants Information System
 	WeakIdentifierTypeGbrGrantInfoNumber WeakIdentifierType = "gbr_grant_info_number"
 	// Georgian state registration number
 	WeakIdentifierTypeGeoStateRegistrationNumber WeakIdentifierType = "geo_state_registration_number"
+	// Ghana Shipment Declaration Number
+	WeakIdentifierTypeGhaShipmentDeclarationNumber WeakIdentifierType = "gha_shipment_declaration_number"
 	// House Air Waybill is a document used in the transportation of goods by airplane - issued and signed by a freight forwarder. This document can be used to track individual shipments under a master air waybill. Normally used for tracking shipments within a consolidated air cargo.
 	WeakIdentifierTypeHabwId WeakIdentifierType = "habw_id"
 	// Notary office number for notaries in Honduras Tegucigalpa source
@@ -15112,6 +15264,8 @@ const (
 	WeakIdentifierTypeJpnPermitNo WeakIdentifierType = "jpn_permit_no"
 	// Kazakhstan Shipment Declaration Number
 	WeakIdentifierTypeKazShipmentDeclarationNumber WeakIdentifierType = "kaz_shipment_declaration_number"
+	// Kenya Shipment Declaration Number
+	WeakIdentifierTypeKenShipmentDeclarationNumber WeakIdentifierType = "ken_shipment_declaration_number"
 	// Kyrgyzstan INN
 	WeakIdentifierTypeKgzInn WeakIdentifierType = "kgz_inn"
 	// A unique identifier that is reissued when a company dissolves. Applies to Kyrgyz companies.
@@ -15123,8 +15277,12 @@ const (
 	// Lebanese family number
 	WeakIdentifierTypeLbnFamilyNumber       WeakIdentifierType = "lbn_family_number"
 	WeakIdentifierTypeLbnRegistrationNumber WeakIdentifierType = "lbn_registration_number"
+	// Tax Identification Number (TIN) - assigned the Liberian Revenue Authority (LRA).
+	WeakIdentifierTypeLbrTin WeakIdentifierType = "lbr_tin"
 	// St. Lucia Business Registry Entity Number
 	WeakIdentifierTypeLcaCorporateRegistryEntityNum WeakIdentifierType = "lca_corporate_registry_entity_num"
+	// Lesotho Import Shipment Entry Number
+	WeakIdentifierTypeLsoImportEntryNumber WeakIdentifierType = "lso_import_entry_number"
 	// Latvian Court Case ID Number
 	WeakIdentifierTypeLvaCourtCaseId WeakIdentifierType = "lva_court_case_id"
 	// Latvian Personal ID Number (last 5 digits masked)
@@ -15155,12 +15313,18 @@ const (
 	WeakIdentifierTypeMexTmRegNo WeakIdentifierType = "mex_tm_reg_no"
 	// Internal registration number for entities that have registered with HM Revenue & Customs under respective regulations for money laundering supervision and guidance.
 	WeakIdentifierTypeMlrRegNum WeakIdentifierType = "mlr_reg_num"
+	// Malawi Shipment Registration Number
+	WeakIdentifierTypeMwiShipmentRegNo WeakIdentifierType = "mwi_shipment_reg_no"
 	// Mexican FME
 	WeakIdentifierTypeMxFme WeakIdentifierType = "mx_fme"
 	// Partial Mexican RFC
 	WeakIdentifierTypeMxPartialRfcPerson WeakIdentifierType = "mx_partial_rfc_person"
 	// Malaysia National Registration Identity Card (NRIC) number is a unique identifier for citizens and permanent residents. Weak ID as it is partial.
 	WeakIdentifierTypeMysPartialNationalIdentityNumber WeakIdentifierType = "mys_partial_national_identity_number"
+	// Namibia Shipment Assessment Number
+	WeakIdentifierTypeNamShipmentAssessmentNo WeakIdentifierType = "nam_shipment_assessment_no"
+	// Namibia Shipment Registration Number
+	WeakIdentifierTypeNamShipmentRegNo WeakIdentifierType = "nam_shipment_reg_no"
 	// Nigerian Driver's License No.
 	WeakIdentifierTypeNgaDrivers WeakIdentifierType = "nga_drivers"
 	// Nigerian National Identification Number
@@ -15183,6 +15347,8 @@ const (
 	WeakIdentifierTypePanIbcRuc WeakIdentifierType = "pan_ibc_ruc"
 	// An identification card or passport document for people in Venezuela
 	WeakIdentifierTypePartialVenCedula WeakIdentifierType = "partial_ven_cedula"
+	// Peru Shipment Control Number
+	WeakIdentifierTypePerShipmentControlId WeakIdentifierType = "per_shipment_control_id"
 	// Tax identification number from Poland
 	WeakIdentifierTypePolNipNumber WeakIdentifierType = "pol_nip_number"
 	// The register REGON serves as the national official Register of National Economy Entities.
@@ -15219,12 +15385,16 @@ const (
 	WeakIdentifierTypeRusProcurementNoticeNumber WeakIdentifierType = "rus_procurement_notice_number"
 	// Singapore National Registration Identity Card (NRIC) number is a unique identifier for citizens and permanent residents. Weak ID as it is partial.
 	WeakIdentifierTypeSgpPartialNationalIdentityNumber WeakIdentifierType = "sgp_partial_national_identity_number"
+	// Unique foreign investor number. Assigned to every non-Solomon Islander or foreign-registered company wishing to conduct business in the country.
+	WeakIdentifierTypeSlbForeignInvestorId WeakIdentifierType = "slb_foreign_investor_id"
 	// Partial South African ID number for individuals
 	WeakIdentifierTypeSouthAfricaPartialIdNumber WeakIdentifierType = "south_africa_partial_id_number"
 	// Filing ID Number for company registration information in Slovakia Business Register. Weak ID.
 	WeakIdentifierTypeSvkFilingNumber WeakIdentifierType = "svk_filing_number"
 	// Tokyo Shoko Research Business Identifier. Identification code, assigned by credit reporting company, Tokyo Shoko Research, for businesses in Japan.
 	WeakIdentifierTypeTokyoShokoId WeakIdentifierType = "tokyo_shoko_id"
+	// Declaration number for import and export shipments in Turkey
+	WeakIdentifierTypeTurDeclarationNumber WeakIdentifierType = "tur_declaration_number"
 	// Turkey municipal trade registry ID number. Assigned by municipal chambers of commerce in Turkey.
 	WeakIdentifierTypeTurOfficeRegistrationNumber WeakIdentifierType = "tur_office_registration_number"
 	// Partial Turkish Central Registry Number System (MERSIS) number
@@ -15235,8 +15405,12 @@ const (
 	WeakIdentifierTypeTzaBillOfLading WeakIdentifierType = "tza_bill_of_lading"
 	// Tanzania Cargo Reference Number. Identifier assigned to a shipment when it is first lodged in the customs system, often through the manifest or pre-clearance process.
 	WeakIdentifierTypeTzaCrnNo WeakIdentifierType = "tza_crn_no"
+	// Tanzania Single Administrative Document (TANSAD). Official customs declaration. This document is used to declare goods being imported or exported.
+	WeakIdentifierTypeTzaTansadNumber WeakIdentifierType = "tza_tansad_number"
 	// Learn more [here](https://www.wikidata.org/wiki/Property:P3125)
 	WeakIdentifierTypeUkrEdrpou WeakIdentifierType = "ukr_edrpou"
+	// Ukrainian Registration Document Number
+	WeakIdentifierTypeUkrRegistrationDocumentNumber WeakIdentifierType = "ukr_registration_document_number"
 	// Ukraine Shipment Declaration Number
 	WeakIdentifierTypeUkrShipmentDeclarationNumber WeakIdentifierType = "ukr_shipment_declaration_number"
 	// A string that is thought to be an ID number, but whose type is unknown
@@ -15321,6 +15495,8 @@ const (
 	WeakIdentifierTypeVenManifiestoNumber WeakIdentifierType = "ven_manifiesto_number"
 	// A certificate number for the National Registry of Contractors in Venezuela
 	WeakIdentifierTypeVenRncNumber WeakIdentifierType = "ven_rnc_number"
+	// Vietnam Shipment Declaration Number
+	WeakIdentifierTypeVnmShipmentDeclarationNumber WeakIdentifierType = "vnm_shipment_declaration_number"
 	// A temporary malformed type
 	WeakIdentifierTypeMalformedMmrPriorRegNo WeakIdentifierType = "malformed mmr_prior_reg_no"
 )
@@ -15375,6 +15551,10 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeChnCustomsRegistrationCode, nil
 	case "chn_project_number":
 		return WeakIdentifierTypeChnProjectNumber, nil
+	case "civ_aeo_code":
+		return WeakIdentifierTypeCivAeoCode, nil
+	case "cmr_shipment_declaration_number":
+		return WeakIdentifierTypeCmrShipmentDeclarationNumber, nil
 	case "cn_qcc_internal_id":
 		return WeakIdentifierTypeCnQccInternalId, nil
 	case "cofi_code":
@@ -15399,12 +15579,16 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeDmaCorporateRegistryEntityNum, nil
 	case "gbr_bankruptcy_case_num":
 		return WeakIdentifierTypeGbrBankruptcyCaseNum, nil
+	case "gbr_charity_no":
+		return WeakIdentifierTypeGbrCharityNo, nil
 	case "gbr_declaration_number":
 		return WeakIdentifierTypeGbrDeclarationNumber, nil
 	case "gbr_grant_info_number":
 		return WeakIdentifierTypeGbrGrantInfoNumber, nil
 	case "geo_state_registration_number":
 		return WeakIdentifierTypeGeoStateRegistrationNumber, nil
+	case "gha_shipment_declaration_number":
+		return WeakIdentifierTypeGhaShipmentDeclarationNumber, nil
 	case "habw_id":
 		return WeakIdentifierTypeHabwId, nil
 	case "hnd_tegucigalpa_notary":
@@ -15439,6 +15623,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeJpnPermitNo, nil
 	case "kaz_shipment_declaration_number":
 		return WeakIdentifierTypeKazShipmentDeclarationNumber, nil
+	case "ken_shipment_declaration_number":
+		return WeakIdentifierTypeKenShipmentDeclarationNumber, nil
 	case "kgz_inn":
 		return WeakIdentifierTypeKgzInn, nil
 	case "kgz_okpo":
@@ -15451,8 +15637,12 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeLbnFamilyNumber, nil
 	case "lbn_registration_number":
 		return WeakIdentifierTypeLbnRegistrationNumber, nil
+	case "lbr_tin":
+		return WeakIdentifierTypeLbrTin, nil
 	case "lca_corporate_registry_entity_num":
 		return WeakIdentifierTypeLcaCorporateRegistryEntityNum, nil
+	case "lso_import_entry_number":
+		return WeakIdentifierTypeLsoImportEntryNumber, nil
 	case "lva_court_case_id":
 		return WeakIdentifierTypeLvaCourtCaseId, nil
 	case "lva_person_id_masked":
@@ -15483,12 +15673,18 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeMexTmRegNo, nil
 	case "mlr_reg_num":
 		return WeakIdentifierTypeMlrRegNum, nil
+	case "mwi_shipment_reg_no":
+		return WeakIdentifierTypeMwiShipmentRegNo, nil
 	case "mx_fme":
 		return WeakIdentifierTypeMxFme, nil
 	case "mx_partial_rfc_person":
 		return WeakIdentifierTypeMxPartialRfcPerson, nil
 	case "mys_partial_national_identity_number":
 		return WeakIdentifierTypeMysPartialNationalIdentityNumber, nil
+	case "nam_shipment_assessment_no":
+		return WeakIdentifierTypeNamShipmentAssessmentNo, nil
+	case "nam_shipment_reg_no":
+		return WeakIdentifierTypeNamShipmentRegNo, nil
 	case "nga_drivers":
 		return WeakIdentifierTypeNgaDrivers, nil
 	case "nga_nin":
@@ -15511,6 +15707,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypePanIbcRuc, nil
 	case "partial_ven_cedula":
 		return WeakIdentifierTypePartialVenCedula, nil
+	case "per_shipment_control_id":
+		return WeakIdentifierTypePerShipmentControlId, nil
 	case "pol_nip_number":
 		return WeakIdentifierTypePolNipNumber, nil
 	case "pol_regon_number":
@@ -15547,12 +15745,16 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeRusProcurementNoticeNumber, nil
 	case "sgp_partial_national_identity_number":
 		return WeakIdentifierTypeSgpPartialNationalIdentityNumber, nil
+	case "slb_foreign_investor_id":
+		return WeakIdentifierTypeSlbForeignInvestorId, nil
 	case "south_africa_partial_id_number":
 		return WeakIdentifierTypeSouthAfricaPartialIdNumber, nil
 	case "svk_filing_number":
 		return WeakIdentifierTypeSvkFilingNumber, nil
 	case "tokyo_shoko_id":
 		return WeakIdentifierTypeTokyoShokoId, nil
+	case "tur_declaration_number":
+		return WeakIdentifierTypeTurDeclarationNumber, nil
 	case "tur_office_registration_number":
 		return WeakIdentifierTypeTurOfficeRegistrationNumber, nil
 	case "tur_partial_mersis_number":
@@ -15563,8 +15765,12 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeTzaBillOfLading, nil
 	case "tza_crn_no":
 		return WeakIdentifierTypeTzaCrnNo, nil
+	case "tza_tansad_number":
+		return WeakIdentifierTypeTzaTansadNumber, nil
 	case "ukr_edrpou":
 		return WeakIdentifierTypeUkrEdrpou, nil
+	case "ukr_registration_document_number":
+		return WeakIdentifierTypeUkrRegistrationDocumentNumber, nil
 	case "ukr_shipment_declaration_number":
 		return WeakIdentifierTypeUkrShipmentDeclarationNumber, nil
 	case "unknown":
@@ -15649,6 +15855,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeVenManifiestoNumber, nil
 	case "ven_rnc_number":
 		return WeakIdentifierTypeVenRncNumber, nil
+	case "vnm_shipment_declaration_number":
+		return WeakIdentifierTypeVnmShipmentDeclarationNumber, nil
 	case "malformed mmr_prior_reg_no":
 		return WeakIdentifierTypeMalformedMmrPriorRegNo, nil
 	}

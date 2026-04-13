@@ -1965,7 +1965,7 @@ type ProjectEntityResponse struct {
 	RiskFactors     []*ProjectRiskFactor          `json:"risk_factors,omitempty" url:"risk_factors,omitempty"`
 	Upstream        *UpstreamInfo                 `json:"upstream,omitempty" url:"upstream,omitempty"`
 	Tags            []*TagResponse                `json:"tags,omitempty" url:"tags,omitempty"`
-	Case            *CaseStatus                   `json:"case,omitempty" url:"case,omitempty"`
+	Case            *CaseInfo                     `json:"case,omitempty" url:"case,omitempty"`
 	Matches         []*ProjectEntityMatchResponse `json:"matches,omitempty" url:"matches,omitempty"`
 	UpdatedAt       *string                       `json:"updated_at,omitempty" url:"updated_at,omitempty"`
 
@@ -2057,7 +2057,7 @@ func (p *ProjectEntityResponse) GetTags() []*TagResponse {
 	return p.Tags
 }
 
-func (p *ProjectEntityResponse) GetCase() *CaseStatus {
+func (p *ProjectEntityResponse) GetCase() *CaseInfo {
 	if p == nil {
 		return nil
 	}

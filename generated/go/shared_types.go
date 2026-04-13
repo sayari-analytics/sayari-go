@@ -8,6 +8,76 @@ import (
 	internal "github.com/sayari-analytics/sayari-go/generated/go/internal"
 )
 
+type CaseInfo struct {
+	Id        string     `json:"id" url:"id"`
+	Status    CaseStatus `json:"status" url:"status"`
+	CreatedAt string     `json:"created_at" url:"created_at"`
+	Comment   *string    `json:"comment,omitempty" url:"comment,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CaseInfo) GetId() string {
+	if c == nil {
+		return ""
+	}
+	return c.Id
+}
+
+func (c *CaseInfo) GetStatus() CaseStatus {
+	if c == nil {
+		return ""
+	}
+	return c.Status
+}
+
+func (c *CaseInfo) GetCreatedAt() string {
+	if c == nil {
+		return ""
+	}
+	return c.CreatedAt
+}
+
+func (c *CaseInfo) GetComment() *string {
+	if c == nil {
+		return nil
+	}
+	return c.Comment
+}
+
+func (c *CaseInfo) GetExtraProperties() map[string]interface{} {
+	return c.extraProperties
+}
+
+func (c *CaseInfo) UnmarshalJSON(data []byte) error {
+	type unmarshaler CaseInfo
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CaseInfo(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CaseInfo) String() string {
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
 type CaseStatus string
 
 const (
