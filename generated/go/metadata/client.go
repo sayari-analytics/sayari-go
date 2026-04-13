@@ -31,7 +31,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	}
 }
 
-// Get metadta about the api, both its versions, which releases are present, and the identity of the authenticated user.
+// Get metadata about the api, both its versions, which releases are present, and the identity of the authenticated user.
 func (c *Client) Metadata(
 	ctx context.Context,
 	opts ...option.RequestOption,
