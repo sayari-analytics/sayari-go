@@ -507,16 +507,9 @@ func (c CountType) Ptr() *CountType {
 }
 
 type CreateResolvedProjectEntityRequest struct {
-	Identifier  []*StringOrNumber  `json:"identifier,omitempty" url:"identifier,omitempty"`
-	Name        []string           `json:"name,omitempty" url:"name,omitempty"`
-	Country     []Country          `json:"country,omitempty" url:"country,omitempty"`
-	Address     []string           `json:"address,omitempty" url:"address,omitempty"`
-	DateOfBirth []string           `json:"date_of_birth,omitempty" url:"date_of_birth,omitempty"`
-	Contact     []*StringOrNumber  `json:"contact,omitempty" url:"contact,omitempty"`
-	Type        []Entities         `json:"type,omitempty" url:"type,omitempty"`
-	City        []string           `json:"city,omitempty" url:"city,omitempty"`
-	State       []string           `json:"state,omitempty" url:"state,omitempty"`
-	Profile     *ResolutionProfile `json:"profile,omitempty" url:"profile,omitempty"`
+	Attributes *ResolutionAttrSchema `json:"attributes,omitempty" url:"attributes,omitempty"`
+	Limit      *int                  `json:"limit,omitempty" url:"limit,omitempty"`
+	Profile    *ResolutionProfile    `json:"profile,omitempty" url:"profile,omitempty"`
 	// Whether to enable LLM-based data cleaning to remove noise and standardize entity attributes. Defaults to true if not supplied. Set to false to disable LLM cleaning.
 	EnableLlmClean *bool `json:"enable_llm_clean,omitempty" url:"enable_llm_clean,omitempty"`
 
@@ -524,67 +517,18 @@ type CreateResolvedProjectEntityRequest struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateResolvedProjectEntityRequest) GetIdentifier() []*StringOrNumber {
+func (c *CreateResolvedProjectEntityRequest) GetAttributes() *ResolutionAttrSchema {
 	if c == nil {
 		return nil
 	}
-	return c.Identifier
+	return c.Attributes
 }
 
-func (c *CreateResolvedProjectEntityRequest) GetName() []string {
+func (c *CreateResolvedProjectEntityRequest) GetLimit() *int {
 	if c == nil {
 		return nil
 	}
-	return c.Name
-}
-
-func (c *CreateResolvedProjectEntityRequest) GetCountry() []Country {
-	if c == nil {
-		return nil
-	}
-	return c.Country
-}
-
-func (c *CreateResolvedProjectEntityRequest) GetAddress() []string {
-	if c == nil {
-		return nil
-	}
-	return c.Address
-}
-
-func (c *CreateResolvedProjectEntityRequest) GetDateOfBirth() []string {
-	if c == nil {
-		return nil
-	}
-	return c.DateOfBirth
-}
-
-func (c *CreateResolvedProjectEntityRequest) GetContact() []*StringOrNumber {
-	if c == nil {
-		return nil
-	}
-	return c.Contact
-}
-
-func (c *CreateResolvedProjectEntityRequest) GetType() []Entities {
-	if c == nil {
-		return nil
-	}
-	return c.Type
-}
-
-func (c *CreateResolvedProjectEntityRequest) GetCity() []string {
-	if c == nil {
-		return nil
-	}
-	return c.City
-}
-
-func (c *CreateResolvedProjectEntityRequest) GetState() []string {
-	if c == nil {
-		return nil
-	}
-	return c.State
+	return c.Limit
 }
 
 func (c *CreateResolvedProjectEntityRequest) GetProfile() *ResolutionProfile {
@@ -1538,11 +1482,11 @@ func (p *ProjectEntitiesFuzzyFilter) String() string {
 }
 
 type ProjectEntitiesResponse struct {
-	Limit     int                      `json:"limit" url:"limit"`
-	Data      []*ProjectEntityResponse `json:"data,omitempty" url:"data,omitempty"`
-	Size      *QualifiedCount          `json:"size,omitempty" url:"size,omitempty"`
-	NextToken *string                  `json:"next_token,omitempty" url:"next_token,omitempty"`
-	PrevToken *string                  `json:"prev_token,omitempty" url:"prev_token,omitempty"`
+	Limit int                      `json:"limit" url:"limit"`
+	Data  []*ProjectEntityResponse `json:"data,omitempty" url:"data,omitempty"`
+	Size  *QualifiedCount          `json:"size,omitempty" url:"size,omitempty"`
+	Next  *string                  `json:"next,omitempty" url:"next,omitempty"`
+	Prev  *string                  `json:"prev,omitempty" url:"prev,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -1569,18 +1513,18 @@ func (p *ProjectEntitiesResponse) GetSize() *QualifiedCount {
 	return p.Size
 }
 
-func (p *ProjectEntitiesResponse) GetNextToken() *string {
+func (p *ProjectEntitiesResponse) GetNext() *string {
 	if p == nil {
 		return nil
 	}
-	return p.NextToken
+	return p.Next
 }
 
-func (p *ProjectEntitiesResponse) GetPrevToken() *string {
+func (p *ProjectEntitiesResponse) GetPrev() *string {
 	if p == nil {
 		return nil
 	}
-	return p.PrevToken
+	return p.Prev
 }
 
 func (p *ProjectEntitiesResponse) GetExtraProperties() map[string]interface{} {
@@ -1968,6 +1912,7 @@ type ProjectEntityResponse struct {
 	Case            *CaseInfo                     `json:"case,omitempty" url:"case,omitempty"`
 	Matches         []*ProjectEntityMatchResponse `json:"matches,omitempty" url:"matches,omitempty"`
 	UpdatedAt       *string                       `json:"updated_at,omitempty" url:"updated_at,omitempty"`
+	UpdatedBy       *string                       `json:"updated_by,omitempty" url:"updated_by,omitempty"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -2076,6 +2021,13 @@ func (p *ProjectEntityResponse) GetUpdatedAt() *string {
 		return nil
 	}
 	return p.UpdatedAt
+}
+
+func (p *ProjectEntityResponse) GetUpdatedBy() *string {
+	if p == nil {
+		return nil
+	}
+	return p.UpdatedBy
 }
 
 func (p *ProjectEntityResponse) GetExtraProperties() map[string]interface{} {
@@ -3168,7 +3120,7 @@ func (p *ProjectRiskFactor) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
-type ResolutionAttributes struct {
+type ResolutionAttrSchema struct {
 	Identifier      []*StringOrNumber `json:"identifier,omitempty" url:"identifier,omitempty"`
 	Name            []string          `json:"name,omitempty" url:"name,omitempty"`
 	Country         []string          `json:"country,omitempty" url:"country,omitempty"`
@@ -3184,74 +3136,120 @@ type ResolutionAttributes struct {
 	rawJSON         json.RawMessage
 }
 
-func (r *ResolutionAttributes) GetIdentifier() []*StringOrNumber {
+func (r *ResolutionAttrSchema) GetIdentifier() []*StringOrNumber {
 	if r == nil {
 		return nil
 	}
 	return r.Identifier
 }
 
-func (r *ResolutionAttributes) GetName() []string {
+func (r *ResolutionAttrSchema) GetName() []string {
 	if r == nil {
 		return nil
 	}
 	return r.Name
 }
 
-func (r *ResolutionAttributes) GetCountry() []string {
+func (r *ResolutionAttrSchema) GetCountry() []string {
 	if r == nil {
 		return nil
 	}
 	return r.Country
 }
 
-func (r *ResolutionAttributes) GetAddress() []string {
+func (r *ResolutionAttrSchema) GetAddress() []string {
 	if r == nil {
 		return nil
 	}
 	return r.Address
 }
 
-func (r *ResolutionAttributes) GetDateOfBirth() []string {
+func (r *ResolutionAttrSchema) GetDateOfBirth() []string {
 	if r == nil {
 		return nil
 	}
 	return r.DateOfBirth
 }
 
-func (r *ResolutionAttributes) GetContact() []*StringOrNumber {
+func (r *ResolutionAttrSchema) GetContact() []*StringOrNumber {
 	if r == nil {
 		return nil
 	}
 	return r.Contact
 }
 
-func (r *ResolutionAttributes) GetType() []string {
+func (r *ResolutionAttrSchema) GetType() []string {
 	if r == nil {
 		return nil
 	}
 	return r.Type
 }
 
-func (r *ResolutionAttributes) GetCity() []string {
+func (r *ResolutionAttrSchema) GetCity() []string {
 	if r == nil {
 		return nil
 	}
 	return r.City
 }
 
-func (r *ResolutionAttributes) GetState() []string {
+func (r *ResolutionAttrSchema) GetState() []string {
 	if r == nil {
 		return nil
 	}
 	return r.State
 }
 
-func (r *ResolutionAttributes) GetCustomFieldName() *CustomFieldValue {
+func (r *ResolutionAttrSchema) GetCustomFieldName() *CustomFieldValue {
 	if r == nil {
 		return nil
 	}
 	return r.CustomFieldName
+}
+
+func (r *ResolutionAttrSchema) GetExtraProperties() map[string]interface{} {
+	return r.extraProperties
+}
+
+func (r *ResolutionAttrSchema) UnmarshalJSON(data []byte) error {
+	type unmarshaler ResolutionAttrSchema
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ResolutionAttrSchema(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ResolutionAttrSchema) String() string {
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+type ResolutionAttributes struct {
+	Attributes *ResolutionAttrSchema `json:"attributes,omitempty" url:"attributes,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *ResolutionAttributes) GetAttributes() *ResolutionAttrSchema {
+	if r == nil {
+		return nil
+	}
+	return r.Attributes
 }
 
 func (r *ResolutionAttributes) GetExtraProperties() map[string]interface{} {
@@ -3533,7 +3531,7 @@ func (r *RiskChangeFilters) String() string {
 
 type SaveProjectEntityBody struct {
 	EntityIds  []string              `json:"entity_ids,omitempty" url:"entity_ids,omitempty"`
-	Attributes *ResolutionAttributes `json:"attributes,omitempty" url:"attributes,omitempty"`
+	Attributes *ResolutionAttrSchema `json:"attributes,omitempty" url:"attributes,omitempty"`
 	Profile    ResolutionProfile     `json:"profile" url:"profile"`
 
 	extraProperties map[string]interface{}
@@ -3547,7 +3545,7 @@ func (s *SaveProjectEntityBody) GetEntityIds() []string {
 	return s.EntityIds
 }
 
-func (s *SaveProjectEntityBody) GetAttributes() *ResolutionAttributes {
+func (s *SaveProjectEntityBody) GetAttributes() *ResolutionAttrSchema {
 	if s == nil {
 		return nil
 	}
@@ -4209,6 +4207,117 @@ func (u *UpdateEntityTagsResponse) UnmarshalJSON(data []byte) error {
 }
 
 func (u *UpdateEntityTagsResponse) String() string {
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+type UpdateProjectEntityMatchesBody struct {
+	EntityIds []string `json:"entity_ids,omitempty" url:"entity_ids,omitempty"`
+	// Add a previously deleted match. Defaults to false.
+	OverrideDeleted *bool `json:"override_deleted,omitempty" url:"override_deleted,omitempty"`
+	// Limit total matches to update. Defaults to 10. Max 50.
+	Limit *int `json:"limit,omitempty" url:"limit,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdateProjectEntityMatchesBody) GetEntityIds() []string {
+	if u == nil {
+		return nil
+	}
+	return u.EntityIds
+}
+
+func (u *UpdateProjectEntityMatchesBody) GetOverrideDeleted() *bool {
+	if u == nil {
+		return nil
+	}
+	return u.OverrideDeleted
+}
+
+func (u *UpdateProjectEntityMatchesBody) GetLimit() *int {
+	if u == nil {
+		return nil
+	}
+	return u.Limit
+}
+
+func (u *UpdateProjectEntityMatchesBody) GetExtraProperties() map[string]interface{} {
+	return u.extraProperties
+}
+
+func (u *UpdateProjectEntityMatchesBody) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateProjectEntityMatchesBody
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdateProjectEntityMatchesBody(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdateProjectEntityMatchesBody) String() string {
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+type UpdateProjectEntityMatchesResponse struct {
+	// Updated entity ids
+	Data []string `json:"data,omitempty" url:"data,omitempty"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdateProjectEntityMatchesResponse) GetData() []string {
+	if u == nil {
+		return nil
+	}
+	return u.Data
+}
+
+func (u *UpdateProjectEntityMatchesResponse) GetExtraProperties() map[string]interface{} {
+	return u.extraProperties
+}
+
+func (u *UpdateProjectEntityMatchesResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateProjectEntityMatchesResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdateProjectEntityMatchesResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdateProjectEntityMatchesResponse) String() string {
 	if len(u.rawJSON) > 0 {
 		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
 			return value

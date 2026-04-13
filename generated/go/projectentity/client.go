@@ -281,6 +281,160 @@ func (c *Client) GetProjectEntity(
 	return response, nil
 }
 
+// Adds matches to a project entity.
+func (c *Client) AddProjectEntityMatches(
+	ctx context.Context,
+	projectId string,
+	projectEntityId string,
+	request *generatedgo.UpdateProjectEntityMatchesBody,
+	opts ...option.RequestOption,
+) (*generatedgo.UpdateProjectEntityMatchesResponse, error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/%v/matches",
+		projectId,
+		projectEntityId,
+	)
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	var response *generatedgo.UpdateProjectEntityMatchesResponse
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodPost,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Request:         request,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
+// Replace matches in a project entity.
+func (c *Client) ReplaceProjectEntityMatches(
+	ctx context.Context,
+	projectId string,
+	projectEntityId string,
+	request *generatedgo.UpdateProjectEntityMatchesBody,
+	opts ...option.RequestOption,
+) (*generatedgo.UpdateProjectEntityMatchesResponse, error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		c.baseURL,
+		"https://api.sayari.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v1/projects/%v/entities/%v/matches",
+		projectId,
+		projectEntityId,
+	)
+	headers := internal.MergeHeaders(
+		c.header.Clone(),
+		options.ToHeader(),
+	)
+	errorCodes := internal.ErrorCodes{
+		400: func(apiError *core.APIError) error {
+			return &generatedgo.BadRequest{
+				APIError: apiError,
+			}
+		},
+		401: func(apiError *core.APIError) error {
+			return &generatedgo.Unauthorized{
+				APIError: apiError,
+			}
+		},
+		404: func(apiError *core.APIError) error {
+			return &generatedgo.NotFound{
+				APIError: apiError,
+			}
+		},
+		405: func(apiError *core.APIError) error {
+			return &generatedgo.MethodNotAllowed{
+				APIError: apiError,
+			}
+		},
+		429: func(apiError *core.APIError) error {
+			return &generatedgo.RateLimitExceeded{
+				APIError: apiError,
+			}
+		},
+		500: func(apiError *core.APIError) error {
+			return &generatedgo.InternalServerError{
+				APIError: apiError,
+			}
+		},
+	}
+
+	var response *generatedgo.UpdateProjectEntityMatchesResponse
+	if err := c.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodPatch,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Request:         request,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(errorCodes),
+		},
+	); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
 // Deletes a project entity.
 func (c *Client) DeleteProjectEntity(
 	ctx context.Context,
@@ -510,7 +664,7 @@ func (c *Client) SaveProjectEntity(
 	projectId string,
 	request *generatedgo.SaveProjectEntityBody,
 	opts ...option.RequestOption,
-) (*generatedgo.ProjectEntityIdResponse, error) {
+) (*generatedgo.SingleProjectEntityResponse, error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -558,7 +712,7 @@ func (c *Client) SaveProjectEntity(
 		},
 	}
 
-	var response *generatedgo.ProjectEntityIdResponse
+	var response *generatedgo.SingleProjectEntityResponse
 	if err := c.caller.Call(
 		ctx,
 		&internal.CallParams{

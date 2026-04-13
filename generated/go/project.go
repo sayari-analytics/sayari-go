@@ -17,6 +17,8 @@ type GetProjects struct {
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// Toggle between projects that have been archived (true) or not (false). Defaults to false.
 	Archived *bool `json:"-" url:"archived,omitempty"`
+	// Which project types to return
+	Type *ProjectType `json:"-" url:"type,omitempty"`
 }
 
 // Aggregation buckets for entities in a project.
@@ -92,6 +94,8 @@ func (b *BucketAgg) String() string {
 
 type CreateProjectRequest struct {
 	Label string `json:"label" url:"label"`
+	// Specifies which type of project to create. Defaults to 'network'
+	Type *ProjectType `json:"type,omitempty" url:"type,omitempty"`
 	// Specifies access levels available to users in a project within an organization. For comprehensive access, the admin role is recommended.
 	Share *ProjectShareOnCreate `json:"share,omitempty" url:"share,omitempty"`
 
@@ -104,6 +108,13 @@ func (c *CreateProjectRequest) GetLabel() string {
 		return ""
 	}
 	return c.Label
+}
+
+func (c *CreateProjectRequest) GetType() *ProjectType {
+	if c == nil {
+		return nil
+	}
+	return c.Type
 }
 
 func (c *CreateProjectRequest) GetShare() *ProjectShareOnCreate {
@@ -598,7 +609,9 @@ type Project struct {
 	Created  string         `json:"created" url:"created"`
 	Updated  string         `json:"updated" url:"updated"`
 	Counts   *ProjectCounts `json:"counts,omitempty" url:"counts,omitempty"`
-	IsScrm   *bool          `json:"is_scrm,omitempty" url:"is_scrm,omitempty"`
+	// **Deprecated.** Use `type == 'supply_chain'` instead.
+	IsScrm *bool       `json:"is_scrm,omitempty" url:"is_scrm,omitempty"`
+	Type   ProjectType `json:"type" url:"type"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -651,6 +664,13 @@ func (p *Project) GetIsScrm() *bool {
 		return nil
 	}
 	return p.IsScrm
+}
+
+func (p *Project) GetType() ProjectType {
+	if p == nil {
+		return ""
+	}
+	return p.Type
 }
 
 func (p *Project) GetExtraProperties() map[string]interface{} {
@@ -1314,6 +1334,28 @@ func (p *ProjectShareOnCreate) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
+type ProjectType string
+
+const (
+	ProjectTypeNetwork     ProjectType = "network"
+	ProjectTypeSupplyChain ProjectType = "supply_chain"
+)
+
+func NewProjectTypeFromString(s string) (ProjectType, error) {
+	switch s {
+	case "network":
+		return ProjectTypeNetwork, nil
+	case "supply_chain":
+		return ProjectTypeSupplyChain, nil
+	}
+	var t ProjectType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p ProjectType) Ptr() *ProjectType {
+	return &p
+}
+
 type ProjectWithMembers struct {
 	// Unique project identifier.
 	Id string `json:"id" url:"id"`
@@ -1324,8 +1366,12 @@ type ProjectWithMembers struct {
 	Created  string         `json:"created" url:"created"`
 	Updated  string         `json:"updated" url:"updated"`
 	Counts   *ProjectCounts `json:"counts,omitempty" url:"counts,omitempty"`
-	IsScrm   *bool          `json:"is_scrm,omitempty" url:"is_scrm,omitempty"`
-	Members  []*RoleMember  `json:"members,omitempty" url:"members,omitempty"`
+	// **Deprecated.** Use `type == 'supply_chain'` instead.
+	IsScrm  *bool         `json:"is_scrm,omitempty" url:"is_scrm,omitempty"`
+	Type    ProjectType   `json:"type" url:"type"`
+	Members []*RoleMember `json:"members,omitempty" url:"members,omitempty"`
+	// Number of uploads associated with the project.
+	UploadCount int `json:"upload_count" url:"upload_count"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
@@ -1380,11 +1426,25 @@ func (p *ProjectWithMembers) GetIsScrm() *bool {
 	return p.IsScrm
 }
 
+func (p *ProjectWithMembers) GetType() ProjectType {
+	if p == nil {
+		return ""
+	}
+	return p.Type
+}
+
 func (p *ProjectWithMembers) GetMembers() []*RoleMember {
 	if p == nil {
 		return nil
 	}
 	return p.Members
+}
+
+func (p *ProjectWithMembers) GetUploadCount() int {
+	if p == nil {
+		return 0
+	}
+	return p.UploadCount
 }
 
 func (p *ProjectWithMembers) GetExtraProperties() map[string]interface{} {

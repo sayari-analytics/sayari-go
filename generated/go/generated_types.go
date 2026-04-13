@@ -6374,6 +6374,8 @@ const (
 	IdentifierTypeAusCreditRepNumber IdentifierType = "aus_credit_rep_number"
 	// Australia Passport Number
 	IdentifierTypeAusPassport IdentifierType = "aus_passport"
+	// Unique Australia ID number. Assigned to every registered trademark.
+	IdentifierTypeAusTrademarkRegNo IdentifierType = "aus_trademark_reg_no"
 	// Austrian Company Register Number
 	IdentifierTypeAutFirmenbuchNo IdentifierType = "aut_firmenbuch_no"
 	// Austria VAT Identification Number -  Tax Identification Number. 11-digit ID, starting with 'ATU'+8 digits. For businesses, the structure of the Austrian VAT number (UID-Nummer) starts with the prefix “AT” (country code), followed by the letter “U” (Umsatzsteuer) and by 8 unique digits.
@@ -6854,10 +6856,14 @@ const (
 	IdentifierTypeIndPermanentAccountNumber IdentifierType = "ind_permanent_account_number"
 	// Unique India registration number. Assigned to every legal entity registered with the India Registrar of Societies.
 	IdentifierTypeIndSocietyRegistrationNumber IdentifierType = "ind_society_registration_number"
+	// Internal Identifier used by Techsalerator to identify published companies
+	IdentifierTypeIndTechsaleratorId IdentifierType = "ind_techsalerator_id"
 	// India tax identification number. Unique ID number assigned to every taxpayer by the Commercial Tax Department of each state.
 	IdentifierTypeIndTin IdentifierType = "ind_tin"
 	// Unique India intellectual property ID number. Assigned to every trademark application submitted to the Controller General of Patents, Designs and Trademarks of the Ministry of Commerce and Industry, Government of India.
 	IdentifierTypeIndTrademarkSubmissionRef IdentifierType = "ind_trademark_submission_ref"
+	// Unique identification number issued to Micro, Small and Medium Enterprises (MSMEs) in India.
+	IdentifierTypeIndUdyam IdentifierType = "ind_udyam"
 	// Unique global ID number. Assigned to ships, registered ship owners, and management companies.
 	IdentifierTypeIntMaritimeOrgId IdentifierType = "int_maritime_org_id"
 	// Internal ID type used to represent curated entity resolution merge rules. Only added in enrichment.
@@ -6935,6 +6941,8 @@ const (
 	IdentifierTypeJpnTradeInternalShipmentId IdentifierType = "jpn_trade_internal_shipment_id"
 	// A 12-digit Kazakh business identification number
 	IdentifierTypeKazBin IdentifierType = "kaz_bin"
+	// Kazakhstan business and company identification number that is not explicitly designated as a BIN in source data.
+	IdentifierTypeKazBusinessIdentificationNumber IdentifierType = "kaz_business_identification_number"
 	// A nine-digit Kazakh identifier
 	IdentifierTypeKazIdentifier  IdentifierType = "kaz_identifier"
 	IdentifierTypeKazOkpoNum     IdentifierType = "kaz_okpo_num"
@@ -7360,6 +7368,10 @@ const (
 	IdentifierTypeTjkTinNumber IdentifierType = "tjk_tin_number"
 	// Unique identifier for Tokyo Stock Exchange companies
 	IdentifierTypeTokyoStockExchangeNo IdentifierType = "tokyo_stock_exchange_no"
+	// Unique business registration number. Assigned to every registered business in Tonga.
+	IdentifierTypeTonRegId IdentifierType = "ton_reg_id"
+	// Unique tax ID. Assigned to every registered business in Tonga or Tonga residents.
+	IdentifierTypeTonTaxId IdentifierType = "ton_tax_id"
 	// Trinbagonian Business Number
 	IdentifierTypeTtoBizNumber IdentifierType = "tto_biz_number"
 	// Tunisia passport number
@@ -7667,6 +7679,8 @@ const (
 	IdentifierTypeWipoIntlRefNo IdentifierType = "wipo_intl_ref_no"
 	// Unique USA ID number. Assigned to every registered foreign trademark.
 	IdentifierTypeWipoIntlRegNo IdentifierType = "wipo_intl_reg_no"
+	// Unique business identification number. Assigned to every registered business in Samoa.
+	IdentifierTypeWsmRegId IdentifierType = "wsm_reg_id"
 	// Acuris Unique ID
 	IdentifierTypeXxxAcurisId IdentifierType = "xxx_acuris_id"
 	// Cedar Rose entity internal ID number
@@ -7775,6 +7789,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeAusCreditRepNumber, nil
 	case "aus_passport":
 		return IdentifierTypeAusPassport, nil
+	case "aus_trademark_reg_no":
+		return IdentifierTypeAusTrademarkRegNo, nil
 	case "aut_firmenbuch_no":
 		return IdentifierTypeAutFirmenbuchNo, nil
 	case "aut_uid":
@@ -8261,10 +8277,14 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeIndPermanentAccountNumber, nil
 	case "ind_society_registration_number":
 		return IdentifierTypeIndSocietyRegistrationNumber, nil
+	case "ind_techsalerator_id":
+		return IdentifierTypeIndTechsaleratorId, nil
 	case "ind_tin":
 		return IdentifierTypeIndTin, nil
 	case "ind_trademark_submission_ref":
 		return IdentifierTypeIndTrademarkSubmissionRef, nil
+	case "ind_udyam":
+		return IdentifierTypeIndUdyam, nil
 	case "int_maritime_org_id":
 		return IdentifierTypeIntMaritimeOrgId, nil
 	case "internal_curated_merge_id":
@@ -8343,6 +8363,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeJpnTradeInternalShipmentId, nil
 	case "kaz_bin":
 		return IdentifierTypeKazBin, nil
+	case "kaz_business_identification_number":
+		return IdentifierTypeKazBusinessIdentificationNumber, nil
 	case "kaz_identifier":
 		return IdentifierTypeKazIdentifier, nil
 	case "kaz_okpo_num":
@@ -8777,6 +8799,10 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeTjkTinNumber, nil
 	case "tokyo_stock_exchange_no":
 		return IdentifierTypeTokyoStockExchangeNo, nil
+	case "ton_reg_id":
+		return IdentifierTypeTonRegId, nil
+	case "ton_tax_id":
+		return IdentifierTypeTonTaxId, nil
 	case "tto_biz_number":
 		return IdentifierTypeTtoBizNumber, nil
 	case "tun_passport":
@@ -9089,6 +9115,8 @@ func NewIdentifierTypeFromString(s string) (IdentifierType, error) {
 		return IdentifierTypeWipoIntlRefNo, nil
 	case "wipo_intl_reg_no":
 		return IdentifierTypeWipoIntlRegNo, nil
+	case "wsm_reg_id":
+		return IdentifierTypeWsmRegId, nil
 	case "xxx_acuris_id":
 		return IdentifierTypeXxxAcurisId, nil
 	case "xxx_cedar_rose_uid":
@@ -11685,12 +11713,17 @@ const (
 	RiskAspiUyghurForcedLaborReportEntityAdjacent                                Risk = "aspi_uyghur_forced_labor_report_entity_adjacent"
 	RiskBaselAml                                                                 Risk = "basel_aml"
 	RiskBisAddressesHighDiversionRisk                                            Risk = "bis_addresses_high_diversion_risk"
+	RiskBisAffiliates50PercentRule                                               Risk = "bis_affiliates_50_percent_rule"
 	RiskBisBoycottRequesterList                                                  Risk = "bis_boycott_requester_list"
+	RiskBisEntityMinorityOwnership                                               Risk = "bis_entity_minority_ownership"
+	RiskBisMeuMinorityOwnership                                                  Risk = "bis_meu_minority_ownership"
 	RiskChineseSoeAdjacent                                                       Risk = "chinese_soe_adjacent"
 	RiskChineseStateOwned                                                        Risk = "chinese_state_owned"
 	RiskCmicEntity                                                               Risk = "cmic_entity"
 	RiskCmicEntity50PercentRule                                                  Risk = "cmic_entity_50_percent_rule"
 	RiskControlledByAusSanctioned                                                Risk = "controlled_by_aus_sanctioned"
+	RiskControlledByBisEntity                                                    Risk = "controlled_by_bis_entity"
+	RiskControlledByBisMeu                                                       Risk = "controlled_by_bis_meu"
 	RiskControlledByEuSanctioned                                                 Risk = "controlled_by_eu_sanctioned"
 	RiskControlledByJpnSanctioned                                                Risk = "controlled_by_jpn_sanctioned"
 	RiskControlledByOfacFtoSanctioned                                            Risk = "controlled_by_ofac_fto_sanctioned"
@@ -11717,12 +11750,15 @@ const (
 	RiskExportControlsBisEntity50PercentRule                                     Risk = "export_controls_bis_entity_50_percent_rule"
 	RiskExportControlsBisMeu                                                     Risk = "export_controls_bis_meu"
 	RiskExportControlsBisMeu50PercentRule                                        Risk = "export_controls_bis_meu_50_percent_rule"
+	RiskExportControlsOther                                                      Risk = "export_controls_other"
+	RiskExportControlsOtherAdjacent                                              Risk = "export_controls_other_adjacent"
 	RiskExportControlsSection1260H                                               Risk = "export_controls_section_1260h"
 	RiskExportControlsSection1260H50PercentRule                                  Risk = "export_controls_section_1260h_50_percent_rule"
 	RiskExportControlsUnverifiedList                                             Risk = "export_controls_unverified_list"
 	RiskExportControlsUnverifiedList50PercentRule                                Risk = "export_controls_unverified_list_50_percent_rule"
 	RiskExportToChineseSoe                                                       Risk = "export_to_chinese_soe"
 	RiskExportToSanctioned                                                       Risk = "export_to_sanctioned"
+	RiskExportToSanctionedOther                                                  Risk = "export_to_sanctioned_other"
 	RiskExportToSoe                                                              Risk = "export_to_soe"
 	RiskExportsBisHighPriorityItemsCriticalComponentsDirect                      Risk = "exports_bis_high_priority_items_critical_components_direct"
 	RiskExportsBisHighPriorityItemsCriticalComponentsIndirect                    Risk = "exports_bis_high_priority_items_critical_components_indirect"
@@ -11879,6 +11915,7 @@ const (
 	RiskOwnedByChineseSoe                                                        Risk = "owned_by_chinese_soe"
 	RiskOwnedByCmicEntity                                                        Risk = "owned_by_cmic_entity"
 	RiskOwnedByEntityInExportControls                                            Risk = "owned_by_entity_in_export_controls"
+	RiskOwnedByEntityInExportControlsOther                                       Risk = "owned_by_entity_in_export_controls_other"
 	RiskOwnedByForcedLaborXinjiangUflpa                                          Risk = "owned_by_forced_labor_xinjiang_uflpa"
 	RiskOwnedByJpnMetiEndUserEntity                                              Risk = "owned_by_jpn_meti_end_user_entity"
 	RiskOwnedByJpnMofaExportBanEntity                                            Risk = "owned_by_jpn_mofa_export_ban_entity"
@@ -11910,6 +11947,7 @@ const (
 	RiskOwnedBySanctionedMysMohaEntity                                           Risk = "owned_by_sanctioned_mys_moha_entity"
 	RiskOwnedBySanctionedNldMofaEntity                                           Risk = "owned_by_sanctioned_nld_mofa_entity"
 	RiskOwnedBySanctionedNzlMfatRusEntity                                        Risk = "owned_by_sanctioned_nzl_mfat_rus_entity"
+	RiskOwnedBySanctionedOtherEntity                                             Risk = "owned_by_sanctioned_other_entity"
 	RiskOwnedBySanctionedPolMiaEntity                                            Risk = "owned_by_sanctioned_pol_mia_entity"
 	RiskOwnedBySanctionedSgpAgcEntity                                            Risk = "owned_by_sanctioned_sgp_agc_entity"
 	RiskOwnedBySanctionedUkrNsdcEntity                                           Risk = "owned_by_sanctioned_ukr_nsdc_entity"
@@ -11934,6 +11972,7 @@ const (
 	RiskOwnerOfAspiForcedLaborEntity                                             Risk = "owner_of_aspi_forced_labor_entity"
 	RiskOwnerOfChineseSoe                                                        Risk = "owner_of_chinese_soe"
 	RiskOwnerOfExportControlsEntity                                              Risk = "owner_of_export_controls_entity"
+	RiskOwnerOfExportControlsOtherEntity                                         Risk = "owner_of_export_controls_other_entity"
 	RiskOwnerOfForcedLaborXinjiangEntity                                         Risk = "owner_of_forced_labor_xinjiang_entity"
 	RiskOwnerOfForcedLaborXinjiangUflpa                                          Risk = "owner_of_forced_labor_xinjiang_uflpa"
 	RiskOwnerOfJpnMetiEndUserEntity                                              Risk = "owner_of_jpn_meti_end_user_entity"
@@ -11966,6 +12005,7 @@ const (
 	RiskOwnerOfSanctionedMysMohaEntity                                           Risk = "owner_of_sanctioned_mys_moha_entity"
 	RiskOwnerOfSanctionedNldMofaEntity                                           Risk = "owner_of_sanctioned_nld_mofa_entity"
 	RiskOwnerOfSanctionedNzlMfatRusEntity                                        Risk = "owner_of_sanctioned_nzl_mfat_rus_entity"
+	RiskOwnerOfSanctionedOtherEntity                                             Risk = "owner_of_sanctioned_other_entity"
 	RiskOwnerOfSanctionedPolMiaEntity                                            Risk = "owner_of_sanctioned_pol_mia_entity"
 	RiskOwnerOfSanctionedSgpAgcEntity                                            Risk = "owner_of_sanctioned_sgp_agc_entity"
 	RiskOwnerOfSanctionedUkrNsdcEntity                                           Risk = "owner_of_sanctioned_ukr_nsdc_entity"
@@ -11988,6 +12028,8 @@ const (
 	RiskPep                                                                      Risk = "pep"
 	RiskPepAdjacent                                                              Risk = "pep_adjacent"
 	RiskPsaBisBoycottRequesterList                                               Risk = "psa_bis_boycott_requester_list"
+	RiskPsaBisEntityMinorityOwnership                                            Risk = "psa_bis_entity_minority_ownership"
+	RiskPsaBisMeuMinorityOwnership                                               Risk = "psa_bis_meu_minority_ownership"
 	RiskPsaChineseStateOwned                                                     Risk = "psa_chinese_state_owned"
 	RiskPsaCmicEntity50PercentRule                                               Risk = "psa_cmic_entity_50_percent_rule"
 	RiskPsaEntityLicensedWithFsbRf                                               Risk = "psa_entity_licensed_with_fsb_rf"
@@ -11996,10 +12038,12 @@ const (
 	RiskPsaExportControls                                                        Risk = "psa_export_controls"
 	RiskPsaExportControlsBisEntity50PercentRule                                  Risk = "psa_export_controls_bis_entity_50_percent_rule"
 	RiskPsaExportControlsBisMeu50PercentRule                                     Risk = "psa_export_controls_bis_meu_50_percent_rule"
+	RiskPsaExportControlsOther                                                   Risk = "psa_export_controls_other"
 	RiskPsaExportControlsSection1260H50PercentRule                               Risk = "psa_export_controls_section_1260h_50_percent_rule"
 	RiskPsaExportControlsUnverifiedList50PercentRule                             Risk = "psa_export_controls_unverified_list_50_percent_rule"
 	RiskPsaExportToChineseSoe                                                    Risk = "psa_export_to_chinese_soe"
 	RiskPsaExportToSanctioned                                                    Risk = "psa_export_to_sanctioned"
+	RiskPsaExportToSanctionedOther                                               Risk = "psa_export_to_sanctioned_other"
 	RiskPsaExportToSoe                                                           Risk = "psa_export_to_soe"
 	RiskPsaExportsBisHighPriorityItemsCriticalComponentsDirect                   Risk = "psa_exports_bis_high_priority_items_critical_components_direct"
 	RiskPsaExportsBisHighPriorityItemsCriticalComponentsIndirect                 Risk = "psa_exports_bis_high_priority_items_critical_components_indirect"
@@ -12106,6 +12150,7 @@ const (
 	RiskPsaOwnedByChineseSoe                                                     Risk = "psa_owned_by_chinese_soe"
 	RiskPsaOwnedByCmicEntity                                                     Risk = "psa_owned_by_cmic_entity"
 	RiskPsaOwnedByEntityInExportControls                                         Risk = "psa_owned_by_entity_in_export_controls"
+	RiskPsaOwnedByEntityInExportControlsOther                                    Risk = "psa_owned_by_entity_in_export_controls_other"
 	RiskPsaOwnedByForcedLaborXinjiangUflpa                                       Risk = "psa_owned_by_forced_labor_xinjiang_uflpa"
 	RiskPsaOwnedByJpnMetiEndUserEntity                                           Risk = "psa_owned_by_jpn_meti_end_user_entity"
 	RiskPsaOwnedByJpnMofaExportBanEntity                                         Risk = "psa_owned_by_jpn_mofa_export_ban_entity"
@@ -12137,6 +12182,7 @@ const (
 	RiskPsaOwnedBySanctionedMysMohaEntity                                        Risk = "psa_owned_by_sanctioned_mys_moha_entity"
 	RiskPsaOwnedBySanctionedNldMofaEntity                                        Risk = "psa_owned_by_sanctioned_nld_mofa_entity"
 	RiskPsaOwnedBySanctionedNzlMfatRusEntity                                     Risk = "psa_owned_by_sanctioned_nzl_mfat_rus_entity"
+	RiskPsaOwnedBySanctionedOtherEntity                                          Risk = "psa_owned_by_sanctioned_other_entity"
 	RiskPsaOwnedBySanctionedPolMiaEntity                                         Risk = "psa_owned_by_sanctioned_pol_mia_entity"
 	RiskPsaOwnedBySanctionedSgpAgcEntity                                         Risk = "psa_owned_by_sanctioned_sgp_agc_entity"
 	RiskPsaOwnedBySanctionedUkrNsdcEntity                                        Risk = "psa_owned_by_sanctioned_ukr_nsdc_entity"
@@ -12161,6 +12207,7 @@ const (
 	RiskPsaOwnerOfAspiForcedLaborEntity                                          Risk = "psa_owner_of_aspi_forced_labor_entity"
 	RiskPsaOwnerOfChineseSoe                                                     Risk = "psa_owner_of_chinese_soe"
 	RiskPsaOwnerOfExportControlsEntity                                           Risk = "psa_owner_of_export_controls_entity"
+	RiskPsaOwnerOfExportControlsOtherEntity                                      Risk = "psa_owner_of_export_controls_other_entity"
 	RiskPsaOwnerOfForcedLaborXinjiangEntity                                      Risk = "psa_owner_of_forced_labor_xinjiang_entity"
 	RiskPsaOwnerOfForcedLaborXinjiangUflpa                                       Risk = "psa_owner_of_forced_labor_xinjiang_uflpa"
 	RiskPsaOwnerOfJpnMetiEndUserEntity                                           Risk = "psa_owner_of_jpn_meti_end_user_entity"
@@ -12193,6 +12240,7 @@ const (
 	RiskPsaOwnerOfSanctionedMysMohaEntity                                        Risk = "psa_owner_of_sanctioned_mys_moha_entity"
 	RiskPsaOwnerOfSanctionedNldMofaEntity                                        Risk = "psa_owner_of_sanctioned_nld_mofa_entity"
 	RiskPsaOwnerOfSanctionedNzlMfatRusEntity                                     Risk = "psa_owner_of_sanctioned_nzl_mfat_rus_entity"
+	RiskPsaOwnerOfSanctionedOtherEntity                                          Risk = "psa_owner_of_sanctioned_other_entity"
 	RiskPsaOwnerOfSanctionedPolMiaEntity                                         Risk = "psa_owner_of_sanctioned_pol_mia_entity"
 	RiskPsaOwnerOfSanctionedSgpAgcEntity                                         Risk = "psa_owner_of_sanctioned_sgp_agc_entity"
 	RiskPsaOwnerOfSanctionedUkrNsdcEntity                                        Risk = "psa_owner_of_sanctioned_ukr_nsdc_entity"
@@ -12235,6 +12283,7 @@ const (
 	RiskPsaSanctionedMysMoha                                                     Risk = "psa_sanctioned_mys_moha"
 	RiskPsaSanctionedNldMofa                                                     Risk = "psa_sanctioned_nld_mofa"
 	RiskPsaSanctionedNzlMfatRus                                                  Risk = "psa_sanctioned_nzl_mfat_rus"
+	RiskPsaSanctionedOther                                                       Risk = "psa_sanctioned_other"
 	RiskPsaSanctionedPolMia                                                      Risk = "psa_sanctioned_pol_mia"
 	RiskPsaSanctionedSgpAgc                                                      Risk = "psa_sanctioned_sgp_agc"
 	RiskPsaSanctionedUkrNsdc                                                     Risk = "psa_sanctioned_ukr_nsdc"
@@ -12293,6 +12342,8 @@ const (
 	RiskSanctionedMysMoha                                                        Risk = "sanctioned_mys_moha"
 	RiskSanctionedNldMofa                                                        Risk = "sanctioned_nld_mofa"
 	RiskSanctionedNzlMfatRus                                                     Risk = "sanctioned_nzl_mfat_rus"
+	RiskSanctionedOther                                                          Risk = "sanctioned_other"
+	RiskSanctionedOtherAdjacent                                                  Risk = "sanctioned_other_adjacent"
 	RiskSanctionedPolMia                                                         Risk = "sanctioned_pol_mia"
 	RiskSanctionedSgpAgc                                                         Risk = "sanctioned_sgp_agc"
 	RiskSanctionedUkrNsdc                                                        Risk = "sanctioned_ukr_nsdc"
@@ -12337,8 +12388,14 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskBaselAml, nil
 	case "bis_addresses_high_diversion_risk":
 		return RiskBisAddressesHighDiversionRisk, nil
+	case "bis_affiliates_50_percent_rule":
+		return RiskBisAffiliates50PercentRule, nil
 	case "bis_boycott_requester_list":
 		return RiskBisBoycottRequesterList, nil
+	case "bis_entity_minority_ownership":
+		return RiskBisEntityMinorityOwnership, nil
+	case "bis_meu_minority_ownership":
+		return RiskBisMeuMinorityOwnership, nil
 	case "chinese_soe_adjacent":
 		return RiskChineseSoeAdjacent, nil
 	case "chinese_state_owned":
@@ -12349,6 +12406,10 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskCmicEntity50PercentRule, nil
 	case "controlled_by_aus_sanctioned":
 		return RiskControlledByAusSanctioned, nil
+	case "controlled_by_bis_entity":
+		return RiskControlledByBisEntity, nil
+	case "controlled_by_bis_meu":
+		return RiskControlledByBisMeu, nil
 	case "controlled_by_eu_sanctioned":
 		return RiskControlledByEuSanctioned, nil
 	case "controlled_by_jpn_sanctioned":
@@ -12401,6 +12462,10 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskExportControlsBisMeu, nil
 	case "export_controls_bis_meu_50_percent_rule":
 		return RiskExportControlsBisMeu50PercentRule, nil
+	case "export_controls_other":
+		return RiskExportControlsOther, nil
+	case "export_controls_other_adjacent":
+		return RiskExportControlsOtherAdjacent, nil
 	case "export_controls_section_1260h":
 		return RiskExportControlsSection1260H, nil
 	case "export_controls_section_1260h_50_percent_rule":
@@ -12413,6 +12478,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskExportToChineseSoe, nil
 	case "export_to_sanctioned":
 		return RiskExportToSanctioned, nil
+	case "export_to_sanctioned_other":
+		return RiskExportToSanctionedOther, nil
 	case "export_to_soe":
 		return RiskExportToSoe, nil
 	case "exports_bis_high_priority_items_critical_components_direct":
@@ -12725,6 +12792,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedByCmicEntity, nil
 	case "owned_by_entity_in_export_controls":
 		return RiskOwnedByEntityInExportControls, nil
+	case "owned_by_entity_in_export_controls_other":
+		return RiskOwnedByEntityInExportControlsOther, nil
 	case "owned_by_forced_labor_xinjiang_uflpa":
 		return RiskOwnedByForcedLaborXinjiangUflpa, nil
 	case "owned_by_jpn_meti_end_user_entity":
@@ -12787,6 +12856,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnedBySanctionedNldMofaEntity, nil
 	case "owned_by_sanctioned_nzl_mfat_rus_entity":
 		return RiskOwnedBySanctionedNzlMfatRusEntity, nil
+	case "owned_by_sanctioned_other_entity":
+		return RiskOwnedBySanctionedOtherEntity, nil
 	case "owned_by_sanctioned_pol_mia_entity":
 		return RiskOwnedBySanctionedPolMiaEntity, nil
 	case "owned_by_sanctioned_sgp_agc_entity":
@@ -12835,6 +12906,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnerOfChineseSoe, nil
 	case "owner_of_export_controls_entity":
 		return RiskOwnerOfExportControlsEntity, nil
+	case "owner_of_export_controls_other_entity":
+		return RiskOwnerOfExportControlsOtherEntity, nil
 	case "owner_of_forced_labor_xinjiang_entity":
 		return RiskOwnerOfForcedLaborXinjiangEntity, nil
 	case "owner_of_forced_labor_xinjiang_uflpa":
@@ -12899,6 +12972,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskOwnerOfSanctionedNldMofaEntity, nil
 	case "owner_of_sanctioned_nzl_mfat_rus_entity":
 		return RiskOwnerOfSanctionedNzlMfatRusEntity, nil
+	case "owner_of_sanctioned_other_entity":
+		return RiskOwnerOfSanctionedOtherEntity, nil
 	case "owner_of_sanctioned_pol_mia_entity":
 		return RiskOwnerOfSanctionedPolMiaEntity, nil
 	case "owner_of_sanctioned_sgp_agc_entity":
@@ -12943,6 +13018,10 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPepAdjacent, nil
 	case "psa_bis_boycott_requester_list":
 		return RiskPsaBisBoycottRequesterList, nil
+	case "psa_bis_entity_minority_ownership":
+		return RiskPsaBisEntityMinorityOwnership, nil
+	case "psa_bis_meu_minority_ownership":
+		return RiskPsaBisMeuMinorityOwnership, nil
 	case "psa_chinese_state_owned":
 		return RiskPsaChineseStateOwned, nil
 	case "psa_cmic_entity_50_percent_rule":
@@ -12959,6 +13038,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaExportControlsBisEntity50PercentRule, nil
 	case "psa_export_controls_bis_meu_50_percent_rule":
 		return RiskPsaExportControlsBisMeu50PercentRule, nil
+	case "psa_export_controls_other":
+		return RiskPsaExportControlsOther, nil
 	case "psa_export_controls_section_1260h_50_percent_rule":
 		return RiskPsaExportControlsSection1260H50PercentRule, nil
 	case "psa_export_controls_unverified_list_50_percent_rule":
@@ -12967,6 +13048,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaExportToChineseSoe, nil
 	case "psa_export_to_sanctioned":
 		return RiskPsaExportToSanctioned, nil
+	case "psa_export_to_sanctioned_other":
+		return RiskPsaExportToSanctionedOther, nil
 	case "psa_export_to_soe":
 		return RiskPsaExportToSoe, nil
 	case "psa_exports_bis_high_priority_items_critical_components_direct":
@@ -13179,6 +13262,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaOwnedByCmicEntity, nil
 	case "psa_owned_by_entity_in_export_controls":
 		return RiskPsaOwnedByEntityInExportControls, nil
+	case "psa_owned_by_entity_in_export_controls_other":
+		return RiskPsaOwnedByEntityInExportControlsOther, nil
 	case "psa_owned_by_forced_labor_xinjiang_uflpa":
 		return RiskPsaOwnedByForcedLaborXinjiangUflpa, nil
 	case "psa_owned_by_jpn_meti_end_user_entity":
@@ -13241,6 +13326,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaOwnedBySanctionedNldMofaEntity, nil
 	case "psa_owned_by_sanctioned_nzl_mfat_rus_entity":
 		return RiskPsaOwnedBySanctionedNzlMfatRusEntity, nil
+	case "psa_owned_by_sanctioned_other_entity":
+		return RiskPsaOwnedBySanctionedOtherEntity, nil
 	case "psa_owned_by_sanctioned_pol_mia_entity":
 		return RiskPsaOwnedBySanctionedPolMiaEntity, nil
 	case "psa_owned_by_sanctioned_sgp_agc_entity":
@@ -13289,6 +13376,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaOwnerOfChineseSoe, nil
 	case "psa_owner_of_export_controls_entity":
 		return RiskPsaOwnerOfExportControlsEntity, nil
+	case "psa_owner_of_export_controls_other_entity":
+		return RiskPsaOwnerOfExportControlsOtherEntity, nil
 	case "psa_owner_of_forced_labor_xinjiang_entity":
 		return RiskPsaOwnerOfForcedLaborXinjiangEntity, nil
 	case "psa_owner_of_forced_labor_xinjiang_uflpa":
@@ -13353,6 +13442,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaOwnerOfSanctionedNldMofaEntity, nil
 	case "psa_owner_of_sanctioned_nzl_mfat_rus_entity":
 		return RiskPsaOwnerOfSanctionedNzlMfatRusEntity, nil
+	case "psa_owner_of_sanctioned_other_entity":
+		return RiskPsaOwnerOfSanctionedOtherEntity, nil
 	case "psa_owner_of_sanctioned_pol_mia_entity":
 		return RiskPsaOwnerOfSanctionedPolMiaEntity, nil
 	case "psa_owner_of_sanctioned_sgp_agc_entity":
@@ -13437,6 +13528,8 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskPsaSanctionedNldMofa, nil
 	case "psa_sanctioned_nzl_mfat_rus":
 		return RiskPsaSanctionedNzlMfatRus, nil
+	case "psa_sanctioned_other":
+		return RiskPsaSanctionedOther, nil
 	case "psa_sanctioned_pol_mia":
 		return RiskPsaSanctionedPolMia, nil
 	case "psa_sanctioned_sgp_agc":
@@ -13553,6 +13646,10 @@ func NewRiskFromString(s string) (Risk, error) {
 		return RiskSanctionedNldMofa, nil
 	case "sanctioned_nzl_mfat_rus":
 		return RiskSanctionedNzlMfatRus, nil
+	case "sanctioned_other":
+		return RiskSanctionedOther, nil
+	case "sanctioned_other_adjacent":
+		return RiskSanctionedOtherAdjacent, nil
 	case "sanctioned_pol_mia":
 		return RiskSanctionedPolMia, nil
 	case "sanctioned_sgp_agc":
@@ -15244,6 +15341,8 @@ const (
 	WeakIdentifierTypeIndShipmentBillId WeakIdentifierType = "ind_shipment_bill_id"
 	// Global Trade Internal Shipment ID
 	WeakIdentifierTypeIntTradeInternalShipmentId WeakIdentifierType = "int_trade_internal_shipment_id"
+	// International Trademark Number registered via the Madrid System administered by the World Intellectual Property Organization (WIPO). Madrid System is a solution for registering and managing trademarks worldwide.
+	WeakIdentifierTypeInternationalTrademarkNo WeakIdentifierType = "international_trademark_no"
 	// Unique Ireland ID number. Assigned to every legal entity registered with Ireland Companies Registration Office.
 	WeakIdentifierTypeIrlRegistrationNo WeakIdentifierType = "irl_registration_no"
 	// Iranian registration number
@@ -15393,6 +15492,8 @@ const (
 	WeakIdentifierTypeSvkFilingNumber WeakIdentifierType = "svk_filing_number"
 	// Tokyo Shoko Research Business Identifier. Identification code, assigned by credit reporting company, Tokyo Shoko Research, for businesses in Japan.
 	WeakIdentifierTypeTokyoShokoId WeakIdentifierType = "tokyo_shoko_id"
+	// Unique foreign investor number. Assigned to every non-Tongan or foreign-registered company wishing to conduct business in the country.
+	WeakIdentifierTypeTonForeignInvestorId WeakIdentifierType = "ton_foreign_investor_id"
 	// Declaration number for import and export shipments in Turkey
 	WeakIdentifierTypeTurDeclarationNumber WeakIdentifierType = "tur_declaration_number"
 	// Turkey municipal trade registry ID number. Assigned by municipal chambers of commerce in Turkey.
@@ -15603,6 +15704,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeIndShipmentBillId, nil
 	case "int_trade_internal_shipment_id":
 		return WeakIdentifierTypeIntTradeInternalShipmentId, nil
+	case "international_trademark_no":
+		return WeakIdentifierTypeInternationalTrademarkNo, nil
 	case "irl_registration_no":
 		return WeakIdentifierTypeIrlRegistrationNo, nil
 	case "irn_reg_number":
@@ -15753,6 +15856,8 @@ func NewWeakIdentifierTypeFromString(s string) (WeakIdentifierType, error) {
 		return WeakIdentifierTypeSvkFilingNumber, nil
 	case "tokyo_shoko_id":
 		return WeakIdentifierTypeTokyoShokoId, nil
+	case "ton_foreign_investor_id":
+		return WeakIdentifierTypeTonForeignInvestorId, nil
 	case "tur_declaration_number":
 		return WeakIdentifierTypeTurDeclarationNumber, nil
 	case "tur_office_registration_number":
